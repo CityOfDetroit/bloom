@@ -1,6 +1,6 @@
 {
   "name": "bloom-housing",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "Bloom is a system to manage processes for affordable housing",
   "workspaces": {
     "packages": [
@@ -52,6 +52,7 @@
     "react": "16.13.1",
     "react-test-renderer": "16.13.1",
     "rimraf": "^3.0.2",
+    "standard-version": "^9.2.0",
     "ts-jest": "^26.4.1",
     "typescript": "^3.9.7",
     "wait-on": "^5.2.0"

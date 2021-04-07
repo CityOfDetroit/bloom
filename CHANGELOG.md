@@ -1,7 +1,8 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [0.2.13](https://github.com/Exygy/bloom/compare/v0.3.10...v0.2.13) (2021-04-07)
 
 ## [0.2.5](https://github.com/Exygy/bloom/compare/v0.2.3...v0.2.5) (2020-06-30)
 
