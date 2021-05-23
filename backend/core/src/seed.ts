@@ -24,11 +24,6 @@ const seedListings = async (app: INestApplicationContext) => {
   listingSeed.listing.name = "Triton (2pref)"
   const listing1 = await seedListing(app, listingSeed)
   const userService = app.get<UserService>(UserService)
-  await Promise.all([
-    listing1.leasingAgents.map(async (agent: User) => {
-      await userService.confirm({ token: agent.confirmationToken })
-    }),
-  ])
 
   // Listing 2
   listingSeed = newListingSeed()
@@ -74,13 +69,40 @@ const seedListings = async (app: INestApplicationContext) => {
   listingSeed.preferences = []
   const listing3 = await seedListing(app, listingSeed)
 
-  await Promise.all([
-    listing2.leasingAgents.map(async (agent: User) => {
-      await userService.confirm({ token: agent.confirmationToken })
-    }),
-  ])
+  listingSeed = newListingSeed()
+  listingSeed.listing.name = "Test listing 4"
+  listingSeed.listing.applicationDueDate = new Date("2020-12-19T17:00:00.000-07:00")
+  listingSeed.leasingAgents = [
+    {
+      ...listingSeed.leasingAgents[0],
+      email: "leasing-agent-4@example.com",
+    },
+  ]
+  const listing4 = await seedListing(app, listingSeed)
 
-  return [listing1, listing2, listing3]
+  listingSeed = newListingSeed()
+  listingSeed.listing.name = "Test listing 5"
+  listingSeed.listing.applicationDueDate = new Date("2020-12-19T17:00:00.000-07:00")
+  listingSeed.leasingAgents = [
+    {
+      ...listingSeed.leasingAgents[0],
+      email: "leasing-agent-5@example.com",
+    },
+  ]
+  const listing5 = await seedListing(app, listingSeed)
+
+  listingSeed = newListingSeed()
+  listingSeed.listing.name = "Test listing 6"
+  listingSeed.listing.applicationDueDate = new Date("2020-12-19T17:00:00.000-07:00")
+  listingSeed.leasingAgents = [
+    {
+      ...listingSeed.leasingAgents[0],
+      email: "leasing-agent-6@example.com",
+    },
+  ]
+  const listing6 = await seedListing(app, listingSeed)
+
+  return [listing1, listing2, listing3, listing4, listing5, listing6]
 }
 
 async function seed() {

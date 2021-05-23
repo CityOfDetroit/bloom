@@ -9,15 +9,17 @@ import {
   t,
 } from "@bloom-housing/ui-components"
 import { Listing } from "@bloom-housing/backend-core/types"
+import Select from "@material-ui/core/Select"
+import MenuItem from "@material-ui/core/MenuItem"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
+import { useState } from "react"
 
 export interface ListingsProps {
-  openListings: Listing[]
-  closedListings: Listing[]
+  listings: Listing[]
 }
 
-const openListings = (listings) => {
+const listingsList = (listings) => {
   return listings.length > 0 ? (
     <ListingsList listings={listings} />
   ) : (
@@ -27,23 +29,40 @@ const openListings = (listings) => {
   )
 }
 
-const closedListings = (listings) => {
-  return (
-    listings.length > 0 && (
-      <ListingsGroup
-        listings={listings}
-        header={t("listings.closedListings")}
-        hideButtonText={t("listings.hideClosedListings")}
-        showButtonText={t("listings.showClosedListings")}
-      />
-    )
-  )
-}
-
 export default function ListingsPage(props: ListingsProps) {
+  const [openClosedValue, setOpenClosedValue] = useState("All")
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
   const metaImage = "" // TODO: replace with hero image
+  const [listingsToShow, setListingsToShow] = useState(props.listings)
+
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setOpenClosedValue(event.target.value as string)
+    const nowTime = moment()
+    switch (event.target.value) {
+      case "Open":
+        setListingsToShow(
+          props.listings.filter((listing: Listing) => {
+            return (
+              openDateState(listing) ||
+              nowTime <= moment(listing.applicationDueDate) ||
+              listing.applicationDueDate == null
+            )
+          })
+        )
+        break
+      case "Closed":
+        setListingsToShow(
+          props.listings.filter((listing: Listing) => {
+            return nowTime > moment(listing.applicationDueDate)
+          })
+        )
+        break
+      default:
+        setListingsToShow(props.listings)
+        break
+    }
+  }
 
   return (
     <Layout>
@@ -52,34 +71,27 @@ export default function ListingsPage(props: ListingsProps) {
       </Head>
       <MetaTags title={t("nav.siteTitle")} image={metaImage} description={metaDescription} />
       <PageHeader title={t("pageTitle.rent")} />
-      <div>
-        {openListings(props.openListings)}
-        {closedListings(props.closedListings)}
+      <div className="notice-block">
+        <Select value={openClosedValue} onChange={handleChange} displayEmpty>
+          <MenuItem value="All">All</MenuItem>
+          <MenuItem value="Open">Open</MenuItem>
+          <MenuItem value="Closed">Closed</MenuItem>
+        </Select>
       </div>
+      <div>{listingsList(listingsToShow)}</div>
     </Layout>
   )
 }
 
 export async function getStaticProps() {
-  let openListings = []
-  let closedListings = []
+  let listings = []
 
   try {
     const response = await axios.get(process.env.listingServiceUrl)
-    const nowTime = moment()
-    openListings = response.data.filter((listing: Listing) => {
-      return (
-        openDateState(listing) ||
-        nowTime <= moment(listing.applicationDueDate) ||
-        listing.applicationDueDate == null
-      )
-    })
-    closedListings = response.data.filter((listing: Listing) => {
-      return nowTime > moment(listing.applicationDueDate)
-    })
+    listings = response.data
   } catch (error) {
     console.error(error)
   }
 
-  return { props: { openListings, closedListings } }
+  return { props: { listings } }
 }
