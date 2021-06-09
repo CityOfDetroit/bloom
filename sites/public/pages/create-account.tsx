@@ -66,7 +66,7 @@ export default () => {
       <FormCard>
         <div className="form-card__lead text-center border-b mx-0">
           <Icon size="2xl" symbol="profile" />
-          <h2 className="form-card__title">{t("account.createAccount")}</h2>
+          <h2 className="form-card__title text-right pt-10 px-10">{"my account"}</h2>
           {requestError && (
             <AlertBox className="" onClose={() => setRequestError(undefined)} type="alert">
               {requestError}
