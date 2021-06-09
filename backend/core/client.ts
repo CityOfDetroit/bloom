@@ -3306,8 +3306,7 @@ export enum UserRole {
 
 export enum ListingStatus {
   'active' = 'active',
-  'pending' = 'pending',
-  'closed' = 'closed'
+  'pending' = 'pending'
 }
 
 export enum CSVFormattingType {
