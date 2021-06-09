@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form"
 import FormBackLink from "../../../src/forms/applications/FormBackLink"
 import { useFormConductor } from "../../../lib/hooks"
 
-const ApplicationAda = () => {
+export default () => {
   const { conductor, application, listing } = useFormConductor("adaHouseholdMembers")
   const currentPageSection = 2
 
@@ -62,10 +62,7 @@ const ApplicationAda = () => {
       </FormCard>
 
       <FormCard>
-        <FormBackLink
-          url={conductor.determinePreviousUrl()}
-          onClick={() => conductor.setNavigatedBack(true)}
-        />
+        <FormBackLink url={conductor.determinePreviousUrl()} />
 
         <div className="form-card__lead border-b">
           <h2 className="form-card__title is-borderless">{t("application.ada.title")}</h2>
@@ -81,6 +78,7 @@ const ApplicationAda = () => {
 
         <div className="form-card__group">
           <fieldset>
+            <legend className="sr-only">{t("application.ada.legend")}</legend>
             <p className="field-note mb-4">{t("errors.selectAllThatApply")}</p>
 
             <div className="field">
@@ -181,7 +179,6 @@ const ApplicationAda = () => {
                 styleType={AppearanceStyleType.primary}
                 onClick={() => {
                   conductor.returnToReview = false
-                  conductor.setNavigatedBack(false)
                 }}
               >
                 {t("t.next")}
@@ -207,5 +204,3 @@ const ApplicationAda = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationAda

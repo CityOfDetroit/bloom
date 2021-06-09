@@ -29,7 +29,7 @@ const loadListing = async (listingId, stateFunction, conductor, context) => {
   context.syncListing(conductor.listing)
 }
 
-const ApplicationChooseLanguage = () => {
+export default () => {
   const router = useRouter()
   const [listing, setListing] = useState(null)
   const context = useContext(AppSubmissionContext)
@@ -105,13 +105,12 @@ const ApplicationChooseLanguage = () => {
                   {t("application.chooseLanguage.chooseYourLanguage")}
                 </h3>
 
-                {listing.applicationConfig.languages.map((lang, index) => (
+                {listing.applicationConfig.languages.map((lang) => (
                   <Button
                     className="language-select mx-1"
                     onClick={() => {
                       onLanguageSelect(lang)
                     }}
-                    key={index}
                   >
                     {t(`applications.begin.${lang}`)}
                   </Button>
@@ -142,5 +141,3 @@ const ApplicationChooseLanguage = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationChooseLanguage

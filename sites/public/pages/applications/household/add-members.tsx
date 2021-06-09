@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form"
 import FormBackLink from "../../../src/forms/applications/FormBackLink"
 import { useFormConductor } from "../../../lib/hooks"
 
-const ApplicationAddMembers = () => {
+export default () => {
   const { conductor, application, listing } = useFormConductor("addMembers")
   const router = useRouter()
   const currentPageSection = 2
@@ -62,10 +62,7 @@ const ApplicationAddMembers = () => {
       </FormCard>
 
       <FormCard>
-        <FormBackLink
-          url={conductor.determinePreviousUrl()}
-          onClick={() => conductor.setNavigatedBack(true)}
-        />
+        <FormBackLink url={conductor.determinePreviousUrl()} />
 
         <div className="form-card__lead border-b">
           <h2 className="form-card__title is-borderless mt-4">
@@ -138,5 +135,3 @@ const ApplicationAddMembers = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationAddMembers

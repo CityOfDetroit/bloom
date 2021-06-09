@@ -16,7 +16,7 @@ import FormsLayout from "../../../layouts/forms"
 import { AppSubmissionContext } from "../../../lib/AppSubmissionContext"
 import React, { useContext } from "react"
 
-const ApplicationConfirmation = () => {
+export default () => {
   const { application, listing } = useContext(AppSubmissionContext)
   const { initialStateLoaded, profile } = useContext(UserContext)
   const router = useRouter()
@@ -122,5 +122,3 @@ const ApplicationConfirmation = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationConfirmation

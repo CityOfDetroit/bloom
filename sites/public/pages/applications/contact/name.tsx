@@ -23,7 +23,7 @@ import FormsLayout from "../../../layouts/forms"
 import { useForm } from "react-hook-form"
 import { useFormConductor } from "../../../lib/hooks"
 
-const ApplicationName = () => {
+export default () => {
   const { conductor, application, listing } = useFormConductor("primaryApplicantName")
   const [autofilled, setAutofilled] = useState(false)
 
@@ -194,7 +194,6 @@ const ApplicationName = () => {
                 styleType={AppearanceStyleType.primary}
                 onClick={() => {
                   conductor.returnToReview = false
-                  conductor.setNavigatedBack(false)
                 }}
               >
                 {t("t.next")}
@@ -220,5 +219,3 @@ const ApplicationName = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationName

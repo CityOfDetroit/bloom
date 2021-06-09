@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form"
 import FormBackLink from "../../../src/forms/applications/FormBackLink"
 import { useFormConductor } from "../../../lib/hooks"
 
-const ApplicationLiveAlone = () => {
+export default () => {
   const { conductor, application, listing } = useFormConductor("liveAlone")
   const [validateHousehold, setValidateHousehold] = useState(true)
   const currentPageSection = 2
@@ -41,10 +41,7 @@ const ApplicationLiveAlone = () => {
       </FormCard>
 
       <FormCard>
-        <FormBackLink
-          url={conductor.determinePreviousUrl()}
-          onClick={() => conductor.setNavigatedBack(true)}
-        />
+        <FormBackLink url={conductor.determinePreviousUrl()} />
 
         <div className="form-card__lead border-b">
           <h2 className="form-card__title is-borderless">
@@ -99,5 +96,3 @@ const ApplicationLiveAlone = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationLiveAlone

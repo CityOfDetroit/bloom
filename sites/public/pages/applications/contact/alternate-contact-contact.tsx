@@ -55,10 +55,7 @@ export default () => {
         />
       </FormCard>
       <FormCard>
-        <FormBackLink
-          url={conductor.determinePreviousUrl()}
-          onClick={() => conductor.setNavigatedBack(true)}
-        />
+        <FormBackLink url={conductor.determinePreviousUrl()} />
 
         <div className="form-card__lead border-b">
           <h2 className="form-card__title is-borderless">
@@ -162,7 +159,6 @@ export default () => {
                 styleType={AppearanceStyleType.primary}
                 onClick={() => {
                   conductor.returnToReview = false
-                  conductor.setNavigatedBack(false)
                 }}
               >
                 {t("t.next")}
@@ -176,7 +172,6 @@ export default () => {
                   className="mb-4"
                   onClick={() => {
                     conductor.returnToReview = true
-                    conductor.setNavigatedBack(false)
                   }}
                 >
                   {t("application.form.general.saveAndReturn")}

@@ -19,7 +19,7 @@ import { preferredUnit } from "@bloom-housing/ui-components/src/helpers/formOpti
 import FormBackLink from "../../../src/forms/applications/FormBackLink"
 import { useFormConductor } from "../../../lib/hooks"
 
-const ApplicationPreferredUnits = () => {
+export default () => {
   const { conductor, application, listing } = useFormConductor("preferredUnitSize")
   const currentPageSection = 2
 
@@ -55,10 +55,7 @@ const ApplicationPreferredUnits = () => {
       </FormCard>
 
       <FormCard>
-        <FormBackLink
-          url={conductor.determinePreviousUrl()}
-          onClick={() => conductor.setNavigatedBack(true)}
-        />
+        <FormBackLink url={conductor.determinePreviousUrl()} />
 
         <div className="form-card__lead border-b">
           <h2 className="form-card__title is-borderless">
@@ -106,5 +103,3 @@ const ApplicationPreferredUnits = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationPreferredUnits

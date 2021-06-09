@@ -21,7 +21,7 @@ import React, { useContext, useState } from "react"
 import Markdown from "markdown-to-jsx"
 import { useFormConductor } from "../../../lib/hooks"
 
-const ApplicationTerms = () => {
+export default () => {
   const router = useRouter()
   const { conductor, application, listing } = useFormConductor("terms")
   const { applicationsService } = useContext(ApiClientContext)
@@ -126,5 +126,3 @@ const ApplicationTerms = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationTerms

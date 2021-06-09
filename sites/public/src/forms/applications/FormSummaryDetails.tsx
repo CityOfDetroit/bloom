@@ -220,11 +220,8 @@ const FormSummaryDetails = ({
           </h3>
 
           <div id="members" className="form-card__group info-group mx-0">
-            {application.householdMembers.map((member, index) => (
-              <div
-                className="info-group__item"
-                key={`${member.firstName} - ${member.lastName} - ${index}`}
-              >
+            {application.householdMembers.map((member) => (
+              <div className="info-group__item" key={`${member.firstName} - ${member.lastName}`}>
                 <ViewItem>
                   {member.firstName} {member.lastName}
                 </ViewItem>
@@ -312,11 +309,10 @@ const FormSummaryDetails = ({
                     .map((preference) =>
                       preference.options
                         .filter((item) => item.checked === true)
-                        .map((option, index) => (
+                        .map((option) => (
                           <ViewItem
                             label={t("application.preferences.youHaveClaimed")}
                             helper={preferenceHelperText(option?.extraData)}
-                            key={index}
                           >
                             {t(`application.preferences.${preference.key}.${option.key}.label`, {
                               county: listing?.countyCode,

@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form"
 import { AppSubmissionContext } from "../../../lib/AppSubmissionContext"
 import FormBackLink from "../../../src/forms/applications/FormBackLink"
 
-const ApplicationUnits = () => {
+export default () => {
   const { conductor, application } = useContext(AppSubmissionContext)
   const currentPageSection = 2
 
@@ -43,10 +43,7 @@ const ApplicationUnits = () => {
       </FormCard>
 
       <FormCard>
-        <FormBackLink
-          url={conductor.determinePreviousUrl()}
-          onClick={() => conductor.setNavigatedBack(true)}
-        />
+        <FormBackLink url={conductor.determinePreviousUrl()} />
 
         <h2 className="form-card__title is-borderless">Reserved Unit Conditionals</h2>
 
@@ -62,5 +59,3 @@ const ApplicationUnits = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationUnits

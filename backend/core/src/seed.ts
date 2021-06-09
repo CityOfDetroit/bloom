@@ -53,7 +53,6 @@ const seedListings = async (app: INestApplicationContext) => {
           },
         ],
       },
-      page: 1,
     },
   ]
   listingSeed.leasingAgents = [

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react"
+import React, { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import {
   AlertBox,
@@ -24,31 +24,20 @@ import FormBackLink from "../../../src/forms/applications/FormBackLink"
 import { useFormConductor } from "../../../lib/hooks"
 import { FormMetadataOptions } from "@bloom-housing/backend-core/types"
 
-const ApplicationPreferencesAll = () => {
+const PreferencesAll = () => {
   const clientLoaded = OnClientSide()
+
   const { conductor, application, listing } = useFormConductor("preferencesAll")
   const preferences = listing?.preferences
-  const uniquePages: number[] = [...Array.from(new Set(preferences?.map((item) => item.page)))]
-  const [page, setPage] = useState(conductor.navigatedThroughBack ? uniquePages.length : 1)
-  const [applicationPreferences, setApplicationPreferences] = useState(application.preferences)
-  const preferencesByPage = preferences?.filter((item) => {
-    return item.page === page
-  })
 
   const currentPageSection = 4
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, setValue, watch, handleSubmit, errors, getValues, trigger, reset } = useForm({
+  const { register, setValue, watch, handleSubmit, errors, getValues, trigger } = useForm({
     defaultValues: {
-      application: { preferences: mapApiToPreferencesForm(applicationPreferences) },
+      application: { preferences: mapApiToPreferencesForm(application.preferences) },
     },
   })
-
-  useEffect(() => {
-    reset({
-      application: { preferences: mapApiToPreferencesForm(applicationPreferences) },
-    })
-  }, [page, applicationPreferences, reset])
 
   /*
     It collects all checkbox ids for each preference to check if at least one checkbox / preference is checked.
@@ -60,7 +49,7 @@ const ApplicationPreferencesAll = () => {
       application.preferences.options.liveWork.work.claimed
   */
   const preferenceCheckboxIds = useMemo(() => {
-    return preferencesByPage?.reduce((acc, item) => {
+    return preferences?.reduce((acc, item) => {
       const preferenceName = item.formMetadata?.key
       const optionPaths = item.formMetadata?.options?.map(
         (option) => `${PREFERENCES_FORM_PATH}.${preferenceName}.${option.key}.claimed`
@@ -72,41 +61,25 @@ const ApplicationPreferencesAll = () => {
 
       return acc
     }, {})
-  }, [preferencesByPage])
+  }, [preferences])
 
   const onSubmit = (data) => {
     const body = mapPreferencesToApi(data)
-    if (uniquePages.length > 1) {
-      // If we've split preferences across multiple pages, save the data in segments
-      const currentPreferences = conductor.currentStep.application.preferences.filter(
-        (preference) => {
-          return preference.key !== body[0].key
-        }
-      )
-      conductor.currentStep.save([...currentPreferences, body[0]])
-      setApplicationPreferences([...currentPreferences, body[0]])
-    } else {
-      // Otherwise, submit all at once
-      conductor.currentStep.save(body)
-    }
-    if (page !== uniquePages.length) {
-      setPage(page + 1)
-      return
-    }
-    conductor.completeSection(4)
+
+    conductor.currentStep.save(body)
     conductor.routeToNextOrReturnUrl()
   }
 
   const allOptionFieldNames = useMemo(() => {
     const keys = []
-    preferencesByPage?.forEach((preference) =>
+    preferences?.forEach((preference) =>
       preference?.formMetadata?.options.forEach((option) =>
         keys.push(getPreferenceOptionName(preference?.formMetadata.key, option.key))
       )
     )
 
     return keys
-  }, [preferencesByPage])
+  }, [preferences])
 
   const watchPreferences = watch(allOptionFieldNames)
 
@@ -161,14 +134,7 @@ const ApplicationPreferencesAll = () => {
       </FormCard>
 
       <FormCard>
-        <FormBackLink
-          url={conductor.determinePreviousUrl()}
-          onClick={() => {
-            conductor.setNavigatedBack(true)
-            setPage(page - 1)
-          }}
-          custom={page === uniquePages.length}
-        />
+        <FormBackLink url={conductor.determinePreviousUrl()} />
 
         <div className="form-card__lead border-b">
           <h2 className="form-card__title is-borderless">{t("application.preferences.title")}</h2>
@@ -188,18 +154,20 @@ const ApplicationPreferencesAll = () => {
               <p className="field-note">{t("application.preferences.selectBelow")}</p>
             </div>
 
-            {preferencesByPage?.map((preference, index) => {
+            {preferences?.map((preference, index) => {
               const noneOptionKey = `${PREFERENCES_NONE_FORM_PATH}.${preference.formMetadata.key}-none`
+
               return (
                 <div key={preference.id}>
                   <div
                     className={`form-card__group px-0 ${
-                      index + 1 !== preferencesByPage.length ? "border-b" : ""
+                      index + 1 !== preferences.length ? "border-b" : ""
                     }`}
                   >
+                    {console.log()}
                     <fieldset>
-                      <legend className="field-label--caps mb-4">{preference.title}</legend>
-                      <p className="field-note mb-8">{preference.description}</p>
+                      <legend className="field-label--caps mb-8">{preference.title}</legend>
+
                       {preference?.formMetadata?.options?.map((option) => {
                         return (
                           <div className="mb-5" key={option.key}>
@@ -319,7 +287,6 @@ const ApplicationPreferencesAll = () => {
                   styleType={AppearanceStyleType.primary}
                   onClick={() => {
                     conductor.returnToReview = false
-                    conductor.setNavigatedBack(false)
                   }}
                 >
                   {t("t.next")}
@@ -347,4 +314,4 @@ const ApplicationPreferencesAll = () => {
   )
 }
 
-export default ApplicationPreferencesAll
+export default PreferencesAll

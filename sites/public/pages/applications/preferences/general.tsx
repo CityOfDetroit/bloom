@@ -16,7 +16,7 @@ import FormsLayout from "../../../layouts/forms"
 import FormBackLink from "../../../src/forms/applications/FormBackLink"
 import { useFormConductor } from "../../../lib/hooks"
 
-const ApplicationPreferencesGeneral = () => {
+export default () => {
   const [hideReviewButton, setHideReviewButton] = useState(false)
   const { conductor, application, listing } = useFormConductor("generalPool")
   const currentPageSection = 4
@@ -41,10 +41,7 @@ const ApplicationPreferencesGeneral = () => {
       </FormCard>
 
       <FormCard>
-        <FormBackLink
-          url={conductor.determinePreviousUrl()}
-          onClick={() => conductor.setNavigatedBack(true)}
-        />
+        <FormBackLink url={conductor.determinePreviousUrl()} />
 
         <div className="form-card__lead">
           <h2 className="form-card__title is-borderless">
@@ -61,7 +58,6 @@ const ApplicationPreferencesGeneral = () => {
                 styleType={AppearanceStyleType.primary}
                 onClick={() => {
                   conductor.returnToReview = false
-                  conductor.setNavigatedBack(false)
                 }}
               >
                 {t("t.next")}
@@ -87,5 +83,3 @@ const ApplicationPreferencesGeneral = () => {
     </FormsLayout>
   )
 }
-
-export default ApplicationPreferencesGeneral

@@ -207,7 +207,6 @@ export const listingSeed1: ListingSeed = {
           },
         ],
       },
-      page: 1,
     },
     {
       ordinal: 2,
@@ -256,7 +255,6 @@ export const listingSeed1: ListingSeed = {
           },
         ],
       },
-      page: 2,
     },
   ],
   listingEvents: [
