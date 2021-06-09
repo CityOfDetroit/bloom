@@ -1,9 +1,9 @@
 import React from "react"
 
-import { TabNav, TabNavItem } from "./TabNav"
+import { TabNav, Tab } from "./TabNav"
 
 export default {
-  title: "Navigation/Tab-like Nav",
+  title: "Navigation/Tab Nav",
   decorators: [(storyFn: any) => <div style={{ padding: "1rem" }}>{storyFn()}</div>],
   parameters: { actions: { argTypesRegex: "^on[A-Z].*" } },
 }
@@ -11,10 +11,10 @@ export default {
 export const Default = () => {
   return (
     <TabNav>
-      <TabNavItem href={"/other"}>Other</TabNavItem>
-      <TabNavItem href={"/default"} current tagContent="15">
+      <Tab href={"/other"}>Other</Tab>
+      <Tab href={"/default"} current tagContent="15">
         Default
-      </TabNavItem>
+      </Tab>
     </TabNav>
   )
 }
@@ -22,12 +22,12 @@ export const Default = () => {
 export const Other = () => {
   return (
     <TabNav>
-      <TabNavItem href={"/other"} current>
+      <Tab href={"/other"} current>
         Other
-      </TabNavItem>
-      <TabNavItem href={"/default"} tagContent="15">
+      </Tab>
+      <Tab href={"/default"} tagContent="15">
         Default
-      </TabNavItem>
+      </Tab>
     </TabNav>
   )
 }
