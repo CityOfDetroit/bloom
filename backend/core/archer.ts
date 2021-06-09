@@ -251,7 +251,6 @@ export const ArcherListing: Listing = {
   depositMax: "",
   disableUnitsAccordion: false,
   events: [],
-  showWaitlist: false,
   urlSlug: "listing-slug-abcdef",
   whatToExpect: {
     applicantsWillBeContacted: "Applicant will be contacted.",

@@ -10,7 +10,7 @@ import { ApplicationStatus } from "../applications/types/application-status-enum
 import { ApplicationSubmissionType } from "../applications/types/application-submission-type-enum"
 import { IncomePeriod } from "../applications/types/income-period-enum"
 
-const applicationCreateDtoTemplate: Omit<ApplicationCreateDto, "user" | "listing" | "listingId"> = {
+const applicationCreateDtoTemplate: Omit<ApplicationCreateDto, "user" | "listing"> = {
   acceptedTerms: true,
   accessibility: {
     hearing: false,
@@ -162,12 +162,10 @@ const applicationCreateDtoTemplate: Omit<ApplicationCreateDto, "user" | "listing
         {
           key: "live",
           checked: true,
-          extraData: [],
         },
         {
           key: "work",
           checked: false,
-          extraData: [],
         },
       ],
     },
@@ -203,7 +201,6 @@ const applicationCreateDtoTemplate: Omit<ApplicationCreateDto, "user" | "listing
         {
           key: "missionCorridor",
           checked: false,
-          extraData: [],
         },
       ],
     },
@@ -221,10 +218,8 @@ export const makeNewApplication = async (
   user?: User
 ) => {
   const dto: ApplicationCreateDto = JSON.parse(JSON.stringify(applicationCreateDtoTemplate))
+  dto.user = user
   dto.listing = listing
   const applicationRepo = app.get<Repository<Application>>(getRepositoryToken(Application))
-  return await applicationRepo.save({
-    ...dto,
-    user,
-  })
+  return await applicationRepo.save(dto)
 }
