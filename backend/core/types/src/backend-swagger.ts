@@ -1488,9 +1488,6 @@ export interface FormMetadata {
 
   /** */
   customSelectText?: string
-
-  /** */
-  hideFromListing?: boolean
 }
 
 export interface Preference {
