@@ -11,9 +11,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Backend
 - Fixed:
   -  Poor TypeORM performance in `/applications` endpoint [issue #1131](https://github.com/bloom-housing/bloom/issues/1131)
-- Added:
-  -  "ohaFormat" to CSV exporter
-  -  HOPWA preference to `ohaFormat` CSV export format
+  -  Add "ohaFormat" to CSV exporter
 
 ### Frontend
 
