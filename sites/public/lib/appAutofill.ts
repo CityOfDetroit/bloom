@@ -3,6 +3,7 @@ import {
   Application,
   ApplicationStatus,
   ApplicationSubmissionType,
+  Language,
 } from "@bloom-housing/backend-core/types"
 import { blankApplication } from "@bloom-housing/ui-components"
 
@@ -32,6 +33,7 @@ class AutofillCleaner {
     this.application["completedSections"] = 0 // only used on frontend
     this.application["autofilled"] = true // only used on frontend
     this.application.submissionType = ApplicationSubmissionType.electronical
+    this.application.language = Language.en
     this.application.acceptedTerms = false
     this.application.status = ApplicationStatus.submitted
     this.application.preferences = []

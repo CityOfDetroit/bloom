@@ -3,13 +3,13 @@ import { useContext, useState } from "react"
 import { Application } from "@bloom-housing/backend-core/types"
 import {
   ApiClientContext,
-  blankApplication,
   AppearanceStyleType,
   Button,
   Form,
   FormCard,
   ProgressNav,
   UserContext,
+  blankApplication,
   t,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
@@ -36,20 +36,10 @@ export default () => {
       // Necessary to avoid infinite rerenders
       setSubmitted(true)
       if (previousApplication && useDetails) {
-        const withUpdatedLang = {
-          ...previousApplication,
-          language: conductor.application.language,
-        }
-
-        conductor.application = withUpdatedLang
+        conductor.application = previousApplication
       } else {
-        const newApplication = {
-          ...blankApplication(),
-          language: conductor.application.language,
-        }
-        conductor.application = newApplication
+        conductor.application = blankApplication()
       }
-
       context.syncApplication(conductor.application)
       conductor.sync()
       conductor.routeToNextOrReturnUrl()

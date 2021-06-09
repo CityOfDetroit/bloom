@@ -1,8 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Listing } from "@bloom-housing/backend-core/types"
 
-export const listingsUrl = "http://localhost:3100/listings"
-
 type getIncomeReturn = {
   monthlyMin: number
   monthlyMax: number

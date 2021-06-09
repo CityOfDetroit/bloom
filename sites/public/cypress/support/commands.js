@@ -27,7 +27,9 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 import * as routes from "../fixtures/routes.json"
 import * as listingConfig from "../fixtures/listingConfig.json"
-import { setProperty, listingsUrl } from "./helpers"
+import { setProperty } from "./helpers"
+
+const listingsUrl = "http://localhost:3100/listings"
 
 Cypress.Commands.add("getByID", (id, ...args) => {
   return cy.get(`#${CSS.escape(id)}`, ...args)
