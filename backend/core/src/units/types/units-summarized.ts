@@ -37,13 +37,6 @@ export class UnitsSummarized {
   @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
   @Type(() => UnitSummary)
   @ApiProperty({ type: [UnitSummary] })
-  byUnitTypeAndRent: UnitSummary[]
-
-  @Expose()
-  @IsDefined({ groups: [ValidationsGroupsEnum.default] })
-  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
-  @Type(() => UnitSummary)
-  @ApiProperty({ type: [UnitSummary] })
   byUnitType: UnitSummary[]
 
   @Expose()

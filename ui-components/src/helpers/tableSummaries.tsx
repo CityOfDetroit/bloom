@@ -93,7 +93,7 @@ export const groupNonReservedAndReservedSummaries = (
           </>
         ),
         className: "reserved",
-        data: unitSummariesTable(item.byUnitTypeAndRent),
+        data: unitSummariesTable(item.byUnitType),
       })
     })
   }
