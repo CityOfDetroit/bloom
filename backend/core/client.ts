@@ -1226,9 +1226,6 @@ export interface FormMetadataOptions {
 
   /**  */
   extraData: FormMetadataExtraData[];
-
-  /**  */
-  description?: boolean;
 }
 
 export interface FormMetadata {
@@ -1237,12 +1234,6 @@ export interface FormMetadata {
 
   /**  */
   options: FormMetadataOptions[];
-
-  /**  */
-  hideGenericDecline?: boolean;
-
-  /** */
-  customSelectText?: string
 }
 
 export interface Preference {
