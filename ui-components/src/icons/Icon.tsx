@@ -4,7 +4,6 @@ import {
   Application,
   ArrowBack,
   ArrowDown,
-  ArrowForward,
   Assistance,
   Asterisk,
   Bed,
@@ -57,7 +56,6 @@ import {
 const IconMap = {
   application: Application,
   arrowBack: ArrowBack,
-  arrowForward: ArrowForward,
   arrowDown: ArrowDown,
   assistance: Assistance,
   asterisk: Asterisk,
