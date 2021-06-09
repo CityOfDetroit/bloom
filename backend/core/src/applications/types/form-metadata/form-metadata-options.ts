@@ -22,8 +22,4 @@ export class FormMetadataOptions {
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   description?: boolean
-
-  @Expose()
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  exclusive?: boolean
 }

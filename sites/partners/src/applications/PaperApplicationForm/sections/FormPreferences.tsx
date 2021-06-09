@@ -4,17 +4,15 @@ import {
   t,
   ExtraField,
   getPreferenceOptionName,
+  PREFERENCES_NONE_FORM_PATH,
   GridSection,
   ViewItem,
   GridCell,
   SelectOption,
-  getExclusivePreferenceOptionName,
-  getExclusiveKeys,
-  setExclusive,
 } from "@bloom-housing/ui-components"
 
 import { useFormContext } from "react-hook-form"
-import { Preference, FormMetadataExtraData } from "@bloom-housing/backend-core/types"
+import { Preference, FormMetadataOptions } from "@bloom-housing/backend-core/types"
 
 type FormPreferencesProps = {
   county: string
@@ -36,7 +34,7 @@ const FormPreferences = ({ county, preferences, hhMembersOptions }: FormPreferen
     const keys = []
     preferences?.forEach((preference) =>
       preference?.formMetadata?.options.forEach((option) =>
-        keys.push(getPreferenceOptionName(option.key, preference?.formMetadata.key))
+        keys.push(getPreferenceOptionName(preference?.formMetadata.key, option.key))
       )
     )
 
@@ -45,58 +43,13 @@ const FormPreferences = ({ county, preferences, hhMembersOptions }: FormPreferen
 
   const watchPreferences = watch(allOptionFieldNames)
 
-  const exclusiveKeys = getExclusiveKeys(preferences)
+  function uncheckPreference(metaKey: string, options: FormMetadataOptions[]) {
+    const preferenceKeys = options?.map((option) => option.key)
+    preferenceKeys.forEach((k) => setValue(getPreferenceOptionName(metaKey, k), false))
+  }
 
   if (!hasMetaData) {
     return null
-  }
-
-  const getOption = (
-    optionKey: string | null,
-    optionName: string,
-    exclusive: boolean,
-    extraData: FormMetadataExtraData[],
-    preference: Preference,
-    label?: string
-  ) => {
-    return (
-      <React.Fragment key={optionKey}>
-        <Field
-          id={optionName}
-          name={optionName}
-          type="checkbox"
-          label={
-            label ??
-            t(`application.preferences.${preference?.formMetadata?.key}.${optionKey}.label`, {
-              county,
-            })
-          }
-          register={register}
-          inputProps={{
-            onChange: (e) => {
-              if (exclusive && e.target.checked) {
-                setExclusive(true, setValue, exclusiveKeys, optionName, preference)
-              }
-              if (!exclusive) {
-                setExclusive(false, setValue, exclusiveKeys, optionName, preference)
-              }
-            },
-          }}
-        />
-        {watchPreferences[optionName] &&
-          extraData?.map((extra) => (
-            <ExtraField
-              key={extra.key}
-              metaKey={preference.formMetadata.key}
-              optionKey={optionKey}
-              extraKey={extra.key}
-              type={extra.type}
-              register={register}
-              hhMembersOptions={hhMembersOptions}
-            />
-          ))}
-      </React.Fragment>
-    )
   }
 
   return (
@@ -104,6 +57,7 @@ const FormPreferences = ({ county, preferences, hhMembersOptions }: FormPreferen
       <GridSection columns={2}>
         {preferences?.map((preference) => {
           const metaKey = preference?.formMetadata?.key
+          const noneOptionKey = `${PREFERENCES_NONE_FORM_PATH}.${preference.formMetadata.key}-none`
 
           return (
             <GridCell key={preference.id}>
@@ -114,25 +68,59 @@ const FormPreferences = ({ county, preferences, hhMembersOptions }: FormPreferen
               >
                 <fieldset className="mt-4">
                   {preference?.formMetadata?.options?.map((option) => {
-                    return getOption(
-                      option.key,
-                      getPreferenceOptionName(option.key, preference.formMetadata.key),
-                      option.exclusive,
-                      option.extraData,
-                      preference
+                    return (
+                      <React.Fragment key={option.key}>
+                        <Field
+                          id={getPreferenceOptionName(preference.formMetadata.key, option.key)}
+                          name={getPreferenceOptionName(preference.formMetadata.key, option.key)}
+                          type="checkbox"
+                          label={t(
+                            `application.preferences.${preference?.formMetadata?.key}.${option.key}.label`,
+                            {
+                              county,
+                            }
+                          )}
+                          register={register}
+                          inputProps={{
+                            onChange: () => {
+                              setValue(noneOptionKey, false)
+                            },
+                          }}
+                        />
+                        {watchPreferences[
+                          getPreferenceOptionName(preference.formMetadata.key, option.key)
+                        ] &&
+                          option.extraData?.map((extra) => (
+                            <ExtraField
+                              key={extra.key}
+                              metaKey={preference.formMetadata.key}
+                              optionKey={option.key}
+                              extraKey={extra.key}
+                              type={extra.type}
+                              register={register}
+                              hhMembersOptions={hhMembersOptions}
+                            />
+                          ))}
+                      </React.Fragment>
                     )
                   })}
 
-                  {preference?.formMetadata &&
-                    !preference.formMetadata.hideGenericDecline &&
-                    getOption(
-                      null,
-                      getExclusivePreferenceOptionName(preference?.formMetadata?.key),
-                      true,
-                      [],
-                      preference,
-                      t("application.preferences.dontWant")
-                    )}
+                  {preference?.formMetadata && (
+                    <Field
+                      id={noneOptionKey}
+                      name={noneOptionKey}
+                      type="checkbox"
+                      label={t("t.none")}
+                      register={register}
+                      inputProps={{
+                        onChange: () =>
+                          uncheckPreference(
+                            preference.formMetadata.key,
+                            preference.formMetadata?.options
+                          ),
+                      }}
+                    />
+                  )}
                 </fieldset>
               </ViewItem>
             </GridCell>

@@ -1229,9 +1229,6 @@ export interface FormMetadataOptions {
 
   /**  */
   description?: boolean;
-
-  /** */
-  exclusive?: boolean
 }
 
 export interface FormMetadata {

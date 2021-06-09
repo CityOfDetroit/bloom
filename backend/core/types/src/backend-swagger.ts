@@ -1470,9 +1470,6 @@ export interface FormMetadataOptions {
   description?: boolean;
 
   /**  */
-  exclusive?: boolean;
-
-  /**  */
   extraData?: FormMetadataExtraData[];
 }
 
