@@ -13,7 +13,10 @@
       "**/@anchan828/nest-sendgrid"
     ]
   },
-  "repository": "https://github.com/Exygy/bloom.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Exygy/bloom.git"
+  },
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
@@ -69,5 +72,14 @@
   },
   "lint-staged": {
     "*.{js,ts,tsx}": "eslint --max-warnings 0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Exygy/bloom/issues"
+  },
+  "homepage": "https://github.com/Exygy/bloom#readme",
+  "main": ".eslintrc.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "author": ""
 }
