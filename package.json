@@ -69,5 +69,8 @@
   },
   "lint-staged": {
     "*.{js,ts,tsx}": "eslint --max-warnings 0"
+  },
+  "dependencies": {
+    "yarn": "^1.22.10"
   }
 }
