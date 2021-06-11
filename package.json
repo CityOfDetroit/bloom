@@ -33,8 +33,9 @@
     "test:e2e:backend:core": "cd backend/core && yarn test:e2e",
     "test:apps": "concurrently \"yarn dev:backend\" \"yarn test:app:public\"",
     "lint": "eslint '**/*.ts' '**/*.tsx' '**/*.js'",
-    "install:backend": "cd backend/core && yarn install && yarn db:reseed",
-    "install:all": "yarn install && yarn install:backend",
+    "db:reseed": "cd backend/core && yarn db:reseed",
+    "install:all": "yarn install && cd backend/core && yarn install",
+    "setup": "yarn install:all && yarn db:reseed",
     "clean": "rm -rf backend/core/dist/ backend/core/node_modules/ node_modules/ sites/partners/.next/ sites/partners/node_modules/ sites/public/.next/ sites/public/node_modules/ ui-components/node_modules/"
   },
   "devDependencies": {

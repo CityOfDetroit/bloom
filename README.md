@@ -40,10 +40,10 @@ Operational configuration of each app and service is read from environment varia
 
 ### Installing Dependencies and Seeding the Database
 
-This alias does a `yarn:install` in the root of the repo and `yarn install && yarn db:reseed` in the `backend/core` dir.
+This alias does a `yarn:install` in the root of the repo and `yarn install` and `yarn db:reseed` in the `backend/core` dir.
 
 ```
-yarn install:all
+yarn setup
 ```
 
 ### Setting up a test Database
