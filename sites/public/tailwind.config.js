@@ -4,10 +4,9 @@
 const cloneDeep = require("clone-deep")
 const bloomTheme = cloneDeep(require("@bloom-housing/ui-components/tailwind.config.js"))
 
-// Modify bloomTheme to override any Tailwind vars
-// For example:
-// bloomTheme.theme.colors.white = "#f0f0e9"
-
+// Detroit style overrides.
+// See the [Detroit style guide](https://detroitmi.gov/departments/department-innovation-and-technology/style-guide)
+// and the [Detroit color scheme](https://detroitmi.gov/sites/detroitmi.localhost/files/2021-06/DetroitOpportunity_12.01%20%282%29.pdf?#page=14)
 bloomTheme.theme.colors["primary-darker"] = "#004445"
 bloomTheme.theme.colors["primary-dark"] = "#004445"
 bloomTheme.theme.colors.primary = "#279989"
