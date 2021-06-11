@@ -1,0 +1,10 @@
+.ui-icon svg {
+  fill: $tailwind-primary-darker;
+}
+
+.navbar-brand .logo .logo__image {
+  max-height: 4rem;
+  @screen md {
+    max-height: 4rem;
+  }
+}
