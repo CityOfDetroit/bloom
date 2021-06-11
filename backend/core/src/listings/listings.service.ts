@@ -27,6 +27,8 @@ export class ListingsService {
         "units.max_occupancy": "ASC",
         "preferences.ordinal": "ASC",
       })
+      .where("units.maxOccupancy >= :occupancy", { occupancy: 3 })
+      // .limit(2)
       .getMany()
 
     if (jsonpath) {

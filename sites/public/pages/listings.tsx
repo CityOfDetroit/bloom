@@ -53,6 +53,7 @@ export default function ListingsPage(props: ListingsProps) {
       <MetaTags title={t("nav.siteTitle")} image={metaImage} description={metaDescription} />
       <PageHeader title={t("pageTitle.rent")} />
       <div>
+        avaleske listings page
         {openListings(props.openListings)}
         {closedListings(props.closedListings)}
       </div>
