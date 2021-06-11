@@ -73,7 +73,7 @@ const Layout = (props) => {
 
       <SiteFooter>
         <FooterSection>
-          <img src="/images/detroit-logo.png" alt="City of Detroit logo" />
+          <img src="/images/detroit-logo-white.png" alt="City of Detroit logo" />
         </FooterSection>
         <FooterSection>
           <p>
