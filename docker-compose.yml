@@ -1,0 +1,60 @@
+version: "3.7"
+
+services:
+  backend-core:
+    container_name: backend-core
+    build:
+      context: ./backend/core
+      target: development
+    volumes:
+      - ./backend/core:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      # TODO: configure 3100 via .env separate from ./backend/core/.env
+      - "3100:3100"
+      # This is the debug port.
+      - "9229:9229"
+    command: yarn nest start --debug
+    env_file:
+      - ./backend/core/.env
+    # Override database connections to point to the container instead of localhost.
+    environment:
+      POSTGRES_USER: "postgres"
+      DATABASE_URL: "postgres://postgres:5432/bloom"
+      REDIS_TLS_URL: "redis://redis:6379/0"
+      REDIS_URL: "redis://redis:6379/0"
+      PGUSER: "postgres"
+      PGDATABASE: "bloom"
+    networks:
+      - back-tier
+    depends_on:
+      - redis
+      - postgres
+  redis:
+    container_name: redis
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+    networks:
+      - back-tier
+  postgres:
+    container_name: postgres
+    image: postgres:13
+    networks:
+      - back-tier
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      # Never do this in production or with any sensitive / non-test data:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: "bloom"
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+networks:
+  back-tier:
+volumes:
+  pgdata:
