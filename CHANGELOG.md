@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file. The format 
   - Added "ohaFormat" to CSV exporter (includes OHA and HOPWA preferences) ([#1292](https://github.com/bloom-housing/bloom/pull/1292)) (Michał Plebański)
   - `/assets` endpoints (create and createPresignedUploadMetadata)
   - "noEmailConfirmation" query param to `POST /users` endpoint
+  - POST `/users` endpoint response from StatusDTO to UserBasicDto (Michał Plebański)
 
 - Changed:
 
