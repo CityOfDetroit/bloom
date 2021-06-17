@@ -21,15 +21,15 @@ export class ListingsService {
   }
 
   public async list(jsonpath?: string): Promise<Listing[]> {
-    let listings = await this.getQueryBuilder()
+    const query = this.getQueryBuilder()
       .orderBy({
         "listings.id": "DESC",
         "units.max_occupancy": "ASC",
         "preferences.ordinal": "ASC",
       })
-      .where("units.maxOccupancy >= :occupancy", { occupancy: 3 })
-      // .limit(2)
-      .getMany()
+      // .where("units.maxOccupancy >= :occupancy", { occupancy: 6 })
+      .limit(100)
+    let listings = await query.getMany()
 
     if (jsonpath) {
       listings = jp.query(listings, jsonpath)
