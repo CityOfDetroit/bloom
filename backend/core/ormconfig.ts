@@ -15,19 +15,24 @@ const defaultConnectionForEnv = {
     port: 5432,
     database: "bloom",
   },
+  production: {
+    host: "/cloudsql/housing-fellowship-demo:us-central1:bloom",
+    database: "bloom",
+  },
 }
 
 const env = process.env.NODE_ENV || "development"
 
+const connectionInfo = defaultConnectionForEnv[env]
 // If we have a DATABASE_URL, use that
-const connectionInfo = process.env.DATABASE_URL
-  ? { url: process.env.DATABASE_URL }
-  : defaultConnectionForEnv[env]
+if (process.env.DATABASE_URL) {
+  connectionInfo.url = process.env.DATABASE_URL
+}
 
 // Require an SSL connection to the DB in production, and allow self-signed
-if (process.env.NODE_ENV === "production") {
-  connectionInfo.ssl = { rejectUnauthorized: false }
-}
+// if (process.env.NODE_ENV === "production") {
+//   connectionInfo.ssl = { rejectUnauthorized: false }
+// }
 
 // Unfortunately, we need to use CommonJS/AMD style exports rather than ES6-style modules for this due to how
 // TypeORM expects the config to be available.
