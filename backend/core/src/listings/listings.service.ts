@@ -24,11 +24,12 @@ export class ListingsService {
     const query = this.getQueryBuilder()
       .orderBy({
         "listings.id": "DESC",
-        "units.max_occupancy": "ASC",
+        "units.maxOccupancy": "ASC",
         "preferences.ordinal": "ASC",
       })
       // .where("units.maxOccupancy >= :occupancy", { occupancy: 6 })
-      .limit(100)
+      .where("property.neighborhood = :neighborhood", { neighborhood: "Fox Creek" })
+      .printSql()
     let listings = await query.getMany()
 
     if (jsonpath) {
