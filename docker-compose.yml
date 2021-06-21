@@ -10,6 +10,7 @@ services:
     volumes:
       - ./sites/public:/usr/src/app/sites/public
       - /usr/src/app/node_modules
+      - /usr/src/app/sites/public/node_modules
     ports:
       # TODO: configure via .env separate from ./sites/public/.env
       - "3000:3000"
@@ -21,6 +22,31 @@ services:
       BACKEND_API_BASE: "http://backend-core:3100"
       NEXTJS_PORT: "3000"
     command: yarn dev
+    depends_on:
+      - backend-core
+    networks:
+      - frontend
+  sites-partners:
+    container_name: sites-partners
+    build:
+      context: .
+      dockerfile: Dockerfile.sites-partners
+      target: development
+    volumes:
+      - ./sites/partners:/usr/src/app/sites/partners
+      - /usr/src/app/node_modules
+      - /usr/src/app/sites/partners/node_modules
+    ports:
+      # TODO: configure via .env separate from ./sites/partners/.env
+      - "3001:3001"
+    env_file:
+      - ./sites/partners/.env
+    environment:
+      # TODO: login works here, but then why do other requests work? Must be making most of them from the client?
+      BACKEND_API_BASE: "http://localhost:3100"
+      NEXTJS_PORT: "3001"
+    # yarn dev uses a separate node debugger port
+    command: yarn next -p 3001
     depends_on:
       - backend-core
     networks:

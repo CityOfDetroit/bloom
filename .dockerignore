@@ -15,6 +15,7 @@
 **/charts
 **/docker-compose*
 **/compose*
+**/cypress
 **/Dockerfile*
 **/node_modules
 **/npm-debug.log
