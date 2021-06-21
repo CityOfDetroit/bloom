@@ -39,6 +39,7 @@ export class ListingsListQueryParams {
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   neighborhood?: string
 
+  @Expose()
   @ApiProperty({
     type: String,
     required: false,
