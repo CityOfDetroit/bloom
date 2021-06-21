@@ -5,6 +5,7 @@ import { Listing } from "./entities/listing.entity"
 import { ListingCreateDto, ListingUpdateDto } from "./dto/listing.dto"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
+import { ListingsListQueryParams } from "./listings.controller"
 
 @Injectable()
 export class ListingsService {
@@ -20,21 +21,25 @@ export class ListingsService {
       .leftJoinAndSelect("units.amiChart", "amiChart")
   }
 
-  public async list(jsonpath?: string): Promise<Listing[]> {
-    const query = this.getQueryBuilder()
-      .orderBy({
-        "listings.id": "DESC",
-        "units.maxOccupancy": "ASC",
-        "preferences.ordinal": "ASC",
-      })
-      // .where("units.maxOccupancy >= :occupancy", { occupancy: 6 })
-      .where("property.neighborhood = :neighborhood", { neighborhood: "Fox Creek" })
-      .printSql()
-    let listings = await query.getMany()
+  public async list(params: ListingsListQueryParams): Promise<Listing[]> {
+    const query = this.getQueryBuilder().orderBy({
+      "listings.id": "DESC",
+      "units.maxOccupancy": "ASC",
+      "preferences.ordinal": "ASC",
+    })
+    // This works because there's a 1:1 relationship between properties and listings/
+    // If that weren't true (for example, we filtered on a unit's field), we couldn't
+    // use the where clause here
 
-    if (jsonpath) {
-      listings = jp.query(listings, jsonpath)
+    if (params.neighborhood) {
+      query.andWhere("property.neighborhood = :neighborhood", { neighborhood: params.neighborhood })
     }
+
+    const listings = await query.getMany()
+
+    // if (jsonpath) {
+    //   listings = jp.query(listings, jsonpath)
+    // }
     return listings
   }
 
