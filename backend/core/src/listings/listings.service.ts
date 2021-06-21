@@ -27,19 +27,19 @@ export class ListingsService {
       "units.maxOccupancy": "ASC",
       "preferences.ordinal": "ASC",
     })
-    // This works because there's a 1:1 relationship between properties and listings/
-    // If that weren't true (for example, we filtered on a unit's field), we couldn't
-    // use the where clause here
 
     if (params.neighborhood) {
+      // This works because there's a 1:1 relationship between properties and listings.
+      // If that weren't true (for example, if we filtered on a unit's fields), we couldn't
+      // use this type of where clause.
       query.andWhere("property.neighborhood = :neighborhood", { neighborhood: params.neighborhood })
     }
 
-    const listings = await query.getMany()
+    let listings = await query.getMany()
 
-    // if (jsonpath) {
-    //   listings = jp.query(listings, jsonpath)
-    // }
+    if (params.jsonpath) {
+      listings = jp.query(listings, params.jsonpath)
+    }
     return listings
   }
 
