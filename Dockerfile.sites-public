@@ -1,0 +1,53 @@
+FROM node:12.16-alpine AS development
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /usr/src/app/
+
+COPY package.json yarn*.lock tsconfig*.json ./
+
+WORKDIR /usr/src/app/sites/public
+
+COPY sites/public/package.json ./
+COPY sites/public/yarn*.lock ./
+COPY sites/public/tsconfig*.json ./
+COPY sites/public/*config.js ./
+
+RUN yarn install --frozen-lockfile
+
+COPY sites/public .
+
+RUN yarn build
+
+FROM node:12.16-alpine AS production
+
+# Use the NEXTJS_PORT variable as the PORT if defined, otherwise use PORT.
+ENV NEXTJS_PORT=3000
+ENV PORT=${NEXTJS_PORT}
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /usr/src/app/
+
+COPY --from=development /usr/src/app/package.json ./
+COPY --from=development /usr/src/app/yarn*.lock ./
+COPY --from=development /usr/src/app/tsconfig*.json ./
+COPY --from=development /usr/src/app/node_modules ./node_modules
+
+WORKDIR /usr/src/app/sites/public
+
+COPY sites/public .
+
+COPY --from=development /usr/src/app/sites/public/next.config.js ./
+COPY --from=development /usr/src/app/sites/public/public ./
+COPY --from=development /usr/src/app/sites/public/.next ./
+COPY --from=development /usr/src/app/sites/public/node_modules ./
+
+EXPOSE ${PORT}
+
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry.
+# ENV NEXT_TELEMETRY_DISABLED 1
+
+CMD yarn next start -p ${PORT}

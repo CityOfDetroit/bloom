@@ -1,6 +1,30 @@
 version: "3.7"
 
 services:
+  sites-public:
+    container_name: sites-public
+    build:
+      context: .
+      dockerfile: Dockerfile.sites-public
+      target: development
+    volumes:
+      - ./sites/public:/usr/src/app/sites/public
+      - /usr/src/app/node_modules
+    ports:
+      # TODO: configure via .env separate from ./sites/public/.env
+      - "3000:3000"
+    env_file:
+      - ./sites/public/.env
+    environment:
+      # TODO: login currently doesn't work, likely needs a separate env variable to
+      # point client requests to localhost:3100 instead.
+      BACKEND_API_BASE: "http://backend-core:3100"
+      NEXTJS_PORT: "3000"
+    command: yarn dev
+    depends_on:
+      - backend-core
+    networks:
+      - frontend
   backend-core:
     container_name: backend-core
     build:
@@ -14,6 +38,9 @@ services:
       - "3100:3100"
       # This is the debug port.
       - "9229:9229"
+    networks:
+      - frontend
+      - backend
     command: yarn nest start --debug
     env_file:
       - ./backend/core/.env
@@ -25,8 +52,6 @@ services:
       REDIS_URL: "redis://redis:6379/0"
       PGUSER: "postgres"
       PGDATABASE: "bloom"
-    networks:
-      - back-tier
     depends_on:
       - redis
       - postgres
@@ -37,12 +62,10 @@ services:
     expose:
       - "6379"
     networks:
-      - back-tier
+      - backend
   postgres:
     container_name: postgres
     image: postgres:13
-    networks:
-      - back-tier
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
@@ -52,9 +75,12 @@ services:
       PG_DATA: /var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - backend
     volumes:
       - pgdata:/var/lib/postgresql/data
-networks:
-  back-tier:
 volumes:
   pgdata:
+networks:
+  frontend:
+  backend:
