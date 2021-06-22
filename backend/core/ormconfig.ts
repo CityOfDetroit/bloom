@@ -15,19 +15,14 @@ const defaultConnectionForEnv = {
     port: 5432,
     database: "bloom",
   },
-  production: {
-    host: "/cloudsql/housing-fellowship-demo:us-central1:bloom",
-    database: "bloom",
-  },
 }
 
 const env = process.env.NODE_ENV || "development"
 
-const connectionInfo = defaultConnectionForEnv[env]
 // If we have a DATABASE_URL, use that
-if (process.env.DATABASE_URL) {
-  connectionInfo.url = process.env.DATABASE_URL
-}
+const connectionInfo = process.env.DATABASE_URL
+  ? { url: process.env.DATABASE_URL }
+  : defaultConnectionForEnv[env]
 
 // Require an SSL connection to the DB in production, and allow self-signed
 // if (process.env.NODE_ENV === "production") {
