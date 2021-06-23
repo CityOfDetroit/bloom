@@ -30,9 +30,9 @@ export class ListingsService {
     })
 
     if (params.neighborhood) {
-      // This works because there's a 1:1 relationship between properties and listings.
-      // If that weren't true (for example, if we filtered on a unit's fields), we couldn't
-      // use this type of where clause.
+      // This works because there's only one property per listing. If that
+      // weren't true for a field (for example, if we filtered on a unit's
+      // fields), we couldn't use this type of where clause.
       query.andWhere("property.neighborhood = :neighborhood", { neighborhood: params.neighborhood })
     }
 
