@@ -2728,8 +2728,7 @@ const coliseumListingSeed: ListingSeed = {
   units: coliseumUnits,
 }
 
-export const allSeeds = []
-export const allSeeds2 = [
+export const allSeeds = [
   defaultListingSeed,
   defaultOnePreferenceSeed,
   defaultNoPreferencesSeed,
