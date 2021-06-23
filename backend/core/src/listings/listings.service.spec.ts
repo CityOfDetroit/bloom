@@ -8,11 +8,17 @@ import { Listing } from "./entities/listing.entity"
 // see: https://github.com/cypress-io/cypress/issues/1319#issuecomment-593500345
 declare const expect: jest.Expect
 
-const mockListingsRepo = {} // add mock functions in this object
+let service: ListingsService
+const mockListings = [{ id: "asdf1" }, { id: "asdf2" }]
+const mockQueryBuilder = {
+  leftJoinAndSelect: jest.fn().mockReturnThis(),
+  orderBy: jest.fn().mockReturnThis(),
+  andWhere: jest.fn().mockReturnThis(),
+  getMany: jest.fn().mockReturnValue(mockListings),
+}
+const mockListingsRepo = { createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder) }
 
 describe("ListingsService", () => {
-  let service: ListingsService
-
   beforeEach(async () => {
     process.env.APP_SECRET = "SECRET"
     const module: TestingModule = await Test.createTestingModule({
@@ -28,7 +34,34 @@ describe("ListingsService", () => {
     service = module.get(ListingsService)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it("should be defined", () => {
     expect(service).toBeDefined()
+  })
+
+  describe("getListingsList", () => {
+    it("should not add a WHERE clause if no filters are applied", async () => {
+      const listings = await service.list({})
+
+      expect(listings).toEqual(mockListings)
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledTimes(0)
+    })
+
+    it("should add a WHERE clause if the neighborhood filter is applied", async () => {
+      const expectedNeighborhood = "Fox Creek"
+
+      const listings = await service.list({ neighborhood: expectedNeighborhood })
+
+      expect(listings).toEqual(mockListings)
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
+        "property.neighborhood = :neighborhood",
+        {
+          neighborhood: expectedNeighborhood,
+        }
+      )
+    })
   })
 })
