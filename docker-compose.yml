@@ -67,7 +67,7 @@ services:
     networks:
       - frontend
       - backend
-    command: yarn nest start --debug
+    command: /bin/sh -c "yarn db:migration:run && yarn nest start --debug"
     env_file:
       - ./backend/core/.env
     # Override database connections to point to the container instead of localhost.
