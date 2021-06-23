@@ -145,13 +145,6 @@ async function main() {
     listing.CSVFormattingType = CSVFormattingType.basic
     listing.countyCode = CountyCode.alameda
 
-    // This is a workaround: ListingStatus.closed is a newly added status, and
-    // the DB schema doesn't yet include it (a DB migration is needed). There's
-    // a transformation in the Listing entity that sets listing_status to
-    // "closed" if the application due date has past; to avoid that, we set an
-    // application due date 10 days in the future.
-    listing.applicationDueDate = new Date(moment().add(10, "days").format())
-
     try {
       const newListing = await importListing(importApiUrl, email, password, listing)
       console.log("New listing (" + newListing.name + ") created successfully.")
