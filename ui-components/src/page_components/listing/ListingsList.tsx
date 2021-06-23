@@ -40,7 +40,6 @@ const ListingsList = (props: ListingsProps) => {
 
     return (
       <article key={listing.id} className="listings-row">
-        test hi avaleske
         <div className="listings-row_figure">
           <ImageCard
             title={listing.name}
