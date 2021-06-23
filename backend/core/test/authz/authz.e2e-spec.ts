@@ -8,6 +8,7 @@ import supertest from "supertest"
 import { applicationSetup, AppModule } from "../../src/app.module"
 import { getUserAccessToken } from "../utils/get-user-access-token"
 import { setAuthorization } from "../utils/set-authorization-helper"
+import { assert } from "joi"
 jest.setTimeout(30000)
 
 describe("Authz", () => {
@@ -188,14 +189,9 @@ describe("Authz", () => {
         .set(...setAuthorization(userAccessToken))
         .expect(403)
     })
-    it(`should allow normal/anonymous user to POST listings`, async () => {
+    it(`should not allow anonymous user to POST listings`, async () => {
       // anonymous
       await supertest(app.getHttpServer()).post(listingsEndpoint).expect(403)
-      // logged in normal user
-      await supertest(app.getHttpServer())
-        .post(listingsEndpoint)
-        .set(...setAuthorization(userAccessToken))
-        .expect(403)
     })
   })
 
