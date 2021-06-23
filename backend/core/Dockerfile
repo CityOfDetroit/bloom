@@ -29,6 +29,9 @@ COPY --from=development /usr/src/app/dist ./dist
 
 EXPOSE ${PORT}
 
+# TODO(wrl): determine whether this should be in a post-build step in the cloud.
+RUN yarn db:migration:run
+
 # If you attempt to run this by itself, you'll need to pass in:
 # PORT, DATABASE_URL, REDIS_URL, REDIS_TLS_URL
 # Typically via docker run my-app --env-file=".env"
