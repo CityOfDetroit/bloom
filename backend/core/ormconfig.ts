@@ -25,9 +25,9 @@ const connectionInfo = process.env.DATABASE_URL
   : defaultConnectionForEnv[env]
 
 // Require an SSL connection to the DB in production, and allow self-signed
-// if (process.env.NODE_ENV === "production") {
-//   connectionInfo.ssl = { rejectUnauthorized: false }
-// }
+if (process.env.NODE_ENV === "production") {
+  connectionInfo.ssl = { rejectUnauthorized: false }
+}
 
 // Unfortunately, we need to use CommonJS/AMD style exports rather than ES6-style modules for this due to how
 // TypeORM expects the config to be available.
@@ -51,9 +51,9 @@ export = {
     migrationsDir: "src/migration",
     subscribersDir: "src/subscriber",
   },
-  // extra: {
-  //   ssl: {
-  //     rejectUnauthorized: false,
-  //   },
-  // },
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 }

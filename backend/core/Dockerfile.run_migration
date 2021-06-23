@@ -21,7 +21,8 @@ WORKDIR /usr/src/app
 # Supports an optional yarn.lock
 COPY package.json yarn*.lock tsconfig*.json ./
 
-RUN yarn install --only=production
+# This should really be --only=production, but we need the devDependencies for db:migration:run
+RUN yarn install --production=false
 
 COPY . .
 
@@ -32,4 +33,5 @@ EXPOSE ${PORT}
 # If you attempt to run this by itself, you'll need to pass in:
 # PORT, DATABASE_URL, REDIS_URL, REDIS_TLS_URL
 # Typically via: docker run --env-file=".env" -t my-app
-CMD yarn start
+# Here we use the shell in order to pass in multiple commands.
+CMD /bin/sh -c "yarn db:migration:run && yarn start"
