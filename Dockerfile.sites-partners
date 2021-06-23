@@ -38,10 +38,10 @@ WORKDIR /usr/src/app/sites/partners
 
 COPY sites/partners .
 
-COPY --from=development /usr/src/app/sites/partners/next.config.js ./
-COPY --from=development /usr/src/app/sites/partners/public ./
-COPY --from=development /usr/src/app/sites/partners/.next ./
-COPY --from=development /usr/src/app/sites/partners/node_modules ./
+COPY --from=development /usr/src/app/sites/partners/next.config.js ./next.config.js
+COPY --from=development /usr/src/app/sites/partners/public ./public
+COPY --from=development /usr/src/app/sites/partners/.next ./.next
+COPY --from=development /usr/src/app/sites/partners/node_modules ./node_modules
 
 EXPOSE ${PORT}
 

@@ -51,9 +51,9 @@ export = {
     migrationsDir: "src/migration",
     subscribersDir: "src/subscriber",
   },
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
+  // extra: {
+  //   ssl: {
+  //     rejectUnauthorized: false,
+  //   },
+  // },
 }

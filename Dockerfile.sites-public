@@ -29,7 +29,7 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app/
 
-COPY --from=development /usr/src/app/package.json ./
+COPY --from=development /usr/src/app/package.json ./package.json
 COPY --from=development /usr/src/app/yarn*.lock ./
 COPY --from=development /usr/src/app/tsconfig*.json ./
 COPY --from=development /usr/src/app/node_modules ./node_modules
@@ -38,10 +38,10 @@ WORKDIR /usr/src/app/sites/public
 
 COPY sites/public .
 
-COPY --from=development /usr/src/app/sites/public/next.config.js ./
-COPY --from=development /usr/src/app/sites/public/public ./
-COPY --from=development /usr/src/app/sites/public/.next ./
-COPY --from=development /usr/src/app/sites/public/node_modules ./
+COPY --from=development /usr/src/app/sites/public/next.config.js ./next.config.js
+COPY --from=development /usr/src/app/sites/public/public ./public
+COPY --from=development /usr/src/app/sites/public/.next ./.next
+COPY --from=development /usr/src/app/sites/public/node_modules ./node_modules
 
 EXPOSE ${PORT}
 
