@@ -17,6 +17,9 @@ RUN yarn install --frozen-lockfile
 
 COPY sites/partners .
 
+# If not defined, use our production backend site for build-time rendering.
+ENV BACKEND_API_BASE=http://backend-core-tj3gg4i5eq-uc.a.run.app
+
 RUN yarn build
 
 FROM node:12.16-alpine AS production
