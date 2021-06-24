@@ -4,6 +4,7 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /usr/src/app/
 
+# Copy all the source code from the root of the repo into the container
 COPY . ./
 
 WORKDIR /usr/src/app/sites/public
