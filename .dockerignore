@@ -1,3 +1,4 @@
+**/.circleci
 **/.classpath
 **/.dockerignore
 **/.env
@@ -17,11 +18,15 @@
 **/docker-compose*
 **/compose*
 **/cypress
+**/docs
 **/Dockerfile*
 **/node_modules
 **/npm-debug.log
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+backend/core/dist
+backend/core/test
+ui-components/__tests__
+ui-components/storybook-static
 README.md
-backend/core

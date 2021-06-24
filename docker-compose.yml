@@ -91,6 +91,7 @@ services:
       - backend
   postgres:
     container_name: postgres
+    restart: always
     image: postgres:13
     environment:
       POSTGRES_USER: "postgres"

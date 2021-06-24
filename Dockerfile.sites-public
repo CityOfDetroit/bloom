@@ -4,7 +4,7 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /usr/src/app/
 
-COPY package.json yarn*.lock tsconfig*.json ./
+COPY . ./
 
 WORKDIR /usr/src/app/sites/public
 
@@ -18,7 +18,9 @@ RUN yarn install --frozen-lockfile
 COPY sites/public .
 
 # If not defined, use our production backend site for build-time rendering.
-ENV BACKEND_API_BASE=http://backend-core-tj3gg4i5eq-uc.a.run.app
+# In order to override it for local development when building the image on
+# its own, use --build-arg BACKEND_API_BASE=<override>.
+ARG BACKEND_API_BASE=http://backend-core-tj3gg4i5eq-uc.a.run.app
 
 RUN yarn build
 
@@ -31,6 +33,12 @@ ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app/
+
+# We need to copy the source code for backend/core and ui-components as well in order
+# to ensure that breaking changes in local dependencies from those packages are included
+# instead of being pulled from npm.
+COPY backend/core ./backend/core
+COPY ui-components ./ui-components
 
 COPY --from=development /usr/src/app/package.json ./package.json
 COPY --from=development /usr/src/app/yarn*.lock ./
