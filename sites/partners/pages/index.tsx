@@ -1,14 +1,16 @@
 import React, { useMemo, useContext } from "react"
+import { renderToString } from 'react-dom/server'
 import Head from "next/head"
-import { PageHeader, t, lRoute, UserContext, NavbarDropdown } from "@bloom-housing/ui-components"
+import { PageHeader, t, lRoute, UserContext, NavbarDropdown, NavbarDropdownProps } from "@bloom-housing/ui-components"
 import moment from "moment"
-import { UserRole, Listing } from "@bloom-housing/backend-core/types"
+import { UserRole, Listing, ListingStatus } from "@bloom-housing/backend-core/types"
 import { AgGridReact } from "ag-grid-react"
 import { GridOptions } from "ag-grid-community"
 
 import { useListingsData } from "../lib/hooks"
 import Layout from "../layouts"
 import { MetaTags } from "../src/MetaTags"
+import { Children } from "react"
 
 export default function ListingsList() {
   const { profile } = useContext(UserContext)
@@ -43,17 +45,29 @@ export default function ListingsList() {
     }
   }
 
+  function getStatuses() : React.ReactNode {
+    const statuses: Array<string> = []
+    for (let status in ListingStatus) {
+      if (isNaN(Number(status))) {
+        statuses.push(status)
+      }
+    }
+    return statuses.map(function(each) {
+      return <a className="navbar-item">{each}</a>
+    })
+  }
+
   class formatListingStatusCell {
     dropdown: HTMLDivElement
     
     init({ data }) {
+      const dropdownProps: NavbarDropdownProps = {
+        menuTitle: "title",
+        children: getStatuses(),
+      }
+      const navbarDropdown = NavbarDropdown(dropdownProps)
       this.dropdown = document.createElement("div")
-      this.dropdown.innerHTML = `
-        <NavbarDropdown menuTitle="title">
-          <a href="#" className="navbar-item">` + data.status +
-          `</a>
-        </NavbarDropdown>
-      `
+      this.dropdown.innerHTML = renderToString(navbarDropdown)
     }
     getGui() {
       return this.dropdown
