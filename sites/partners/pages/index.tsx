@@ -56,12 +56,19 @@ export default function ListingsList() {
   const columnDefs = useMemo(
     () => [
       {
-        headerName: t("listings.property.buildingAddress"),
-        field: "property.buildingAddress",
+        headerName: t("name"),
+        field: "name",
         sortable: false,
         filter: false,
         resizable: true,
-        cellRenderer: "formatLinkCell",
+        //cellRenderer: "formatLinkCell",
+      },
+      {
+        headerName: t("listings.property.buildingAddress"),
+        field: "property.buildingAddress.street",
+        sortable: false,
+        filter: false,
+        resizable: true,
       },
       {
         headerName: t("listings.applicationDeadline"),
