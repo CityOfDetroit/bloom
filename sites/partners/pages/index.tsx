@@ -1,6 +1,6 @@
 import React, { useMemo, useContext } from "react"
 import Head from "next/head"
-import { PageHeader, t, lRoute, UserContext } from "@bloom-housing/ui-components"
+import { PageHeader, t, lRoute, UserContext, NavbarDropdown } from "@bloom-housing/ui-components"
 import moment from "moment"
 import { UserRole, Listing } from "@bloom-housing/backend-core/types"
 import { AgGridReact } from "ag-grid-react"
@@ -43,10 +43,28 @@ export default function ListingsList() {
     }
   }
 
+  class formatListingStatusCell {
+    dropdown: HTMLDivElement
+    
+    init({ data }) {
+      this.dropdown = document.createElement("div")
+      this.dropdown.innerHTML = `
+        <NavbarDropdown menuTitle="title">
+          <a href="#" className="navbar-item">` + data.status +
+          `</a>
+        </NavbarDropdown>
+      `
+    }
+    getGui() {
+      return this.dropdown
+    }
+  }
+
   const gridOptions: GridOptions = {
     components: {
       formatLinkCell: formatLinkCell,
       formatWaitlistStatus: formatWaitlistStatus,
+      formatListingStatusCell: formatListingStatusCell,
     },
   }
 
@@ -93,7 +111,7 @@ export default function ListingsList() {
         filter: false,
         resizable: true,
         flex: 1,
-        valueFormatter: ({ value }) => t(`listings.${value}`),
+        cellRenderer: "formatListingStatusCell",
       },
     ],
     []
