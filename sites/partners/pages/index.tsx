@@ -1,6 +1,6 @@
 import React, { useMemo, useContext } from "react"
 import Head from "next/head"
-import { PageHeader, t, lRoute, UserContext, LocalizedLink, Button } from "@bloom-housing/ui-components"
+import { PageHeader, t, lRoute, UserContext, Button } from "@bloom-housing/ui-components"
 import moment from "moment"
 import { UserRole, Listing } from "@bloom-housing/backend-core/types"
 import { AgGridReact } from "ag-grid-react"
@@ -9,10 +9,12 @@ import { GridOptions } from "ag-grid-community"
 import { useListingsData } from "../lib/hooks"
 import Layout from "../layouts"
 import { MetaTags } from "../src/MetaTags"
+import { Router, useRouter } from "next/router"
 
 export default function ListingsList() {
   const { profile } = useContext(UserContext)
   const leasingAgentInListings = profile.leasingAgentInListings?.map((item) => item.id)
+  const router = useRouter()
   class formatLinkCell {
     link: HTMLAnchorElement
 
@@ -136,11 +138,9 @@ export default function ListingsList() {
             <div className="flex justify-between">
               <div className="w-56"></div>
               <div className="flex-row">
-                <LocalizedLink href={`/listings/add`}>
-                  <Button className="mx-1" onClick={() => false}>
-                    {t("listings.addListing")}
-                  </Button>
--               </LocalizedLink>
+                <Button className="mx-1" onClick={() => void router.push("/listings/add")}>
+                  {t("listings.addListing")}
+                </Button>
               </div>
             </div>
             <div className="applications-table mt-5">
