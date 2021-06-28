@@ -1,6 +1,6 @@
 import React, { useMemo, useContext } from "react"
 import Head from "next/head"
-import { PageHeader, t, lRoute, UserContext } from "@bloom-housing/ui-components"
+import { PageHeader, t, lRoute, UserContext, LocalizedLink, Button } from "@bloom-housing/ui-components"
 import moment from "moment"
 import { UserRole, Listing } from "@bloom-housing/backend-core/types"
 import { AgGridReact } from "ag-grid-react"
@@ -19,7 +19,7 @@ export default function ListingsList() {
     init(params) {
       this.link = document.createElement("a")
       this.link.classList.add("text-blue-700")
-      this.link.setAttribute("href", lRoute(`/listings/${params.data.id}/applications`))
+      this.link.setAttribute("href", lRoute(`/listings/${params.data.id}/edit`))
       this.link.innerText = params.valueFormatted || params.value
     }
 
@@ -56,12 +56,19 @@ export default function ListingsList() {
   const columnDefs = useMemo(
     () => [
       {
-        headerName: t("listings.applications"),
+        headerName: t("name"),
         field: "name",
         sortable: false,
         filter: false,
         resizable: true,
         cellRenderer: "formatLinkCell",
+      },
+      {
+        headerName: t("listings.property.buildingAddress"),
+        field: "property.buildingAddress.street",
+        sortable: false,
+        filter: false,
+        resizable: true,
       },
       {
         headerName: t("listings.applicationDeadline"),
@@ -129,12 +136,11 @@ export default function ListingsList() {
             <div className="flex justify-between">
               <div className="w-56"></div>
               <div className="flex-row">
-                {/* TODO, put behind a flag
                 <LocalizedLink href={`/listings/add`}>
                   <Button className="mx-1" onClick={() => false}>
                     {t("listings.addListing")}
                   </Button>
-                </LocalizedLink> */}
+-               </LocalizedLink>
               </div>
             </div>
             <div className="applications-table mt-5">
