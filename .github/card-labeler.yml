@@ -1,0 +1,24 @@
+Priorities:
+  'P0':
+    - 'P0'
+  'P1':
+    - 'P1'
+  'P2':
+    - 'P2'
+  'P3':
+    - 'P3'
+Backlog/Sprint:
+  'Epic Tracking':
+    - 'tracking'
+Milestones:
+  'M7':
+    - 'M7'
+  'M8':
+    - 'M8'
+  'M9':
+    - 'M9'
+  'M10':
+    - 'M10'
+  'M11':
+    - 'M11'
+
