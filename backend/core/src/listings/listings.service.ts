@@ -2,10 +2,16 @@ import { Injectable } from "@nestjs/common"
 import jp from "jsonpath"
 
 import { Listing } from "./entities/listing.entity"
-import { ListingCreateDto, ListingUpdateDto } from "./dto/listing.dto"
+import {
+  ListingDto,
+  ListingCreateDto,
+  ListingUpdateDto,
+  PaginatedListingsDto,
+} from "./dto/listing.dto"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
 import { ListingsListQueryParams } from "./listings.controller"
+import { mapTo } from "../shared/mapTo"
 
 @Injectable()
 export class ListingsService {
@@ -22,8 +28,8 @@ export class ListingsService {
       .leftJoinAndSelect("units.amiChart", "amiChart")
   }
 
-  public async list(params: ListingsListQueryParams): Promise<Listing[]> {
-    const query = this.getQueryBuilder().orderBy({
+  public async list(params: ListingsListQueryParams): Promise<PaginatedListingsDto> {
+    let query = this.getQueryBuilder().orderBy({
       "listings.id": "DESC",
       "units.maxOccupancy": "ASC",
       "preferences.ordinal": "ASC",
@@ -36,12 +42,55 @@ export class ListingsService {
       query.andWhere("property.neighborhood = :neighborhood", { neighborhood: params.neighborhood })
     }
 
-    let listings = await query.getMany()
+    let currentPage = params.page
+    let itemsPerPage = params.limit
+
+    let itemCount, totalItemsCount, totalPages
+    let listings
+
+    if (currentPage > 0 && itemsPerPage > 0) {
+      const skip = (currentPage - 1) * itemsPerPage
+      query = query.skip(skip).take(itemsPerPage)
+
+      listings = await query.getMany()
+
+      itemCount = listings.length
+
+      totalItemsCount = await this.repository.count()
+      totalPages = Math.floor(totalItemsCount / itemsPerPage)
+    } else {
+      listings = await query.getMany()
+
+      currentPage = 1
+      totalPages = 1
+      itemCount = listings.length
+      itemsPerPage = listings.length
+      totalItemsCount = listings.length
+    }
+
+    // Sort units and preferences.
+    // This step was removed from the SQL query because it interferes with pagination
+    // (See https://github.com/CityOfDetroit/affordable-housing-app/issues/88#issuecomment-865329223)
+    listings.forEach((listing) => {
+      listing.property.units.sort((a, b) => a.maxOccupancy - b.maxOccupancy)
+      listing.preferences.sort((a, b) => a.ordinal - b.ordinal)
+    })
 
     if (params.jsonpath) {
       listings = jp.query(listings, params.jsonpath)
     }
-    return listings
+    const paginatedListings = {
+      items: mapTo<ListingDto, Listing>(ListingDto, listings),
+      meta: {
+        currentPage: currentPage,
+        itemCount: itemCount,
+        itemsPerPage: itemsPerPage,
+        totalItems: totalItemsCount,
+        totalPages: totalPages,
+      },
+    }
+
+    return paginatedListings
   }
 
   async create(listingDto: ListingCreateDto) {
