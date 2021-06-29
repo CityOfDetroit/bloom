@@ -43,7 +43,11 @@ const NewListing = () => {
           }
         />
 
-        <PaperListingForm listing={listingDto} editMode isAdmin={profile.roles.includes(UserRole.admin)}/>
+        <PaperListingForm
+          listing={listingDto}
+          editMode
+          isAdmin={profile.roles.includes(UserRole.admin)}
+        />
       </Layout>
     </ListingContext.Provider>
   )
