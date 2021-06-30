@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useContext } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { PageHeader, t } from "@bloom-housing/ui-components"
+import { PageHeader, t, UserContext } from "@bloom-housing/ui-components"
+import { UserRole } from "@bloom-housing/backend-core/types"
 import Layout from "../../../layouts"
 import PaperListingForm from "../../../src/listings/PaperListingForm"
 import { useSingleListingData } from "../../../lib/hooks"
@@ -11,6 +12,8 @@ import { MetaTags } from "../../../src/MetaTags"
 const NewListing = () => {
   const metaDescription = ""
   const metaImage = "" // TODO: replace with hero image
+
+  const { profile } = useContext(UserContext)
 
   const router = useRouter()
   const listingId = router.query.id as string
@@ -40,7 +43,7 @@ const NewListing = () => {
           }
         />
 
-        <PaperListingForm listing={listingDto} editMode />
+        <PaperListingForm listing={listingDto} editMode isAdmin={profile.roles.includes(UserRole.admin)}/>
       </Layout>
     </ListingContext.Provider>
   )

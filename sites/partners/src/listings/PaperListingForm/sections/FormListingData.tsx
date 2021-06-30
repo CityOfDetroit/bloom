@@ -2,7 +2,11 @@ import React from "react"
 import { useFormContext } from "react-hook-form"
 import { t, GridSection, Field, FormAddress } from "@bloom-housing/ui-components"
 
-const FormListingData = () => {
+type FormListingDataProps = {
+  isAdmin?: boolean
+}
+
+const FormListingData = ({ isAdmin }: FormListingDataProps) => {
   const formMethods = useFormContext()
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -18,6 +22,7 @@ const FormListingData = () => {
             label={t("listings.listingName")}
             placeholder={t("listings.listingName")}
             register={register}
+            disabled={!isAdmin}
           />
         </GridSection>
         <GridSection grid={false} separator>
@@ -26,6 +31,7 @@ const FormListingData = () => {
             dataKey="property.buildingAddress"
             type="mailing"
             register={register}
+            disabled={!isAdmin}
           />
         </GridSection>
       </GridSection>
@@ -37,6 +43,7 @@ const FormListingData = () => {
             label="Property ID (can't save without this for now)"
             placeholder="Property ID"
             register={register}
+            disabled={!isAdmin}
           />
           <Field
             id="property.developer"
@@ -44,6 +51,7 @@ const FormListingData = () => {
             label={t("listings.property.developer")}
             placeholder={t("listings.property.developer")}
             register={register}
+            disabled={!isAdmin}
           />
           <Field
             id="applicationDueDate"
@@ -51,6 +59,7 @@ const FormListingData = () => {
             label={t("listings.applicationDeadline")}
             placeholder="MM-DD-YYYY"
             register={register}
+            disabled={!isAdmin}
           />
         </GridSection>
       </GridSection>
