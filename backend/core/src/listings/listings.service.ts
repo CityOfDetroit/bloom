@@ -78,8 +78,7 @@ export class ListingsService {
       listing.preferences.sort((a, b) => a.ordinal - b.ordinal)
     })
 
-    // TODO: remove jsonpath filtering (it doesn't play well with pagination: if this jsonpath
-    // filtering causes listings to be removed, the pagination metadata will be incorrect.)
+    // TODO(https://github.com/CityOfDetroit/bloom/issues/135): decide whether to remove jsonpath
     if (params.jsonpath) {
       listings = jp.query(listings, params.jsonpath)
     }
