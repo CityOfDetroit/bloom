@@ -36,6 +36,7 @@ type FormAddressProps = {
   register: UseFormMethods["register"]
   errors?: UseFormMethods["errors"]
   required?: boolean
+  disabled?: boolean
 }
 
 type AddressType =
@@ -140,6 +141,7 @@ export const FormAddress = ({
   register,
   errors,
   required,
+  disabled,
 }: FormAddressProps) => {
   return (
     <>
@@ -156,6 +158,7 @@ export const FormAddress = ({
               error={!!resolveObject(`${dataKey}.street`, errors)}
               errorMessage={t("errors.streetError")}
               readerOnly
+              disabled={disabled}
             />
           </ViewItem>
         </GridCell>
@@ -168,6 +171,7 @@ export const FormAddress = ({
               placeholder={t("application.contact.apt")}
               register={register}
               readerOnly
+              disabled={disabled}
             />
           </ViewItem>
         </GridCell>
@@ -184,6 +188,7 @@ export const FormAddress = ({
               error={!!resolveObject(`${dataKey}.city`, errors)}
               errorMessage={t("errors.cityError")}
               readerOnly
+              disabled={disabled}
             />
           </ViewItem>
         </GridCell>
@@ -202,6 +207,7 @@ export const FormAddress = ({
               validation={{ required }}
               error={!!resolveObject(`${dataKey}.state`, errors)}
               errorMessage={t("errors.stateError")}
+              disabled={disabled}
             />
           </ViewItem>
 
@@ -216,6 +222,7 @@ export const FormAddress = ({
               error={!!resolveObject(`${dataKey}.zipCode`, errors)}
               errorMessage={t("errors.zipCodeError")}
               readerOnly
+              disabled={disabled}
             />
           </ViewItem>
         </GridCell>
@@ -228,6 +235,7 @@ export const FormAddress = ({
               type="checkbox"
               label={t("application.contact.sendMailToMailingAddress")}
               register={register}
+              disabled={disabled}
             />
           </GridCell>
         )}
