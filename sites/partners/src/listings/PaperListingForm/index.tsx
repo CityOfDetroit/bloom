@@ -29,6 +29,7 @@ type FormListing = ListingCreate & ListingUpdate
 type ListingFormProps = {
   listing?: FormListing
   editMode?: boolean
+  isAdmin?: boolean
 }
 
 type AlertErrorType = "api" | "form"
@@ -84,7 +85,7 @@ const defaults: FormListing = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ListingForm = ({ listing, editMode }: ListingFormProps) => {
+const ListingForm = ({ listing, editMode, isAdmin }: ListingFormProps) => {
   const defaultValues = editMode ? listing : defaults
   const formMethods = useForm<FormListing>({
     defaultValues,
@@ -195,7 +196,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
               <Form id="listing-form" onSubmit={handleSubmit(triggerSubmit, onError)}>
                 <div className="flex flex-row flex-wrap">
                   <div className="info-card md:w-9/12">
-                    <FormListingData />
+                    <FormListingData isAdmin={isAdmin}/>
                     <AdditionalDetails />
                   </div>
 
