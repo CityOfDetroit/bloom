@@ -31,8 +31,6 @@ export class ListingsService {
   public async list(params: ListingsListQueryParams): Promise<PaginatedListingsDto> {
     let query = this.getQueryBuilder().orderBy({
       "listings.id": "DESC",
-      "units.maxOccupancy": "ASC",
-      "preferences.ordinal": "ASC",
     })
 
     if (params.neighborhood) {
@@ -42,13 +40,14 @@ export class ListingsService {
       query.andWhere("property.neighborhood = :neighborhood", { neighborhood: params.neighborhood })
     }
 
-    let currentPage = params.page
-    let itemsPerPage = params.limit
+    let currentPage: number = params.page
+    let itemsPerPage: number = params.limit
 
-    let itemCount, totalItemsCount, totalPages
-    let listings
+    let itemCount: number, totalItemsCount: number, totalPages: number
+    let listings: Listing[]
 
     if (currentPage > 0 && itemsPerPage > 0) {
+      // Calculate the number of listings to skip (because they belong to lower page numbers)
       const skip = (currentPage - 1) * itemsPerPage
       query = query.skip(skip).take(itemsPerPage)
 
@@ -56,9 +55,12 @@ export class ListingsService {
 
       itemCount = listings.length
 
+      // Issue a separate "COUNT(*) from listings;" query to get the total listings count.
       totalItemsCount = await this.repository.count()
       totalPages = Math.floor(totalItemsCount / itemsPerPage)
     } else {
+      // If currentPage or itemsPerPage aren't specified (or are invalid), issue the SQL query to
+      // get all listings (no pagination).
       listings = await query.getMany()
 
       currentPage = 1
@@ -76,9 +78,11 @@ export class ListingsService {
       listing.preferences.sort((a, b) => a.ordinal - b.ordinal)
     })
 
+    // TODO: remove jsonpath filtering (it doesn't play well with pagination)
     if (params.jsonpath) {
       listings = jp.query(listings, params.jsonpath)
     }
+
     const paginatedListings = {
       items: mapTo<ListingDto, Listing>(ListingDto, listings),
       meta: {
