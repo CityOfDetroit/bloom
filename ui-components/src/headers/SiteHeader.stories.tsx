@@ -10,7 +10,7 @@ export default {
 
 export const standard = () => (
   <SiteHeader
-    logoSrc="/images/logo_glyph.svg"
+    logoSrc="/images/detroit-logo.png"
     notice="This is a preview of our new website. We're just getting started. We'd love to get your feedback."
     title="Alameda County Housing Portal"
     skip="Skip to content"
@@ -23,7 +23,7 @@ export const standard = () => (
 
 export const standardSlim = () => (
   <SiteHeader
-    logoSrc="/images/logo_glyph.svg"
+    logoSrc="/images/detroit-logo.png"
     notice="This is a preview of our new website. We're just getting started. We'd love to get your feedback."
     title="Housing Portal"
     skip="Skip to content"
@@ -37,7 +37,7 @@ export const standardSlim = () => (
 
 export const standardMedium = () => (
   <SiteHeader
-    logoSrc="/images/logo_glyph.svg"
+    logoSrc="/images/detroit-logo.png"
     notice="This is a preview of our new website. We're just getting started. We'd love to get your feedback."
     title="Alameda County Housing Portal"
     skip="Skip to content"
@@ -51,7 +51,7 @@ export const standardMedium = () => (
 
 export const standardWide = () => (
   <SiteHeader
-    logoSrc="/images/logo_glyph.svg"
+    logoSrc="/images/detroit-logo.png"
     notice="This is a preview of our new website. We're just getting started. We'd love to get your feedback."
     title="Dahlia San Francisco Housing Portal"
     skip="Skip to content"
@@ -110,7 +110,7 @@ export const imageOnlyWide = () => (
 
 export const withDropdownAndButton = () => (
   <SiteHeader
-    logoSrc="/images/logo_glyph.svg"
+    logoSrc="/images/detroit-logo.png"
     notice="This is a preview of our new website. We're just getting started. We'd love to get your feedback."
     title="Alameda County Housing Portal"
     skip="Skip to content"
@@ -146,7 +146,7 @@ export const withDropdownAndButton = () => (
 
 export const withLanguageNavigation = () => (
   <SiteHeader
-    logoSrc="/images/logo_glyph.svg"
+    logoSrc="/images/detroit-logo.png"
     notice="This is a preview of our new website. We're just getting started. We'd love to get your feedback."
     title="Alameda County Housing Portal"
     skip="Skip to content"

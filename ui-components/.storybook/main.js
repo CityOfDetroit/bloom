@@ -1,6 +1,6 @@
 const path = require("path")
 const { resolve } = require("path")
-const bloomTheme = require("../tailwind.config.js")
+const bloomTheme = require("../../sites/public/tailwind.config.js")
 const tailwindVars = require("@bloom-housing/ui-components/tailwind.tosass.js")(bloomTheme)
 const { NormalModuleReplacementPlugin } = require("webpack")
 
