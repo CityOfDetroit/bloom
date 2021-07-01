@@ -82,7 +82,7 @@ export async function getStaticProps() {
   let listings = []
   try {
     const response = await axios.get(process.env.listingServiceUrl)
-    listings = response.data.items
+    listings = response.data.items ? response.data.items : null
   } catch (error) {
     console.error(error)
   }
