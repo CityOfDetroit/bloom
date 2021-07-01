@@ -40,7 +40,7 @@ export class ApplicationsService {
   ): Promise<Pagination<Application>> {
     const qb = this._getQb(params)
     const result = await paginate(qb, {
-      limit: params.limit > 0 ? params.limit : Number.MAX_SAFE_INTEGER,
+      limit: params.limit > 0 ? params.limit : 10,
       page: params.page > 0 ? params.page : 1,
     })
     await Promise.all(
