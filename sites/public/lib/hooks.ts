@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react"
 import { useRouter } from "next/router"
-import { isInternalLink } from "@bloom-housing/ui-components"
+import useSWR from "swr"
+import { isInternalLink, ApiClientContext } from "@bloom-housing/ui-components"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
 
@@ -29,4 +30,24 @@ export const useFormConductor = (stepName: string) => {
     conductor.skipCurrentStepIfNeeded()
   }, [conductor])
   return context
+}
+
+export function useListingsData(
+  pageIndex: number,
+  limit = 10,
+) {
+  const { listingsService } = useContext(ApiClientContext)
+
+  const params = {
+    page: pageIndex,
+    limit,
+  }
+  const fetcher = () => listingsService.list(params)
+  const { data, error } = useSWR(`${process.env.backendApiBase}/listings`, fetcher)
+
+  return {
+    listingsData: data,
+    listingsLoading: !error && !data,
+    listingsError: error,
+  }
 }
