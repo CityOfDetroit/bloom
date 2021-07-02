@@ -24,6 +24,7 @@ export function useSingleListingData(listingId: string) {
   }
 }
 
+/* TODO: move this function so it can be shared between public and partner sites.*/
 export function useListingsData() {
   const { listingsService } = useContext(ApiClientContext)
   const fetcher = () => listingsService.list()
