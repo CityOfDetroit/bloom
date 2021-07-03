@@ -4,6 +4,7 @@ import useSWR from "swr"
 import { isInternalLink, ApiClientContext } from "@bloom-housing/ui-components"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
+import { ListingsService } from "@bloom-housing/backend-core/types"
 
 export const useRedirectToPrevPage = (defaultPath = "/") => {
   const router = useRouter()
@@ -32,18 +33,23 @@ export const useFormConductor = (stepName: string) => {
   return context
 }
 
+const listingsFetcher = function(listingsService: ListingsService) {
+  return (_url: string, page: number, limit: number) => {
+    const params = {
+      page,
+      limit
+    }
+    return listingsService.list(params)
+  }
+}
+
+// TODO: move this so it can be shared with the partner site.
 export function useListingsData(
   pageIndex: number,
   limit = 10,
 ) {
   const { listingsService } = useContext(ApiClientContext)
-
-  const params = {
-    page: pageIndex,
-    limit,
-  }
-  const fetcher = () => listingsService.list(params)
-  const { data, error } = useSWR(`${process.env.backendApiBase}/listings`, fetcher)
+  const { data, error } = useSWR([`${process.env.backendApiBase}/listings`, pageIndex, limit], listingsFetcher(listingsService))
 
   return {
     listingsData: data,
