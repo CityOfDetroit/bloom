@@ -4,8 +4,21 @@ node_js:
   # Node version
   - 12
 
-script:
+services:
+  - redis-server
+  - postgresql
+
+before_script:
   - yarn install:all
-  - yarn test:shared:ui
-  - yarn build:app:public
-  - yarn build:app:partners
+  - yarn test:backend:core:testdbsetup
+
+jobs:
+  include:
+    - script: yarn test:shared:ui
+      name: "UI components tests"
+    - script: yarn build:app:public
+      name: "Build public site"
+    - script: yarn build:app:partners
+      name: "Build partners site"
+    - script: yarn test:backend:core
+      name: "Backend unit tests"
