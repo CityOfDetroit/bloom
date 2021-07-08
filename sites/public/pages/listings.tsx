@@ -4,6 +4,8 @@ import {
   PageHeader,
   AgPagination,
   AG_PER_PAGE_OPTIONS,
+  Button,
+  AppearanceSizeType,
   t,
 } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
@@ -19,20 +21,13 @@ const ListingsPage = (props: ListingsProps) => {
   /* Pagination state */
   const [currentPage, setCurrentPage] = useState<number>(props.startingPage)
   const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
-  const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage)
-  // let listingsData: PaginatedListings
-  // let listingsLoading = true
+  const [filterState, setFilterState] = useState<string>()
+  const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
 
   // Reset page to 1 when user changes items per page.
   useEffect(() => {
     setCurrentPage(1)
   }, [itemsPerPage])
-
-  // useEffect(() => {
-  //   const data = useListingsData(currentPage, itemsPerPage)
-  //   listingsData = data.listingsData
-  //   listingsLoading = data.listingsLoading
-  // })
 
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
@@ -47,6 +42,11 @@ const ListingsPage = (props: ListingsProps) => {
       <PageHeader title={t("pageTitle.rent")} />
       {!listingsLoading && (
         <div>
+          <div className="max-w-3xl m-auto">
+            <Button size={AppearanceSizeType.small} onClick={() => setFilterState("Foster City")}>
+              Filter to Foster City
+            </Button>
+          </div>
           <ListingsList listings={listingsData.items} />
           <AgPagination
             totalItems={listingsData.meta.totalItems}

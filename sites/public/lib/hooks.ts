@@ -34,20 +34,21 @@ export const useFormConductor = (stepName: string) => {
 }
 
 const listingsFetcher = function (listingsService: ListingsService) {
-  return (_url: string, page: number, limit: number) => {
+  return (_url: string, page: number, limit: number, filterState: string) => {
     const params = {
       page,
       limit,
+      neighborhood: filterState,
     }
     return listingsService.list(params)
   }
 }
 
 // TODO: move this so it can be shared with the partner site.
-export function useListingsData(pageIndex: number, limit = 10) {
+export function useListingsData(pageIndex: number, limit = 10, filterState: string) {
   const { listingsService } = useContext(ApiClientContext)
   const { data, error } = useSWR(
-    [`${process.env.backendApiBase}/listings`, pageIndex, limit],
+    [`${process.env.backendApiBase}/listings`, pageIndex, limit, filterState],
     listingsFetcher(listingsService)
   )
 
