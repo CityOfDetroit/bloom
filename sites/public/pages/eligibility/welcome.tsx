@@ -12,6 +12,7 @@ import {
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
 import { useFormConductor } from "../../lib/hooks"
+import React from "react"
 
 const EligibilityWelcome = () => {
   // The conductor is not yet implemented.
