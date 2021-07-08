@@ -2,16 +2,24 @@ import { Injectable } from "@nestjs/common"
 import jp from "jsonpath"
 
 import { Listing } from "./entities/listing.entity"
-import { ListingCreateDto, ListingUpdateDto } from "./dto/listing.dto"
+import {
+  ListingDto,
+  ListingCreateDto,
+  ListingUpdateDto,
+  PaginatedListingsDto,
+} from "./dto/listing.dto"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
+import { ListingsListQueryParams } from "./listings.controller"
+import { mapTo } from "../shared/mapTo"
 
 @Injectable()
 export class ListingsService {
   constructor(@InjectRepository(Listing) private readonly repository: Repository<Listing>) {}
 
   private getQueryBuilder() {
-    return Listing.createQueryBuilder("listings")
+    return this.repository
+      .createQueryBuilder("listings")
       .leftJoinAndSelect("listings.leasingAgents", "leasingAgents")
       .leftJoinAndSelect("listings.preferences", "preferences")
       .leftJoinAndSelect("listings.property", "property")
@@ -20,27 +28,81 @@ export class ListingsService {
       .leftJoinAndSelect("units.amiChart", "amiChart")
   }
 
-  public async list(jsonpath?: string): Promise<Listing[]> {
-    let listings = await this.getQueryBuilder()
-      .orderBy({
-        "listings.id": "DESC",
-        "units.max_occupancy": "ASC",
-        "preferences.ordinal": "ASC",
-      })
-      .getMany()
+  public async list(params: ListingsListQueryParams): Promise<PaginatedListingsDto> {
+    let query = this.getQueryBuilder().orderBy({
+      "listings.id": "DESC",
+    })
 
-    if (jsonpath) {
-      listings = jp.query(listings, jsonpath)
+    if (params.neighborhood) {
+      // This works because there's only one property per listing. If that
+      // weren't true for a field (for example, if we filtered on a unit's
+      // fields), we couldn't use this type of where clause.
+      query.andWhere("property.neighborhood = :neighborhood", { neighborhood: params.neighborhood })
     }
-    return listings
+
+    let currentPage: number = params.page
+    let itemsPerPage: number = params.limit
+
+    let itemCount: number, totalItemsCount: number, totalPages: number
+    let listings: Listing[]
+
+    if (currentPage > 0 && itemsPerPage > 0) {
+      // Calculate the number of listings to skip (because they belong to lower page numbers)
+      const skip = (currentPage - 1) * itemsPerPage
+      query = query.skip(skip).take(itemsPerPage)
+
+      listings = await query.getMany()
+
+      itemCount = listings.length
+
+      // Issue a separate "COUNT(*) from listings;" query to get the total listings count.
+      totalItemsCount = await this.repository.count()
+      totalPages = Math.ceil(totalItemsCount / itemsPerPage)
+    } else {
+      // If currentPage or itemsPerPage aren't specified (or are invalid), issue the SQL query to
+      // get all listings (no pagination).
+      listings = await query.getMany()
+
+      currentPage = 1
+      totalPages = 1
+      itemCount = listings.length
+      itemsPerPage = listings.length
+      totalItemsCount = listings.length
+    }
+
+    // Sort units and preferences.
+    // This step was removed from the SQL query because it interferes with pagination
+    // (See https://github.com/CityOfDetroit/affordable-housing-app/issues/88#issuecomment-865329223)
+    listings.forEach((listing) => {
+      listing.property.units.sort((a, b) => a.maxOccupancy - b.maxOccupancy)
+      listing.preferences.sort((a, b) => a.ordinal - b.ordinal)
+    })
+
+    // TODO(https://github.com/CityOfDetroit/bloom/issues/135): decide whether to remove jsonpath
+    if (params.jsonpath) {
+      listings = jp.query(listings, params.jsonpath)
+    }
+
+    const paginatedListings = {
+      items: mapTo<ListingDto, Listing>(ListingDto, listings),
+      meta: {
+        currentPage: currentPage,
+        itemCount: itemCount,
+        itemsPerPage: itemsPerPage,
+        totalItems: totalItemsCount,
+        totalPages: totalPages,
+      },
+    }
+
+    return paginatedListings
   }
 
   async create(listingDto: ListingCreateDto) {
-    return Listing.save(listingDto)
+    return this.repository.save(listingDto)
   }
 
   async update(listingDto: ListingUpdateDto) {
-    const listing = await Listing.findOneOrFail({
+    const listing = await this.repository.findOneOrFail({
       where: { id: listingDto.id },
       relations: ["property"],
     })
@@ -58,10 +120,10 @@ export class ListingsService {
   }
 
   async delete(listingId: string) {
-    const listing = await Listing.findOneOrFail({
+    const listing = await this.repository.findOneOrFail({
       where: { id: listingId },
     })
-    return await Listing.remove(listing)
+    return await this.repository.remove(listing)
   }
 
   async findOne(listingId: string) {

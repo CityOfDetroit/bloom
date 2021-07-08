@@ -164,7 +164,9 @@ describe("Authz", () => {
     })
     it("should allow anonymous user to GET listings by ID", async () => {
       const res = await supertest(app.getHttpServer()).get(listingsEndpoint).expect(200)
-      await supertest(app.getHttpServer()).get(`${listingsEndpoint}/${res.body[0].id}`).expect(200)
+      await supertest(app.getHttpServer())
+        .get(`${listingsEndpoint}/${res.body.items[0].id}`)
+        .expect(200)
     })
     it(`should not allow normal/anonymous user to DELETE listings`, async () => {
       // anonymous
@@ -188,14 +190,9 @@ describe("Authz", () => {
         .set(...setAuthorization(userAccessToken))
         .expect(403)
     })
-    it(`should allow normal/anonymous user to POST listings`, async () => {
+    it(`should not allow anonymous user to POST listings`, async () => {
       // anonymous
       await supertest(app.getHttpServer()).post(listingsEndpoint).expect(403)
-      // logged in normal user
-      await supertest(app.getHttpServer())
-        .post(listingsEndpoint)
-        .set(...setAuthorization(userAccessToken))
-        .expect(403)
     })
   })
 
