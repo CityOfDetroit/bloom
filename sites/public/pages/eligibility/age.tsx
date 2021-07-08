@@ -21,7 +21,7 @@ const EligibilityAge = () => {
   const { conductor } = useFormConductor("age")
 
   /* Form Handler */
-  const { handleSubmit, register, errors } = useForm()
+  const { handleSubmit, register } = useForm()
   const onSubmit = () => {
     conductor.routeToNextOrReturnUrl()
   }
