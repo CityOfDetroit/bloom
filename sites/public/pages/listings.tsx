@@ -13,13 +13,9 @@ import { MetaTags } from "../src/MetaTags"
 import { useEffect, useState } from "react"
 import { useListingsData } from "../lib/hooks"
 
-export interface ListingsProps {
-  startingPage: number
-}
-
-const ListingsPage = (props: ListingsProps) => {
+const ListingsPage = () => {
   /* Pagination state */
-  const [currentPage, setCurrentPage] = useState<number>(props.startingPage)
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
   const [filterState, setFilterState] = useState<string>()
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
