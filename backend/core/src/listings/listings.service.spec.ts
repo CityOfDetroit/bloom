@@ -9,6 +9,7 @@ import { Listing } from "./entities/listing.entity"
 declare const expect: jest.Expect
 
 let service: ListingsService
+const mockOrigin = "origin"
 const mockListings = [
   { id: "asdf1", property: { id: "test-property1", units: [] }, preferences: [] },
   { id: "asdf2", property: { id: "test-property2", units: [] }, preferences: [] },
@@ -52,7 +53,7 @@ describe("ListingsService", () => {
 
   describe("getListingsList", () => {
     it("should not add a WHERE clause if no filters are applied", async () => {
-      const listings = await service.list({})
+      const listings = await service.list(mockOrigin, {})
 
       expect(listings.items).toEqual(mockListings)
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledTimes(0)
@@ -61,7 +62,7 @@ describe("ListingsService", () => {
     it("should add a WHERE clause if the neighborhood filter is applied", async () => {
       const expectedNeighborhood = "Fox Creek"
 
-      const listings = await service.list({ neighborhood: expectedNeighborhood })
+      const listings = await service.list(mockOrigin, { neighborhood: expectedNeighborhood })
 
       expect(listings.items).toEqual(mockListings)
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
@@ -76,21 +77,21 @@ describe("ListingsService", () => {
   it("should call take() and skip() if pagination params are specified", async () => {
     // Empty params (no pagination) -> no take/skip
     let params = {}
-    let listings = await service.list(params)
+    let listings = await service.list(mockOrigin, params)
     expect(listings.items).toEqual(mockListings)
     expect(mockQueryBuilder.take).toHaveBeenCalledTimes(0)
     expect(mockQueryBuilder.skip).toHaveBeenCalledTimes(0)
 
     // Invalid pagination params (page specified, but not limit) -> no take/skip
     params = { page: 3 }
-    listings = await service.list(params)
+    listings = await service.list(mockOrigin, params)
     expect(listings.items).toEqual(mockListings)
     expect(mockQueryBuilder.take).toHaveBeenCalledTimes(0)
     expect(mockQueryBuilder.skip).toHaveBeenCalledTimes(0)
 
     // Valid pagination params -> skip and take called appropriately
     params = { page: 3, limit: 7 }
-    listings = await service.list(params)
+    listings = await service.list(mockOrigin, params)
     expect(listings.items).toEqual(mockListings)
     expect(mockQueryBuilder.take).toHaveBeenCalledWith(7)
     expect(mockQueryBuilder.skip).toHaveBeenCalledWith(14)
