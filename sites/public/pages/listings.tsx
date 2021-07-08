@@ -1,42 +1,21 @@
 import Head from "next/head"
 import axios from "axios"
-import moment from "moment"
-import {
-  ListingsGroup,
-  ListingsList,
-  PageHeader,
-  openDateState,
-  t,
-} from "@bloom-housing/ui-components"
+import { ListingsList, PageHeader, t } from "@bloom-housing/ui-components"
 import { Listing } from "@bloom-housing/backend-core/types"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
 
 export interface ListingsProps {
-  openListings: Listing[]
-  closedListings: Listing[]
+  listings: Listing[]
 }
 
-const openListings = (listings) => {
+const listings = (listings: Listing[]) => {
   return listings.length > 0 ? (
     <ListingsList listings={listings} />
   ) : (
     <div className="notice-block">
       <h3 className="m-auto text-gray-800">{t("listings.noOpenListings")}</h3>
     </div>
-  )
-}
-
-const closedListings = (listings) => {
-  return (
-    listings.length > 0 && (
-      <ListingsGroup
-        listings={listings}
-        header={t("listings.closedListings")}
-        hideButtonText={t("listings.hideClosedListings")}
-        showButtonText={t("listings.showClosedListings")}
-      />
-    )
   )
 }
 
@@ -52,36 +31,22 @@ export default function ListingsPage(props: ListingsProps) {
       </Head>
       <MetaTags title={t("nav.siteTitle")} image={metaImage} description={metaDescription} />
       <PageHeader title={t("pageTitle.rent")} />
-      <div>
-        {openListings(props.openListings)}
-        {closedListings(props.closedListings)}
-      </div>
+      <div>{listings(props.listings)}</div>
     </Layout>
   )
 }
 
 export async function getStaticProps() {
-  let openListings = []
-  let closedListings = []
+  let listings = []
 
   try {
     const response = await axios.get(process.env.listingServiceUrl, {
       params: { page: "1", limit: "10" },
     })
-    const nowTime = moment()
-    openListings = response.data.items.filter((listing: Listing) => {
-      return (
-        openDateState(listing) ||
-        nowTime <= moment(listing.applicationDueDate) ||
-        listing.applicationDueDate == null
-      )
-    })
-    closedListings = response.data.items.filter((listing: Listing) => {
-      return nowTime > moment(listing.applicationDueDate)
-    })
+    listings = response.data.items
   } catch (error) {
     console.error(error)
   }
 
-  return { props: { openListings, closedListings } }
+  return { props: { listings } }
 }
