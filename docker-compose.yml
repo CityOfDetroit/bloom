@@ -20,6 +20,7 @@ services:
       # TODO(CityOfDetroit/affordable-housing-app#84): login currently doesn't work, likely
       # needs a separate env variable to point client requests to localhost:3100 instead.
       BACKEND_API_BASE: "http://backend-core:3100"
+      INCOMING_HOOK_BODY: "http://localhost:3100"
       NEXTJS_PORT: "3000"
     command: yarn dev
     depends_on:
