@@ -30,6 +30,7 @@
     "@types/jest": "^26.0.14",
     "@types/jwt-decode": "^2.2.1",
     "@types/react-map-gl": "^5.2.7",
+    "@types/react-select": "^4.0.17",
     "@types/react-tabs": "^2.3.2",
     "@types/react-test-renderer": "^16.9.3",
     "@types/webpack": "^4.41.22",
