@@ -55,13 +55,14 @@ const ListingsPage = () => {
       <MetaTags title={t("nav.siteTitle")} image={metaImage} description={metaDescription} />
       <PageHeader title={t("pageTitle.rent")} />
       {!listingsLoading && (
-        <div>
+        <div className="flex-wrapper">
           <ListingsList listings={listingsData?.items} />
           <AgPagination
             totalItems={listingsData?.meta.totalItems}
             totalPages={listingsData?.meta.totalPages}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
+            sticky={true}
             quantityLabel={t("listings.totalListings")}
             setCurrentPage={setCurrentPage}
             setItemsPerPage={setItemsPerPage}
