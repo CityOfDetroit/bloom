@@ -7,6 +7,7 @@ import {
   PageHeader,
   openDateState,
   t,
+  Selector,
 } from "@bloom-housing/ui-components"
 import { Listing } from "@bloom-housing/backend-core/types"
 import Layout from "../layouts/application"
@@ -52,6 +53,17 @@ export default function ListingsPage(props: ListingsProps) {
       </Head>
       <MetaTags title={t("nav.siteTitle")} image={metaImage} description={metaDescription} />
       <PageHeader title={t("pageTitle.rent")} />
+      <Selector
+        options={[
+          { value: "east_side", label: "East Side" },
+          { value: "west_side", label: "West Side" },
+          { value: "corktown", label: "Corktown" },
+          { value: "greektown", label: "Greektown" },
+        ]}
+        multiSelect
+        closeMenu
+        defaultValue={[{ value: "west_side", label: "West Side" }]}
+      />
       <div>
         {openListings(props.openListings)}
         {closedListings(props.closedListings)}

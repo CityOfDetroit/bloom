@@ -35,6 +35,7 @@ export * from "./src/forms/Select"
 export * from "./src/forms/Form"
 export * from "./src/forms/Textarea"
 export * from "./src/forms/TimeField"
+export * from "./src/forms/Selector"
 /* Global */
 export * from "./src/global/AppearanceTypes"
 export * from "./src/global/vendor/AgPagination"
