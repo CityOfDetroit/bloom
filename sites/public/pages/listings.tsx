@@ -55,7 +55,7 @@ const ListingsPage = () => {
       <MetaTags title={t("nav.siteTitle")} image={metaImage} description={metaDescription} />
       <PageHeader title={t("pageTitle.rent")} />
       {!listingsLoading && (
-        <div className="flex-wrapper">
+        <div>
           <ListingsList listings={listingsData?.items} />
           <AgPagination
             totalItems={listingsData?.meta.totalItems}
