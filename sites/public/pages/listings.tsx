@@ -62,6 +62,7 @@ const ListingsPage = () => {
             totalPages={listingsData?.meta.totalPages}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
+            sticky={true}
             quantityLabel={t("listings.totalListings")}
             setCurrentPage={setCurrentPage}
             setItemsPerPage={setItemsPerPage}
