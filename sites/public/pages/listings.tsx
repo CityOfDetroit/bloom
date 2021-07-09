@@ -6,11 +6,18 @@ import {
   ListingsList,
   PageHeader,
   openDateState,
+  Button,
+  AppearanceSizeType,
+  Modal,
+  Drawer,
+  AppearanceStyleType,
+  AppearanceBorderType,
   t,
 } from "@bloom-housing/ui-components"
 import { Listing } from "@bloom-housing/backend-core/types"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
+import { useState } from "react"
 
 export interface ListingsProps {
   openListings: Listing[]
@@ -44,6 +51,8 @@ export default function ListingsPage(props: ListingsProps) {
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
   const metaImage = "" // TODO: replace with hero image
+  const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
+  const [filterDrawerVisible, setFilterDrawerVisible] = useState<boolean>(false)
 
   return (
     <Layout>
@@ -52,6 +61,52 @@ export default function ListingsPage(props: ListingsProps) {
       </Head>
       <MetaTags title={t("nav.siteTitle")} image={metaImage} description={metaDescription} />
       <PageHeader title={t("pageTitle.rent")} />
+      <Modal
+        open={filterModalVisible}
+        title={"test"}
+        ariaDescription={"testing aria"}
+        actions={[<Button onClick={() => setFilterModalVisible(false)}>hi</Button>]}
+        hideCloseIcon
+      >
+        {"test modal"}
+      </Modal>
+      <Drawer
+        open={filterDrawerVisible}
+        title="Drawer Title"
+        onClose={() => setFilterDrawerVisible(false)}
+        ariaDescription="My Drawer"
+        actions={[
+          <Button
+            key={0}
+            onClick={() => setFilterDrawerVisible(false)}
+            styleType={AppearanceStyleType.primary}
+          >
+            Submit
+          </Button>,
+          <Button
+            key={1}
+            onClick={() => setFilterDrawerVisible(false)}
+            styleType={AppearanceStyleType.secondary}
+            border={AppearanceBorderType.borderless}
+          >
+            Cancel
+          </Button>,
+        ]}
+      >
+        <section className="border rounded-md p-8 bg-white">
+          <p>Test</p>
+        </section>
+      </Drawer>
+      <div className="max-w-3xl m-auto">
+        <Button size={AppearanceSizeType.small} onClick={() => setFilterModalVisible(true)}>
+          {/* TODO:avaleske make this a string */}
+          Filter listings
+        </Button>
+        <Button size={AppearanceSizeType.small} onClick={() => setFilterDrawerVisible(true)}>
+          {/* TODO:avaleske make this a string */}
+          Filter listings (drawer)
+        </Button>
+      </div>
       <div>
         {openListings(props.openListings)}
         {closedListings(props.closedListings)}
