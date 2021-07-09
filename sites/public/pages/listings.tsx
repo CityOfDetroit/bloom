@@ -62,7 +62,7 @@ const ListingsPage = () => {
             totalPages={listingsData?.meta.totalPages}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
-            quantityLabel={t("applications.totalApplications")}
+            quantityLabel={t("listings.totalListings")}
             setCurrentPage={setCurrentPage}
             setItemsPerPage={setItemsPerPage}
           />
