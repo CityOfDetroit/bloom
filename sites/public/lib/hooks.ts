@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useRef } from "react"
 import { useRouter } from "next/router"
 import useSWR from "swr"
 import { isInternalLink, ApiClientContext } from "@bloom-housing/ui-components"
@@ -33,27 +33,35 @@ export const useFormConductor = (stepName: string) => {
   return context
 }
 
-const listingsFetcher = function(listingsService: ListingsService) {
+const listingsFetcher = function (listingsService: ListingsService) {
   return (_url: string, page: number, limit: number) => {
     const params = {
       page,
-      limit
+      limit,
     }
     return listingsService.list(params)
   }
 }
 
 // TODO: move this so it can be shared with the partner site.
-export function useListingsData(
-  pageIndex: number,
-  limit = 10,
-) {
+export function useListingsData(pageIndex: number, limit = 10) {
   const { listingsService } = useContext(ApiClientContext)
-  const { data, error } = useSWR([`${process.env.backendApiBase}/listings`, pageIndex, limit], listingsFetcher(listingsService))
+  const { data, error } = useSWR(
+    [`${process.env.backendApiBase}/listings`, pageIndex, limit],
+    listingsFetcher(listingsService)
+  )
 
   return {
     listingsData: data,
     listingsLoading: !error && !data,
     listingsError: error,
   }
+}
+
+export const usePrevPage = (page: number) => {
+  const prevPageRef = useRef<number>()
+  useEffect(() => {
+    prevPageRef.current = page
+  }, [page])
+  return prevPageRef.current
 }

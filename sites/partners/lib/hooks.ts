@@ -1,7 +1,5 @@
 import { useContext } from "react"
 import useSWR, { mutate } from "swr"
-import { Listing } from "@bloom-housing/backend-core/types"
-
 
 import { ApiClientContext } from "@bloom-housing/ui-components"
 
