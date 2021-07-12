@@ -70,7 +70,7 @@ describe("AssetsController", () => {
   describe("retrieve", () => {
     it("should return a paginated assets list", async () => {
       const res = await supertest(app.getHttpServer())
-        .get(`/assets/`)
+        .get(`/assets?page=1&limit=10`)
         .set(...setAuthorization(adminAccessToken))
         .expect(200)
       const assets = res.body
@@ -83,7 +83,7 @@ describe("AssetsController", () => {
 
     it("should return an asset by Id", async () => {
       const res = await supertest(app.getHttpServer())
-        .get(`/assets/`)
+        .get(`/assets?page=1&limit=10`)
         .set(...setAuthorization(adminAccessToken))
         .expect(200)
       expect(res.body).toHaveProperty("meta")
