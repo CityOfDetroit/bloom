@@ -32,5 +32,4 @@ addons:
 env:
   global:
     PGPORT=5433
-    PGUSER=travis
-    TEST_DATABASE_URL=postgres://travis@localhost:5433/bloom_test
+    TEST_DATABASE_URL=postgres://localhost:5433/bloom_test
