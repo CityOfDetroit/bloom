@@ -8,7 +8,7 @@ type AgPaginationProps = {
   itemsPerPage: number
   sticky?: boolean
   quantityLabel?: string
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>> | ((page: number) => void)
   setItemsPerPage: React.Dispatch<React.SetStateAction<number>>
   onPageChange?: (page: number) => void
   onPerPageChange?: (size: number) => void

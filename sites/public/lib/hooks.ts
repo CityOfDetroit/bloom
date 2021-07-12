@@ -47,7 +47,7 @@ const listingsFetcher = function (listingsService: ListingsService) {
 export function useListingsData(pageIndex: number, limit = 10) {
   const { listingsService } = useContext(AuthContext)
   const { data, error } = useSWR(
-    [`${process.env.backendApiBase}/listings`, pageIndex, limit],
+    [`${process.env.listingServiceUrl}`, pageIndex, limit],
     listingsFetcher(listingsService)
   )
 

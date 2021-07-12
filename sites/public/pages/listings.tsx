@@ -22,29 +22,29 @@ const ListingsPage = () => {
   const prevQuery = usePrevQuery(router.query)
   const prevPage = prevQuery && "page" in prevQuery ? prevQuery.page : 1
 
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [itemsPerPage])
-
-  // If the page is updated from the UI.
-  useEffect(() => {
-    // Check if the page actually changed so we don't get stuck in an infinite loop
-    if (currentPage != prevPage) {
+  function setPage(page: number) {
+    if (page != prevPage) {
       void router.push(
         {
           pathname: "/listings",
-          query: { page: currentPage },
+          query: { page: page },
         },
         undefined,
         { shallow: true }
-      )
-    }
-  }, [currentPage])
+      ) 
+      setCurrentPage(page)  
+    } 
+  }
 
-  // If the url is updated manually.
   useEffect(() => {
-    // Check if the page actually changed so we don't get stuck in an infinite loop
-    if (router.query.page && Number(router.query.page) != prevPage) {
+    if (currentPage != 1) {
+      setPage(1)
+    }
+  }, [itemsPerPage])
+
+  // Checks if the url is updated manually.
+  useEffect(() => {
+    if (router.query.page && Number(router.query.page) != currentPage) {
       setCurrentPage(Number(router.query.page))
     }
   }, [router.query.page])
@@ -64,7 +64,7 @@ const ListingsPage = () => {
       <PageHeader title={t("pageTitle.rent")} />
       {!listingsLoading && (
         <div>
-          <ListingsList listings={listingsData?.items} />
+          {listingsData && <ListingsList listings={listingsData.items} />}
           <AgPagination
             totalItems={listingsData?.meta.totalItems}
             totalPages={listingsData?.meta.totalPages}
@@ -72,7 +72,7 @@ const ListingsPage = () => {
             itemsPerPage={itemsPerPage}
             sticky={true}
             quantityLabel={t("listings.totalListings")}
-            setCurrentPage={setCurrentPage}
+            setCurrentPage={setPage}
             setItemsPerPage={setItemsPerPage}
           />
         </div>
