@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef } from "react"
 import { useRouter } from "next/router"
 import useSWR from "swr"
-import { isInternalLink, ApiClientContext } from "@bloom-housing/ui-components"
+import { isInternalLink, AuthContext } from "@bloom-housing/ui-components"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
 import { ListingsService } from "@bloom-housing/backend-core/types"
@@ -39,13 +39,13 @@ const listingsFetcher = function (listingsService: ListingsService) {
       page,
       limit,
     }
-    return listingsService.list(params)
+    return listingsService?.list(params)
   }
 }
 
 // TODO: move this so it can be shared with the partner site.
 export function useListingsData(pageIndex: number, limit = 10) {
-  const { listingsService } = useContext(ApiClientContext)
+  const { listingsService } = useContext(AuthContext)
   const { data, error } = useSWR(
     [`${process.env.backendApiBase}/listings`, pageIndex, limit],
     listingsFetcher(listingsService)
