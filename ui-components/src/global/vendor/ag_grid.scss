@@ -120,10 +120,10 @@
 }
 
 .sticky {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 100;
+  @apply fixed;
+  @apply z-40;
+  @apply bottom-0;
+  @apply left-0;
 }
 
 .data-pager__control {

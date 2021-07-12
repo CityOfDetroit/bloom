@@ -58,10 +58,11 @@ export function useListingsData(pageIndex: number, limit = 10) {
   }
 }
 
-export const usePrevPage = (page: number) => {
-  const prevPageRef = useRef<number>()
+// Keeps track of the previous url query.
+export const usePrevQuery = (query: ParsedUrlQuery) => {
+  const prevQueryRef = useRef<ParsedUrlQuery>()
   useEffect(() => {
-    prevPageRef.current = page
-  }, [page])
-  return prevPageRef.current
+    prevQueryRef.current = query
+  }, [query])
+  return prevQueryRef.current
 }

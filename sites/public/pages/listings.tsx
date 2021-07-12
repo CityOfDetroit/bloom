@@ -10,7 +10,7 @@ import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { useListingsData, usePrevPage } from "../lib/hooks"
+import { useListingsData, usePrevQuery } from "../lib/hooks"
 
 const ListingsPage = () => {
   const router = useRouter()
@@ -19,21 +19,29 @@ const ListingsPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
 
-  const prevPage = usePrevPage(currentPage)
+  const prevQuery = usePrevQuery(router.query)
+  const prevPage = prevQuery && "page" in prevQuery ? prevQuery.page : 1
 
   useEffect(() => {
-    if (currentPage != prevPage) {
-      setCurrentPage(1)
-    }
+    setCurrentPage(1)
   }, [itemsPerPage])
 
+  // If the page is updated from the UI.
   useEffect(() => {
     // Check if the page actually changed so we don't get stuck in an infinite loop
     if (currentPage != prevPage) {
-      void router.push("/listings?page=" + String(currentPage), undefined, { shallow: true })
+      void router.push(
+        {
+          pathname: "/listings",
+          query: { page: currentPage },
+        },
+        undefined,
+        { shallow: true }
+      )
     }
   }, [currentPage])
 
+  // If the url is updated manually.
   useEffect(() => {
     // Check if the page actually changed so we don't get stuck in an infinite loop
     if (router.query.page && Number(router.query.page) != prevPage) {
