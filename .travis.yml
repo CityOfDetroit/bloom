@@ -10,7 +10,6 @@ services:
 
 before_script:
   - yarn install:all
-  - yarn test:backend:core:testdbsetup
 
 jobs:
   include:
@@ -20,5 +19,17 @@ jobs:
       name: "Build public site"
     - script: yarn build:app:partners
       name: "Build partners site"
-    - script: yarn test:backend:core
+    - script: yarn test:backend:core:testdbsetup && yarn test:backend:core
       name: "Backend unit tests"
+
+addons:
+  postgresql: "12"
+  apt:
+    packages:
+    - postgresql-12
+    - postgresql-client-12
+
+env:
+  global:
+    PGPORT=5433
+    PGUSER=travis
