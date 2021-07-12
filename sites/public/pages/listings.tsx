@@ -65,21 +65,23 @@ export async function getStaticProps() {
   let closedListings = []
 
   try {
-    const response = await axios.get(process.env.listingServiceUrl)
+    const response = await axios.get(
+      process.env.listingServiceUrl + "?filter[$comparison]=<>&filter[status]=pending"
+    )
     const nowTime = moment()
-    openListings = response.data.filter((listing: Listing) => {
+    openListings = response.data.items.filter((listing: Listing) => {
       return (
         openDateState(listing) ||
         nowTime <= moment(listing.applicationDueDate) ||
         listing.applicationDueDate == null
       )
     })
-    closedListings = response.data.filter((listing: Listing) => {
+    closedListings = response.data.items.filter((listing: Listing) => {
       return nowTime > moment(listing.applicationDueDate)
     })
   } catch (error) {
     console.error(error)
   }
 
-  return { props: { openListings, closedListings } }
+  return { props: { openListings, closedListings }, revalidate: process.env.cacheRevalidate }
 }

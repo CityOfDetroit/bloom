@@ -1,13 +1,16 @@
 import {
   Body,
   CacheInterceptor,
+  CACHE_MANAGER,
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Post,
   Put,
   Query,
+  Headers,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -15,19 +18,25 @@ import {
 } from "@nestjs/common"
 import { ListingsService } from "./listings.service"
 import { ApiBearerAuth, ApiOperation, ApiProperty, ApiTags } from "@nestjs/swagger"
-import { ListingCreateDto, ListingDto, ListingUpdateDto } from "./dto/listing.dto"
+import { Cache } from "cache-manager"
+import {
+  ListingCreateDto,
+  ListingDto,
+  ListingUpdateDto,
+  PaginatedListingsDto,
+} from "./dto/listing.dto"
 import { ResourceType } from "../auth/decorators/resource-type.decorator"
 import { OptionalAuthGuard } from "../auth/guards/optional-auth.guard"
 import { AuthzGuard } from "../auth/guards/authz.guard"
-import { ApiImplicitQuery } from "@nestjs/swagger/dist/decorators/api-implicit-query.decorator"
 import { mapTo } from "../shared/mapTo"
 import { defaultValidationPipeOptions } from "../shared/default-validation-pipe-options"
 import { Expose } from "class-transformer"
 import { IsOptional, IsString } from "class-validator"
 import { ValidationsGroupsEnum } from "../shared/types/validations-groups-enum"
+import { PaginationQueryParams } from "../shared/dto/pagination.dto"
+import { clearCacheKeys } from "../libs/cacheLib"
 
-//TODO extend query params to add paginations
-export class ListingsListQueryParams {
+export class ListingsListQueryParams extends PaginationQueryParams {
   @Expose()
   @ApiProperty({
     type: String,
@@ -56,31 +65,46 @@ export class ListingsListQueryParams {
 @UseGuards(OptionalAuthGuard, AuthzGuard)
 @UsePipes(new ValidationPipe(defaultValidationPipeOptions))
 export class ListingsController {
-  constructor(private readonly listingsService: ListingsService) {}
+  cacheKeys: string[]
+  constructor(
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly listingsService: ListingsService
+  ) {
+    this.cacheKeys = ["/listings", "/listings?filter[$comparison]=%3C%3E&filter[status]=pending"]
+  }
 
   @Get()
   @ApiOperation({ summary: "List listings", operationId: "list" })
-  @ApiImplicitQuery({
-    name: "jsonpath",
-    required: false,
-    type: String,
-  })
   @UseInterceptors(CacheInterceptor)
-  async list(@Query() queryParams: ListingsListQueryParams): Promise<ListingDto[]> {
-    return mapTo(ListingDto, await this.listingsService.list(queryParams))
+  public async getAll(
+    @Headers("origin") origin: string,
+    @Query() queryParams: ListingsListQueryParams
+  ): Promise<PaginatedListingsDto> {
+    return await this.listingsService.list(origin, queryParams)
   }
 
   @Post()
   @ApiOperation({ summary: "Create listing", operationId: "create" })
   async create(@Body() listingDto: ListingCreateDto): Promise<ListingDto> {
-    return mapTo(ListingDto, await this.listingsService.create(listingDto))
+    const listing = await this.listingsService.create(listingDto)
+    /**
+     * clear list caches
+     * As we get more listings we'll want to update this to be more selective in clearing entries
+     */
+    await clearCacheKeys(this.cacheManager, this.cacheKeys)
+    return mapTo(ListingDto, listing)
   }
 
   @Get(`:listingId`)
   @ApiOperation({ summary: "Get listing by id", operationId: "retrieve" })
   @UseInterceptors(CacheInterceptor)
   async retrieve(@Param("listingId") listingId: string): Promise<ListingDto> {
-    return mapTo(ListingDto, await this.listingsService.findOne(listingId))
+    if (listingId === undefined || listingId === "undefined") {
+      return mapTo(ListingDto, {})
+    }
+    const result = mapTo(ListingDto, await this.listingsService.findOne(listingId))
+
+    return result
   }
 
   @Put(`:listingId`)
@@ -89,12 +113,19 @@ export class ListingsController {
     @Param("listingId") listingId: string,
     @Body() listingUpdateDto: ListingUpdateDto
   ): Promise<ListingDto> {
-    return mapTo(ListingDto, await this.listingsService.update(listingUpdateDto))
+    const listing = await this.listingsService.update(listingUpdateDto)
+    /**
+     * clear list caches
+     * As we get more listings we'll want to update this to be more selective in clearing entries
+     */
+    await clearCacheKeys(this.cacheManager, [...this.cacheKeys, `/listings/${listingId}`])
+    return mapTo(ListingDto, listing)
   }
 
   @Delete(`:listingId`)
   @ApiOperation({ summary: "Delete listing by id", operationId: "delete" })
   async delete(@Param("listingId") listingId: string) {
     await this.listingsService.delete(listingId)
+    await clearCacheKeys(this.cacheManager, [...this.cacheKeys, `/listings/${listingId}`])
   }
 }
