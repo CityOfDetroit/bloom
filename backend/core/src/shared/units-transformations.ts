@@ -205,6 +205,7 @@ const summarizeUnitsByTypeAndRent = (units: Units, reservedType?: string): UnitS
       return getUnitsSummary(unit, index === 0 ? null : summary)
     }, {} as UnitSummary)
     finalSummary.totalAvailable = unitMap[key].filter((unit) => unit.status === "available").length
+    finalSummary.totalCount = unitMap[key].length
     summaries.push(finalSummary)
   }
 

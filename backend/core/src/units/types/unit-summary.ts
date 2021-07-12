@@ -48,6 +48,12 @@ export class UnitSummary {
 
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @ApiProperty()
+  totalCount: number
+
+  @Expose()
+  @IsDefined({ groups: [ValidationsGroupsEnum.default] })
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => MinMax)
   @ApiProperty()

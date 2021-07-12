@@ -31,6 +31,7 @@ const summaries: {
     {
       unitType: "studio",
       totalAvailable: 41,
+      totalCount: 73,
       minIncomeRange: { min: "$1,438", max: "$2,208" },
       occupancyRange: { min: 1, max: 2 },
       rentAsPercentIncomeRange: { min: 10, max: 80 },
@@ -43,6 +44,7 @@ const summaries: {
     {
       unitType: "studio",
       totalAvailable: 41,
+      totalCount: 73,
       minIncomeRange: { min: "$1,438", max: "$2,208" },
       occupancyRange: { min: 1, max: 2 },
       rentAsPercentIncomeRange: { min: 10, max: 80 },
@@ -54,6 +56,7 @@ const summaries: {
     {
       unitType: "studio",
       totalAvailable: 40,
+      totalCount: 50,
       minIncomeRange: { min: "$1,438", max: "$2,208" },
       occupancyRange: { min: 1, max: 2 },
       rentAsPercentIncomeRange: { min: null, max: null },
@@ -69,6 +72,7 @@ const summaries: {
         {
           unitType: "studio",
           totalAvailable: 1,
+          totalCount: 1,
           minIncomeRange: { min: "$2,208", max: "$2,208" },
           occupancyRange: { min: 1, max: 2 },
           rentAsPercentIncomeRange: { min: null, max: null },
@@ -86,6 +90,7 @@ const summaries: {
         {
           unitType: "studio",
           totalAvailable: 24,
+          totalCount: 28,
           minIncomeRange: { min: "$2,208", max: "$2,208" },
           occupancyRange: { min: 1, max: 2 },
           rentAsPercentIncomeRange: { min: null, max: null },
@@ -101,6 +106,7 @@ const summaries: {
             {
               unitType: "studio",
               totalAvailable: 1,
+              totalCount: 3,
               minIncomeRange: { min: "$2,208", max: "$2,208" },
               occupancyRange: { min: 1, max: 2 },
               rentAsPercentIncomeRange: { min: null, max: null },
@@ -118,6 +124,7 @@ const summaries: {
         {
           unitType: "studio",
           totalAvailable: 16,
+          totalCount: 23,
           minIncomeRange: { min: "$1,438", max: "$1,438" },
           occupancyRange: { min: 1, max: 2 },
           rentAsPercentIncomeRange: { min: null, max: null },
@@ -157,6 +164,7 @@ const unitSummariesHeaders = {
   minimumIncome: "t.minimumIncome",
   rent: "t.rent",
   availability: "t.availability",
+  totalCount: "t.totalCount",
 }
 
 const amiValues = summaries.amiPercentages
