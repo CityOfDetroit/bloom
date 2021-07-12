@@ -80,4 +80,5 @@ const ListingsPage = () => {
     </Layout>
   )
 }
+
 export default ListingsPage
