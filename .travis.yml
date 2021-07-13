@@ -6,11 +6,7 @@ node_js:
 
 services:
   - redis-server
-
-before_install:
-  - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
-  - sudo service postgresql restart 12
-  - sleep 1
+  - postgresql
 
 before_script:
   - yarn install:all
@@ -27,13 +23,14 @@ jobs:
       name: "Backend unit tests"
 
 addons:
-  postgresql: "12"
+  postgresql: "11"
   apt:
     packages:
-    - postgresql-12
-    - postgresql-client-12
+    - postgresql-11
+    - postgresql-client-11
 
 env:
   global:
     PGPORT=5433
+    PGUSER=travis
     TEST_DATABASE_URL=postgres://localhost:5433/bloom_test
