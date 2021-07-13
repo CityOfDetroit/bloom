@@ -37,7 +37,7 @@ import { ValidationsGroupsEnum } from "../shared/types/validations-groups-enum"
 import { PaginationQueryParams } from "../shared/dto/pagination.dto"
 import { clearCacheKeys } from "../libs/cacheLib"
 
-export class ListingsListQueryParams extends PaginationQueryParams {
+export class ListingsQueryParams extends PaginationQueryParams {
   @Expose()
   @ApiProperty({
     name: "filter",
@@ -50,17 +50,6 @@ export class ListingsListQueryParams extends PaginationQueryParams {
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   filter?: [ListingFilterParams]
-
-  @Expose()
-  @ApiProperty({
-    type: String,
-    example: "Fox Creek",
-    required: false,
-    description: "The neighborhood to filter by",
-  })
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  @IsString({ groups: [ValidationsGroupsEnum.default] })
-  neighborhood?: string
 
   @Expose()
   @ApiProperty({
@@ -93,7 +82,7 @@ export class ListingsController {
   @UseInterceptors(CacheInterceptor)
   public async getAll(
     @Headers("origin") origin: string,
-    @Query() queryParams: ListingsListQueryParams
+    @Query() queryParams: ListingsQueryParams
     // TODO: Add options param here for paging and sorting
   ): Promise<PaginatedListingsDto> {
     return await this.listingsService.list(origin, queryParams)
