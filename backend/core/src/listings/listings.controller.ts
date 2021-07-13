@@ -17,17 +17,27 @@ import {
   ValidationPipe,
 } from "@nestjs/common"
 import { ListingsService } from "./listings.service"
-import { ApiBearerAuth, ApiOperation, ApiProperty, ApiTags } from "@nestjs/swagger"
+import {
+  ApiBearerAuth,
+  ApiExtraModels,
+  ApiOperation,
+  ApiQuery,
+  ApiProperty,
+  ApiTags,
+  getSchemaPath,
+} from "@nestjs/swagger"
 import { Cache } from "cache-manager"
 import {
   ListingCreateDto,
   ListingDto,
   ListingUpdateDto,
   PaginatedListingsDto,
+  ListingFilterParams,
 } from "./dto/listing.dto"
 import { ResourceType } from "../auth/decorators/resource-type.decorator"
 import { OptionalAuthGuard } from "../auth/guards/optional-auth.guard"
 import { AuthzGuard } from "../auth/guards/authz.guard"
+import { ApiImplicitQuery } from "@nestjs/swagger/dist/decorators/api-implicit-query.decorator"
 import { mapTo } from "../shared/mapTo"
 import { defaultValidationPipeOptions } from "../shared/default-validation-pipe-options"
 import { Expose } from "class-transformer"
@@ -75,12 +85,37 @@ export class ListingsController {
 
   @Get()
   @ApiOperation({ summary: "List listings", operationId: "list" })
+  @ApiImplicitQuery({
+    name: "jsonpath",
+    required: false,
+    type: String,
+  })
+  @ApiExtraModels(ListingFilterParams)
+  @ApiQuery({
+    name: "filter",
+    required: false,
+    type: [String],
+    schema: {
+      type: "array",
+      example: [
+        { $comparison: "=", status: "active" },
+        { $comparison: "<>", name: "Coliseum" },
+      ],
+      items: {
+        $ref: getSchemaPath(ListingFilterParams),
+      },
+    },
+  })
   @UseInterceptors(CacheInterceptor)
   public async getAll(
     @Headers("origin") origin: string,
-    @Query() queryParams: ListingsListQueryParams
+    @Query() queryParams: ListingsListQueryParams, // todo remove?
+    @Query("jsonpath") jsonpath?: string,
+    @Query("filter") filter?: ListingFilterParams[]
+    // TODO: Add options param here for paging and sorting
   ): Promise<PaginatedListingsDto> {
-    return await this.listingsService.list(origin, queryParams)
+    // return await this.listingsService.list(origin, queryParams)
+    return await this.listingsService.list(origin, jsonpath, filter)
   }
 
   @Post()
