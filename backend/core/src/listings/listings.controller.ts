@@ -17,7 +17,7 @@ import {
   ValidationPipe,
 } from "@nestjs/common"
 import { ListingsService } from "./listings.service"
-import { ApiBearerAuth, ApiOperation, ApiProperty, ApiTags } from "@nestjs/swagger"
+import { ApiBearerAuth, ApiOperation, ApiProperty, ApiTags, getSchemaPath } from "@nestjs/swagger"
 import { Cache } from "cache-manager"
 import {
   ListingCreateDto,
@@ -39,21 +39,14 @@ import { clearCacheKeys } from "../libs/cacheLib"
 
 export class ListingsListQueryParams extends PaginationQueryParams {
   @Expose()
-  // @ApiExtraModels(ListingFilterParams)
   @ApiProperty({
     name: "filter",
     required: false,
     type: [String],
-    // schema: {
-    //   type: "array",
-    //   example: [
-    //     { $comparison: "=", status: "active" },
-    //     { $comparison: "<>", name: "Coliseum" },
-    //   ],
-    //   items: {
-    //     $ref: getSchemaPath(ListingFilterParams),
-    //   },
-    // },
+    items: {
+      $ref: getSchemaPath(ListingFilterParams),
+    },
+    example: { $comparison: ["=", "<>"], status: "active", name: "Coliseum" },
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   filter?: [ListingFilterParams]
@@ -94,16 +87,15 @@ export class ListingsController {
     this.cacheKeys = ["/listings", "/listings?filter[$comparison]=%3C%3E&filter[status]=pending"]
   }
 
+  // TODO: limit requests to defined fields
   @Get()
   @ApiOperation({ summary: "List listings", operationId: "list" })
   @UseInterceptors(CacheInterceptor)
   public async getAll(
     @Headers("origin") origin: string,
-    @Query() queryParams: ListingsListQueryParams // todo remove?
-    // @Query("filter") filter?: ListingFilterParams[]
+    @Query() queryParams: ListingsListQueryParams
     // TODO: Add options param here for paging and sorting
   ): Promise<PaginatedListingsDto> {
-    // return await this.listingsService.list(origin, queryParams)
     return await this.listingsService.list(origin, queryParams)
   }
 
