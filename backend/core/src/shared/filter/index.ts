@@ -1,4 +1,6 @@
+import { HttpException, HttpStatus } from "@nestjs/common"
 import { WhereExpression } from "typeorm"
+import { Filters } from "../../shared/dto/filter.dto"
 
 /**
  *
@@ -36,14 +38,35 @@ export function addFilter<Filter>(filter: Filter[], schema: string, qb: WhereExp
           values = [value]
         }
 
-        values.forEach((val: unknown) => {
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          qb[operator](`${schema}.${key} ${comparisons[comparisonCount]} :${key}`, {
-            [key]: val,
-          })
-          comparisonCount++
-        })
+        switch (key.toUpperCase()) {
+          case Filters.status:
+          case Filters.name:
+            addFilterClause(values, key)
+            break
+          case Filters.neighborhood:
+            values.forEach((val: unknown) => {
+              // TODO add support for multiple neighborhoods by using a sub orWhere expression
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              qb[operator](`property.neighborhood ${comparisons[comparisonCount]} :neighborhood`, {
+                neighborhood: val,
+              })
+              comparisonCount++
+            })
+            break
+          default:
+            throw new HttpException("Filter Not Implemented", HttpStatus.NOT_IMPLEMENTED)
+        }
       }
     }
+  }
+
+  function addFilterClause(values: [string], key: string) {
+    values.forEach((val: unknown) => {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      qb[operator](`${schema}.${key} ${comparisons[comparisonCount]} :${key}`, {
+        [key]: val,
+      })
+      comparisonCount++
+    })
   }
 }
