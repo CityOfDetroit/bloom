@@ -9,6 +9,7 @@ export { ApplicationMethodType } from "./src/listings/types/application-method-t
 export { ApplicationMethodDto } from "./src/listings/dto/application-method.dto"
 export { MinMax } from "./src/units/types/min-max"
 export { MinMaxCurrency } from "./src/units/types/min-max-currency"
+export { UnitStatus } from "./src/units/types/unit-status-enum"
 export { UnitSummary } from "./src/units/types/unit-summary"
 export { UnitSummaryByReservedType } from "./src/units/types/unit-summary-by-reserved-type"
 export { UnitSummaryByAMI } from "./src/units/types/unit-summary-by-ami"

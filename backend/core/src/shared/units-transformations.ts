@@ -1,4 +1,4 @@
-import { UnitStatus } from "src/units/types/unit-status-enum"
+import { UnitStatus } from "../units/types/unit-status-enum"
 import { Unit } from "../units/entities/unit.entity"
 import { MinMax } from "../units/types/min-max"
 import { MinMaxCurrency } from "../units/types/min-max-currency"

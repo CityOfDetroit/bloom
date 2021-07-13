@@ -20,7 +20,7 @@ import { ListingEventType } from "../listings/types/listing-event-type-enum"
 import { InputType } from "../shared/types/input-type"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
 import { AssetCreateDto } from "../assets/dto/asset.dto"
-import { UnitStatus } from "src/units/types/unit-status-enum"
+import { UnitStatus } from "../units/types/unit-status-enum"
 
 type PropertySeedType = Omit<
   PropertyCreateDto,
