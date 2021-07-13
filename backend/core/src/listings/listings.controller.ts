@@ -17,15 +17,7 @@ import {
   ValidationPipe,
 } from "@nestjs/common"
 import { ListingsService } from "./listings.service"
-import {
-  ApiBearerAuth,
-  ApiExtraModels,
-  ApiOperation,
-  ApiQuery,
-  ApiProperty,
-  ApiTags,
-  getSchemaPath,
-} from "@nestjs/swagger"
+import { ApiBearerAuth, ApiOperation, ApiProperty, ApiTags } from "@nestjs/swagger"
 import { Cache } from "cache-manager"
 import {
   ListingCreateDto,
@@ -37,7 +29,6 @@ import {
 import { ResourceType } from "../auth/decorators/resource-type.decorator"
 import { OptionalAuthGuard } from "../auth/guards/optional-auth.guard"
 import { AuthzGuard } from "../auth/guards/authz.guard"
-import { ApiImplicitQuery } from "@nestjs/swagger/dist/decorators/api-implicit-query.decorator"
 import { mapTo } from "../shared/mapTo"
 import { defaultValidationPipeOptions } from "../shared/default-validation-pipe-options"
 import { Expose } from "class-transformer"
@@ -47,6 +38,26 @@ import { PaginationQueryParams } from "../shared/dto/pagination.dto"
 import { clearCacheKeys } from "../libs/cacheLib"
 
 export class ListingsListQueryParams extends PaginationQueryParams {
+  @Expose()
+  // @ApiExtraModels(ListingFilterParams)
+  @ApiProperty({
+    name: "filter",
+    required: false,
+    type: [String],
+    // schema: {
+    //   type: "array",
+    //   example: [
+    //     { $comparison: "=", status: "active" },
+    //     { $comparison: "<>", name: "Coliseum" },
+    //   ],
+    //   items: {
+    //     $ref: getSchemaPath(ListingFilterParams),
+    //   },
+    // },
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  filter?: [ListingFilterParams]
+
   @Expose()
   @ApiProperty({
     type: String,
@@ -85,37 +96,15 @@ export class ListingsController {
 
   @Get()
   @ApiOperation({ summary: "List listings", operationId: "list" })
-  @ApiImplicitQuery({
-    name: "jsonpath",
-    required: false,
-    type: String,
-  })
-  @ApiExtraModels(ListingFilterParams)
-  @ApiQuery({
-    name: "filter",
-    required: false,
-    type: [String],
-    schema: {
-      type: "array",
-      example: [
-        { $comparison: "=", status: "active" },
-        { $comparison: "<>", name: "Coliseum" },
-      ],
-      items: {
-        $ref: getSchemaPath(ListingFilterParams),
-      },
-    },
-  })
   @UseInterceptors(CacheInterceptor)
   public async getAll(
     @Headers("origin") origin: string,
-    @Query() queryParams: ListingsListQueryParams, // todo remove?
-    @Query("jsonpath") jsonpath?: string,
-    @Query("filter") filter?: ListingFilterParams[]
+    @Query() queryParams: ListingsListQueryParams // todo remove?
+    // @Query("filter") filter?: ListingFilterParams[]
     // TODO: Add options param here for paging and sorting
   ): Promise<PaginatedListingsDto> {
     // return await this.listingsService.list(origin, queryParams)
-    return await this.listingsService.list(origin, jsonpath, filter)
+    return await this.listingsService.list(origin, queryParams)
   }
 
   @Post()
