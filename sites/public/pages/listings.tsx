@@ -10,7 +10,7 @@ import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { useListingsData, usePrevQuery } from "../lib/hooks"
+import { useListingsData } from "../lib/hooks"
 
 const ListingsPage = () => {
   const router = useRouter()
@@ -19,11 +19,8 @@ const ListingsPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
 
-  const prevQuery = usePrevQuery(router.query)
-  const prevPage = prevQuery && "page" in prevQuery ? prevQuery.page : 1
-
   function setPage(page: number) {
-    if (page != prevPage) {
+    if (page != currentPage) {
       void router.push(
         {
           pathname: "/listings",

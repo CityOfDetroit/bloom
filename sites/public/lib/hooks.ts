@@ -57,12 +57,3 @@ export function useListingsData(pageIndex: number, limit = 10) {
     listingsError: error,
   }
 }
-
-// Keeps track of the previous url query.
-export const usePrevQuery = (query: ParsedUrlQuery) => {
-  const prevQueryRef = useRef<ParsedUrlQuery>()
-  useEffect(() => {
-    prevQueryRef.current = query
-  }, [query])
-  return prevQueryRef.current
-}
