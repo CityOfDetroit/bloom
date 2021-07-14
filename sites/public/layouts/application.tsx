@@ -10,12 +10,12 @@ import {
   ExygyFooter,
   UserNav,
   t,
-  UserContext,
+  AuthContext,
   setSiteAlertMessage,
 } from "@bloom-housing/ui-components"
 
 const Layout = (props) => {
-  const { profile, signOut } = useContext(UserContext)
+  const { profile, signOut } = useContext(AuthContext)
   const router = useRouter()
 
   const languages =
@@ -40,12 +40,12 @@ const Layout = (props) => {
             codes: router?.locales,
           }}
         >
-          <Link href="/listings">
+          <Link href="/listings?page=1">
             <a className="navbar-item">{t("nav.listings")}</a>
           </Link>
           {/* Only show Get Assistance if housing counselor data is available */}
           {process.env.housingCounselorServiceUrl && (
-            <Link href={process.env.housingCounselorServiceUrl}>
+            <Link href="/housing-counselors">
               <a className="navbar-item">{t("nav.getAssistance")}</a>
             </Link>
           )}

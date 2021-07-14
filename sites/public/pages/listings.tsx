@@ -10,20 +10,46 @@ import {
 } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
 
 const ListingsPage = () => {
+  const router = useRouter()
+
   /* Pagination state */
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
   const [filterState, setFilterState] = useState<string>()
-  const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
 
-  // Reset page to 1 when user changes items per page.
+  function setPage(page: number) {
+    if (page != currentPage) {
+      void router.push(
+        {
+          pathname: "/listings",
+          query: { page: page },
+        },
+        undefined,
+        { shallow: true }
+      ) 
+      setCurrentPage(page)  
+    } 
+  }
+
   useEffect(() => {
-    setCurrentPage(1)
+    if (currentPage != 1) {
+      setPage(1)
+    }
   }, [itemsPerPage])
+
+  // Checks if the url is updated manually.
+  useEffect(() => {
+    if (router.query.page && Number(router.query.page) != currentPage) {
+      setCurrentPage(Number(router.query.page))
+    }
+  }, [router.query.page])
+
+  const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
 
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
@@ -43,14 +69,14 @@ const ListingsPage = () => {
               Filter to Foster City
             </Button>
           </div>
-          <ListingsList listings={listingsData.items} />
+          {listingsData && <ListingsList listings={listingsData.items} />}
           <AgPagination
-            totalItems={listingsData.meta.totalItems}
-            totalPages={listingsData.meta.totalPages}
+            totalItems={listingsData?.meta.totalItems}
+            totalPages={listingsData?.meta.totalPages}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
             quantityLabel={t("applications.totalApplications")}
-            setCurrentPage={setCurrentPage}
+            setCurrentPage={setPage}
             setItemsPerPage={setItemsPerPage}
           />
         </div>
