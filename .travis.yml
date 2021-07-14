@@ -16,7 +16,7 @@ before_script:
   - cp sites/public/.env.template sites/public/.env
   - cp sites/partners/.env.template sites/partners/.env
   - cp backend/core/.env.template backend/core/.env
-  - docker-compose up redis postgres -d
+  - docker-compose up -d redis postgres
   - yarn install:all
 
 jobs:
