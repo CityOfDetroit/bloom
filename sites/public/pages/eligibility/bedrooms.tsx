@@ -8,7 +8,6 @@ import {
   FormCard,
   t,
   Form,
-  preferredUnit,
   FieldGroup,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
@@ -25,21 +24,26 @@ const EligibilityBedrooms = () => {
     conductor.routeToNextOrReturnUrl()
   }
 
-  const preferredUnitOptions = preferredUnit?.map((item) => ({
-    id: item.id,
-    label: t(`application.household.preferredUnit.options.${item.id}`)
-  }))
+  const preferredUnitOptions = [
+    { id: "studio", label: t("eligibility.bedrooms.studio"),},
+    { id: "1", label: "1",},
+    { id: "2", label: "2",},
+    { id: "3", label: "3" },
+    { id: "4+", label: "4+" },
+  ]
 
   return (
     <FormsLayout>
       <FormCard>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group is-borderless">
-            <legend className="sr-only">{t("application.household.preferredUnit.legend")}</legend>
+            <legend className="sr-only">
+              {t("eligibility.bedrooms.srLabel")}
+            </legend>
             <FieldGroup
               type="checkbox"
               name="preferredUnit"
-              groupNote={t("eligibility.bedroomCountPrompt")}
+              groupNote={t("eligibility.bedrooms.prompt")}
               fields={preferredUnitOptions}
               error={errors.preferredUnit}
               errorMessage={t("errors.selectAtLeastOne")}
