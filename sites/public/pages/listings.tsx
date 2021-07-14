@@ -63,6 +63,7 @@ export default function ListingsPage(props: ListingsProps) {
         multiSelect
         closeMenu
         defaultValue={[{ value: "west_side", label: "West Side" }]}
+        onClick
       />
       <div>
         {openListings(props.openListings)}
