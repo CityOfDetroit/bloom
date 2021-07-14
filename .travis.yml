@@ -5,15 +5,15 @@ node_js:
   - 12
 
 services:
-  - redis-server
-  - postgresql
+  - docker
 
 before_install:
-  - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
-  - sudo service postgresql restart 11
+  - sudo service postgresql stop
+  - sudo service redis-server stop
   - sleep 1
 
 before_script:
+  - docker-compose up redis postgres -d
   - yarn install:all
 
 jobs:
@@ -27,15 +27,8 @@ jobs:
     - script: yarn test:backend:core:testdbsetup && yarn test:backend:core
       name: "Backend unit tests"
 
-addons:
-  postgresql: "11"
-  apt:
-    packages:
-    - postgresql-11
-    - postgresql-client-11
-
 env:
   global:
-    PGPORT=5433
     PGUSER=postgres
-    TEST_DATABASE_URL=postgres://localhost:5433/bloom_test
+    PGPASSWORD=postgres
+    TEST_DATABASE_URL=postgres://localhost:5432/bloom_test
