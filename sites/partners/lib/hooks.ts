@@ -1,9 +1,7 @@
 import { useContext } from "react"
 import useSWR, { mutate } from "swr"
-import { Listing } from "@bloom-housing/backend-core/types"
 
-
-import { ApiClientContext } from "@bloom-housing/ui-components"
+import { AuthContext } from "@bloom-housing/ui-components"
 
 type UseSingleApplicationDataProps = {
   listingId: string
@@ -12,7 +10,7 @@ type UseSingleApplicationDataProps = {
 }
 
 export function useSingleListingData(listingId: string) {
-  const { listingsService } = useContext(ApiClientContext)
+  const { listingsService } = useContext(AuthContext)
   const fetcher = () => listingsService.retrieve({ listingId })
 
   const { data, error } = useSWR(`${process.env.backendApiBase}/listings/${listingId}`, fetcher)
@@ -26,7 +24,7 @@ export function useSingleListingData(listingId: string) {
 
 /* TODO: move this function so it can be shared between public and partner sites.*/
 export function useListingsData() {
-  const { listingsService } = useContext(ApiClientContext)
+  const { listingsService } = useContext(AuthContext)
   const fetcher = () => listingsService.list()
 
   const { data, error } = useSWR(`${process.env.backendApiBase}/listings`, fetcher)
@@ -44,7 +42,7 @@ export function useApplicationsData(
   listingId: string,
   search: string
 ) {
-  const { applicationsService } = useContext(ApiClientContext)
+  const { applicationsService } = useContext(AuthContext)
 
   const searchParams = new URLSearchParams()
   searchParams.append("listingId", listingId)
@@ -78,7 +76,7 @@ export function useApplicationsData(
 }
 
 export function useSingleApplicationData(applicationId: string) {
-  const { applicationsService } = useContext(ApiClientContext)
+  const { applicationsService } = useContext(AuthContext)
   const backendSingleApplicationsEndpointUrl = `${process.env.backendApiBase}/applications/${applicationId}`
 
   const fetcher = () => applicationsService.retrieve({ applicationId })
@@ -96,7 +94,7 @@ export function useFlaggedApplicationsList({
   page,
   limit,
 }: UseSingleApplicationDataProps) {
-  const { applicationFlaggedSetsService } = useContext(ApiClientContext)
+  const { applicationFlaggedSetsService } = useContext(AuthContext)
 
   const searchParams = new URLSearchParams()
   searchParams.append("listingId", listingId)
@@ -121,7 +119,7 @@ export function useFlaggedApplicationsList({
 }
 
 export function useSingleFlaggedApplication(afsId: string) {
-  const { applicationFlaggedSetsService } = useContext(ApiClientContext)
+  const { applicationFlaggedSetsService } = useContext(AuthContext)
 
   const endpoint = `${process.env.backendApiBase}/applicationFlaggedSets/${afsId}`
   const fetcher = () =>
@@ -136,6 +134,19 @@ export function useSingleFlaggedApplication(afsId: string) {
   return {
     revalidate,
     data,
+    error,
+  }
+}
+
+export function useAmiChartList() {
+  const { amiChartsService } = useContext(AuthContext)
+  const fetcher = () => amiChartsService.list()
+
+  const { data, error } = useSWR(`${process.env.backendApiBase}/amiCharts`, fetcher)
+
+  return {
+    data,
+    loading: !error && !data,
     error,
   }
 }
