@@ -60,8 +60,8 @@ export default function ListingsPage(props: ListingsProps) {
           { value: "corktown", label: "Corktown" },
           { value: "greektown", label: "Greektown" },
         ]}
-        multiSelect
-        closeMenu
+        isMultiSelect
+        closeMenuOnSelect
         defaultValue={[{ value: "west_side", label: "West Side" }]}
         onClick
       />

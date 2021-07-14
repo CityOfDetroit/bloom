@@ -3,9 +3,9 @@ import Select, { OptionsType } from "react-select"
 
 export interface SelectorProps {
   options?: { value: string; label: string }[]
-  closeMenu?: boolean
+  closeMenuOnSelect?: boolean
   defaultValue?: { value: string; label: string }[]
-  multiSelect?: boolean
+  isMultiSelect?: boolean
   onClick?: boolean
 }
 
@@ -20,8 +20,8 @@ const Selector = (props: SelectorProps) => {
     <div>
       <Select
         options={props.options}
-        isMulti={props.multiSelect}
-        closeMenuOnSelect={props.closeMenu}
+        isMulti={props.isMultiSelect}
+        closeMenuOnSelect={props.closeMenuOnSelect}
         defaultValue={props.defaultValue}
         onChange={(onClick) => handleFilterChange(onClick)}
       />
