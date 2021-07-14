@@ -13,6 +13,9 @@ before_install:
   - sleep 1
 
 before_script:
+  - cp sites/public/.env.template sites/public/.env
+  - cp sites/partners/.env.template sites/partners/.env
+  - cp backend/core/.env.template backend/core/.env
   - docker-compose up redis postgres -d
   - yarn install:all
 
@@ -32,3 +35,4 @@ env:
     PGUSER=postgres
     PGPASSWORD=postgres
     TEST_DATABASE_URL=postgres://localhost:5432/bloom_test
+    # REDIS_TLS_URL=redis://127.0.0.1:6379/0
