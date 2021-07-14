@@ -63,12 +63,20 @@ export default function ListingsPage(props: ListingsProps) {
       <PageHeader title={t("pageTitle.rent")} />
       <Modal
         open={filterModalVisible}
-        title={"test"}
+        title={"Filter Housing"}
         ariaDescription={"testing aria"}
-        actions={[<Button onClick={() => setFilterModalVisible(false)}>hi</Button>]}
+        actions={[
+          <Button onClick={() => setFilterModalVisible(false)}>Apply</Button>,
+          <Button onClick={() => setFilterModalVisible(false)}>Close</Button>,
+        ]}
         hideCloseIcon
       >
-        {"test modal"}
+        <label>Neighboorhood: </label>
+        <div></div>
+        <select>
+          <option value={"east"}>East Side</option>
+          <option value={"corkTown"}>Cork Town</option>
+        </select>
       </Modal>
       <Drawer
         open={filterDrawerVisible}
