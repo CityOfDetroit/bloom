@@ -4492,14 +4492,15 @@ export enum ListingEventType {
   'publicLottery' = 'publicLottery',
   'lotteryResults' = 'lotteryResults'
 }
-export type CombinedApplicationAddressTypes = AddressUpdate;
-export type CombinedApplicationPickUpAddressTypes = AddressUpdate;
-export type CombinedApplicationDropOffAddressTypes = AddressCreate;
-export type CombinedApplicationMailingAddressTypes = AddressCreate;
-export type CombinedImageTypes = AssetCreate;
-export type CombinedLeasingAgentAddressTypes = AddressUpdate;
-export type CombinedResultTypes = AssetCreate;
-export type CombinedWhatToExpectTypes = WhatToExpect;
+export type CombinedApplicationAddressTypes = (AddressUpdate & any) | null;
+export type CombinedApplicationPickUpAddressTypes = (AddressUpdate & any) |
+  null;
+export type CombinedImageTypes = (AssetCreate & any) | null;
+export type CombinedLeasingAgentAddressTypes = (AddressUpdate & any) | null;
+export type CombinedResultTypes = (AssetCreate & any) | null;
+export type CombinedWhatToExpectTypes = (WhatToExpect & any) | null;
+export type CombinedApplicationDropOffAddressTypes = (AddressCreate & any) | null;
+export type CombinedApplicationMailingAddressTypes = (AddressCreate & any) | null;
 export enum UserRole {
   'user' = 'user',
   'admin' = 'admin'
