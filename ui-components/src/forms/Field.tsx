@@ -66,6 +66,9 @@ const Field = (props: FieldProps) => {
     if (props.caps) labelClasses.push("field-label--caps")
     if (props.primary) labelClasses.push("text-primary")
     if (props.readerOnly) labelClasses.push("sr-only")
+    if (props.isLabelAfterField && !isRadioOrCheckbox) {
+      labelClasses.push("field-label-extra-space")
+    }
 
     return (
       <label className={labelClasses.join(" ")} htmlFor={props.id || props.name}>
