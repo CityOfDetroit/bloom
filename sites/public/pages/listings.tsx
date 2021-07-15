@@ -21,21 +21,23 @@ const ListingsPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
   const [filterState, setFilterState] = useState<string>(null)
-  
-  function setPage(page: number) {
-    if (page != currentPage) {
+
+  function setPage(page: number, filter = filterState) {
+    if (page != currentPage || filter != filterState) {
       setCurrentPage(page)
+      setFilterState(filter)
       void router.push(
         {
           pathname: "/listings",
-          query: { 
+          query: {
             page: page,
-            neighborhood: filterState },
+            neighborhood: filter,
+          },
         },
         undefined,
         { shallow: true }
-      )  
-    } 
+      )
+    }
   }
 
   useEffect(() => {
@@ -44,22 +46,22 @@ const ListingsPage = () => {
     }
   }, [itemsPerPage])
 
-  // Checks if the url is updated manually.
+  // Checks for changes in url params.
   useEffect(() => {
     if (router.query.page && Number(router.query.page) != currentPage) {
       setCurrentPage(Number(router.query.page))
-    } else if (router.query.neighborhood && router.query.neighborhood != filterState) {
-      
+    }
+    if (router.query.neighborhood && router.query.neighborhood != filterState) {
+      setFilterState(String(router.query.neighborhood))
     }
   }, [router.query])
 
   function toggleFilter() {
+    let filter = null
     if (!filterState) {
-      setFilterState("Foster City")
-    } else {
-      setFilterState(null)
+      filter = "Foster City"
     }
-    setPage(1)
+    setPage(1, filter)
   }
 
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
