@@ -8,12 +8,13 @@ import {
   FormCard,
   t,
   Form,
-  FieldGroup,
+  FieldGroup, ProgressNav,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
 import React from "react"
 import {useRouter} from 'next/router';
+import {ELIGIBILITY_SECTIONS} from '../../lib/constants';
 
 const EligibilityBedrooms = () => {
   const router = useRouter();
@@ -34,6 +35,13 @@ const EligibilityBedrooms = () => {
 
   return (
     <FormsLayout>
+      <FormCard header={t("eligibility.progress.header")}>
+        <ProgressNav
+            currentPageSection={2}
+            completedSections={1}
+            labels={ELIGIBILITY_SECTIONS.map((label) => t(`eligibility.progress.sections.${label}`))}
+        />
+      </FormCard>
       <FormCard>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group is-borderless">
