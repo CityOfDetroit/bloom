@@ -70,7 +70,6 @@ async function uploadProperty(property) {
 }
 
 export async function importListing(apiUrl, email, password, listing) {
-  console.log("importListing")
   serviceOptions.axios = axios.create({
     baseURL: apiUrl,
     timeout: 10000,
