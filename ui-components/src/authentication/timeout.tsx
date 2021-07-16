@@ -8,7 +8,7 @@ import { AlertTypes } from "../notifications/alertTypes"
 import { t } from "../helpers/translator"
 import { AppearanceStyleType } from "../global/AppearanceTypes"
 
-const PROMPT_TIMEOUT = 1000
+const PROMPT_TIMEOUT = 60000
 const events = ["mousemove", "keypress", "scroll"]
 
 function useIdleTimeout(timeoutMs: number, onTimeout: () => void) {

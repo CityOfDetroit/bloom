@@ -76,8 +76,7 @@ export default function ListingsPage(props: ListingsProps) {
       <PageHeader title={t("pageTitle.rent")} />
       <Modal
         open={filterModalVisible}
-        title={"Filter Results"}
-        ariaDescription={"testing aria"}
+        title={t("listingFilters.modelTitle")}
         actions={[
           <Button
             onClick={() => setFilterModalVisible(false)}
@@ -97,42 +96,36 @@ export default function ListingsPage(props: ListingsProps) {
       >
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group">
-            <p className="field-note mb-4">
-              {t("Use these options to refine your list of properties.")}
-            </p>
+            <p className="field-note mb-4">{t("listingFilters.modelHeader")}</p>
             <Select
               id="filter.unitOptions"
               name="filter.unitOptions"
-              //placeholder={t("Placeholder text")}
-              label={t("unitOptions.label")}
+              label={t("listingFilters.unitOptions.label")}
               validation={{ required: true }}
-              //defaultValue={t("eligibility.income.ranges")}
               register={register}
               controlClassName="control"
               options={preferredUnitOptions}
-              keyPrefix="unitOptions.unitOptionsTypes"
+              keyPrefix="listingFilters.unitOptions.unitOptionsTypes"
             />
             <Select
               id="filter.accessibilityOptions"
               name="filter.accessibilityOptions"
-              label={t("accessibilityOptions.label")}
+              label={t("listingFilters.accessibilityOptions.label")}
               validation={{ required: true }}
               register={register}
               controlClassName="control"
               options={accessibilityOptions}
-              keyPrefix="accessibilityOptions.accessibilityOptionsTypes"
+              keyPrefix="listingFilters.accessibilityOptions.accessibilityOptionsTypes"
             />
             <Select
               id="filter.communityOptions"
               name="filter.communityOptions"
-              //placeholder={t("Placeholder text")}
-              label={t("communityOptions.label")}
+              label={t("listingFilters.communityOptions.label")}
               validation={{ required: true }}
-              //defaultValue={t("eligibility.income.ranges")}
               register={register}
               controlClassName="control"
               options={communityOptions}
-              keyPrefix="communityOptions.communityOptionsTypes"
+              keyPrefix="listingFilters.communityOptions.communityOptionsTypes"
             />
           </div>
         </Form>
@@ -141,7 +134,6 @@ export default function ListingsPage(props: ListingsProps) {
         open={filterDrawerVisible}
         title="Drawer Title"
         onClose={() => setFilterDrawerVisible(false)}
-        ariaDescription="My Drawer"
         actions={[
           <Button
             key={0}
@@ -160,9 +152,7 @@ export default function ListingsPage(props: ListingsProps) {
           </Button>,
         ]}
       >
-        <section className="border rounded-md p-8 bg-white">
-          <p>Test</p>
-        </section>
+        <p>Placeholder for future text</p>
       </Drawer>
       <div className="max-w-3xl m-auto">
         <Button size={AppearanceSizeType.small} onClick={() => setFilterModalVisible(true)}>
