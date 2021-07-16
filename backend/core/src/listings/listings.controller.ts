@@ -83,7 +83,6 @@ export class ListingsController {
   public async getAll(
     @Headers("origin") origin: string,
     @Query() queryParams: ListingsQueryParams
-    // TODO: Add options param here for paging and sorting
   ): Promise<PaginatedListingsDto> {
     return await this.listingsService.list(origin, queryParams)
   }
