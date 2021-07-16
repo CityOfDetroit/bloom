@@ -11,9 +11,9 @@ import {
   t,
   Select,
   AgPagination,
+  Form,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
-import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
@@ -46,7 +46,7 @@ const ListingsPage = () => {
     if (router.query.page && Number(router.query.page) != currentPage) {
       setCurrentPage(Number(router.query.page))
     }
-  }, [router.query.page])
+  }, [currentPage, router.query.page])
 
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage)
 
@@ -75,7 +75,7 @@ const ListingsPage = () => {
       <PageHeader title={t("pageTitle.rent")} />
       <Modal
         open={filterModalVisible}
-        title={t("listingFilters.modelTitle")}
+        title={t("listingFilters.modalTitle")}
         actions={[
           <Button
             onClick={() => setFilterModalVisible(false)}
@@ -95,7 +95,7 @@ const ListingsPage = () => {
       >
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group">
-            <p className="field-note mb-4">{t("listingFilters.modelHeader")}</p>
+            <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
               id="filter.unitOptions"
               name="filter.unitOptions"

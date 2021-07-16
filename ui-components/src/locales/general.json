@@ -1199,11 +1199,10 @@
     "bePreparedIfChosen": "Should your application be chosen, be prepared to fill out a more detailed application and provide required supporting documents."
   },
   "listingFilters":{
-    "modelTitle":"Filter Results",
-    "modelHeader":"Use these options to refine your list of properties.",
+    "modalTitle":"Filter Results",
+    "modalHeader":"Use these options to refine your list of properties.",
     "unitOptions":{
       "label": "Unit Size:",
-      "description":"",
       "unitOptionsTypes": {
         "1": "1 Bedroom",
         "2": "2 Bedrooms",
@@ -1214,7 +1213,6 @@
     },
     "accessibilityOptions":{
       "label": "Accessible:",
-      "description":"",
       "accessibilityOptionsTypes": {
         "y": "Yes",
         "n": "No"
@@ -1222,7 +1220,6 @@
     },
     "communityOptions":{
       "label": "Community:",
-      "description":"",
       "communityOptionsTypes": {
         "general": "General",
         "senior": "Senior",
