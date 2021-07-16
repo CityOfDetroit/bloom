@@ -38,6 +38,7 @@ export function addFilter<Filter>(filter: Filter[], schema: string, qb: WhereExp
           values = [value]
         }
 
+        // TODO(#202): Refactor this out into a provided map, so addFilter() is generic again
         switch (key.toUpperCase()) {
           case Filters.status:
           case Filters.name:

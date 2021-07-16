@@ -79,7 +79,7 @@ export class ListingsController {
   // TODO: limit requests to defined fields
   @Get()
   @ApiOperation({ summary: "List listings", operationId: "list" })
-  @UseInterceptors(CacheInterceptor)
+  // @UseInterceptors(CacheInterceptor)
   public async getAll(
     @Headers("origin") origin: string,
     @Query() queryParams: ListingsQueryParams
