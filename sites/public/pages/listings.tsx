@@ -1,11 +1,7 @@
 import Head from "next/head"
-import axios from "axios"
-import moment from "moment"
 import {
-  ListingsGroup,
   ListingsList,
   PageHeader,
-  openDateState,
   Button,
   AppearanceSizeType,
   Modal,
@@ -14,43 +10,46 @@ import {
   AppearanceBorderType,
   t,
   Select,
+  AgPagination,
 } from "@bloom-housing/ui-components"
-import { Listing } from "@bloom-housing/backend-core/types"
-import Layout from "../layouts/application"
-import { MetaTags } from "../src/MetaTags"
-import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { Form } from "@bloom-housing/ui-components/src/forms/Form"
+import Layout from "../layouts/application"
+import { MetaTags } from "../src/MetaTags"
+import React, { useEffect, useState } from "react"
+import { useRouter } from "next/router"
+import { useListingsData } from "../lib/hooks"
 
-export interface ListingsProps {
-  openListings: Listing[]
-  closedListings: Listing[]
-}
+const ListingsPage = () => {
+  const router = useRouter()
 
-const openListings = (listings) => {
-  return listings.length > 0 ? (
-    <ListingsList listings={listings} />
-  ) : (
-    <div className="notice-block">
-      <h3 className="m-auto text-gray-800">{t("listings.noOpenListings")}</h3>
-    </div>
-  )
-}
+  /* Pagination state */
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const itemsPerPage = 10
 
-const closedListings = (listings) => {
-  return (
-    listings.length > 0 && (
-      <ListingsGroup
-        listings={listings}
-        header={t("listings.closedListings")}
-        hideButtonText={t("listings.hideClosedListings")}
-        showButtonText={t("listings.showClosedListings")}
-      />
-    )
-  )
-}
+  function setPage(page: number) {
+    if (page != currentPage) {
+      void router.push(
+        {
+          pathname: "/listings",
+          query: { page: page },
+        },
+        undefined,
+        { shallow: true }
+      )
+      setCurrentPage(page)
+    }
+  }
 
-export default function ListingsPage(props: ListingsProps) {
+  // Checks if the url is updated manually.
+  useEffect(() => {
+    if (router.query.page && Number(router.query.page) != currentPage) {
+      setCurrentPage(Number(router.query.page))
+    }
+  }, [router.query.page])
+
+  const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage)
+
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
   const metaImage = "" // TODO: replace with hero image
@@ -164,36 +163,22 @@ export default function ListingsPage(props: ListingsProps) {
           Filter listings (drawer)
         </Button>
       </div>
-      <div>
-        {openListings(props.openListings)}
-        {closedListings(props.closedListings)}
-      </div>
+      {!listingsLoading && (
+        <div>
+          {listingsData && <ListingsList listings={listingsData.items} />}
+          <AgPagination
+            totalItems={listingsData?.meta.totalItems}
+            totalPages={listingsData?.meta.totalPages}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            sticky={true}
+            quantityLabel={t("listings.totalListings")}
+            setCurrentPage={setPage}
+          />
+        </div>
+      )}
     </Layout>
   )
 }
 
-export async function getStaticProps() {
-  let openListings = []
-  let closedListings = []
-
-  try {
-    const response = await axios.get(process.env.listingServiceUrl, {
-      params: { page: "1", limit: "10" },
-    })
-    const nowTime = moment()
-    openListings = response.data.items.filter((listing: Listing) => {
-      return (
-        openDateState(listing) ||
-        nowTime <= moment(listing.applicationDueDate) ||
-        listing.applicationDueDate == null
-      )
-    })
-    closedListings = response.data.items.filter((listing: Listing) => {
-      return nowTime > moment(listing.applicationDueDate)
-    })
-  } catch (error) {
-    console.error(error)
-  }
-
-  return { props: { openListings, closedListings } }
-}
+export default ListingsPage

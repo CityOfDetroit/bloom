@@ -30,7 +30,8 @@ const summaries: {
   byUnitType: [
     {
       unitType: "studio",
-      totalAvailable: 41,
+      totalAvailable: 0,
+      totalCount: 41,
       minIncomeRange: { min: "$1,438", max: "$2,208" },
       occupancyRange: { min: 1, max: 2 },
       rentAsPercentIncomeRange: { min: 10, max: 80 },
@@ -42,7 +43,8 @@ const summaries: {
   byUnitTypeWithoutFloor: [
     {
       unitType: "studio",
-      totalAvailable: 41,
+      totalAvailable: 0,
+      totalCount: 41,
       minIncomeRange: { min: "$1,438", max: "$2,208" },
       occupancyRange: { min: 1, max: 2 },
       rentAsPercentIncomeRange: { min: 10, max: 80 },
@@ -53,10 +55,11 @@ const summaries: {
   byNonReservedUnitType: [
     {
       unitType: "studio",
-      totalAvailable: 40,
+      totalAvailable: 0,
+      totalCount: 40,
       minIncomeRange: { min: "$1,438", max: "$2,208" },
       occupancyRange: { min: 1, max: 2 },
-      rentAsPercentIncomeRange: { min: 1, max: 2 },
+      rentAsPercentIncomeRange: { min: null, max: null },
       rentRange: { min: "$719", max: "$1,104" },
       floorRange: { min: 2, max: 3 },
       areaRange: { min: 285, max: 285 },
@@ -68,10 +71,11 @@ const summaries: {
       byUnitType: [
         {
           unitType: "studio",
-          totalAvailable: 1,
+          totalAvailable: 0,
+          totalCount: 1,
           minIncomeRange: { min: "$2,208", max: "$2,208" },
           occupancyRange: { min: 1, max: 2 },
-          rentAsPercentIncomeRange: { min: 1, max: 2 },
+          rentAsPercentIncomeRange: { min: null, max: null },
           rentRange: { min: "$1,104", max: "$1,104" },
           floorRange: { min: 2, max: 2 },
           areaRange: { min: 285, max: 285 },
@@ -85,7 +89,8 @@ const summaries: {
       byNonReservedUnitType: [
         {
           unitType: "studio",
-          totalAvailable: 24,
+          totalAvailable: 0,
+          totalCount: 24,
           minIncomeRange: { min: "$2,208", max: "$2,208" },
           occupancyRange: { min: 1, max: 2 },
           rentAsPercentIncomeRange: { min: null, max: null },
@@ -100,7 +105,8 @@ const summaries: {
           byUnitType: [
             {
               unitType: "studio",
-              totalAvailable: 1,
+              totalAvailable: 0,
+              totalCount: 1,
               minIncomeRange: { min: "$2,208", max: "$2,208" },
               occupancyRange: { min: 1, max: 2 },
               rentAsPercentIncomeRange: { min: null, max: null },
@@ -117,7 +123,8 @@ const summaries: {
       byNonReservedUnitType: [
         {
           unitType: "studio",
-          totalAvailable: 16,
+          totalAvailable: 0,
+          totalCount: 16,
           minIncomeRange: { min: "$1,438", max: "$1,438" },
           occupancyRange: { min: 1, max: 2 },
           rentAsPercentIncomeRange: { min: null, max: null },
@@ -157,6 +164,7 @@ const unitSummariesHeaders = {
   minimumIncome: "t.minimumIncome",
   rent: "t.rent",
   availability: "t.availability",
+  totalCount: "t.totalCount",
 }
 
 const amiValues = summaries.amiPercentages

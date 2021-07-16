@@ -9,9 +9,10 @@ import {
   StatusMessages,
   LocalizedLink,
   LinkButton,
+  AuthContext,
 } from "@bloom-housing/ui-components"
 import { ListingContext } from "./ListingContext"
-import { ListingStatus } from "@bloom-housing/backend-core/types"
+import { ListingStatus, UserRole } from "@bloom-housing/backend-core/types"
 
 type AsideProps = {
   type: AsideType
@@ -22,8 +23,9 @@ type AsideType = "add" | "edit" | "details"
 
 const Aside = ({ type, setStatusAndSubmit }: AsideProps) => {
   const listing = useContext(ListingContext)
+  const { profile } = useContext(AuthContext)
 
-  const lisitngId = listing?.id
+  const listingId = listing?.id
 
   const recordUpdated = useMemo(() => {
     if (!listing) return null
@@ -38,7 +40,12 @@ const Aside = ({ type, setStatusAndSubmit }: AsideProps) => {
 
     const cancel = (
       <GridCell className="flex" key="btn-cancel">
-        <LinkButton unstyled fullWidth className="bg-opacity-0" href="/">
+        <LinkButton
+          unstyled
+          fullWidth
+          className="bg-opacity-0"
+          href={type === "add" ? "/" : `/listings/${listingId}`}
+        >
           {t("t.cancel")}
         </LinkButton>
       </GridCell>
@@ -47,10 +54,19 @@ const Aside = ({ type, setStatusAndSubmit }: AsideProps) => {
     if (type === "details") {
       elements.push(
         <GridCell key="btn-submitNew">
-          <LocalizedLink href={`/listings/${lisitngId}/edit`}>
-            <Button styleType={AppearanceStyleType.secondary} fullWidth onClick={() => false}>
-              {t("t.edit")}
-            </Button>
+          <LocalizedLink href={`/listings/${listingId}/edit`}>
+            {profile.roles.includes(UserRole.admin) && process.env.showLMLinks && (
+              <Button styleType={AppearanceStyleType.secondary} fullWidth onClick={() => false}>
+                {t("t.edit")}
+              </Button>
+            )}
+          </LocalizedLink>
+          <LocalizedLink href={`/`}>
+            {!profile.roles.includes(UserRole.admin) && process.env.showLMLinks && (
+              <Button styleType={AppearanceStyleType.secondary} fullWidth onClick={() => false}>
+                {t("Request Edit")}
+              </Button>
+            )}
           </LocalizedLink>
         </GridCell>
       )
@@ -79,17 +95,24 @@ const Aside = ({ type, setStatusAndSubmit }: AsideProps) => {
       )
     }
 
-    elements.push(
-      <GridCell key="btn-preview">
-        <Button styleType={AppearanceStyleType.secondary} fullWidth onClick={() => false}>
-          {t("listings.actions.preview")}
-        </Button>
-      </GridCell>,
-      cancel
-    )
+    if (type === "details") {
+      elements.push(
+        <GridCell key="btn-preview">
+          <a target="_blank" href={`${process.env.publicBaseUrl}/preview/listings/${listingId}`}>
+            <Button styleType={AppearanceStyleType.secondary} fullWidth onClick={() => false}>
+              {t("listings.actions.preview")}
+            </Button>
+          </a>
+        </GridCell>
+      )
+    }
+
+    if (type === "add" || type === "edit") {
+      elements.push(cancel)
+    }
 
     return elements
-  }, [lisitngId, setStatusAndSubmit, type])
+  }, [listingId, profile.roles, setStatusAndSubmit, type])
 
   return (
     <>
