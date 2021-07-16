@@ -68,7 +68,6 @@ describe("ListingsService", () => {
       const expectedNeighborhood = "Fox Creek"
 
       const queryParams: ListingsQueryParams = {
-        jsonpath: "test",
         filter: {
           $comparison: Compare["="],
           neighborhood: expectedNeighborhood,
