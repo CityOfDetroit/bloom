@@ -13,11 +13,14 @@ import {
   AppearanceStyleType,
   AppearanceBorderType,
   t,
+  Select,
 } from "@bloom-housing/ui-components"
 import { Listing } from "@bloom-housing/backend-core/types"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
-import { useState } from "react"
+import React, { useState } from "react"
+import { useForm } from "react-hook-form"
+import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 
 export interface ListingsProps {
   openListings: Listing[]
@@ -54,6 +57,16 @@ export default function ListingsPage(props: ListingsProps) {
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
   const [filterDrawerVisible, setFilterDrawerVisible] = useState<boolean>(false)
 
+  const preferredUnitOptions = ["1", "2", "3", "4", "studio"]
+  const accessibilityOptions = ["n", "y"]
+  const communityOptions = ["general", "senior", "assisted"]
+  /* Form Handler */
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const { handleSubmit, register } = useForm()
+  const onSubmit = () => {
+    // Not yet implemented.
+  }
+
   return (
     <Layout>
       <Head>
@@ -63,20 +76,66 @@ export default function ListingsPage(props: ListingsProps) {
       <PageHeader title={t("pageTitle.rent")} />
       <Modal
         open={filterModalVisible}
-        title={"Filter Housing"}
+        title={"Filter Results"}
         ariaDescription={"testing aria"}
         actions={[
-          <Button onClick={() => setFilterModalVisible(false)}>Apply</Button>,
-          <Button onClick={() => setFilterModalVisible(false)}>Close</Button>,
+          <Button
+            onClick={() => setFilterModalVisible(false)}
+            styleType={AppearanceStyleType.primary}
+          >
+            Apply
+          </Button>,
+          <Button
+            onClick={() => setFilterModalVisible(false)}
+            styleType={AppearanceStyleType.secondary}
+            border={AppearanceBorderType.borderless}
+          >
+            Close
+          </Button>,
         ]}
         hideCloseIcon
       >
-        <label>Neighboorhood: </label>
-        <div></div>
-        <select>
-          <option value={"east"}>East Side</option>
-          <option value={"corkTown"}>Cork Town</option>
-        </select>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <div className="form-card__group">
+            <p className="field-note mb-4">
+              {t("Use these options to refine your list of properties.")}
+            </p>
+            <Select
+              id="filter.unitOptions"
+              name="filter.unitOptions"
+              //placeholder={t("Placeholder text")}
+              label={t("unitOptions.label")}
+              validation={{ required: true }}
+              //defaultValue={t("eligibility.income.ranges")}
+              register={register}
+              controlClassName="control"
+              options={preferredUnitOptions}
+              keyPrefix="unitOptions.unitOptionsTypes"
+            />
+            <Select
+              id="filter.accessibilityOptions"
+              name="filter.accessibilityOptions"
+              label={t("accessibilityOptions.label")}
+              validation={{ required: true }}
+              register={register}
+              controlClassName="control"
+              options={accessibilityOptions}
+              keyPrefix="accessibilityOptions.accessibilityOptionsTypes"
+            />
+            <Select
+              id="filter.communityOptions"
+              name="filter.communityOptions"
+              //placeholder={t("Placeholder text")}
+              label={t("communityOptions.label")}
+              validation={{ required: true }}
+              //defaultValue={t("eligibility.income.ranges")}
+              register={register}
+              controlClassName="control"
+              options={communityOptions}
+              keyPrefix="communityOptions.communityOptionsTypes"
+            />
+          </div>
+        </Form>
       </Modal>
       <Drawer
         open={filterDrawerVisible}
