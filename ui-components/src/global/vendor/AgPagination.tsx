@@ -6,9 +6,10 @@ type AgPaginationProps = {
   totalPages: number
   currentPage: number
   itemsPerPage: number
+  sticky?: boolean
   quantityLabel?: string
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
-  setItemsPerPage: React.Dispatch<React.SetStateAction<number>>
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>> | ((page: number) => void)
+  setItemsPerPage?: React.Dispatch<React.SetStateAction<number>>
   onPageChange?: (page: number) => void
   onPerPageChange?: (size: number) => void
 }
@@ -19,12 +20,10 @@ const AgPagination = ({
   totalItems,
   totalPages,
   currentPage,
-  itemsPerPage,
+  sticky,
   quantityLabel,
   setCurrentPage,
-  setItemsPerPage,
   onPageChange,
-  onPerPageChange,
 }: AgPaginationProps) => {
   const onNextClick = () => {
     setCurrentPage(currentPage + 1)
@@ -36,13 +35,13 @@ const AgPagination = ({
     onPageChange && onPageChange(currentPage)
   }
 
-  const onRowLimitChange = (size: string) => {
-    setItemsPerPage(parseInt(size))
-    onPerPageChange && onPerPageChange(itemsPerPage)
+  const dataPagerClassName = ["data-pager flex flex-col md:flex-row"]
+  if (sticky) {
+    dataPagerClassName.push("sticky")
   }
 
   return (
-    <div className="data-pager flex flex-col md:flex-row">
+    <div className={dataPagerClassName.join(" ")}>
       <div className="hidden md:block">
         <Button
           className="data-pager__previous data-pager__control"
@@ -59,51 +58,6 @@ const AgPagination = ({
             {totalItems}
           </span>
           {quantityLabel && <span className="field-label">{quantityLabel}</span>}
-        </div>
-
-        <div className="flex mt-5 md:mt-0 md:items-center">
-          <div className="field data-pager__control md:mb-0">
-            <label className="field-label font-sans" htmlFor="page-size">
-              {t("t.show")}
-            </label>
-            <select
-              name="page-size"
-              id="page-size"
-              value={itemsPerPage}
-              onChange={({ target }) => onRowLimitChange(target.value)}
-            >
-              {AG_PER_PAGE_OPTIONS.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="field data-pager__control">
-            <label className="field-label font-sans" htmlFor="page-jump">
-              {t("t.jumpTo")}
-            </label>
-            <select
-              name="page-jump"
-              id="page-jump"
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                setCurrentPage(parseInt(e.target.value))
-              }
-              value={currentPage}
-            >
-              {Array(totalPages)
-                .fill(totalPages)
-                .map((_, i) => {
-                  const value = i + 1
-                  return (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  )
-                })}
-            </select>
-          </div>
         </div>
       </div>
 

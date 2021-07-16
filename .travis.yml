@@ -4,8 +4,27 @@ node_js:
   # Node version
   - 12
 
-script:
+cache:
+  yarn: true
+
+before_script:
+  - cp sites/public/.env.template sites/public/.env
+  - cp sites/partners/.env.template sites/partners/.env
+  - cp backend/core/.env.template backend/core/.env
   - yarn install:all
-  - yarn test:shared:ui
-  - yarn build:app:public
-  - yarn build:app:partners
+
+jobs:
+  include:
+    - script: yarn test:shared:ui
+      name: "UI components tests"
+    - script: yarn build:app:public
+      name: "Build public site"
+    - script: yarn build:app:partners
+      name: "Build partners site"
+
+env:
+  global:
+    PGUSER=postgres
+    PGPASSWORD=postgres
+    TEST_DATABASE_URL=postgres://localhost:5432/bloom_test
+    REDIS_TLS_URL=redis://127.0.0.1:6379/0
