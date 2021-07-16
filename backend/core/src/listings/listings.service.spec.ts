@@ -3,7 +3,7 @@ import { ListingsService } from "./listings.service"
 import { getRepositoryToken } from "@nestjs/typeorm"
 import { Listing } from "./entities/listing.entity"
 import { mapTo } from "../shared/mapTo"
-import { ListingDto, ListingFilterParams } from "./dto/listing.dto"
+import { ListingDto } from "./dto/listing.dto"
 import { Compare } from "../shared/dto/filter.dto"
 import { ListingsQueryParams } from "./listings.controller"
 
@@ -69,12 +69,10 @@ describe("ListingsService", () => {
 
       const queryParams: ListingsQueryParams = {
         jsonpath: "test",
-        filter: [
-          {
-            $comparison: Compare["="],
-            neighborhood: expectedNeighborhood,
-          },
-        ] as [ListingFilterParams],
+        filter: {
+          $comparison: Compare["="],
+          neighborhood: expectedNeighborhood,
+        },
       }
 
       const listings = await service.list(origin, queryParams)

@@ -49,7 +49,7 @@ export class ListingsQueryParams extends PaginationQueryParams {
     example: { $comparison: ["=", "<>"], status: "active", name: "Coliseum" },
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  filter?: ListingFilterParams[]
+  filter?: ListingFilterParams
 
   @Expose()
   @ApiProperty({
