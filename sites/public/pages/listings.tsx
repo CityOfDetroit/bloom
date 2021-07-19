@@ -3,7 +3,6 @@ import {
   ListingsList,
   PageHeader,
   AgPagination,
-  AG_PER_PAGE_OPTIONS,
   Button,
   AppearanceSizeType,
   Modal,
@@ -19,26 +18,35 @@ import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { useListingsData } from "../lib/hooks"
+import { FilterOptions, useListingsData } from "../lib/hooks"
 
 const ListingsPage = () => {
   const router = useRouter()
 
-  /* Pagination state */
+  // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<string>(null)
+  const [filterState, setFilterState] = useState<FilterOptions>(null)
   const itemsPerPage = 10
 
-  function setPage(page: number, filter = filterState) {
-    if (page != currentPage || filter != filterState) {
+  // Filter state
+  const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
+  const [filterDrawerVisible, setFilterDrawerVisible] = useState<boolean>(false)
+
+  const preferredUnitOptions = ["", "1", "2", "3", "4", "studio"]
+  const accessibilityOptions = ["", "n", "y"]
+  const communityOptions = ["", "general", "senior", "assisted"]
+  const nameOptions = ["", "triton", "coliseum"]
+
+  function setPageData(page: number, filters = filterState) {
+    if (page != currentPage || filters != filterState) {
       setCurrentPage(page)
-      setFilterState(filter)
+      setFilterState(filters)
+      // TODO(abbiefarr): update the url with filter data.
       void router.push(
         {
           pathname: "/listings",
           query: {
             page: page,
-            neighborhood: filter,
           },
         },
         undefined,
@@ -52,35 +60,21 @@ const ListingsPage = () => {
     if (router.query.page && Number(router.query.page) != currentPage) {
       setCurrentPage(Number(router.query.page))
     }
-    if (router.query.neighborhood && router.query.neighborhood != filterState) {
-      setFilterState(String(router.query.neighborhood))
-    }
+    // TODO(abbiefarr): update filter params if the url is manually updated.
   }, [router.query])
-
-  function toggleFilter() {
-    let filter = null
-    if (!filterState) {
-      filter = "Foster City"
-    }
-    setPage(1, filter)
-  }
 
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
 
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
   const metaImage = "" // TODO: replace with hero image
-  const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
-  const [filterDrawerVisible, setFilterDrawerVisible] = useState<boolean>(false)
 
-  const preferredUnitOptions = ["1", "2", "3", "4", "studio"]
-  const accessibilityOptions = ["n", "y"]
-  const communityOptions = ["general", "senior", "assisted"]
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register } = useForm()
-  const onSubmit = () => {
-    // Not yet implemented.
+  const onSubmit = (data: FilterOptions) => {
+    setFilterModalVisible(false)
+    setPageData(/*page=*/ 1, data)
   }
 
   return (
@@ -93,56 +87,60 @@ const ListingsPage = () => {
       <Modal
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
-        actions={[
-          <Button
-            onClick={() => setFilterModalVisible(false)}
-            styleType={AppearanceStyleType.primary}
-          >
-            Apply
-          </Button>,
-          <Button
-            onClick={() => setFilterModalVisible(false)}
-            styleType={AppearanceStyleType.secondary}
-            border={AppearanceBorderType.borderless}
-          >
-            Close
-          </Button>,
-        ]}
+        actions={[]}
         hideCloseIcon
       >
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group">
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
-              id="filter.unitOptions"
-              name="filter.unitOptions"
+              id="unitOptions"
+              name="preferredUnit"
               label={t("listingFilters.unitOptions.label")}
-              validation={{ required: true }}
               register={register}
               controlClassName="control"
               options={preferredUnitOptions}
               keyPrefix="listingFilters.unitOptions.unitOptionsTypes"
+              defaultValue={filterState?.preferredUnit}
             />
             <Select
-              id="filter.accessibilityOptions"
-              name="filter.accessibilityOptions"
+              id="accessibilityOptions"
+              name="accessibility"
               label={t("listingFilters.accessibilityOptions.label")}
-              validation={{ required: true }}
               register={register}
               controlClassName="control"
               options={accessibilityOptions}
               keyPrefix="listingFilters.accessibilityOptions.accessibilityOptionsTypes"
+              defaultValue={filterState?.accessibility}
             />
             <Select
-              id="filter.communityOptions"
-              name="filter.communityOptions"
+              id="communityOptions"
+              name="community"
               label={t("listingFilters.communityOptions.label")}
-              validation={{ required: true }}
               register={register}
               controlClassName="control"
               options={communityOptions}
               keyPrefix="listingFilters.communityOptions.communityOptionsTypes"
+              defaultValue={filterState?.community}
             />
+            <Select
+              id="nameOptions"
+              name="name"
+              label={t("listingFilters.nameOptions.label")}
+              register={register}
+              controlClassName="control"
+              options={nameOptions}
+              keyPrefix="listingFilters.nameOptions.nameOptionsTypes"
+              defaultValue={filterState?.name}
+            />
+          </div>
+          <div className="text-center mt-6">
+            <Button styleType={AppearanceStyleType.primary}>Apply Filters</Button>
+          </div>
+          <div className="text-center mt-6">
+            <a href="#" onClick={() => setFilterModalVisible(false)}>
+              {t("t.cancel")}
+            </a>
           </div>
         </Form>
       </Modal>
@@ -182,11 +180,6 @@ const ListingsPage = () => {
       </div>
       {!listingsLoading && (
         <div>
-          <div className="max-w-3xl m-auto">
-            <Button size={AppearanceSizeType.small} onClick={toggleFilter}>
-              {filterState ? "Remove filter" : "Filter to Foster City"}
-            </Button>
-          </div>
           {listingsData && <ListingsList listings={listingsData.items} />}
           <AgPagination
             totalItems={listingsData?.meta.totalItems}
@@ -194,7 +187,7 @@ const ListingsPage = () => {
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
             quantityLabel={t("applications.totalApplications")}
-            setCurrentPage={setPage}
+            setCurrentPage={setPageData}
           />
         </div>
       )}
