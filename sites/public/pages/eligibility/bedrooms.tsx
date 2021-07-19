@@ -15,7 +15,7 @@ import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
 import React from "react"
 import { useRouter } from "next/router"
-import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
 
 const EligibilityBedrooms = () => {
   const router = useRouter()
@@ -62,7 +62,7 @@ const EligibilityBedrooms = () => {
             <div className="form-card__pager-row primary">
               <Button
                 styleType={AppearanceStyleType.primary}
-                onClick={() => router.push("/eligibility/age")}
+                onClick={() => router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[2]}`)}
               >
                 {t("t.next")}
               </Button>
