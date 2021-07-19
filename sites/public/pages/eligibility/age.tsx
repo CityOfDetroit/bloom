@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form"
 import "./age.scss"
 import React from "react"
 import { useRouter } from "next/router"
-import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
 
 const EligibilityAge = () => {
   const router = useRouter()
@@ -58,7 +58,7 @@ const EligibilityAge = () => {
             <div className="form-card__pager-row primary">
               <Button
                 styleType={AppearanceStyleType.primary}
-                onClick={() => router.push("/eligibility/disability")}
+                onClick={() => router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[3]}`)}
               >
                 {t("t.next")}
               </Button>
