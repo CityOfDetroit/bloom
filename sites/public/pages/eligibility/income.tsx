@@ -7,7 +7,7 @@ import React from "react"
 import { FormCard } from "@bloom-housing/ui-components/src/blocks/FormCard"
 import { t } from "@bloom-housing/ui-components/src/helpers/translator"
 import { ProgressNav } from "@bloom-housing/ui-components/src/navigation/ProgressNav"
-import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { FieldGroup } from "@bloom-housing/ui-components/src/forms/FieldGroup"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
@@ -59,7 +59,7 @@ const EligibilityIncome = () => {
             <div className="form-card__pager-row primary">
               <Button
                 styleType={AppearanceStyleType.primary}
-                onClick={() => router.push("/eligibility/section8")}
+                onClick={() => router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[5]}`)}
               >
                 {t("t.next")}
               </Button>
