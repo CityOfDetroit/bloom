@@ -1225,6 +1225,13 @@
         "senior": "Senior",
         "assisted": "Assisted"
       }
+    },
+    "nameOptions":{
+      "label": "Property Name:",
+      "nameOptionsTypes": {
+        "triton": "Test: Triton",
+        "coliseum": "Test: Coliseum"
+      }
     }
   },
   "eligibility": {
