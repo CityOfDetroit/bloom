@@ -64,6 +64,7 @@ const EligibilitySection8 = () => {
           </div>
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
+              {/*TODO: Implement onClick method to display results.*/}
               <Button styleType={AppearanceStyleType.primary} onClick={() => {}}>
                 {t("t.done")}
               </Button>
