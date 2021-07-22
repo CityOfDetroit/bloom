@@ -1237,12 +1237,8 @@
         "assisted": "Assisted"
       }
     },
-    "nameOptions":{
-      "label": "Property Name:",
-      "nameOptionsTypes": {
-        "triton": "Test: Triton",
-        "coliseum": "Test: Coliseum"
-      }
+    "neighborhoodOptions":{
+      "label": "Neighborhood:"
     }
   },
   "eligibility": {

@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react"
 import { useRouter } from "next/router"
 import axios from "axios"
 import useSWR from "swr"
-import { isInternalLink, t } from "@bloom-housing/ui-components"
+import { isInternalLink } from "@bloom-housing/ui-components"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
 
@@ -33,19 +33,19 @@ export const useFormConductor = (stepName: string) => {
   return context
 }
 
+// TODO: consolidate filter definitions (#253)
 export interface FilterOptions {
   preferredUnit?: string
   accessibility?: string
   community?: string
-  name?: string
+  neighborhood?: string
 }
 
 function filterStringFromFilters(filters: FilterOptions) {
-  if (!filters || filters.name == "") return ""
+  if (!filters || filters.neighborhood == "") return ""
 
-  // Only `name` filter is currently supported.
-  const name = t("listingFilters.nameOptions.nameOptionsTypes." + filters.name)
-  return `&filter[$comparison]==&filter[name]=${name}`
+  // Only `neighborhood` filter is currently supported.
+  return `&filter[$comparison]==&filter[neighborhood]=${filters.neighborhood}`
 }
 
 const listingsFetcher = function () {

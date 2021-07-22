@@ -6,12 +6,11 @@ import {
   Button,
   AppearanceSizeType,
   Modal,
-  Drawer,
   AppearanceStyleType,
-  AppearanceBorderType,
   t,
   Select,
   Form,
+  SelectOption,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -30,18 +29,21 @@ const ListingsPage = () => {
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
-  const [filterDrawerVisible, setFilterDrawerVisible] = useState<boolean>(false)
 
+  // TODO: Select options should come from the database (#252)
   const preferredUnitOptions = ["", "1", "2", "3", "4", "studio"]
   const accessibilityOptions = ["", "n", "y"]
   const communityOptions = ["", "general", "senior", "assisted"]
-  const nameOptions = ["", "triton", "coliseum"]
+  const neighborhoodOptions: SelectOption[] = [
+    { value: "", label: "" },
+    { value: "Foster City", label: "Foster City" },
+  ]
 
-  function setPageData(page: number, filters = filterState) {
+  function setPageAndFilterState(page: number, filters = filterState) {
     if (page != currentPage || filters != filterState) {
       setCurrentPage(page)
       setFilterState(filters)
-      // TODO(abbiefarr): update the url with filter data.
+      // TODO(abbiefarr): update the url with filter data (#240)
       void router.push(
         {
           pathname: "/listings",
@@ -60,7 +62,7 @@ const ListingsPage = () => {
     if (router.query.page && Number(router.query.page) != currentPage) {
       setCurrentPage(Number(router.query.page))
     }
-    // TODO(abbiefarr): update filter params if the url is manually updated.
+    // TODO(abbiefarr): update filter params if the url is manually updated (#240)
   }, [router.query])
 
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
@@ -74,7 +76,7 @@ const ListingsPage = () => {
   const { handleSubmit, register } = useForm()
   const onSubmit = (data: FilterOptions) => {
     setFilterModalVisible(false)
-    setPageData(/*page=*/ 1, data)
+    setPageAndFilterState(/*page=*/ 1, data)
   }
 
   return (
@@ -124,14 +126,13 @@ const ListingsPage = () => {
               defaultValue={filterState?.community}
             />
             <Select
-              id="nameOptions"
-              name="name"
-              label={t("listingFilters.nameOptions.label")}
+              id="neighborhoodOptions"
+              name="neighborhood"
+              label={t("listingFilters.neighborhoodOptions.label")}
               register={register}
               controlClassName="control"
-              options={nameOptions}
-              keyPrefix="listingFilters.nameOptions.nameOptionsTypes"
-              defaultValue={filterState?.name}
+              options={neighborhoodOptions}
+              defaultValue={filterState?.neighborhood}
             />
           </div>
           <div className="text-center mt-6">
@@ -144,38 +145,10 @@ const ListingsPage = () => {
           </div>
         </Form>
       </Modal>
-      <Drawer
-        open={filterDrawerVisible}
-        title="Drawer Title"
-        onClose={() => setFilterDrawerVisible(false)}
-        actions={[
-          <Button
-            key={0}
-            onClick={() => setFilterDrawerVisible(false)}
-            styleType={AppearanceStyleType.primary}
-          >
-            Submit
-          </Button>,
-          <Button
-            key={1}
-            onClick={() => setFilterDrawerVisible(false)}
-            styleType={AppearanceStyleType.secondary}
-            border={AppearanceBorderType.borderless}
-          >
-            Cancel
-          </Button>,
-        ]}
-      >
-        <p>Placeholder for future text</p>
-      </Drawer>
       <div className="max-w-3xl m-auto">
         <Button size={AppearanceSizeType.small} onClick={() => setFilterModalVisible(true)}>
           {/* TODO:avaleske make this a string */}
           Filter listings
-        </Button>
-        <Button size={AppearanceSizeType.small} onClick={() => setFilterDrawerVisible(true)}>
-          {/* TODO:avaleske make this a string */}
-          Filter listings (drawer)
         </Button>
       </div>
       {!listingsLoading && (
@@ -187,7 +160,7 @@ const ListingsPage = () => {
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
             quantityLabel={t("applications.totalApplications")}
-            setCurrentPage={setPageData}
+            setCurrentPage={setPageAndFilterState}
           />
         </div>
       )}
