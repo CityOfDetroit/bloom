@@ -7,7 +7,7 @@ export enum Compare {
   "<>" = "<>",
 }
 
-export enum Filters {
+export enum Filter {
   "status" = "STATUS",
   "name" = "NAME",
   "neighborhood" = "NEIGHBORHOOD",
