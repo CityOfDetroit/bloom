@@ -6,13 +6,6 @@ export enum Compare {
   "=" = "=",
   "<>" = "<>",
 }
-
-export enum ListingsFilterKeys {
-  status = "status",
-  name = "name",
-  neighborhood = "neighborhood",
-}
-
 export class BaseFilter {
   @Expose()
   @ApiProperty({
