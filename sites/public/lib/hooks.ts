@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import axios from "axios"
 import useSWR from "swr"
 import { isInternalLink } from "@bloom-housing/ui-components"
-import { FilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
 
@@ -38,7 +38,7 @@ function filterStringFromFilters(filters: ListingFilterParams) {
   if (!filters || filters.neighborhood == "") return ""
 
   // Only `neighborhood` filter is currently supported.
-  return `&filter[$comparison]==&filter[${FilterKeys.neighborhood}]=${filters.neighborhood}`
+  return `&filter[$comparison]==&filter[${ListingFilterKeys.neighborhood}]=${filters.neighborhood}`
 }
 
 const listingsFetcher = function () {

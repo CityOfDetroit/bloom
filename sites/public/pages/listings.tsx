@@ -18,7 +18,7 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import { FilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
 
 const ListingsPage = () => {
   const router = useRouter()
@@ -32,8 +32,28 @@ const ListingsPage = () => {
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
   // TODO: Select options should come from the database (#252)
+  const EMPTY_OPTION = { value: "", label: "" }
+  const preferredUnitOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: "one", label: "1 Bedroom" },
+    { value: "two", label: "2 Bedroom" },
+    { value: "three", label: "3 Bedroom" },
+    { value: "four", label: "4 Bedroom" },
+    { value: "studio", label: "Studio" },
+  ]
+  const accessibilityOptions: SelectOption[] = [
+    EMPTY_OPTION, 
+    { value: "n", label: "No" },
+    { value: "y", label: "Yes" },
+  ]
+  const communityOptions: SelectOption[] = [
+    EMPTY_OPTION, 
+    { value: "general", label: "General" },
+    { value: "senior", label: "Senior" },
+    { value: "assisted", label: "Assisted" },
+  ]
   const neighborhoodOptions: SelectOption[] = [
-    { value: "", label: "" },
+    EMPTY_OPTION,
     { value: "Foster City", label: "Foster City" },
   ]
 
@@ -94,8 +114,32 @@ const ListingsPage = () => {
           <div className="form-card__group">
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
+              id="unitOptions"
+              name="preferredUnit"
+              label="Unit Options"
+              register={register}
+              controlClassName="control"
+              options={preferredUnitOptions}
+            />
+            <Select
+              id="accessibilityOptions"
+              name="accessibility"
+              label="Accessibility"
+              register={register}
+              controlClassName="control"
+              options={accessibilityOptions}
+            />
+            <Select
+              id="communityOptions"
+              name="community"
+              label="Community Type"
+              register={register}
+              controlClassName="control"
+              options={communityOptions}
+            />
+            <Select
               id="neighborhoodOptions"
-              name={FilterKeys.neighborhood}
+              name={ListingFilterKeys.neighborhood}
               label={t("listingFilters.neighborhood")}
               register={register}
               controlClassName="control"

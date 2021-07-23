@@ -4996,7 +4996,7 @@ export enum EnumListingFilterParamsComparison {
   '=' = '=',
   '<>' = '<>'
 }
-export enum FilterKeys {
+export enum ListingFilterKeys {
   'status' = 'status',
   'name' = 'name',
   'neighborhood' = 'neighborhood',

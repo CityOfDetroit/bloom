@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
+import { ListingFilterKeys } from "src/listings/dto/listing.dto"
 import { WhereExpression } from "typeorm"
-import { FilterKeys } from "../../shared/dto/filter.dto"
 
 /**
  *
@@ -43,11 +43,11 @@ export function addFilter<Filter>(filter: Filter, schema: string, qb: WhereExpre
 
         // TODO(#202): Refactor this out into a provided map, so addFilter() is generic again
         switch (key.toUpperCase()) {
-          case FilterKeys.status:
-          case FilterKeys.name:
+          case ListingFilterKeys.status:
+          case ListingFilterKeys.name:
             addFilterClause(values, key)
             break
-          case FilterKeys.neighborhood:
+          case ListingFilterKeys.neighborhood:
             values.forEach((val: unknown) => {
               // TODO add support for multiple neighborhoods by using a sub orWhere expression
               // eslint-disable-next-line @typescript-eslint/restrict-template-expressions

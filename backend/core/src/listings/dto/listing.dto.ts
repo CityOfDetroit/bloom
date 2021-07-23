@@ -749,3 +749,9 @@ export class ListingsQueryParams extends PaginationQueryParams {
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   jsonpath?: string
 }
+
+export enum ListingFilterKeys {
+  status = "STATUS",
+  name = "NAME",
+  neighborhood = "NEIGHBORHOOD",
+}
