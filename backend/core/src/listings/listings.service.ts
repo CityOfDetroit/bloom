@@ -16,7 +16,7 @@ import { PropertyCreateDto, PropertyUpdateDto } from "../property/dto/property.d
 import { arrayIndex } from "../libs/arrayLib"
 import { ListingsQueryParams } from "./listings.controller"
 import { mapTo } from "../shared/mapTo"
-import { addFilter } from "../shared/filter"
+import { addFilters, handleListingsFilter } from "../shared/filter"
 
 @Injectable()
 export class ListingsService {
@@ -50,7 +50,7 @@ export class ListingsService {
   public async list(origin: string, params: ListingsQueryParams): Promise<PaginatedListingsDto> {
     let qb = this.getQueryBuilder()
     if (params.filter) {
-      addFilter<ListingFilterParams>(params.filter, "listings", qb)
+      addFilters<ListingFilterParams>(params.filter, qb, handleListingsFilter)
     }
 
     qb.orderBy({
