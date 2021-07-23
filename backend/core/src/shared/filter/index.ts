@@ -42,7 +42,10 @@ export function addFilters<FilterParams, FilterFieldMap>(
           values = [value]
         }
 
-        const comparisonsForCurrentFilter = comparisons.slice(comparisonCount, values.length)
+        const comparisonsForCurrentFilter = comparisons.slice(
+          comparisonCount,
+          comparisonCount + values.length
+        )
         comparisonCount += values.length
 
         // Throw if this is not a supported filter type
@@ -53,7 +56,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
         values.forEach((val: string, i: number) => {
           // Each WHERE param must be unique across the entire QueryBuilder
           const whereParameterName = `${filterType}_${i}`
-          qb["andWhere"](
+          qb.andWhere(
             `${filterTypeToFieldMap[filterType as string]} ${
               comparisonsForCurrentFilter[i]
             } :${whereParameterName}`,
