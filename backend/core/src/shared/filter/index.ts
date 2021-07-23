@@ -49,7 +49,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
         comparisonCount += values.length
 
         // Throw if this is not a supported filter type
-        if (!(filterType in filterTypeToFieldMap)) {
+        if (!(filterType.toLowerCase() in filterTypeToFieldMap)) {
           throw new HttpException("Filter Not Implemented", HttpStatus.NOT_IMPLEMENTED)
         }
 
@@ -57,9 +57,9 @@ export function addFilters<FilterParams, FilterFieldMap>(
           // Each WHERE param must be unique across the entire QueryBuilder
           const whereParameterName = `${filterType}_${i}`
           qb.andWhere(
-            `${filterTypeToFieldMap[filterType as string]} ${
+            `LOWER(${filterTypeToFieldMap[filterType.toLowerCase()]}) ${
               comparisonsForCurrentFilter[i]
-            } :${whereParameterName}`,
+            } LOWER(:${whereParameterName})`,
             {
               [whereParameterName]: val,
             }
