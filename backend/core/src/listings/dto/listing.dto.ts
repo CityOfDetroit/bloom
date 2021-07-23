@@ -23,7 +23,7 @@ import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enu
 import { UserBasicDto } from "../../auth/dto/user.dto"
 import { ListingStatus } from "../types/listing-status-enum"
 import { PaginationFactory } from "../../shared/dto/pagination.dto"
-import { BaseFilter } from "../../shared/dto/filter.dto"
+import { BaseFilter, ListingsFilterKeys } from "../../shared/dto/filter.dto"
 import { UnitCreateDto, UnitDto, UnitUpdateDto } from "../../units/dto/unit.dto"
 import { transformUnits } from "../../shared/units-transformations"
 import { JurisdictionDto } from "../../jurisdictions/dto/jurisdiction.dto"
@@ -724,4 +724,11 @@ export class ListingFilterParams extends BaseFilter {
     required: false,
   })
   neighborhood?: string
+}
+
+// Using a record lets us enforce that all types are handled in addFilter
+export const filterTypeToFieldMap: Record<keyof typeof ListingsFilterKeys, string> = {
+  status: "listings.status",
+  name: "listings.name",
+  neighborhood: "property.neighborhood",
 }

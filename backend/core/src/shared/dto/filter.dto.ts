@@ -7,10 +7,10 @@ export enum Compare {
   "<>" = "<>",
 }
 
-export enum Filter {
-  "status" = "STATUS",
-  "name" = "NAME",
-  "neighborhood" = "NEIGHBORHOOD",
+export enum ListingsFilterKeys {
+  status = "status",
+  name = "name",
+  neighborhood = "neighborhood",
 }
 
 export class BaseFilter {
