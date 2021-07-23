@@ -17,23 +17,21 @@ import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { FilterOptions, useListingsData } from "../lib/hooks"
+import { useListingsData } from "../lib/hooks"
+import { FilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
 
 const ListingsPage = () => {
   const router = useRouter()
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<FilterOptions>(null)
+  const [filterState, setFilterState] = useState<ListingFilterParams>()
   const itemsPerPage = 10
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
   // TODO: Select options should come from the database (#252)
-  const preferredUnitOptions = ["", "1", "2", "3", "4", "studio"]
-  const accessibilityOptions = ["", "n", "y"]
-  const communityOptions = ["", "general", "senior", "assisted"]
   const neighborhoodOptions: SelectOption[] = [
     { value: "", label: "" },
     { value: "Foster City", label: "Foster City" },
@@ -74,7 +72,7 @@ const ListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register } = useForm()
-  const onSubmit = (data: FilterOptions) => {
+  const onSubmit = (data: ListingFilterParams) => {
     setFilterModalVisible(false)
     setPageAndFilterState(/*page=*/ 1, data)
   }
@@ -96,39 +94,9 @@ const ListingsPage = () => {
           <div className="form-card__group">
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
-              id="unitOptions"
-              name="preferredUnit"
-              label={t("listingFilters.unitOptions.label")}
-              register={register}
-              controlClassName="control"
-              options={preferredUnitOptions}
-              keyPrefix="listingFilters.unitOptions.unitOptionsTypes"
-              defaultValue={filterState?.preferredUnit}
-            />
-            <Select
-              id="accessibilityOptions"
-              name="accessibility"
-              label={t("listingFilters.accessibilityOptions.label")}
-              register={register}
-              controlClassName="control"
-              options={accessibilityOptions}
-              keyPrefix="listingFilters.accessibilityOptions.accessibilityOptionsTypes"
-              defaultValue={filterState?.accessibility}
-            />
-            <Select
-              id="communityOptions"
-              name="community"
-              label={t("listingFilters.communityOptions.label")}
-              register={register}
-              controlClassName="control"
-              options={communityOptions}
-              keyPrefix="listingFilters.communityOptions.communityOptionsTypes"
-              defaultValue={filterState?.community}
-            />
-            <Select
               id="neighborhoodOptions"
-              name="neighborhood"
-              label={t("listingFilters.neighborhoodOptions.label")}
+              name={FilterKeys.neighborhood}
+              label={t("listingFilters.neighborhood")}
               register={register}
               controlClassName="control"
               options={neighborhoodOptions}
