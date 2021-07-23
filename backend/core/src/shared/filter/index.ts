@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
-import { ListingFilterKeys } from "src/listings/dto/listing.dto"
 import { WhereExpression } from "typeorm"
+import { ListingFilterKeys } from "../../listings/dto/listing.dto"
 
 /**
  *
