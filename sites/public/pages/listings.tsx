@@ -42,12 +42,12 @@ const ListingsPage = () => {
     { value: "studio", label: "Studio" },
   ]
   const accessibilityOptions: SelectOption[] = [
-    EMPTY_OPTION, 
+    EMPTY_OPTION,
     { value: "n", label: "No" },
     { value: "y", label: "Yes" },
   ]
   const communityOptions: SelectOption[] = [
-    EMPTY_OPTION, 
+    EMPTY_OPTION,
     { value: "general", label: "General" },
     { value: "senior", label: "Senior" },
     { value: "assisted", label: "Assisted" },
@@ -61,13 +61,17 @@ const ListingsPage = () => {
     if (page != currentPage || filters != filterState) {
       setCurrentPage(page)
       setFilterState(filters)
-      // TODO(abbiefarr): update the url with filter data (#240)
+      const query = { page: page }
+      for (const filterKey in filters) {
+        const filterValue = filters[filterKey]
+        if (filterValue) {
+          query[filterKey] = filterValue
+        }
+      }
       void router.push(
         {
           pathname: "/listings",
-          query: {
-            page: page,
-          },
+          query: query,
         },
         undefined,
         { shallow: true }
@@ -77,21 +81,28 @@ const ListingsPage = () => {
 
   // Checks for changes in url params.
   useEffect(() => {
+    let shouldSetPageAndFilterState = false
     if (router.query.page && Number(router.query.page) != currentPage) {
-      setCurrentPage(Number(router.query.page))
+      shouldSetPageAndFilterState = true
     }
-    let filterCopy: ListingFilterParams = filterState ? filterState : {}
-    let changed = false
+    const updatedFilters: ListingFilterParams = {}
     for (const filterKey in ListingFilterKeys) {
       const filterValue = router.query[filterKey]
       if (filterValue && (!filterState || filterValue != filterState[filterKey])) {
-        filterCopy[filterKey] = filterValue
-        changed = true
+        // If the filter is defined and is different from the existing filter.
+        updatedFilters[filterKey] = filterValue
+        shouldSetPageAndFilterState = true
+      } else if (!filterValue && filterState && filterState[filterKey]) {
+        // If the filter isn't defined but previously was.
+        updatedFilters[filterKey] = filterValue
+        shouldSetPageAndFilterState = true
+      } else {
+        // Otherwise, use the existing value.
+        updatedFilters[filterKey] = filterState ? filterState[filterKey] : ""
       }
     }
-    if (changed) {
-      console.log(filterCopy)
-      setFilterState(filterCopy)
+    if (shouldSetPageAndFilterState) {
+      setPageAndFilterState(Number(router.query.page), updatedFilters)
     }
   }, [router.query])
 
