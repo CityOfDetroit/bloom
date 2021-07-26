@@ -86,8 +86,8 @@ export class ListingsService {
     let listings: Listing[]
 
     const paginate =
-    // currentPage and itemsPerPage are read in from the querystring, so we
-    // we confirm the type before proceeding
+      // currentPage and itemsPerPage are read in from the querystring, so we
+      // we confirm the type before proceeding
       typeof paginationInfo.currentPage === "number" &&
       paginationInfo.currentPage > 0 &&
       typeof paginationInfo.itemsPerPage === "number" &&
