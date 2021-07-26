@@ -3304,7 +3304,7 @@ export interface JurisdictionUpdate {
 export interface ListingFilterParams {
   /**  */
   $comparison: EnumListingFilterParamsComparison;
-  
+
   /**  */
   name?: string;
 
