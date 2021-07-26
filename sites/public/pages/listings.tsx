@@ -18,7 +18,11 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import {
+  EnumListingFilterParamsComparison,
+  ListingFilterKeys,
+  ListingFilterParams,
+} from "@bloom-housing/backend-core/types"
 
 const ListingsPage = () => {
   const router = useRouter()
@@ -57,10 +61,8 @@ const ListingsPage = () => {
     { value: "Foster City", label: "Foster City" },
   ]
 
-  function setPageAndFilterState(page: number, filters = filterState) {
+  function setQueryString(page: number, filters = filterState) {
     if (page != currentPage || filters != filterState) {
-      setCurrentPage(page)
-      setFilterState(filters)
       const query = { page: page }
       for (const filterKey in filters) {
         const filterValue = filters[filterKey]
@@ -81,29 +83,20 @@ const ListingsPage = () => {
 
   // Checks for changes in url params.
   useEffect(() => {
-    let shouldSetPageAndFilterState = false
-    if (router.query.page && Number(router.query.page) != currentPage) {
-      shouldSetPageAndFilterState = true
+    if (router.query.page) {
+      setCurrentPage(Number(router.query.page))
     }
-    const updatedFilters: ListingFilterParams = {}
+
+    const updatedFilters: ListingFilterParams = {
+      $comparison: EnumListingFilterParamsComparison["="],
+    }
     for (const filterKey in ListingFilterKeys) {
       const filterValue = router.query[filterKey]
-      if (filterValue && (!filterState || filterValue != filterState[filterKey])) {
-        // If the filter is defined and is different from the existing filter.
+      if (filterValue) {
         updatedFilters[filterKey] = filterValue
-        shouldSetPageAndFilterState = true
-      } else if (!filterValue && filterState && filterState[filterKey]) {
-        // If the filter isn't defined but previously was.
-        updatedFilters[filterKey] = filterValue
-        shouldSetPageAndFilterState = true
-      } else {
-        // Otherwise, use the existing value.
-        updatedFilters[filterKey] = filterState ? filterState[filterKey] : ""
       }
     }
-    if (shouldSetPageAndFilterState) {
-      setPageAndFilterState(Number(router.query.page), updatedFilters)
-    }
+    setFilterState(updatedFilters)
   }, [router.query])
 
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
@@ -117,7 +110,7 @@ const ListingsPage = () => {
   const { handleSubmit, register } = useForm()
   const onSubmit = (data: ListingFilterParams) => {
     setFilterModalVisible(false)
-    setPageAndFilterState(/*page=*/ 1, data)
+    setQueryString(/*page=*/ 1, data)
   }
 
   return (
@@ -195,7 +188,7 @@ const ListingsPage = () => {
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
             quantityLabel={t("applications.totalApplications")}
-            setCurrentPage={setPageAndFilterState}
+            setCurrentPage={setQueryString}
           />
         </div>
       )}

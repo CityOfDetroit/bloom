@@ -34,7 +34,7 @@ export const useFormConductor = (stepName: string) => {
   return context
 }
 
-function filterStringFromFilters(filters: ListingFilterParams) {
+function backendFilterParamsFromFilters(filters: ListingFilterParams) {
   if (!filters) return ""
   let filterString = ""
   for (const filterKey in ListingFilterKeys) {
@@ -49,7 +49,7 @@ function filterStringFromFilters(filters: ListingFilterParams) {
 const listingsFetcher = function () {
   return async (url: string, page: number, limit: number, filters: ListingFilterParams) => {
     const res = await axios.get(
-      `${url}?page=${page}&limit=${limit}${filterStringFromFilters(filters)}`
+      `${url}?page=${page}&limit=${limit}${backendFilterParamsFromFilters(filters)}`
     )
     return res.data
   }
