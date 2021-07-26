@@ -34,7 +34,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
     if (filterType === "$comparison") {
       if (Array.isArray(value)) {
         comparisons = value
-      } else if (typeof value == "string") {
+      } else if (typeof value === "string") {
         comparisons = [value]
       }
     } else {
@@ -43,7 +43,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
         // handle multiple values for the same key
         if (Array.isArray(value)) {
           values = value
-        } else if (typeof value == "string") {
+        } else if (typeof value === "string") {
           values = [value]
         }
 

@@ -12,7 +12,7 @@ import {
   ListingsQueryParams,
 } from "./dto/listing.dto"
 import { InjectRepository } from "@nestjs/typeorm"
-import { SelectQueryBuilder, Repository } from "typeorm"
+import { Repository } from "typeorm"
 import { plainToClass } from "class-transformer"
 import { PropertyCreateDto, PropertyUpdateDto } from "../property/dto/property.dto"
 import { arrayIndex } from "../libs/arrayLib"
@@ -49,28 +49,24 @@ export class ListingsService {
   }
 
   public async list(origin: string, params: ListingsQueryParams): Promise<PaginatedListingsDto> {
+    // Inner query to get the sorted listing ids of the listings to display
+    // TODO(avaleske): Only join the tables we need for the filters that are applied
     const innerFilteredQuery = this.listingRepository
       .createQueryBuilder("listings")
       .select("listings.id", "listings_id")
-      // .distinctOn(["listings.id"])
       .leftJoin("listings.property", "property")
       .leftJoin("property.units", "units")
-      // .andWhere("units.maxOccupancy = :maxOccupancy")
       .groupBy("listings.id")
       .orderBy({ "listings.id": "DESC" })
-      // .offset(3)
-      // .limit(2)
-    // const innerCount = await innerFilteredQuery.getCount()
-    // console.log("avaleske: inner count is " + innerCount.toString())
 
     const qb = this.getFullyJoinedQueryBuilder()
-    const whereParameters: { [key: string]: string } = {}
+    const innerWhereParams: { [key: string]: string } = {}
     if (params.filter) {
       addFilters<ListingFilterParams, typeof filterTypeToFieldMap>(
         params.filter,
         filterTypeToFieldMap,
         innerFilteredQuery,
-        whereParameters
+        innerWhereParams
       )
     }
 
@@ -89,47 +85,38 @@ export class ListingsService {
     }
     let listings: Listing[]
 
-    if (paginationInfo.currentPage > 0 && paginationInfo.itemsPerPage > 0) {
-      // Calculate the number of listings to skip (because they belong to lower page numbers)
+    const paginate =
+    // currentPage and itemsPerPage are read in from the querystring, so we
+    // we confirm the type before proceeding
+      typeof paginationInfo.currentPage === "number" &&
+      paginationInfo.currentPage > 0 &&
+      typeof paginationInfo.itemsPerPage === "number" &&
+      paginationInfo.itemsPerPage > 0
+    if (paginate) {
+      // Calculate the number of listings to skip (because they belong to lower page numbers).
       const offset = (paginationInfo.currentPage - 1) * paginationInfo.itemsPerPage
+      // Add the limit and offset to the inner query, so we only do the full
+      // join on the listings we want to show.
       innerFilteredQuery.offset(offset).limit(paginationInfo.itemsPerPage)
-      qb.andWhere("listings.id IN (" + innerFilteredQuery.getQuery() + ")").setParameters(
-        whereParameters
-      )
-
-      listings = await qb.getMany()
-
-      paginationInfo.itemCount = listings.length
-
-      // Get the total listings count, with filters applied. getCount() ignores any offsets and limits
-      paginationInfo.totalItems = await innerFilteredQuery.getCount()
-      paginationInfo.totalPages = Math.ceil(paginationInfo.totalItems / paginationInfo.itemsPerPage)
-    } else {
-      // If currentPage or itemsPerPage aren't specified (or are invalid), issue the SQL query to
-      // get all listings (no pagination).
-      qb.andWhere("listings.id IN (" + innerFilteredQuery.getQuery() + ")").setParameters(
-        whereParameters
-      )
-      listings = await qb.getMany()
-
-      paginationInfo.currentPage = 1
-      paginationInfo.itemCount = listings.length
-      paginationInfo.totalPages = 1
-      paginationInfo.itemsPerPage = listings.length
-      paginationInfo.totalItems = listings.length
     }
 
-    // Sort units and preferences.
-    // This step was removed from the SQL query because it interferes with pagination
-    // (See https://github.com/CityOfDetroit/affordable-housing-app/issues/88#issuecomment-865329223)
-    // listings.forEach((listing) => {
-    //   listing.property.units.sort((a, b) => a.maxOccupancy - b.maxOccupancy)
-    //   listing.preferences.sort((a, b) => a.ordinal - b.ordinal)
-    // })
+    qb.andWhere("listings.id IN (" + innerFilteredQuery.getQuery() + ")")
+      // We set the inner WHERE params on the outer query, due to a bug in
+      // TypeORM: The WHERE params are dropped from the inner query.
+      .setParameters(innerWhereParams)
+    listings = await qb.getMany()
 
-    /**
-     * Get the application counts and map them to listings
-     */
+    // Set pagination info
+    paginationInfo.currentPage = paginate ? paginationInfo.currentPage : 1
+    paginationInfo.itemCount = listings.length
+    paginationInfo.itemsPerPage = paginate ? paginationInfo.itemsPerPage : listings.length
+    // Get the total listings count, with filters applied. getCount() ignores any offsets and limits.
+    paginationInfo.totalItems = paginate ? await innerFilteredQuery.getCount() : listings.length
+    paginationInfo.totalPages = paginate
+      ? Math.ceil(paginationInfo.totalItems / paginationInfo.itemsPerPage)
+      : 1
+
+    // Get the application counts and map them to listings
     if (origin === process.env.PARTNERS_BASE_URL) {
       const counts = await this.listingRepository
         .createQueryBuilder("listing")
