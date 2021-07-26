@@ -62,7 +62,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
           // Each WHERE param must be unique across the entire QueryBuilder
           const whereParameterName = `${filterType}_${i}`
           innerQb.andWhere(
-            `LOWER(${filterTypeToFieldMap[filterType.toLowerCase()]}) ${
+            `LOWER(CAST(${filterTypeToFieldMap[filterType.toLowerCase()]} as text)) ${
               comparisonsForCurrentFilter[i]
             } LOWER(:${whereParameterName})`,
             {
