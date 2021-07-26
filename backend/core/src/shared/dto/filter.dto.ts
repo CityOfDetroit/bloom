@@ -6,13 +6,6 @@ export enum Compare {
   "=" = "=",
   "<>" = "<>",
 }
-
-export enum Filters {
-  "status" = "STATUS",
-  "name" = "NAME",
-  "neighborhood" = "NEIGHBORHOOD",
-}
-
 export class BaseFilter {
   @Expose()
   @ApiProperty({

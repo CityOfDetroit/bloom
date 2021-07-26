@@ -8,15 +8,16 @@ import {
   ListingUpdateDto,
   PaginatedListingsDto,
   ListingFilterParams,
+  filterTypeToFieldMap,
+  ListingsQueryParams,
 } from "./dto/listing.dto"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
 import { plainToClass } from "class-transformer"
 import { PropertyCreateDto, PropertyUpdateDto } from "../property/dto/property.dto"
 import { arrayIndex } from "../libs/arrayLib"
-import { ListingsQueryParams } from "./listings.controller"
 import { mapTo } from "../shared/mapTo"
-import { addFilter } from "../shared/filter"
+import { addFilters } from "../shared/filter"
 
 @Injectable()
 export class ListingsService {
@@ -50,7 +51,11 @@ export class ListingsService {
   public async list(origin: string, params: ListingsQueryParams): Promise<PaginatedListingsDto> {
     let qb = this.getQueryBuilder()
     if (params.filter) {
-      addFilter<ListingFilterParams>(params.filter, "listings", qb)
+      addFilters<ListingFilterParams, typeof filterTypeToFieldMap>(
+        params.filter,
+        filterTypeToFieldMap,
+        qb
+      )
     }
 
     qb.orderBy({
