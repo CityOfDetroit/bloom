@@ -35,10 +35,15 @@ export const useFormConductor = (stepName: string) => {
 }
 
 function filterStringFromFilters(filters: ListingFilterParams) {
-  if (!filters || filters.neighborhood == "") return ""
-
-  // Only `neighborhood` filter is currently supported.
-  return `&filter[$comparison]==&filter[${ListingFilterKeys.neighborhood}]=${filters.neighborhood}`
+  if (!filters) return ""
+  let filterString = ""
+  for (const filterKey in ListingFilterKeys) {
+    const value = filters[filterKey]
+    if (value && value != "") {
+      filterString += `&filter[$comparison]==&filter[${filterKey}]=${value}`
+    }
+  }
+  return filterString
 }
 
 const listingsFetcher = function () {

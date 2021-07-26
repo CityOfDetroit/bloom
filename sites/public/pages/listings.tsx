@@ -80,7 +80,19 @@ const ListingsPage = () => {
     if (router.query.page && Number(router.query.page) != currentPage) {
       setCurrentPage(Number(router.query.page))
     }
-    // TODO(abbiefarr): update filter params if the url is manually updated (#240)
+    let filterCopy: ListingFilterParams = filterState ? filterState : {}
+    let changed = false
+    for (const filterKey in ListingFilterKeys) {
+      const filterValue = router.query[filterKey]
+      if (filterValue && (!filterState || filterValue != filterState[filterKey])) {
+        filterCopy[filterKey] = filterValue
+        changed = true
+      }
+    }
+    if (changed) {
+      console.log(filterCopy)
+      setFilterState(filterCopy)
+    }
   }, [router.query])
 
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
