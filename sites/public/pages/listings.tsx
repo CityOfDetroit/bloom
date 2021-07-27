@@ -62,23 +62,21 @@ const ListingsPage = () => {
   ]
 
   function setQueryString(page: number, filters = filterState) {
-    if (page != currentPage || filters != filterState) {
-      const query = { page: page }
-      for (const filterKey in filters) {
-        const filterValue = filters[filterKey]
-        if (filterValue) {
-          query[filterKey] = filterValue
-        }
+    const query = { page: page }
+    for (const filterKey in filters) {
+      const filterValue = filters[filterKey]
+      if (filterValue) {
+        query[filterKey] = filterValue
       }
-      void router.push(
-        {
-          pathname: "/listings",
-          query: query,
-        },
-        undefined,
-        { shallow: true }
-      )
     }
+    void router.push(
+      {
+        pathname: "/listings",
+        query: query,
+      },
+      undefined,
+      { shallow: true }
+    )
   }
 
   // Checks for changes in url params.
