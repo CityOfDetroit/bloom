@@ -58,26 +58,13 @@ export class ListingsService {
       .groupBy("listings.id")
       .orderBy({ "listings.id": "DESC" })
 
-    const qb = this.getFullyJoinedQueryBuilder()
-    // We store the WHERE params set on the inner query, because, due to a bug
-    // in TypeORM that drops them, we'll need to set them on the outer query.
-    // (WHERE params are the values passed to andWhere() that TypeORM escapes and
-    // substitues for the `:paramName` placeholders in the WHERE clause.)
-    const innerWhereParams: { [key: string]: string } = {}
     if (params.filter) {
       addFilters<ListingFilterParams, typeof filterTypeToFieldMap>(
         params.filter,
         filterTypeToFieldMap,
-        innerFilteredQuery,
-        innerWhereParams
+        innerFilteredQuery
       )
     }
-
-    qb.orderBy({
-      "listings.id": "DESC",
-      "units.max_occupancy": "ASC",
-      "preferences.ordinal": "ASC",
-    })
 
     const paginationInfo = {
       currentPage: params.page,
@@ -86,10 +73,9 @@ export class ListingsService {
       totalItems: undefined as number,
       totalPages: undefined as number,
     }
-    let listings: Listing[]
 
     const paginate =
-      // currentPage and itemsPerPage are read in from the querystring, so we
+      // CurrentPage and itemsPerPage are read in from the querystring, so we
       // confirm the type before proceeding
       typeof paginationInfo.currentPage === "number" &&
       paginationInfo.currentPage > 0 &&
@@ -103,10 +89,18 @@ export class ListingsService {
       innerFilteredQuery.offset(offset).limit(paginationInfo.itemsPerPage)
     }
 
-    qb.andWhere("listings.id IN (" + innerFilteredQuery.getQuery() + ")")
-      // Set the inner WHERE params on the outer query, as noted above.
-      .setParameters(innerWhereParams)
-    listings = await qb.getMany()
+    let listings = await this.getFullyJoinedQueryBuilder()
+      .orderBy({
+        "listings.id": "DESC",
+        "units.max_occupancy": "ASC",
+        "preferences.ordinal": "ASC",
+      })
+      .andWhere("listings.id IN (" + innerFilteredQuery.getQuery() + ")")
+      // Set the inner WHERE params on the outer query, as noted in the TypeORM docs.
+      // (WHERE params are the values passed to andWhere() that TypeORM escapes
+      // and substitues for the `:paramName` placeholders in the WHERE clause.)
+      .setParameters(innerFilteredQuery.getParameters())
+      .getMany()
 
     // Set pagination info
     paginationInfo.currentPage = paginate ? paginationInfo.currentPage : 1
