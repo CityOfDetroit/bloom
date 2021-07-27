@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import axios from "axios"
 import useSWR from "swr"
 import { isInternalLink } from "@bloom-housing/ui-components"
-import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import { ListingFilterParams } from "@bloom-housing/backend-core/types"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
 
@@ -32,19 +32,6 @@ export const useFormConductor = (stepName: string) => {
     conductor.skipCurrentStepIfNeeded()
   }, [conductor])
   return context
-}
-
-// TODO(abbiefarr): move this to a filters helper file
-function backendFilterParamsFromFilters(filters: ListingFilterParams) {
-  if (!filters) return ""
-  let filterString = ""
-  for (const filterKey in ListingFilterKeys) {
-    const value = filters[filterKey]
-    if (value && value != "") {
-      filterString += `&filter[$comparison]==&filter[${filterKey}]=${value}`
-    }
-  }
-  return filterString
 }
 
 const listingsFetcher = function () {
