@@ -37,6 +37,7 @@ const mockInnerQueryBuilder = {
   andWhere: jest.fn().mockReturnThis(),
   offset: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
+  getParameters: jest.fn().mockReturnValue({ param1: "param1value" }),
   getQuery: jest.fn().mockReturnValue("innerQuery"),
   getCount: jest.fn().mockReturnValue(7),
 }
@@ -114,9 +115,7 @@ describe("ListingsService", () => {
     })
 
     it("should throw an exception if an unsupported filter is used", async () => {
-      mockListingsRepo.createQueryBuilder
-        .mockReturnValueOnce(mockInnerQueryBuilder)
-        .mockReturnValueOnce(mockQueryBuilder)
+      mockListingsRepo.createQueryBuilder.mockReturnValueOnce(mockInnerQueryBuilder)
 
       const queryParams: ListingsQueryParams = {
         filter: {
