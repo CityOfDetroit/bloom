@@ -10,6 +10,7 @@ export interface ApplicationStatusProps {
   listing: Listing
   vivid?: boolean
 }
+const SHOW_APP_LINKS = false
 
 const ApplicationStatus = (props: ApplicationStatusProps) => {
   let content = ""
@@ -51,14 +52,17 @@ const ApplicationStatus = (props: ApplicationStatusProps) => {
       content = t("listings.applicationFCFS")
     }
   }
-
-  return (
-    <div className={`application-status ${textSize} ${textColor} ${bgColor}`}>
-      <Icon size="medium" symbol="clock" fill={vivid ? IconFillColors.white : undefined} /> &nbsp;
-      {content}
-      {formattedDate != "" ? `: ${formattedDate}` : ""}
-    </div>
-  )
+  if (!SHOW_APP_LINKS) {
+    return null
+  } else {
+    return (
+      <div className={`application-status ${textSize} ${textColor} ${bgColor}`}>
+        <Icon size="medium" symbol="clock" fill={vivid ? IconFillColors.white : undefined} /> &nbsp;
+        {content}
+        {formattedDate != "" ? `: ${formattedDate}` : ""}
+      </div>
+    )
+  }
 }
 
 export { ApplicationStatus as default, ApplicationStatus }
