@@ -11,6 +11,8 @@ import {
   Select,
   Form,
   SelectOption,
+  encodeToFrontendFilterString,
+  getFiltersFromFrontendUrl,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -62,18 +64,8 @@ const ListingsPage = () => {
   ]
 
   function setQueryString(page: number, filters = filterState) {
-    const query = { page: page }
-    for (const filterKey in filters) {
-      const filterValue = filters[filterKey]
-      if (filterValue) {
-        query[filterKey] = filterValue
-      }
-    }
     void router.push(
-      {
-        pathname: "/listings",
-        query: query,
-      },
+      `/listings?page=${page}${encodeToFrontendFilterString(filters)}`,
       undefined,
       { shallow: true }
     )
@@ -85,16 +77,7 @@ const ListingsPage = () => {
       setCurrentPage(Number(router.query.page))
     }
 
-    const updatedFilters: ListingFilterParams = {
-      $comparison: EnumListingFilterParamsComparison["="],
-    }
-    for (const filterKey in ListingFilterKeys) {
-      const filterValue = router.query[filterKey]
-      if (filterValue) {
-        updatedFilters[filterKey] = filterValue
-      }
-    }
-    setFilterState(updatedFilters)
+    setFilterState(getFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)

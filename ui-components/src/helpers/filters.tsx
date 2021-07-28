@@ -31,7 +31,7 @@ export function encodeToFrontendFilterString(filterParams: ListingFilterParams) 
   let queryString = ""
   for (const filterType in filterParams) {
     const value = filterParams[filterType]
-    if (filterType in ListingFilterKeys) {
+    if (filterType in ListingFilterKeys && value && value != "") {
       queryString += `&${filterType}=${value}`
     }
   }

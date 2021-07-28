@@ -43,6 +43,13 @@ describe("encode frontend filter string", () => {
         "&name=Name&neighborhood=Neighborhood"
       )
     })
+    it("should exclude empty filters", () => {
+      const filter: ListingFilterParams = {
+        name: "Name",
+        neighborhood: "",
+      }
+      expect(encodeToFrontendFilterString(filter)).toBe("&name=Name")
+    })
   })
 
 describe("get filter from parsed url", () => {
