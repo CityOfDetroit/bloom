@@ -41,9 +41,7 @@ async function uploadAmiCharts(units) {
   for (const unit of units) {
     const chartFromUnit = unit.amiChart
     if (!chartFromUnit) {
-      console.log(unit)
-      console.log("Error: each unit must have an amiChart.")
-      process.exit(1)
+      continue
     }
 
     // Look for the chart by name.
