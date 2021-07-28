@@ -2,9 +2,44 @@ import * as client from "../types/src/backend-swagger"
 import axios from "axios"
 import { ListingCreate, serviceOptions } from "../types/src/backend-swagger"
 import { ListingStatus } from "../src/listings/types/listing-status-enum"
+import { UnitStatus } from "../src/units/types/unit-status-enum"
 
 // NOTE: This script relies on any logged-in users having permission to create
 // listings and properties (defined in backend/core/src/auth/authz_policy.csv)
+
+export function createUnitsArray(type, number) {
+  const units = []
+  for (let unit_index = 0; unit_index < number; unit_index++) {
+    units.push({
+      unitType: type,
+
+      status: UnitStatus.unknown,
+
+      // This amiPercentage is made up.
+      amiPercentage: "30",
+
+      amiChart: {
+        name: "Fake AMI Chart Name",
+        items: [],
+
+        // Add null id, createdAt, etc. to avoid compilation errors.
+        // (These will be replaced by real values when the script uploads/de-dupes this amiChart.)
+        id: null,
+        createdAt: null,
+        updatedAt: null,
+        units: null,
+      },
+
+      // Add null id, createdAt, etc. to avoid compilation errors.
+      // (These will be replaced by real values when the script uploads this unit.)
+      id: null,
+      createdAt: null,
+      updatedAt: null,
+      property: null,
+    })
+  }
+  return units
+}
 
 function uploadPreferences(listing) {
   const preferencesService = new client.PreferencesService()
