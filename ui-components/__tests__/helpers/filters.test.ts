@@ -1,11 +1,11 @@
 import { cleanup } from "@testing-library/react"
-import { encodeToBackendFilterString, getFiltersFromFrontendUrl } from "../../src/helpers/filters"
+import { encodeToBackendFilterString, encodeToFrontendFilterString, getFiltersFromFrontendUrl } from "../../src/helpers/filters"
 import { parse } from "querystring"
 import { ListingFilterParams } from "@bloom-housing/backend-core/types"
 
 afterEach(cleanup)
 
-describe("encode filter string", () => {
+describe("encode backend filter string", () => {
   it("should handle single filter", () => {
     const filter: ListingFilterParams = {
       neighborhood: "Neighborhood",
@@ -24,6 +24,26 @@ describe("encode filter string", () => {
     )
   })
 })
+
+describe("encode frontend filter string", () => {
+    it("should handle single filter", () => {
+      const filter: ListingFilterParams = {
+        neighborhood: "Neighborhood",
+      }
+      expect(encodeToFrontendFilterString(filter)).toBe(
+        "&neighborhood=Neighborhood"
+      )
+    })
+    it("should handle multiple filters", () => {
+      const filter: ListingFilterParams = {
+        name: "Name",
+        neighborhood: "Neighborhood",
+      }
+      expect(encodeToFrontendFilterString(filter)).toBe(
+        "&name=Name&neighborhood=Neighborhood"
+      )
+    })
+  })
 
 describe("get filter from parsed url", () => {
   it("should handle single filter", () => {
