@@ -60,6 +60,14 @@ module.exports = withCSS(
           sassLoaderOptions: {
             additionalData: tailwindVars,
           },
+
+          module: {
+            rules: [
+              {
+                exclude: ["./pages/applications/"],
+              },
+            ],
+          },
         })
       )
     )
