@@ -1,5 +1,9 @@
 import { cleanup } from "@testing-library/react"
-import { encodeToBackendFilterString, encodeToFrontendFilterString, getFiltersFromFrontendUrl } from "../../src/helpers/filters"
+import {
+  encodeToBackendFilterString,
+  encodeToFrontendFilterString,
+  getFiltersFromFrontendUrl,
+} from "../../src/helpers/filters"
 import { parse } from "querystring"
 import { ListingFilterParams } from "@bloom-housing/backend-core/types"
 
@@ -26,31 +30,27 @@ describe("encode backend filter string", () => {
 })
 
 describe("encode frontend filter string", () => {
-    it("should handle single filter", () => {
-      const filter: ListingFilterParams = {
-        neighborhood: "Neighborhood",
-      }
-      expect(encodeToFrontendFilterString(filter)).toBe(
-        "&neighborhood=Neighborhood"
-      )
-    })
-    it("should handle multiple filters", () => {
-      const filter: ListingFilterParams = {
-        name: "Name",
-        neighborhood: "Neighborhood",
-      }
-      expect(encodeToFrontendFilterString(filter)).toBe(
-        "&name=Name&neighborhood=Neighborhood"
-      )
-    })
-    it("should exclude empty filters", () => {
-      const filter: ListingFilterParams = {
-        name: "Name",
-        neighborhood: "",
-      }
-      expect(encodeToFrontendFilterString(filter)).toBe("&name=Name")
-    })
+  it("should handle single filter", () => {
+    const filter: ListingFilterParams = {
+      neighborhood: "Neighborhood",
+    }
+    expect(encodeToFrontendFilterString(filter)).toBe("&neighborhood=Neighborhood")
   })
+  it("should handle multiple filters", () => {
+    const filter: ListingFilterParams = {
+      name: "Name",
+      neighborhood: "Neighborhood",
+    }
+    expect(encodeToFrontendFilterString(filter)).toBe("&name=Name&neighborhood=Neighborhood")
+  })
+  it("should exclude empty filters", () => {
+    const filter: ListingFilterParams = {
+      name: "Name",
+      neighborhood: "",
+    }
+    expect(encodeToFrontendFilterString(filter)).toBe("&name=Name")
+  })
+})
 
 describe("get filter from parsed url", () => {
   it("should handle single filter", () => {
