@@ -141,7 +141,7 @@ export async function importListing(apiUrl, email, password, listing) {
   // Link the uploaded property to the listing by id.
   listing.property = property
 
-  // The ListinCreateDto expects to include units and buildingAddress
+  // The ListingCreateDto expects to include units and buildingAddress
   listing.units = property.units
   listing.buildingAddress = property.buildingAddress
 
