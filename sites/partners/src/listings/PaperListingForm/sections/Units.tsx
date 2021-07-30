@@ -55,10 +55,12 @@ const FormUnits = ({ units, setUnits, unitsSummary, disableUnitsAccordion }: Uni
 
   useEffect(() => {
     if (unitsSummary !== undefined) {
-      setUnitsSummarized(groupNonReservedAndReservedSummaries(
-        unitsSummary.byNonReservedUnitType,
-        unitsSummary.byReservedType
-      ))
+      setUnitsSummarized(
+        groupNonReservedAndReservedSummaries(
+          unitsSummary.byNonReservedUnitType,
+          unitsSummary.byReservedType
+        )
+      )
     }
   }, [setUnitsSummarized])
 
@@ -181,11 +183,7 @@ const FormUnits = ({ units, setUnits, unitsSummary, disableUnitsAccordion }: Uni
                 cellClassName="px-5 py-3"
               />
             </div>
-            <Button
-              type="button"
-              size={AppearanceSizeType.normal}
-              onClick={() => false}
-            >
+            <Button type="button" size={AppearanceSizeType.normal} onClick={() => false}>
               {t("t.edit")}
             </Button>
           </div>
