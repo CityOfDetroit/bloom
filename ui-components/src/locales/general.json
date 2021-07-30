@@ -698,8 +698,8 @@
   "languages": {
     "en": "English",
     "es": "Español",
-    "zh": "中文",
-    "vi": "Tiếng Việt"
+    "ar": "عربى",
+    "bn": "বাংলা"
   },
   "leasingAgent": {
     "contact": "Contact Leasing Agent",
