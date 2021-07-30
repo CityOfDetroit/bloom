@@ -217,6 +217,7 @@ export const ListingView = (props: ListingProps) => {
         )}
       </div>
       <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
+        <ListingUpdated listing={listing} />
         <ApplicationStatus listing={listing} />
         <div className="mx-4">
           <DownloadLotteryResults event={lotteryResults} />
