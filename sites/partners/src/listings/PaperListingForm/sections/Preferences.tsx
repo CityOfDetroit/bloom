@@ -84,7 +84,7 @@ const Preferences = ({ preferences, setPreferences }: PreferencesProps) => {
       })
       setDraftPreferences(newDragOrder)
     }
-  }, [dragOrder])
+  }, [dragOrder, setDraftPreferences])
 
   // Fetch and filter all preferences
   const { data: preferencesData = [] } = usePreferenceList()
@@ -96,7 +96,7 @@ const Preferences = ({ preferences, setPreferences }: PreferencesProps) => {
         []
       )
     )
-  }, [preferencesData])
+  }, [preferencesData, setUniquePreferences])
 
   const formMethods = useFormContext()
   // eslint-disable-next-line @typescript-eslint/unbound-method
