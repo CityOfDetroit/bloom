@@ -11,9 +11,10 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.neighborhood:
     case ListingFilterKeys.status:
       return EnumListingFilterParamsComparison["="]
-    default:
+    default: {
       const _exhaustiveCheck: never = filterKey
       return _exhaustiveCheck
+    }
   }
 }
 
