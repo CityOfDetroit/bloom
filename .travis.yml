@@ -26,9 +26,9 @@ defaults: &defaults
     - yarn db:reseed
     - cd backend/core
     # start backend/core in the background
-    - yarn NODE_ENV=development nest start &
+    - yarn nest start &
     - cd ../..
-    - yarn test:app:public:headless -- --parallel --group $STAGE_NAME
+    - yarn test:app:public:headless --parallel --group $STAGE_NAME
     # after all tests finish running we need to kill all bg jobs
     - kill $(jobs -p) || true
 
