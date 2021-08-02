@@ -1,57 +1,13 @@
 {
-  "": "",
   "account": {
     "accountSettings": "Account Settings",
-    "errorFetchingApplications": "Error fetching applications",
-    "noApplications": "It looks like you haven't applied to any listings yet.",
     "accountSettingsSubtitle": "Account Settings, email and password",
-    "createAccount": "Create Account",
-    "haveAnAccount": "Already have an account?",
     "myApplications": "My Applications",
-    "myApplicationsSubtitle": "See lottery dates and listings for properties for which you've applied",
-    "application": {
-      "confirmation": "Confirmation",
-      "error": "Error",
-      "noAccessError": "No application with that ID exists",
-      "noApplicationError": "No application with that ID exists",
-      "return": "Return to applications"
-    },
-    "settings": {
-      "passwordSuccess": "Password successfully updated",
-      "update": "Update",
-      "passwordRemember": "When changing your password make sure you make note of it so you remember it in the future.",
-      "currentPassword": "Current password",
-      "newPassword": "New password",
-      "confirmNewPassword": "Confirm new password",
-      "alerts": {
-        "genericError": "There was an error. Please try again, or contact support for help.",
-        "nameSuccess": "Name update successful",
-        "dobSuccess": "Birthdate update successful",
-        "emailSuccess": "Email update successful",
-        "currentPassword": "Invalid current password. Please try again.",
-        "passwordSuccess": "Password update successful",
-        "passwordMatch": "New password fields do not match",
-        "passwordEmpty": "Password fields may not be empty"
-      },
-      "placeholders": {
-        "month": "MM",
-        "day": "DD",
-        "year": "YYYY"
-      }
-    }
+    "myApplicationsSubtitle": "See lottery dates and listings for properties for which you've applied"
   },
   "applications": {
-    "begin": {
-      "en": "Begin",
-      "es": "Empezar",
-      "zh": "開始",
-      "vi": "Bắt đầu"
-    },
     "totalApplications": "Total Applications",
-    "totalSets": "Total Sets",
     "addApplication": "Add Application",
-    "newApplication": "New Application",
-    "editApplication": "Edit Application",
     "applicationsReceived": "Applications Received",
     "table": {
       "applicationSubmissionDate": "Application Submission Date",
@@ -92,46 +48,10 @@
       "householdStreetAddress": "Household Street Address",
       "householdCity": "Household City",
       "householdState": "Household State",
-      "householdZip": "Household Zip",
-      "applicationType": "Application Type"
+      "householdZip": "Household Zip"
     }
   },
   "application": {
-    "add": {
-      "applicationAddError": "You’ll need to resolve any errors before moving on.",
-      "workInRegion": "Work in the region?",
-      "mobility": "Mobility Impairments",
-      "vision": "Vision Impairments",
-      "hearing": "Hearing Impairments",
-      "preferences": {
-        "liveIn": "Live in",
-        "workIn": "Work in",
-        "optedOut": "Opted out of preference"
-      },
-      "incomePeriod": "Income Period",
-      "demographicsInformation": "Demographic Information",
-      "ethnicity": "Ethnicity",
-      "race": "Race",
-      "gender": "Gender",
-      "howDidYouHearAboutUs": "How did you hear about us?",
-      "sexualOrientation": "Sexual Orientation",
-      "addHouseholdMember": "Add Household Member",
-      "sameAddressAsPrimary": "Same Address as Primary",
-      "sameResidence": "Same Residence",
-      "languageSubmittedIn": "Language Submitted In",
-      "timeSubmitted": "Time Submitted",
-      "dateSubmitted": "Date Submitted",
-      "applicationSubmitted": "Application Submitted",
-      "applicationUpdated": "Application Updated",
-      "saveAndExit": "Save & exit",
-      "claimant": "Claimant",
-      "displacedAddress": "Displaced Address"
-    },
-    "referralApplication": {
-      "instructions": "The permanent supportive housing units are referred directly through <COUNTY> Coordinated Entry System. Households experiencing homelessness can call <PHONE_NUMBER> in order to get connected to an Access Point to learn more about the coordinated entry system and access housing-related resources and information.",
-      "furtherInformation": "For further information",
-      "phoneNumber": "211"
-    },
     "details": {
       "applicationData": "Application Data",
       "number": "Application Number",
@@ -155,23 +75,35 @@
       "workInRegion": "Work in Region",
       "signatureOnTerms": "Signature on Terms of Agreement",
       "submissionType": {
-        "electronical": "Electronic",
+        "electronical": "Electronical",
         "paper": "Paper"
       },
       "applicationStatus": {
         "draft": "Draft",
         "submitted": "Submitted",
         "removed": "Removed"
-      },
-      "preferredUnitSizes": "Preferred Unit Sizes",
-      "householdMemberDetails": "Household Member Details"
+      }
     },
     "form": {
+      "errors": {
+        "selectOption": "Please select one of the options above.",
+        "selectAtLeastOne": "Please select at least one option.",
+        "householdTooBig": "Your household size is too big.",
+        "householdTooSmall": "Your household size is too small."
+      },
       "general": {
         "saveAndReturn": "Save and return to review",
-        "saveAndFinishLater": "Save and finish later"
+        "saveAndFinishLater": "Save and finish later",
+        "defaultSelectPlaceholder": "Select One",
+        "createAccount": "Create Account"
       },
       "options": {
+        "contact": {
+          "email": "Email",
+          "phone": "Phone",
+          "letter": "Letter",
+          "text": "Text"
+        },
         "relationship": {
           "spouse": "Spouse",
           "registeredDomesticPartner": "Registered Domestic Partner",
@@ -188,30 +120,82 @@
           "inLaw": "In Law",
           "friend": "Friend",
           "other": "Other"
+        },
+        "states": {
+          "AL": "Alabama",
+          "AK": "Alaska",
+          "AZ": "Arizona",
+          "AR": "Arkansas",
+          "CA": "California",
+          "CO": "Colorado",
+          "CT": "Connecticut",
+          "DE": "Delaware",
+          "DC": "District Of Columbia",
+          "FL": "Florida",
+          "GA": "Georgia",
+          "HI": "Hawaii",
+          "ID": "Idaho",
+          "IL": "Illinois",
+          "IN": "Indiana",
+          "IA": "Iowa",
+          "KS": "Kansas",
+          "KY": "Kentucky",
+          "LA": "Louisiana",
+          "ME": "Maine",
+          "MD": "Maryland",
+          "MA": "Massachusetts",
+          "MI": "Michigan",
+          "MN": "Minnesota",
+          "MS": "Mississippi",
+          "MO": "Missouri",
+          "MT": "Montana",
+          "NE": "Nebraska",
+          "NV": "Nevada",
+          "NH": "New Hampshire",
+          "NJ": "New Jersey",
+          "NM": "New Mexico",
+          "NY": "New York",
+          "NC": "North Carolina",
+          "ND": "North Dakota",
+          "OH": "Ohio",
+          "OK": "Oklahoma",
+          "OR": "Oregon",
+          "PA": "Pennsylvania",
+          "RI": "Rhode Island",
+          "SC": "South Carolina",
+          "SD": "South Dakota",
+          "TN": "Tennessee",
+          "TX": "Texas",
+          "UT": "Utah",
+          "VT": "Vermont",
+          "VA": "Virginia",
+          "WA": "Washington",
+          "WV": "West Virginia",
+          "WI": "Wisconsin",
+          "WY": "Wyoming"
         }
       }
     },
     "chooseLanguage": {
       "letsGetStarted": "Let’s get started on your application",
       "chooseYourLanguage": "Choose Your Language",
+      "haveAnAccount": "Already have an account?",
       "signInSaveTime": "Signing in could save you time by starting with details of your last application, and allow you to check the status of this application at any time."
-    },
-    "autofill": {
-      "saveTime": "Save time by using the details from your last application",
-      "prefillYourApplication": "We'll simply pre-fill your application with the following details, and you can make updates as you go.",
-      "start": "Start with these details",
-      "reset": "Reset and start fresh"
     },
     "name": {
       "title": "What's your name?",
       "yourName": "Your Name",
       "firstName": "First Name",
+      "firstNameError": "Please enter a First Name",
       "middleNameOptional": "Middle Name (optional)",
       "middleName": "Middle Name",
       "lastName": "Last Name",
+      "lastNameError": "Please enter a Last Name",
       "yourDateOfBirth": "Your Date of Birth",
+      "dateOfBirthError": "Please enter a valid Date of Birth",
       "yourEmailAddress": "Your Email Address",
       "emailPrivacy": "We will only use your email address to contact you about your application.",
+      "emailAddressError": "Please enter an email address",
       "noEmailAddress": "I don't have an email address"
     },
     "contact": {
@@ -223,24 +207,30 @@
         "home": "Home",
         "cell": "Cell"
       },
+      "phoneNumberError": "Please enter a phone number",
       "noPhoneNumber": "I don't have a telephone number",
+      "phoneNumberTypeError": "Please enter a phone number type",
       "yourAdditionalPhoneNumber": "Your Second Phone Number",
       "additionalPhoneNumber": "I have an additional phone number",
       "address": "Address",
       "addressWhereYouCurrentlyLive": "We need the address where you currently live. If you are homeless, enter either the shelter address or an address close to where you stay.",
       "streetAddress": "Street Address",
+      "streetError": "Please enter an address",
       "apt": "Apt or Unit #",
       "city": "City",
       "cityName": "City Name",
+      "cityError": "Please enter a city",
       "contactPreference": "How do you prefer to be contacted?",
       "preferredContactType": "Preferred Contact Type",
       "state": "State",
+      "stateError": "Please enter a state",
       "zip": "Zip",
       "zipCode": "Zipcode",
+      "zipCodeError": "Please enter a zipcode",
       "sendMailToMailingAddress": "Send my mail to a different address",
       "mailingAddress": "Mailing Address",
       "provideAMailingAddress": "Provide an address where you can receive updates and materials about your application.",
-      "doYouWorkIn": "Do you work in %{county} County?",
+      "doYouWorkIn": "Do you work in <REGION>?",
       "doYouWorkInDescription": "TBD",
       "workAddress": "Work Address"
     },
@@ -249,6 +239,7 @@
         "title": "Is there someone else you'd like to authorize us to contact if we can't reach you?",
         "description": "By providing alternate contact, you are allowing us to discuss information on your application with them.",
         "label": "Alternate Contact",
+        "helperText": "Please select one.",
         "options": {
           "familyMember": "Family member",
           "friend": "Friend",
@@ -263,6 +254,10 @@
       "name": {
         "title": "Who is your alternate contact?",
         "alternateContactFormLabel": "Name of alternate contact",
+        "firstNameFormPlaceholder": "First Name",
+        "firstNameValidationErrorMessage": "Please enter a First Name",
+        "lastNameFormPlaceholder": "Last Name",
+        "lastNameValidationErrorMessage": "Please enter a Last Name",
         "caseManagerAgencyFormLabel": "Where does your case manager or housing counselor work?",
         "caseManagerAgencyFormPlaceHolder": "Agency",
         "caseManagerAgencyValidationErrorMessage": "Please enter an agency"
@@ -271,9 +266,18 @@
         "title": "Let us know how to reach your alternate contact",
         "description": "We'll only use this information to contact them about your application.",
         "phoneNumberFormLabel": "Contact phone number",
+        "phoneNumberFormPlaceHolder": "(555) 555-5555",
         "emailAddressFormLabel": "Contact email address",
+        "emailAddressFormPlaceHolder": "you@myemail.com",
         "contactMailingAddressLabel": "Contact mailing address",
-        "contactMailingAddressHelperText": "Choose an address where they can receive updates and materials about your application"
+        "contactMailingAddressHelperText": "Choose an address where they can receive updates and materials about your application",
+        "streetFormPlaceholder": "Street Address",
+        "cityFormLabel": "City Name",
+        "cityFormPlaceholder": "City Name",
+        "stateFormLabel": "State",
+        "stateFormPlaceholder": "Select One",
+        "zipcodeFormLabel": "Zip",
+        "zipcodeFormPlaceholder": "Zip Code"
       }
     },
     "household": {
@@ -283,8 +287,7 @@
       "addMembers": {
         "addHouseholdMember": "+ Add Household Member",
         "done": "Done adding people",
-        "title": "Tell us about your household.",
-        "doubleCheck": "Please double-check the information for each household member."
+        "title": "Tell us about your household."
       },
       "householdMember": "Household Member",
       "householdMembers": "Household Members",
@@ -319,7 +322,7 @@
         "title": "Tell us about this person",
         "updateHouseholdMember": "Update Household Member",
         "whatReletionship": "What is their relationship to you",
-        "workInRegion": "Do they work in %{county} County?",
+        "workInRegion": "Do they work in <REGION>?",
         "workInRegionNote": "TBD"
       },
       "membersInfo": {
@@ -331,121 +334,35 @@
       "label": "ADA Accessible Units",
       "title": "Do you or anyone in your household need any of the following ADA accessibility features?",
       "subTitle": "If you are selected for a unit, the property will work to accommodate your need to the best of their ability. Should your application be chosen, be prepared to provide supporting documentation from your physician.",
+      "legend": "ADA Features",
       "mobility": "For Mobility Impairments",
       "vision": "For Vision Impairments",
       "hearing": "For Hearing Impairments"
-    },
-    "financial": {
-      "income": {
-        "title": "Let's move to income.",
-        "instruction1": "Add up your total gross (pre-tax) household income from wages, benefits and other sources from all household members.",
-        "instruction2": "You only need to provide an estimated total right now. The actual total will be calculated if you are selected.",
-        "prompt": "What is your household total pre-tax income?",
-        "placeholder": "Total all of your income sources",
-        "legend": "Income frequency",
-        "validationError": {
-          "title": "Unfortunately it appears you do not qualify for this listing.",
-          "reason": {
-            "low": "Your household income is too low.",
-            "high": "Your household income is too high."
-          },
-          "instruction1": "Please make changes if you believe you might have made a mistake. Be aware that if you falsify any information on your application you will be disqualified.",
-          "instruction2": "If the information you entered is accurate, we encourage you to check back in the future as more properties become available."
-        }
-      },
-      "vouchers": {
-        "title": "Do you or anyone on this application receive any of the following?",
-        "housingVouchers": {
-          "strong": "Housing vouchers",
-          "text": "like Section 8"
-        },
-        "nonTaxableIncome": {
-          "strong": "Non-taxable income",
-          "text": "like SSI, SSDI, child support payments, or worker's compensation benefits"
-        },
-        "rentalSubsidies": {
-          "strong": "Rental subsidies",
-          "text": "like VASH, HSA, HOPWA, Catholic Charities, AIDS Foundation, etc."
-        },
-        "legend": "Housing vouchers, nontaxable income or rental subsidies"
-      }
     },
     "preferences": {
       "title": "Your household may qualify for the following housing preferences.",
       "preamble": "If you qualify for this preference, you'll get a higher ranking.",
       "selectBelow": "If you have one of these housing preferences, select it below:",
-      "dontWant": "I don't want these preferences",
+      "dontWant": "I don't want this preference",
       "stillHaveOpportunity": "You'll still have the opportunity to claim other preferences.",
       "youHaveClaimed": "You have claimed:",
-      "liveWork": {
-        "title": "Live or Work in %{county} County?",
-        "live": {
-          "label": "Live in %{county} County Preference",
-          "description": "Live in %{county} copy goes here…",
-          "link": "http://domain.com"
-        },
-        "work": {
-          "label": "Work in %{county} County Preference",
-          "description": "Work in %{county} copy goes here…",
-          "link": "http://domain.com"
-        }
+      "liveIn": {
+        "label": "Live in <REGION> Preference",
+        "description": "Live in <REGION> copy goes here…",
+        "link": "http://domain.com"
       },
-      "PBV": {
-        "title": "%{county} copy goes here…",
-        "residency": {
-          "label": "Residency",
-          "description": "%{county} copy goes here…"
-        },
-        "family": {
-          "label": "Family",
-          "description": "%{county} copy goes here…"
-        },
-        "veteran": {
-          "label": "Veteran",
-          "description": "%{county} copy goes here…"
-        },
-        "homeless": {
-          "label": "Homeless",
-          "description": "%{county} copy goes here…"
-        },
-        "noneApplyButConsider": {
-          "label": "None of these preferences apply to me, but I would like to be considered"
-        },
-        "doNotConsider": {
-          "label": "I don't want to be considered for [housing authority] project-based voucher units"
-        }
-      },
-      "HOPWA": {
-        "title": "Housing Opportunities for Persons with AIDS",
-        "hopwa": {
-          "label": "Housing Opportunities for Persons with AIDS",
-          "description": "%{county} copy goes here…"
-        },
-        "doNotConsider": {
-          "label": "I don't want to be considered"
-        }
-      },
-      "displacedTenant": {
-        "title": "Displaced Tenant Housing Preference",
-        "whichHouseholdMember": "Which household member is claiming this preference?",
-        "whatAddress": "What address was the household member displaced from?",
-        "general": {
-          "label": "Displaced Tenant Housing Preference",
-          "description": "Displaced Tenant copy goes here…",
-          "link": "http://domain.com"
-        },
-        "missionCorridor": {
-          "label": "Mission Corridor",
-          "description": "Mission Corridor copy goes here…"
-        }
+      "workIn": {
+        "label": "Work in <REGION> Preference",
+        "description": "Work in <REGION> copy goes here…",
+        "link": "http://domain.com"
       },
       "general": {
         "title": "Based on the information you have entered, your household has not claimed any housing preferences.",
         "preamble": "You will be in the general pool of applicants."
       },
       "options": {
-        "address": "Displaced Address",
-        "name": "Claimant"
+        "liveIn": "Live",
+        "workIn": "Work"
       }
     },
     "review": {
@@ -458,7 +375,9 @@
       "terms": {
         "title": "Terms",
         "text": "This application must be submitted by %{applicationDueDate}.<br><br>Applicants will be contacted by the agent in the lottery rank and preference order until vacancies are filled.<br><br>All of the information that you have provided will be verified and you eligibility confirmed. Your application will be removed from the lottery if you have made any fraudulent statements, or if any household member appears on more than one application for this listing. If we cannot verify a housing lottery preference that you have claimed, you will not receive the preference but will not be otherwise penalised.<br><br>All of the information that you have provided will be verified and your eligibility confirmed. Your application will be removed from the waitlist if you have made any fraudulent statements, or if any household member appears on more than one application for this listing. If we cannot verify a housing preference that you have claimed, you will not receive the preference but will not be otherwise penalized.<br><br>Should your application be chosen from the lottery, be prepared to fill out a more detailed application and provide required supporting documents within 5 bussiness days of being contacted. For more information, please contact the developer or agent posted in the listing. Completing this lottery application does not entitle you to housing or indicate you are eligible for housing. All applicants will be screened as outlined in the property's Resident Selection Criteria.<br><br>You cannot change your online application after you submit.<br><br>I declare that foregoing is true and accurate, and acknowledge that any misstatement fraudulently or negligently made on this application will result in removal from the lottery.<br><br>",
-        "confirmCheckboxText": "I agree and understand that I cannot change anything after I submit."
+        "confirmCheckboxText": "I agree and understand that I cannot change anything after I submit.",
+        "agreeError": "You must agree to the terms in order to continue",
+        "submit": "Submit"
       },
       "demographics": {
         "title": "Help us ensure we are meeting our goal to serve all people.",
@@ -542,6 +461,50 @@
       "generalLottery": "Based on information you have entered, your household has not claimed any housing lottery preferences. You will be in the general lottery.",
       "printCopy": "Print a copy for your records"
     },
+    "financial": {
+      "income": {
+        "title": "Let's move to income.",
+        "instruction1": "Add up your total gross (pre-tax) household income from wages, benefits and other sources from all household members.",
+        "instruction2": "You only need to provide an estimated total right now. The actual total will be calculated if you are selected.",
+        "prompt": "What is your household total pre-tax income?",
+        "placeholder": "Total all of your income sources",
+        "incomeError": "Please enter a valid number greater than 0.",
+        "legend": "Income frequency",
+        "perMonth": "per month",
+        "perYear": "per year",
+        "periodError": "Please select one of the options above.",
+        "validationError": {
+          "title": "Unfortunately it appears you do not qualify for this listing.",
+          "reason": {
+            "low": "Your household income is too low.",
+            "high": "Your household income is too high."
+          },
+          "instruction1": "Please make changes if you believe you might have made a mistake. Be aware that if you falsify any information on your application you will be disqualified.",
+          "instruction2": "If the information you entered is accurate, we encourage you to check back in the future as more properties become available.",
+          "assistance": "Get Assistance"
+        }
+      },
+      "vouchers": {
+        "title": "Do you or anyone on this application receive any of the following?",
+        "housingVouchers": {
+          "strong": "Housing vouchers",
+          "text": "like Section 8"
+        },
+        "nonTaxableIncome": {
+          "strong": "Non-taxable income",
+          "text": "like SSI, SSDI, child support payments, or worker's compensation benefits"
+        },
+        "rentalSubsidies": {
+          "strong": "Rental subsidies",
+          "text": "like VASH, HSA, HOPWA, Catholic Charities, AIDS Foundation, etc."
+        },
+        "legend": "Housing vouchers, nontaxable income or rental subsidies",
+        "prompt": "Please select one.",
+        "yes": "Yes",
+        "no": "No",
+        "error": "Please select an option."
+      }
+    },
     "start": {
       "whatToExpect": {
         "title": "Here's what to expect from this application.",
@@ -551,15 +514,14 @@
       }
     },
     "timeout": {
+      "title": "Are you still working?",
       "text": "To protect your identity, your session will expire in one minute due to inactivity. You will lose any unsaved information if you choose not to respond.",
       "action": "Continue working",
-      "afterMessage": "We care about your security. We ended your session due to inactivity. Please start a new application to continue."
+      "afterMessage": "We care about your security. We ended your session due to inactivity. Please log in or start a new application to continue."
     },
     "continueApplication": "Continue Application",
     "applicationNeverSubmitted": "Your application was never submitted",
     "deleteThisApplication": "Delete this application?",
-    "deleteThisMember": "Delete this member?",
-    "deleteMemberDescription": "Do you really want to delete this member?",
     "deleteApplicationDescription": "Deleting this application means you will lose all the information you've entered.",
     "edited": "Edited",
     "status": "Status",
@@ -571,74 +533,17 @@
     "viewApplication": "View Application",
     "yourLotteryNumber": "Your confirmation number is"
   },
-  "flags": {
-    "flaggedSet": "Flagged Set",
-    "ruleName": "Rule Name",
-    "pendingReview": "Pending Review",
-    "totalSets": "Total Sets",
-    "resolveFlag": "Resolve Flag",
-    "markedAsDuplicate": "%{quantity} applications marked as duplicate"
-  },
   "authentication": {
-    "forgotPassword": {
-      "changePassword": "Change Password",
-      "sendEmail": "Send email",
-      "success": "We've sent you an email. You'll receive an email with a link to reset your password.",
-      "errors": {
-        "tokenExpired": "Reset password token expired. Please request for a new one.",
-        "tokenMissing": "Token not found. Please request for a new one.",
-        "generic": "There was an error. Please try again, or contact support for help.",
-        "emailNotFound": "Email not found. Please make sure your email has an account with us and is confirmed."
-      }
-    },
     "timeout": {
+      "title": "Are you still working?",
       "text": "To protect your identity, your session will expire in one minute due to inactivity. You will lose any unsaved information and be logged out if you choose not to respond.",
       "action": "Stay logged in",
       "signOutMessage": "We care about your security. We logged you out due to inactivity. Please sign in to continue."
     },
     "signIn": {
-      "loginError": "Please enter a valid email address",
-      "passwordError": "Please enter a valid password",
-      "cantFindAccount": "We couldn't find an account with that email address/password.",
       "error": "There was an error signing you in",
       "errorGenericMessage": "Please try again, or contact support for help.",
-      "forgotPassword": "Forgot password?",
       "success": "Welcome back, %{name}!"
-    },
-    "createAccount": {
-      "accountConfirmed": "Your account was successfully confirmed.",
-      "anEmailHasBeenSent": "An email has been sent to %{email}",
-      "confirmationInstruction": "Please click on the link in the email we sent you in order to complete account creation.",
-      "confirmationNeeded": "Confirmation needed",
-      "emailSent": "Confirmation email has been sent. Please check your inbox.",
-      "yourName": "Your Name",
-      "firstName": "First Name",
-      "middleNameOptional": "Middle Name (optional)",
-      "middleName": "Middle Name",
-      "lastName": "Last Name",
-      "yourDateOfBirth": "Your Date of Birth",
-      "email": "Email",
-      "emailPrivacy": "We will only use your email address to contact you about your application.",
-      "reEnterEmail": "Re-enter email address",
-      "reEnterPassword": "Re-enter your password",
-      "resendTheEmail": "Resend the email",
-      "linkExpired": "Your link has expired",
-      "mustBe8Chars": "Must be 8 characters",
-      "password": "Password",
-      "passwordInfo": "Must be at least 8 characters and include at least 1 letter and at least one number.",
-      "resendEmailInfo": "Please click on the link in the email we send you within 24 hours in order to complete account creation.",
-      "resendAnEmailTo": "Resend an email to",
-      "errors": {
-        "accountConfirmed": "Your account is already confirmed.",
-        "errorSaving": "Oops! Looks like something went wrong. Please try again. \n\nContact sfhousing.info@sfgov.org if you're still experiencing issues.",
-        "emailInUse": "Email is already in use",
-        "emailMismatch": "The emails do not match",
-        "emailNotFound": "Email not found. Please register first.",
-        "passwordMismatch": "The passwords do not match",
-        "passwordTooWeak": "Password is too weak. Must be at least 8 characters and include at least 1 letter and at least one number.",
-        "tokenExpired": "Your link has expired.",
-        "tokenMissing": "Wrong token provided."
-      }
     },
     "signOut": {
       "success": "You have successfully logged out of your account."
@@ -647,7 +552,7 @@
   "config": {
     "routePrefix": ""
   },
-  "errors": {
+  "error": {
     "alert": {
       "badRequest": "Oops! Looks like something went wrong. Please try again. \n\nContact sfhousing.info@sfgov.org if you're still experiencing issues.",
       "timeoutPleaseTryAgain": "Oops! Looks like something went wrong. Please try again."
@@ -655,31 +560,7 @@
     "notFound": {
       "title": "Page Not Found",
       "message": "Uh oh, we can’t seem to find the page you’re looking for. Try going back to the previous page or click below to browse listings."
-    },
-    "agreeError": "You must agree to the terms in order to continue",
-    "firstNameError": "Please enter a First Name",
-    "lastNameError": "Please enter a Last Name",
-    "dateOfBirthError": "Please enter a valid Date of Birth",
-    "dateOfBirthErrorAge": "Please enter a valid Date of Birth, must be 18 or older",
-    "emailAddressError": "Please enter an email address",
-    "phoneNumberError": "Please enter a phone number",
-    "phoneNumberTypeError": "Please enter a phone number type",
-    "streetError": "Please enter an address",
-    "timeError": "Please enter a valid time",
-    "cityError": "Please enter a city",
-    "stateError": "Please enter a state",
-    "zipCodeError": "Please enter a zipcode",
-    "errorsToResolve": "There are errors you'll need to resolve before moving on.",
-    "numberError": "Please enter a valid number greater than 0.",
-    "selectAllThatApply": "Please select all that apply.",
-    "selectAtLeastOne": "Please select at least one option.",
-    "selectAnOption": "Please select an option.",
-    "selectOption": "Please select one of the options above.",
-    "householdTooBig": "Your household size is too big.",
-    "householdTooSmall": "Your household size is too small.",
-    "dateError": "Please enter a valid date",
-    "rateLimitExceeded": "Rate limit exceeded, try again later.",
-    "requiredFieldError": "This field is required."
+    }
   },
   "footer": {
     "contact": "Contact",
@@ -695,55 +576,51 @@
     "call": "Call %{number}",
     "visitWebsite": "Visit %{name}"
   },
-  "languages": {
-    "en": "English",
-    "es": "Español",
-    "zh": "中文",
-    "vi": "Tiếng Việt",
-    "ar": "عربى",
-    "bn": "বাংলা"
+  "label": {
+    "call": "Call",
+    "edit": "Edit",
+    "email": "Email",
+    "getDirections": "Get Directions",
+    "less": "Less",
+    "more": "More",
+    "readLess": "read less",
+    "readMore": "read more",
+    "seeDetails": "See Details",
+    "showLess": "show less",
+    "showMore": "show more",
+    "viewMap": "View Map"
   },
   "leasingAgent": {
     "contact": "Contact Leasing Agent",
     "dueToHighCallVolume": "Due to high call volume you may hear a message.",
-    "name": "Leasing Agent Name",
-    "namePlaceholder": "Full Name",
-    "title": "Leasing Agent Title",
-    "officeHours": "Office Hours",
-    "officeHoursPlaceholder": "ex: 9:00am - 5:00pm, Monday to Friday"
+    "officeHours": "Office Hours"
+  },
+  "listingsForRent": {
+    "callout": {
+      "title": "See more listings from our community partners.",
+      "button": "View opportunities"
+    }
   },
   "listings": {
-    "error": "There was an issue submitting the form.",
-    "closeThisListing": "Do you really want to close this listing?",
-    "active": "Accepting Applications",
-    "pending": "Coming Soon",
-    "closed": "Closed",
-    "actions": {
-      "publish": "Publish",
-      "draft": "Save as Draft",
-      "preview": "Preview",
-      "close": "Close",
-      "viewListing": "View listing",
-      "unpublish": "Unpublish"
+    "openHouseEvent": {
+      "header": "Open Houses",
+      "seeVideo": "See Video"
     },
-    "addListing": "Add Listing",
-    "addPhoto": "Add Photo",
-    "additionalApplicationSubmissionNotes": "Additional Application Submission Notes",
+    "publicLottery": {
+      "header": "Public Lottery",
+      "seeVideo": "See Video"
+    },
+    "additionalFees": "Additional Fees",
     "additionalInformation": "Additional Information",
     "allUnits": "All Units",
     "allUnitsReservedFor": "All units reserved for %{type}",
-    "applicationTitle": "Application Data",
-    "applicationAddress": "Address",
     "applicationDeadline": "Application Due Date",
-    "applicationDueTime": "Application Due Time",
     "applicationFCFS": "First Come First Serve",
     "applicationFee": "Application Fee",
     "applicationFeeDueAt": "Due at interview",
     "applicationOpenPeriod": "Applications Open",
     "applicationPerApplicantAgeDescription": "per applicant age 18 and over",
-    "applicationPickupQuestion": "Can applications be picked up?",
     "applicationsClosed": "Applications Closed",
-    "applicationDropOffQuestion": "Can applications be dropped off?",
     "apply": {
       "applicationsMustBeReceivedByDeadline": "Applications must be received by the deadline and postmarks will not be considered.",
       "applicationWillBeAvailableOn": "Application will be available for download and pick up on %{openDate}",
@@ -759,9 +636,6 @@
       "sendByUsMail": "Send Application by US Mail",
       "submitAPaperApplication": "Submit a Paper Application"
     },
-    "atAnotherAddress": "At another address",
-    "atLeasingAgentAddress": "At the leasing agent address",
-    "atMailingAddress": "At the mailing address",
     "availableAndWaitlist": "Available Units & Open Waitlist",
     "availableUnits": "Available Units",
     "availableUnitsAndWaitlist": "Available units and waitlist",
@@ -773,70 +647,28 @@
     "confirmedPreferenceList": "Confirmed %{preference} List",
     "creditHistory": "Credit History",
     "criminalBackground": "Criminal Background",
-    "deleteListingDescription": "Deleting this listing means you will lose all the information you've entered.",
-    "depositMax": "Deposit Max",
-    "depositMin": "Deposit Min",
     "depositOrMonthsRent": "or one month's rent",
     "depositMayBeHigherForLowerCredit": "May be higher for lower credit scores",
-    "details": {
-      "listingData": "Listing Data",
-      "createdDate": "Date Created",
-      "updatedDate": "Date Updated",
-      "id": "Listing ID"
-    },
     "developmentalDisabilities": "Persons with developmental disabilities",
     "developmentalDisabilitiesDescription": "A portion number of units in this building are set aside for persons with developmental disabilities. Please visit <a href='http://www.housingchoices.org/' target='_blank'>housingchoices.org</a> for information on eligibility, requirements, how to get an application and for answers to any other questions you may have about the process.",
-    "dropOffAddress": "Drop Off Address",
     "enterLotteryForWaitlist": "Submit an application for an open slot on the waitlist for %{units} units.",
     "forIncomeCalculations": "For income calculations, household size includes everyone (all ages) living in the unit.",
     "forIncomeCalculationsBMR": "Income calculations are based on unit type",
     "hideClosedListings": "Hide Closed Listings",
     "householdMaximumIncome": "Household Maximum Income",
-    "householdSize": "Household Size",
     "importantProgramRules": "Important Program Rules",
     "includesPriorityUnits": "Includes Priority Units for %{priorities}",
-    "latitude": "Latitude",
-    "leasingAgentAddress": "Leasing Agent Address",
-    "listingStatus": {
-      "active": "Open",
-      "pending": "Draft",
-      "closed": "Closed"
-    },
-    "listingSubmitted": "Listing Submitted",
-    "listingUpdated": "Listing Updated",
-    "longitude": "Longitude",
-    "lotteryResults": {
-      "completeResultsWillBePosted": "Complete lottery results will be posted soon.",
-      "downloadResults": "Download Results",
-      "header": "Lottery Results"
-    },
-    "maxIncomeMonth": "Maximum Income / Month",
-    "maxIncomeYear": "Maximum Income / Year",
     "moreBuildingSelectionCriteria": "Find out more about Building Selection Criteria",
-    "newListing": "New Listing",
     "noAvailableUnits": "There are no available units at this time.",
     "noOpenListings": "No listings currently have open applications.",
     "occupancyDescriptionAllSro": "Occupancy for this building is limited to 1 person per unit.",
     "occupancyDescriptionNoSro": "Occupancy limits for this building are based on unit type.",
     "occupancyDescriptionSomeSro": "Occupancy for this building varies by unit type. SROs are limited to 1 person per unit, regardless of age. For all other unit types, occupancy limits do not count children under 6.",
-    "openHouseEvent": {
-      "header": "Open Houses",
-      "seeVideo": "See Video"
-    },
-    "paperDifferentAddress": "Paper applications are mailed to another address",
+    "people": "people",
+    "person": "person",
     "percentAMIUnit": "%{percent}% AMI Unit",
-    "pickupAddress": "Pickup Address",
-    "postmarkByDate": "Postmark by Date",
-    "postmarksConsideredQuestion": "Are postmarks considered?",
     "priorityUnits": "Priority Units",
     "priorityUnitsDescription": "This building has units set aside if any of the following apply to you or someone in your household:",
-    "title": "Property Data",
-    "developer": "Housing Developer",
-    "buildingAddress": "Address",
-    "publicLottery": {
-      "header": "Public Lottery",
-      "seeVideo": "See Video"
-    },
     "remainingUnitsAfterPreferenceConsideration": "After all preference holders have been considered, any remaining units will be available to other qualified applicants.",
     "rentalHistory": "Rental History",
     "requiredDocuments": "Required Documents",
@@ -845,51 +677,28 @@
     "reservedTypePlural": {
       "family": "families",
       "senior": "seniors",
-      "veteran": "veterans",
-      "specialNeeds": "special needs"
+      "veteran": "veterans"
     },
     "reservedUnits": "Reserved Units",
     "reservedUnitsDescription": "In order to qualify for these units one of the following must apply to you or someone in your household:",
     "reservedUnitsForWhoAre": "Reserved for %{communityType} who are %{reservedType}",
     "sections": {
-      "additionalDetails": "Additional Details",
-      "additionalDetailsSubtitle": "Are there any other required documents and selection criteria?",
-      "additionalEligibilitySubtext": "Let applicants know any other rules of the building.",
-      "additionalEligibilitySubtitle": "Applicants must also qualify under the rules of the building.",
-      "additionalEligibilityTitle": "Additional Eligibility Rules",
-      "additionalFees": "Additional Fees",
-      "additionalFeesSubtitle": "Tell us about any other fees required by the applicant.",
-      "additionalInformationSubtitle": "Required documents and selection criteria",
-      "additionalInformationTitle": "Additional Information",
-      "applicationAddressSubtitle": "In the event of paper applications, where do you want applications dropped off or mailed?",
-      "applicationAddressTitle": "Application Address",
-      "buildingDetailsSubtitle": "Tell us where the building is located.",
-      "buildingDetailsTitle": "Building Details",
-      "buildingFeaturesSubtitle": "Provide details about any amenities and unit details.",
-      "buildingFeaturesTitle": "Building Features",
-      "applicationDatesTitle": "Application Dates",
-      "applicationDatesSubtitle": "Tell us about important dates related to this listing.",
-      "costsNotIncluded": "Costs Not Included",
-      "eligibilitySubtitle": "Income, occupancy, preferences, and subsidies",
       "eligibilityTitle": "Eligibility",
-      "featuresSubtitle": "Amenities, unit details and additional fees",
-      "featuresTitle": "Features",
-      "housingPreferencesSubtitle": "Preference holders will be given highest ranking.",
+      "eligibilitySubtitle": "Income, occupancy, preferences, and subsidies",
+      "rentalAssistanceTitle": "Rental Assistance",
+      "rentalAssistance": "Housing Choice Vouchers, Section 8 and other valid rental assistance programs will be considered for this property. In the case of a valid rental subsidy, the required minimum income will be based on the portion of the rent that the tenant pays after use of the subsidy.",
       "housingPreferencesTitle": "Housing Preferences",
-      "introSubtitle": "Let's get started with some basic information about your listing.",
-      "introTitle": "Listing Intro",
-      "leasingAgentSubtitle": "Provide details about the leasing agent who will be managing the application process.",
-      "leasingAgentTitle": "Leasing Agent",
-      "neighborhoodSubtitle": "Location and transportation",
-      "neighborhoodTitle": "Neighborhood",
-      "photoTitle": "Listing Photo",
-      "photoSubtitle": "Upload an image for the listing that will be used as a preview.",
-      "processSubtitle": "Important dates and contact information",
+      "housingPreferencesSubtitle": "Preference holders will be given highest ranking.",
+      "additionalEligibilityTitle": "Additional Eligibility Rules",
+      "additionalEligibilitySubtitle": "Applicants must also qualify under the rules of the building.",
       "processTitle": "Process",
-      "rankingsResultsTitle": "Rankings & Results",
-      "rankingsResultsSubtitle": "Provide details about what happens to applications once they are submitted.",
-      "rentalAssistanceSubtitle": "Housing Choice Vouchers, Section 8 and other valid rental assistance programs will be considered for this property. In the case of a valid rental subsidy, the required minimum income will be based on the portion of the rent that the tenant pays after use of the subsidy.",
-      "rentalAssistanceTitle": "Rental Assistance"
+      "processSubtitle": "Important dates and contact information",
+      "featuresTitle": "Features",
+      "featuresSubtitle": "Amenities, unit details and additional fees",
+      "neighborhoodTitle": "Neighborhood",
+      "neighborhoodSubtitle": "Location and transportation",
+      "additionalInformationTitle": "Additional Information",
+      "additionalInformationSubtitle": "Required documents and selection criteria"
     },
     "seeMaximumIncomeInformation": "See Maximum Income Information",
     "seePreferenceInformation": "See Preference Information",
@@ -897,9 +706,8 @@
     "showClosedListings": "Show Closed Listings",
     "singleRoomOccupancy": "Single Room Occupancy",
     "singleRoomOccupancyDescription": "This property offers single rooms for one person only. Tenants may share bathrooms, and sometimes kitchen facilities.",
-    "specialNotes": "Special Notes",
-    "streetAddressOrPOBox": "Street Address or PO Box",
-    "totalListings": "Total Listings",
+    "squareFeet": "square feet",
+    "unit": "unit",
     "unitTypes": {
       "oneBdrm": "1 BR",
       "twoBdrm": "2 BR",
@@ -909,6 +717,7 @@
       "studio": "Studio",
       "SRO": "Single Room Occupancy"
     },
+    "units": "units",
     "unitsAreFor": "These units are for %{type}.",
     "unitsHaveAccessibilityFeaturesFor": "These units have accessibility features for people with %{type}.",
     "upcomingLotteries": {
@@ -919,27 +728,16 @@
     },
     "waitlist": {
       "closed": "Waitlist Closed",
-      "currentSizeQuestion": "How many people are on the current list?",
       "label": "Waitlist",
       "isOpen": "Waitlist is open",
       "currentSize": "Current Waitlist Size",
       "finalSize": "Final Waitlist Size",
-      "maxSize": "Maximum Waitlist Size",
-      "maxSizeQuestion": "What is the maximum size of the waitlist?",
       "open": "Open Waitlist",
-      "openQuestion": "Is the waitlist open?",
-      "openSize": "Number of Openings",
-      "openSizeQuestion": "How many spots are open on the list?",
       "openSlots": "Open Waitlist Slots",
-      "sizeQuestion": "Do you want to show a waitlist size?",
       "submitAnApplication": "Once ranked applicants fill all available units, the remaining ranked applicants will be placed on a waitlist for those same units.",
       "submitForWaitlist": "Submit an application for an open slot on the waitlist.",
       "unitsAndWaitlist": "Available Units and Waitlist"
     },
-    "whereDropOffQuestion": "Where are applications dropped off?",
-    "wherePickupQuestion": "Where are applications picked up?",
-    "yearBuilt": "Year Built",
-    "whenApplicationsClose": "When applications close to the public",
     "cc&r": "Covenants, Conditions and Restrictions (CC&R's)",
     "cc&rDescription": "The CC&R's explain the rules of the homeowners' association, and restrict how you can modify the property.",
     "downloadPdf": "Download PDF",
@@ -948,47 +746,7 @@
     "processInfo": "Process Info",
     "featuresCards": "Features Cards",
     "neighborhoodBuildings": "Neighborhood Buildings",
-    "additionalInformationEnvelope": "Additional Information Envelope",
-    "listingName": "Listing Name",
-    "applicationsSubmitted": "Applications Submitted",
-    "listingStatusText": "Listing Status",
-    "applications": "Applications",
-    "unit": {
-      "title": "Unit",
-      "add": "Add Unit",
-      "number": "Unit #",
-      "unitNumber": "Unit Number",
-      "type": "Unit Type",
-      "ami": "AMI",
-      "amiChart": "AMI Chart",
-      "amiPercentage": "Percentage of AMI",
-      "rent": "Rent",
-      "sqft": "SQ FT",
-      "squareFootage": "Square Footage",
-      "priorityType": "ADA",
-      "reservedType": "Reserved",
-      "status": "Status",
-      "unitStatus": "Unit Status",
-      "details": "Details",
-      "numBathrooms": "Number of Bathrooms",
-      "floor": "Unit Floor",
-      "minOccupancy": "Minimum Occupancy",
-      "maxOccupancy": "Max Occupancy",
-      "rentType": "How is Rent Determined?",
-      "fixed": "Fixed amount",
-      "percentage": "% of income",
-      "monthlyRent": "Monthly Rent",
-      "%incomeRent": "Percentage of Income Rent",
-      "accessibilityPriorityType": "Accessibility Priority Type",
-      "unitTypes": "Unit Types",
-      "individualUnits": "Individual Units",
-      "delete": "Delete this Unit",
-      "deleteConf": "Do you really want to delete this unit?",
-      "eligibility": "Eligibility"
-    },
-    "units": "Listing Units",
-    "unitsDescription": "Select the building units that are available through the listing.",
-    "unitTypesOrIndividual": "Do you want to show unit types or individual units?"
+    "additionalInformationEnvelope": "Additional Information Envelope"
   },
   "lottery": {
     "applicationsThatQualifyForPreference": "Applications that qualify for this preference will be given a higher priority.",
@@ -1009,9 +767,7 @@
     "signIn": "Sign In",
     "signOut": "Sign Out",
     "siteTitle": "Housing Portal",
-    "siteTitlePartners": "Partners Portal",
-    "skip": "Skip to main content",
-    "flags": "Flags"
+    "skip": "Skip to main content"
   },
   "pageTitle": {
     "additionalResources": "More Housing Opportunities",
@@ -1032,105 +788,31 @@
   "region": {
     "name": "Local Region"
   },
-  "states": {
-    "AL": "Alabama",
-    "AK": "Alaska",
-    "AZ": "Arizona",
-    "AR": "Arkansas",
-    "CA": "California",
-    "CO": "Colorado",
-    "CT": "Connecticut",
-    "DE": "Delaware",
-    "DC": "District Of Columbia",
-    "FL": "Florida",
-    "GA": "Georgia",
-    "HI": "Hawaii",
-    "ID": "Idaho",
-    "IL": "Illinois",
-    "IN": "Indiana",
-    "IA": "Iowa",
-    "KS": "Kansas",
-    "KY": "Kentucky",
-    "LA": "Louisiana",
-    "ME": "Maine",
-    "MD": "Maryland",
-    "MA": "Massachusetts",
-    "MI": "Michigan",
-    "MN": "Minnesota",
-    "MS": "Mississippi",
-    "MO": "Missouri",
-    "MT": "Montana",
-    "NE": "Nebraska",
-    "NV": "Nevada",
-    "NH": "New Hampshire",
-    "NJ": "New Jersey",
-    "NM": "New Mexico",
-    "NY": "New York",
-    "NC": "North Carolina",
-    "ND": "North Dakota",
-    "OH": "Ohio",
-    "OK": "Oklahoma",
-    "OR": "Oregon",
-    "PA": "Pennsylvania",
-    "RI": "Rhode Island",
-    "SC": "South Carolina",
-    "SD": "South Dakota",
-    "TN": "Tennessee",
-    "TX": "Texas",
-    "UT": "Utah",
-    "VT": "Vermont",
-    "VA": "Virginia",
-    "WA": "Washington",
-    "WV": "West Virginia",
-    "WI": "Wisconsin",
-    "WY": "Wyoming"
-  },
   "t": {
-    "areYouSure": "Are you sure?",
-    "addNotes": "Add notes",
     "at": "at",
     "additionalPhone": "Additional Phone",
     "area": "area",
-    "areYouStillWorking": "Are you still working?",
     "accessibility": "Accessibility",
-    "am": "AM",
     "availability": "Availability",
     "back": "Back",
     "built": "Built",
-    "call": "Call",
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "chooseFromFolder": "Choose from folder",
     "day": "Day",
     "delete": "Delete",
     "deposit": "Deposit",
-    "done": "Done",
-    "description": "Enter Description",
-    "emailAddressPlaceholder": "you@myemail.com",
-    "dragFilesHere": "Drag files here",
-    "dropFilesHere": "Drop files here…",
+    "errorsToResolve": "There are errors you'll need to resolve before moving on.",
     "export": "Export",
-    "enterAmount": "Enter amount",
-    "fileName": "File Name",
     "filter": "Filter",
-    "edit": "Edit",
-    "email": "Email",
     "floor": "floor",
     "floors": "floors",
-    "getDirections": "Get Directions",
-    "hour": "Hour",
-    "household": "Household",
     "income": "Income",
     "jumpTo": "Jump to",
-    "lastUpdated": "Last Updated",
-    "letter": "Letter",
-    "less": "Less",
     "loginIsRequired": "Login is required to view this page.",
+    "lastUpdated": "Last updated",
     "menu": "Menu",
     "minimumIncome": "Minimum Income",
-    "minutes": "minutes",
     "month": "Month",
-    "more": "More",
     "n/a": "n/a",
     "name": "Name",
     "neighborhood": "Neighborhood",
@@ -1139,60 +821,30 @@
     "none": "None",
     "noneFound": "None found.",
     "occupancy": "Occupancy",
-    "ok": "OK",
     "or": "or",
-    "pageXofY": "Page %{num} of %{total}",
-    "people": "people",
-    "person": "person",
-    "perMonth": "per month",
-    "perYear": "per year",
     "petsPolicy": "Pets Policy",
     "phone": "Phone",
-    "phoneNumberPlaceholder": "(555) 555-5555",
-    "pleaseSelectOne": "Please select one.",
-    "pm": "PM",
-    "preferences": "Preferences",
-    "preview": "Preview",
+    "email": "Email",
     "previous": "Previous",
+    "phoneNumberPlaceholder": "(555) 555-5555",
+    "preferences": "Preferences",
     "propertyAmenities": "Property Amenities",
     "range": "%{from} to %{to}",
-    "readLess": "read less",
-    "readMore": "read more",
-    "relationship": "Relationship",
-    "otherRelationShip": "Other Relationship",
     "rent": "Rent",
-    "review": "Review",
     "secondPhone": "Second Phone",
-    "seconds": "seconds",
-    "seeDetails": "See Details",
     "seeListing": "See Listing",
+    "selectAllThatApply": "Please select all that apply.",
     "selectOne": "Select One",
-    "servicesOffered": "Services Offered",
     "show": "Show",
-    "showLess": "show less",
-    "showMore": "show more",
     "skipToMainContent": "Skip to main content",
     "smokingPolicy": "Smoking Policy",
-    "sqFeet": "sqft",
-    "squareFeet": "square feet",
-    "statusHistory": "Status History",
     "street": "Street",
-    "submit": "Submit",
-    "submitNew": "Submit & New",
-    "copyNew": "Copy & New",
-    "saveNew": "Save & New",
-    "saveExit": "Save & Exit",
-    "time": "time",
-    "text": "Text",
-    "to": "to",
+    "sqFeet": "sqft",
     "totalCount": "Total Count",
-    "unit": "unit",
-    "units": "units",
+    "relationship": "Relationship",
     "unitAmenities": "Unit Amenities",
     "unitFeatures": "Unit Features",
     "unitType": "Unit Type",
-    "view": "View",
-    "viewMap": "View Map",
     "viewOnMap": "View on Map",
     "year": "Year",
     "yes": "Yes",
@@ -1203,7 +855,7 @@
     "seeRentalListings": "See Rentals",
     "title": "Apply for affordable housing in",
     "seeMoreOpportunities": "See more rental and ownership housing opportunities",
-    "viewAdditionalHousing": "View Additional Housing Opportunities and Resources"
+    "viewAdditionalHousing": "View Additional Housing Details"
   },
   "whatToExpect": {
     "label": "What to Expect",
@@ -1211,56 +863,8 @@
     "allInfoWillBeVerified": "All of the information that you have provided will be verified and your eligibility confirmed. Your application will be removed from the waitlist if you have made any fraudulent statements. If we cannot verify a housing preference that you have claimed, you will not receive the preference but will not be otherwise penalized.",
     "bePreparedIfChosen": "Should your application be chosen, be prepared to fill out a more detailed application and provide required supporting documents."
   },
-  "listingFilters":{
-    "modalTitle":"Filter Results",
-    "modalHeader":"Use these options to refine your list of properties.",
-    "neighborhood":"Neighborhood:"
-  },
-  "eligibility": {
-    "progress": {
-      "header" : "Let's find your next home",
-      "sections": {
-        "welcome" : "Welcome",
-        "bedrooms" : "Bedrooms",
-        "age" : "Age",
-        "disability" : "Disability",
-        "income" : "Income",
-        "section8": "Section 8"
-      }
-    },
-    "welcome": {
-      "header": "Welcome",
-      "description": "To find you a home that best fits your needs, let's answer a few questions first. Some properties only accept people with certain ages, incomes, etc."
-    },
-    "bedrooms": {
-      "prompt": "How many bedrooms do you need?",
-      "studio": "Studio",
-      "srCountLabel": "Bedroom count"
-    },
-    "age" : {
-      "prompt": "How old are you?",
-      "description": "Some properties only accept individuals over 62 years of age.",
-      "label": "years old"
-    },
-    "disability" : {
-      "prompt" : "Do you have a disability?",
-      "description" : "Some properties are meant for residents with disabilities. Some homes might request proof of disability with your application.",
-      "preferNotToSay": "Prefer not to say"
-    },
-    "income" : {
-      "prompt": "What is your total household annual income?",
-      "description": "Include income for everyone who will be living in your household including yourself. Income includes social security, retirement accounts and wages.",
-      "label" : "Income range",
-      "ranges" : {
-        "below10k": "Below $10,000",
-        "10kTo20k": "$10,000 - $20,000",
-        "30kTo40k": "$30,000 - $40,000",
-        "40kTo50k": "$40,000 - $50,000",
-        "over50k": "Over $50,000"
-      }
-    },
-    "section8" : {
-      "prompt": "Do you have a Section 8 voucher?"
-    }
+  "languages": {
+    "en": "English",
+    "es": "Spanish"
   }
 }
