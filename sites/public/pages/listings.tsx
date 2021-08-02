@@ -20,10 +20,7 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import {
-  ListingFilterKeys,
-  ListingFilterParams,
-} from "@bloom-housing/backend-core/types"
+import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
 
 const ListingsPage = () => {
   const router = useRouter()
