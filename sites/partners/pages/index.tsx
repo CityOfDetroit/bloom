@@ -1,6 +1,13 @@
 import React, { useMemo, useContext } from "react"
 import Head from "next/head"
-import { PageHeader, t, lRoute, AuthContext, Button } from "@bloom-housing/ui-components"
+import {
+  PageHeader,
+  t,
+  lRoute,
+  AuthContext,
+  Button,
+  LocalizedLink,
+} from "@bloom-housing/ui-components"
 import moment from "moment"
 import { UserRole, Listing } from "@bloom-housing/backend-core/types"
 import { AgGridReact } from "ag-grid-react"
@@ -9,7 +16,7 @@ import { GridOptions } from "ag-grid-community"
 import { useListingsData } from "../lib/hooks"
 import Layout from "../layouts"
 import { MetaTags } from "../src/MetaTags"
-import { useRouter } from "next/router"
+import { Router, useRouter } from "next/router"
 
 export default function ListingsList() {
   const { profile } = useContext(AuthContext)
@@ -74,8 +81,16 @@ export default function ListingsList() {
   const columnDefs = useMemo(() => {
     const columns = [
       {
-        headerName: t("listings.buildingAddress"),
-        field: "buildingAddress.street",
+        headerName: t("name"),
+        field: "name",
+        sortable: false,
+        filter: false,
+        resizable: true,
+        cellRenderer: "ApplicationsLink",
+      },
+      {
+        headerName: t("listings.property.buildingAddress"),
+        field: "property.buildingAddress.street",
         sortable: false,
         filter: false,
         resizable: true,
@@ -161,10 +176,12 @@ export default function ListingsList() {
             <div className="flex justify-between">
               <div className="w-56"></div>
               <div className="flex-row">
-                {profile.roles.includes(UserRole.admin) && process.env.showLMLinks && (
-                  <Button className="mx-1" onClick={() => void router.push("/listings/add")}>
-                    {t("listings.addListing")}
-                  </Button>
+                {process.env.showLMLinks && (
+                  <LocalizedLink href={`/listings/add`}>
+                    <Button className="mx-1" onClick={() => false}>
+                      {t("listings.addListing")}
+                    </Button>
+                  </LocalizedLink>
                 )}
               </div>
             </div>
