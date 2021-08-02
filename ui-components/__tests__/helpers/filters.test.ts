@@ -2,7 +2,7 @@ import { cleanup } from "@testing-library/react"
 import {
   encodeToBackendFilterString,
   encodeToFrontendFilterString,
-  getFiltersFromFrontendUrl,
+  decodeFiltersFromFrontendUrl,
 } from "../../src/helpers/filters"
 import { parse } from "querystring"
 import { ListingFilterParams } from "@bloom-housing/backend-core/types"
@@ -58,7 +58,7 @@ describe("get filter from parsed url", () => {
     const expected: ListingFilterParams = {
       neighborhood: "Neighborhood",
     }
-    expect(getFiltersFromFrontendUrl(filterString)).toStrictEqual(expected)
+    expect(decodeFiltersFromFrontendUrl(filterString)).toStrictEqual(expected)
   })
   it("should handle multiple filters", () => {
     const filterString = parse("localhost:3000/listings?page=1&neighborhood=Neighborhood&name=Name")
@@ -66,14 +66,21 @@ describe("get filter from parsed url", () => {
       neighborhood: "Neighborhood",
       name: "Name",
     }
-    expect(getFiltersFromFrontendUrl(filterString)).toStrictEqual(expected)
+    expect(decodeFiltersFromFrontendUrl(filterString)).toStrictEqual(expected)
   })
   it("should handle no filters", () => {
     const filterString = parse("localhost:3000/listings?page=1")
-    expect(getFiltersFromFrontendUrl(filterString)).toBe(undefined)
+    expect(decodeFiltersFromFrontendUrl(filterString)).toBe(undefined)
   })
   it("should handle no known filter keys", () => {
     const filterString = parse("localhost:3000/listings?page=1&unknown=blah")
-    expect(getFiltersFromFrontendUrl(filterString)).toBe(undefined)
+    expect(decodeFiltersFromFrontendUrl(filterString)).toBe(undefined)
+  })
+  it("should handle some known filters", () => {
+    const filterString = parse("localhost:3000/listings?page=1&unknown=blah&name=Name")
+    const expected: ListingFilterParams = {
+      name: "Name",
+    }
+    expect(decodeFiltersFromFrontendUrl(filterString)).toStrictEqual(expected)
   })
 })

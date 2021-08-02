@@ -8,11 +8,12 @@ import { ParsedUrlQuery } from "querystring"
 function getComparisonForFilter(filterKey: ListingFilterKeys) {
   switch (filterKey) {
     case ListingFilterKeys.name:
-      return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.neighborhood:
-      return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.status:
       return EnumListingFilterParamsComparison["="]
+    default:
+      const _exhaustiveCheck: never = filterKey
+      return _exhaustiveCheck
   }
 }
 
@@ -31,14 +32,14 @@ export function encodeToFrontendFilterString(filterParams: ListingFilterParams) 
   let queryString = ""
   for (const filterType in filterParams) {
     const value = filterParams[filterType]
-    if (filterType in ListingFilterKeys && value && value != "") {
+    if (filterType in ListingFilterKeys && value !== undefined && value != "") {
       queryString += `&${filterType}=${value}`
     }
   }
   return queryString
 }
 
-export function getFiltersFromFrontendUrl(query: ParsedUrlQuery) {
+export function decodeFiltersFromFrontendUrl(query: ParsedUrlQuery) {
   const filters: ListingFilterParams = {}
   let foundFilterKey = false
   for (const queryKey in query) {

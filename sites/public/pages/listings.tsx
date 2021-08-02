@@ -12,7 +12,7 @@ import {
   Form,
   SelectOption,
   encodeToFrontendFilterString,
-  getFiltersFromFrontendUrl,
+  decodeFiltersFromFrontendUrl,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -21,7 +21,6 @@ import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
 import {
-  EnumListingFilterParamsComparison,
   ListingFilterKeys,
   ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
@@ -75,7 +74,7 @@ const ListingsPage = () => {
       setCurrentPage(Number(router.query.page))
     }
 
-    setFilterState(getFiltersFromFrontendUrl(router.query))
+    setFilterState(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
