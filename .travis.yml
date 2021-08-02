@@ -20,7 +20,17 @@ before_script:
   - cp sites/public/.env.template sites/public/.env
   - cp sites/partners/.env.template sites/partners/.env
   - cp backend/core/.env.template backend/core/.env
-  - yarn install:all
+
+defaults: &defaults
+  script:
+    - yarn db:reseed
+    - cd backend/core
+    # start backend/core in the background
+    - yarn NODE_ENV=development nest start &
+    - cd ../..
+    - yarn test:apps:headless -- --parallel --group $STAGE_NAME
+    # after all tests finish running we need to kill all bg jobs
+    - kill $(jobs -p) || true
 
 jobs:
   include:
@@ -34,8 +44,22 @@ jobs:
       name: "Storybook a11y testing"
     - script: yarn test:backend:core:testdbsetup && yarn test:backend:core
       name: "Backend unit tests"
-    - script: yarn db:reseed && yarn test:apps
-      name: "Cypress tests"
+    - stage: UI tests
+      env:
+        - STAGE_NAME="4x-electron on Travis CI"
+      <<: *defaults
+    - stage: UI tests
+      env:
+        - STAGE_NAME="4x-electron on Travis CI"
+      <<: *defaults
+    - stage: UI tests
+      env:
+        - STAGE_NAME="4x-electron on Travis CI"
+      <<: *defaults
+    - stage: UI tests
+      env:
+        - STAGE_NAME="4x-electron on Travis CI"
+      <<: *defaults
 
 addons:
   postgresql: "11"
