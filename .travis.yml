@@ -27,8 +27,10 @@ defaults: &defaults
     - cd backend/core
     # start backend/core in the background
     - yarn nest start &
-    - cd ../..
-    - yarn test:app:public:headless --parallel --group $STAGE_NAME
+    - cd ../../sites/public
+    - yarn dev &
+    - sleep 2
+    - yarn cypress run -- --parallel --group "$STAGE_NAME"
     # after all tests finish running we need to kill all bg jobs
     - kill $(jobs -p) || true
 
@@ -44,19 +46,19 @@ jobs:
       name: "Storybook a11y testing"
     - script: yarn test:backend:core:testdbsetup && yarn test:backend:core
       name: "Backend unit tests"
-    - stage: UI tests
+    - name: "Cypress 1"
       env:
         - STAGE_NAME="4x-electron on Travis CI"
       <<: *defaults
-    - stage: UI tests
+    - name: "Cypress 2"
       env:
         - STAGE_NAME="4x-electron on Travis CI"
       <<: *defaults
-    - stage: UI tests
+    - name: "Cypress 3"
       env:
         - STAGE_NAME="4x-electron on Travis CI"
       <<: *defaults
-    - stage: UI tests
+    - name: "Cypress 4"
       env:
         - STAGE_NAME="4x-electron on Travis CI"
       <<: *defaults
