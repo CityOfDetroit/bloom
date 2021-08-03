@@ -24,19 +24,6 @@ before_script:
   - cp sites/partners/.env.template sites/partners/.env
   - cp backend/core/.env.template backend/core/.env
 
-defaults: &defaults
-  script:
-    - yarn cypress install
-    - yarn db:reseed
-    - cd backend/core
-    # start backend/core in the background
-    - yarn nest start &
-    - cd ../../sites/public
-    - yarn dev &
-    - yarn wait-on "http-get://localhost:3000" && yarn cypress run --record --parallel --group "$STAGE_NAME"
-    # after all tests finish running we need to kill all bg jobs
-    - kill $(jobs -p) || true
-
 jobs:
   include:
     - script: yarn test:shared:ui
