@@ -1,6 +1,4 @@
 **/*.hbs
 .github
-backend/core/src/migration
-backend/core/types/src/backend-swagger.ts
-sites/public/cypress/fixtures
+.travis.yml
 ui-components/src/locales
