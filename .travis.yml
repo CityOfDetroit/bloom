@@ -7,12 +7,8 @@ node_js:
 cache:
   yarn: true
   directories:
-    - ~/.npm
+    - ~/.yarn
     - ~/.cache
-  override:
-    - npm ci
-    - yarn cypress verify
-    - yarn cypress info
 
 services:
   - redis-server
@@ -31,13 +27,15 @@ before_script:
 defaults: &defaults
   script:
     - yarn cypress version
+    - yarn install
+    - yarn cypress version
     - yarn db:reseed
     - cd backend/core
     # start backend/core in the background
     - yarn nest start &
     - cd ../../sites/public
     - yarn dev &
-    - yarn wait-on "http-get://localhost:3000" && yarn cypress run -- --record --parallel --group "$STAGE_NAME"
+    - yarn wait-on "http-get://localhost:3000" && yarn cypress run --record --parallel --group "$STAGE_NAME"
     # after all tests finish running we need to kill all bg jobs
     - kill $(jobs -p) || true
 
