@@ -19,7 +19,7 @@ const ImageCard = (props: ImageCardProps) => {
   if (props.listing) {
     statusLabel = (
       <aside className="image-card__status">
-        <ApplicationStatus listing={props.listing} vivid />
+        {process.env.showAPPLinks && <ApplicationStatus listing={props.listing} vivid />}
       </aside>
     )
   }
