@@ -26,6 +26,10 @@ before_script:
 
 defaults: &defaults
   script:
+    - yarn cypress info
+    - yarn cypress version
+    - yarn cypress cache path
+    - yarn cypress cache list
     - yarn db:reseed
     - cd backend/core
     # start backend/core in the background
