@@ -29,7 +29,6 @@ const HOUSING_COUNSELOR_SERVICE_URL = process.env.HOUSING_COUNSELOR_SERVICE_URL
 
 // Load the Tailwind theme and set up SASS vars
 const bloomTheme = require("./tailwind.config.js")
-const { TRUE } = require("node-sass")
 const tailwindVars = require("@bloom-housing/ui-components/tailwind.tosass.js")(bloomTheme)
 
 // Tell webpack to compile the ui components package
@@ -52,7 +51,7 @@ module.exports = withCSS(
             cacheRevalidate: process.env.CACHE_REVALIDATE
               ? Number(process.env.CACHE_REVALIDATE)
               : 60,
-            showAPPLinks: process.env.SHOW_APP_LINKS === "TRUE",
+            showAppLinks: process.env.SHOW_APP_LINKS === "TRUE",
           },
           i18n: {
             locales: process.env.LANGUAGES ? process.env.LANGUAGES.split(",") : ["en"],
