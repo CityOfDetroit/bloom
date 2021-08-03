@@ -163,9 +163,6 @@ export const ListingView = (props: ListingProps) => {
     !listing.applicationPickUpAddressType &&
     listing.applicationMethods?.length === 0
 
-  console.log("Here")
-  console.log(process.env.showAPPLinks)
-
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
       <header className="image-card--leader">
