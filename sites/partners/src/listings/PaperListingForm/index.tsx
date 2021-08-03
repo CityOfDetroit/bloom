@@ -461,7 +461,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                   </AlertBox>
                 )}
 
-                <Form id="listing-form" onSubmit={() => handleSubmit(triggerSubmit, onError)}>
+                <Form id="listing-form" onSubmit={handleSubmit(triggerSubmit, onError)}>
                   <div className="flex flex-row flex-wrap">
                     <div className="info-card md:w-9/12">
                       <ListingIntro />
