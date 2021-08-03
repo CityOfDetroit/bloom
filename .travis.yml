@@ -26,10 +26,7 @@ before_script:
 
 defaults: &defaults
   script:
-    - ls -al ~/.cache/Cypress
-    - yarn cypress version
     - yarn cypress install
-    - yarn cypress version
     - yarn db:reseed
     - cd backend/core
     # start backend/core in the background
@@ -52,22 +49,16 @@ jobs:
       name: "Storybook a11y testing"
     - script: yarn test:backend:core:testdbsetup && yarn test:backend:core
       name: "Backend unit tests"
-    - name: "Cypress 1"
-      env:
-        - STAGE_NAME="4x-electron on Travis CI"
-      <<: *defaults
-    - name: "Cypress 2"
-      env:
-        - STAGE_NAME="4x-electron on Travis CI"
-      <<: *defaults
-    - name: "Cypress 3"
-      env:
-        - STAGE_NAME="4x-electron on Travis CI"
-      <<: *defaults
-    - name: "Cypress 4"
-      env:
-        - STAGE_NAME="4x-electron on Travis CI"
-      <<: *defaults
+    - name: "Cypress tests"
+      script:
+        - yarn cypress install
+        - yarn db:reseed
+        - cd backend/core
+        - yarn nest start &
+        - cd ../../sites/public
+        - yarn dev &
+        - yarn wait-on "http-get://localhost:3000" && yarn cypress run
+        - kill $(jobs -p) || true
 
 addons:
   postgresql: "11"
