@@ -482,13 +482,13 @@ class Listing extends BaseEntity {
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
-  amiPercentageMin?: string | null
+  amiPercentageMin?: number | null
 
   @Column({ type: "text", nullable: true })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
-  amiPercentageMax?: string | null
+  amiPercentageMax?: number | null
 }
 
 export { Listing as default, Listing }
