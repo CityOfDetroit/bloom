@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file. The format 
 - Fixed:
   - Cypress tests for `sites/public` ([#171](https://github.com/CityOfDetroit/bloom/issues/171))
 
+- Added:
+  - Added fields to Listing and Property to accommodate Detroit listing data ([#311](https://github.com/CityOfDetroit/bloom/pull/311))
+
 ## Detroit Team M8
 
 - Added:
