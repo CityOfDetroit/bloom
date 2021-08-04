@@ -10,6 +10,7 @@ export interface ApplicationStatusProps {
   listing: Listing
   vivid?: boolean
 }
+
 const ApplicationStatus = (props: ApplicationStatusProps) => {
   let content = ""
   let formattedDate = ""
@@ -50,6 +51,7 @@ const ApplicationStatus = (props: ApplicationStatusProps) => {
       content = t("listings.applicationFCFS")
     }
   }
+
   return (
     <div className={`application-status ${textSize} ${textColor} ${bgColor}`}>
       <Icon size="medium" symbol="clock" fill={vivid ? IconFillColors.white : undefined} /> &nbsp;
