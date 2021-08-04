@@ -44,8 +44,6 @@ const ListingsList = (props: ListingsProps) => {
             subtitle={subtitle}
             imageUrl={imageUrl}
             href={`/listing/${listing.id}/${listing.urlSlug}`}
-            listing={listing}
-            hideAppStatus={true}
           />
         </div>
         <div className="listings-row_content">

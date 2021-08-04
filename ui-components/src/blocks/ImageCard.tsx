@@ -11,15 +11,12 @@ export interface ImageCardProps {
   href?: string
   listing?: Listing
   description?: string
-  hideAppStatus?: boolean
 }
 
 const ImageCard = (props: ImageCardProps) => {
-  const hideAppStatus = props.hideAppStatus || false
-
   let statusLabel
 
-  if (props.listing && !hideAppStatus) {
+  if (props.listing) {
     statusLabel = (
       <aside className="image-card__status">
         <ApplicationStatus listing={props.listing} vivid />

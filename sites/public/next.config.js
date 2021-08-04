@@ -51,7 +51,6 @@ module.exports = withCSS(
             cacheRevalidate: process.env.CACHE_REVALIDATE
               ? Number(process.env.CACHE_REVALIDATE)
               : 60,
-            showAppLinks: process.env.SHOW_APP_LINKS === "TRUE",
           },
           i18n: {
             locales: process.env.LANGUAGES ? process.env.LANGUAGES.split(",") : ["en"],

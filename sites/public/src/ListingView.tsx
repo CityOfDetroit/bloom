@@ -166,11 +166,9 @@ export const ListingView = (props: ListingProps) => {
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
       <header className="image-card--leader">
-        {/** This is the individual listing page imageCard */}
         <ImageCard
           title={listing.name}
           imageUrl={imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize))}
-          hideAppStatus={true}
         />
         <div className="p-3">
           <p className="font-alt-sans uppercase tracking-widest text-sm font-semibold">
