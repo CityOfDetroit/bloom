@@ -10,10 +10,12 @@ import "./ListingsList.scss"
 
 export interface ListingsProps {
   listings: Listing[]
+  hideApplicationStatus?: boolean
 }
 
 const ListingsList = (props: ListingsProps) => {
   const listings = props.listings
+  const hideApplicationStatus = props.hideApplicationStatus || false
 
   const listItems = listings.map((listing: Listing) => {
     const imageUrl =
@@ -44,6 +46,7 @@ const ListingsList = (props: ListingsProps) => {
             subtitle={subtitle}
             imageUrl={imageUrl}
             href={`/listing/${listing.id}/${listing.urlSlug}`}
+            listing={hideApplicationStatus ? undefined : listing}
           />
         </div>
         <div className="listings-row_content">
