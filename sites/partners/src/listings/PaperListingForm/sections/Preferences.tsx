@@ -87,15 +87,17 @@ const Preferences = ({ preferences, setPreferences }: PreferencesProps) => {
   }, [dragOrder])
 
   // Fetch and filter all preferences
-  const { data: preferencesData = [] } = usePreferenceList()
+  const { data: preferencesData = [], error: preferencesError } = usePreferenceList()
   useEffect(() => {
-    setUniquePreferences(
-      preferencesData.reduce(
-        (items, item) =>
-          items.find((x) => x.description === item.description) ? [...items] : [...items, item],
-        []
+    if (!preferencesError) {
+      setUniquePreferences(
+        preferencesData.reduce(
+          (items, item) =>
+            items.find((x) => x.description === item.description) ? [...items] : [...items, item],
+          []
+        )
       )
-    )
+    }
   }, [preferencesData])
 
   const formMethods = useFormContext()
@@ -111,6 +113,11 @@ const Preferences = ({ preferences, setPreferences }: PreferencesProps) => {
   const draggableTableHeaders = {
     name: "t.name",
     action: "",
+  }
+
+  // Bail early if there's an error fetching preferenes.
+  if (preferencesError) {
+    return null
   }
 
   return (
