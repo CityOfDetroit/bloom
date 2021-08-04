@@ -11,6 +11,8 @@ import {
   Select,
   Form,
   SelectOption,
+  encodeToFrontendFilterString,
+  decodeFiltersFromFrontendUrl,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -57,30 +59,19 @@ const ListingsPage = () => {
     { value: "Foster City", label: "Foster City" },
   ]
 
-  function setPageAndFilterState(page: number, filters = filterState) {
-    if (page != currentPage || filters != filterState) {
-      setCurrentPage(page)
-      setFilterState(filters)
-      // TODO(abbiefarr): update the url with filter data (#240)
-      void router.push(
-        {
-          pathname: "/listings",
-          query: {
-            page: page,
-          },
-        },
-        undefined,
-        { shallow: true }
-      )
-    }
+  function setQueryString(page: number, filters = filterState) {
+    void router.push(`/listings?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
+      shallow: true,
+    })
   }
 
   // Checks for changes in url params.
   useEffect(() => {
-    if (router.query.page && Number(router.query.page) != currentPage) {
+    if (router.query.page) {
       setCurrentPage(Number(router.query.page))
     }
-    // TODO(abbiefarr): update filter params if the url is manually updated (#240)
+
+    setFilterState(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
   const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
@@ -94,7 +85,7 @@ const ListingsPage = () => {
   const { handleSubmit, register } = useForm()
   const onSubmit = (data: ListingFilterParams) => {
     setFilterModalVisible(false)
-    setPageAndFilterState(/*page=*/ 1, data)
+    setQueryString(/*page=*/ 1, data)
   }
 
   return (
@@ -172,7 +163,7 @@ const ListingsPage = () => {
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
             quantityLabel={t("applications.totalApplications")}
-            setCurrentPage={setPageAndFilterState}
+            setCurrentPage={setQueryString}
           />
         </div>
       )}
