@@ -100,6 +100,11 @@ const Preferences = ({ preferences, setPreferences }: PreferencesProps) => {
     }
   }, [preferencesData])
 
+  // Bail early if there's an error fetching preferenes.
+  if (preferencesError) {
+    return null
+  }
+
   const formMethods = useFormContext()
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, getValues } = formMethods
@@ -113,11 +118,6 @@ const Preferences = ({ preferences, setPreferences }: PreferencesProps) => {
   const draggableTableHeaders = {
     name: "t.name",
     action: "",
-  }
-
-  // Bail early if there's an error fetching preferenes.
-  if (preferencesError) {
-    return null
   }
 
   return (
