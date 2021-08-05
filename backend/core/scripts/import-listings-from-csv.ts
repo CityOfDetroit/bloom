@@ -1,6 +1,14 @@
 import csv from "csv-parser"
 import fs from "fs"
 import { importListing, createUnitsArray } from "./listings-importer"
+import { Listing } from "../src/listings/entities/listing.entity"
+import { Property } from "../src/property/entities/property.entity"
+import { Address } from "../src/shared/entities/address.entity"
+import { CountyCode } from "../src/shared/types/county-code"
+import { CSVFormattingType } from "../src/csv/types/csv-formatting-type-enum"
+
+// Sample usage:
+// $ yarn ts-node scripts/import-listings-from-csv.ts http://localhost:3100 test@example.com:abcdef path/to/file.csv
 
 function main() {
   if (process.argv.length < 5) {
@@ -19,7 +27,7 @@ function main() {
 
   fs.createReadStream(csvFilePath)
     .pipe(csv())
-    .on("data", (listingFields) => {
+    .on("data", async (listingFields) => {
       // Exclude any listings that aren't "regulated" affordable housing
       const affordabilityStatus: string = listingFields["Affordability status [Regulated Only]"]
       if (affordabilityStatus.toLowerCase() !== "regulated") return
@@ -42,7 +50,7 @@ function main() {
       property.region = listingFields["Region"]
 
       // Other property-level details
-      property.phone = listingFields["Property Phone"]
+      property.phoneNumber = listingFields["Property Phone"]
 
       // Add data about units
       property.units = []
@@ -98,16 +106,23 @@ function main() {
       const amiValue: string[] = amiValueRegex.exec(affordabilityMix)
       const amiUpperLimit: string[] = amiUpperLimitRegex.exec(affordabilityMix)
       if (amiRange) {
-        listing.amiPercentageMin = amiRange[1]
-        listing.amiPercentageMax = amiRange[2]
+        listing.amiPercentageMin = parseInt(amiRange[1])
+        listing.amiPercentageMax = parseInt(amiRange[2])
       }
       if (amiValue) {
-        listing.amiPercentageMin = amiValue[1]
-        listing.amiPercentageMax = amiValue[1]
+        listing.amiPercentageMin = parseInt(amiValue[1])
+        listing.amiPercentageMax = parseInt(amiValue[1])
       }
       if (amiUpperLimit) {
-        listing.amiPercentageMax = amiUpperLimit[1]
+        listing.amiPercentageMax = parseInt(amiUpperLimit[1])
       }
+
+      // Other listing fields
+      listing.preferences = []
+      listing.events = []
+      listing.displayWaitlistSize = false
+      listing.CSVFormattingType = CSVFormattingType.basic
+      listing.countyCode = CountyCode.alameda
 
       /*
 
