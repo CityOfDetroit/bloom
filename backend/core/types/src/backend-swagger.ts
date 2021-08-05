@@ -3631,83 +3631,13 @@ export interface JurisdictionUpdate {
 
 export interface ListingFilterParams {
   /**  */
-  $comparison?: EnumListingFilterParamsComparison | EnumListingFilterParamsComparison[]
+  $comparison: EnumListingFilterParamsComparison
 
   /**  */
   name?: string
 
   /**  */
   status?: EnumListingFilterParamsStatus
-
-  /**  */
-  neighborhood?: string
-}
-
-export interface UnitType {
-  /**  */
-  id: string
-
-  /**  */
-  createdAt: Date
-
-  /**  */
-  updatedAt: Date
-
-  /**  */
-  name: string
-}
-
-export interface UnitAccessibilityPriorityType {
-  /**  */
-  name: string
-
-  /**  */
-  id: string
-
-  /**  */
-  createdAt: Date
-
-  /**  */
-  updatedAt: Date
-}
-
-export interface MinMaxCurrency {
-  /**  */
-  min: string
-
-  /**  */
-  max: string
-}
-
-export interface MinMax {
-  /**  */
-  min: number
-
-  /**  */
-  max: number
-}
-
-export interface UnitSummary {
-  /**  */
-  unitType: UnitType
-
-  /**  */
-  minIncomeRange: MinMaxCurrency
-
-  /**  */
-  occupancyRange: MinMax
-
-  /**  */
-  rentAsPercentIncomeRange: MinMax
-
-  /**  */
-  rentRange: MinMaxCurrency
-
-  /**  */
-  totalAvailable: number
-
-  /**  */
-  areaRange: MinMax
 
   /**  */
   neighborhood?: string
@@ -4332,14 +4262,6 @@ export interface Listing {
 
   /**  */
   amiPercentageMax?: number
-}
-
-export interface PaginatedListings {
-  /**  */
-  items: Listing[]
-
-  /**  */
-  meta: PaginationMeta
 }
 
 export interface PaginatedListing {
@@ -5509,12 +5431,6 @@ export enum ListingEventType {
   "openHouse" = "openHouse",
   "publicLottery" = "publicLottery",
   "lotteryResults" = "lotteryResults",
-}
-
-export enum ListingFilterKeys {
-  "status" = "status",
-  "name" = "name",
-  "neighborhood" = "neighborhood",
 }
 
 export enum UnitStatus {
