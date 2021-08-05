@@ -25,77 +25,91 @@ function main() {
       if (affordabilityStatus.toLowerCase() !== "regulated") return
 
       // Start the whole shebang here
-
-      // This code parses affordability mix
-
-      const affordabilityMix: string = listingFields["Affordability Mix"]
-      const amiRangeFound: string[] = amiRangeRegex.exec(affordabilityMix)
-      const amiValueFound: string[] = amiValueRegex.exec(affordabilityMix)
-      const amiUpperLimitFound: string[] = amiUpperLimitRegex.exec(affordabilityMix)
-      if (amiRangeFound) {
-        console.log(`AMI range % low: ${amiRangeFound[1]}, high: ${amiRangeFound[2]}`)
-      }
-      if (amiValueFound) {
-        console.log(`AMI range % low: ${amiValueFound[1]}, high: ${amiValueFound[1]}`)
-      }
-      if (amiUpperLimitFound) {
-        console.log(`AMI range % low: ???, high: ${amiUpperLimitFound[1]}`)
-      }
-
-      /*
-      const listingAttributes = response.data.features[i].attributes
-
       const listing = new Listing()
       const property = new Property()
       const address = new Address()
 
-      address.street = listingAttributes.Project_Address
-      address.latitude = listingAttributes.Latitude
-      address.longitude = listingAttributes.Longitude
-      address.zipCode = listingAttributes.Zip
+      // Add property location information
+      address.street = listingFields["Project Address"]
+      address.zipCode = listingFields["Zip Code"]
       address.city = "Detroit"
       address.state = "MI"
+      address.longitude = listingFields["Longitude"]
+      address.latitude = listingFields["Latitude"]
 
       property.buildingAddress = address
-      property.neighborhood = listingAttributes.Neighborhood
-      property.unitsAvailable = parseInt(listingAttributes.Affordable_Units)
+      property.neighborhood = listingFields["Neighborhood"]
+      property.region = listingFields["Region"]
 
+      // Other property-level details
+      property.phone = listingFields["Property Phone"]
+
+      // Add data about units
       property.units = []
-      if (listingAttributes.Number_0BR) {
+      if (listingFields["Number 0BR"]) {
         property.units = property.units.concat(
-          createUnitsArray("studio", listingAttributes.Number_0BR)
+          createUnitsArray("studio", listingFields["Number 0BR"])
         )
       }
-      if (listingAttributes.Number_1BR) {
+      if (listingFields["Number 1BR"]) {
         property.units = property.units.concat(
-          createUnitsArray("oneBdrm", parseInt(listingAttributes.Number_1BR))
+          createUnitsArray("oneBdrm", parseInt(listingFields["Number 1BR"]))
         )
       }
-      if (listingAttributes.Number_2BR) {
+      if (listingFields["Number 2BR"]) {
         property.units = property.units.concat(
-          createUnitsArray("twoBdrm", parseInt(listingAttributes.Number_2BR))
+          createUnitsArray("twoBdrm", parseInt(listingFields["Number 2BR"]))
         )
       }
-      if (listingAttributes.Number_3BR) {
+      if (listingFields["Number 3BR"]) {
         property.units = property.units.concat(
-          createUnitsArray("threeBdrm", parseInt(listingAttributes.Number_3BR))
+          createUnitsArray("threeBdrm", parseInt(listingFields["Number 3BR"]))
         )
       }
-      if (listingAttributes.Number_4BR) {
+      if (listingFields["Number 4BR"]) {
         property.units = property.units.concat(
-          createUnitsArray("fourBdrm", parseInt(listingAttributes.Number_4BR))
+          createUnitsArray("fourBdrm", parseInt(listingFields["Number 4BR"]))
         )
       }
-      if (listingAttributes.Number_5BR) {
+      if (listingFields["Number 5BR"]) {
         property.units = property.units.concat(
-          createUnitsArray("fiveBdrm", parseInt(listingAttributes.Number_5BR))
+          createUnitsArray("fiveBdrm", parseInt(listingFields["Number 5BR"]))
         )
       }
 
-      // The /listings/id view won't render if there isn't at least one unit; add a dummy "studio"
-      if (property.units.length == 0) {
-        property.units = createUnitsArray("studio", 1)
+      if (property.units.length == 0 && listingFields["Affordable Units"]) {
+        createUnitsArray("unknown", parseInt(listingFields["Affordable Units"]))
       }
+
+      // Listing-level details
+      listing.property = property
+      listing.name = listingFields["Project Name"]
+
+      listing.ownerCompany = listingFields["Owner Company"]
+      listing.managementCompany = listingFields["Management Company"]
+      listing.leasingAgentName = listingFields["Manager Contact"]
+      listing.leasingAgentPhone = listingFields["Manager Phone"]
+      listing.leasingAgentEmail = listingFields["Manager Email"]
+      listing.managementWebsite = listingFields["Management Website"]
+
+      // Listing affordability details
+      const affordabilityMix: string = listingFields["Affordability Mix"]
+      const amiRange: string[] = amiRangeRegex.exec(affordabilityMix)
+      const amiValue: string[] = amiValueRegex.exec(affordabilityMix)
+      const amiUpperLimit: string[] = amiUpperLimitRegex.exec(affordabilityMix)
+      if (amiRange) {
+        listing.amiPercentageMin = amiRange[1]
+        listing.amiPercentageMax = amiRange[2]
+      }
+      if (amiValue) {
+        listing.amiPercentageMin = amiValue[1]
+        listing.amiPercentageMax = amiValue[1]
+      }
+      if (amiUpperLimit) {
+        listing.amiPercentageMax = amiUpperLimit[1]
+      }
+
+      /*
 
       listing.property = property
       listing.name = listingAttributes.Project_Name
@@ -129,6 +143,7 @@ function main() {
       listing.CSVFormattingType = CSVFormattingType.basic
       listing.countyCode = CountyCode.alameda
       listing.displayWaitlistSize = false
+      */
 
       try {
         const newListing = await importListing(importApiUrl, email, password, listing)
@@ -137,7 +152,6 @@ function main() {
         console.log(e)
         process.exit(1)
       }
-      */
     })
     .on("end", () => {
       console.log("CSV file successfully processed")
