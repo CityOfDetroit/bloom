@@ -23,7 +23,7 @@ import {
   ListingCreateDto,
   ListingDto,
   ListingUpdateDto,
-  PaginatedListingsDto,
+  PaginatedListingDto,
   ListingsQueryParams,
   ListingFilterParams,
 } from "./dto/listing.dto"
@@ -50,15 +50,16 @@ export class ListingsController {
     this.cacheKeys = ["/listings", "/listings?filter[$comparison]=%3C%3E&filter[status]=pending"]
   }
 
-  // TODO: limit requests to defined fields
+  // TODO: Limit requests to defined fields
   @Get()
+  @ApiExtraModels(ListingFilterParams)
   @ApiOperation({ summary: "List listings", operationId: "list" })
   @UseInterceptors(CacheInterceptor)
   public async getAll(
     @Headers("origin") origin: string,
     @Query() queryParams: ListingsQueryParams
-  ): Promise<PaginatedListingsDto> {
-    return await this.listingsService.list(origin, queryParams)
+  ): Promise<PaginatedListingDto> {
+    return mapTo(PaginatedListingDto, await this.listingsService.list(origin, queryParams))
   }
 
   @Post()
