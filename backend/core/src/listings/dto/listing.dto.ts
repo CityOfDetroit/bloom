@@ -22,7 +22,8 @@ import { AddressCreateDto, AddressDto, AddressUpdateDto } from "../../shared/dto
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { UserBasicDto } from "../../auth/dto/user.dto"
 import { ListingStatus } from "../types/listing-status-enum"
-import { PaginationFactory, PaginationQueryParams } from "../../shared/dto/pagination.dto"
+import { ListingFilterKeys } from "../types/listing-filter-keys-enum"
+import { PaginationFactory, PaginationAllowsAllQueryParams } from "../../shared/dto/pagination.dto"
 import { BaseFilter } from "../../shared/dto/filter.dto"
 import { UnitCreateDto, UnitDto, UnitUpdateDto } from "../../units/dto/unit.dto"
 import { transformUnits } from "../../shared/units-transformations"
@@ -333,7 +334,7 @@ export class ListingDto extends OmitType(Listing, [
   unitsSummarized: UnitsSummarized | undefined
 }
 
-export class PaginatedListingsDto extends PaginationFactory<ListingDto>(ListingDto) {}
+export class PaginatedListingDto extends PaginationFactory<ListingDto>(ListingDto) {}
 
 export class ListingCreateDto extends OmitType(ListingDto, [
   "id",
@@ -748,7 +749,7 @@ export class ListingFilterParams extends BaseFilter {
     example: "Coliseum",
     required: false,
   })
-  name?: string
+  [ListingFilterKeys.name]?: string;
 
   @Expose()
   @ApiProperty({
@@ -756,7 +757,7 @@ export class ListingFilterParams extends BaseFilter {
     example: "active",
     required: false,
   })
-  status?: ListingStatus
+  [ListingFilterKeys.status]?: ListingStatus;
 
   @Expose()
   @ApiProperty({
@@ -764,10 +765,10 @@ export class ListingFilterParams extends BaseFilter {
     example: "Fox Creek",
     required: false,
   })
-  neighborhood?: string
+  [ListingFilterKeys.neighborhood]?: string
 }
 
-export class ListingsQueryParams extends PaginationQueryParams {
+export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
   @Expose()
   @ApiProperty({
     name: "filter",
@@ -789,12 +790,6 @@ export class ListingsQueryParams extends PaginationQueryParams {
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   jsonpath?: string
-}
-
-export enum ListingFilterKeys {
-  status = "status",
-  name = "name",
-  neighborhood = "neighborhood",
 }
 
 // Using a record lets us enforce that all types are handled in addFilter
