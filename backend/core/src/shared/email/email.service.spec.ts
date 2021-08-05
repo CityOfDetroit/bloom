@@ -52,7 +52,7 @@ describe("EmailService", () => {
           provide: REQUEST,
           useValue: {
             get: () => {
-              return { "county-code": CountyCode.alameda }
+              return { "county-code": CountyCode.detroit }
             },
           },
         },
@@ -65,7 +65,7 @@ describe("EmailService", () => {
     await translationsRepository.createQueryBuilder().delete().execute()
     const translationsService = await module.resolve<TranslationsService>(TranslationsService)
     await translationsService.create({
-      countyCode: CountyCode.alameda,
+      countyCode: CountyCode.detroit,
       language: Language.en,
       translations: {
         confirmation: {
