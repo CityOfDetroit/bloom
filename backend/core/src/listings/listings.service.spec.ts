@@ -108,6 +108,32 @@ describe("ListingsService", () => {
       )
     })
 
+    it("should support filters with comma-separated arrays", async () => {
+      mockListingsRepo.createQueryBuilder
+        .mockReturnValueOnce(mockInnerQueryBuilder)
+        .mockReturnValueOnce(mockQueryBuilder)
+      const expectedNeighborhoodString = "Fox Creek, , Coliseum," // intential extra and trailing commas for test
+      // lowercased, trimmed spaces, filtered empty
+      const expectedNeighborhoodArray = ["fox creek", "coliseum"]
+
+      const queryParams: ListingsQueryParams = {
+        filter: {
+          $comparison: Compare["IN"],
+          neighborhood: expectedNeighborhoodString,
+        },
+      }
+
+      const listings = await service.list(origin, queryParams)
+
+      expect(listings.items).toEqual(mockListingsDto)
+      expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
+        "LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0)",
+        {
+          neighborhood_0: expectedNeighborhoodArray,
+        }
+      )
+    })
+
     it("should throw an exception if an unsupported filter is used", async () => {
       mockListingsRepo.createQueryBuilder.mockReturnValueOnce(mockInnerQueryBuilder)
 

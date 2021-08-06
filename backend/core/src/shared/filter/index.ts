@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { WhereExpression } from "typeorm"
+import { Compare } from "../dto/filter.dto"
 
 /**
  *
@@ -57,14 +58,29 @@ export function addFilters<FilterParams, FilterFieldMap>(
         values.forEach((val: string, i: number) => {
           // Each WHERE param must be unique across the entire QueryBuilder
           const whereParameterName = `${filterType}_${i}`
-          qb.andWhere(
-            `LOWER(CAST(${filterTypeToFieldMap[filterType.toLowerCase()]} as text)) ${
-              comparisonsForCurrentFilter[i]
-            } LOWER(:${whereParameterName})`,
-            {
-              [whereParameterName]: val,
-            }
-          )
+
+          if (comparisonsForCurrentFilter[i] === Compare.IN) {
+            qb.andWhere(
+              `LOWER(CAST(${filterTypeToFieldMap[filterType.toLowerCase()]} as text)) ${
+                comparisonsForCurrentFilter[i]
+              } (:...${whereParameterName})`,
+              {
+                [whereParameterName]: val
+                  .split(",")
+                  .map((s) => s.trim().toLowerCase())
+                  .filter((s) => s.length !== 0),
+              }
+            )
+          } else {
+            qb.andWhere(
+              `LOWER(CAST(${filterTypeToFieldMap[filterType.toLowerCase()]} as text)) ${
+                comparisonsForCurrentFilter[i]
+              } LOWER(:${whereParameterName})`,
+              {
+                [whereParameterName]: val,
+              }
+            )
+          }
         })
       }
     }
