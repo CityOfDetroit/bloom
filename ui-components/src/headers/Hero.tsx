@@ -16,6 +16,7 @@ export interface HeroProps {
   listings?: Listing[]
   children?: React.ReactNode
   centered?: boolean
+  secondaryTitle?: string
 }
 
 const listingOpen = (listing: Listing) => {
@@ -29,7 +30,7 @@ const HeroButton = (props: { title: string; href: string; className?: string }) 
 )
 
 const Hero = (props: HeroProps) => {
-  let subHeader, styles
+  let subHeader, styles, secondaryTitle
   let classNames = ""
   if (props.listings) {
     if (!props.listings.some(listingOpen) && !props.listings.some(openDateState)) {
@@ -44,11 +45,14 @@ const Hero = (props: HeroProps) => {
   if (props.centered) {
     classNames = "centered"
   }
+  if (props.secondaryTitle) {
+    secondaryTitle = <h2 className="hero__subtitle">{props.secondaryTitle}</h2>
+  }
   return (
     <div className={`hero ${classNames}`} style={styles}>
       <h1 className="hero__title">{props.title}</h1>
       {subHeader}
-
+      {secondaryTitle}
       {props.secondaryButtonTitle && props.secondaryButtonLink ? (
         <div className="grid md:grid-cols-6 gap-5 ">
           <HeroButton
