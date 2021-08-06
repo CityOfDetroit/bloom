@@ -52,7 +52,8 @@ describe("EmailService", () => {
           provide: REQUEST,
           useValue: {
             get: () => {
-              return { "county-code": CountyCode.detroit }
+              // This header must be the string value of the CountyCode key.
+              return "alameda"
             },
           },
         },
@@ -65,7 +66,7 @@ describe("EmailService", () => {
     await translationsRepository.createQueryBuilder().delete().execute()
     const translationsService = await module.resolve<TranslationsService>(TranslationsService)
     await translationsService.create({
-      countyCode: CountyCode.detroit,
+      countyCode: CountyCode.alameda,
       language: Language.en,
       translations: {
         confirmation: {
