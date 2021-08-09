@@ -112,7 +112,7 @@ describe("ListingsService", () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
-      const expectedNeighborhoodString = "Fox Creek, , Coliseum," // intential extra and trailing commas for test
+      const expectedNeighborhoodString = "Fox Creek, , Coliseum," // intentional extra and trailing commas for test
       // lowercased, trimmed spaces, filtered empty
       const expectedNeighborhoodArray = ["fox creek", "coliseum"]
 
@@ -142,12 +142,33 @@ describe("ListingsService", () => {
           $comparison: Compare["="],
           otherField: "otherField",
           // The querystring can contain unknown fields that aren't on the
-          // ListingFilterParams type, so we force it to the type for testing
+          // ListingFilterParams type, so we force it to the type for testing.
         } as ListingFilterParams,
       }
 
       await expect(service.list(origin, queryParams)).rejects.toThrow(
         new HttpException("Filter Not Implemented", HttpStatus.NOT_IMPLEMENTED)
+      )
+    })
+
+    //TODO(avaleske): A lot of these tests should be moved to a spec file specific to the filters code.
+    it("should throw an exception if an unsupported comparison is used", async () => {
+      mockListingsRepo.createQueryBuilder.mockReturnValueOnce(mockInnerQueryBuilder)
+
+      const queryParams: ListingsQueryParams = {
+        filter: {
+          // The value of the filter[$comparison] query param is not validated,
+          // and the type system trusts that whatever is provided is correct,
+          // so we force it to an invalid type for testing.
+          $comparison: "); DROP TABLE Students;" as Compare,
+          name: "test name",
+          // The querystring can contain unknown fields that aren't on the
+          // ListingFilterParams type, so we force it to the type for testing
+        } as ListingFilterParams,
+      }
+
+      await expect(service.list(origin, queryParams)).rejects.toThrow(
+        new HttpException("Comparison Not Implemented", HttpStatus.NOT_IMPLEMENTED)
       )
     })
 

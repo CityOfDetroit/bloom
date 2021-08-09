@@ -59,27 +59,35 @@ export function addFilters<FilterParams, FilterFieldMap>(
           // Each WHERE param must be unique across the entire QueryBuilder
           const whereParameterName = `${filterType}_${i}`
 
-          if (comparisonsForCurrentFilter[i] === Compare.IN) {
-            qb.andWhere(
-              `LOWER(CAST(${filterTypeToFieldMap[filterType.toLowerCase()]} as text)) ${
-                comparisonsForCurrentFilter[i]
-              } (:...${whereParameterName})`,
-              {
-                [whereParameterName]: val
-                  .split(",")
-                  .map((s) => s.trim().toLowerCase())
-                  .filter((s) => s.length !== 0),
-              }
-            )
-          } else {
-            qb.andWhere(
-              `LOWER(CAST(${filterTypeToFieldMap[filterType.toLowerCase()]} as text)) ${
-                comparisonsForCurrentFilter[i]
-              } LOWER(:${whereParameterName})`,
-              {
-                [whereParameterName]: val,
-              }
-            )
+          const comparison = comparisonsForCurrentFilter[i]
+          // Explicitly check for allowed comparisons, to prevent SQL injections
+          switch (comparison) {
+            case Compare.IN:
+              qb.andWhere(
+                `LOWER(CAST(${
+                  filterTypeToFieldMap[filterType.toLowerCase()]
+                } as text)) IN (:...${whereParameterName})`,
+                {
+                  [whereParameterName]: val
+                    .split(",")
+                    .map((s) => s.trim().toLowerCase())
+                    .filter((s) => s.length !== 0),
+                }
+              )
+              break
+            case Compare["<>"]:
+            case Compare["="]:
+              qb.andWhere(
+                `LOWER(CAST(${
+                  filterTypeToFieldMap[filterType.toLowerCase()]
+                } as text)) ${comparison} LOWER(:${whereParameterName})`,
+                {
+                  [whereParameterName]: val,
+                }
+              )
+              break
+            default:
+              throw new HttpException("Comparison Not Implemented", HttpStatus.NOT_IMPLEMENTED)
           }
         })
       }
