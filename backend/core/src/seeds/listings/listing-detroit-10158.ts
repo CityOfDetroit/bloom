@@ -1,4 +1,4 @@
-import { AssetDtoSeedType, ListingSeedType, PropertySeedType, UnitSeedType } from "./listings"
+import { ListingSeedType, PropertySeedType, UnitSeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
 import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"

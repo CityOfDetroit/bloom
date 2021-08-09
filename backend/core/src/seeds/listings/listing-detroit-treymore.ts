@@ -11,6 +11,7 @@ import { UnitStatus } from "../../units/types/unit-status-enum"
 import { ApplicationMethod } from "../../application-methods/entities/application-method.entity"
 
 const treymoreProperty: PropertySeedType = {
+  // See http://rentlinx.kmgprestige.com/457-Brainard-Street-Detroit-MI-48201
   amenities: "Parking Elevator in Building (Community Room)",
   buildingAddress: {
     city: "Detroit",
@@ -39,25 +40,26 @@ const treymoreUnits: Array<UnitSeedType> = [
     status: UnitStatus.occupied,
   },
   {
-    monthlyRent: "707 - 819",
+    // Monthly rent is actually represented as a range, but must be a number for an individual unit.
+    monthlyRent: "707",
     numBathrooms: 1,
     numBedrooms: 2,
     status: UnitStatus.available,
   },
   {
-    monthlyRent: "707 - 819",
+    monthlyRent: "819",
     numBathrooms: 1,
     numBedrooms: 2,
     status: UnitStatus.available,
   },
   {
-    monthlyRent: "707 - 819",
+    monthlyRent: "707",
     numBathrooms: 1,
     numBedrooms: 2,
     status: UnitStatus.available,
   },
   {
-    monthlyRent: "707 - 819",
+    monthlyRent: "819",
     numBathrooms: 1,
     numBedrooms: 2,
     status: UnitStatus.available,

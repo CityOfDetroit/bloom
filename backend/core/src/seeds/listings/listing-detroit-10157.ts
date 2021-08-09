@@ -11,6 +11,7 @@ import { UnitStatus } from "../../units/types/unit-status-enum"
 import { ApplicationMethod } from "../../application-methods/entities/application-method.entity"
 
 const nccProperty: PropertySeedType = {
+  // See http://rentlinx.kmgprestige.com/640-Delaware-Street-Detroit-MI-48202
   amenities: "Parking, Elevator in Building",
   buildingAddress: {
     city: "Detroit",
@@ -30,14 +31,15 @@ const nccProperty: PropertySeedType = {
 
 const nccUnits: Array<UnitSeedType> = [
   {
-    monthlyRent: "470 - 497",
+    // Monthly rent is actually represented as a range, but must be a number for an individual unit.
+    monthlyRent: "497",
     numBathrooms: 1,
     numBedrooms: 0,
     sqFeet: "550",
     status: UnitStatus.available,
   },
   {
-    monthlyRent: "650 - 675",
+    monthlyRent: "650",
     numBathrooms: 1,
     numBedrooms: 1,
     sqFeet: "800",
@@ -51,14 +53,14 @@ const nccUnits: Array<UnitSeedType> = [
     status: UnitStatus.available,
   },
   {
-    monthlyRent: "750 - 894",
+    monthlyRent: "750",
     numBathrooms: 1,
     numBedrooms: 2,
     sqFeet: "900",
     status: UnitStatus.available,
   },
   {
-    monthlyRent: "775 - 894",
+    monthlyRent: "894",
     numBathrooms: 1,
     numBedrooms: 2,
     sqFeet: "1100",
