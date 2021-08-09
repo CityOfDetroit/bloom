@@ -125,7 +125,7 @@ describe("ListingsService", () => {
 
       const listings = await service.list(origin, queryParams)
 
-      expect(listings.items).toEqual(mockListingsDto)
+      expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
         "LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0)",
         {
