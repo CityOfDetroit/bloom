@@ -5,6 +5,7 @@ import {
   IsDate,
   IsDefined,
   IsNumber,
+  IsInt,
   IsOptional,
   IsString,
   IsUUID,
@@ -767,7 +768,19 @@ export class ListingFilterParams extends BaseFilter {
     example: "Fox Creek",
     required: false,
   })
-  [ListingFilterKeys.neighborhood]?: string
+  [ListingFilterKeys.neighborhood]?: string;
+
+  @Expose()
+  @ApiProperty({
+    type: Number,
+    example: "3",
+    required: false,
+  })
+  @IsInt({ groups: [ValidationsGroupsEnum.default] })
+  @Transform((value: string | undefined) => (value ? parseInt(value) : undefined), {
+    toClassOnly: true,
+  })
+  [ListingFilterKeys.minBedrooms]?: number
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
@@ -799,4 +812,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   status: "listings.status",
   name: "listings.name",
   neighborhood: "property.neighborhood",
+  minBedrooms: "unit_type.name",
 }
