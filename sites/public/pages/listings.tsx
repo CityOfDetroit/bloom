@@ -150,7 +150,9 @@ const ListingsPage = () => {
         </Form>
       </Modal>
       <div className="max-w-3xl mt-6 m-auto">
-        <LinkButton size={AppearanceSizeType.small} href="/eligibility/welcome">{t("welcome.checkEligibility")}</LinkButton>
+        <LinkButton size={AppearanceSizeType.small} href="/eligibility/welcome">
+          {t("welcome.checkEligibility")}
+        </LinkButton>
         <Button size={AppearanceSizeType.small} onClick={() => setFilterModalVisible(true)}>
           {/* TODO:avaleske make this a string */}
           Filter listings
