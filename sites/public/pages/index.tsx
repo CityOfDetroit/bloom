@@ -59,9 +59,6 @@ export default function Home(props: IndexProps) {
         buttonTitle={t("welcome.seeRentalListings")}
         buttonLink="/listings?page=1"
         listings={props.listings}
-        backgroundImage={
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Detroit_Skyline_%28123143197%29.jpeg/700px-Detroit_Skyline_%28123143197%29.jpeg"
-        }
         secondaryTitle={
           "Click the button below to find rental housing based on your income and household needs"
         }
