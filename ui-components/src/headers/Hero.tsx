@@ -30,7 +30,8 @@ const HeroButton = (props: { title: string; href: string; className?: string }) 
 )
 
 const Hero = (props: HeroProps) => {
-  let subHeader, styles, secondaryTitle
+  let styles
+  let subHeader = <h2 className="hero__subtitle">{t("welcome.subTitle")}</h2>
   let classNames = ""
   if (props.listings) {
     if (!props.listings.some(listingOpen) && !props.listings.some(openDateState)) {
@@ -42,9 +43,6 @@ const Hero = (props: HeroProps) => {
   if (props.backgroundImage) {
     styles = { backgroundImage: `url(${props.backgroundImage})` }
   }
-  if (props.secondaryTitle) {
-    secondaryTitle = <h2 className="hero__subtitle">{props.secondaryTitle}</h2>
-  }
   if (props.centered) {
     classNames = "centered"
   }
@@ -52,7 +50,6 @@ const Hero = (props: HeroProps) => {
     <div className={`hero ${classNames}`} style={styles}>
       <h1 className="hero__title">{props.title}</h1>
       {subHeader}
-      {secondaryTitle}
       {props.secondaryButtonTitle && props.secondaryButtonLink ? (
         <div className="grid md:grid-cols-6 gap-5 ">
           <HeroButton
