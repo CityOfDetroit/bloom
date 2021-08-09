@@ -30,8 +30,7 @@ const HeroButton = (props: { title: string; href: string; className?: string }) 
 )
 
 const Hero = (props: HeroProps) => {
-  let styles
-  let subHeader = <h2 className="hero__subtitle">{t("welcome.subTitle")}</h2>
+  let subHeader, styles
   let classNames = ""
   if (props.listings) {
     if (!props.listings.some(listingOpen) && !props.listings.some(openDateState)) {
