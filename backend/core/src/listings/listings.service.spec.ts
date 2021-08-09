@@ -162,8 +162,6 @@ describe("ListingsService", () => {
           // so we force it to an invalid type for testing.
           $comparison: "); DROP TABLE Students;" as Compare,
           name: "test name",
-          // The querystring can contain unknown fields that aren't on the
-          // ListingFilterParams type, so we force it to the type for testing
         } as ListingFilterParams,
       }
 
