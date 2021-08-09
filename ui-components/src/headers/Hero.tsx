@@ -8,6 +8,7 @@ import "./Hero.scss"
 
 export interface HeroProps {
   title: React.ReactNode
+  secondaryTitle?: string
   backgroundImage?: string
   buttonTitle: string
   buttonLink: string
@@ -16,7 +17,6 @@ export interface HeroProps {
   listings?: Listing[]
   children?: React.ReactNode
   centered?: boolean
-  secondaryTitle?: string
 }
 
 const listingOpen = (listing: Listing) => {
@@ -42,11 +42,11 @@ const Hero = (props: HeroProps) => {
   if (props.backgroundImage) {
     styles = { backgroundImage: `url(${props.backgroundImage})` }
   }
-  if (props.centered) {
-    classNames = "centered"
-  }
   if (props.secondaryTitle) {
     secondaryTitle = <h2 className="hero__subtitle">{props.secondaryTitle}</h2>
+  }
+  if (props.centered) {
+    classNames = "centered"
   }
   return (
     <div className={`hero ${classNames}`} style={styles}>
