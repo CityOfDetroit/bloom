@@ -56,6 +56,8 @@ for (let i = 0; i < 24; i++) {
 assert(mcvUnits.length === mcvProperty.buildingTotalUnits)
 
 const mcvListing: ListingSeedType = {
+  amiPercentageMax: 60,
+  amiPercentageMin: null,
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
@@ -68,7 +70,6 @@ const mcvListing: ListingSeedType = {
   managementCompany: "Associated Management Co",
   managementWebsite: "associated-management.rentlinx.com/listings",
   name: "Medical Center Village",
-  reservedCommunityDescription: "",
   status: ListingStatus.active,
 }
 
