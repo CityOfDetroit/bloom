@@ -3,7 +3,7 @@ Section 8
 Asks whether the user has a section 8 voucher.
 */
 import FormsLayout from "../../layouts/forms"
-import React from "react"
+import React, { useContext } from "react"
 import { FormCard } from "@bloom-housing/ui-components/src/blocks/FormCard"
 import { t } from "@bloom-housing/ui-components/src/helpers/translator"
 import { ProgressNav } from "@bloom-housing/ui-components/src/navigation/ProgressNav"
@@ -12,13 +12,21 @@ import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
 import { AppearanceStyleType, FieldGroup } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
+import { EligibilityContext } from "../../lib/EligibilityContext"
 
 const EligibilitySection8 = () => {
+  const { eligibilityRequirements } = useContext(EligibilityContext)
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors } = useForm()
+  const { handleSubmit, register, errors, getValues } = useForm({
+    defaultValues: {
+      section8: eligibilityRequirements?.section8,
+    },
+  })
   const onSubmit = () => {
-    // Not yet implemented.
+    const data = getValues()
+    const { section8 } = data
+    eligibilityRequirements.setSection8(section8)
   }
 
   const section8Values = [
@@ -54,7 +62,7 @@ const EligibilitySection8 = () => {
               <FieldGroup
                 type="radio"
                 name="section8"
-                error={errors.section8}
+                error={errors.section8 != null}
                 errorMessage={t("errors.selectOption")}
                 register={register}
                 validation={{ required: true }}

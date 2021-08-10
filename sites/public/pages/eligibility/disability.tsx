@@ -13,17 +13,28 @@ import {
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
-import React from "react"
+import React, { useContext } from "react"
 import { useRouter } from "next/router"
 import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { EligibilityContext } from "../../lib/EligibilityContext"
 
 const EligibilityDisability = () => {
   const router = useRouter()
+  const { eligibilityRequirements } = useContext(EligibilityContext)
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors } = useForm()
+  const { handleSubmit, register, errors, getValues } = useForm({
+    defaultValues: {
+      disability: eligibilityRequirements?.disability,
+    },
+  })
+
   const onSubmit = () => {
+    const data = getValues()
+    const { disability } = data
+    eligibilityRequirements.setDisability(disability)
+
     void router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[4]}`)
   }
 
@@ -66,7 +77,7 @@ const EligibilityDisability = () => {
               <FieldGroup
                 type="radio"
                 name="disability"
-                error={errors.disability}
+                error={errors.disability != null}
                 errorMessage={t("errors.selectOption")}
                 register={register}
                 validation={{ required: true }}

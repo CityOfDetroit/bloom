@@ -14,9 +14,10 @@ import {
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
 import "./age.scss"
-import React from "react"
+import React, { useContext } from "react"
 import { useRouter } from "next/router"
 import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { EligibilityContext } from "../../lib/EligibilityContext"
 
 const EligibilityAge = () => {
   const router = useRouter()
@@ -27,8 +28,11 @@ const EligibilityAge = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors, setError } = useForm()
+  const { eligibilityRequirements } = useContext(EligibilityContext)
+
   const onSubmit = (data) => {
     if (isAgeValid(data.age)) {
+      eligibilityRequirements.setAge(data.age)
       void router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[3]}`)
     } else {
       setError("age", { type: "manual", message: "" })
@@ -64,6 +68,7 @@ const EligibilityAge = () => {
               label={t("eligibility.age.label")}
               describedBy="age-description"
               isLabelAfterField={true}
+              defaultValue={eligibilityRequirements.age}
               inputProps={{ maxLength: 3 }}
               type={"number"}
               validation={{ required: true }}

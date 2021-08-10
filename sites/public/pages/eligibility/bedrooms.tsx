@@ -5,34 +5,45 @@ Prompts the user for the number of bedrooms they need.
 import {
   AppearanceStyleType,
   Button,
-  FormCard,
-  t,
-  Form,
   FieldGroup,
+  Form,
+  FormCard,
   ProgressNav,
+  t,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
-import React from "react"
+import React, { useContext } from "react"
 import { useRouter } from "next/router"
 import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { EligibilityContext } from "../../lib/EligibilityContext"
 
 const EligibilityBedrooms = () => {
   const router = useRouter()
+  const { eligibilityRequirements } = useContext(EligibilityContext)
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors } = useForm()
+  const { handleSubmit, register, errors, getValues } = useForm({
+    defaultValues: {
+      bedrooms: eligibilityRequirements?.bedroomCounts,
+    },
+  })
+
   const onSubmit = () => {
+    const data = getValues()
+    const { bedrooms } = data
+    eligibilityRequirements.setBedroomCounts(bedrooms)
+
     void router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[2]}`)
   }
 
-  const preferredUnitOptions = [
+  const bedroomsOptions = [
     { id: "studio", label: t("eligibility.bedrooms.studio") },
-    { id: "1", label: "1" },
-    { id: "2", label: "2" },
-    { id: "3", label: "3" },
-    { id: "4+", label: "4+" },
+    { id: "oneBdrm", label: "1" },
+    { id: "twoBdrm", label: "2" },
+    { id: "threeBdrm", label: "3" },
+    { id: "fourBdrm", label: "4+" },
   ]
 
   return (
@@ -54,9 +65,9 @@ const EligibilityBedrooms = () => {
               <legend className="sr-only">{t("eligibility.bedrooms.prompt")}</legend>
               <FieldGroup
                 type="checkbox"
-                name="preferredUnit"
-                fields={preferredUnitOptions}
-                error={errors.preferredUnit}
+                name="bedrooms"
+                fields={bedroomsOptions}
+                error={errors.bedrooms != null}
                 errorMessage={t("errors.selectAtLeastOne")}
                 validation={{ required: true }}
                 register={register}
