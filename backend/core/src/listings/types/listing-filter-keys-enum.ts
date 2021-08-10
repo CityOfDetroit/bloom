@@ -3,5 +3,5 @@ export enum ListingFilterKeys {
   status = "status",
   name = "name",
   neighborhood = "neighborhood",
-  minBedrooms = "minBedrooms",
+  bedrooms = "bedrooms",
 }

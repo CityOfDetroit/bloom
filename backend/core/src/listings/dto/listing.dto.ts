@@ -5,11 +5,11 @@ import {
   IsDate,
   IsDefined,
   IsNumber,
-  IsInt,
   IsOptional,
   IsString,
   IsUUID,
   ValidateNested,
+  IsNumberString,
 } from "class-validator"
 import moment from "moment"
 import {
@@ -776,11 +776,8 @@ export class ListingFilterParams extends BaseFilter {
     example: "3",
     required: false,
   })
-  @IsInt({ groups: [ValidationsGroupsEnum.default] })
-  @Transform((value: string | undefined) => (value ? parseInt(value) : undefined), {
-    toClassOnly: true,
-  })
-  [ListingFilterKeys.minBedrooms]?: number
+  @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.bedrooms]?: number
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
@@ -812,5 +809,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   status: "listings.status",
   name: "listings.name",
   neighborhood: "property.neighborhood",
-  minBedrooms: "units.num_bedrooms",
+  bedrooms: "unitTypeRef.num_bedrooms",
 }
