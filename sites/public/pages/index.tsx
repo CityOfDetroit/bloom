@@ -58,9 +58,10 @@ export default function Home(props: IndexProps) {
         title={heroTitle}
         buttonTitle={t("welcome.seeRentalListings")}
         buttonLink="/listings?page=1"
-        listings={props.listings}
         backgroundImage={"/images/hero.png"}
-      />
+      >
+        {t("welcome.subTitle")}
+      </Hero>
       <div className="homepage-extra">
         <MarkdownSection fullwidth={true}>
           <>
