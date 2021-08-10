@@ -52,6 +52,7 @@ describe("Listings", () => {
     // but the last listing.
     const page = "1"
     // This is the number of listings in ../../src/seed.ts minus 1
+    // TODO(#374): get this number programmatically
     const limit = 9
     const params = "/?page=" + page + "&limit=" + limit.toString()
     const res = await supertest(app.getHttpServer())
