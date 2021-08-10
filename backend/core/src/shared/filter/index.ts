@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { WhereExpression } from "typeorm"
-import { ListingFilterKeys } from "../../listings/types/listing-filter-keys-enum"
 import { Compare } from "../dto/filter.dto"
 
 /**
@@ -33,8 +32,11 @@ export function addFilters<FilterParams, FilterFieldMap>(
       if (Array.isArray(value)) {
         comparisons = value
       } else if (typeof value === "string") {
-        // todo avaleske check comparison is one of the allowed ones here (otherwise it'd be easy to add another filter type that uses it incorrectly) asdfa asdf asd f
         comparisons = [value]
+      }
+      // Ensure none of the user provided comparisons are invalid
+      if (comparisons.some((c) => !Object.keys(Compare).includes(c))) {
+        throw new HttpException("Comparison Not Implemented", HttpStatus.NOT_IMPLEMENTED)
       }
     } else {
       if (value !== undefined) {
@@ -63,6 +65,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
           const comparison = comparisonsForCurrentFilter[i]
           const filterField = filterTypeToFieldMap[filterType.toLowerCase()]
 
+          // Generic filter handler
           // Explicitly check for allowed comparisons, to prevent SQL injections
           switch (comparison) {
             case Compare.IN:
@@ -83,6 +86,13 @@ export function addFilters<FilterParams, FilterFieldMap>(
                 }
               )
               break
+            case Compare.NA:
+              // If we're here, it's because we expected this filter to be handled by a custom filter handler
+              // that ignores the $comparison param, but it was not.
+              throw new HttpException(
+                `Filter "${filterType}" expected to be handled by a custom filter handler, but one was not implemented.`,
+                HttpStatus.NOT_IMPLEMENTED
+              )
             default:
               throw new HttpException("Comparison Not Implemented", HttpStatus.NOT_IMPLEMENTED)
           }
