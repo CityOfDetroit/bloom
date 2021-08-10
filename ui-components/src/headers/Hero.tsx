@@ -8,7 +8,6 @@ import "./Hero.scss"
 
 export interface HeroProps {
   title: React.ReactNode
-  secondaryTitle?: string
   backgroundImage?: string
   buttonTitle: string
   buttonLink: string
