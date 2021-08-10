@@ -48,7 +48,7 @@ const Hero = (props: HeroProps) => {
     <div className={`hero ${classNames}`} style={styles}>
       <h1 className="hero__title">{props.title}</h1>
       {subHeader}
-      
+
       {props.secondaryButtonTitle && props.secondaryButtonLink ? (
         <div className="grid md:grid-cols-6 gap-5 ">
           <HeroButton
