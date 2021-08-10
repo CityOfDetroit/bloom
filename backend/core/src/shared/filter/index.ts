@@ -116,7 +116,7 @@ function addBedroomsFilter(
   minNumberOfBedrooms: number,
   qb: WhereExpression
 ) {
-  const bedroomNames = ["sudio", "oneBdrm", "twoBdrm", "threeBdrm", "fourBdrm"]
+  const bedroomNames = ["studio", "oneBdrm", "twoBdrm", "threeBdrm", "fourBdrm"]
   qb.andWhere(`unit_type.name IN (:..${whereParameterName})`, {
     [whereParameterName]: bedroomNames.slice(minNumberOfBedrooms), // take all the bedrooms with indices >= numBedrooms
   })
