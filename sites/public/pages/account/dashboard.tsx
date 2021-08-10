@@ -56,7 +56,6 @@ class Dashboard extends Component<DashboardProps> {
 
               <div className="flex flex-wrap relative">
                 <DashBlocks>
-                  
                   <DashBlock
                     href="/account/edit"
                     title={t("account.accountSettings")}
