@@ -17,10 +17,13 @@ import React, { useContext } from "react"
 import { useRouter } from "next/router"
 import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
+import { eligibilityRoute } from "../../lib/helpers"
+import FormBackLink from "../../src/forms/applications/FormBackLink"
 
 const EligibilityDisability = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
+  const CURRENT_PAGE = 3
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -35,7 +38,7 @@ const EligibilityDisability = () => {
     const { disability } = data
     eligibilityRequirements.setDisability(disability)
 
-    void router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[4]}`)
+    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
   const disabilityValues = [
@@ -66,6 +69,12 @@ const EligibilityDisability = () => {
         />
       </FormCard>
       <FormCard>
+        <FormBackLink
+          url={eligibilityRoute(CURRENT_PAGE - 1)}
+          onClick={() => {
+            // Not extra actions needed.
+          }}
+        />
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__lead pb-0 pt-8">
             <h2 className="form-card__title is-borderless">{t("eligibility.disability.prompt")}</h2>

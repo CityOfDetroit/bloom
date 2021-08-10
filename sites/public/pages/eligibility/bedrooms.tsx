@@ -17,10 +17,13 @@ import React, { useContext } from "react"
 import { useRouter } from "next/router"
 import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
+import FormBackLink from "../../src/forms/applications/FormBackLink"
+import { eligibilityRoute } from "../../lib/helpers"
 
 const EligibilityBedrooms = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
+  const CURRENT_PAGE = 1
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -35,7 +38,7 @@ const EligibilityBedrooms = () => {
     const { bedrooms } = data
     eligibilityRequirements.setBedroomCounts(bedrooms)
 
-    void router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[2]}`)
+    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
   const bedroomsOptions = [
@@ -56,6 +59,12 @@ const EligibilityBedrooms = () => {
         />
       </FormCard>
       <FormCard>
+        <FormBackLink
+          url={eligibilityRoute(CURRENT_PAGE - 1)}
+          onClick={() => {
+            // Not extra actions needed.
+          }}
+        />
         <div className="form-card__lead pb-0 pt-8">
           <h2 className="form-card__title is-borderless">{t("eligibility.bedrooms.prompt")}</h2>
         </div>

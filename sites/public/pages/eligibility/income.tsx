@@ -14,12 +14,15 @@ import { AppearanceStyleType, Select } from "@bloom-housing/ui-components"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { EligibilityContext } from "../../lib/EligibilityContext"
+import { eligibilityRoute } from "../../lib/helpers"
+import FormBackLink from "../../src/forms/applications/FormBackLink"
 
 const EligibilityIncome = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
 
   const incomeRanges = ["below10k", "10kTo20k", "30kTo40k", "40kTo50k", "over50k"]
+  const CURRENT_PAGE = 4
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -33,7 +36,7 @@ const EligibilityIncome = () => {
     const { income } = data
     eligibilityRequirements.setIncome(income)
 
-    void router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[5]}`)
+    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
   return (
@@ -46,6 +49,12 @@ const EligibilityIncome = () => {
         />
       </FormCard>
       <FormCard>
+        <FormBackLink
+          url={eligibilityRoute(CURRENT_PAGE - 1)}
+          onClick={() => {
+            // Not extra actions needed.
+          }}
+        />
         <div className="form-card__lead pb-0 pt-8">
           <h2 className="form-card__title is-borderless">{t("eligibility.income.prompt")}</h2>
         </div>

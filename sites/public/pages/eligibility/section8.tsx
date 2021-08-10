@@ -13,9 +13,13 @@ import { Button } from "@bloom-housing/ui-components/src/actions/Button"
 import { AppearanceStyleType, FieldGroup } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import { EligibilityContext } from "../../lib/EligibilityContext"
+import FormBackLink from "../../src/forms/applications/FormBackLink"
+import { eligibilityRoute } from "../../lib/helpers"
 
 const EligibilitySection8 = () => {
   const { eligibilityRequirements } = useContext(EligibilityContext)
+  const CURRENT_PAGE = 5
+
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors, getValues } = useForm({
@@ -52,6 +56,12 @@ const EligibilitySection8 = () => {
         />
       </FormCard>
       <FormCard>
+        <FormBackLink
+          url={eligibilityRoute(CURRENT_PAGE - 1)}
+          onClick={() => {
+            // Not extra actions needed.
+          }}
+        />
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__lead pb-0 pt-8">
             <h2 className="form-card__title is-borderless">{t("eligibility.section8.prompt")}</h2>
