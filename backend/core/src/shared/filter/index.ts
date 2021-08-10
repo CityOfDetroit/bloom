@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { WhereExpression } from "typeorm"
+import { ListingFilterKeys } from "../../listings/types/listing-filter-keys-enum"
 import { Compare } from "../dto/filter.dto"
 
 /**
@@ -32,6 +33,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
       if (Array.isArray(value)) {
         comparisons = value
       } else if (typeof value === "string") {
+        // todo avaleske check comparison is one of the allowed ones here (otherwise it'd be easy to add another filter type that uses it incorrectly) asdfa asdf asd f
         comparisons = [value]
       }
     } else {
@@ -58,39 +60,67 @@ export function addFilters<FilterParams, FilterFieldMap>(
         values.forEach((val: string, i: number) => {
           // Each WHERE param must be unique across the entire QueryBuilder
           const whereParameterName = `${filterType}_${i}`
-
           const comparison = comparisonsForCurrentFilter[i]
-          // Explicitly check for allowed comparisons, to prevent SQL injections
-          switch (comparison) {
-            case Compare.IN:
-              qb.andWhere(
-                `LOWER(CAST(${
-                  filterTypeToFieldMap[filterType.toLowerCase()]
-                } as text)) IN (:...${whereParameterName})`,
-                {
-                  [whereParameterName]: val
-                    .split(",")
-                    .map((s) => s.trim().toLowerCase())
-                    .filter((s) => s.length !== 0),
-                }
-              )
+
+          switch (filterType) {
+            // Handle custom filter types
+            // TODO eventually we might want to refactor these into another class
+            case ListingFilterKeys.minBedrooms:
+              addBedroomsFilter(whereParameterName, parseInt(val), qb)
               break
-            case Compare["<>"]:
-            case Compare["="]:
-              qb.andWhere(
-                `LOWER(CAST(${
-                  filterTypeToFieldMap[filterType.toLowerCase()]
-                } as text)) ${comparison} LOWER(:${whereParameterName})`,
-                {
-                  [whereParameterName]: val,
-                }
-              )
-              break
-            default:
-              throw new HttpException("Comparison Not Implemented", HttpStatus.NOT_IMPLEMENTED)
+            // Fallback for default filters
+            default: {
+              const filterField = filterTypeToFieldMap[filterType.toLowerCase()]
+              addGenericFilter(comparison, filterField, whereParameterName, val, qb)
+            }
           }
         })
       }
     }
   }
 }
+
+function addGenericFilter(
+  comparison: string,
+  filterField: string,
+  whereParameterName: string,
+  filterValue: string,
+  qb: WhereExpression
+) {
+  // Explicitly check for allowed comparisons, to prevent SQL injections
+  switch (comparison) {
+    case Compare.IN:
+      qb.andWhere(`LOWER(CAST(${filterField} as text)) IN (:...${whereParameterName})`, {
+        [whereParameterName]: filterValue
+          .split(",")
+          .map((s) => s.trim().toLowerCase())
+          .filter((s) => s.length !== 0),
+      })
+      break
+    case Compare["<>"]:
+    case Compare["="]:
+      qb.andWhere(
+        `LOWER(CAST(${filterField} as text)) ${comparison} LOWER(:${whereParameterName})`,
+        {
+          [whereParameterName]: filterValue,
+        }
+      )
+      break
+    default:
+      throw new HttpException("Comparison Not Implemented", HttpStatus.NOT_IMPLEMENTED)
+  }
+}
+
+function addBedroomsFilter(
+  whereParameterName: string,
+  minNumberOfBedrooms: number,
+  qb: WhereExpression
+) {
+  const bedroomNames = ["sudio", "oneBdrm", "twoBdrm", "threeBdrm", "fourBdrm"]
+  qb.andWhere(`unit_type.name IN (:..${whereParameterName})`, {
+    [whereParameterName]: bedroomNames.slice(minNumberOfBedrooms), // take all the bedrooms with indices >= numBedrooms
+  })
+}
+
+
+// todo also need to update the join on the inner query
