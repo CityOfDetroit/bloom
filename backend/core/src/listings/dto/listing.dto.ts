@@ -812,5 +812,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   status: "listings.status",
   name: "listings.name",
   neighborhood: "property.neighborhood",
-  minBedrooms: "unit_type.name",
+  minBedrooms: "units.num_bedrooms",
 }
