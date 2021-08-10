@@ -63,7 +63,7 @@ async function uploadListing(listing: ListingCreate) {
       body: listing,
     })
   } catch (e) {
-    console.log(listing)
+    // console.log(listing)
     console.log(e.response.data.message)
     process.exit(1)
   }
