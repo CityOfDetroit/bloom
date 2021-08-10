@@ -58,8 +58,9 @@ export default function Home(props: IndexProps) {
         title={heroTitle}
         buttonTitle={t("welcome.seeRentalListings")}
         buttonLink="/listings?page=1"
-        children={t("welcome.subTitle")}
-      />
+      >
+        {t("welcome.subTitle")}
+      </Hero>
       <div className="homepage-extra">
         <MarkdownSection fullwidth={true}>
           <>
