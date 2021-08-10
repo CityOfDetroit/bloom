@@ -64,7 +64,7 @@ export default function Home(props: IndexProps) {
       <div className="homepage-extra">
         <MarkdownSection fullwidth={true}>
           <>
-            <p>{t("welcome.seeMoreOpportunities")}</p>
+            <p>{t("welcome.checkEligibilityDescription")}</p>
             <LinkButton href="/eligibility/welcome">{t("welcome.checkEligibility")}</LinkButton>
           </>
         </MarkdownSection>
