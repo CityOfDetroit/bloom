@@ -1,11 +1,12 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { WhereExpression } from "typeorm"
+import { Compare } from "../dto/filter.dto"
 
 /**
  *
  * @param filterParams
  * @param filterTypeToFieldMap
- * @param innerQb The inner query on which filters are applied.
+ * @param qb The query on which filters are applied.
  */
 /**
  * Add filters to provided QueryBuilder, using the provided map to find the field name.
@@ -16,13 +17,14 @@ import { WhereExpression } from "typeorm"
 export function addFilters<FilterParams, FilterFieldMap>(
   filterParams: FilterParams,
   filterTypeToFieldMap: FilterFieldMap,
-  innerQb: WhereExpression
+  qb: WhereExpression
 ): void {
   let comparisons: string[],
     comparisonCount = 0
 
-  // TODO(#210): This assumes that the order of keys is consistent across browsers,
-  // that the key order is the insertion order, and that the $comaprison field is first.
+  // TODO(https://github.com/CityOfDetroit/bloom/issues/210): This assumes that
+  // the order of keys is consistent across browsers, that the key order is the
+  // insertion order, and that the $comaprison field is first.
   // This may not always be the case.
   for (const filterType in filterParams) {
     const value = filterParams[filterType]
@@ -35,7 +37,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
     } else {
       if (value !== undefined) {
         let values: string[]
-        // handle multiple values for the same key
+        // Handle multiple values for the same key
         if (Array.isArray(value)) {
           values = value
         } else if (typeof value === "string") {
@@ -56,14 +58,37 @@ export function addFilters<FilterParams, FilterFieldMap>(
         values.forEach((val: string, i: number) => {
           // Each WHERE param must be unique across the entire QueryBuilder
           const whereParameterName = `${filterType}_${i}`
-          innerQb.andWhere(
-            `LOWER(CAST(${filterTypeToFieldMap[filterType.toLowerCase()]} as text)) ${
-              comparisonsForCurrentFilter[i]
-            } LOWER(:${whereParameterName})`,
-            {
-              [whereParameterName]: val,
-            }
-          )
+
+          const comparison = comparisonsForCurrentFilter[i]
+          // Explicitly check for allowed comparisons, to prevent SQL injections
+          switch (comparison) {
+            case Compare.IN:
+              qb.andWhere(
+                `LOWER(CAST(${
+                  filterTypeToFieldMap[filterType.toLowerCase()]
+                } as text)) IN (:...${whereParameterName})`,
+                {
+                  [whereParameterName]: val
+                    .split(",")
+                    .map((s) => s.trim().toLowerCase())
+                    .filter((s) => s.length !== 0),
+                }
+              )
+              break
+            case Compare["<>"]:
+            case Compare["="]:
+              qb.andWhere(
+                `LOWER(CAST(${
+                  filterTypeToFieldMap[filterType.toLowerCase()]
+                } as text)) ${comparison} LOWER(:${whereParameterName})`,
+                {
+                  [whereParameterName]: val,
+                }
+              )
+              break
+            default:
+              throw new HttpException("Comparison Not Implemented", HttpStatus.NOT_IMPLEMENTED)
+          }
         })
       }
     }

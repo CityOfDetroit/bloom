@@ -58,8 +58,9 @@ export default function Home(props: IndexProps) {
         title={heroTitle}
         buttonTitle={t("welcome.seeRentalListings")}
         buttonLink="/listings?page=1"
-        listings={props.listings}
-      />
+      >
+        {t("welcome.subTitle")}
+      </Hero>
       <div className="homepage-extra">
         <MarkdownSection fullwidth={true}>
           <>
@@ -80,7 +81,7 @@ export async function getStaticProps() {
   try {
     // const response = await axios.get(process.env.listingServiceUrl)
     const response = await axios.get(
-      process.env.listingServiceUrl + "?filter[$comparison]=<>&filter[status]=pending"
+      process.env.listingServiceUrl + "?limit=all&filter[$comparison]=<>&filter[status]=pending"
     )
     listings = response.data ? response.data.items : []
   } catch (error) {
