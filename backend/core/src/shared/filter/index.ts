@@ -122,5 +122,4 @@ function addBedroomsFilter(
   })
 }
 
-
 // todo also need to update the join on the inner query
