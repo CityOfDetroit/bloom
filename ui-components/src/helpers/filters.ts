@@ -12,7 +12,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.status:
       return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.bedrooms:
-      return EnumListingFilterParamsComparison[">"]
+      return EnumListingFilterParamsComparison[">="]
     default: {
       const _exhaustiveCheck: never = filterKey
       return _exhaustiveCheck
