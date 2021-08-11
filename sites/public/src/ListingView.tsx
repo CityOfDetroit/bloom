@@ -4,8 +4,6 @@ import Markdown from "markdown-to-jsx"
 import { Listing, ListingEvent, ListingEventType } from "@bloom-housing/backend-core/types"
 import {
   AdditionalFees,
-  ApplicationSection,
-  ApplicationStatus,
   StandardTable,
   Description,
   ExpandableText,
@@ -27,18 +25,11 @@ import {
   TableHeaders,
   t,
   UnitTables,
-  WhatToExpect,
-  PublicLotteryEvent,
-  LotteryResultsEvent,
   OpenHouseEvent,
-  DownloadLotteryResults,
-  ReferralApplication,
   ListingUpdated,
   Message,
 } from "@bloom-housing/ui-components"
-import moment from "moment"
 import { ErrorPage } from "../pages/_error"
-import { useGetApplicationStatusProps } from "../lib/hooks"
 
 interface ListingProps {
   listing: Listing
@@ -48,8 +39,6 @@ interface ListingProps {
 export const ListingView = (props: ListingProps) => {
   let buildingSelectionCriteria, preferencesSection
   const { listing } = props
-
-  const { content: appStatusContent } = useGetApplicationStatusProps(listing)
 
   if (!listing) {
     return <ErrorPage />
@@ -126,8 +115,6 @@ export const ListingView = (props: ListingProps) => {
   }
 
   let openHouseEvents: ListingEvent[] | null = null
-  let publicLottery: ListingEvent | null = null
-  let lotteryResults: ListingEvent | null = null
   if (Array.isArray(listing.events)) {
     listing.events.forEach((event) => {
       switch (event.type) {
@@ -137,22 +124,8 @@ export const ListingView = (props: ListingProps) => {
           }
           openHouseEvents.push(event)
           break
-        case ListingEventType.publicLottery:
-          publicLottery = event
-          break
-        case ListingEventType.lotteryResults:
-          lotteryResults = event
-          break
       }
     })
-  }
-
-  let lotterySection
-  if (publicLottery && (!lotteryResults || (lotteryResults && !lotteryResults.url))) {
-    lotterySection = <PublicLotteryEvent event={publicLottery} />
-    if (moment(publicLottery.startTime) < moment() && lotteryResults && !lotteryResults.url) {
-      lotterySection = <LotteryResultsEvent event={lotteryResults} />
-    }
   }
 
   const getReservedTitle = () => {
@@ -163,15 +136,6 @@ export const ListingView = (props: ListingProps) => {
       return t("listings.reservedCommunitySeniorTitle")
     }
   }
-
-  //TODO: Add isReferralApplication boolean field to avoid this logic
-  const isReferralApp =
-    !listing.applicationDropOffAddress &&
-    !listing.applicationDropOffAddressType &&
-    !listing.applicationMailingAddress &&
-    !listing.applicationPickUpAddress &&
-    !listing.applicationPickUpAddressType &&
-    listing.applicationMethods?.length === 0
 
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
