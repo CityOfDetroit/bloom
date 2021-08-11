@@ -36,14 +36,13 @@ const ListingsPage = () => {
 
   // TODO: Select options should come from the database (#252)
   const EMPTY_OPTION = { value: "", label: "" }
-  const ALL_OPTION = { value: "", label: "All" }
   const preferredUnitOptions: SelectOption[] = [
-    ALL_OPTION,
-    { value: "0", label: "Studio+" },
-    { value: "1", label: "1+ Bedrooms" },
-    { value: "2", label: "2+ Bedrooms" },
-    { value: "3", label: "3+ Bedrooms" },
-    { value: "4", label: "4+ Bedrooms" },
+    EMPTY_OPTION,
+    { value: "0", label: t("listingFilters.bedroomsOptions.studioPlus") },
+    { value: "1", label: t("listingFilters.bedroomsOptions.onePlus") },
+    { value: "2", label: t("listingFilters.bedroomsOptions.twoPlus") },
+    { value: "3", label: t("listingFilters.bedroomsOptions.threePlus") },
+    { value: "4", label: t("listingFilters.bedroomsOptions.fourPlus") },
   ]
   const accessibilityOptions: SelectOption[] = [
     EMPTY_OPTION,
@@ -109,7 +108,7 @@ const ListingsPage = () => {
             <Select
               id="unitOptions"
               name={ListingFilterKeys.bedrooms}
-              label="Unit Size"
+              label={t("listingFilters.bedrooms")}
               register={register}
               controlClassName="control"
               options={preferredUnitOptions}
