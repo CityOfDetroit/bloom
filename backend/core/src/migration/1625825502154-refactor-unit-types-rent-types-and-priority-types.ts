@@ -12,7 +12,7 @@ export class refactorUnitTypesRentTypesAndPriorityTypes1625825502154 implements 
       `ALTER TABLE "units" ADD CONSTRAINT "FK_1e193f5ffdda908517e47d4e021" FOREIGN KEY ("unit_type_id") REFERENCES "unit_types"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     )
 
-    const unitTypeSeeds = ["studio", "oneBdrm", "twoBdrm", "threeBdrm", "fourBdrm", "fiveBdrm"]
+    const unitTypeSeeds = ["studio", "oneBdrm", "twoBdrm", "threeBdrm", "fourBdrm"]
     const existingUnitTypes = (await queryRunner.query(`SELECT DISTINCT unit_type FROM units`)).map(
       (result) => result.unit_type
     )

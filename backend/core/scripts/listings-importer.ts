@@ -14,30 +14,6 @@ export function createUnitsArray(type: string, number: number) {
       unitType: type,
 
       status: UnitStatus.unknown,
-
-      /*
-      // This amiPercentage is made up.
-      amiPercentage: "30",
-
-      amiChart: {
-        name: "Fake AMI Chart Name",
-        items: [],
-
-        // Add null id, createdAt, etc. to avoid compilation errors.
-        // (These will be replaced by real values when the script uploads/de-dupes this amiChart.)
-        id: null,
-        createdAt: null,
-        updatedAt: null,
-        units: null,
-      },
-
-      // Add null id, createdAt, etc. to avoid compilation errors.
-      // (These will be replaced by real values when the script uploads this unit.)
-      id: null,
-      createdAt: null,
-      updatedAt: null,
-      property: null,
-      */
     })
   }
   return units
@@ -65,9 +41,7 @@ async function uploadListing(listing: ListingCreate) {
       body: listing,
     })
   } catch (e) {
-    console.log(listing)
-    console.log(e.response.data.message)
-    process.exit(1)
+    throw new Error(e.response.data.message)
   }
 }
 
