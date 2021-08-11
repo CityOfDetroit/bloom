@@ -43,8 +43,10 @@ const ImageCard = (props: ImageCardProps) => {
       {tag}
       <figure className="image-card">
         {
-          <img src={props.imageUrl ||
-            "https://detroit.umich.edu/wp-content/uploads/mc-image-cache/2021/02/IMG_4454.jpeg"} alt={props.description || t("listings.buildingImageAltText")} />
+          <img
+            src={props.imageUrl || "/images/detroitDefault.png"}
+            alt={props.description || t("listings.buildingImageAltText")}
+          />
         }
         <figcaption className="image-card__figcaption">
           <h2 className="image-card__title">{props.title}</h2>
