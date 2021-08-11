@@ -229,9 +229,6 @@ const formatFormData = (
 
   units.forEach((unit) => {
     switch (unit.unitType?.name) {
-      case "fiveBdrm":
-        unit.numBedrooms = 5
-        break
       case "fourBdrm":
         unit.numBedrooms = 4
         break

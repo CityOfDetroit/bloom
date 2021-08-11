@@ -46,8 +46,7 @@ const EligibilityBedrooms = () => {
     { id: "oneBdrm", label: "1" },
     { id: "twoBdrm", label: "2" },
     { id: "threeBdrm", label: "3" },
-    { id: "fourBdrm", label: "4" },
-    { id: "fiveBdrm", label: "5+" },
+    { id: "fourBdrm", label: "4+" },
   ]
 
   return (
