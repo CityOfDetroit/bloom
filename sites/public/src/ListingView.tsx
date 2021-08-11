@@ -294,6 +294,11 @@ export const ListingView = (props: ListingProps) => {
               <ListingUpdated listing={listing} />
               {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
             </div>
+            {openHouseEvents && (
+              <div className="mb-2 md:hidden">
+                <OpenHouseEvent events={openHouseEvents} />
+              </div>
+            )}
             <LeasingAgent listing={listing} />
           </aside>
         </ListingDetailItem>
