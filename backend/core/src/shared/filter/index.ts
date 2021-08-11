@@ -65,6 +65,8 @@ export function addFilters<FilterParams, FilterFieldMap>(
           const comparison = comparisonsForCurrentFilter[i]
           const filterField = filterTypeToFieldMap[filterType as string]
 
+          // Handle custom filters here, before dropping into generic filter handler
+
           // Generic filter handler
           // Explicitly check for allowed comparisons, to prevent SQL injections
           switch (comparison) {
