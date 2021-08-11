@@ -704,7 +704,7 @@
         "bn": "বাংলা"
     },
     "leasingAgent": {
-        "contact": "Comuníquese con el agente de arrendamiento",
+        "contact": "Empresa de gestión",
         "dueToHighCallVolume": "Debido al alto volumen de llamadas, es posible que escuche un mensaje.",
         "name": "Nombre del agente de arrendamiento",
         "namePlaceholder": "Nombre completo",
