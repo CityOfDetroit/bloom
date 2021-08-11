@@ -50,8 +50,9 @@ async function main() {
 
   console.log("CSV file successfully read in, about to start creating listings")
 
+  const uploadFailureMessages = []
+
   for (const listingFields of rawListingFields) {
-    console.log(`About to process ${listingFields["Project Name"]}`)
     // Start the whole shebang here
     const listing = new Listing()
     const property = new Property()
@@ -117,8 +118,11 @@ async function main() {
     listing.managementCompany = listingFields["Management Company"]
     listing.leasingAgentName = listingFields["Manager Contact"]
     listing.leasingAgentPhone = listingFields["Manager Phone"]
-    listing.leasingAgentEmail = listingFields["Manager Email"]
     listing.managementWebsite = listingFields["Management Website"]
+
+    if (listingFields["Manager Email"]) {
+      listing.leasingAgentEmail = listingFields["Manager Email"]
+    }
 
     // Listing affordability details
     const affordabilityMix: string = listingFields["Affordability Mix"]
@@ -141,56 +145,24 @@ async function main() {
     listing.preferences = []
     listing.events = []
     listing.applicationMethods = []
+    listing.assets = []
     listing.displayWaitlistSize = false
     listing.CSVFormattingType = CSVFormattingType.basic
     listing.countyCode = CountyCode.alameda
-
-    /*
-    
-          listing.property = property
-          listing.name = listingAttributes.Project_Name
-          listing.leasingAgentName = listingAttributes.Manager_Contact
-    
-          if (listingAttributes.Manager_Phone) {
-            listing.leasingAgentPhone = listingAttributes.Manager_Phone
-          } else if (listingAttributes.Property_Phone) {
-            listing.leasingAgentPhone = listingAttributes.Property_Phone
-          } else {
-            listing.leasingAgentPhone = "(555) 555-5555"
-          }
-    
-          listing.leasingAgentAddress = {
-            city: "Fake City",
-            state: "XX",
-            street: "123 Fake St",
-            zipCode: "12345",
-    
-            // Add null id, createdAt, etc. to avoid compilation errors.
-            // (These will be replaced by real values when the script uploads this address.)
-            id: null,
-            createdAt: null,
-            updatedAt: null,
-          }
-    
-          listing.preferences = []
-          listing.assets = []
-          listing.applicationMethods = []
-          listing.events = []
-          listing.CSVFormattingType = CSVFormattingType.basic
-          listing.countyCode = CountyCode.alameda
-          listing.displayWaitlistSize = false
-          */
 
     try {
       const newListing = await importListing(importApiUrl, email, password, listing)
       console.log("New listing (" + newListing.name + ") created successfully.")
     } catch (e) {
       console.log(e)
-      process.exit(1)
+      uploadFailureMessages.push(`Upload failed for ${listing.name}: ${e}`)
     }
   }
 
-  console.log(`Starting to create new listings; number of listings: `)
+  for (const failureMessage of uploadFailureMessages) {
+    console.log(failureMessage)
+  }
+  console.log(`Failed for ${uploadFailureMessages.length} listings`)
 }
 
 void main()
