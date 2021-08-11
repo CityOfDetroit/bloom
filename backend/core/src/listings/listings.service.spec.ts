@@ -3,8 +3,7 @@ import { ListingsService } from "./listings.service"
 import { getRepositoryToken } from "@nestjs/typeorm"
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { Listing } from "./entities/listing.entity"
-import { mapTo } from "../shared/mapTo"
-import { ListingDto, ListingsQueryParams, ListingFilterParams } from "./dto/listing.dto"
+import { ListingsQueryParams, ListingFilterParams } from "./dto/listing.dto"
 import { Compare } from "../shared/dto/filter.dto"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
@@ -24,11 +23,6 @@ const mockListings = [
   { id: "asdf7", property: { id: "test-property7", units: [] }, preferences: [], status: "closed" },
 ]
 const mockFilteredListings = mockListings.slice(0, 2)
-const mockListingsDto = mapTo<ListingDto, Listing>(ListingDto, mockListings as Listing[])
-const mockFilteredListingsDto = mapTo<ListingDto, Listing>(
-  ListingDto,
-  mockFilteredListings as Listing[]
-)
 const mockInnerQueryBuilder = {
   select: jest.fn().mockReturnThis(),
   leftJoin: jest.fn().mockReturnThis(),
@@ -86,7 +80,7 @@ describe("ListingsService", () => {
 
       const listings = await service.list(origin, {})
 
-      expect(listings.items).toEqual(mockListingsDto)
+      expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledTimes(0)
     })
 
@@ -105,11 +99,37 @@ describe("ListingsService", () => {
 
       const listings = await service.list(origin, queryParams)
 
-      expect(listings.items).toEqual(mockListingsDto)
+      expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
         "LOWER(CAST(property.neighborhood as text)) = LOWER(:neighborhood_0)",
         {
           neighborhood_0: expectedNeighborhood,
+        }
+      )
+    })
+
+    it("should support filters with comma-separated arrays", async () => {
+      mockListingsRepo.createQueryBuilder
+        .mockReturnValueOnce(mockInnerQueryBuilder)
+        .mockReturnValueOnce(mockQueryBuilder)
+      const expectedNeighborhoodString = "Fox Creek, , Coliseum," // intentional extra and trailing commas for test
+      // lowercased, trimmed spaces, filtered empty
+      const expectedNeighborhoodArray = ["fox creek", "coliseum"]
+
+      const queryParams: ListingsQueryParams = {
+        filter: {
+          $comparison: Compare["IN"],
+          neighborhood: expectedNeighborhoodString,
+        },
+      }
+
+      const listings = await service.list(origin, queryParams)
+
+      expect(listings.items).toEqual(mockListings)
+      expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
+        "LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0)",
+        {
+          neighborhood_0: expectedNeighborhoodArray,
         }
       )
     })
@@ -122,12 +142,31 @@ describe("ListingsService", () => {
           $comparison: Compare["="],
           otherField: "otherField",
           // The querystring can contain unknown fields that aren't on the
-          // ListingFilterParams type, so we force it to the type for testing
+          // ListingFilterParams type, so we force it to the type for testing.
         } as ListingFilterParams,
       }
 
       await expect(service.list(origin, queryParams)).rejects.toThrow(
         new HttpException("Filter Not Implemented", HttpStatus.NOT_IMPLEMENTED)
+      )
+    })
+
+    //TODO(avaleske): A lot of these tests should be moved to a spec file specific to the filters code.
+    it("should throw an exception if an unsupported comparison is used", async () => {
+      mockListingsRepo.createQueryBuilder.mockReturnValueOnce(mockInnerQueryBuilder)
+
+      const queryParams: ListingsQueryParams = {
+        filter: {
+          // The value of the filter[$comparison] query param is not validated,
+          // and the type system trusts that whatever is provided is correct,
+          // so we force it to an invalid type for testing.
+          $comparison: "); DROP TABLE Students;" as Compare,
+          name: "test name",
+        } as ListingFilterParams,
+      }
+
+      await expect(service.list(origin, queryParams)).rejects.toThrow(
+        new HttpException("Comparison Not Implemented", HttpStatus.NOT_IMPLEMENTED)
       )
     })
 
@@ -140,7 +179,7 @@ describe("ListingsService", () => {
       const params = {}
       const listings = await service.list(origin, params)
 
-      expect(listings.items).toEqual(mockListingsDto)
+      expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.limit).toHaveBeenCalledTimes(0)
       expect(mockInnerQueryBuilder.offset).toHaveBeenCalledTimes(0)
     })
@@ -154,7 +193,7 @@ describe("ListingsService", () => {
       const params = { page: 3 }
       const listings = await service.list(origin, params)
 
-      expect(listings.items).toEqual(mockListingsDto)
+      expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.limit).toHaveBeenCalledTimes(0)
       expect(mockInnerQueryBuilder.offset).toHaveBeenCalledTimes(0)
       expect(listings.meta).toEqual({
@@ -175,7 +214,7 @@ describe("ListingsService", () => {
       const params = { page: ("hello" as unknown) as number } // force the type for testing
       const listings = await service.list(origin, params)
 
-      expect(listings.items).toEqual(mockListingsDto)
+      expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.limit).toHaveBeenCalledTimes(0)
       expect(mockInnerQueryBuilder.offset).toHaveBeenCalledTimes(0)
       expect(listings.meta).toEqual({
@@ -197,7 +236,7 @@ describe("ListingsService", () => {
       const params = { page: 3, limit: 2 }
       const listings = await service.list(origin, params)
 
-      expect(listings.items).toEqual(mockFilteredListingsDto)
+      expect(listings.items).toEqual(mockFilteredListings)
       expect(mockInnerQueryBuilder.limit).toHaveBeenCalledWith(2)
       expect(mockInnerQueryBuilder.offset).toHaveBeenCalledWith(4)
       expect(mockInnerQueryBuilder.getCount).toHaveBeenCalledTimes(1)

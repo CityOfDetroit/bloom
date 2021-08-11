@@ -13,15 +13,51 @@ import { ListingDefaultSeed } from "./seeds/listings/listing-default-seed"
 import { defaultLeasingAgents } from "./seeds/listings/shared"
 import { Listing } from "./listings/entities/listing.entity"
 import { ListingColiseumSeed } from "./seeds/listings/listing-coliseum-seed"
+import { ListingDefaultOpenSoonSeed } from "./seeds/listings/listing-default-open-soon"
 import { ListingDefaultOnePreferenceSeed } from "./seeds/listings/listing-default-one-preference-seed"
 import { ListingDefaultNoPreferenceSeed } from "./seeds/listings/listing-default-no-preference-seed"
 import { ListingTritonSeed } from "./seeds/listings/listing-triton-seed"
 import { ListingDefaultBmrChartSeed } from "./seeds/listings/listing-default-bmr-chart-seed"
+import { ApplicationMethodsService } from "./application-methods/application-methods.service"
+import { ApplicationMethodType } from "./application-methods/types/application-method-type-enum"
+import { PaperApplicationsService } from "./paper-applications/paper-applications.service"
+import { Language } from "./shared/types/language-enum"
+import { AssetsService } from "./assets/services/assets.service"
 import { AuthContext } from "./auth/types/auth-context"
+import { ListingDefaultReservedSeed } from "./seeds/listings/listing-default-reserved-seed"
+import { ListingDefaultFCFSSeed } from "./seeds/listings/listing-default-fcfs-seed"
+import { Listing10158Seed } from "./seeds/listings/listing-detroit-10158"
+import { Listing10157Seed } from "./seeds/listings/listing-detroit-10157"
+import { Listing10147Seed } from "./seeds/listings/listing-detroit-10147"
+import { Listing10145Seed } from "./seeds/listings/listing-detroit-10145"
+import { CountyCode } from "./shared/types/county-code"
+import { ListingTreymoreSeed } from "./seeds/listings/listing-detroit-treymore"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },
 }).argv
+
+// Note: if changing this list of seeds, you must also change the
+// number in listings.e2e-spec.ts.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const listingSeeds: any[] = [
+  ListingDefaultSeed,
+  ListingColiseumSeed,
+  ListingDefaultOpenSoonSeed,
+  ListingDefaultOnePreferenceSeed,
+  ListingDefaultNoPreferenceSeed,
+  ListingTritonSeed,
+  ListingDefaultReservedSeed,
+  Listing10145Seed,
+  Listing10147Seed,
+  Listing10157Seed,
+  Listing10158Seed,
+  ListingTreymoreSeed,
+]
+
+export function getSeedListingsCount() {
+  return listingSeeds.length
+}
 
 export async function createLeasingAgents(app: INestApplicationContext) {
   const usersService = await app.resolve<UserService>(UserService)
@@ -38,28 +74,56 @@ export async function createLeasingAgents(app: INestApplicationContext) {
   return leasingAgents
 }
 
+async function createApplicationMethods(app: INestApplicationContext) {
+  const assetsService = await app.resolve<AssetsService>(AssetsService)
+  const englishFileAsset = await assetsService.create({
+    fileId: "englishFileId",
+    label: "English paper application",
+  })
+  const paperApplicationsService = await app.resolve<PaperApplicationsService>(
+    PaperApplicationsService
+  )
+  const englishPaperApplication = await paperApplicationsService.create({
+    language: Language.en,
+    file: englishFileAsset,
+  })
+  const applicationMethodsService = await app.resolve<ApplicationMethodsService>(
+    ApplicationMethodsService
+  )
+
+  await applicationMethodsService.create({
+    type: ApplicationMethodType.FileDownload,
+    acceptsPostmarkedApplications: false,
+    externalReference: "https://bit.ly/2wH6dLF",
+    label: "English",
+    paperApplications: [englishPaperApplication],
+  })
+
+  await applicationMethodsService.create({
+    type: ApplicationMethodType.Internal,
+    acceptsPostmarkedApplications: false,
+    externalReference: "",
+    label: "Label",
+    paperApplications: [],
+  })
+}
+
 const seedListings = async (app: INestApplicationContext) => {
   const seeds = []
   const leasingAgents = await createLeasingAgents(app)
+  await createApplicationMethods(app)
 
-  const allSeeds = [
-    app.get<ListingDefaultSeed>(ListingDefaultSeed),
-    app.get<ListingDefaultSeed>(ListingColiseumSeed),
-    app.get<ListingDefaultSeed>(ListingDefaultOnePreferenceSeed),
-    app.get<ListingDefaultSeed>(ListingDefaultNoPreferenceSeed),
-    app.get<ListingDefaultSeed>(ListingDefaultNoPreferenceSeed),
-    app.get<ListingDefaultSeed>(ListingDefaultBmrChartSeed),
-    app.get<ListingDefaultSeed>(ListingTritonSeed),
-  ]
-
+  const allSeeds = listingSeeds.map((listingSeed) => app.get<ListingDefaultSeed>(listingSeed))
   const listingRepository = app.get<Repository<Listing>>(getRepositoryToken(Listing))
 
   for (const [index, listingSeed] of allSeeds.entries()) {
-    const everyOtherAgent = index % 2 ? leasingAgents[0] : leasingAgents[1]
     const listing = await listingSeed.seed()
-    listing.leasingAgents = [everyOtherAgent]
-    await listingRepository.save(listing)
-
+    // Don't add leasing agent assignments for Detroit
+    if (listing.countyCode !== CountyCode.detroit) {
+      const everyOtherAgent = index % 2 ? leasingAgents[0] : leasingAgents[1]
+      listing.leasingAgents = [everyOtherAgent]
+      await listingRepository.save(listing)
+    }
     seeds.push(listing)
   }
 

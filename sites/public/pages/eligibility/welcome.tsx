@@ -15,14 +15,16 @@ import { useForm } from "react-hook-form"
 import React from "react"
 import { useRouter } from "next/router"
 import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { eligibilityRoute } from "../../lib/helpers"
 
 const EligibilityWelcome = () => {
   const router = useRouter()
+  const CURRENT_PAGE = 0
 
   /* Form Handler */
   const { handleSubmit } = useForm()
   const onSubmit = () => {
-    // Not implemented yet.
+    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
   return (
@@ -44,12 +46,7 @@ const EligibilityWelcome = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
-              <Button
-                styleType={AppearanceStyleType.primary}
-                onClick={() => router.push(`/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[1]}`)}
-              >
-                {t("t.next")}
-              </Button>
+              <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
             </div>
           </div>
         </Form>

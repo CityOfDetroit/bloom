@@ -1203,7 +1203,8 @@
         "seeRentalListings": "Ver alquileres",
         "title": "Solicite una vivienda asequible en",
         "seeMoreOpportunities": "Ver más oportunidades de alquiler y propiedad de viviendas",
-        "viewAdditionalHousing": "Ver recursos y oportunidades de vivienda adicionales"
+        "viewAdditionalHousing": "Ver recursos y oportunidades de vivienda adicionales",
+        "subTitle": "Haga clic en el botón a continuación para encontrar una vivienda de alquiler según sus ingresos y las necesidades de su hogar."
     },
     "whatToExpect": {
         "label": "Que esperar",
@@ -1240,7 +1241,8 @@
         "age": {
             "prompt": "¿Cuántos años tienes?",
             "description": "Algunas propiedades solo aceptan personas mayores de 62 años.",
-            "label": "años"
+            "label": "años",
+            "error": "Ingrese una edad válida."
         },
         "disability": {
             "prompt": "¿Tienes alguna discapacidad?",

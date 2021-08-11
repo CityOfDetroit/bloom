@@ -1,21 +1,39 @@
-import React, { useEffect, useState } from "react"
+import React, { useState, useEffect } from "react"
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd"
 import { nanoid } from "nanoid"
 import { getTranslationWithArguments } from "../helpers/getTranslationWithArguments"
 import { Icon } from "../icons/Icon"
 import { t } from "../helpers/translator"
 
+export interface TableHeadersOptions {
+  name: string
+  className: string
+}
 export interface TableHeaders {
-  [key: string]: string
+  [key: string]: string | TableHeadersOptions
 }
 
+export const Row = (props: { id?: string; className?: string; children: React.ReactNode }) => (
+  <tr id={props.id} className={props.className}>
+    {props.children}
+  </tr>
+)
+
+export const HeaderCell = (props: { children: React.ReactNode; className?: string }) => (
+  <th className={props.className}>{props.children}</th>
+)
+
 export const Cell = (props: {
-  headerLabel?: string
+  headerLabel?: string | TableHeadersOptions
   className?: string
   colSpan?: number
   children: React.ReactNode
 }) => (
-  <td data-label={props.headerLabel} className={props.className || "p-5"} colSpan={props.colSpan}>
+  <td
+    data-label={props.headerLabel instanceof Object ? props.headerLabel?.name : props.headerLabel}
+    className={props.className || "p-5"}
+    colSpan={props.colSpan}
+  >
     {props.children}
   </td>
 )
@@ -28,20 +46,45 @@ export interface StandardTableProps {
   draggable?: boolean
   setData?: (data: unknown[]) => void
   headers: TableHeaders
-  data: Record<string, React.ReactNode>[]
+  data: StandardTableData
   tableClassName?: string
   cellClassName?: string
   responsiveCollapse?: boolean
 }
 
+export type StandardTableData = Record<string, React.ReactNode>[] | undefined
+
+const headerName = (header: string | TableHeadersOptions) => {
+  if (typeof header === "string") {
+    return header
+  } else {
+    return header.name
+  }
+}
+const headerClassName = (header: string | TableHeadersOptions) => {
+  if (typeof header === "string") {
+    return ""
+  } else {
+    return header.className
+  }
+}
+
 export const StandardTable = (props: StandardTableProps) => {
   const { headers = {}, cellClassName } = props
 
-  const [tableData, setTableData] = useState<Record<string, React.ReactNode>[]>(props.data)
+  const [tableData, setTableData] = useState<StandardTableData>()
+
+  useEffect(() => {
+    setTableData(props.data)
+  }, [props.data])
 
   const headerLabels = Object.values(headers)?.map((header, index) => {
     const uniqKey = process.env.NODE_ENV === "test" ? `header-${index}` : nanoid()
-    return <th key={uniqKey}>{getTranslationWithArguments(header)}</th>
+    return (
+      <HeaderCell key={uniqKey} className={headerClassName(header)}>
+        {getTranslationWithArguments(headerName(header))}
+      </HeaderCell>
+    )
   })
 
   useEffect(() => {
@@ -71,8 +114,8 @@ export const StandardTable = (props: StandardTableProps) => {
       return (
         <Cell
           key={uniqKey}
-          headerLabel={getTranslationWithArguments(headers[colKey])}
-          className={cellClassName}
+          headerLabel={getTranslationWithArguments(headerName(headers[colKey]))}
+          className={[cellClassName, headerClassName(headers[colKey])].join(" ")}
         >
           {cell}
         </Cell>
@@ -127,10 +170,12 @@ export const StandardTable = (props: StandardTableProps) => {
   }
 
   const reorder = (
-    list: Record<string, React.ReactNode>[],
+    list: Record<string, React.ReactNode>[] | undefined,
     startIndex: number,
     endIndex: number
   ) => {
+    if (!list) return
+
     const result = Array.from(list)
     const [removed] = result.splice(startIndex, 1)
     result.splice(endIndex, 0, removed)
@@ -146,7 +191,7 @@ export const StandardTable = (props: StandardTableProps) => {
     }
     const reorderedTableData = reorder(tableData, result.source.index, result.destination.index)
     setTableData(reorderedTableData)
-    if (props.setData) {
+    if (props.setData && reorderedTableData) {
       props.setData(reorderedTableData)
     }
   }

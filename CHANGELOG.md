@@ -6,8 +6,17 @@ All notable changes to this project will be documented in this file. The format 
 
 ## Detroit Team M9
 
+- Fixed:
+
+  - Cypress tests for `sites/public` ([#171](https://github.com/CityOfDetroit/bloom/issues/171))
+  - Change the COUNTY_CODE to Detroit ([#351](https://github.com/CityOfDetroit/bloom/pull/351))
+
 - Added:
   - Added fields to Listing and Property to accommodate Detroit listing data ([#311](https://github.com/CityOfDetroit/bloom/pull/311))
+  - Add eligibility questionnaire validation ([#327](https://github.com/CityOfDetroit/bloom/pull/327))
+  - Add support for comma-separated lists to filters ([#356](https://github.com/CityOfDetroit/bloom/pull/356))
+  - Add eligibility questionnaire state management and back buttons ([#371](https://github.com/CityOfDetroit/bloom/pull/371))
+  - Detroit seed properties ([#362](https://github.com/CityOfDetroit/bloom/pull/362))
 
 ## Detroit Team M8
 
@@ -25,12 +34,43 @@ All notable changes to this project will be documented in this file. The format 
 
 ## Unreleased
 
+## Frontend
+
+- Added:
+
+  - Update buttons / pages visibility depending on a user role ([#1609](https://github.com/bloom-housing/bloom/pull/1609)) (Dominik Barcikowski)
+
+- Fixed:
+  - Update Listings component to sort listings by status ([#1585](https://github.com/bloom-housing/bloom/pull/1585))
+
+### UI Components
+
+- Added:
+  - Add ResponsiveTable for pricing
+
+### Backend
+
+- Added:
+
+  - Filtering, pagination, and tests for listings endpoint (Parts of Detroit Team [#18](https://github.com/CityOfDetroit/bloom/pull/18), [#133](https://github.com/CityOfDetroit/bloom/pull/133), [#180](https://github.com/CityOfDetroit/bloom/pull/180), [#257](https://github.com/CityOfDetroit/bloom/pull/257), [#264](https://github.com/CityOfDetroit/bloom/pull/264), [#271](https://github.com/CityOfDetroit/bloom/pull/271)) [#1578](https://github.com/CityOfDetroit/bloom/pull/1578)
+
+- Changed:
+
+  - updated listing's importer to handle latest unit and priority types changes ([#1584](https://github.com/bloom-housing/bloom/pull/1584)) (Marcin Jedras)
+
+- Fixed:
+  - Added checks for property in listing.dto transforms
+
+## v1.0.5 08/03/2021
+
 - Added:
   - Debug flags for public and partner site ([Detroit Team #195](https://github.com/CityOfDetroit/bloom/pull/195), [#1519](https://github.com/bloom-housing/bloom/pull/1519))
 
-### General
-
 ### Backend
+
+- Added:
+
+  - /applicationMethods and /paperApplications endpoints and corresponding DB schema
 
 - Fixed:
 
@@ -45,6 +85,7 @@ All notable changes to this project will be documented in this file. The format 
   - convert listing address jsonb columns to separate address tables
   - removed unused inverse relations from entities
   - recreated foreign keys constraints for `application_flagged_set_applications_applications`, `listings_leasing_agents_user_accounts`, `property_group_properties_property` and add missing `NOT NULL` migration for listing name column
+  - Listing applicationMethods jsonb column has been converted to a separate table
 
 - Added:
   - ability for an admin to confirm users by `/users` POST/PUT methods
@@ -56,16 +97,23 @@ All notable changes to this project will be documented in this file. The format 
   - refactors listing form submit to fix double submit issue ([#1501](https://github.com/bloom-housing/bloom/pull/1501))
 
 - Added:
+
   - A notice bar to the preview page of a listing ([#1532](https://github.com/bloom-housing/bloom/pull/1532)) (Jared White)
   - Photo upload and preview to the Partner Listing screens ([#1491](https://github.com/bloom-housing/bloom/pull/1491)) (Jared White)
   - AG-grid sorting now is connected with the backend sorting ([#1083](https://github.com/bloom-housing/bloom/issues/1083)) (Michał Plebański)
   - Add Preferences section to listing management ([#1564](https://github.com/bloom-housing/bloom/pull/1564)) (Emily Jablonski)
+  - Add Community Type to listing management ([#1540](https://github.com/bloom-housing/bloom/pull/1540)) (Emily Jablonski)
+
+- Changed:
+  - Remove coming soon text, use application open text instead ([#1602](https://github.com/bloom-housing/bloom/pull/1602)) (Emily Jablonski)
 
 ### UI Components
 
 - Fixed:
 
   - Fix a11y language navigation ([#1528](https://github.com/bloom-housing/bloom/pull/1528)) (Dominik Barcikowski)
+  - Update default mobile height for image-only navbar-logo ([#1466](https://github.com/bloom-housing/bloom/issues/1466))) (Andrea Egan)
+  - Remove border from navbar wrapper and align border color on primary button ([#1596](https://github.com/bloom-housing/bloom/pull/1596)) (Marcin Jedras)
 
 - Added:
   - Preview (disabled) state for Listings Application button ([#1502](https://github.com/bloom-housing/bloom/pull/1502)) (Jared White)

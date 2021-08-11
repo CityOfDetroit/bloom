@@ -31,7 +31,7 @@ export function useListingsData() {
   const { listingsService } = useContext(AuthContext)
   const fetcher = () => listingsService.list()
 
-  const { data, error } = useSWR(`${process.env.backendApiBase}/listings`, fetcher)
+  const { data, error } = useSWR(`${process.env.backendApiBase}/listings?limit=all`, fetcher)
 
   return {
     listingDtos: data ? data.items : [],
@@ -200,6 +200,19 @@ export function usePreferenceList() {
   const fetcher = () => preferencesService.list()
 
   const { data, error } = useSWR(`${process.env.backendApiBase}/preferences`, fetcher)
+
+  return {
+    data,
+    loading: !error && !data,
+    error,
+  }
+}
+
+export function useReservedCommunityTypeList() {
+  const { reservedCommunityTypeService } = useContext(AuthContext)
+  const fetcher = () => reservedCommunityTypeService.list()
+
+  const { data, error } = useSWR(`${process.env.backendApiBase}/reservedCommunityTypes`, fetcher)
 
   return {
     data,
