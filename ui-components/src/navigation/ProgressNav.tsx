@@ -19,7 +19,7 @@ const ProgressNavItem = (props: {
 
   return (
     <li className={`progress-nav__item ${bgColor}`}>
-      <a aria-disabled={bgColor ? "true" : "false"} href={props.label.toLowerCase()}>
+      <a aria-disabled={bgColor == "is-disabled"} href={"#"}>
         {props.label}
       </a>
     </li>
