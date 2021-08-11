@@ -328,6 +328,7 @@ export const ListingView = (props: ListingProps) => {
           <aside className="w-full static md:absolute md:right-0 md:w-1/3 md:top-0 sm:w-2/3 md:ml-2 h-full md:border border-gray-400 bg-white">
             <div className="hidden md:block">
               <ListingUpdated listing={listing} />
+              {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
             </div>
             <LeasingAgent listing={listing} />
           </aside>
