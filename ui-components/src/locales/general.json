@@ -705,7 +705,7 @@
     "bn": "বাংলা"
   },
   "leasingAgent": {
-    "contact": "Management Company",
+    "contact": "Contact Leasing Agent",
     "dueToHighCallVolume": "Due to high call volume you may hear a message.",
     "name": "Leasing Agent Name",
     "namePlaceholder": "Full Name",
@@ -1261,7 +1261,7 @@
     "allInfoWillBeVerified": "All of the information that you have provided will be verified and your eligibility confirmed. Your application will be removed from the waitlist if you have made any fraudulent statements. If we cannot verify a housing preference that you have claimed, you will not receive the preference but will not be otherwise penalized.",
     "bePreparedIfChosen": "Should your application be chosen, be prepared to fill out a more detailed application and provide required supporting documents."
   },
-  "listingFilters": {
+  "listingFilters":{
     "modalTitle": "Filter Results",
     "modalHeader": "Use these options to refine your list of properties.",
     "neighborhood": "Neighborhood",
@@ -1276,13 +1276,13 @@
   },
   "eligibility": {
     "progress": {
-      "header": "Let's find your next home",
+      "header" : "Let's find your next home",
       "sections": {
-        "welcome": "Welcome",
-        "bedrooms": "Bedrooms",
-        "age": "Age",
-        "disability": "Disability",
-        "income": "Income",
+        "welcome" : "Welcome",
+        "bedrooms" : "Bedrooms",
+        "age" : "Age",
+        "disability" : "Disability",
+        "income" : "Income",
         "section8": "Section 8"
       }
     },
@@ -1295,22 +1295,22 @@
       "studio": "Studio",
       "srCountLabel": "Bedroom count"
     },
-    "age": {
+    "age" : {
       "prompt": "How old are you?",
       "description": "Some properties only accept individuals over 62 years of age.",
       "label": "years old",
       "error": "Please enter a valid age."
     },
-    "disability": {
-      "prompt": "Do you have a disability?",
-      "description": "Some properties are meant for residents with disabilities. Some homes might request proof of disability with your application.",
+    "disability" : {
+      "prompt" : "Do you have a disability?",
+      "description" : "Some properties are meant for residents with disabilities. Some homes might request proof of disability with your application.",
       "preferNotToSay": "Prefer not to say"
     },
-    "income": {
+    "income" : {
       "prompt": "What is your total household annual income?",
       "description": "Include income for everyone who will be living in your household including yourself. Income includes social security, retirement accounts and wages.",
-      "label": "Income range",
-      "ranges": {
+      "label" : "Income range",
+      "ranges" : {
         "below10k": "Below $10,000",
         "10kTo20k": "$10,000 - $20,000",
         "30kTo40k": "$30,000 - $40,000",
@@ -1318,7 +1318,7 @@
         "over50k": "Over $50,000"
       }
     },
-    "section8": {
+    "section8" : {
       "prompt": "Do you have a Section 8 voucher?"
     }
   }

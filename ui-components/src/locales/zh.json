@@ -413,7 +413,7 @@
     "visitWebsite": "請瀏覽 %{name}"
   },
   "leasingAgent": {
-    "contact": "管理公司",
+    "contact": "聯絡租賃代理",
     "dueToHighCallVolume": "由於來電人數眾多，您可能會聽到訊息留言。",
     "officeHours": "辦公時間"
   },
