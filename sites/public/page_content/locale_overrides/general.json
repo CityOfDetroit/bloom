@@ -17,6 +17,7 @@
     "forListingQuestions": "For listing and application questions, please contact the Property Agent displayed on each listing."
   },
   "leasingAgent": {
-    "contact": "Management Company"
+    "contact": "Management Company",
+    "dueToHighCallVolume": ""
   }
 }

@@ -37,6 +37,7 @@ const LeasingAgent = (props: LeasingAgentProps) => {
               {listing.leasingAgentPhone}
             </a>
           </p>
+          <p className="text-sm text-gray-700">{t("leasingAgent.dueToHighCallVolume")}</p>
         </>
       )}
 

@@ -17,6 +17,7 @@
     "forListingQuestions": "للأسئلة المتعلقة بالإدراج والتطبيق ، يرجى الاتصال بوكيل العقارات المعروض في كل قائمة."
   },
   "leasingAgent": {
-    "contact": "شركة إدارة"
+    "contact": "شركة إدارة",
+    "dueToHighCallVolume": ""
   }
 }

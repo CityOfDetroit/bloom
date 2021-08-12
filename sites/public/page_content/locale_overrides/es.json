@@ -17,6 +17,7 @@
     "forListingQuestions": "Si tiene preguntas sobre el listado y la solicitud, comuníquese con el agente inmobiliario que se muestra en cada listado."
   },
   "leasingAgent": {
-    "contact": "Empresa de gestión"
+    "contact": "Empresa de gestión",
+    "dueToHighCallVolume": ""
   }
 }
