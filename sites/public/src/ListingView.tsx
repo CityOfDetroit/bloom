@@ -299,7 +299,7 @@ export const ListingView = (props: ListingProps) => {
                 <OpenHouseEvent events={openHouseEvents} />
               </div>
             )}
-            <LeasingAgent listing={listing} />
+            <LeasingAgent listing={listing} showManagementCompany={true} />
           </aside>
         </ListingDetailItem>
 

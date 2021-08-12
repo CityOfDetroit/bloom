@@ -7,6 +7,7 @@ import { openDateState } from "../../../helpers/state"
 
 interface LeasingAgentProps {
   listing: Listing
+  showManagementCompany: boolean
 }
 
 const LeasingAgent = (props: LeasingAgentProps) => {
@@ -56,7 +57,7 @@ const LeasingAgent = (props: LeasingAgentProps) => {
         />
       )}
 
-      {listing.managementCompany && (
+      {props.showManagementCompany && listing.managementCompany && (
         <>
           <p className="mt-5">
             <p>{listing.managementCompany}</p>

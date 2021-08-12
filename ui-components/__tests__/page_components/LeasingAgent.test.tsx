@@ -10,7 +10,7 @@ afterEach(cleanup)
 describe("<LeasingAgent>", () => {
   it("renders data if application is open", () => {
     const listing = Object.assign({}, ArcherListing) as Listing
-    const { getByText } = render(<LeasingAgent listing={listing} />)
+    const { getByText } = render(<LeasingAgent listing={listing} showManagementCompany={true} />)
     expect(listing.leasingAgentName && getByText(listing.leasingAgentName)).toBeTruthy()
     expect(
       listing.leasingAgentPhone && getByText(listing.leasingAgentPhone, { exact: false })
@@ -22,7 +22,7 @@ describe("<LeasingAgent>", () => {
   it("renders nothing if application is not open", () => {
     const listing = Object.assign({}, ArcherListing) as Listing
     listing.applicationOpenDate = new Date(moment().add(10, "days").format())
-    const { queryByText } = render(<LeasingAgent listing={listing} />)
+    const { queryByText } = render(<LeasingAgent listing={listing} showManagementCompany={true} />)
     expect(listing.leasingAgentName && queryByText(listing.leasingAgentName)).toBeNull()
     expect(
       listing.leasingAgentPhone && queryByText(listing.leasingAgentPhone, { exact: false })
