@@ -1219,11 +1219,11 @@
         "neighborhood": "حي",
         "bedrooms": "حجم الوحدة",
         "bedroomsOptions": {
-            "studioPlus": "0 أو أكثر من غرف النوم (استوديو)",
-            "onePlus": "غرفة نوم واحدة أو أكثر",
-            "twoPlus": "2 غرف نوم أو أكثر",
-            "threePlus": "3 غرف نوم أو أكثر",
-            "fourPlus": "4 غرف نوم أو أكثر"
+          "studioPlus": "0 أو أكثر من غرف النوم (استوديو)",
+          "onePlus": "غرفة نوم واحدة أو أكثر",
+          "twoPlus": "2 غرف نوم أو أكثر",
+          "threePlus": "3 غرف نوم أو أكثر",
+          "fourPlus": "4 غرف نوم أو أكثر"
         }
     },
     "eligibility": {
