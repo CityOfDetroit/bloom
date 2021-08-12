@@ -36,7 +36,9 @@ describe("<LeasingAgent>", () => {
     listing.managementCompany = "Some Management Company"
     listing.managementWebsite = "a fake management website url"
     {
-      const { queryByText } = render(<LeasingAgent listing={listing} showManagementCompany={false} />)
+      const { queryByText } = render(
+        <LeasingAgent listing={listing} showManagementCompany={false} />
+      )
       expect(queryByText(listing.managementCompany)).toBeNull()
       expect(queryByText("Website")).toBeNull()
     }
