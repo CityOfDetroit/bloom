@@ -7,7 +7,7 @@ import { openDateState } from "../../../helpers/state"
 
 interface LeasingAgentProps {
   listing: Listing
-  managementCompany: { name: string; website: string }
+  managementCompany?: { name: string; website: string }
 }
 
 const LeasingAgent = (props: LeasingAgentProps) => {
@@ -61,14 +61,14 @@ const LeasingAgent = (props: LeasingAgentProps) => {
 
       {props.managementCompany && (
         <>
-          <p className="mt-5">
+          <div className="mt-5">
             <p>{props.managementCompany.name}</p>
             {props.managementCompany.website && (
               <a href={managementWebsite} target="_blank" rel="noreferrer noopener">
                 <Icon symbol="globe" size="medium" fill={IconFillColors.primary} /> {t("t.website")}
               </a>
             )}
-          </p>
+          </div>
         </>
       )}
     </section>

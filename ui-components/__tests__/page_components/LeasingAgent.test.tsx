@@ -10,7 +10,7 @@ afterEach(cleanup)
 describe("<LeasingAgent>", () => {
   it("renders data if application is open", () => {
     const listing = Object.assign({}, ArcherListing) as Listing
-    const { getByText } = render(<LeasingAgent listing={listing} showManagementCompany={true} />)
+    const { getByText } = render(<LeasingAgent listing={listing} />)
     expect(listing.leasingAgentName && getByText(listing.leasingAgentName)).toBeTruthy()
     expect(
       listing.leasingAgentPhone && getByText(listing.leasingAgentPhone, { exact: false })
@@ -22,7 +22,7 @@ describe("<LeasingAgent>", () => {
   it("renders nothing if application is not open", () => {
     const listing = Object.assign({}, ArcherListing) as Listing
     listing.applicationOpenDate = new Date(moment().add(10, "days").format())
-    const { queryByText } = render(<LeasingAgent listing={listing} showManagementCompany={true} />)
+    const { queryByText } = render(<LeasingAgent listing={listing} />)
     expect(listing.leasingAgentName && queryByText(listing.leasingAgentName)).toBeNull()
     expect(
       listing.leasingAgentPhone && queryByText(listing.leasingAgentPhone, { exact: false })
@@ -33,18 +33,21 @@ describe("<LeasingAgent>", () => {
   })
   it("shows management company details if showManagementCompany is set", () => {
     const listing = Object.assign({}, ArcherListing) as Listing
-    listing.managementCompany = "Some Management Company"
-    listing.managementWebsite = "a fake management website url"
+    const managementCompany = "Some Management Company"
+    const managementWebsite = "a fake management website url"
     {
       const { queryByText } = render(
-        <LeasingAgent listing={listing} showManagementCompany={false} />
+        <LeasingAgent listing={listing} />
       )
-      expect(queryByText(listing.managementCompany)).toBeNull()
+      expect(queryByText(managementCompany)).toBeNull()
       expect(queryByText("Website")).toBeNull()
     }
     {
-      const { getByText } = render(<LeasingAgent listing={listing} showManagementCompany={true} />)
-      expect(getByText(listing.managementCompany)).toBeTruthy()
+      const { getByText } = render(<LeasingAgent listing={listing}
+        managementCompany={{
+          "name": managementCompany, "website": managementWebsite
+        }} />)
+      expect(getByText(managementCompany)).toBeTruthy()
       expect(getByText("Website")).toBeTruthy()
     }
   })
