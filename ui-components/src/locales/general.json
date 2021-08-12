@@ -1264,7 +1264,15 @@
   "listingFilters": {
     "modalTitle": "Filter Results",
     "modalHeader": "Use these options to refine your list of properties.",
-    "neighborhood": "Neighborhood:"
+    "neighborhood": "Neighborhood",
+    "bedrooms": "Unit Size",
+    "bedroomsOptions": {
+      "studioPlus": "0 or more bedrooms (Studio)",
+      "onePlus": "1 or more bedrooms",
+      "twoPlus": "2 or more bedrooms",
+      "threePlus": "3 or more bedrooms",
+      "fourPlus": "4 or more bedrooms"
+    }
   },
   "eligibility": {
     "progress": {
