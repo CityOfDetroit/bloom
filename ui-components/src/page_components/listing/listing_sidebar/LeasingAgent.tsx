@@ -61,7 +61,7 @@ const LeasingAgent = (props: LeasingAgentProps) => {
             <p>{listing.managementCompany}</p>
             {listing.managementWebsite && (
               <a href={managementWebsite}>
-                <p>{listing.managementWebsite}</p>
+                <Icon symbol="globe" size="medium" fill={IconFillColors.primary} /> {t("t.website")}
               </a>
             )}
           </p>
