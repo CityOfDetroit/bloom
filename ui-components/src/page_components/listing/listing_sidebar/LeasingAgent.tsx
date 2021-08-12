@@ -21,10 +21,6 @@ const LeasingAgent = (props: LeasingAgentProps) => {
     ? `tel:${listing.leasingAgentPhone.replace(/[-()]/g, "")}`
     : ""
 
-  const managementWebsite = props.managementCompany?.website
-    ? `http://${props.managementCompany.website}`
-    : ""
-
   return (
     <section className="aside-block">
       <h4 className="text-caps-underline">{t("leasingAgent.contact")}</h4>
@@ -64,7 +60,11 @@ const LeasingAgent = (props: LeasingAgentProps) => {
           <div className="mt-5">
             <p>{props.managementCompany.name}</p>
             {props.managementCompany.website && (
-              <a href={managementWebsite} target="_blank" rel="noreferrer noopener">
+              <a
+                href={`http://${props.managementCompany.website}`}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 <Icon symbol="globe" size="medium" fill={IconFillColors.primary} /> {t("t.website")}
               </a>
             )}
