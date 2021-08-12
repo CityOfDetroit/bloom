@@ -31,15 +31,19 @@ describe("<LeasingAgent>", () => {
       listing.leasingAgentOfficeHours && queryByText(listing.leasingAgentOfficeHours)
     ).toBeNull()
   })
-  it("shows management company details if showManagementCompany is set", () => {
+  it("shows management company details if managementCompany is present", () => {
     const listing = Object.assign({}, ArcherListing) as Listing
     const managementCompany = "Some Management Company"
     const managementWebsite = "a fake management website url"
+
+    // No managementCompany prop
     {
       const { queryByText } = render(<LeasingAgent listing={listing} />)
       expect(queryByText(managementCompany)).toBeNull()
       expect(queryByText("Website")).toBeNull()
     }
+
+    // With managementCompany prop --> management company info is displayed
     {
       const { getByText } = render(
         <LeasingAgent
