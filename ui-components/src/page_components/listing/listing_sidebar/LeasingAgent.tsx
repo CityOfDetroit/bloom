@@ -7,7 +7,7 @@ import { openDateState } from "../../../helpers/state"
 
 interface LeasingAgentProps {
   listing: Listing
-  showManagementCompany: boolean
+  managementCompany: { name: string; website: string }
 }
 
 const LeasingAgent = (props: LeasingAgentProps) => {
@@ -21,7 +21,9 @@ const LeasingAgent = (props: LeasingAgentProps) => {
     ? `tel:${listing.leasingAgentPhone.replace(/[-()]/g, "")}`
     : ""
 
-  const managementWebsite = listing.managementWebsite ? `http://${listing.managementWebsite}` : ""
+  const managementWebsite = props.managementCompany?.website
+    ? `http://${props.managementCompany.website}`
+    : ""
 
   return (
     <section className="aside-block">
@@ -57,11 +59,11 @@ const LeasingAgent = (props: LeasingAgentProps) => {
         />
       )}
 
-      {props.showManagementCompany && listing.managementCompany && (
+      {props.managementCompany && (
         <>
           <p className="mt-5">
-            <p>{listing.managementCompany}</p>
-            {listing.managementWebsite && (
+            <p>{props.managementCompany.name}</p>
+            {props.managementCompany.website && (
               <a href={managementWebsite} target="_blank" rel="noreferrer noopener">
                 <Icon symbol="globe" size="medium" fill={IconFillColors.primary} /> {t("t.website")}
               </a>
