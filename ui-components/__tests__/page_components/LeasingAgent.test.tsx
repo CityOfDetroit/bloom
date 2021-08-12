@@ -36,17 +36,20 @@ describe("<LeasingAgent>", () => {
     const managementCompany = "Some Management Company"
     const managementWebsite = "a fake management website url"
     {
-      const { queryByText } = render(
-        <LeasingAgent listing={listing} />
-      )
+      const { queryByText } = render(<LeasingAgent listing={listing} />)
       expect(queryByText(managementCompany)).toBeNull()
       expect(queryByText("Website")).toBeNull()
     }
     {
-      const { getByText } = render(<LeasingAgent listing={listing}
-        managementCompany={{
-          "name": managementCompany, "website": managementWebsite
-        }} />)
+      const { getByText } = render(
+        <LeasingAgent
+          listing={listing}
+          managementCompany={{
+            name: managementCompany,
+            website: managementWebsite,
+          }}
+        />
+      )
       expect(getByText(managementCompany)).toBeTruthy()
       expect(getByText("Website")).toBeTruthy()
     }
