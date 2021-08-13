@@ -40,7 +40,7 @@ async function uploadListing(listing: ListingCreate) {
       body: listing,
     })
   } catch (e) {
-    throw new Error(e.response.data.message)
+    throw new Error(e)
   }
 }
 
@@ -86,18 +86,6 @@ async function linkToUnitTypes(units) {
   }
 }
 
-async function uploadProperty(property) {
-  try {
-    const propertyService = new client.PropertiesService()
-    return await propertyService.create({
-      body: property,
-    })
-  } catch (e) {
-    console.log(e.response)
-    process.exit(1)
-  }
-}
-
 export async function importListing(apiUrl, email, password, listing) {
   serviceOptions.axios = axios.create({
     baseURL: apiUrl,
@@ -132,29 +120,20 @@ export async function importListing(apiUrl, email, password, listing) {
     uploadPreferences(listing)
   }
 
-  // Extract the associated property, to be uploaded first.
   if (!listing.property) {
     throw new Error("Listing must include a non-null Property.")
   }
 
-  let property = listing.property
-  delete listing.property
+  // The ListingCreateDto expects to include units and buildingAddress
+  listing.units = listing.property.units
+  listing.buildingAddress = listing.property.buildingAddress
 
-  await uploadAmiCharts(property.units)
+  // For every unit that has one, upload the corresponding AMI chart
+  await uploadAmiCharts(listing.units)
 
   // Replace each unit's unitType string with a foreign-key reference to the corresponding row in
   // the unit_types table.
-  await linkToUnitTypes(property.units)
-
-  property.listings = [listing]
-  property = await uploadProperty(property)
-
-  // Link the uploaded property to the listing by id.
-  listing.property = property
-
-  // The ListingCreateDto expects to include units and buildingAddress
-  listing.units = property.units
-  listing.buildingAddress = property.buildingAddress
+  await linkToUnitTypes(listing.units)
 
   // Upload the listing, and then return it.
   return await uploadListing(listing)
