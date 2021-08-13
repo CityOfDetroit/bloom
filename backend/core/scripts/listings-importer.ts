@@ -40,7 +40,7 @@ async function uploadListing(listing: ListingCreate) {
       body: listing,
     })
   } catch (e) {
-    throw new Error(e)
+    throw new Error(e.response.data.message)
   }
 }
 
