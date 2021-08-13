@@ -31,28 +31,30 @@ async function main() {
     fs.createReadStream(csvFilePath)
       .pipe(csv())
       .on("data", (listingFields) => {
-        // Exclude any listings that aren't "regulated" affordable housing
+        // Include only listings that are "regulated" affordable housing
         const affordabilityStatus: string = listingFields["Affordability status [Regulated Only]"]
-        if (affordabilityStatus.toLowerCase() !== "regulated") return
-
-        console.log(`Reading in listing ${listingFields["Project Name"]}`)
-
-        rawListingFields.push(listingFields)
+        if (affordabilityStatus.toLowerCase() === "regulated") {
+          rawListingFields.push(listingFields)
+        }
       })
-      .on("end", () => {
-        console.log("Done reading in CSV")
-        resolve()
-      })
+      .on("end", resolve)
       .on("error", reject)
   })
 
   await promise
 
-  console.log("CSV file successfully read in, about to start creating listings")
+  console.log(`CSV file successfully read in; ${rawListingFields.length} listings to upload`)
 
   const uploadFailureMessages = []
+  let numListingsSuccessfullyUploaded = 0
+
+  let count = 0
 
   for (const listingFields of rawListingFields) {
+    if (count >= 30) {
+      continue
+    }
+    count++
     // Start the whole shebang here
     const listing = new Listing()
     const property = new Property()
@@ -95,17 +97,17 @@ async function main() {
         createUnitsArray("threeBdrm", parseInt(listingFields["Number 3BR"]))
       )
     }
-    if (listingFields["Number 4BR"]) {
+    // Lump 4BR and 5BR together as "fourBdrm"
+    const numberFourBdrm = listingFields["Number 4BR"] ? parseInt(listingFields["Number 4BR"]) : 0
+    const numberFiveBdrm = listingFields["Number 5BR"] ? parseInt(listingFields["Number 5BR"]) : 0
+    if (numberFourBdrm + numberFiveBdrm > 0) {
       property.units = property.units.concat(
-        createUnitsArray("fourBdrm", parseInt(listingFields["Number 4BR"]))
-      )
-    }
-    if (listingFields["Number 5BR"]) {
-      property.units = property.units.concat(
-        createUnitsArray("fiveBdrm", parseInt(listingFields["Number 5BR"]))
+        createUnitsArray("fourBdrm", numberFourBdrm + numberFiveBdrm)
       )
     }
 
+    // If we don't have any data per unit type, but we do have an overall count, create that many
+    // "unknown" units
     if (property.units.length == 0 && listingFields["Affordable Units"]) {
       createUnitsArray("unknown", parseInt(listingFields["Affordable Units"]))
     }
@@ -113,6 +115,7 @@ async function main() {
     // Listing-level details
     listing.property = property
     listing.name = listingFields["Project Name"]
+    listing.hrdId = listingFields["HRDID"]
 
     listing.ownerCompany = listingFields["Owner Company"]
     listing.managementCompany = listingFields["Management Company"]
@@ -152,17 +155,19 @@ async function main() {
 
     try {
       const newListing = await importListing(importApiUrl, email, password, listing)
-      console.log("New listing (" + newListing.name + ") created successfully.")
+      console.log(`New listing uploaded successfully: ${newListing.name}`)
+      numListingsSuccessfullyUploaded++
     } catch (e) {
       console.log(e)
       uploadFailureMessages.push(`Upload failed for ${listing.name}: ${e}`)
     }
   }
 
+  console.log(`\nNumber of listings successfully uploaded: ${numListingsSuccessfullyUploaded}`)
+  console.log(`Number of failed listing uploads: ${uploadFailureMessages.length}\n`)
   for (const failureMessage of uploadFailureMessages) {
     console.log(failureMessage)
   }
-  console.log(`Failed for ${uploadFailureMessages.length} listings`)
 }
 
 void main()
