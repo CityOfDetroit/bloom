@@ -725,7 +725,10 @@
       "preview": "Preview",
       "close": "Close",
       "viewListing": "View listing",
-      "unpublish": "Unpublish"
+      "unpublish": "Unpublish",
+      "postResults": "Post Results",
+      "resultsPosted": "Results Posted",
+      "previewLotteryResults": "Preview Lottery Results"
     },
     "activePreferences": "Active Preferences",
     "addListing": "Add Listing",
@@ -1193,6 +1196,7 @@
     "phoneNumberPlaceholder": "(555) 555-5555",
     "pleaseSelectOne": "Please select one.",
     "pm": "PM",
+    "post": "Post",
     "preferences": "Preferences",
     "preview": "Preview",
     "previous": "Previous",
@@ -1241,6 +1245,7 @@
     "view": "View",
     "viewMap": "View Map",
     "viewOnMap": "View on Map",
+    "website": "Website",
     "year": "Year",
     "yes": "Yes",
     "you": "You"
@@ -1261,9 +1266,17 @@
     "bePreparedIfChosen": "Should your application be chosen, be prepared to fill out a more detailed application and provide required supporting documents."
   },
   "listingFilters":{
-    "modalTitle":"Filter Results",
-    "modalHeader":"Use these options to refine your list of properties.",
-    "neighborhood":"Neighborhood:"
+    "modalTitle": "Filter Results",
+    "modalHeader": "Use these options to refine your list of properties.",
+    "neighborhood": "Neighborhood",
+    "bedrooms": "Unit Size",
+    "bedroomsOptions": {
+      "studioPlus": "0 or more bedrooms (Studio)",
+      "onePlus": "1 or more bedrooms",
+      "twoPlus": "2 or more bedrooms",
+      "threePlus": "3 or more bedrooms",
+      "fourPlus": "4 or more bedrooms"
+    }
   },
   "eligibility": {
     "progress": {
