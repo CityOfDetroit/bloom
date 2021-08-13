@@ -14,8 +14,9 @@ import {
   encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,
   LinkButton,
+  Field,
 } from "@bloom-housing/ui-components"
-import { useForm } from "react-hook-form"
+import { FieldErrors, useForm } from "react-hook-form"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
@@ -83,8 +84,14 @@ const ListingsPage = () => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register } = useForm()
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm()
   const onSubmit = (data: ListingFilterParams) => {
+    console.log(data)
+    console.log(errors)
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
   }
@@ -114,6 +121,30 @@ const ListingsPage = () => {
               options={preferredUnitOptions}
               defaultValue={filterState?.bedrooms?.toString()}
             />
+            <Field
+              id="zipCodeField"
+              name={ListingFilterKeys.zipcode}
+              label={t("listingFilters.zipCode")}
+              register={register}
+              controlClassName="control"
+              placeholder={t("listingFilters.zipCodeDescription")}
+              validation={{
+                minLength: 5,
+                pattern: /[0-9 ,]*/,
+              }}
+              error={errors.zipCodeField}
+              errorMessage={t("errors.multipleZipCodeError")}
+              defaultValue={filterState?.zipcode}
+            />
+            <Select
+              id="neighborhoodOptions"
+              name={ListingFilterKeys.neighborhood}
+              label={t("listingFilters.neighborhood")}
+              register={register}
+              controlClassName="control"
+              options={neighborhoodOptions}
+              defaultValue={filterState?.neighborhood}
+            />
             <Select
               id="accessibilityOptions"
               name="accessibility"
@@ -129,15 +160,6 @@ const ListingsPage = () => {
               register={register}
               controlClassName="control"
               options={communityOptions}
-            />
-            <Select
-              id="neighborhoodOptions"
-              name={ListingFilterKeys.neighborhood}
-              label={t("listingFilters.neighborhood")}
-              register={register}
-              controlClassName="control"
-              options={neighborhoodOptions}
-              defaultValue={filterState?.neighborhood}
             />
           </div>
           <div className="text-center mt-6">
