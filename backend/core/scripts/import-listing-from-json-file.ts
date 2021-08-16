@@ -25,7 +25,7 @@ async function main() {
     process.exit(1)
   }
 
-  console.log(newListing)
+  // console.log(newListing)
   console.log("Success! New listing created.")
 }
 

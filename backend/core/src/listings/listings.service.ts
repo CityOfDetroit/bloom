@@ -151,6 +151,7 @@ export class ListingsService {
       ...listingDto,
       property: plainToClass(PropertyCreateDto, listingDto),
     })
+    console.log(listing)
     return await listing.save()
   }
 

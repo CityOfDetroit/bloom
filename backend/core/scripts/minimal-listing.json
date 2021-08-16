@@ -18,7 +18,8 @@
         "unitType": "oneBdrm",
         "status": "available"
       }
-    ]
+    ],
+    "region": "THIS IS THE REGION"
   },
   "assets": [],
   "applicationMethods": [],
