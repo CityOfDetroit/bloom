@@ -8,7 +8,7 @@ import { CountyCode } from "../src/shared/types/county-code"
 import { CSVFormattingType } from "../src/csv/types/csv-formatting-type-enum"
 
 // Sample usage:
-// $ yarn ts-node scripts/import-listings-from-csv.ts http://localhost:3100 test@example.com:abcdef path/to/file.csv
+// $ yarn ts-node scripts/import-listings-from-csv.ts http://localhost:3100 admin@example.com:abcdef path/to/file.csv
 
 async function main() {
   if (process.argv.length < 5) {
@@ -21,12 +21,16 @@ async function main() {
   const [importApiUrl, userAndPassword, csvFilePath] = process.argv.slice(2)
   const [email, password] = userAndPassword.split(":")
 
+  // Regexes used to parse the "Affordability Mix" field
   const amiRangeRegex = /(\d+)-(\d+)% AMI/ // e.g. 30-60% AMI
   const amiValueRegex = /^(\d+)% AMI/ // e.g. 40% AMI
   const amiUpperLimitRegex = /^Up to (\d+)% AMI/ // e.g. Up to 80% AMI
 
+  // Read raw CSV data into memory.
+  // Note: createReadStream creates ReadStream's whose on("data", ...) methods are called
+  // asynchronously. To ensure that all CSV lines are read in before we start trying to upload
+  // listings from it, we wrap this step in a Promise.
   const rawListingFields = []
-
   const promise = new Promise<void>((resolve, reject) => {
     fs.createReadStream(csvFilePath)
       .pipe(csv())
@@ -40,27 +44,18 @@ async function main() {
       .on("end", resolve)
       .on("error", reject)
   })
-
   await promise
 
   console.log(`CSV file successfully read in; ${rawListingFields.length} listings to upload`)
 
   const uploadFailureMessages = []
   let numListingsSuccessfullyUploaded = 0
-
-  let count = 0
-
   for (const listingFields of rawListingFields) {
-    if (count >= 30) {
-      continue
-    }
-    count++
-    // Start the whole shebang here
     const listing = new Listing()
     const property = new Property()
     const address = new Address()
 
-    // Add property location information
+    // Add property information
     address.street = listingFields["Project Address"]
     address.zipCode = listingFields["Zip Code"]
     address.city = "Detroit"
@@ -72,7 +67,6 @@ async function main() {
     property.neighborhood = listingFields["Neighborhood"]
     property.region = listingFields["Region"]
 
-    // Other property-level details
     property.phoneNumber = listingFields["Property Phone"]
 
     // Add data about units
@@ -127,6 +121,8 @@ async function main() {
       listing.leasingAgentEmail = listingFields["Manager Email"]
     }
 
+    listing.countyCode = CountyCode.detroit
+
     // Listing affordability details
     const affordabilityMix: string = listingFields["Affordability Mix"]
     const amiRange: string[] = amiRangeRegex.exec(affordabilityMix)
@@ -144,14 +140,13 @@ async function main() {
       listing.amiPercentageMax = parseInt(amiUpperLimit[1])
     }
 
-    // Other listing fields
+    // Other (required) listing fields
     listing.preferences = []
     listing.events = []
     listing.applicationMethods = []
     listing.assets = []
     listing.displayWaitlistSize = false
     listing.CSVFormattingType = CSVFormattingType.basic
-    listing.countyCode = CountyCode.alameda
 
     try {
       const newListing = await importListing(importApiUrl, email, password, listing)
