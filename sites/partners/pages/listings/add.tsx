@@ -5,7 +5,7 @@ import { UserRole } from "@bloom-housing/backend-core/types"
 import Layout from "../../layouts"
 import PaperListingForm from "../../src/listings/PaperListingForm"
 import { MetaTags } from "../../src/MetaTags"
-import ListingGuard from "../../src/ListingGuard"
+import { ListingGuard } from "../../src/ListingGuard"
 
 const NewListing = () => {
   const metaDescription = ""
