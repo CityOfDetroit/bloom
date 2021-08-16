@@ -7,6 +7,15 @@ import { Address } from "../src/shared/entities/address.entity"
 import { CountyCode } from "../src/shared/types/county-code"
 import { CSVFormattingType } from "../src/csv/types/csv-formatting-type-enum"
 
+// This script reads in listing data from a CSV file and sends requests to the backend to create
+// the corresponding Listings. A few notes:
+// - This script does not delete or modify any existing listings.
+// - If one listing fails to be uploaded, the script will still attempt all the rest. At the end,
+//   it will report how many failed (with error messages) and how many succeeded.
+// - Each line in the CSV file is assumed to correspond to a distinct listing.
+// - This script assumes particular heading names in the input CSV file (see listingFields["..."]
+//   below).
+
 // Sample usage:
 // $ yarn ts-node scripts/import-listings-from-csv.ts http://localhost:3100 admin@example.com:abcdef path/to/file.csv
 
