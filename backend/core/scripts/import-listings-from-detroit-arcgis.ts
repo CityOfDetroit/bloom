@@ -1,10 +1,8 @@
 import { importListing, createUnitsArray } from "./listings-importer"
 import axios from "axios"
-import { Listing } from "../src/listings/entities/listing.entity"
-import { Property } from "../src/property/entities/property.entity"
 import { Address } from "../src/shared/entities/address.entity"
-import { CountyCode } from "../src/shared/types/county-code"
 import { CSVFormattingType } from "../src/csv/types/csv-formatting-type-enum"
+import { ListingCreate, CountyCode } from "../types/src/backend-swagger"
 
 // Sample usage:
 // $ yarn ts-node scripts/import-listings-from-detroit-arcgis.ts http://localhost:3100 test@example.com:abcdef https://services2.arcgis.com/qvkbeam7Wirps6zC/ArcGIS/rest/services/Affordable_Housing_Website_data_12_20/FeatureServer/0//query
@@ -28,8 +26,7 @@ async function main() {
   for (let i = 0; i < numListings; i++) {
     const listingAttributes = response.data.features[i].attributes
 
-    const listing = new Listing()
-    const property = new Property()
+    let listing: ListingCreate
     const address = new Address()
 
     address.street = listingAttributes.Project_Address
@@ -39,48 +36,43 @@ async function main() {
     address.city = "Detroit"
     address.state = "MI"
 
-    property.buildingAddress = address
-    property.neighborhood = listingAttributes.Neighborhood
-    property.unitsAvailable = parseInt(listingAttributes.Affordable_Units)
+    listing.buildingAddress = address
 
-    property.units = []
+    listing.units = []
     if (listingAttributes.Number_0BR) {
-      property.units = property.units.concat(
-        createUnitsArray("studio", listingAttributes.Number_0BR)
-      )
+      listing.units = listing.units.concat(createUnitsArray("studio", listingAttributes.Number_0BR))
     }
     if (listingAttributes.Number_1BR) {
-      property.units = property.units.concat(
+      listing.units = listing.units.concat(
         createUnitsArray("oneBdrm", parseInt(listingAttributes.Number_1BR))
       )
     }
     if (listingAttributes.Number_2BR) {
-      property.units = property.units.concat(
+      listing.units = listing.units.concat(
         createUnitsArray("twoBdrm", parseInt(listingAttributes.Number_2BR))
       )
     }
     if (listingAttributes.Number_3BR) {
-      property.units = property.units.concat(
+      listing.units = listing.units.concat(
         createUnitsArray("threeBdrm", parseInt(listingAttributes.Number_3BR))
       )
     }
     if (listingAttributes.Number_4BR) {
-      property.units = property.units.concat(
+      listing.units = listing.units.concat(
         createUnitsArray("fourBdrm", parseInt(listingAttributes.Number_4BR))
       )
     }
     if (listingAttributes.Number_5BR) {
-      property.units = property.units.concat(
+      listing.units = listing.units.concat(
         createUnitsArray("fiveBdrm", parseInt(listingAttributes.Number_5BR))
       )
     }
 
     // The /listings/id view won't render if there isn't at least one unit; add a dummy "studio"
-    if (property.units.length == 0) {
-      property.units = createUnitsArray("studio", 1)
+    if (listing.units.length == 0) {
+      listing.units = createUnitsArray("studio", 1)
     }
 
-    listing.property = property
     listing.name = listingAttributes.Project_Name
     listing.leasingAgentName = listingAttributes.Manager_Contact
 
@@ -110,7 +102,7 @@ async function main() {
     listing.applicationMethods = []
     listing.events = []
     listing.CSVFormattingType = CSVFormattingType.basic
-    listing.countyCode = CountyCode.detroit
+    listing.countyCode = CountyCode.Detroit
     listing.displayWaitlistSize = false
 
     try {
