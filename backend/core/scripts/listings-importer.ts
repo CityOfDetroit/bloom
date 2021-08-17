@@ -1,7 +1,6 @@
 import * as client from "../types/src/backend-swagger"
 import axios from "axios"
-import { ListingCreate, serviceOptions } from "../types/src/backend-swagger"
-import { ListingStatus } from "../src/listings/types/listing-status-enum"
+import { ListingCreate, ListingStatus, serviceOptions } from "../types/src/backend-swagger"
 import { UnitStatus } from "../src/units/types/unit-status-enum"
 
 // NOTE: This script relies on any logged-in users having permission to create
@@ -115,7 +114,7 @@ export async function importListing(
   })
 
   // Tidy a few of the listing's fields.
-  if (!("status" in listing)) {
+  if (!listing.status) {
     listing.status = ListingStatus.active
   }
   delete listing["id"]
