@@ -5,7 +5,7 @@ import { CSVFormattingType } from "../src/csv/types/csv-formatting-type-enum"
 import { ListingCreate, CountyCode } from "../types/src/backend-swagger"
 
 // Sample usage:
-// $ yarn ts-node scripts/import-listings-from-detroit-arcgis.ts http://localhost:3100 test@example.com:abcdef https://services2.arcgis.com/qvkbeam7Wirps6zC/ArcGIS/rest/services/Affordable_Housing_Website_data_12_20/FeatureServer/0//query
+// $ yarn ts-node scripts/import-listings-from-detroit-arcgis.ts http://localhost:3100 admin@example.com:abcdef https://services2.arcgis.com/qvkbeam7Wirps6zC/ArcGIS/rest/services/Affordable_Housing_Website_data_12_20/FeatureServer/0//query
 
 async function main() {
   if (process.argv.length < 5) {

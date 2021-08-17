@@ -3,7 +3,7 @@ import fs from "fs"
 import { ListingCreate } from "../types/src/backend-swagger"
 
 // Example usage (from within /backend/core):
-// $ yarn ts-node scripts/import-listing-from-json-file.ts http://localhost:3100 test@example.com:abcdef scripts/minimal-listing.json
+// $ yarn ts-node scripts/import-listing-from-json-file.ts http://localhost:3100 admin@example.com:abcdef scripts/minimal-listing.json
 
 async function main() {
   if (process.argv.length < 5) {
