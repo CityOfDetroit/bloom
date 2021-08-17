@@ -160,39 +160,4 @@ export class Listing10145Seed extends ListingDefaultSeed {
 
     return await this.listingRepository.save(listingCreateDto)
   }
-
-  /**
-   
-  forEach(listingCreateDto) => { ... } )
-
-
-
-  UnitsSummaryDto extends OmitType(UnitsSummary, [] as const) {}
-
-  add unit summary details here
-    For each Property.UnitType
-       create units-summary DTO
-    
-
-    
-  unitType: this.Property.UnitType
-  property: this.Property
-  monthlyRent: string
-
-  monthlyRentAsPercentOfIncome?: string | null
-  amiPercentage?: string | null
-  minimumIncomeMin?: string | null
-  minimumIncomeMax?: string | null
-  maxOccupancy?: number | null
-  minOccupancy?: number | null
-  floorMin?: number | null
-  floorMax?: number | null
-  sqFeetMin?: string | null
-  sqFeetMax?: string | null
-  priorityType?: UnitAccessibilityPriorityType | null
-  totalCount?: number | null
-  totalAvailable?: number | null
-
-
-   */
 }
