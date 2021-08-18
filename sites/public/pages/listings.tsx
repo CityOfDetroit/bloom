@@ -84,11 +84,7 @@ const ListingsPage = () => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm()
+  const { handleSubmit, register, errors } = useForm()
   const onSubmit = (data: ListingFilterParams) => {
     console.log(data)
     console.log(errors)

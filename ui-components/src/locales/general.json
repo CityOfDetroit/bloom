@@ -669,7 +669,7 @@
     "cityError": "Please enter a city",
     "stateError": "Please enter a state",
     "zipCodeError": "Please enter a zipcode",
-    "multipleZipCodeError": "Please enter one or more comma separated zipcodes",
+    "multipleZipCodeError": "Please enter one or more comma separated zip codes",
     "errorsToResolve": "There are errors you'll need to resolve before moving on.",
     "numberError": "Please enter a valid number greater than 0.",
     "selectAllThatApply": "Please select all that apply.",
