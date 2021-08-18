@@ -998,7 +998,7 @@
         "accountSettings": "অ্যাকাউন্ট সেটিংস",
         "browseProperties": "বৈশিষ্ট্য ব্রাউজ করুন",
         "getAssistance": "সহায়তা পান",
-        "getFeedback": "এটি আমাদের নতুন ওয়েবসাইটের একটি প্রিভিউ। আমরা শুধু শুরু করছি। আমরা <a target='_blank' class='a-white lined' href='%{feedbackUrl}'> আপনার মতামত পেতে চাই। </a>",
+        "getFeedback": "এটি আমাদের নতুন ওয়েবসাইটের একটি প্রিভিউ। আমরা শুধু শুরু করছি। আমরা আপনার মতামত পেতে চাই।",
         "listings": "তালিকা",
         "properties": "বৈশিষ্ট্য",
         "applications": "অ্যাপ্লিকেশন",

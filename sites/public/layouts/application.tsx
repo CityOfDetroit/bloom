@@ -33,7 +33,7 @@ const Layout = (props) => {
         <SiteHeader
           skip={t("nav.skip")}
           logoSrc="/images/detroit-logo.png"
-          notice="This is a preview of our new website. We're just getting started. We'd love to get your feedback."
+          notice={t("nav.getFeedback")}
           title={t("nav.siteTitle")}
           language={{
             list: languages,
