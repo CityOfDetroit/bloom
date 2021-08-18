@@ -127,6 +127,14 @@ export class Listing10158Seed extends ListingDefaultSeed {
 
     const ncpUnitsSummaryToBeCreated: UnitsSummaryCreateDto[] = []
 
+    const oneBdrmUnitsSummary: UnitsSummaryCreateDto = {
+      unitType: unitTypeOneBdrm,
+      totalCount: 40,
+      monthlyRent: "$0",
+      property: property,
+    }
+    ncpUnitsSummaryToBeCreated.push(oneBdrmUnitsSummary)
+
     const twoBdrmUnitsSummary: UnitsSummaryCreateDto = {
       unitType: unitTypeTwoBdrm,
       totalCount: 36,

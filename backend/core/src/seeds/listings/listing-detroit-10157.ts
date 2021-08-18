@@ -182,25 +182,30 @@ export class Listing10157Seed extends ListingDefaultSeed {
 
     const zeroBdrmUnitsSummary: UnitsSummaryCreateDto = {
       unitType: unitTypeStudio,
-      totalCount: 10,
-      monthlyRent: "$0",
+      totalCount: 1,
+      monthlyRent: "$470",
       property: property,
+      sqFeetMax: "550",
     }
     nccUnitsSummaryToBeCreated.push(zeroBdrmUnitsSummary)
 
     const oneBdrmUnitsSummary: UnitsSummaryCreateDto = {
       unitType: unitTypeOneBdrm,
-      totalCount: 20,
-      monthlyRent: "$0",
+      totalCount: 2,
+      monthlyRent: "$650",
       property: property,
+      sqFeetMin: "800",
+      sqFeetMax: "1000",
     }
     nccUnitsSummaryToBeCreated.push(oneBdrmUnitsSummary)
 
     const twoBdrmUnitsSummary: UnitsSummaryCreateDto = {
       unitType: unitTypeTwoBdrm,
-      totalCount: 10,
-      monthlyRent: "$0",
+      totalCount: 2,
+      monthlyRent: "$750",
       property: property,
+      sqFeetMin: "900",
+      sqFeetMax: "1100",
     }
     nccUnitsSummaryToBeCreated.push(twoBdrmUnitsSummary)
 

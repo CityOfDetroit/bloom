@@ -157,27 +157,13 @@ export class ListingTreymoreSeed extends ListingDefaultSeed {
 
     const treymoreUnitsSummaryToBeCreated: UnitsSummaryCreateDto[] = []
 
-    const zeroBdrmUnitsSummary: UnitsSummaryCreateDto = {
-      unitType: unitTypeStudio,
-      totalCount: 1,
-      monthlyRent: "$0",
-      property: property,
-    }
-    treymoreUnitsSummaryToBeCreated.push(zeroBdrmUnitsSummary)
-
-    const oneBdrmUnitsSummary: UnitsSummaryCreateDto = {
-      unitType: unitTypeOneBdrm,
-      totalCount: 1,
-      monthlyRent: "$0",
-      property: property,
-    }
-    treymoreUnitsSummaryToBeCreated.push(oneBdrmUnitsSummary)
-
     const twoBdrmUnitsSummary: UnitsSummaryCreateDto = {
       unitType: unitTypeTwoBdrm,
       totalCount: 4,
-      monthlyRent: "$0",
+      monthlyRent: "$707",
       property: property,
+      sqFeetMin: "720",
+      sqFeetMax: "1003",
     }
     treymoreUnitsSummaryToBeCreated.push(twoBdrmUnitsSummary)
 
