@@ -37,7 +37,7 @@ export const Modal = (props: ModalProps) => {
       onClose={props.onClose}
       backdrop={props.backdrop}
     >
-      <div className="modal">
+      <div dir="rtl" className="modal">
         <ModalHeader title={props.title} />
 
         <section className="modal__inner">

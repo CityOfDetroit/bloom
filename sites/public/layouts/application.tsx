@@ -25,8 +25,9 @@ const Layout = (props) => {
     })) || []
 
   return (
-    <div className="site-wrapper">
+    <div dir="rtl" className="site-wrapper">
       <div className="site-content">
+        {console.log(router?.locales)}
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
