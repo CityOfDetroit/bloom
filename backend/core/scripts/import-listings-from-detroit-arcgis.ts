@@ -80,7 +80,6 @@ async function main() {
     const listing: ListingCreate = {
       name: listingAttributes.Project_Name,
       buildingAddress: address,
-      region: listingAttributes.Region,
       units: units,
       leasingAgentName: listingAttributes.Manager_Contact,
       leasingAgentPhone: listingAttributes.Manager_Phone,
