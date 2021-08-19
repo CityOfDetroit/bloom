@@ -28,6 +28,8 @@ import {
   OpenHouseEvent,
   ListingUpdated,
   Message,
+  SidebarAddress,
+  ApplicationSection,
 } from "@bloom-housing/ui-components"
 import { ErrorPage } from "../pages/_error"
 import { getGenericAddress } from "../lib/helpers"
@@ -139,6 +141,8 @@ export const ListingView = (props: ListingProps) => {
     } else return t("listings.reservedCommunityTitleDefault")
   }
 
+  const SubHeader = (props: { text: string }) => <h3 className="text-caps-tiny">{props.text}</h3>
+
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
       <header className="image-card--leader">
@@ -201,6 +205,13 @@ export const ListingView = (props: ListingProps) => {
       </div>
       <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
         <ListingUpdated listing={listing} />
+        <div className="mx-4">
+          <ApplicationSection
+            listing={listing}
+            preview={props.preview}
+            internalFormRoute="/applications/start/choose-language"
+          />
+        </div>
       </div>
       <ListingDetails>
         <ListingDetailItem
@@ -301,6 +312,7 @@ export const ListingView = (props: ListingProps) => {
                 <OpenHouseEvent events={openHouseEvents} />
               </div>
             )}
+
             <LeasingAgent
               listing={listing}
               managementCompany={{
@@ -308,7 +320,19 @@ export const ListingView = (props: ListingProps) => {
                 website: listing.managementWebsite,
               }}
             />
-            <div>"Testing"</div>
+            <section className="aside-block">
+              <h2 className="text-caps-underline">{t("listings.apply.howToApply")}</h2>
+              {listing.applicationPickUpAddress ? (
+                <div>
+                  <SubHeader text={t("listings.apply.pickUpAnApplication")} />
+                  <SidebarAddress address={listing.applicationPickUpAddress} />
+                </div>
+              ) : (
+                <div>
+                  <SubHeader text={"Contact Management Company"} />
+                </div>
+              )}
+            </section>
           </aside>
         </ListingDetailItem>
 
