@@ -322,10 +322,16 @@ export const ListingView = (props: ListingProps) => {
             />
             <section className="aside-block">
               <h2 className="text-caps-underline">{t("listings.apply.howToApply")}</h2>
-              {listing.applicationPickUpAddress ? (
+              {listing.applicationPickUpAddress || listing.applicationAddress ? (
                 <div>
                   <SubHeader text={t("listings.apply.pickUpAnApplication")} />
-                  <SidebarAddress address={listing.applicationPickUpAddress} />
+                  <SidebarAddress
+                    address={
+                      listing.applicationPickUpAddress
+                        ? listing.applicationPickUpAddress
+                        : listing.applicationAddress
+                    }
+                  />
                 </div>
               ) : (
                 <div>
