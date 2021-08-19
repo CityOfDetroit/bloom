@@ -38,11 +38,6 @@ const EligibilityDisability = () => {
     const { disability } = data
     eligibilityRequirements.setDisability(disability)
 
-    const completed = eligibilityRequirements.completedSections
-    eligibilityRequirements.setCompletedSections(
-      completed > CURRENT_PAGE ? completed : CURRENT_PAGE + 1
-    )
-
     void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
@@ -64,12 +59,16 @@ const EligibilityDisability = () => {
     },
   ]
 
+  if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
+    eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
+  }
+
   return (
     <FormsLayout>
       <FormCard header={t("eligibility.progress.header")}>
         <ProgressNav
           currentPageSection={4}
-          completedSections={eligibilityRequirements.completedSections + 1}
+          completedSections={eligibilityRequirements.completedSections}
           labels={ELIGIBILITY_SECTIONS.map((label) => t(`eligibility.progress.sections.${label}`))}
           routes={ELIGIBILITY_SECTIONS.map((_label, i) => eligibilityRoute(i))}
         />
