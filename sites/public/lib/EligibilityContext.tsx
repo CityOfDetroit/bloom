@@ -47,7 +47,6 @@ class EligibilityRequirements {
     this.section8 = section8
   }
   setCompletedSections(numCompleted: number) {
-    console.log("completed: " + numCompleted)
     this.completedSections = numCompleted
   }
 }
