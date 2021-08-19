@@ -14,6 +14,7 @@ import {
   encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,
   LinkButton,
+  Field,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -22,6 +23,16 @@ import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
 import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
+
+const isValidZipCode = (value: string) => {
+  let returnValue = true
+  value.split(",").forEach((element) => {
+    if (!/^[0-9]{5}$/.test(element.trim())) {
+      returnValue = false
+    }
+  })
+  return returnValue
+}
 
 const ListingsPage = () => {
   const router = useRouter()
@@ -83,7 +94,7 @@ const ListingsPage = () => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register } = useForm()
+  const { handleSubmit, register, errors } = useForm()
   const onSubmit = (data: ListingFilterParams) => {
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
@@ -99,8 +110,7 @@ const ListingsPage = () => {
       <Modal
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
-        actions={[]}
-        hideCloseIcon
+        onClose={() => setFilterModalVisible(false)}
       >
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group">
@@ -113,6 +123,29 @@ const ListingsPage = () => {
               controlClassName="control"
               options={preferredUnitOptions}
               defaultValue={filterState?.bedrooms?.toString()}
+            />
+            <Field
+              id="zipCodeField"
+              name={ListingFilterKeys.zipcode}
+              label={t("listingFilters.zipCode")}
+              register={register}
+              controlClassName="control"
+              placeholder={t("listingFilters.zipCodeDescription")}
+              validation={{
+                validate: (value) => isValidZipCode(value),
+              }}
+              error={errors.zipCodeField}
+              errorMessage={t("errors.multipleZipCodeError")}
+              defaultValue={filterState?.zipcode}
+            />
+            <Select
+              id="neighborhoodOptions"
+              name={ListingFilterKeys.neighborhood}
+              label={t("listingFilters.neighborhood")}
+              register={register}
+              controlClassName="control"
+              options={neighborhoodOptions}
+              defaultValue={filterState?.neighborhood}
             />
             <Select
               id="accessibilityOptions"
@@ -130,23 +163,11 @@ const ListingsPage = () => {
               controlClassName="control"
               options={communityOptions}
             />
-            <Select
-              id="neighborhoodOptions"
-              name={ListingFilterKeys.neighborhood}
-              label={t("listingFilters.neighborhood")}
-              register={register}
-              controlClassName="control"
-              options={neighborhoodOptions}
-              defaultValue={filterState?.neighborhood}
-            />
           </div>
           <div className="text-center mt-6">
-            <Button styleType={AppearanceStyleType.primary}>Apply Filters</Button>
-          </div>
-          <div className="text-center mt-6">
-            <a href="#" onClick={() => setFilterModalVisible(false)}>
-              {t("t.cancel")}
-            </a>
+            <Button type="submit" styleType={AppearanceStyleType.primary}>
+              Apply Filters
+            </Button>
           </div>
         </Form>
       </Modal>
