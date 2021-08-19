@@ -149,8 +149,14 @@ export const ListingView = (props: ListingProps) => {
       listing.unitAmenities ||
       listing.servicesOffered ||
       listing.accessibility ||
+      // props for UnitTables
       (listing.units && listing.units.length > 0) ||
-      listing.unitsSummarized
+      listing.unitsSummarized ||
+      // props for AdditionalFees
+      listing.depositMin ||
+      listing.depositMax ||
+      listing.applicationFee ||
+      listing.costsNotIncluded
     )
   }
 
