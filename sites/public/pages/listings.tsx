@@ -16,13 +16,23 @@ import {
   LinkButton,
   Field,
 } from "@bloom-housing/ui-components"
-import { FieldErrors, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
 import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
+
+const isValidZipCode = (value: string) => {
+  let returnValue = true
+  value.split(",").forEach((element) => {
+    if (!/^[0-9]{5}$/.test(element.trim())) {
+      returnValue = false
+    }
+  })
+  return returnValue
+}
 
 const ListingsPage = () => {
   const router = useRouter()
@@ -125,8 +135,7 @@ const ListingsPage = () => {
               controlClassName="control"
               placeholder={t("listingFilters.zipCodeDescription")}
               validation={{
-                minLength: 5,
-                pattern: /[0-9 ,]*/,
+                validate: (value) => isValidZipCode(value),
               }}
               error={errors.zipCodeField}
               errorMessage={t("errors.multipleZipCodeError")}
