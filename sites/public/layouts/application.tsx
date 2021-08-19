@@ -14,6 +14,10 @@ import {
   setSiteAlertMessage,
 } from "@bloom-housing/ui-components"
 
+const getTranslationMarkup = (key: string) => {
+  return { __html: t(key) }
+}
+
 const Layout = (props) => {
   const { profile, signOut } = useContext(AuthContext)
   const router = useRouter()
@@ -33,7 +37,7 @@ const Layout = (props) => {
         <SiteHeader
           skip={t("nav.skip")}
           logoSrc="/images/detroit-logo.png"
-          notice={t("nav.getFeedback")}
+          notice={<div dangerouslySetInnerHTML={getTranslationMarkup("nav.getFeedback")}></div>}
           title={t("nav.siteTitle")}
           language={{
             list: languages,

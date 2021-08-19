@@ -998,7 +998,7 @@
         "accountSettings": "إعدادت الحساب",
         "browseProperties": "تصفح الخصائص",
         "getAssistance": "احصل على المساعدة",
-        "getFeedback": "هذه معاينة لموقعنا الجديد. لقد بدأنا للتو. يسعدنا تلقي تعليقاتك.",
+        "getFeedback": "هذه معاينة لموقعنا الجديد. لقد بدأنا للتو. يسعدنا تلقي <a target='_blank' class='a-white lined' href='٪{feedbackUrl}'> تعليقاتك. </a>",
         "listings": "القوائم",
         "properties": "ملكيات",
         "applications": "التطبيقات",
