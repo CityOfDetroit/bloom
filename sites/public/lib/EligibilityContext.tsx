@@ -57,5 +57,4 @@ export const blankEligibilityRequirements = () => {
 
 export const EligibilityContext = React.createContext({
   eligibilityRequirements: blankEligibilityRequirements(),
-  completedSections: 0,
 })
