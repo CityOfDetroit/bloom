@@ -322,22 +322,32 @@ export const ListingView = (props: ListingProps) => {
             />
             <section className="aside-block">
               <h2 className="text-caps-underline">{t("listings.apply.howToApply")}</h2>
-              {listing.applicationPickUpAddress || listing.applicationAddress ? (
-                <div>
-                  <SubHeader text={t("listings.apply.pickUpAnApplication")} />
-                  <SidebarAddress
-                    address={
-                      listing.applicationPickUpAddress
-                        ? listing.applicationPickUpAddress
-                        : listing.applicationAddress
-                    }
-                  />
-                </div>
-              ) : (
-                <div>
-                  <SubHeader text={"Contact Management Company"} />
-                </div>
-              )}
+              <div>
+                {(listing.applicationPickUpAddress && (
+                  <>
+                    <SubHeader text={t("listings.apply.pickUpAnApplication")} />
+                    <SidebarAddress address={listing.applicationPickUpAddress} />
+                  </>
+                )) ||
+                  (listing.applicationAddress && (
+                    <>
+                      <SubHeader text={t("listings.apply.pickUpAnApplication")} />
+                      <SidebarAddress address={listing.applicationAddress} />
+                    </>
+                  )) ||
+                  (listing.buildingAddress && (
+                    <>
+                      <SubHeader text={t("listings.apply.pickUpAnApplication")} />
+                      <SidebarAddress address={listing.buildingAddress} />
+                    </>
+                  )) || (
+                    <>
+                      <div>
+                        <SubHeader text={"Contact Management Company"} />
+                      </div>
+                    </>
+                  )}
+              </div>
             </section>
           </aside>
         </ListingDetailItem>
