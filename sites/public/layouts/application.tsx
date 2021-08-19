@@ -12,11 +12,8 @@ import {
   t,
   AuthContext,
   setSiteAlertMessage,
+  getTranslationMarkup,
 } from "@bloom-housing/ui-components"
-
-const getTranslationMarkup = (key: string) => {
-  return { __html: t(key) }
-}
 
 const Layout = (props) => {
   const { profile, signOut } = useContext(AuthContext)
