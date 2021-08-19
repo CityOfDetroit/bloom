@@ -3655,6 +3655,9 @@ export interface ListingFilterParams {
 
   /**  */
   bedrooms?: number
+
+  /**  */
+  zipcode?: string
 }
 
 export interface PreferenceLink {
@@ -3800,6 +3803,59 @@ export interface ReservedCommunityType {
 
   /**  */
   description?: string
+}
+
+export interface UnitsSummary {
+  /**  */
+  id: string
+
+  /**  */
+  unitType: UnitType
+
+  /**  */
+  listing: Listing
+
+  /**  */
+  monthlyRent?: string
+
+  /**  */
+  monthlyRentAsPercentOfIncome?: string
+
+  /**  */
+  amiPercentage?: string
+
+  /**  */
+  minimumIncomeMin?: string
+
+  /**  */
+  minimumIncomeMax?: string
+
+  /**  */
+  maxOccupancy?: number
+
+  /**  */
+  minOccupancy?: number
+
+  /**  */
+  floorMin?: number
+
+  /**  */
+  floorMax?: number
+
+  /**  */
+  sqFeetMin?: string
+
+  /**  */
+  sqFeetMax?: string
+
+  /**  */
+  priorityType?: UnitAccessibilityPriorityType
+
+  /**  */
+  totalCount?: number
+
+  /**  */
+  totalAvailable?: number
 }
 
 export interface UnitType {
@@ -4011,17 +4067,6 @@ export interface UnitsSummarized {
 
   /**  */
   hmi: HMI
-}
-
-export interface WhatToExpect {
-  /**  */
-  applicantsWillBeContacted?: string
-
-  /**  */
-  allInfoWillBeVerified?: string
-
-  /**  */
-  bePreparedIfChosen?: string
 }
 
 export interface Listing {
@@ -4242,7 +4287,7 @@ export interface Listing {
   waitlistMaxSize?: number
 
   /**  */
-  whatToExpect?: CombinedWhatToExpectTypes
+  whatToExpect?: string
 
   /**  */
   applicationConfig?: object
@@ -4285,6 +4330,9 @@ export interface Listing {
 
   /**  */
   region?: string
+
+  /** */
+  unitsSummary: UnitsSummary[]
 }
 
 export interface PaginatedListing {
@@ -4597,7 +4645,7 @@ export interface ListingCreate {
   waitlistMaxSize?: number
 
   /**  */
-  whatToExpect?: CombinedWhatToExpectTypes
+  whatToExpect?: string
 
   /**  */
   applicationConfig?: object
@@ -4985,7 +5033,7 @@ export interface ListingUpdate {
   waitlistMaxSize?: number
 
   /**  */
-  whatToExpect?: CombinedWhatToExpectTypes
+  whatToExpect?: string
 
   /**  */
   applicationConfig?: object
@@ -5482,5 +5530,4 @@ export type CombinedImageTypes = AssetCreate
 export type CombinedLeasingAgentAddressTypes = AddressUpdate
 export type CombinedResultTypes = AssetCreate
 export type CombinedUserRolesTypes = UserRoles
-export type CombinedWhatToExpectTypes = WhatToExpect
 export type CombinedJurisdictionTypes = Id
