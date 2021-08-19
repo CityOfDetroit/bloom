@@ -15,7 +15,7 @@ import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
 import React, { useContext } from "react"
 import { useRouter } from "next/router"
-import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
@@ -38,6 +38,11 @@ const EligibilityBedrooms = () => {
     const { bedrooms } = data
     eligibilityRequirements.setBedroomCounts(bedrooms)
 
+    const completed = eligibilityRequirements.completedSections
+    eligibilityRequirements.setCompletedSections(
+      completed > CURRENT_PAGE ? completed : CURRENT_PAGE + 1
+    )
+
     void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
@@ -54,8 +59,9 @@ const EligibilityBedrooms = () => {
       <FormCard header={t("eligibility.progress.header")}>
         <ProgressNav
           currentPageSection={2}
-          completedSections={1}
+          completedSections={eligibilityRequirements.completedSections + 1}
           labels={ELIGIBILITY_SECTIONS.map((label) => t(`eligibility.progress.sections.${label}`))}
+          routes={ELIGIBILITY_SECTIONS.map((_label, i) => eligibilityRoute(i))}
         />
       </FormCard>
       <FormCard>

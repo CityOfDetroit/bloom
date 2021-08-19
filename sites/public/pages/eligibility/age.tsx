@@ -36,6 +36,10 @@ const EligibilityAge = () => {
   const onSubmit = (data) => {
     if (isAgeValid(data.age)) {
       eligibilityRequirements.setAge(data.age)
+      const completed = eligibilityRequirements.completedSections
+      eligibilityRequirements.setCompletedSections(
+        completed > CURRENT_PAGE ? completed : CURRENT_PAGE + 1
+      )
       void router.push(eligibilityRoute(CURRENT_PAGE + 1))
     } else {
       setError("age", { type: "manual", message: "" })
@@ -51,8 +55,9 @@ const EligibilityAge = () => {
       <FormCard header={t("eligibility.progress.header")}>
         <ProgressNav
           currentPageSection={3}
-          completedSections={2}
+          completedSections={eligibilityRequirements.completedSections + 1}
           labels={ELIGIBILITY_SECTIONS.map((label) => t(`eligibility.progress.sections.${label}`))}
+          routes={ELIGIBILITY_SECTIONS.map((_label, i) => eligibilityRoute(i))}
         />
       </FormCard>
       <FormCard>

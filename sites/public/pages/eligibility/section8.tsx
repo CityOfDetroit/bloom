@@ -53,6 +53,7 @@ const EligibilitySection8 = () => {
           currentPageSection={6}
           completedSections={5}
           labels={ELIGIBILITY_SECTIONS.map((label) => t(`eligibility.progress.sections.${label}`))}
+          routes={ELIGIBILITY_SECTIONS.map((_label, i) => eligibilityRoute(i))}
         />
       </FormCard>
       <FormCard>

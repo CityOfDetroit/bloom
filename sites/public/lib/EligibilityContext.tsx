@@ -7,6 +7,7 @@ class EligibilityRequirements {
   income: string
   disability: string
   section8: string
+  completedSections: number
 
   constructor(
     age: number,
@@ -22,6 +23,7 @@ class EligibilityRequirements {
     this.income = income
     this.disability = disability
     this.section8 = section8
+    this.completedSections = 0
   }
 
   setAge(age: number) {
@@ -44,6 +46,9 @@ class EligibilityRequirements {
   setSection8(section8: string) {
     this.section8 = section8
   }
+  setCompletedSections(numCompleted: number) {
+    this.completedSections = numCompleted
+  }
 }
 
 export const blankEligibilityRequirements = () => {
@@ -52,4 +57,5 @@ export const blankEligibilityRequirements = () => {
 
 export const EligibilityContext = React.createContext({
   eligibilityRequirements: blankEligibilityRequirements(),
+  completedSections: 0,
 })

@@ -12,18 +12,24 @@ import {
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
-import React from "react"
+import React, { useContext } from "react"
 import { useRouter } from "next/router"
-import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { eligibilityRoute } from "../../lib/helpers"
+import { EligibilityContext } from "../../lib/EligibilityContext"
 
 const EligibilityWelcome = () => {
   const router = useRouter()
+  const { eligibilityRequirements } = useContext(EligibilityContext)
   const CURRENT_PAGE = 0
 
   /* Form Handler */
   const { handleSubmit } = useForm()
   const onSubmit = () => {
+    const completed = eligibilityRequirements.completedSections
+    eligibilityRequirements.setCompletedSections(
+      completed > CURRENT_PAGE ? completed : CURRENT_PAGE + 1
+    )
     void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
@@ -32,8 +38,9 @@ const EligibilityWelcome = () => {
       <FormCard header={t("eligibility.progress.header")}>
         <ProgressNav
           currentPageSection={1}
-          completedSections={0}
+          completedSections={eligibilityRequirements.completedSections + 1}
           labels={ELIGIBILITY_SECTIONS.map((label) => t(`eligibility.progress.sections.${label}`))}
+          routes={ELIGIBILITY_SECTIONS.map((_label, i) => eligibilityRoute(i))}
         />
       </FormCard>
       <FormCard>
