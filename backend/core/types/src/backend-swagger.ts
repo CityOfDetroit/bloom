@@ -3805,6 +3805,59 @@ export interface ReservedCommunityType {
   description?: string
 }
 
+export interface UnitsSummary {
+  /**  */
+  id: string
+
+  /**  */
+  unitType: UnitType
+
+  /**  */
+  listing: Listing
+
+  /**  */
+  monthlyRent?: string
+
+  /**  */
+  monthlyRentAsPercentOfIncome?: string
+
+  /**  */
+  amiPercentage?: string
+
+  /**  */
+  minimumIncomeMin?: string
+
+  /**  */
+  minimumIncomeMax?: string
+
+  /**  */
+  maxOccupancy?: number
+
+  /**  */
+  minOccupancy?: number
+
+  /**  */
+  floorMin?: number
+
+  /**  */
+  floorMax?: number
+
+  /**  */
+  sqFeetMin?: string
+
+  /**  */
+  sqFeetMax?: string
+
+  /**  */
+  priorityType?: UnitAccessibilityPriorityType
+
+  /**  */
+  totalCount?: number
+
+  /**  */
+  totalAvailable?: number
+}
+
 export interface UnitType {
   /**  */
   id: string
@@ -4014,17 +4067,6 @@ export interface UnitsSummarized {
 
   /**  */
   hmi: HMI
-}
-
-export interface WhatToExpect {
-  /**  */
-  applicantsWillBeContacted?: string
-
-  /**  */
-  allInfoWillBeVerified?: string
-
-  /**  */
-  bePreparedIfChosen?: string
 }
 
 export interface Listing {
@@ -4245,7 +4287,7 @@ export interface Listing {
   waitlistMaxSize?: number
 
   /**  */
-  whatToExpect?: CombinedWhatToExpectTypes
+  whatToExpect?: string
 
   /**  */
   applicationConfig?: object
@@ -4282,6 +4324,15 @@ export interface Listing {
 
   /**  */
   amiPercentageMax?: number
+
+  /**  */
+  phoneNumber?: string
+
+  /**  */
+  region?: string
+
+  /** */
+  unitsSummary: UnitsSummary[]
 }
 
 export interface PaginatedListing {
@@ -4594,7 +4645,7 @@ export interface ListingCreate {
   waitlistMaxSize?: number
 
   /**  */
-  whatToExpect?: CombinedWhatToExpectTypes
+  whatToExpect?: string
 
   /**  */
   applicationConfig?: object
@@ -4631,6 +4682,12 @@ export interface ListingCreate {
 
   /**  */
   amiPercentageMax?: number
+
+  /**  */
+  phoneNumber?: string
+
+  /**  */
+  region?: string
 }
 
 export interface PreferenceUpdate {
@@ -4976,7 +5033,7 @@ export interface ListingUpdate {
   waitlistMaxSize?: number
 
   /**  */
-  whatToExpect?: CombinedWhatToExpectTypes
+  whatToExpect?: string
 
   /**  */
   applicationConfig?: object
@@ -5013,6 +5070,12 @@ export interface ListingUpdate {
 
   /**  */
   amiPercentageMax?: number
+
+  /**  */
+  phoneNumber?: string
+
+  /**  */
+  region?: string
 }
 
 export interface PaperApplicationCreate {
@@ -5081,9 +5144,6 @@ export interface Property {
   neighborhood?: string
 
   /**  */
-  region?: string
-
-  /**  */
   petPolicy?: string
 
   /**  */
@@ -5100,9 +5160,6 @@ export interface Property {
 
   /**  */
   yearBuilt?: number
-
-  /**  */
-  phoneNumber?: string
 }
 
 export interface PropertyCreate {
@@ -5134,9 +5191,6 @@ export interface PropertyCreate {
   neighborhood?: string
 
   /**  */
-  region?: string
-
-  /**  */
   petPolicy?: string
 
   /**  */
@@ -5153,9 +5207,6 @@ export interface PropertyCreate {
 
   /**  */
   yearBuilt?: number
-
-  /**  */
-  phoneNumber?: string
 }
 
 export interface PropertyUpdate {
@@ -5196,9 +5247,6 @@ export interface PropertyUpdate {
   neighborhood?: string
 
   /**  */
-  region?: string
-
-  /**  */
   petPolicy?: string
 
   /**  */
@@ -5215,9 +5263,6 @@ export interface PropertyUpdate {
 
   /**  */
   yearBuilt?: number
-
-  /**  */
-  phoneNumber?: string
 }
 
 export interface PropertyGroup {
@@ -5485,5 +5530,4 @@ export type CombinedImageTypes = AssetCreate
 export type CombinedLeasingAgentAddressTypes = AddressUpdate
 export type CombinedResultTypes = AssetCreate
 export type CombinedUserRolesTypes = UserRoles
-export type CombinedWhatToExpectTypes = WhatToExpect
 export type CombinedJurisdictionTypes = Id

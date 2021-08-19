@@ -139,6 +139,27 @@ export const ListingView = (props: ListingProps) => {
     } else return t("listings.reservedCommunityTitleDefault")
   }
 
+  const shouldShowFeaturesDetail = () => {
+    return (
+      listing.neighborhood ||
+      listing.yearBuilt ||
+      listing.smokingPolicy ||
+      listing.petPolicy ||
+      listing.amenities ||
+      listing.unitAmenities ||
+      listing.servicesOffered ||
+      listing.accessibility ||
+      // props for UnitTables
+      (listing.units && listing.units.length > 0) ||
+      listing.unitsSummarized ||
+      // props for AdditionalFees
+      listing.depositMin ||
+      listing.depositMax ||
+      listing.applicationFee ||
+      listing.costsNotIncluded
+    )
+  }
+
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
       <header className="image-card--leader">
@@ -200,7 +221,7 @@ export const ListingView = (props: ListingProps) => {
         )}
       </div>
       <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
-        <ListingUpdated listing={listing} />
+        <ListingUpdated listingUpdated={listing.updatedAt} />
       </div>
       <ListingDetails>
         <ListingDetailItem
@@ -293,7 +314,7 @@ export const ListingView = (props: ListingProps) => {
         >
           <aside className="w-full static md:absolute md:right-0 md:w-1/3 md:top-0 sm:w-2/3 md:ml-2 h-full md:border border-gray-400 bg-white">
             <div className="hidden md:block">
-              <ListingUpdated listing={listing} />
+              <ListingUpdated listingUpdated={listing.updatedAt} />
               {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
             </div>
             {openHouseEvents && (
@@ -317,41 +338,52 @@ export const ListingView = (props: ListingProps) => {
           title={t("listings.sections.featuresTitle")}
           subtitle={t("listings.sections.featuresSubtitle")}
         >
-          <div className="listing-detail-panel">
-            <dl className="column-definition-list">
-              <Description term={t("t.neighborhood")} description={listing.neighborhood} />
-              <Description term={t("t.built")} description={listing.yearBuilt} />
-              {listing.smokingPolicy && (
-                <Description term={t("t.smokingPolicy")} description={listing.smokingPolicy} />
-              )}
-              {listing.petPolicy && (
-                <Description term={t("t.petsPolicy")} description={listing.petPolicy} />
-              )}
-              {listing.amenities && (
-                <Description term={t("t.propertyAmenities")} description={listing.amenities} />
-              )}
-              {listing.unitAmenities && (
-                <Description term={t("t.unitAmenities")} description={listing.unitAmenities} />
-              )}
-              {listing.servicesOffered && (
-                <Description term={t("t.servicesOffered")} description={listing.servicesOffered} />
-              )}
-              {listing.accessibility && (
-                <Description term={t("t.accessibility")} description={listing.accessibility} />
-              )}
-              <Description
-                term={t("t.unitFeatures")}
-                description={
-                  <UnitTables
-                    units={listing.units}
-                    unitSummaries={listing?.unitsSummarized?.byUnitType}
-                    disableAccordion={listing.disableUnitsAccordion}
+          {!shouldShowFeaturesDetail() ? (
+            t("errors.noData")
+          ) : (
+            <div className="listing-detail-panel">
+              <dl className="column-definition-list">
+                {listing.neighborhood && (
+                  <Description term={t("t.neighborhood")} description={listing.neighborhood} />
+                )}
+                {listing.yearBuilt && (
+                  <Description term={t("t.built")} description={listing.yearBuilt} />
+                )}
+                {listing.smokingPolicy && (
+                  <Description term={t("t.smokingPolicy")} description={listing.smokingPolicy} />
+                )}
+                {listing.petPolicy && (
+                  <Description term={t("t.petsPolicy")} description={listing.petPolicy} />
+                )}
+                {listing.amenities && (
+                  <Description term={t("t.propertyAmenities")} description={listing.amenities} />
+                )}
+                {listing.unitAmenities && (
+                  <Description term={t("t.unitAmenities")} description={listing.unitAmenities} />
+                )}
+                {listing.servicesOffered && (
+                  <Description
+                    term={t("t.servicesOffered")}
+                    description={listing.servicesOffered}
                   />
-                }
-              />
-            </dl>
-            <AdditionalFees listing={listing} />
-          </div>
+                )}
+                {listing.accessibility && (
+                  <Description term={t("t.accessibility")} description={listing.accessibility} />
+                )}
+                <Description
+                  term={t("t.unitFeatures")}
+                  description={
+                    <UnitTables
+                      units={listing.units}
+                      unitSummaries={listing?.unitsSummarized?.byUnitType}
+                      disableAccordion={listing.disableUnitsAccordion}
+                    />
+                  }
+                />
+              </dl>
+              <AdditionalFees listing={listing} />
+            </div>
+          )}
         </ListingDetailItem>
 
         <ListingDetailItem
