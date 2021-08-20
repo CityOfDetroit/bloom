@@ -99,8 +99,8 @@ export default function ListingsList() {
         cellRenderer: "ApplicationsLink",
       },
       {
-        headerName: t("listings.property.buildingAddress"),
-        field: "property.buildingAddress.street",
+        headerName: t("listings.buildingAddress"),
+        field: "buildingAddress.street",
         sortable: false,
         filter: false,
         resizable: true,
