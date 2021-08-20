@@ -8,7 +8,6 @@ import {
   Button,
   LocalizedLink,
 } from "@bloom-housing/ui-components"
-import moment from "moment"
 import { Listing } from "@bloom-housing/backend-core/types"
 import { AgGridReact } from "ag-grid-react"
 import { GridOptions } from "ag-grid-community"
@@ -16,7 +15,6 @@ import { GridOptions } from "ag-grid-community"
 import { useListingsData } from "../lib/hooks"
 import Layout from "../layouts"
 import { MetaTags } from "../src/MetaTags"
-import { Router, useRouter } from "next/router"
 
 export default function ListingsList() {
   const { profile } = useContext(AuthContext)

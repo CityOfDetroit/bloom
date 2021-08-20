@@ -32,7 +32,6 @@ import DetailUnitDrawer, {
 import DetailBuildingFeatures from "../../../src/listings/PaperListingDetails/sections/DetailBuildingFeatures"
 import DetailRankingsAndResults from "../../../src/listings/PaperListingDetails/sections/DetailRankingsAndResults"
 import DetailApplicationAddress from "../../../src/listings/PaperListingDetails/sections/DetailApplicationAddress"
-import DetailApplicationDates from "../../../src/listings/PaperListingDetails/sections/DetailApplicationDates"
 import DetailPreferences from "../../../src/listings/PaperListingDetails/sections/DetailPreferences"
 import DetailCommunityType from "../../../src/listings/PaperListingDetails/sections/DetailCommunityType"
 
