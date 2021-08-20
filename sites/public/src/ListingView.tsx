@@ -29,7 +29,6 @@ import {
   ListingUpdated,
   Message,
   SidebarAddress,
-  ApplicationSection,
 } from "@bloom-housing/ui-components"
 import { ErrorPage } from "../pages/_error"
 import { getGenericAddress } from "../lib/helpers"
@@ -143,6 +142,39 @@ export const ListingView = (props: ListingProps) => {
 
   const SubHeader = (props: { text: string }) => <h3 className="text-caps-tiny">{props.text}</h3>
 
+  const getHowtoApply = () => {
+    if (listing.applicationPickUpAddress) {
+      return (
+        <>
+          <SubHeader text={t("listings.apply.pickUpAnApplication")} />
+          <SidebarAddress address={listing.applicationPickUpAddress} />
+        </>
+      )
+    } else if (listing.applicationAddress) {
+      return (
+        <>
+          <SubHeader text={t("listings.apply.pickUpAnApplication")} />
+          <SidebarAddress address={listing.applicationAddress} />
+        </>
+      )
+    } else if (listing.buildingAddress) {
+      return (
+        <>
+          <SubHeader text={t("listings.apply.pickUpAnApplication")} />
+          <SidebarAddress address={listing.buildingAddress} />
+        </>
+      )
+    } else {
+      return (
+        <>
+          <div>
+            <SubHeader text={t("listings.apply.contactManagment")} />
+          </div>
+        </>
+      )
+    }
+  }
+
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
       <header className="image-card--leader">
@@ -205,13 +237,6 @@ export const ListingView = (props: ListingProps) => {
       </div>
       <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
         <ListingUpdated listing={listing} />
-        <div className="mx-4">
-          <ApplicationSection
-            listing={listing}
-            preview={props.preview}
-            internalFormRoute="/applications/start/choose-language"
-          />
-        </div>
       </div>
       <ListingDetails>
         <ListingDetailItem
@@ -312,7 +337,6 @@ export const ListingView = (props: ListingProps) => {
                 <OpenHouseEvent events={openHouseEvents} />
               </div>
             )}
-
             <LeasingAgent
               listing={listing}
               managementCompany={{
@@ -322,32 +346,7 @@ export const ListingView = (props: ListingProps) => {
             />
             <section className="aside-block">
               <h2 className="text-caps-underline">{t("listings.apply.howToApply")}</h2>
-              <div>
-                {(listing.applicationPickUpAddress && (
-                  <>
-                    <SubHeader text={t("listings.apply.pickUpAnApplication")} />
-                    <SidebarAddress address={listing.applicationPickUpAddress} />
-                  </>
-                )) ||
-                  (listing.applicationAddress && (
-                    <>
-                      <SubHeader text={t("listings.apply.pickUpAnApplication")} />
-                      <SidebarAddress address={listing.applicationAddress} />
-                    </>
-                  )) ||
-                  (listing.buildingAddress && (
-                    <>
-                      <SubHeader text={t("listings.apply.pickUpAnApplication")} />
-                      <SidebarAddress address={listing.buildingAddress} />
-                    </>
-                  )) || (
-                    <>
-                      <div>
-                        <SubHeader text={"Contact Management Company"} />
-                      </div>
-                    </>
-                  )}
-              </div>
+              <div>{getHowtoApply()}</div>
             </section>
           </aside>
         </ListingDetailItem>
