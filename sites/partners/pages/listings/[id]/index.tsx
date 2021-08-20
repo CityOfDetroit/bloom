@@ -130,7 +130,6 @@ export default function ApplicationsList() {
                     <DetailRankingsAndResults />
                     <DetailLeasingAgent />
                     <DetailApplicationAddress />
-                    <DetailApplicationDates />
                   </div>
 
                   <div className="md:w-3/12 pl-6">

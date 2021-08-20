@@ -83,7 +83,8 @@ export default function ListingsList() {
       {
         headerName: t("listings.listingName"),
         field: "name",
-        sortable: false,
+        sortable: true,
+        sort: "asc",
         filter: false,
         resizable: true,
         cellRenderer: "ListingsLink",
@@ -101,17 +102,10 @@ export default function ListingsList() {
       {
         headerName: t("listings.buildingAddress"),
         field: "buildingAddress.street",
-        sortable: false,
+        sortable: true,
         filter: false,
         resizable: true,
-      },
-      {
-        headerName: t("listings.applicationDeadline"),
-        field: "applicationDueDate",
-        sortable: false,
-        filter: false,
-        resizable: true,
-        valueFormatter: ({ value }) => moment(value).format("MM/DD/YYYY"),
+        flex: 1,
       },
       {
         headerName: t("listings.availableUnits"),
