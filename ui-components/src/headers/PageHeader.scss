@@ -8,6 +8,10 @@
   &.bg-primary-dark {
     @apply text-white;
   }
+  @apply text-white;
+  background: url("/images/hero.png");
+  background-position: center top;
+  background-size: 100% auto;
 }
 
 .page-header__group {
