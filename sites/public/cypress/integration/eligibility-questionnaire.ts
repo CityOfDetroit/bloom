@@ -16,72 +16,54 @@ describe("Verifying the eligibility questionnaire flow", () => {
     // Verify that the page welcomes us :)
     cy.contains("Welcome")
 
-    // Find and click the "Next" button.
+    // Click the "Next" button to go to the "Bedrooms" section.
     cy.contains("Next").click()
-
     cy.url().should("include", "/eligibility/bedrooms")
-
-    // Verify that we're asked next about how many bedrooms
     cy.contains("How many bedrooms do you need?")
 
     // Find and click to indicate both 2BR and 3BR
     cy.get("#twoBdrm").click()
     cy.get("#threeBdrm").click()
 
+    // Click "Next" to go to the "Age" section
     cy.contains("Next").click()
-
     cy.url().should("include", "/eligibility/age")
+    cy.contains("How old are you?")
+
+    // Enter "55" for the age input.
+    cy.get("input").type("55")
+
+    // Click "Next" to go to the "Disability" section
+    cy.contains("Next").click()
+    cy.url().should("include", "/eligibility/disability")
+    cy.contains("Do you have a disability?")
+
+    // Click "no" to indicate no disability.
+    cy.get("#disabilityNo").click()
+
+    // Click "Next" to go to the "Income" section
+    cy.contains("Next").click()
+    cy.url().should("include", "/eligibility/income")
+    cy.contains("What is your total household annual income?")
+
+    // Select "$30k to $40k"
+    cy.get("select").select("30kTo40k")
+
+    // Click "Next" to go to the "Section 8" section
+    cy.contains("Next").click()
+    cy.url().should("include", "/eligibility/section8")
+    cy.contains("Do you have a Section 8 voucher?")
+
+    // Click "no" to indicate no Section 8 voucher.
+    cy.get("#section8No").click()
+
+    // Click "Done"
+    cy.contains("Done").click()
+
+    // TODO: once the "Done" button is implemented, verify that it takes the user to the correct
+    // view.
   })
 
-  /*
-  it("Loads the listings page directly", () => {
-    cy.visit("/listings")
-
-    // Check that the listings page banner text is present on the page
-    cy.contains("Rent affordable housing")
-  })
-
-  it("Loads the listings page directly", () => {
-    cy.visit("/listings")
-
-    // Check that the listings page banner text is present on the page
-    cy.contains("Rent affordable housing")
-  })
-
-  it("Loads a non-listing-related page directly", () => {
-    cy.visit("/disclaimer")
-
-    // Check that the Disclaimer page banner text is present on the page
-    cy.contains("Endorsement Disclaimers")
-  })
-
-  it("Can navigate to all page types after initial site load", () => {
-    cy.visit("/")
-
-    // Click on the Disclaimer page link in the footer
-    cy.get("footer a").contains("Disclaimer").click()
-
-    // Should be on the disclaimer page
-    cy.location("pathname").should("equal", "/disclaimer")
-    cy.contains("Endorsement Disclaimers")
-
-    // Click on the listings page link in the header nav
-    cy.get(".navbar").contains("Listings").click()
-
-    // Should be on the listings page
-    cy.location("pathname").should("equal", "/listings")
-    cy.contains("Rent affordable housing")
-
-    // Click on the navbar logo to go to the homepage
-    cy.get(".navbar")
-      .first()
-      .within(() => {
-        cy.get(".logo").click()
-      })
-
-    // Check that the homepage banner text is present on the page
-    cy.url().should("eq", `${Cypress.config("baseUrl")}/`)
-    cy.contains("Apply for affordable housing")
-  })
-  */
+  // TODO: consider adding tests for incorrect inputs in the Eligibility Questionnaire.
+  // Example: A user enters an age of 999 and clicks "Next".
 })
