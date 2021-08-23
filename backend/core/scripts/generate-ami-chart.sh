@@ -1,7 +1,20 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-  echo "Usage: generate-ami-chart.sh path/to/FILE"
+  cat << EOF
+Usage: generate-ami-chart.sh path/to/FILE
+
+WARNING: overwrites the file path/to/FILE.ts
+
+This script takes a formatted text file and writes a .ts file containing the JSON representation
+of the AMI chart data. It is expecting 9 columns, the first one being the AMI percentage and then
+8 columns representing the income for a household with 1..8 people corresponding to that AMI. Ex:
+20% 10,000 11,000 12,000 13,000 14,000 15,000 16,000 17,000
+30% 15,000 16,000 17,000 18,000 19,000 20,000 21,000 22,000
+
+This format is based on the PDF format for published MSHDA charts. Noutput ote: there must be a newline
+at the end of the file or the last row will not be read in.
+EOF
   exit
 fi
 
