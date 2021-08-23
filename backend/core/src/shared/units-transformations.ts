@@ -7,7 +7,6 @@ import { UnitsSummarized } from "../units/types/units-summarized"
 import { UnitTypeDto } from "../unit-types/dto/unit-type.dto"
 import { UnitType } from "../unit-types/entities/unit-type.entity"
 import { UnitAccessibilityPriorityType } from "../unit-accessbility-priority-types/entities/unit-accessibility-priority-type.entity"
-import { UnitsSummary } from "../units-summary/entities/units-summary.entity"
 
 export type AnyDict = { [key: string]: unknown }
 type Units = Unit[]
@@ -20,7 +19,6 @@ const usd = new Intl.NumberFormat("en-US", {
 })
 
 const minMax = (baseValue: MinMax, newValue: number): MinMax => {
-  if (newValue === undefined) return baseValue
   return {
     min: Math.min(baseValue.min, newValue),
     max: Math.max(baseValue.max, newValue),
@@ -28,7 +26,6 @@ const minMax = (baseValue: MinMax, newValue: number): MinMax => {
 }
 
 const minMaxCurrency = (baseValue: MinMaxCurrency, newValue: number): MinMaxCurrency => {
-  if (newValue === null || newValue === undefined) return baseValue
   return {
     min: usd.format(Math.min(parseFloat(baseValue.min.replace(/[^0-9.-]+/g, "")), newValue)),
     max: usd.format(Math.max(parseFloat(baseValue.max.replace(/[^0-9.-]+/g, "")), newValue)),
@@ -118,130 +115,76 @@ const hmiData = (units: Units, byUnitType: UnitSummary[], amiPercentages: string
   return { columns: hmiHeaders, rows: hmiRows }
 }
 
-const getCurrencyString = (initialValue: string | number) => {
+const getCurrencyString = (initialValue: string) => {
   return usd.format(getRoundedNumber(initialValue))
 }
 
-const getRoundedNumber = (initialValue: string | number) => {
-  if (typeof initialValue === "number") {
-    return parseFloat(initialValue.toFixed(2))
-  } else {
-    return parseFloat(parseFloat(initialValue).toFixed(2))
-  }
+const getRoundedNumber = (initialValue: string) => {
+  return parseFloat(parseFloat(initialValue).toFixed(2))
 }
 
-function getDefaultSummaryRanges<T extends BaseUnitInfo>(item: T) {
-  let areaRange: MinMax
-  let floorRange: MinMax
-  if (item instanceof Unit) {
-    areaRange = { min: parseFloat(item.sqFeet), max: parseFloat(item.sqFeet) }
-    floorRange = { min: item.floor, max: item.floor }
-  } else {
-    areaRange = { min: parseFloat(item.sqFeetMin), max: parseFloat(item.sqFeetMax) }
-    floorRange = { min: item.floorMin, max: item.floorMax }
-  }
-
+const getDefaultSummaryRanges = (unit: Unit) => {
   return {
-    areaRange: areaRange,
+    areaRange: { min: parseFloat(unit.sqFeet), max: parseFloat(unit.sqFeet) },
     minIncomeRange: {
-      min: getCurrencyString(item.monthlyIncomeMin),
-      max: getCurrencyString(item.monthlyIncomeMin),
+      min: getCurrencyString(unit.monthlyIncomeMin),
+      max: getCurrencyString(unit.monthlyIncomeMin),
     },
-    occupancyRange: { min: item.minOccupancy, max: item.maxOccupancy },
+    occupancyRange: { min: unit.minOccupancy, max: unit.maxOccupancy },
     rentRange: {
-      min: getCurrencyString(item.monthlyRent),
-      max: getCurrencyString(item.monthlyRent),
+      min: getCurrencyString(unit.monthlyRent),
+      max: getCurrencyString(unit.monthlyRent),
     },
     rentAsPercentIncomeRange: {
-      min: parseFloat(item.monthlyRentAsPercentOfIncome),
-      max: parseFloat(item.monthlyRentAsPercentOfIncome),
+      min: parseFloat(unit.monthlyRentAsPercentOfIncome),
+      max: parseFloat(unit.monthlyRentAsPercentOfIncome),
     },
-    floorRange: floorRange,
-    unitType: item.unitType,
-    totalAvailable: item?.totalAvailable ? item.totalAvailable : 0,
-    totalCount: item?.totalCount ? item.totalCount : 0,
+    floorRange: {
+      min: unit.floor,
+      max: unit.floor,
+    },
+    unitType: unit.unitType,
+    totalAvailable: 0,
+    totalCount: 0,
   } as UnitSummary
 }
 
-function getUnitsSummary<T extends BaseUnitInfo>(item: T, existingSummary?: UnitSummary) {
+const getUnitsSummary = (unit: Unit, existingSummary?: UnitSummary) => {
   if (!existingSummary) {
-    return getDefaultSummaryRanges(item)
+    return getDefaultSummaryRanges(unit)
   }
-
   const summary = existingSummary
 
   // Income Range
   summary.minIncomeRange = minMaxCurrency(
     summary.minIncomeRange,
-    getRoundedNumber(item.monthlyIncomeMin)
+    getRoundedNumber(unit.monthlyIncomeMin)
   )
 
   // Occupancy Range
-  summary.occupancyRange = minMax(summary.occupancyRange, item.minOccupancy)
-  summary.occupancyRange = minMax(summary.occupancyRange, item.maxOccupancy)
+  summary.occupancyRange = minMax(summary.occupancyRange, unit.minOccupancy)
+  summary.occupancyRange = minMax(summary.occupancyRange, unit.maxOccupancy)
 
   // Rent Ranges
   summary.rentAsPercentIncomeRange = minMax(
     summary.rentAsPercentIncomeRange,
-    parseFloat(item.monthlyRentAsPercentOfIncome)
+    parseFloat(unit.monthlyRentAsPercentOfIncome)
   )
-  summary.rentRange = minMaxCurrency(summary.rentRange, getRoundedNumber(item.monthlyRent))
+  summary.rentRange = minMaxCurrency(summary.rentRange, getRoundedNumber(unit.monthlyRent))
 
-  if (item instanceof Unit) {
-    // Floor Range
-    summary.floorRange = minMax(summary.floorRange, item.floor)
-    // Area Range
-    summary.areaRange = minMax(summary.areaRange, parseFloat(item.sqFeet))
-  } else {
-    // Floor Range
-    summary.floorRange = minMax(summary.floorRange, item.floorMin)
-    summary.floorRange = minMax(summary.floorRange, item.floorMax)
-    // Area Range
-    summary.areaRange = minMax(summary.areaRange, parseFloat(item.sqFeetMin))
-    summary.areaRange = minMax(summary.areaRange, parseFloat(item.sqFeetMax))
-    // Unit Counts
-    summary.totalAvailable += item.totalAvailable ? item.totalAvailable : 0
-    summary.totalCount += item.totalCount ? item.totalCount : 0
+  // Floor Range
+  if (unit.floor) {
+    summary.floorRange = minMax(summary.floorRange, unit.floor)
   }
+
+  // Area Range
+  summary.areaRange = minMax(summary.areaRange, parseFloat(unit.sqFeet))
 
   return summary
 }
 
-// Shared properties between Unit and UnitsSummary.
-interface BaseUnitInfo {
-  unitType?: UnitType
-  monthlyRent?: string | number
-  monthlyRentAsPercentOfIncome?: string
-  maxOccupancy?: number
-  minOccupancy?: number
-  monthlyIncomeMin?: string
-  // Floor info. Only one of `floor` or (`floorMin` and `floorMax`) should be set.
-  floor?: number
-  floorMin?: number
-  floorMax?: number
-  // Area info. Only one of `sqFeet` or (`sqFeetMin` and `sqFeetMax`) should be set.
-  sqFeet?: string
-  sqFeetMin?: string
-  sqFeetMax?: string
-  // Only available for UnitsSummary.
-  totalAvailable?: number
-  totalCount?: number
-}
-
-type BaseMap<T> = {
-  [key: string]: T[]
-}
-
-function buildMap<T extends BaseUnitInfo>(input: T[]): BaseMap<T> {
-  const output: BaseMap<T> = {}
-  input.forEach((item) => {
-    const unitType = item.unitType
-    const unitRent = item.monthlyRentAsPercentOfIncome
-    const key = unitType.name.concat(unitRent)
-    if (!(key in output)) output[key] = []
-    output[key].push(item)
-  })
-  return output
+type UnitMap = {
+  [key: string]: Unit[]
 }
 
 const UnitTypeSort = ["studio", "oneBdrm", "twoBdrm", "threeBdrm", "fourBdrm", "fiveBdrm"]
@@ -249,7 +192,15 @@ const UnitTypeSort = ["studio", "oneBdrm", "twoBdrm", "threeBdrm", "fourBdrm", "
 // Allows for multiples rows under one unit type if the rent methods differ
 export const summarizeUnitsByTypeAndRent = (units: Units): UnitSummary[] => {
   const summaries: UnitSummary[] = []
-  const unitMap: BaseMap<Unit> = buildMap(units)
+  const unitMap: UnitMap = {}
+
+  units.forEach((unit) => {
+    const currentUnitType = unit.unitType
+    const currentUnitRent = unit.monthlyRentAsPercentOfIncome
+    const thisKey = currentUnitType.name.concat(currentUnitRent)
+    if (!(thisKey in unitMap)) unitMap[thisKey] = []
+    unitMap[thisKey].push(unit)
+  })
 
   for (const key in unitMap) {
     const finalSummary = unitMap[key].reduce((summary, unit, index) => {
@@ -259,27 +210,6 @@ export const summarizeUnitsByTypeAndRent = (units: Units): UnitSummary[] => {
       (unit) => unit.status === UnitStatus.available
     ).length
     finalSummary.totalCount = unitMap[key].length
-    summaries.push(finalSummary)
-  }
-
-  return summaries.sort((a, b) => {
-    return (
-      UnitTypeSort.indexOf(a.unitType.name) - UnitTypeSort.indexOf(b.unitType.name) ||
-      Number(a.minIncomeRange.min) - Number(b.minIncomeRange.min)
-    )
-  })
-}
-
-export const transformUnitsSummaryByTypeAndRent = (
-  unitsSummaries: UnitsSummary[]
-): UnitSummary[] => {
-  const summaries: UnitSummary[] = []
-
-  const summaryMap: BaseMap<UnitsSummary> = buildMap(unitsSummaries)
-  for (const key in summaryMap) {
-    const finalSummary = summaryMap[key].reduce((previous, current, index) => {
-      return getUnitsSummary(current, index === 0 ? null : previous)
-    }, {} as UnitSummary)
     summaries.push(finalSummary)
   }
 

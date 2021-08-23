@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { BaseView, FullView, getView } from "./view"
 import { views } from "./config"
-import { UnitStatus } from "../..//units/types/unit-status-enum"
 
 const mockQueryBuilder = {
   select: jest.fn().mockReturnThis(),
@@ -24,64 +22,21 @@ const mockListings = [
     id: "listing-1",
     property: {
       units: [
-        {
-          unitType: mockUnitTypes[0],
-          monthlyIncomeMin: "0",
-          monthlyRent: "100",
-          status: UnitStatus.available,
-        },
-        {
-          unitType: mockUnitTypes[0],
-          monthlyIncomeMin: "1",
-          monthlyRent: "101",
-          status: UnitStatus.occupied,
-        },
-        {
-          unitType: mockUnitTypes[1],
-          monthlyIncomeMin: "0",
-          monthlyRent: "100",
-          status: UnitStatus.occupied,
-        },
+        { unitType: mockUnitTypes[0], minimumIncome: "0", rent: "100" },
+        { unitType: mockUnitTypes[0], minimumIncome: "1", rent: "101" },
+        { unitType: mockUnitTypes[1], minimumIncome: "0", rent: "100" },
       ],
     },
-    unitsSummary: [
-      {
-        unitType: mockUnitTypes[0],
-        monthlyIncomeMin: "0",
-        monthlyRent: 100,
-        totalAvailable: 1,
-        totalCount: 1,
-      },
-      {
-        unitType: mockUnitTypes[0],
-        monthlyIncomeMin: "1",
-        monthlyRent: 101,
-        totalAvailable: 0,
-        totalCount: 1,
-      },
-      {
-        unitType: mockUnitTypes[1],
-        monthlyIncomeMin: "0",
-        monthlyRent: 100,
-        totalAvailable: 0,
-        totalCount: 1,
-      },
-    ],
   },
   {
     id: "listing-2",
     property: {
       units: [
-        { unitType: mockUnitTypes[0], monthlyIncomeMin: "0", monthlyRent: "100" },
-        { unitType: mockUnitTypes[1], monthlyIncomeMin: "1", monthlyRent: "101" },
-        { unitType: mockUnitTypes[2], monthlyIncomeMin: "2", monthlyRent: "102" },
+        { unitType: mockUnitTypes[0], minimumIncome: "0", rent: "100" },
+        { unitType: mockUnitTypes[1], minimumIncome: "1", rent: "101" },
+        { unitType: mockUnitTypes[2], minimumIncome: "2", rent: "102" },
       ],
     },
-    unitsSummary: [
-      { unitType: mockUnitTypes[0], monthlyIncomeMin: "0", monthlyRent: 100, totalCount: 1 },
-      { unitType: mockUnitTypes[1], monthlyIncomeMin: "1", monthlyRent: 101, totalCount: 1 },
-      { unitType: mockUnitTypes[2], monthlyIncomeMin: "2", monthlyRent: 102, totalCount: 1 },
-    ],
   },
 ]
 
@@ -104,33 +59,19 @@ describe("listing views", () => {
       view.getViewQb()
 
       expect(mockQueryBuilder.select).toHaveBeenCalledTimes(1)
-      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledTimes(10)
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledTimes(7)
     })
 
-    // Run this test twice with UnitsSummary enabled/disabled.
-    it.each([{ enableUnitsSummary: "true" }, { enableUnitsSummary: "false" }])(
-      "should map unitSummary to listings",
-      ({ enableUnitsSummary }) => {
-        process.env.USE_UNITS_SUMMARY = enableUnitsSummary
-        const view = new BaseView(mockListingsRepo.createQueryBuilder())
+    it("should map unitSummary to listings", () => {
+      const view = new BaseView(mockListingsRepo.createQueryBuilder())
 
-        const listings = view.mapUnitSummary(mockListings)
+      const listings = view.mapUnitSummary(mockListings)
 
-        listings.forEach((listing) => {
-          if (listing.id === mockListings[0].id) {
-            const byUnitTypeAndRent = listing.unitsSummarized.byUnitTypeAndRent
-            expect(byUnitTypeAndRent[0].rentRange).toEqual({ max: "$101", min: "$100" })
-            expect(byUnitTypeAndRent[0].minIncomeRange).toEqual({ max: "$1", min: "$0" })
-            expect(byUnitTypeAndRent[0].totalAvailable).toEqual(1)
-            expect(byUnitTypeAndRent[0].totalCount).toEqual(2)
-            expect(byUnitTypeAndRent[1].rentRange).toEqual({ max: "$100", min: "$100" })
-            expect(byUnitTypeAndRent[1].minIncomeRange).toEqual({ max: "$0", min: "$0" })
-            expect(byUnitTypeAndRent[1].totalAvailable).toEqual(0)
-            expect(byUnitTypeAndRent[1].totalCount).toEqual(1)
-          }
-        })
-      }
-    )
+      listings.forEach((listing) => {
+        expect(listing).toHaveProperty("unitsSummarized")
+        expect(listing.unitsSummarized).toHaveProperty("byUnitTypeAndRent")
+      })
+    })
   })
 
   describe("FullView", () => {
@@ -139,7 +80,7 @@ describe("listing views", () => {
 
       view.getViewQb()
 
-      expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledTimes(26)
+      expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledTimes(23)
     })
   })
 

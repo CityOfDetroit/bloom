@@ -1,8 +1,5 @@
 import { SelectQueryBuilder } from "typeorm"
-import {
-  summarizeUnitsByTypeAndRent,
-  transformUnitsSummaryByTypeAndRent,
-} from "../../shared/units-transformations"
+import { summarizeUnitsByTypeAndRent } from "../../shared/units-transformations"
 import { Listing } from "../entities/listing.entity"
 import { views } from "./config"
 import { View } from "./types"
@@ -41,10 +38,7 @@ export class BaseView {
     return listings.map((listing) => ({
       ...listing,
       unitsSummarized: {
-        byUnitTypeAndRent:
-          process.env.USE_UNITS_SUMMARY === "true"
-            ? transformUnitsSummaryByTypeAndRent(listing.unitsSummary)
-            : summarizeUnitsByTypeAndRent(listing.property.units),
+        byUnitTypeAndRent: summarizeUnitsByTypeAndRent(listing.property.units),
       },
     }))
   }
