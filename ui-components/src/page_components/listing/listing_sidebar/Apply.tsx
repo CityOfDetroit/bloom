@@ -137,7 +137,9 @@ const Apply = (props: ApplyProps) => {
               </a>
             </p>
           ))}
-        {(listing.applicationPickUpAddress || listing.applicationPickUpAddressType) && (
+        {(listing.applicationPickUpAddress ||
+          listing.applicationPickUpAddressType ||
+          listing.buildingAddress) && (
           <>
             {!openDateState(listing) &&
               (onlineApplicationUrl !== "" || downloadMethods.length > 0) && (
@@ -145,7 +147,11 @@ const Apply = (props: ApplyProps) => {
               )}
             <SubHeader text={t("listings.apply.pickUpAnApplication")} />
             <SidebarAddress
-              address={getAddress(listing.applicationPickUpAddressType, "pickUp")}
+              address={
+                getAddress(listing.applicationPickUpAddressType, "pickUp") ||
+                listing.applicationAddress ||
+                listing.buildingAddress
+              }
               officeHours={listing.applicationPickUpAddressOfficeHours}
             />
           </>
