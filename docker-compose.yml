@@ -82,6 +82,7 @@ services:
       PGUSER: "postgres"
       PGPASSWORD: "postgres"
       PGDATABASE: "bloom"
+      USE_UNITS_SUMMARY: "true"
     depends_on:
       - redis
       - postgres
