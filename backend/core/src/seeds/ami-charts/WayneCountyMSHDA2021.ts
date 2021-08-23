@@ -1,169 +1,449 @@
 import { AmiChartCreateDto } from "../../ami-charts/dto/ami-chart.dto"
 import { BaseEntity } from "typeorm"
 
-// Automatically generated, DO NOT EDIT MANUALLY
+// THIS FILE WAS AUTOMATICALLY GENERATED FROM WayneCountyMSHDA2021.txt.
 export const WayneCountyMSHDA2021: Omit<AmiChartCreateDto, keyof BaseEntity> = {
   name: "WayneCountyMSHDA2021",
   items: [
     {
-      percentOfAmi: 150,
+      percentOfAmi: 20,
       householdSize: 1,
-      income: 84000,
+      income: 11200,
     },
     {
-      percentOfAmi: 150,
+      percentOfAmi: 20,
       householdSize: 2,
-      income: 96000,
+      income: 12800,
     },
     {
-      percentOfAmi: 150,
+      percentOfAmi: 20,
       householdSize: 3,
-      income: 108000,
+      income: 14400,
     },
     {
-      percentOfAmi: 150,
+      percentOfAmi: 20,
       householdSize: 4,
-      income: 120000,
+      income: 16000,
     },
     {
-      percentOfAmi: 150,
+      percentOfAmi: 20,
       householdSize: 5,
-      income: 129600,
+      income: 17280,
     },
     {
-      percentOfAmi: 150,
+      percentOfAmi: 20,
       householdSize: 6,
-      income: 139200,
+      income: 18560,
     },
     {
-      percentOfAmi: 150,
+      percentOfAmi: 20,
       householdSize: 7,
-      income: 148800,
+      income: 19840,
     },
     {
-      percentOfAmi: 150,
+      percentOfAmi: 20,
       householdSize: 8,
-      income: 158400,
+      income: 21120,
     },
     {
-      percentOfAmi: 140,
+      percentOfAmi: 25,
       householdSize: 1,
-      income: 78400,
+      income: 14000,
     },
     {
-      percentOfAmi: 140,
+      percentOfAmi: 25,
       householdSize: 2,
-      income: 89600,
+      income: 16000,
     },
     {
-      percentOfAmi: 140,
+      percentOfAmi: 25,
       householdSize: 3,
-      income: 100800,
+      income: 18000,
     },
     {
-      percentOfAmi: 140,
+      percentOfAmi: 25,
       householdSize: 4,
-      income: 112000,
+      income: 20000,
     },
     {
-      percentOfAmi: 140,
+      percentOfAmi: 25,
       householdSize: 5,
-      income: 120960,
+      income: 21600,
     },
     {
-      percentOfAmi: 140,
+      percentOfAmi: 25,
       householdSize: 6,
-      income: 129920,
+      income: 23200,
     },
     {
-      percentOfAmi: 140,
+      percentOfAmi: 25,
       householdSize: 7,
-      income: 138880,
+      income: 24800,
     },
     {
-      percentOfAmi: 140,
+      percentOfAmi: 25,
       householdSize: 8,
-      income: 147840,
+      income: 26400,
     },
     {
-      percentOfAmi: 125,
+      percentOfAmi: 30,
       householdSize: 1,
-      income: 70000,
+      income: 16800,
     },
     {
-      percentOfAmi: 125,
+      percentOfAmi: 30,
       householdSize: 2,
-      income: 80000,
+      income: 19200,
     },
     {
-      percentOfAmi: 125,
+      percentOfAmi: 30,
       householdSize: 3,
-      income: 90000,
+      income: 21600,
     },
     {
-      percentOfAmi: 125,
+      percentOfAmi: 30,
       householdSize: 4,
-      income: 100000,
+      income: 24000,
     },
     {
-      percentOfAmi: 125,
+      percentOfAmi: 30,
       householdSize: 5,
-      income: 108000,
+      income: 25920,
     },
     {
-      percentOfAmi: 125,
+      percentOfAmi: 30,
       householdSize: 6,
-      income: 116000,
+      income: 27840,
     },
     {
-      percentOfAmi: 125,
+      percentOfAmi: 30,
       householdSize: 7,
-      income: 124000,
+      income: 29760,
     },
     {
-      percentOfAmi: 125,
+      percentOfAmi: 30,
       householdSize: 8,
-      income: 132000,
+      income: 31680,
     },
     {
-      percentOfAmi: 120,
+      percentOfAmi: 35,
       householdSize: 1,
-      income: 67200,
+      income: 19600,
     },
     {
-      percentOfAmi: 120,
+      percentOfAmi: 35,
       householdSize: 2,
-      income: 76800,
+      income: 22400,
     },
     {
-      percentOfAmi: 120,
+      percentOfAmi: 35,
       householdSize: 3,
-      income: 86400,
+      income: 25200,
     },
     {
-      percentOfAmi: 120,
+      percentOfAmi: 35,
       householdSize: 4,
-      income: 96000,
+      income: 28000,
     },
     {
-      percentOfAmi: 120,
+      percentOfAmi: 35,
       householdSize: 5,
-      income: 103680,
+      income: 30240,
     },
     {
-      percentOfAmi: 120,
+      percentOfAmi: 35,
       householdSize: 6,
-      income: 111360,
+      income: 32480,
     },
     {
-      percentOfAmi: 120,
+      percentOfAmi: 35,
       householdSize: 7,
-      income: 119040,
+      income: 34720,
     },
     {
-      percentOfAmi: 120,
+      percentOfAmi: 35,
       householdSize: 8,
-      income: 126720,
+      income: 36960,
+    },
+    {
+      percentOfAmi: 40,
+      householdSize: 1,
+      income: 22400,
+    },
+    {
+      percentOfAmi: 40,
+      householdSize: 2,
+      income: 25600,
+    },
+    {
+      percentOfAmi: 40,
+      householdSize: 3,
+      income: 28800,
+    },
+    {
+      percentOfAmi: 40,
+      householdSize: 4,
+      income: 32000,
+    },
+    {
+      percentOfAmi: 40,
+      householdSize: 5,
+      income: 34560,
+    },
+    {
+      percentOfAmi: 40,
+      householdSize: 6,
+      income: 37120,
+    },
+    {
+      percentOfAmi: 40,
+      householdSize: 7,
+      income: 39680,
+    },
+    {
+      percentOfAmi: 40,
+      householdSize: 8,
+      income: 42240,
+    },
+    {
+      percentOfAmi: 45,
+      householdSize: 1,
+      income: 25200,
+    },
+    {
+      percentOfAmi: 45,
+      householdSize: 2,
+      income: 28800,
+    },
+    {
+      percentOfAmi: 45,
+      householdSize: 3,
+      income: 32400,
+    },
+    {
+      percentOfAmi: 45,
+      householdSize: 4,
+      income: 36000,
+    },
+    {
+      percentOfAmi: 45,
+      householdSize: 5,
+      income: 38880,
+    },
+    {
+      percentOfAmi: 45,
+      householdSize: 6,
+      income: 41760,
+    },
+    {
+      percentOfAmi: 45,
+      householdSize: 7,
+      income: 44640,
+    },
+    {
+      percentOfAmi: 45,
+      householdSize: 8,
+      income: 47520,
+    },
+    {
+      percentOfAmi: 50,
+      householdSize: 1,
+      income: 28000,
+    },
+    {
+      percentOfAmi: 50,
+      householdSize: 2,
+      income: 32000,
+    },
+    {
+      percentOfAmi: 50,
+      householdSize: 3,
+      income: 36000,
+    },
+    {
+      percentOfAmi: 50,
+      householdSize: 4,
+      income: 40000,
+    },
+    {
+      percentOfAmi: 50,
+      householdSize: 5,
+      income: 43200,
+    },
+    {
+      percentOfAmi: 50,
+      householdSize: 6,
+      income: 46400,
+    },
+    {
+      percentOfAmi: 50,
+      householdSize: 7,
+      income: 49600,
+    },
+    {
+      percentOfAmi: 50,
+      householdSize: 8,
+      income: 52800,
+    },
+    {
+      percentOfAmi: 55,
+      householdSize: 1,
+      income: 30800,
+    },
+    {
+      percentOfAmi: 55,
+      householdSize: 2,
+      income: 35200,
+    },
+    {
+      percentOfAmi: 55,
+      householdSize: 3,
+      income: 39600,
+    },
+    {
+      percentOfAmi: 55,
+      householdSize: 4,
+      income: 44000,
+    },
+    {
+      percentOfAmi: 55,
+      householdSize: 5,
+      income: 47520,
+    },
+    {
+      percentOfAmi: 55,
+      householdSize: 6,
+      income: 51040,
+    },
+    {
+      percentOfAmi: 55,
+      householdSize: 7,
+      income: 54560,
+    },
+    {
+      percentOfAmi: 55,
+      householdSize: 8,
+      income: 58080,
+    },
+    {
+      percentOfAmi: 60,
+      householdSize: 1,
+      income: 33600,
+    },
+    {
+      percentOfAmi: 60,
+      householdSize: 2,
+      income: 38400,
+    },
+    {
+      percentOfAmi: 60,
+      householdSize: 3,
+      income: 43200,
+    },
+    {
+      percentOfAmi: 60,
+      householdSize: 4,
+      income: 48000,
+    },
+    {
+      percentOfAmi: 60,
+      householdSize: 5,
+      income: 51840,
+    },
+    {
+      percentOfAmi: 60,
+      householdSize: 6,
+      income: 55680,
+    },
+    {
+      percentOfAmi: 60,
+      householdSize: 7,
+      income: 59520,
+    },
+    {
+      percentOfAmi: 60,
+      householdSize: 8,
+      income: 63360,
+    },
+    {
+      percentOfAmi: 70,
+      householdSize: 1,
+      income: 39200,
+    },
+    {
+      percentOfAmi: 70,
+      householdSize: 2,
+      income: 44800,
+    },
+    {
+      percentOfAmi: 70,
+      householdSize: 3,
+      income: 50400,
+    },
+    {
+      percentOfAmi: 70,
+      householdSize: 4,
+      income: 56000,
+    },
+    {
+      percentOfAmi: 70,
+      householdSize: 5,
+      income: 60480,
+    },
+    {
+      percentOfAmi: 70,
+      householdSize: 6,
+      income: 64960,
+    },
+    {
+      percentOfAmi: 70,
+      householdSize: 7,
+      income: 69440,
+    },
+    {
+      percentOfAmi: 70,
+      householdSize: 8,
+      income: 73920,
+    },
+    {
+      percentOfAmi: 80,
+      householdSize: 1,
+      income: 44800,
+    },
+    {
+      percentOfAmi: 80,
+      householdSize: 2,
+      income: 51200,
+    },
+    {
+      percentOfAmi: 80,
+      householdSize: 3,
+      income: 57600,
+    },
+    {
+      percentOfAmi: 80,
+      householdSize: 4,
+      income: 64000,
+    },
+    {
+      percentOfAmi: 80,
+      householdSize: 5,
+      income: 69120,
+    },
+    {
+      percentOfAmi: 80,
+      householdSize: 6,
+      income: 74240,
+    },
+    {
+      percentOfAmi: 80,
+      householdSize: 7,
+      income: 79360,
+    },
+    {
+      percentOfAmi: 80,
+      householdSize: 8,
+      income: 84480,
     },
     {
       percentOfAmi: 100,
@@ -206,55 +486,164 @@ export const WayneCountyMSHDA2021: Omit<AmiChartCreateDto, keyof BaseEntity> = {
       income: 105600,
     },
     {
-      percentOfAmi: 80,
+      percentOfAmi: 120,
       householdSize: 1,
-      income: 44800,
+      income: 67200,
     },
     {
-      percentOfAmi: 80,
+      percentOfAmi: 120,
       householdSize: 2,
-      income: 51200,
+      income: 76800,
     },
     {
-      percentOfAmi: 80,
+      percentOfAmi: 120,
       householdSize: 3,
-      income: 57600,
-    },
-    {
-      percentOfAmi: 80,
-      householdSize: 4,
-      income: 64000,
-    },
-    {
-      percentOfAmi: 80,
-      householdSize: 5,
       income: 86400,
     },
     {
-      percentOfAmi: 80,
+      percentOfAmi: 120,
+      householdSize: 4,
+      income: 96000,
+    },
+    {
+      percentOfAmi: 120,
+      householdSize: 5,
+      income: 103680,
+    },
+    {
+      percentOfAmi: 120,
       householdSize: 6,
-      income: 92800,
+      income: 111360,
     },
     {
-      percentOfAmi: 80,
+      percentOfAmi: 120,
       householdSize: 7,
-      income: 99200,
+      income: 119040,
     },
     {
-      percentOfAmi: 80,
+      percentOfAmi: 120,
       householdSize: 8,
-      income: 105600,
+      income: 126720,
+    },
+    {
+      percentOfAmi: 125,
+      householdSize: 1,
+      income: 70000,
+    },
+    {
+      percentOfAmi: 125,
+      householdSize: 2,
+      income: 80000,
+    },
+    {
+      percentOfAmi: 125,
+      householdSize: 3,
+      income: 90000,
+    },
+    {
+      percentOfAmi: 125,
+      householdSize: 4,
+      income: 100000,
+    },
+    {
+      percentOfAmi: 125,
+      householdSize: 5,
+      income: 108000,
+    },
+    {
+      percentOfAmi: 125,
+      householdSize: 6,
+      income: 116000,
+    },
+    {
+      percentOfAmi: 125,
+      householdSize: 7,
+      income: 124000,
+    },
+    {
+      percentOfAmi: 125,
+      householdSize: 8,
+      income: 132000,
+    },
+    {
+      percentOfAmi: 140,
+      householdSize: 1,
+      income: 78400,
+    },
+    {
+      percentOfAmi: 140,
+      householdSize: 2,
+      income: 89600,
+    },
+    {
+      percentOfAmi: 140,
+      householdSize: 3,
+      income: 100800,
+    },
+    {
+      percentOfAmi: 140,
+      householdSize: 4,
+      income: 112000,
+    },
+    {
+      percentOfAmi: 140,
+      householdSize: 5,
+      income: 120960,
+    },
+    {
+      percentOfAmi: 140,
+      householdSize: 6,
+      income: 129920,
+    },
+    {
+      percentOfAmi: 140,
+      householdSize: 7,
+      income: 138880,
+    },
+    {
+      percentOfAmi: 140,
+      householdSize: 8,
+      income: 147840,
+    },
+    {
+      percentOfAmi: 150,
+      householdSize: 1,
+      income: 84000,
+    },
+    {
+      percentOfAmi: 150,
+      householdSize: 2,
+      income: 96000,
+    },
+    {
+      percentOfAmi: 150,
+      householdSize: 3,
+      income: 108000,
+    },
+    {
+      percentOfAmi: 150,
+      householdSize: 4,
+      income: 120000,
+    },
+    {
+      percentOfAmi: 150,
+      householdSize: 5,
+      income: 129600,
+    },
+    {
+      percentOfAmi: 150,
+      householdSize: 6,
+      income: 139200,
+    },
+    {
+      percentOfAmi: 150,
+      householdSize: 7,
+      income: 148800,
+    },
+    {
+      percentOfAmi: 150,
+      householdSize: 8,
+      income: 158400,
     },
   ],
 }
-20% 11,200 12,800 14,400 16,000 17,280 18,560 19,840 21,120
-25% 14,000 16,000 18,000 20,000 21,600 23,200 24,800 26,400
-30% 16,800 19,200 21,600 24,000 25,920 27,840 29,760 31,680
-35% 19,600 22,400 25,200 28,000 30,240 32,480 34,720 36,960
-40% 22,400 25,600 28,800 32,000 34,560 37,120 39,680 42,240
-45% 25,200 28,800 32,400 36,000 38,880 41,760 44,640 47,520
-50% 28,000 32,000 36,000 40,000 43,200 46,400 49,600 52,800
-55% 30,800 35,200 39,600 44,000 47,520 51,040 54,560 58,080
-60% 33,600 38,400 43,200 48,000 51,840 55,680 59,520 63,360
-70% 39,200 44,800 50,400 56,000 60,480 64,960 69,440 73,920
-80% 44,800 51,200 57,600 64,000 69,120 74,240 79,360 84,480
