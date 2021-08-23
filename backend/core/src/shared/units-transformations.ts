@@ -158,8 +158,8 @@ function getDefaultSummaryRanges<T extends BaseUnitInfo>(item: T) {
     },
     floorRange: floorRange,
     unitType: item.unitType,
-    totalAvailable: 0,
-    totalCount: 0,
+    totalAvailable: item?.totalAvailable ? item.totalAvailable : 0,
+    totalCount: item?.totalCount ? item.totalCount : 0,
   } as UnitSummary
 }
 
@@ -199,6 +199,9 @@ function getUnitsSummary<T extends BaseUnitInfo>(item: T, existingSummary?: Unit
     // Area Range
     summary.areaRange = minMax(summary.areaRange, parseFloat(item.sqFeetMin))
     summary.areaRange = minMax(summary.areaRange, parseFloat(item.sqFeetMax))
+    // Unit Counts
+    summary.totalAvailable += item.totalAvailable ? item.totalAvailable : 0
+    summary.totalCount += item.totalCount ? item.totalCount : 0
   }
 
   return summary
@@ -220,6 +223,9 @@ interface BaseUnitInfo {
   sqFeet?: string
   sqFeetMin?: string
   sqFeetMax?: string
+  // Only available for UnitsSummary.
+  totalAvailable?: number
+  totalCount?: number
 }
 
 type BaseMap<T> = {
@@ -274,10 +280,11 @@ export const transformUnitsSummaryByTypeAndRent = (
     const finalSummary = summaryMap[key].reduce((previous, current, index) => {
       return getUnitsSummary(current, index === 0 ? null : previous)
     }, {} as UnitSummary)
-    summaryMap[key].forEach((summary) => {
-      finalSummary.totalAvailable += summary.totalAvailable
-      finalSummary.totalCount += summary.totalCount
-    })
+    // summaryMap[key].forEach((summary) => {
+    //   console.log(summary)
+    //   finalSummary.totalAvailable += summary.totalAvailable
+    //   finalSummary.totalCount += summary.totalCount
+    // })
     summaries.push(finalSummary)
   }
 
