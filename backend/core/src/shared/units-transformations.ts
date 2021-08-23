@@ -280,11 +280,6 @@ export const transformUnitsSummaryByTypeAndRent = (
     const finalSummary = summaryMap[key].reduce((previous, current, index) => {
       return getUnitsSummary(current, index === 0 ? null : previous)
     }, {} as UnitSummary)
-    // summaryMap[key].forEach((summary) => {
-    //   console.log(summary)
-    //   finalSummary.totalAvailable += summary.totalAvailable
-    //   finalSummary.totalCount += summary.totalCount
-    // })
     summaries.push(finalSummary)
   }
 
