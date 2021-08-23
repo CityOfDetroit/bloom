@@ -30,6 +30,8 @@ import { ListingTreymoreSeed } from "./seeds/listings/listing-detroit-treymore"
 import { UserRoles } from "./auth/entities/user-roles.entity"
 import { AmiChart } from "./ami-charts/entities/ami-chart.entity"
 import { WayneCountyMSHDA2021 } from "./seeds/ami-charts"
+import { ListingDefaultMultipleAMI } from "./seeds/listings/listing-default-multiple-ami"
+import { ListingDefaultMultipleAMIAndPercentages } from "./seeds/listings/listing-default-multiple-ami-and-percentages"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },
@@ -51,6 +53,8 @@ const listingSeeds: any[] = [
   Listing10157Seed,
   Listing10158Seed,
   ListingTreymoreSeed,
+  ListingDefaultMultipleAMI,
+  ListingDefaultMultipleAMIAndPercentages,
 ]
 
 export function getSeedListingsCount() {
