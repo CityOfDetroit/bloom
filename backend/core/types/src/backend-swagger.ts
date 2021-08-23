@@ -3825,10 +3825,10 @@ export interface UnitsSummary {
   amiPercentage?: string
 
   /**  */
-  minimumIncomeMin?: string
+  monthlyIncomeMin?: string
 
   /**  */
-  minimumIncomeMax?: string
+  monthlyIncomeMax?: string
 
   /**  */
   maxOccupancy?: number
