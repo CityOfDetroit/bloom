@@ -53,13 +53,13 @@ class UnitsSummary {
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
-  monthlyIncomeMin?: string | null
+  minimumIncomeMin?: string | null
 
   @Column({ nullable: true, type: "text" })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
-  monthlyIncomeMax?: string | null
+  minimumIncomeMax?: string | null
 
   @Column({ nullable: true, type: "integer" })
   @Expose()
