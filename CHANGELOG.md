@@ -11,11 +11,15 @@ All notable changes to this project will be documented in this file. The format 
   - Zipcode filtering to backend ([#399](https://github.com/CityOfDetroit/bloom/pull/399))
   - CSV import script ([#404](https://github.com/CityOfDetroit/bloom/pull/404))
   - Zipcode filtering to frontend ([#417](https://github.com/CityOfDetroit/bloom/pull/417))
+  - Detroit AMI data and import script
+    ([#443](https://github.com/CityOfDetroit/bloom/pull/443))
   - Fetch UnitsSummary data in listing query ([#441](https://github.com/CityOfDetroit/bloom/pull/441))
 
 - Removed:
   - Eligibility section of detailed listing view
     ([#422](https://github.com/CityOfDetroit/bloom/pull/422))
+  - Application section of partner portal
+    ([#438](https://github.com/CityOfDetroit/bloom/pull/438))
 
 ## Detroit Team M9
 
@@ -72,6 +76,7 @@ All notable changes to this project will be documented in this file. The format 
 
 - Fixed:
   - StandardTable styling bug ([#1632](https://github.com/bloom-housing/bloom/pull/1632)) (Emily Jablonski)
+  - More robust Features section for public listing view ([#1688](https://github.com/bloom-housing/bloom/pull/1688))
 
 ### Backend
 
@@ -91,6 +96,8 @@ All notable changes to this project will be documented in this file. The format 
   - Updates redis reset call to flush all keys
   - Updated listing's importer to handle latest reserved community type changes ([#1667](https://github.com/bloom-housing/bloom/pull/1667)) (Emily Jablonski)
   - Change whatToExpect to be a string instead of a json blob, make it editable in listings management ([#1681](https://github.com/bloom-housing/bloom/pull/1681)) (Emily Jablonski)
+  - Updates listing post/put/delete endpoints to call cacheManager.reset instead of clearing and maintaining a growing set of keys. Updates transformUnits to check for units and length before continuing ([#1698](https://github.com/bloom-housing/bloom/pull/1698))
+  - Allow for unit sets to have multiple ami charts ([#1678](https://github.com/bloom-housing/bloom/pull/1678)) (Emily Jablonski)
 
 - Fixed:
   - Added checks for property in listing.dto transforms

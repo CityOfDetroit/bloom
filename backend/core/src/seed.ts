@@ -28,6 +28,10 @@ import { Listing10145Seed } from "./seeds/listings/listing-detroit-10145"
 import { CountyCode } from "./shared/types/county-code"
 import { ListingTreymoreSeed } from "./seeds/listings/listing-detroit-treymore"
 import { UserRoles } from "./auth/entities/user-roles.entity"
+import { AmiChart } from "./ami-charts/entities/ami-chart.entity"
+import { WayneCountyMSHDA2021 } from "./seeds/ami-charts"
+import { ListingDefaultMultipleAMI } from "./seeds/listings/listing-default-multiple-ami"
+import { ListingDefaultMultipleAMIAndPercentages } from "./seeds/listings/listing-default-multiple-ami-and-percentages"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },
@@ -49,6 +53,8 @@ const listingSeeds: any[] = [
   Listing10157Seed,
   Listing10158Seed,
   ListingTreymoreSeed,
+  ListingDefaultMultipleAMI,
+  ListingDefaultMultipleAMIAndPercentages,
 ]
 
 export function getSeedListingsCount() {
@@ -165,12 +171,18 @@ async function seed() {
 
   for (let i = 0; i < 10; i++) {
     for (const listing of listings) {
-      await Promise.all([
-        await makeNewApplication(app, listing, user1),
-        await makeNewApplication(app, listing, user2),
-      ])
+      if (listing.countyCode !== CountyCode.detroit) {
+        await Promise.all([
+          await makeNewApplication(app, listing, user1),
+          await makeNewApplication(app, listing, user2),
+        ])
+      }
     }
   }
+
+  // Seed the Detroit AMI data, since it's not linked to any units.
+  const amiChartRepo = app.get<Repository<AmiChart>>(getRepositoryToken(AmiChart))
+  await amiChartRepo.save(JSON.parse(JSON.stringify(WayneCountyMSHDA2021)))
 
   await userRepo.save(admin)
   const roles: UserRoles = { user: admin, isPartner: true, isAdmin: true }
