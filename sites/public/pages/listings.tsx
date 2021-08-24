@@ -86,7 +86,11 @@ const ListingsPage = () => {
     setFilterState(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
-  const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
+  const { listingsData, listingsLoading, listingsError } = useListingsData(
+    currentPage,
+    itemsPerPage,
+    filterState
+  )
 
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
@@ -171,18 +175,33 @@ const ListingsPage = () => {
           </div>
         </Form>
       </Modal>
-      <div className="max-w-3xl mt-6 m-auto">
-        <LinkButton size={AppearanceSizeType.small} href="/eligibility/welcome">
+      <div className="max-w-3xl mx-8">
+        <LinkButton
+          className="mx-4 mt-6"
+          size={AppearanceSizeType.small}
+          href="/eligibility/welcome"
+        >
           {t("welcome.checkEligibility")}
         </LinkButton>
-        <Button size={AppearanceSizeType.small} onClick={() => setFilterModalVisible(true)}>
-          {/* TODO:avaleske make this a string */}
-          Filter listings
+        <Button
+          className="mx-4 mt-6"
+          size={AppearanceSizeType.small}
+          onClick={() => setFilterModalVisible(true)}
+        >
+          {t("listingFilters.buttonTitle")}
         </Button>
       </div>
       {!listingsLoading && (
         <div>
-          {listingsData && <ListingsList listings={listingsData.items} hideApplicationStatus />}
+          {listingsData?.meta.totalItems > 0 && (
+            <ListingsList listings={listingsData.items} hideApplicationStatus />
+          )}
+          {!listingsError && listingsData?.meta.totalItems === 0 && (
+            <header className="max-w-3xl m-8">
+              <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
+              <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
+            </header>
+          )}
           <AgPagination
             totalItems={listingsData?.meta.totalItems}
             totalPages={listingsData?.meta.totalPages}
