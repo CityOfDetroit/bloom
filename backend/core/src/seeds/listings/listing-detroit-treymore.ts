@@ -7,7 +7,6 @@ import { UnitCreateDto } from "../../units/dto/unit.dto"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
 import { UnitStatus } from "../../units/types/unit-status-enum"
-import { ApplicationMethod } from "../../application-methods/entities/application-method.entity"
 import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
 
 const treymoreProperty: PropertySeedType = {
@@ -142,6 +141,7 @@ export class ListingTreymoreSeed extends ListingDefaultSeed {
       keyof BaseEntity | "urlSlug" | "showWaitlist"
     > = {
       ...treymoreListing,
+      applicationMethods: [],
       assets: JSON.parse(JSON.stringify(assets)),
       events: [],
       property: property,
