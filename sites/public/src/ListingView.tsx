@@ -208,6 +208,9 @@ export const ListingView = (props: ListingProps) => {
                 {listing.neighborhood && (
                   <Description term={t("t.neighborhood")} description={listing.neighborhood} />
                 )}
+                {listing.region && (
+                  <Description term={t("t.region")} description={listing.region} />
+                )}
                 {listing.yearBuilt && (
                   <Description term={t("t.built")} description={listing.yearBuilt} />
                 )}
