@@ -1,43 +1,34 @@
 import * as React from "react"
 import { t } from "./translator"
-import { UnitSummary } from "@bloom-housing/backend-core/types"
+import { UnitsSummary } from "@bloom-housing/backend-core/types"
 import { GroupedTableGroup } from "../tables/GroupedTable"
 
-export const unitSummariesTable = (summaries: UnitSummary[]) => {
-  const unitSummaries = summaries.map((unitSummary) => {
+export const unitSummariesTable = (summaries: UnitsSummary[]) => {
+  const unitsSummaries = summaries.map((unitSummary) => {
     const minIncome =
-      unitSummary.minIncomeRange.min == unitSummary.minIncomeRange.max ? (
-        <strong>{unitSummary.minIncomeRange.min}</strong>
+      unitSummary.minimumIncomeMin == unitSummary.minimumIncomeMax ? (
+        <strong>{unitSummary.minimumIncomeMin}</strong>
       ) : (
         <>
-          <strong>{unitSummary.minIncomeRange.min}</strong> {t("t.to")}{" "}
-          <strong>{unitSummary.minIncomeRange.max}</strong>
+          <strong>{unitSummary.minimumIncomeMin}</strong> {t("t.to")}{" "}
+          <strong>{unitSummary.minimumIncomeMax}</strong>
         </>
       )
 
-    const getRent = (rentMin: string, rentMax: string, percent = false) => {
+    const getRent = (rent: string, percent = false) => {
       const unit = percent ? `% ${t("t.income")}` : ` ${t("t.perMonth")}`
-      return rentMin == rentMax ? (
+      return (
         <>
-          <strong>{rentMin}</strong>
-          {unit}
-        </>
-      ) : (
-        <>
-          <strong>{rentMin}</strong> {t("t.to")} <strong>{rentMax}</strong>
+          <strong>{rent}</strong>
           {unit}
         </>
       )
     }
 
     // Use rent as percent income if available, otherwise use exact rent
-    const rent = unitSummary.rentAsPercentIncomeRange.min
-      ? getRent(
-          unitSummary.rentAsPercentIncomeRange.min.toString(),
-          unitSummary.rentAsPercentIncomeRange.max.toString(),
-          true
-        )
-      : getRent(unitSummary.rentRange.min, unitSummary.rentRange.max)
+    const rent = unitSummary.monthlyRentAsPercentOfIncome
+      ? getRent(unitSummary.monthlyRentAsPercentOfIncome.toString(), true)
+      : getRent(unitSummary.monthlyRent)
 
     return {
       unitType: <strong>{t(`listings.unitTypes.${unitSummary.unitType.name}`)}</strong>,
@@ -49,7 +40,7 @@ export const unitSummariesTable = (summaries: UnitSummary[]) => {
       rent: <>{rent}</>,
       availability: (
         <>
-          {unitSummary.totalAvailable > 0 ? (
+          {unitSummary.totalAvailable && unitSummary.totalAvailable > 0 ? (
             <>
               <strong>{unitSummary.totalAvailable}</strong>{" "}
               {unitSummary.totalAvailable == 1 ? t("t.unit") : t("t.units")}
@@ -68,17 +59,17 @@ export const unitSummariesTable = (summaries: UnitSummary[]) => {
     }
   })
 
-  return unitSummaries
+  return unitsSummaries
 }
 
-export const getSummariesTable = (summaries: UnitSummary[]) => {
+export const getSummariesTable = (summaries: UnitsSummary[]) => {
   let groupedUnits = [] as Array<GroupedTableGroup>
 
   if (summaries?.length > 0) {
-    const unitSummaries = unitSummariesTable(summaries)
+    const unitsSummaries = unitSummariesTable(summaries)
     groupedUnits = [
       {
-        data: unitSummaries,
+        data: unitsSummaries,
       },
     ]
   }
