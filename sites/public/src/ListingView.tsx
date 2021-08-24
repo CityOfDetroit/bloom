@@ -4,25 +4,17 @@ import Markdown from "markdown-to-jsx"
 import { Listing, ListingEvent, ListingEventType } from "@bloom-housing/backend-core/types"
 import {
   AdditionalFees,
-  StandardTable,
   Description,
-  ExpandableText,
-  getOccupancyDescription,
   GroupedTable,
   GroupedTableGroup,
   getSummariesTable,
   ImageCard,
   imageUrlFromListing,
-  InfoCard,
   LeasingAgent,
   ListingDetailItem,
   ListingDetails,
   ListingMap,
-  ListSection,
-  occupancyTable,
   OneLineAddress,
-  PreferencesList,
-  TableHeaders,
   t,
   UnitTables,
   OpenHouseEvent,
@@ -39,7 +31,6 @@ interface ListingProps {
 }
 
 export const ListingView = (props: ListingProps) => {
-  let buildingSelectionCriteria, preferencesSection
   const { listing } = props
 
   if (!listing) {
@@ -65,56 +56,16 @@ export const ListingView = (props: ListingProps) => {
           const percentInt = parseInt(percent, 10)
           return percentInt
         })
-        .sort()
+        .sort(function (a, b) {
+          return a - b
+        })
     : []
 
-  const hmiHeaders = listing?.unitsSummarized?.hmi?.columns as TableHeaders
-
-  const hmiData = listing?.unitsSummarized?.hmi?.rows.map((row) => {
-    return { ...row, householdSize: <strong>{row["householdSize"]}</strong> }
-  })
   let groupedUnits: GroupedTableGroup[] = null
 
   if (amiValues.length == 1) {
     groupedUnits = getSummariesTable(listing.unitsSummarized.byUnitTypeAndRent)
   } // else condition is handled inline below
-
-  const occupancyDescription = getOccupancyDescription(listing)
-  const occupancyHeaders = {
-    unitType: "t.unitType",
-    occupancy: "t.occupancy",
-  }
-  const occupancyData = occupancyTable(listing)
-
-  const householdMaximumIncomeSubheader = listing?.units[0]?.bmrProgramChart
-    ? t("listings.forIncomeCalculationsBMR")
-    : t("listings.forIncomeCalculations")
-
-  if (listing.buildingSelectionCriteria) {
-    buildingSelectionCriteria = (
-      <p>
-        <a href={listing.buildingSelectionCriteria}>
-          {t("listings.moreBuildingSelectionCriteria")}
-        </a>
-      </p>
-    )
-  }
-
-  if (listing.preferences && listing.preferences.length > 0) {
-    preferencesSection = (
-      <ListSection
-        title={t("listings.sections.housingPreferencesTitle")}
-        subtitle={t("listings.sections.housingPreferencesSubtitle")}
-      >
-        <>
-          <PreferencesList preferences={listing.preferences} />
-          <p className="text-gray-700 text-tiny">
-            {t("listings.remainingUnitsAfterPreferenceConsideration")}
-          </p>
-        </>
-      </ListSection>
-    )
-  }
 
   let openHouseEvents: ListingEvent[] | null = null
   if (Array.isArray(listing.events)) {
@@ -130,14 +81,25 @@ export const ListingView = (props: ListingProps) => {
     })
   }
 
-  const getReservedTitle = () => {
-    if (
-      listing.reservedCommunityType.name === "senior55" ||
-      listing.reservedCommunityType.name === "senior62" ||
-      listing.reservedCommunityType.name === "senior"
-    ) {
-      return t("listings.reservedCommunitySeniorTitle")
-    } else return t("listings.reservedCommunityTitleDefault")
+  const shouldShowFeaturesDetail = () => {
+    return (
+      listing.neighborhood ||
+      listing.yearBuilt ||
+      listing.smokingPolicy ||
+      listing.petPolicy ||
+      listing.amenities ||
+      listing.unitAmenities ||
+      listing.servicesOffered ||
+      listing.accessibility ||
+      // props for UnitTables
+      (listing.units && listing.units.length > 0) ||
+      listing.unitsSummarized ||
+      // props for AdditionalFees
+      listing.depositMin ||
+      listing.depositMax ||
+      listing.applicationFee ||
+      listing.costsNotIncluded
+    )
   }
 
   return (
@@ -201,90 +163,10 @@ export const ListingView = (props: ListingProps) => {
         )}
       </div>
       <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
-        <ListingUpdated listing={listing} />
+        <ListingUpdated listingUpdated={listing.updatedAt} />
         <ApplicationSection listing={listing} preview={props.preview} internalFormRoute="" />
       </div>
       <ListingDetails>
-        <ListingDetailItem
-          imageAlt={t("listings.eligibilityNotebook")}
-          imageSrc="/images/listing-eligibility.svg"
-          title={t("listings.sections.eligibilityTitle")}
-          subtitle={t("listings.sections.eligibilitySubtitle")}
-          desktopClass="bg-primary-lighter"
-        >
-          <ul>
-            {listing.reservedCommunityType && (
-              <ListSection title={getReservedTitle()} subtitle={null}>
-                <InfoCard
-                  title={t(`listings.reservedCommunityTypes.${listing.reservedCommunityType.name}`)}
-                  subtitle={t("listings.allUnits")}
-                >
-                  <ExpandableText className="text-sm text-gray-700">
-                    {listing.reservedCommunityDescription}
-                  </ExpandableText>
-                </InfoCard>
-              </ListSection>
-            )}
-
-            <ListSection
-              title={t("listings.householdMaximumIncome")}
-              subtitle={householdMaximumIncomeSubheader}
-            >
-              <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={true} />
-            </ListSection>
-
-            <ListSection title={t("t.occupancy")} subtitle={occupancyDescription}>
-              <StandardTable
-                headers={occupancyHeaders}
-                data={occupancyData}
-                responsiveCollapse={false}
-              />
-            </ListSection>
-
-            <ListSection
-              title={t("listings.sections.rentalAssistanceTitle")}
-              subtitle={listing.rentalAssistance || t("listings.sections.rentalAssistanceSubtitle")}
-            />
-
-            {preferencesSection}
-
-            {(listing.creditHistory ||
-              listing.rentalHistory ||
-              listing.criminalBackground ||
-              buildingSelectionCriteria) && (
-              <ListSection
-                title={t("listings.sections.additionalEligibilityTitle")}
-                subtitle={t("listings.sections.additionalEligibilitySubtitle")}
-              >
-                <>
-                  {listing.creditHistory && (
-                    <InfoCard title={t("listings.creditHistory")}>
-                      <ExpandableText className="text-sm text-gray-700">
-                        {listing.creditHistory}
-                      </ExpandableText>
-                    </InfoCard>
-                  )}
-                  {listing.rentalHistory && (
-                    <InfoCard title={t("listings.rentalHistory")}>
-                      <ExpandableText className="text-sm text-gray-700">
-                        {listing.rentalHistory}
-                      </ExpandableText>
-                    </InfoCard>
-                  )}
-                  {listing.criminalBackground && (
-                    <InfoCard title={t("listings.criminalBackground")}>
-                      <ExpandableText className="text-sm text-gray-700">
-                        {listing.criminalBackground}
-                      </ExpandableText>
-                    </InfoCard>
-                  )}
-                  {buildingSelectionCriteria}
-                </>
-              </ListSection>
-            )}
-          </ul>
-        </ListingDetailItem>
-
         <ListingDetailItem
           imageAlt={t("listings.processInfo")}
           imageSrc="/images/listing-process.svg"
@@ -295,7 +177,7 @@ export const ListingView = (props: ListingProps) => {
         >
           <aside className="w-full static md:absolute md:right-0 md:w-1/3 md:top-0 sm:w-2/3 md:ml-2 h-full md:border border-gray-400 bg-white">
             <div className="hidden md:block">
-              <ListingUpdated listing={listing} />
+              <ListingUpdated listingUpdated={listing.updatedAt} />
               {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
             </div>
             {openHouseEvents && (
@@ -319,46 +201,54 @@ export const ListingView = (props: ListingProps) => {
           imageSrc="/images/listing-features.svg"
           title={t("listings.sections.featuresTitle")}
           subtitle={t("listings.sections.featuresSubtitle")}
+          desktopClass="bg-primary-lighter"
         >
-          <div className="listing-detail-panel">
-            <dl className="column-definition-list">
-              {listing.neighborhood && (
-                <Description term={t("t.neighborhood")} description={listing.neighborhood} />
-              )}
-              {listing.yearBuilt && (
-                <Description term={t("t.built")} description={listing.yearBuilt} />
-              )}
-              {listing.smokingPolicy && (
-                <Description term={t("t.smokingPolicy")} description={listing.smokingPolicy} />
-              )}
-              {listing.petPolicy && (
-                <Description term={t("t.petsPolicy")} description={listing.petPolicy} />
-              )}
-              {listing.amenities && (
-                <Description term={t("t.propertyAmenities")} description={listing.amenities} />
-              )}
-              {listing.unitAmenities && (
-                <Description term={t("t.unitAmenities")} description={listing.unitAmenities} />
-              )}
-              {listing.servicesOffered && (
-                <Description term={t("t.servicesOffered")} description={listing.servicesOffered} />
-              )}
-              {listing.accessibility && (
-                <Description term={t("t.accessibility")} description={listing.accessibility} />
-              )}
-              <Description
-                term={t("t.unitFeatures")}
-                description={
-                  <UnitTables
-                    units={listing.units}
-                    unitSummaries={listing?.unitsSummarized?.byUnitType}
-                    disableAccordion={listing.disableUnitsAccordion}
+          {!shouldShowFeaturesDetail() ? (
+            t("errors.noData")
+          ) : (
+            <div className="listing-detail-panel">
+              <dl className="column-definition-list">
+                {listing.neighborhood && (
+                  <Description term={t("t.neighborhood")} description={listing.neighborhood} />
+                )}
+                {listing.yearBuilt && (
+                  <Description term={t("t.built")} description={listing.yearBuilt} />
+                )}
+                {listing.smokingPolicy && (
+                  <Description term={t("t.smokingPolicy")} description={listing.smokingPolicy} />
+                )}
+                {listing.petPolicy && (
+                  <Description term={t("t.petsPolicy")} description={listing.petPolicy} />
+                )}
+                {listing.amenities && (
+                  <Description term={t("t.propertyAmenities")} description={listing.amenities} />
+                )}
+                {listing.unitAmenities && (
+                  <Description term={t("t.unitAmenities")} description={listing.unitAmenities} />
+                )}
+                {listing.servicesOffered && (
+                  <Description
+                    term={t("t.servicesOffered")}
+                    description={listing.servicesOffered}
                   />
-                }
-              />
-            </dl>
-            <AdditionalFees listing={listing} />
-          </div>
+                )}
+                {listing.accessibility && (
+                  <Description term={t("t.accessibility")} description={listing.accessibility} />
+                )}
+                <Description
+                  term={t("t.unitFeatures")}
+                  description={
+                    <UnitTables
+                      units={listing.units}
+                      unitSummaries={listing?.unitsSummarized?.byUnitType}
+                      disableAccordion={listing.disableUnitsAccordion}
+                    />
+                  }
+                />
+              </dl>
+              <AdditionalFees listing={listing} />
+            </div>
+          )}
         </ListingDetailItem>
 
         <ListingDetailItem
@@ -366,7 +256,6 @@ export const ListingView = (props: ListingProps) => {
           imageSrc="/images/listing-neighborhood.svg"
           title={t("listings.sections.neighborhoodTitle")}
           subtitle={t("listings.sections.neighborhoodSubtitle")}
-          desktopClass="bg-primary-lighter"
         >
           <div className="listing-detail-panel">
             <ListingMap
@@ -382,6 +271,7 @@ export const ListingView = (props: ListingProps) => {
             imageSrc="/images/listing-legal.svg"
             title={t("listings.sections.additionalInformationTitle")}
             subtitle={t("listings.sections.additionalInformationSubtitle")}
+            desktopClass="bg-primary-lighter"
           >
             <div className="listing-detail-panel">
               {listing.requiredDocuments && (

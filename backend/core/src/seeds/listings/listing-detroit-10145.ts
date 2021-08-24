@@ -10,6 +10,7 @@ import { Listing } from "../../listings/entities/listing.entity"
 import { UnitStatus } from "../../units/types/unit-status-enum"
 import { ApplicationMethod } from "../../application-methods/entities/application-method.entity"
 import assert from "assert"
+import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
 
 const mcvProperty: PropertySeedType = {
   buildingAddress: {
@@ -129,6 +130,33 @@ export class Listing10145Seed extends ListingDefaultSeed {
       reservedCommunityDescription: "",
     }
 
-    return await this.listingRepository.save(listingCreateDto)
+    const listing = await this.listingRepository.save(listingCreateDto)
+
+    const mcvUnitsSummaryToBeCreated: UnitsSummaryCreateDto[] = []
+
+    const oneBdrmUnitsSummary: UnitsSummaryCreateDto = {
+      unitType: unitTypeOneBdrm,
+      totalCount: 28,
+      listing: listing,
+    }
+    mcvUnitsSummaryToBeCreated.push(oneBdrmUnitsSummary)
+
+    const twoBdrmUnitsSummary: UnitsSummaryCreateDto = {
+      unitType: unitTypeTwoBdrm,
+      totalCount: 142,
+      listing: listing,
+    }
+    mcvUnitsSummaryToBeCreated.push(twoBdrmUnitsSummary)
+
+    const threeBdrmUnitsSummary: UnitsSummaryCreateDto = {
+      unitType: unitTypeThreeBdrm,
+      totalCount: 24,
+      listing: listing,
+    }
+    mcvUnitsSummaryToBeCreated.push(threeBdrmUnitsSummary)
+
+    await this.unitsSummaryRepository.save(mcvUnitsSummaryToBeCreated)
+
+    return listing
   }
 }
