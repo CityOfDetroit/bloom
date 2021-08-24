@@ -191,16 +191,18 @@ const ListingsPage = () => {
           {t("listingFilters.buttonTitle")}
         </Button>
       </div>
+      {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
+        <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
+          <header>
+            <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
+            <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
+          </header>
+        </div>
+      )}
       {!listingsLoading && (
         <div>
           {listingsData?.meta.totalItems > 0 && (
             <ListingsList listings={listingsData.items} hideApplicationStatus />
-          )}
-          {!listingsError && listingsData?.meta.totalItems === 0 && (
-            <header className="max-w-3xl m-8 content-start">
-              <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
-              <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
-            </header>
           )}
           <AgPagination
             totalItems={listingsData?.meta.totalItems}
