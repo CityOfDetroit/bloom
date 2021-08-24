@@ -180,8 +180,7 @@ const ListingsPage = () => {
           {t("welcome.checkEligibility")}
         </LinkButton>
         <Button size={AppearanceSizeType.small} onClick={() => setFilterModalVisible(true)}>
-          {/* TODO:avaleske make this a string */}
-          Filter listings
+          {t("welcome.filterListings")}
         </Button>
       </div>
       {!listingsLoading && (
