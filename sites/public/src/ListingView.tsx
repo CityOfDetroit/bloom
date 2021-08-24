@@ -83,6 +83,7 @@ export const ListingView = (props: ListingProps) => {
   const shouldShowFeaturesDetail = () => {
     return (
       listing.neighborhood ||
+      listing.region ||
       listing.yearBuilt ||
       listing.smokingPolicy ||
       listing.petPolicy ||
