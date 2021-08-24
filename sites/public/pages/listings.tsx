@@ -175,16 +175,16 @@ const ListingsPage = () => {
           </div>
         </Form>
       </Modal>
-      <div className="max-w-3xl mx-8">
+      <div className="container max-w-3xl px-4 content-start mx-auto">
         <LinkButton
-          className="mx-4 mt-6"
+          className="mx-2 mt-6"
           size={AppearanceSizeType.small}
           href="/eligibility/welcome"
         >
           {t("welcome.checkEligibility")}
         </LinkButton>
         <Button
-          className="mx-4 mt-6"
+          className="mx-2 mt-6"
           size={AppearanceSizeType.small}
           onClick={() => setFilterModalVisible(true)}
         >
@@ -197,7 +197,7 @@ const ListingsPage = () => {
             <ListingsList listings={listingsData.items} hideApplicationStatus />
           )}
           {!listingsError && listingsData?.meta.totalItems === 0 && (
-            <header className="max-w-3xl m-8">
+            <header className="max-w-3xl m-8 content-start">
               <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
               <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
             </header>
