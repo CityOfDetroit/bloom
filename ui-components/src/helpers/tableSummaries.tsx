@@ -19,8 +19,16 @@ export const unitSummariesTable = (summaries: UnitsSummary[]) => {
       const unit = percent ? `% ${t("t.income")}` : ` ${t("t.perMonth")}`
       return (
         <>
-          <strong>{rent}</strong>
-          {unit}
+          {rent ? (
+            <>
+              <strong>{rent}</strong>
+              {unit}
+            </>
+          ) : (
+            <>
+              <strong>{"Data not available"}</strong>
+            </>
+          )}
         </>
       )
     }
