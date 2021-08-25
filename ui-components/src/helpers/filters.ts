@@ -4,6 +4,7 @@ import {
   ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
+import Listing from "@bloom-housing/backend-core/dist/src/listings/entities/listing.entity"
 
 function getComparisonForFilter(filterKey: ListingFilterKeys) {
   switch (filterKey) {
@@ -38,7 +39,8 @@ export function encodeToFrontendFilterString(filterParams: ListingFilterParams) 
   let queryString = ""
   for (const filterType in filterParams) {
     const value = filterParams[filterType]
-    if (filterType in ListingFilterKeys && value !== undefined && value != "") {
+
+    if (filterType in ListingFilterKeys && value !== undefined) {
       queryString += `&${filterType}=${value}`
     }
   }
