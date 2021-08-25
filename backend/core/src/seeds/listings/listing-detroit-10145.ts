@@ -145,8 +145,6 @@ export class Listing10145Seed extends ListingDefaultSeed {
       unitType: unitTypeTwoBdrm,
       totalCount: 142,
       listing: listing,
-      minimumIncomeMin: "4,000",
-      minimumIncomeMax: "10,000",
     }
     mcvUnitsSummaryToBeCreated.push(twoBdrmUnitsSummary)
 
