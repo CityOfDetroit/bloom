@@ -81,7 +81,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
               break
             case Compare["<>"]:
             case Compare["="]:
-              if (filterType == ListingFilterKeys.seniorHousing && val == "true") {
+              if (filterType == ListingFilterKeys.seniorHousing && filterValue == "true") {
                 qb.andWhere(
                   `LOWER(CAST(${
                     filterTypeToFieldMap[ListingFilterKeys.seniorHousing]
@@ -91,7 +91,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
                   }
                 )
               }
-              if (filterType == ListingFilterKeys.seniorHousing && val == "false") {
+              if (filterType == ListingFilterKeys.seniorHousing && filterValue == "false") {
                 qb.andWhere(
                   `LOWER(CAST(${filterTypeToFieldMap[ListingFilterKeys.seniorHousing]} as text)) ${
                     Compare["<>"]

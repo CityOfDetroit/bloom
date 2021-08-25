@@ -3658,6 +3658,9 @@ export interface ListingFilterParams {
 
   /**  */
   zipcode?: string
+
+  /** */
+  seniorHousing?: boolean
 }
 
 export interface PreferenceLink {
