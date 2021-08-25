@@ -1,7 +1,7 @@
 import {
-  ListingFilterParams,
-  ListingFilterKeys,
   EnumListingFilterParamsComparison,
+  ListingFilterKeys,
+  ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
 
@@ -10,6 +10,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.name:
     case ListingFilterKeys.neighborhood:
     case ListingFilterKeys.status:
+    case ListingFilterKeys.seniorHousing:
       return EnumListingFilterParamsComparison["="]
     default: {
       const _exhaustiveCheck: never = filterKey

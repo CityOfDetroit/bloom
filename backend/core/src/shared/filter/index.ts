@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { WhereExpression } from "typeorm"
 import { Compare } from "../dto/filter.dto"
+import { ListingFilterKeys } from "../../listings/types/listing-filter-keys-enum"
 
 /**
  *
@@ -51,7 +52,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
         comparisonCount += values.length
 
         // Throw if this is not a supported filter type
-        if (!(filterType.toLowerCase() in filterTypeToFieldMap)) {
+        if (!(filterType in filterTypeToFieldMap)) {
           throw new HttpException("Filter Not Implemented", HttpStatus.NOT_IMPLEMENTED)
         }
 
@@ -77,6 +78,27 @@ export function addFilters<FilterParams, FilterFieldMap>(
               break
             case Compare["<>"]:
             case Compare["="]:
+              if (filterType == ListingFilterKeys.seniorHousing && val == "true") {
+                qb.andWhere(
+                  `LOWER(CAST(${
+                    filterTypeToFieldMap[ListingFilterKeys.seniorHousing]
+                  } as text)) ${comparison} LOWER(:${whereParameterName})`,
+                  {
+                    [whereParameterName]: "senior62",
+                  }
+                )
+              }
+              if (filterType == ListingFilterKeys.seniorHousing && val == "false") {
+                qb.andWhere(
+                  `LOWER(CAST(${filterTypeToFieldMap[ListingFilterKeys.seniorHousing]} as text)) ${
+                    Compare["<>"]
+                  } LOWER(:${whereParameterName})`,
+                  {
+                    [whereParameterName]: "senior62",
+                  }
+                )
+              }
+
               qb.andWhere(
                 `LOWER(CAST(${
                   filterTypeToFieldMap[filterType.toLowerCase()]
@@ -85,6 +107,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
                   [whereParameterName]: val,
                 }
               )
+              // name == "test name"
               break
             default:
               throw new HttpException("Comparison Not Implemented", HttpStatus.NOT_IMPLEMENTED)

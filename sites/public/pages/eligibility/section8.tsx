@@ -2,7 +2,6 @@
 Section 8
 Asks whether the user has a section 8 voucher.
 */
-import FormsLayout from "../../layouts/forms"
 import React, { useContext } from "react"
 import { FormCard } from "@bloom-housing/ui-components/src/blocks/FormCard"
 import { t } from "@bloom-housing/ui-components/src/helpers/translator"
@@ -10,15 +9,27 @@ import { ProgressNav } from "@bloom-housing/ui-components/src/navigation/Progres
 import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
-import { AppearanceStyleType, FieldGroup } from "@bloom-housing/ui-components"
+import {
+  AppearanceStyleType,
+  encodeToFrontendFilterString,
+  FieldGroup,
+} from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
+import { useRouter } from "next/router"
+import {
+  EnumListingFilterParamsComparison,
+  ListingFilterParams,
+} from "@bloom-housing/backend-core/types"
+import FormsLayout from "../../layouts/forms"
 
 const EligibilitySection8 = () => {
+  const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
   const CURRENT_PAGE = 5
+  const SENIOR_AGE = 62
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -31,6 +42,7 @@ const EligibilitySection8 = () => {
     const data = getValues()
     const { section8 } = data
     eligibilityRequirements.setSection8(section8)
+    void router.push(getFilterUrl())
   }
 
   const section8Values = [
@@ -45,6 +57,16 @@ const EligibilitySection8 = () => {
       label: t("t.yes"),
     },
   ]
+
+  function getFilterUrl() {
+    const params: ListingFilterParams = {}
+
+    if (eligibilityRequirements.age < SENIOR_AGE) {
+      params.seniorHousing = false
+    }
+
+    return `/listings?${encodeToFrontendFilterString(params)}`
+  }
 
   return (
     <FormsLayout>

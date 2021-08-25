@@ -767,7 +767,15 @@ export class ListingFilterParams extends BaseFilter {
     example: "Fox Creek",
     required: false,
   })
-  [ListingFilterKeys.neighborhood]?: string
+  [ListingFilterKeys.neighborhood]?: string;
+
+  @Expose()
+  @ApiProperty({
+    type: Boolean,
+    example: "true",
+    required: false,
+  })
+  [ListingFilterKeys.seniorHousing]?: boolean
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
@@ -799,4 +807,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   status: "listings.status",
   name: "listings.name",
   neighborhood: "property.neighborhood",
+  seniorHousing: "reservedCommunityType.name",
 }
