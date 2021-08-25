@@ -42,7 +42,8 @@ export async function getStaticPaths(context: { locales: Array<string> }) {
 
   try {
     response = await axios.get(
-      process.env.listingServiceUrl + "?limit=all&filter[$comparison]=<>&filter[status]=pending"
+      process.env.listingServiceUrl +
+        "?view=base&limit=all&filter[$comparison]=<>&filter[status]=pending"
     )
   } catch (e) {
     return {
@@ -52,18 +53,22 @@ export async function getStaticPaths(context: { locales: Array<string> }) {
   }
 
   return {
-    paths: context.locales.flatMap((locale: string) =>
-      response.data.items.map((listing: Listing) => ({
-        params: { id: listing.id, slug: listing.urlSlug },
-        locale: locale,
-      }))
-    ),
+    paths: response?.data?.items
+      ? context.locales.flatMap((locale: string) =>
+          response.data.items.map((listing) => ({
+            params: { id: listing.id, slug: listing.urlSlug },
+            locale: locale,
+          }))
+        )
+      : [],
     fallback: true,
   }
 }
 
-export async function getStaticProps(context: { params: Record<string, string> }) {
-  const response = await axios.get(`${process.env.backendApiBase}/listings/${context.params.id}`)
+export async function getStaticProps(context: { params: Record<string, string>; locale: string }) {
+  const response = await axios.get(`${process.env.backendApiBase}/listings/${context.params.id}`, {
+    headers: { language: context.locale },
+  })
 
   return {
     props: {

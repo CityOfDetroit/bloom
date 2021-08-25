@@ -669,6 +669,7 @@
         "cityError": "Por favor ingrese una ciudad",
         "stateError": "Por favor, ingresa un estado",
         "zipCodeError": "Por favor introduzca un codigo postal",
+        "multipleZipCodeError": "Ingrese uno o más códigos postales separados por comas",
         "errorsToResolve": "Hay errores que deberá resolver antes de continuar.",
         "numberError": "Ingrese un número válido mayor que 0.",
         "selectAllThatApply": "Por favor seleccione todas las respuestas válidas.",
@@ -679,7 +680,8 @@
         "householdTooSmall": "El tamaño de su hogar es demasiado pequeño.",
         "dateError": "Por favor introduzca una fecha valida",
         "rateLimitExceeded": "Se superó el límite de frecuencia. Vuelve a intentarlo más tarde.",
-        "requiredFieldError": "Este campo es requerido."
+        "requiredFieldError": "Este campo es requerido.",
+        "noData": "Datos no disponibles"
     },
     "footer": {
         "contact": "Contacto",
@@ -936,6 +938,7 @@
             "submitForWaitlist": "Envíe una solicitud para un puesto vacante en la lista de espera.",
             "unitsAndWaitlist": "Unidades disponibles y lista de espera"
         },
+        "whatToExpectLabel": "Dígale al solicitante qué esperar del proceso",
         "whereDropOffQuestion": "¿Dónde se dejan las aplicaciones?",
         "wherePickupQuestion": "¿Dónde se recogen las solicitudes?",
         "yearBuilt": "Año de construcción",
@@ -998,7 +1001,7 @@
         "accountSettings": "Configuraciones de la cuenta",
         "browseProperties": "Buscar propiedades",
         "getAssistance": "Obtenga ayuda",
-        "getFeedback": "Esta es una vista previa de nuestro nuevo sitio web. Recién estamos comenzando. Nos encantaría recibir <a target='_blank' class='a-whitelined' href='%{feedbackUrl}'> sus comentarios </a>.",
+        "getFeedback": "Esta es una vista previa de nuestro nuevo sitio web. Nos encantaría recibir <a target='_blank' class='a-whitelined' href='%{feedbackUrl}'> sus comentarios </a>.",
         "listings": "Listados",
         "properties": "Propiedades",
         "applications": "Aplicaciones",
@@ -1158,6 +1161,7 @@
         "range": "% {from} a% {to}",
         "readLess": "Leer menos",
         "readMore": "Lee mas",
+        "region":"Región",
         "relationship": "Relación",
         "otherRelationShip": "Otra relación",
         "rent": "Alquiler",
@@ -1194,6 +1198,7 @@
         "view": "Vista",
         "viewMap": "Ver el mapa",
         "viewOnMap": "Ver en el mapa",
+        "website": "Sitio web",
         "year": "Año",
         "yes": "sí",
         "you": "Tú"
@@ -1204,18 +1209,30 @@
         "title": "Solicite una vivienda asequible en",
         "seeMoreOpportunities": "Ver más oportunidades de alquiler y propiedad de viviendas",
         "viewAdditionalHousing": "Ver recursos y oportunidades de vivienda adicionales",
+        "checkEligibility": "Verifique mi elegibilidad",
         "subTitle": "Haga clic en el botón a continuación para encontrar una vivienda de alquiler según sus ingresos y las necesidades de su hogar."
     },
     "whatToExpect": {
         "label": "Que esperar",
-        "applicantsWillBeContacted": "El agente de la propiedad se pondrá en contacto con los solicitantes en orden de clasificación hasta que se llenen las vacantes.",
-        "allInfoWillBeVerified": "Se verificará toda la información que haya proporcionado y se confirmará su elegibilidad. Su solicitud será eliminada de la lista de espera si ha realizado declaraciones fraudulentas. Si no podemos verificar una preferencia de vivienda que ha reclamado, no recibirá la preferencia, pero no será penalizado de otra manera.",
-        "bePreparedIfChosen": "Si se elige su solicitud, esté preparado para completar una solicitud más detallada y proporcionar los documentos de respaldo requeridos."
+        "default": "El agente de la propiedad se pondrá en contacto con los solicitantes en orden de clasificación hasta que se llenen las vacantes. Se verificará toda la información que haya proporcionado y se confirmará su elegibilidad. Su solicitud será eliminada de la lista de espera si ha realizado declaraciones fraudulentas. Si no podemos verificar una preferencia de vivienda que ha reclamado, no recibirá la preferencia, pero no será penalizado de otra manera. Si se elige su solicitud, esté preparado para completar una solicitud más detallada y proporcionar los documentos de respaldo requeridos."
     },
     "listingFilters": {
+        "buttonTitle": "Filtrar listados",
         "modalTitle": "Filtrar Resultados",
         "modalHeader": "Utilice estas opciones para refinar su lista de propiedades.",
-        "neighborhood": "Vecindario:"
+        "neighborhood": "Vecindario",
+        "bedrooms": "Tamaño de la unidad",
+        "bedroomsOptions": {
+          "studioPlus": "0 o más habitaciones (estudio)",
+          "onePlus": "1 o más dormitorios",
+          "twoPlus": "2 o más recámaras",
+          "threePlus": "3 o más recámaras",
+          "fourPlus": "4 o más recámaras"
+        },
+        "zipCode": "Código postal",
+        "zipCodeDescription": "Ingresa tu código postal",
+        "noResults": "No hay resultados",
+        "noResultsSubtitle": "Edite o elimine filtros para obtener mejores resultados."
     },
     "eligibility": {
         "progress": {

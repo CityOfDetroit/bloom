@@ -669,6 +669,7 @@
     "cityError": "Please enter a city",
     "stateError": "Please enter a state",
     "zipCodeError": "Please enter a zipcode",
+    "multipleZipCodeError": "Please enter one or more comma separated zip codes",
     "errorsToResolve": "There are errors you'll need to resolve before moving on.",
     "numberError": "Please enter a valid number greater than 0.",
     "selectAllThatApply": "Please select all that apply.",
@@ -680,7 +681,8 @@
     "householdTooSmall": "Your household size is too small.",
     "dateError": "Please enter a valid date",
     "rateLimitExceeded": "Rate limit exceeded, try again later.",
-    "requiredFieldError": "This field is required."
+    "requiredFieldError": "This field is required.",
+    "noData": "No data available."
   },
   "footer": {
     "contact": "Contact",
@@ -725,7 +727,10 @@
       "preview": "Preview",
       "close": "Close",
       "viewListing": "View listing",
-      "unpublish": "Unpublish"
+      "unpublish": "Unpublish",
+      "postResults": "Post Results",
+      "resultsPosted": "Results Posted",
+      "previewLotteryResults": "Preview Lottery Results"
     },
     "activePreferences": "Active Preferences",
     "addListing": "Add Listing",
@@ -824,6 +829,11 @@
       "header": "Lottery Results"
     },
     "lotteryStartTime": "Lottery Start Time",
+    "mapPinAutomaticDescription": "Map pin position is based on the address provided",
+    "mapPinCustomDescription": "Drag the pin to update the marker location",
+    "mapPinPosition": "Map Pin Position",
+    "mapPreview": "Map Preview",
+    "mapPreviewNoAddress": "Enter an address to preview the map",
     "maxIncomeMonth": "Maximum Income / Month",
     "maxIncomeYear": "Maximum Income / Year",
     "moreBuildingSelectionCriteria": "Find out more about Building Selection Criteria",
@@ -857,7 +867,9 @@
     "reservedCommunityBuilding": "%{type} Building",
     "reservedCommunityDescription": "Reserved Community Description",
     "reservedCommunitySeniorTitle": "Senior Building",
+    "reservedCommunityTitleDefault": "Reserved Building",
     "reservedCommunityTypes": {
+      "senior": "Seniors",
       "senior55": "Seniors 55+",
       "senior62": "Seniors 62+",
       "specialNeeds": "Special Needs"
@@ -965,6 +977,7 @@
       "submitForWaitlist": "Submit an application for an open slot on the waitlist.",
       "unitsAndWaitlist": "Available Units and Waitlist"
     },
+    "whatToExpectLabel": "Tell the applicant what to expect from the process",
     "whereDropOffQuestion": "Where are applications dropped off?",
     "wherePickupQuestion": "Where are applications picked up?",
     "yearBuilt": "Year Built",
@@ -1129,12 +1142,14 @@
     "accessibility": "Accessibility",
     "am": "AM",
     "availability": "Availability",
+    "automatic": "Automatic",
     "back": "Back",
     "built": "Built",
     "call": "Call",
     "cancel": "Cancel",
     "confirm": "Confirm",
     "chooseFromFolder": "Choose from folder",
+    "custom": "Custom",
     "day": "Day",
     "date": "Date",
     "delete": "Delete",
@@ -1193,6 +1208,7 @@
     "phoneNumberPlaceholder": "(555) 555-5555",
     "pleaseSelectOne": "Please select one.",
     "pm": "PM",
+    "post": "Post",
     "preferences": "Preferences",
     "preview": "Preview",
     "previous": "Previous",
@@ -1200,6 +1216,7 @@
     "range": "%{from} to %{to}",
     "readLess": "read less",
     "readMore": "read more",
+    "region":"Region",
     "relationship": "Relationship",
     "otherRelationShip": "Other Relationship",
     "rent": "Rent",
@@ -1241,6 +1258,7 @@
     "view": "View",
     "viewMap": "View Map",
     "viewOnMap": "View on Map",
+    "website": "Website",
     "year": "Year",
     "yes": "Yes",
     "you": "You"
@@ -1256,14 +1274,25 @@
   },
   "whatToExpect": {
     "label": "What to Expect",
-    "applicantsWillBeContacted": "Applicants will be contacted by the property agent in rank order until vacancies are filled.",
-    "allInfoWillBeVerified": "All of the information that you have provided will be verified and your eligibility confirmed. Your application will be removed from the waitlist if you have made any fraudulent statements. If we cannot verify a housing preference that you have claimed, you will not receive the preference but will not be otherwise penalized.",
-    "bePreparedIfChosen": "Should your application be chosen, be prepared to fill out a more detailed application and provide required supporting documents."
+    "default": "Applicants will be contacted by the property agent in rank order until vacancies are filled. All of the information that you have provided will be verified and your eligibility confirmed. Your application will be removed from the waitlist if you have made any fraudulent statements. If we cannot verify a housing preference that you have claimed, you will not receive the preference but will not be otherwise penalized. Should your application be chosen, be prepared to fill out a more detailed application and provide required supporting documents."
   },
   "listingFilters":{
-    "modalTitle":"Filter Results",
-    "modalHeader":"Use these options to refine your list of properties.",
-    "neighborhood":"Neighborhood:"
+    "buttonTitle": "Filter Listings",
+    "modalTitle": "Filter Results",
+    "modalHeader": "Use these options to refine your list of properties.",
+    "neighborhood": "Neighborhood",
+    "bedrooms": "Unit Size",
+    "bedroomsOptions": {
+      "studioPlus": "0 or more bedrooms (Studio)",
+      "onePlus": "1 or more bedrooms",
+      "twoPlus": "2 or more bedrooms",
+      "threePlus": "3 or more bedrooms",
+      "fourPlus": "4 or more bedrooms"
+    },
+    "zipCode": "Zip code",
+    "zipCodeDescription": "Enter zip code",
+    "noResults": "No results",
+    "noResultsSubtitle": "Edit or remove filters for best results."
   },
   "eligibility": {
     "progress": {

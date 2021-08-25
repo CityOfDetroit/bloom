@@ -19,6 +19,7 @@ import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
 import { Property } from "../property/entities/property.entity"
 import { Unit } from "../units/entities/unit.entity"
 import { User } from "../auth/entities/user.entity"
+import { UserRoles } from "../auth/entities/user-roles.entity"
 import { ListingColiseumSeed } from "../seeds/listings/listing-coliseum-seed"
 import { ListingDefaultOnePreferenceSeed } from "../seeds/listings/listing-default-one-preference-seed"
 import { ListingDefaultNoPreferenceSeed } from "../seeds/listings/listing-default-no-preference-seed"
@@ -38,6 +39,9 @@ import { Listing10157Seed } from "../seeds/listings/listing-detroit-10157"
 import { Listing10147Seed } from "../seeds/listings/listing-detroit-10147"
 import { Listing10145Seed } from "../seeds/listings/listing-detroit-10145"
 import { ListingTreymoreSeed } from "../seeds/listings/listing-detroit-treymore"
+import { UnitsSummary } from "../units-summary/entities/units-summary.entity"
+import { ListingDefaultMultipleAMI } from "../seeds/listings/listing-default-multiple-ami"
+import { ListingDefaultMultipleAMIAndPercentages } from "../seeds/listings/listing-default-multiple-ami-and-percentages"
 
 @Module({})
 export class SeederModule {
@@ -61,7 +65,9 @@ export class SeederModule {
           AmiChart,
           Property,
           Unit,
+          UnitsSummary,
           User,
+          UserRoles,
           ApplicationMethod,
           PaperApplication,
         ]),
@@ -93,6 +99,8 @@ export class SeederModule {
         Listing10147Seed,
         Listing10145Seed,
         ListingTreymoreSeed,
+        ListingDefaultMultipleAMI,
+        ListingDefaultMultipleAMIAndPercentages,
       ],
     }
   }

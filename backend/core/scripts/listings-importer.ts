@@ -1,10 +1,21 @@
 import * as client from "../types/src/backend-swagger"
 import axios from "axios"
-import { ListingCreate, serviceOptions } from "../types/src/backend-swagger"
-import { ListingStatus } from "../src/listings/types/listing-status-enum"
+import { ListingCreate, ListingStatus, serviceOptions } from "../types/src/backend-swagger"
+import { UnitStatus } from "../src/units/types/unit-status-enum"
 
 // NOTE: This script relies on any logged-in users having permission to create
 // listings and properties (defined in backend/core/src/auth/authz_policy.csv)
+
+export function createUnitsArray(type: string, number: number) {
+  const units = []
+  for (let unit_index = 0; unit_index < number; unit_index++) {
+    units.push({
+      unitType: type,
+      status: UnitStatus.unknown,
+    })
+  }
+  return units
+}
 
 function uploadPreferences(listing) {
   const preferencesService = new client.PreferencesService()
@@ -28,9 +39,7 @@ async function uploadListing(listing: ListingCreate) {
       body: listing,
     })
   } catch (e) {
-    console.log(listing)
-    console.log(e.response.data.message)
-    process.exit(1)
+    throw new Error(e.response.data.message)
   }
 }
 
@@ -55,42 +64,33 @@ async function uploadAmiCharts(units) {
   }
 }
 
-async function uploadUnitTypes(units) {
+async function linkToUnitTypes(units) {
   const unitTypesService = new client.UnitTypesService()
   const unitTypes = await unitTypesService.list()
 
   for (const unit of units) {
     const unitTypeStr = unit.unitType
     if (!unitTypeStr) {
-      console.log(unit)
-      console.log("Error: each unit must have a unitType.")
-      process.exit(1)
+      throw new Error("Each unit must have a unitType.")
     }
 
     // Look for the unitType by name.
-    let unitType = unitTypes.filter((unitType) => unitType.name == unitTypeStr)[0]
+    const unitType = unitTypes.filter((unitType) => unitType.name == unitTypeStr)[0]
 
-    // If it doesn't exist, create it.
+    // If it doesn't exist, throw an error.
     if (!unitType) {
-      unitType = await unitTypesService.create({ body: { name: unitTypeStr } })
+      throw new Error(`No unit type with name "${unitTypeStr}" found`)
     }
     unit.unitType = unitType
   }
 }
 
-async function uploadProperty(property) {
-  try {
-    const propertyService = new client.PropertiesService()
-    return await propertyService.create({
-      body: property,
-    })
-  } catch (e) {
-    console.log(e.response)
-    process.exit(1)
-  }
-}
-
-export async function importListing(apiUrl, email, password, listing) {
+export async function importListing(
+  apiUrl: string,
+  email: string,
+  password: string,
+  listing: ListingCreate
+) {
   serviceOptions.axios = axios.create({
     baseURL: apiUrl,
     timeout: 10000,
@@ -114,7 +114,7 @@ export async function importListing(apiUrl, email, password, listing) {
   })
 
   // Tidy a few of the listing's fields.
-  if (!("status" in listing)) {
+  if (!listing.status) {
     listing.status = ListingStatus.active
   }
   delete listing["id"]
@@ -124,26 +124,11 @@ export async function importListing(apiUrl, email, password, listing) {
     uploadPreferences(listing)
   }
 
-  // Extract the associated property, to be uploaded first.
-  if (!listing.property) {
-    throw new Error("Listing must include a non-null Property.")
-  }
+  await uploadAmiCharts(listing.units)
 
-  let property = listing.property
-  delete listing.property
-
-  await uploadAmiCharts(property.units)
-  await uploadUnitTypes(property.units)
-
-  property.listings = [listing]
-  property = await uploadProperty(property)
-
-  // Link the uploaded property to the listing by id.
-  listing.property = property
-
-  // The ListingCreateDto expects to include units and buildingAddress
-  listing.units = property.units
-  listing.buildingAddress = property.buildingAddress
+  // Replace each unit's unitType string with a foreign-key reference to the corresponding row in
+  // the unit_types table.
+  await linkToUnitTypes(listing.units)
 
   // Upload the listing, and then return it.
   return await uploadListing(listing)

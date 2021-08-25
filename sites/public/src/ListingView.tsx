@@ -4,41 +4,25 @@ import Markdown from "markdown-to-jsx"
 import { Listing, ListingEvent, ListingEventType } from "@bloom-housing/backend-core/types"
 import {
   AdditionalFees,
-  ApplicationSection,
-  ApplicationStatus,
-  StandardTable,
   Description,
-  ExpandableText,
-  getOccupancyDescription,
   GroupedTable,
   GroupedTableGroup,
   getSummariesTable,
   ImageCard,
   imageUrlFromListing,
-  InfoCard,
   LeasingAgent,
   ListingDetailItem,
   ListingDetails,
   ListingMap,
-  ListSection,
-  occupancyTable,
   OneLineAddress,
-  PreferencesList,
-  TableHeaders,
   t,
   UnitTables,
-  WhatToExpect,
-  PublicLotteryEvent,
-  LotteryResultsEvent,
   OpenHouseEvent,
-  DownloadLotteryResults,
-  ReferralApplication,
   ListingUpdated,
   Message,
 } from "@bloom-housing/ui-components"
-import moment from "moment"
 import { ErrorPage } from "../pages/_error"
-import { useGetApplicationStatusProps } from "../lib/hooks"
+import { getGenericAddress } from "../lib/helpers"
 
 interface ListingProps {
   listing: Listing
@@ -46,16 +30,13 @@ interface ListingProps {
 }
 
 export const ListingView = (props: ListingProps) => {
-  let buildingSelectionCriteria, preferencesSection
   const { listing } = props
-
-  const { content: appStatusContent } = useGetApplicationStatusProps(listing)
 
   if (!listing) {
     return <ErrorPage />
   }
 
-  const oneLineAddress = <OneLineAddress address={listing.buildingAddress} />
+  const oneLineAddress = <OneLineAddress address={getGenericAddress(listing.buildingAddress)} />
 
   const googleMapsHref =
     "https://www.google.com/maps/place/" + ReactDOMServer.renderToStaticMarkup(oneLineAddress)
@@ -74,60 +55,18 @@ export const ListingView = (props: ListingProps) => {
           const percentInt = parseInt(percent, 10)
           return percentInt
         })
-        .sort()
+        .sort(function (a, b) {
+          return a - b
+        })
     : []
 
-  const hmiHeaders = listing?.unitsSummarized?.hmi?.columns as TableHeaders
-
-  const hmiData = listing?.unitsSummarized?.hmi?.rows.map((row) => {
-    return { ...row, householdSize: <strong>{row["householdSize"]}</strong> }
-  })
   let groupedUnits: GroupedTableGroup[] = null
 
   if (amiValues.length == 1) {
     groupedUnits = getSummariesTable(listing.unitsSummarized.byUnitTypeAndRent)
   } // else condition is handled inline below
 
-  const occupancyDescription = getOccupancyDescription(listing)
-  const occupancyHeaders = {
-    unitType: "t.unitType",
-    occupancy: "t.occupancy",
-  }
-  const occupancyData = occupancyTable(listing)
-
-  const householdMaximumIncomeSubheader = listing?.units[0]?.bmrProgramChart
-    ? t("listings.forIncomeCalculationsBMR")
-    : t("listings.forIncomeCalculations")
-
-  if (listing.buildingSelectionCriteria) {
-    buildingSelectionCriteria = (
-      <p>
-        <a href={listing.buildingSelectionCriteria}>
-          {t("listings.moreBuildingSelectionCriteria")}
-        </a>
-      </p>
-    )
-  }
-
-  if (listing.preferences && listing.preferences.length > 0) {
-    preferencesSection = (
-      <ListSection
-        title={t("listings.sections.housingPreferencesTitle")}
-        subtitle={t("listings.sections.housingPreferencesSubtitle")}
-      >
-        <>
-          <PreferencesList preferences={listing.preferences} />
-          <p className="text-gray-700 text-tiny">
-            {t("listings.remainingUnitsAfterPreferenceConsideration")}
-          </p>
-        </>
-      </ListSection>
-    )
-  }
-
   let openHouseEvents: ListingEvent[] | null = null
-  let publicLottery: ListingEvent | null = null
-  let lotteryResults: ListingEvent | null = null
   if (Array.isArray(listing.events)) {
     listing.events.forEach((event) => {
       switch (event.type) {
@@ -137,41 +76,31 @@ export const ListingView = (props: ListingProps) => {
           }
           openHouseEvents.push(event)
           break
-        case ListingEventType.publicLottery:
-          publicLottery = event
-          break
-        case ListingEventType.lotteryResults:
-          lotteryResults = event
-          break
       }
     })
   }
 
-  let lotterySection
-  if (publicLottery && (!lotteryResults || (lotteryResults && !lotteryResults.url))) {
-    lotterySection = <PublicLotteryEvent event={publicLottery} />
-    if (moment(publicLottery.startTime) < moment() && lotteryResults && !lotteryResults.url) {
-      lotterySection = <LotteryResultsEvent event={lotteryResults} />
-    }
+  const shouldShowFeaturesDetail = () => {
+    return (
+      listing.neighborhood ||
+      listing.region ||
+      listing.yearBuilt ||
+      listing.smokingPolicy ||
+      listing.petPolicy ||
+      listing.amenities ||
+      listing.unitAmenities ||
+      listing.servicesOffered ||
+      listing.accessibility ||
+      // props for UnitTables
+      (listing.units && listing.units.length > 0) ||
+      listing.unitsSummarized ||
+      // props for AdditionalFees
+      listing.depositMin ||
+      listing.depositMax ||
+      listing.applicationFee ||
+      listing.costsNotIncluded
+    )
   }
-
-  const getReservedTitle = () => {
-    if (
-      listing.reservedCommunityType.name === "senior55" ||
-      listing.reservedCommunityType.name === "senior62"
-    ) {
-      return t("listings.reservedCommunitySeniorTitle")
-    }
-  }
-
-  //TODO: Add isReferralApplication boolean field to avoid this logic
-  const isReferralApp =
-    !listing.applicationDropOffAddress &&
-    !listing.applicationDropOffAddressType &&
-    !listing.applicationMailingAddress &&
-    !listing.applicationPickUpAddress &&
-    !listing.applicationPickUpAddressType &&
-    listing.applicationMethods?.length === 0
 
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
@@ -234,102 +163,9 @@ export const ListingView = (props: ListingProps) => {
         )}
       </div>
       <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
-        <ListingUpdated listing={listing} />
-        <ApplicationStatus content={appStatusContent} />
-        <div className="mx-4">
-          <DownloadLotteryResults event={lotteryResults} />
-          {!isReferralApp ? (
-            <ApplicationSection
-              listing={listing}
-              preview={props.preview}
-              internalFormRoute="/applications/start/choose-language"
-            />
-          ) : (
-            <></>
-          )}
-        </div>
+        <ListingUpdated listingUpdated={listing.updatedAt} />
       </div>
       <ListingDetails>
-        <ListingDetailItem
-          imageAlt={t("listings.eligibilityNotebook")}
-          imageSrc="/images/listing-eligibility.svg"
-          title={t("listings.sections.eligibilityTitle")}
-          subtitle={t("listings.sections.eligibilitySubtitle")}
-          desktopClass="bg-primary-lighter"
-        >
-          <ul>
-            {listing.reservedCommunityType && (
-              <ListSection title={getReservedTitle()} subtitle={null}>
-                <InfoCard
-                  title={t(`listings.reservedCommunityTypes.${listing.reservedCommunityType.name}`)}
-                  subtitle={t("listings.allUnits")}
-                >
-                  <ExpandableText className="text-sm text-gray-700">
-                    {listing.reservedCommunityDescription}
-                  </ExpandableText>
-                </InfoCard>
-              </ListSection>
-            )}
-
-            <ListSection
-              title={t("listings.householdMaximumIncome")}
-              subtitle={householdMaximumIncomeSubheader}
-            >
-              <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={true} />
-            </ListSection>
-
-            <ListSection title={t("t.occupancy")} subtitle={occupancyDescription}>
-              <StandardTable
-                headers={occupancyHeaders}
-                data={occupancyData}
-                responsiveCollapse={false}
-              />
-            </ListSection>
-
-            <ListSection
-              title={t("listings.sections.rentalAssistanceTitle")}
-              subtitle={listing.rentalAssistance || t("listings.sections.rentalAssistanceSubtitle")}
-            />
-
-            {preferencesSection}
-
-            {(listing.creditHistory ||
-              listing.rentalHistory ||
-              listing.criminalBackground ||
-              buildingSelectionCriteria) && (
-              <ListSection
-                title={t("listings.sections.additionalEligibilityTitle")}
-                subtitle={t("listings.sections.additionalEligibilitySubtitle")}
-              >
-                <>
-                  {listing.creditHistory && (
-                    <InfoCard title={t("listings.creditHistory")}>
-                      <ExpandableText className="text-sm text-gray-700">
-                        {listing.creditHistory}
-                      </ExpandableText>
-                    </InfoCard>
-                  )}
-                  {listing.rentalHistory && (
-                    <InfoCard title={t("listings.rentalHistory")}>
-                      <ExpandableText className="text-sm text-gray-700">
-                        {listing.rentalHistory}
-                      </ExpandableText>
-                    </InfoCard>
-                  )}
-                  {listing.criminalBackground && (
-                    <InfoCard title={t("listings.criminalBackground")}>
-                      <ExpandableText className="text-sm text-gray-700">
-                        {listing.criminalBackground}
-                      </ExpandableText>
-                    </InfoCard>
-                  )}
-                  {buildingSelectionCriteria}
-                </>
-              </ListSection>
-            )}
-          </ul>
-        </ListingDetailItem>
-
         <ListingDetailItem
           imageAlt={t("listings.processInfo")}
           imageSrc="/images/listing-process.svg"
@@ -340,33 +176,21 @@ export const ListingView = (props: ListingProps) => {
         >
           <aside className="w-full static md:absolute md:right-0 md:w-1/3 md:top-0 sm:w-2/3 md:ml-2 h-full md:border border-gray-400 bg-white">
             <div className="hidden md:block">
-              <ListingUpdated listing={listing} />
-              <ApplicationStatus content={appStatusContent} />
-              <DownloadLotteryResults event={lotteryResults} />
+              <ListingUpdated listingUpdated={listing.updatedAt} />
               {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
-              {!isReferralApp ? (
-                <ApplicationSection
-                  listing={listing}
-                  preview={props.preview}
-                  internalFormRoute="/applications/start/choose-language"
-                />
-              ) : (
-                <ReferralApplication
-                  phoneNumber={t("application.referralApplication.phoneNumber")}
-                  description={t("application.referralApplication.instructions")}
-                  title={t("application.referralApplication.furtherInformation")}
-                />
-              )}
             </div>
-
             {openHouseEvents && (
               <div className="mb-2 md:hidden">
                 <OpenHouseEvent events={openHouseEvents} />
               </div>
             )}
-            {lotterySection}
-            <WhatToExpect listing={listing} />
-            <LeasingAgent listing={listing} />
+            <LeasingAgent
+              listing={listing}
+              managementCompany={{
+                name: listing.managementCompany,
+                website: listing.managementWebsite,
+              }}
+            />
           </aside>
         </ListingDetailItem>
 
@@ -375,42 +199,57 @@ export const ListingView = (props: ListingProps) => {
           imageSrc="/images/listing-features.svg"
           title={t("listings.sections.featuresTitle")}
           subtitle={t("listings.sections.featuresSubtitle")}
+          desktopClass="bg-primary-lighter"
         >
-          <div className="listing-detail-panel">
-            <dl className="column-definition-list">
-              <Description term={t("t.neighborhood")} description={listing.neighborhood} />
-              <Description term={t("t.built")} description={listing.yearBuilt} />
-              {listing.smokingPolicy && (
-                <Description term={t("t.smokingPolicy")} description={listing.smokingPolicy} />
-              )}
-              {listing.petPolicy && (
-                <Description term={t("t.petsPolicy")} description={listing.petPolicy} />
-              )}
-              {listing.amenities && (
-                <Description term={t("t.propertyAmenities")} description={listing.amenities} />
-              )}
-              {listing.unitAmenities && (
-                <Description term={t("t.unitAmenities")} description={listing.unitAmenities} />
-              )}
-              {listing.servicesOffered && (
-                <Description term={t("t.servicesOffered")} description={listing.servicesOffered} />
-              )}
-              {listing.accessibility && (
-                <Description term={t("t.accessibility")} description={listing.accessibility} />
-              )}
-              <Description
-                term={t("t.unitFeatures")}
-                description={
-                  <UnitTables
-                    units={listing.units}
-                    unitSummaries={listing?.unitsSummarized?.byUnitType}
-                    disableAccordion={listing.disableUnitsAccordion}
+          {!shouldShowFeaturesDetail() ? (
+            t("errors.noData")
+          ) : (
+            <div className="listing-detail-panel">
+              <dl className="column-definition-list">
+                {listing.neighborhood && (
+                  <Description term={t("t.neighborhood")} description={listing.neighborhood} />
+                )}
+                {listing.region && (
+                  <Description term={t("t.region")} description={listing.region} />
+                )}
+                {listing.yearBuilt && (
+                  <Description term={t("t.built")} description={listing.yearBuilt} />
+                )}
+                {listing.smokingPolicy && (
+                  <Description term={t("t.smokingPolicy")} description={listing.smokingPolicy} />
+                )}
+                {listing.petPolicy && (
+                  <Description term={t("t.petsPolicy")} description={listing.petPolicy} />
+                )}
+                {listing.amenities && (
+                  <Description term={t("t.propertyAmenities")} description={listing.amenities} />
+                )}
+                {listing.unitAmenities && (
+                  <Description term={t("t.unitAmenities")} description={listing.unitAmenities} />
+                )}
+                {listing.servicesOffered && (
+                  <Description
+                    term={t("t.servicesOffered")}
+                    description={listing.servicesOffered}
                   />
-                }
-              />
-            </dl>
-            <AdditionalFees listing={listing} />
-          </div>
+                )}
+                {listing.accessibility && (
+                  <Description term={t("t.accessibility")} description={listing.accessibility} />
+                )}
+                <Description
+                  term={t("t.unitFeatures")}
+                  description={
+                    <UnitTables
+                      units={listing.units}
+                      unitSummaries={listing?.unitsSummarized?.byUnitType}
+                      disableAccordion={listing.disableUnitsAccordion}
+                    />
+                  }
+                />
+              </dl>
+              <AdditionalFees listing={listing} />
+            </div>
+          )}
         </ListingDetailItem>
 
         <ListingDetailItem
@@ -418,10 +257,12 @@ export const ListingView = (props: ListingProps) => {
           imageSrc="/images/listing-neighborhood.svg"
           title={t("listings.sections.neighborhoodTitle")}
           subtitle={t("listings.sections.neighborhoodSubtitle")}
-          desktopClass="bg-primary-lighter"
         >
           <div className="listing-detail-panel">
-            <ListingMap address={listing.buildingAddress} listing={listing} />
+            <ListingMap
+              address={getGenericAddress(listing.buildingAddress)}
+              listingName={listing.name}
+            />
           </div>
         </ListingDetailItem>
 
@@ -431,6 +272,7 @@ export const ListingView = (props: ListingProps) => {
             imageSrc="/images/listing-legal.svg"
             title={t("listings.sections.additionalInformationTitle")}
             subtitle={t("listings.sections.additionalInformationSubtitle")}
+            desktopClass="bg-primary-lighter"
           >
             <div className="listing-detail-panel">
               {listing.requiredDocuments && (

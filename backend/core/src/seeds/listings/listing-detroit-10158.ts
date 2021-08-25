@@ -9,6 +9,7 @@ import { UnitCreateDto } from "../../units/dto/unit.dto"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
 import { UnitStatus } from "../../units/types/unit-status-enum"
+import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
 
 const ncpProperty: PropertySeedType = {
   amenities: "Parking, Elevator in Building",
@@ -124,6 +125,26 @@ export class Listing10158Seed extends ListingDefaultSeed {
       preferences: [],
     }
 
-    return await this.listingRepository.save(listingCreateDto)
+    const listing = await this.listingRepository.save(listingCreateDto)
+
+    const ncpUnitsSummaryToBeCreated: UnitsSummaryCreateDto[] = []
+
+    const oneBdrmUnitsSummary: UnitsSummaryCreateDto = {
+      unitType: unitTypeOneBdrm,
+      totalCount: 40,
+      listing: listing,
+    }
+    ncpUnitsSummaryToBeCreated.push(oneBdrmUnitsSummary)
+
+    const twoBdrmUnitsSummary: UnitsSummaryCreateDto = {
+      unitType: unitTypeTwoBdrm,
+      totalCount: 36,
+      listing: listing,
+    }
+    ncpUnitsSummaryToBeCreated.push(twoBdrmUnitsSummary)
+
+    await this.unitsSummaryRepository.save(ncpUnitsSummaryToBeCreated)
+
+    return listing
   }
 }

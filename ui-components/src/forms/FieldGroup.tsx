@@ -7,6 +7,7 @@ interface FieldSingle {
   label: string
   value?: string
   defaultChecked?: boolean
+  note?: string
 }
 
 interface FieldGroupProps {
@@ -22,6 +23,7 @@ interface FieldGroupProps {
   fieldGroupClassName?: string
   fieldClassName?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => unknown
+  fieldLabelClassName?: string
 }
 
 const FieldGroup = ({
@@ -37,6 +39,7 @@ const FieldGroup = ({
   fieldGroupClassName,
   fieldClassName,
   onChange,
+  fieldLabelClassName,
 }: FieldGroupProps) => {
   // Always align two-option radio groups side by side
   if (fields?.length === 2) {
@@ -62,9 +65,10 @@ const FieldGroup = ({
               ref={register(validation)}
               onChange={onChange}
             />
-            <label htmlFor={item.id} className="font-semibold">
+            <label htmlFor={item.id} className={`font-semibold ${fieldLabelClassName}`}>
               {item.label}
             </label>
+            {item.note && <span className={"field-note font-normal"}>{item.note}</span>}
           </div>
         ))}
 
