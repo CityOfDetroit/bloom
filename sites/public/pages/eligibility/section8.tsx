@@ -58,6 +58,10 @@ const EligibilitySection8 = () => {
     },
   ]
 
+  if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
+    eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
+  }
+
   function getFilterUrl() {
     const params: ListingFilterParams = {}
 
@@ -73,8 +77,9 @@ const EligibilitySection8 = () => {
       <FormCard header={t("eligibility.progress.header")}>
         <ProgressNav
           currentPageSection={6}
-          completedSections={5}
+          completedSections={eligibilityRequirements.completedSections}
           labels={ELIGIBILITY_SECTIONS.map((label) => t(`eligibility.progress.sections.${label}`))}
+          routes={ELIGIBILITY_SECTIONS.map((_label, i) => eligibilityRoute(i))}
         />
       </FormCard>
       <FormCard>

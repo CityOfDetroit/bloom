@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd"
 import { nanoid } from "nanoid"
-import { getTranslationWithArguments } from "../helpers/getTranslationWithArguments"
+import { getTranslationWithArguments } from "../helpers/translationHelpers"
 import { Icon } from "../icons/Icon"
 import { t } from "../helpers/translator"
 
@@ -111,11 +111,14 @@ export const StandardTable = (props: StandardTableProps) => {
     const cols = Object.keys(headers)?.map((colKey, colIndex) => {
       const uniqKey = process.env.NODE_ENV === "test" ? `standardcol-${colIndex}` : nanoid()
       const cell = row[colKey]
+
+      const cellClass = [cellClassName, headerClassName(headers[colKey])].join(" ")
+
       return (
         <Cell
           key={uniqKey}
           headerLabel={getTranslationWithArguments(headerName(headers[colKey]))}
-          className={[cellClassName, headerClassName(headers[colKey])].join(" ")}
+          className={cellClass !== " " ? cellClass : undefined}
         >
           {cell}
         </Cell>

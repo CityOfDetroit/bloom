@@ -15,6 +15,7 @@ import { ApplicationMethodsModule } from "../../src/application-methods/applicat
 import { PaperApplicationsModule } from "../../src/paper-applications/paper-applications.module"
 import { ListingEventCreateDto } from "../../src/listings/dto/listing-event.dto"
 import { ListingEventType } from "../../src/listings/types/listing-event-type-enum"
+import { Listing } from "../../src/listings/entities/listing.entity"
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const dbOptions = require("../../ormconfig.test")
@@ -53,7 +54,7 @@ describe("Listings", () => {
     const page = "1"
     // This is the number of listings in ../../src/seed.ts minus 1
     // TODO(#374): get this number programmatically
-    const limit = 11
+    const limit = 13
     const params = "/?page=" + page + "&limit=" + limit.toString()
     const res = await supertest(app.getHttpServer())
       .get("/listings" + params)
@@ -65,7 +66,7 @@ describe("Listings", () => {
     // Make the limit 1 less than the full number of listings, so that the second page contains
     // only one listing.
     const page = "2"
-    const limit = "11"
+    const limit = "13"
     const params = "/?page=" + page + "&limit=" + limit
     const res = await supertest(app.getHttpServer())
       .get("/listings" + params)
@@ -76,7 +77,7 @@ describe("Listings", () => {
   // TODO: replace jsonpath with SQL-level filtering
   it("should return only the specified listings", async () => {
     const query =
-      "/?jsonpath=%24%5B%3F%28%40.applicationAddress.city%3D%3D%22Foster%20City%22%29%5D"
+      "/?limit=all&jsonpath=%24%5B%3F%28%40.applicationAddress.city%3D%3D%22Foster%20City%22%29%5D"
     const res = await supertest(app.getHttpServer()).get(`/listings${query}`).expect(200)
     expect(res.body.items.length).toEqual(1)
     expect(res.body.items[0].applicationAddress.city).toEqual("Foster City")
@@ -84,16 +85,23 @@ describe("Listings", () => {
 
   // TODO: replace jsonpath with SQL-level filtering
   it("shouldn't return any listings for incorrect query", async () => {
-    const query = "/?jsonpath=%24%5B%3F(%40.applicationNONSENSE.argh%3D%3D%22San+Jose%22)%5D"
+    const query =
+      "/?limit=all&jsonpath=%24%5B%3F(%40.applicationNONSENSE.argh%3D%3D%22San+Jose%22)%5D"
     const res = await supertest(app.getHttpServer()).get(`/listings${query}`).expect(200)
     expect(res.body.items.length).toEqual(0)
   })
 
   // TODO: replace jsonpath with SQL-level filtering
   it("should return only active listings", async () => {
-    const query = "/?jsonpath=%24%5B%3F%28%40.status%3D%3D%22active%22%29%5D"
+    const query = "/?limit=all&jsonpath=%24%5B%3F%28%40.status%3D%3D%22active%22%29%5D"
     const res = await supertest(app.getHttpServer()).get(`/listings${query}`).expect(200)
     expect(res.body.items.map((listing) => listing.id).length).toBeGreaterThan(0)
+  })
+
+  it("should return listings with matching zipcodes", async () => {
+    const query = "/?limit=all&filter[$comparison]=IN&filter[zipcode]=48211,48201"
+    const res = await supertest(app.getHttpServer()).get(`/listings${query}`).expect(200)
+    expect(res.body.items.length).toBeGreaterThanOrEqual(2)
   })
 
   it("should modify property related fields of a listing and return a modified value", async () => {
@@ -153,7 +161,7 @@ describe("Listings", () => {
   it("should add/overwrite application methods in existing listing", async () => {
     const res = await supertest(app.getHttpServer()).get("/listings").expect(200)
 
-    const listing: ListingUpdateDto = { ...res.body.items[0] }
+    const listing: Listing = { ...res.body.items[0] }
 
     const adminAccessToken = await getUserAccessToken(app, "admin@example.com", "abcdef")
 
@@ -177,6 +185,7 @@ describe("Listings", () => {
     const am: ApplicationMethodCreateDto = {
       type: ApplicationMethodType.FileDownload,
       paperApplications: [{ id: paperApplication.body.id }],
+      listing: listing,
     }
 
     const applicationMethod = await supertest(app.getHttpServer())

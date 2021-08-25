@@ -13,6 +13,11 @@ import {
   TimeFieldPeriod,
   Modal,
   AppearanceBorderType,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
+  LatitudeLongitude,
 } from "@bloom-housing/ui-components"
 import { useForm, FormProvider } from "react-hook-form"
 import {
@@ -44,7 +49,7 @@ import ListingPhoto from "./sections/ListingPhoto"
 import BuildingFeatures from "./sections/BuildingFeatures"
 import RankingsAndResults from "./sections/RankingsAndResults"
 import ApplicationAddress from "./sections/ApplicationAddress"
-import ApplicationDates from "./sections/ApplicationDates"
+import LotteryResults from "./sections/LotteryResults"
 import Preferences from "./sections/Preferences"
 import CommunityType from "./sections/CommunityType"
 
@@ -167,11 +172,8 @@ const defaults: FormListing = {
   waitlistMaxSize: null,
   isWaitlistOpen: null,
   waitlistOpenSpots: null,
-  whatToExpect: {
-    applicantsWillBeContacted: "",
-    allInfoWillBeVerified: "",
-    bePreparedIfChosen: "",
-  },
+  whatToExpect:
+    "Applicants will be contacted by the property agent in rank order until vacancies are filled. All of the information that you have provided will be verified and your eligibility confirmed. Your application will be removed from the waitlist if you have made any fraudulent statements. If we cannot verify a housing preference that you have claimed, you will not receive the preference but will not be otherwise penalized. Should your application be chosen, be prepared to fill out a more detailed application and provide required supporting documents.",
   units: [],
   accessibility: "",
   amenities: "",
@@ -190,6 +192,7 @@ const defaults: FormListing = {
   urlSlug: undefined,
   showWaitlist: false,
   reviewOrderType: null,
+  unitsSummary: [],
   unitsSummarized: {
     unitTypes: [],
     priorityTypes: [],
@@ -216,7 +219,9 @@ const formatFormData = (
   data: FormListing,
   units: TempUnit[],
   openHouseEvents: TempEvent[],
-  preferences: Preference[]
+  preferences: Preference[],
+  saveLatLong: LatitudeLongitude,
+  customPinPositionChosen: boolean
 ) => {
   const showWaitlistNumber =
     data.waitlistOpenQuestion === YesNoAnswer.Yes && data.waitlistSizeQuestion === YesNoAnswer.Yes
@@ -263,7 +268,9 @@ const formatFormData = (
     delete unit.tempId
   })
 
-  const events: ListingEventCreate[] = []
+  const events: ListingEventCreate[] = data.events.filter(
+    (event) => !(event?.type === ListingEventType.publicLottery)
+  )
   if (data.lotteryDate && data.reviewOrderQuestion === "reviewOrderLottery") {
     const startTime = createTime(createDate(data.lotteryDate), data.lotteryStartTime)
     const endTime = createTime(createDate(data.lotteryDate), data.lotteryEndTime)
@@ -291,6 +298,12 @@ const formatFormData = (
     disableUnitsAccordion: stringToBoolean(data.disableUnitsAccordion),
     units: units,
     preferences: preferences,
+    buildingAddress: {
+      ...data.buildingAddress,
+      latitude: saveLatLong.latitude ?? null,
+      longitude: saveLatLong.longitude ?? null,
+    },
+    customMapPin: customPinPositionChosen,
     isWaitlistOpen: data.waitlistOpenQuestion === YesNoAnswer.Yes,
     applicationDueDate: applicationDueDateFormatted,
     yearBuilt: data.yearBuilt ? Number(data.yearBuilt) : null,
@@ -341,6 +354,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
 
   const { listingsService } = useContext(AuthContext)
 
+  const [tabIndex, setTabIndex] = useState(0)
   const [alert, setAlert] = useState<AlertErrorType | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [status, setStatus] = useState<ListingStatus>(null)
@@ -348,11 +362,29 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
   const [units, setUnits] = useState<TempUnit[]>([])
   const [openHouseEvents, setOpenHouseEvents] = useState<TempEvent[]>([])
   const [preferences, setPreferences] = useState<Preference[]>(listing?.preferences ?? [])
+  const [latLong, setLatLong] = useState<LatitudeLongitude>({
+    latitude: listing?.buildingAddress?.latitude ?? null,
+    longitude: listing?.buildingAddress?.longitude ?? null,
+  })
+  const [customMapPositionChosen, setCustomMapPositionChosen] = useState(
+    listing?.customMapPin || false
+  )
+
+  const setLatitudeLongitude = (latlong: LatitudeLongitude) => {
+    if (!loading) {
+      setLatLong(latlong)
+    }
+  }
 
   /**
    * Close modal
    */
   const [closeModal, setCloseModal] = useState(false)
+
+  /**
+   * Lottery results drawer
+   */
+  const [lotteryResultsDrawer, setLotteryResultsDrawer] = useState(false)
 
   useEffect(() => {
     if (listing?.units) {
@@ -399,9 +431,16 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
           status,
         }
         const orderedPreferences = preferences.map((pref, index) => {
-          return { ...pref, ordinal: index }
+          return { ...pref, ordinal: index + 1 }
         })
-        const formattedData = formatFormData(data, units, openHouseEvents, orderedPreferences)
+        const formattedData = formatFormData(
+          data,
+          units,
+          openHouseEvents,
+          orderedPreferences,
+          latLong,
+          customMapPositionChosen
+        )
         const result = editMode
           ? await listingsService.update({
               listingId: listing.id,
@@ -423,7 +462,17 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
         setAlert("api")
       }
     },
-    [units, openHouseEvents, editMode, listingsService, listing, router, preferences]
+    [
+      units,
+      openHouseEvents,
+      editMode,
+      listingsService,
+      listing,
+      router,
+      preferences,
+      latLong,
+      customMapPositionChosen,
+    ]
   )
 
   const onError = () => {
@@ -446,7 +495,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
               <Button
                 inlineIcon="left"
                 icon="arrowBack"
-                onClick={() => (editMode ? router.push(`/listing/${listing?.id}`) : router.back())}
+                onClick={() => (editMode ? router.push(`/listings/${listing?.id}`) : router.back())}
               >
                 {t("t.back")}
               </Button>
@@ -479,30 +528,83 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
 
                 <Form id="listing-form" onSubmit={handleSubmit(triggerSubmit, onError)}>
                   <div className="flex flex-row flex-wrap">
-                    <div className="info-card md:w-9/12">
-                      <ListingIntro />
-                      <ListingPhoto />
-                      <BuildingDetails />
-                      <CommunityType listing={listing} />
-                      <Units
-                        units={units}
-                        setUnits={setUnits}
-                        unitsSummary={listing?.unitsSummarized}
-                        disableUnitsAccordion={listing?.disableUnitsAccordion}
-                      />
-                      <Preferences preferences={preferences} setPreferences={setPreferences} />
-                      <AdditionalFees />
-                      <BuildingFeatures />
-                      <AdditionalEligibility />
-                      <AdditionalDetails />
-                      <RankingsAndResults listing={listing} />
-                      <LeasingAgent />
-                      <ApplicationAddress listing={listing} />
-                      <ApplicationDates
-                        listing={listing}
-                        openHouseEvents={openHouseEvents}
-                        setOpenHouseEvents={setOpenHouseEvents}
-                      />
+                    <div className="md:w-9/12 pb-24">
+                      <Tabs
+                        forceRenderTabPanel={true}
+                        selectedIndex={tabIndex}
+                        onSelect={(index) => setTabIndex(index)}
+                      >
+                        <TabList>
+                          <Tab>Listing Details</Tab>
+                          <Tab>Application Process</Tab>
+                        </TabList>
+                        <TabPanel>
+                          <ListingIntro />
+                          <ListingPhoto />
+                          <BuildingDetails
+                            listing={listing}
+                            setLatLong={setLatitudeLongitude}
+                            latLong={latLong}
+                            customMapPositionChosen={customMapPositionChosen}
+                            setCustomMapPositionChosen={setCustomMapPositionChosen}
+                          />
+                          <CommunityType listing={listing} />
+                          <Units
+                            units={units}
+                            setUnits={setUnits}
+                            unitsSummary={listing?.unitsSummarized}
+                            disableUnitsAccordion={listing?.disableUnitsAccordion}
+                          />
+                          <Preferences preferences={preferences} setPreferences={setPreferences} />
+                          <AdditionalFees />
+                          <BuildingFeatures />
+                          <AdditionalEligibility />
+                          <AdditionalDetails />
+
+                          <div className="text-right -mr-8 -mt-8 relative" style={{ top: "7rem" }}>
+                            <Button
+                              type="button"
+                              icon="arrowForward"
+                              onClick={() => {
+                                setTabIndex(1)
+                                window.scrollTo({ top: 0, behavior: "smooth" })
+                              }}
+                            >
+                              Application Process
+                            </Button>
+                          </div>
+                        </TabPanel>
+                        <TabPanel>
+                          <RankingsAndResults listing={listing} />
+                          <LeasingAgent />
+                          <ApplicationAddress listing={listing} />
+
+                          <div className="-ml-8 -mt-8 relative" style={{ top: "7rem" }}>
+                            <Button
+                              type="button"
+                              icon="arrowBack"
+                              iconPlacement="left"
+                              onClick={() => {
+                                setTabIndex(0)
+                                window.scrollTo({ top: 0, behavior: "smooth" })
+                              }}
+                            >
+                              Listing Details
+                            </Button>
+                          </div>
+                        </TabPanel>
+                      </Tabs>
+
+                      {listing?.status === ListingStatus.closed && (
+                        <LotteryResults
+                          submitCallback={(data) => {
+                            setStatus(ListingStatus.closed)
+                            triggerSubmit({ ...getValues(), ...data })
+                          }}
+                          drawerState={lotteryResultsDrawer}
+                          showDrawer={(toggle: boolean) => setLotteryResultsDrawer(toggle)}
+                        />
+                      )}
                     </div>
 
                     <aside className="md:w-3/12 md:pl-6">
@@ -510,6 +612,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                         type={editMode ? "edit" : "add"}
                         setStatus={setStatus}
                         showCloseListingModal={() => setCloseModal(true)}
+                        showLotteryResultsDrawer={() => setLotteryResultsDrawer(true)}
                       />
                     </aside>
                   </div>

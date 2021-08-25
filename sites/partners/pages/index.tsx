@@ -8,20 +8,18 @@ import {
   Button,
   LocalizedLink,
 } from "@bloom-housing/ui-components"
-import moment from "moment"
-import { UserRole, Listing } from "@bloom-housing/backend-core/types"
+import { Listing } from "@bloom-housing/backend-core/types"
 import { AgGridReact } from "ag-grid-react"
 import { GridOptions } from "ag-grid-community"
 
 import { useListingsData } from "../lib/hooks"
 import Layout from "../layouts"
 import { MetaTags } from "../src/MetaTags"
-import { Router, useRouter } from "next/router"
 
 export default function ListingsList() {
   const { profile } = useContext(AuthContext)
   const leasingAgentInListings = profile.leasingAgentInListings?.map((item) => item.id)
-  const isAdmin = profile.roles.includes(UserRole.admin)
+  const isAdmin = profile.roles?.isAdmin || false
   class formatLinkCell {
     link: HTMLAnchorElement
 
@@ -81,27 +79,31 @@ export default function ListingsList() {
   const columnDefs = useMemo(() => {
     const columns = [
       {
-        headerName: t("listings.applications"),
-        field: isAdmin ? "applicationCount" : "name",
+        headerName: t("listings.listingName"),
+        field: "name",
+        sortable: true,
+        sort: "asc",
+        filter: false,
+        resizable: true,
+        cellRenderer: "ListingsLink",
+      },
+      {
+        headerName: t("listings.listingStatusText"),
+        field: "status",
         sortable: false,
         filter: false,
         resizable: true,
+        flex: 1,
+        valueFormatter: ({ value }) => t(`listings.${value}`),
         cellRenderer: "ApplicationsLink",
       },
       {
-        headerName: t("listings.property.buildingAddress"),
-        field: "property.buildingAddress.street",
-        sortable: false,
+        headerName: t("listings.buildingAddress"),
+        field: "buildingAddress.street",
+        sortable: true,
         filter: false,
         resizable: true,
-      },
-      {
-        headerName: t("listings.applicationDeadline"),
-        field: "applicationDueDate",
-        sortable: false,
-        filter: false,
-        resizable: true,
-        valueFormatter: ({ value }) => moment(value).format("MM/DD/YYYY"),
+        flex: 1,
       },
       {
         headerName: t("listings.availableUnits"),
@@ -118,34 +120,15 @@ export default function ListingsList() {
         resizable: true,
         cellRenderer: "formatWaitlistStatus",
       },
-      {
-        headerName: t("listings.listingStatusText"),
-        field: "status",
-        sortable: false,
-        filter: false,
-        resizable: true,
-        flex: 1,
-        valueFormatter: ({ value }) => t(`listings.${value}`),
-      },
     ]
-    if (isAdmin) {
-      columns.unshift({
-        headerName: t("listings.listingName"),
-        field: "name",
-        sortable: false,
-        filter: false,
-        resizable: true,
-        cellRenderer: "ListingsLink",
-      })
-    }
     return columns
-  }, [isAdmin])
+  }, [])
 
   const { listingDtos, listingsLoading, listingsError } = useListingsData()
 
   // filter listings to show items depends on user role
   const filteredListings = useMemo(() => {
-    if (profile.roles.includes(UserRole.admin)) return listingDtos
+    if (isAdmin) return listingDtos
 
     return listingDtos?.reduce((acc, curr) => {
       if (leasingAgentInListings.includes(curr.id)) {
@@ -154,7 +137,7 @@ export default function ListingsList() {
 
       return acc
     }, []) as Listing[]
-  }, [leasingAgentInListings, listingDtos, profile.roles])
+  }, [leasingAgentInListings, listingDtos, isAdmin])
 
   if (listingsLoading) return "Loading..."
   if (listingsError) return "An error has occurred."

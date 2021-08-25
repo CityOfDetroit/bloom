@@ -16,6 +16,7 @@ export interface ImageCardProps {
   tagLabel?: string
   appStatus?: ApplicationStatusType
   appStatusContent?: string
+  appStatusSubContent?: string
 }
 
 const ImageCard = (props: ImageCardProps) => {
@@ -25,7 +26,12 @@ const ImageCard = (props: ImageCardProps) => {
   if (props.appStatus !== undefined && props.appStatusContent !== undefined) {
     statusLabel = (
       <aside className="image-card__status">
-        <ApplicationStatus status={props.appStatus} content={props.appStatusContent} vivid />
+        <ApplicationStatus
+          status={props.appStatus}
+          content={props.appStatusContent}
+          subContent={props.appStatusSubContent}
+          vivid
+        />
       </aside>
     )
   }
@@ -42,9 +48,12 @@ const ImageCard = (props: ImageCardProps) => {
     <div className="image-card__wrapper">
       {tag}
       <figure className="image-card">
-        {props.imageUrl && (
-          <img src={props.imageUrl} alt={props.description || t("listings.buildingImageAltText")} />
-        )}
+        {
+          <img
+            src={props.imageUrl || "/images/detroitDefault.png"}
+            alt={props.description || t("listings.buildingImageAltText")}
+          />
+        }
         <figcaption className="image-card__figcaption">
           <h2 className="image-card__title">{props.title}</h2>
           {props.subtitle && <p className="image-card__subtitle">{props.subtitle}</p>}
