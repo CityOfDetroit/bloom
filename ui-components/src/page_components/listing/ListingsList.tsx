@@ -27,6 +27,7 @@ const ListingsList = (props: ListingsProps) => {
       minimumIncome: t("t.minimumIncome"),
       rent: t("t.rent"),
       totalCount: t("t.totalCount"),
+      availability: t("t.availability"),
     }
 
     let unitSummaries = [] as GroupedTableGroup[]
