@@ -1,3 +1,6 @@
+/*eslint no-undef: "error"*/
+/*eslint-env node*/
+
 module.exports = {
   testRegex: ["/*.test.tsx$", "/*.test.ts$"],
   globals: {
