@@ -28,7 +28,7 @@ export const unitSummariesTable = (summaries: UnitsSummary[]) => {
     // Use rent as percent income if available, otherwise use exact rent
     const rent = unitSummary.monthlyRentAsPercentOfIncome
       ? getRent(unitSummary.monthlyRentAsPercentOfIncome.toString(), true)
-      : getRent(unitSummary.monthlyRent)
+      : getRent(unitSummary.monthlyRent?.toString() || "")
 
     return {
       unitType: <strong>{t(`listings.unitTypes.${unitSummary.unitType.name}`)}</strong>,

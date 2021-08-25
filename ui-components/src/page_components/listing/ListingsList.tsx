@@ -30,7 +30,7 @@ const ListingsList = (props: ListingsProps) => {
 
     let unitSummaries = [] as GroupedTableGroup[]
     if (listing.unitsSummarized !== undefined) {
-      unitSummaries = getSummariesTable(listing.unitsSummarized.byUnitTypeAndRent)
+      unitSummaries = getSummariesTable(listing.unitsSummary)
     }
 
     // address as subtitle
