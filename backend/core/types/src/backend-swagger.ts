@@ -3822,7 +3822,10 @@ export interface UnitsSummary {
   monthlyRentMax?: string
 
   /**  */
-  monthlyRentAsPercentOfIncome?: string
+  monthlyRentAsPercentOfIncomeMin?: string
+
+  /**  */
+  monthlyRentAsPercentOfIncomeMax?: string
 
   /**  */
   amiPercentage?: string
