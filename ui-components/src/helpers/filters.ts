@@ -4,7 +4,6 @@ import {
   ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
-import Listing from "@bloom-housing/backend-core/dist/src/listings/entities/listing.entity"
 
 function getComparisonForFilter(filterKey: ListingFilterKeys) {
   switch (filterKey) {
