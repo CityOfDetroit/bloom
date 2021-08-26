@@ -18,8 +18,8 @@
   "private": true,
   "scripts": {
     "dev:app:public": "wait-on \"http-get://localhost:${PORT:-3100}/listings\" && cd sites/public && yarn dev",
-    "test:app:public": "wait-on \"http-get://localhost:${PORT:-3100}/listings\" && cd sites/public && yarn test:cypress",
-    "test:app:public:headless": "wait-on \"http-get://localhost:${PORT:-3100}/listings\" && cd sites/public && yarn test:cypress:headless",
+    "test:app:public": "wait-on \"http-get://localhost:${PORT:-3100}/listings\" && cd sites/public && yarn test",
+    "test:app:public:headless": "wait-on \"http-get://localhost:${PORT:-3100}/listings\" && cd sites/public && yarn test:headless",
     "build:app:public": "cd sites/public && yarn build",
     "dev:app:partners": "wait-on \"http-get://localhost:${PORT:-3100}/listings\" && cd sites/partners && yarn dev",
     "test:app:partners": "wait-on \"http-get://localhost:${PORT:-3100}/listings\" && cd sites/partners && yarn test",
@@ -38,6 +38,7 @@
     "test:e2e:backend:core": "cd backend/core && yarn test:e2e:local",
     "test:apps": "concurrently \"yarn dev:backend\" \"yarn test:app:public\"",
     "test:apps:headless": "concurrently \"yarn dev:backend\" \"yarn test:app:public:headless\"",
+    "test:public:unit-tests": "cd sites/public && yarn test:unit-tests",
     "lint": "eslint '**/*.ts' '**/*.tsx' '**/*.js'",
     "db:reseed": "cd backend/core && yarn db:reseed",
     "install:all": "yarn install && cd backend/core && yarn install",
