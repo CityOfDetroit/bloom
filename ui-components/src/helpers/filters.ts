@@ -40,7 +40,11 @@ export function encodeToFrontendFilterString(filterParams: ListingFilterParams) 
   for (const filterType in filterParams) {
     const value = filterParams[filterType]
 
-    if (filterType in ListingFilterKeys && value !== undefined) {
+    if (
+      filterType in ListingFilterKeys &&
+      value !== undefined &&
+      (typeof value == "string" ? value !== "" : true)
+    ) {
       queryString += `&${filterType}=${value}`
     }
   }
