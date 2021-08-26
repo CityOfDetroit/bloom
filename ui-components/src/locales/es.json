@@ -1231,6 +1231,7 @@
         },
         "zipCode": "Código postal",
         "zipCodeDescription": "Ingresa tu código postal",
+        "seniorHousing": "Vivienda con edad limitada (62+)",
         "noResults": "No hay resultados",
         "noResultsSubtitle": "Edite o elimine filtros para obtener mejores resultados."
     },

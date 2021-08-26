@@ -1231,6 +1231,7 @@
         },
         "zipCode": "জিপ কোড",
         "zipCodeDescription": "জিপ কোড প্রবেশ",
+        "seniorHousing": "বয়স সীমিত আবাসন (62+)",
         "noResults": "কোন ফলাফল নেই",
         "noResultsSubtitle": "সেরা ফলাফলের জন্য ফিল্টার সম্পাদনা বা অপসারণ করুন।"
     },

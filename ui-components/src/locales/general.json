@@ -1291,6 +1291,7 @@
     },
     "zipCode": "Zip code",
     "zipCodeDescription": "Enter zip code",
+    "seniorHousing": "Age Limited Housing (62+)",
     "noResults": "No results",
     "noResultsSubtitle": "Edit or remove filters for best results."
   },
