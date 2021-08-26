@@ -15,6 +15,7 @@ import {
   decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
+  IconTypes,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -36,6 +37,26 @@ const isValidZipCodeOrEmpty = (value: string) => {
     }
   })
   return returnValue
+}
+
+function getNumberOfFilters(filterState: ListingFilterParams): number {
+  let number = 0
+  if (filterState?.bedrooms) {
+    number++
+  }
+  if (filterState?.name) {
+    number++
+  }
+  if (filterState?.neighborhood) {
+    number++
+  }
+  if (filterState?.status) {
+    number++
+  }
+  if (filterState?.zipcode) {
+    number++
+  }
+  return number
 }
 
 const ListingsPage = () => {
@@ -98,6 +119,11 @@ const ListingsPage = () => {
     itemsPerPage,
     filterState
   )
+
+  const numberOfFilters = getNumberOfFilters(filterState)
+  const buttonTitle = numberOfFilters
+    ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
+    : t("listingFilters.buttonTitle")
 
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
@@ -195,8 +221,21 @@ const ListingsPage = () => {
           size={AppearanceSizeType.small}
           onClick={() => setFilterModalVisible(true)}
         >
-          {t("listingFilters.buttonTitle")}
+          {buttonTitle}
         </Button>
+        {numberOfFilters > 0 && (
+          <Button
+            className="mx-2 mt-6"
+            size={AppearanceSizeType.small}
+            styleType={AppearanceStyleType.secondary}
+            // "Submit" the form with no params to trigger a reset.
+            onClick={() => onSubmit({})}
+            icon="close"
+            iconPlacement="left"
+          >
+            {t("listingFilters.resetButton")}
+          </Button>
+        )}
       </div>
       {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
         <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
