@@ -3819,7 +3819,10 @@ export interface UnitsSummary {
   listing: Listing
 
   /**  */
-  monthlyRent?: string
+  monthlyRentMin?: string
+
+  /**  */
+  monthlyRentMax?: string
 
   /**  */
   monthlyRentAsPercentOfIncome?: string
