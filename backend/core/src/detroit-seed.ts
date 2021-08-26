@@ -24,6 +24,12 @@ import { ListingTreymoreSeed } from "./seeds/listings/listing-detroit-treymore"
 import { UserRoles } from "./auth/entities/user-roles.entity"
 import { AmiChart } from "./ami-charts/entities/ami-chart.entity"
 import { WayneCountyMSHDA2021 } from "./seeds/ami-charts"
+import { Listing10151Seed } from "./seeds/listings/listing-detroit-10151"
+import { Listing10153Seed } from "./seeds/listings/listing-detroit-10153"
+import { Listing10154Seed } from "./seeds/listings/listing-detroit-10154"
+import { Listing10155Seed } from "./seeds/listings/listing-detroit-10155"
+import { Listing10159Seed } from "./seeds/listings/listing-detroit-10159"
+import { Listing10168Seed } from "./seeds/listings/listing-detroit-10168"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },
@@ -35,8 +41,14 @@ const argv = yargs.scriptName("seed").options({
 const listingSeeds: any[] = [
   Listing10145Seed,
   Listing10147Seed,
+  Listing10151Seed,
+  Listing10153Seed,
+  Listing10154Seed,
+  Listing10155Seed,
   Listing10157Seed,
   Listing10158Seed,
+  Listing10159Seed,
+  Listing10168Seed,
   ListingTreymoreSeed,
 ]
 
