@@ -2,6 +2,7 @@ import { HttpException, HttpStatus } from "@nestjs/common"
 import { WhereExpression } from "typeorm"
 import { Compare } from "../dto/filter.dto"
 import { ListingFilterKeys } from "../../listings/types/listing-filter-keys-enum"
+import { buildSeniorHousingQuery } from "./custom_filters"
 
 /**
  *
@@ -81,27 +82,10 @@ export function addFilters<FilterParams, FilterFieldMap>(
               break
             case Compare["<>"]:
             case Compare["="]:
-              if (filterType == ListingFilterKeys.seniorHousing && filterValue == "true") {
-                qb.andWhere(
-                  `LOWER(CAST(${
-                    filterTypeToFieldMap[ListingFilterKeys.seniorHousing]
-                  } as text)) ${comparison} LOWER(:${whereParameterName})`,
-                  {
-                    [whereParameterName]: "senior62",
-                  }
-                )
+              if (filterType == ListingFilterKeys.seniorHousing) {
+                buildSeniorHousingQuery(qb, filterValue)
+                break
               }
-              if (filterType == ListingFilterKeys.seniorHousing && filterValue == "false") {
-                qb.andWhere(
-                  `LOWER(CAST(${filterTypeToFieldMap[ListingFilterKeys.seniorHousing]} as text)) ${
-                    Compare["<>"]
-                  } LOWER(:${whereParameterName})`,
-                  {
-                    [whereParameterName]: "senior62",
-                  }
-                )
-              }
-              break
             case Compare[">="]:
               qb.andWhere(
                 `LOWER(CAST(${filterField} as text)) ${comparison} LOWER(:${whereParameterName})`,
