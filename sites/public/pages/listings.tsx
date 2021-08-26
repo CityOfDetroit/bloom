@@ -182,6 +182,7 @@ const ListingsPage = () => {
               name="seniorHousing"
               label={t("listingFilters.seniorHousing")}
               register={register}
+              controlClassName="control"
               options={seniorHousingOptions}
             />
           </div>
