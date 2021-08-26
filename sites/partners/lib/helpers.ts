@@ -13,7 +13,7 @@ import {
   ListingEventType,
   ListingEvent,
 } from "@bloom-housing/backend-core/types"
-import { TempUnit, FormListing } from "../src/listings/PaperListingForm"
+import { TempUnit, FormListing, TempUnitsSummary } from "../src/listings/PaperListingForm"
 
 type DateTimePST = {
   hour: string
@@ -89,7 +89,11 @@ export const convertDataToPst = (dateObj: Date, type: ApplicationSubmissionType)
   }
 }
 
-export const stringToNumber = (str: string | number | undefined): number => {
+export const toNumberOrNull = (obj: string | number | undefined): number => {
+  return obj ? Number(obj) : null
+}
+
+export const stringToNumberOrOne = (str: string | number | undefined): number => {
   return str ? Number(str) : 1
 }
 
@@ -105,6 +109,14 @@ export const getRentType = (unit: TempUnit): string | null => {
   return unit?.monthlyIncomeMin && unit?.monthlyRent
     ? "fixed"
     : unit?.monthlyRentAsPercentOfIncome
+    ? "percentage"
+    : null
+}
+
+export const getRentTypeFromUnitsSummary = (summary: TempUnitsSummary): string | null => {
+  return summary?.minimumIncomeMin && summary?.monthlyRent
+    ? "fixed"
+    : summary?.monthlyRentAsPercentOfIncome
     ? "percentage"
     : null
 }
