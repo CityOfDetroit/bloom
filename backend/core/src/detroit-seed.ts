@@ -12,15 +12,9 @@ import { INestApplicationContext } from "@nestjs/common"
 import { ListingDefaultSeed } from "./seeds/listings/listing-default-seed"
 import { defaultLeasingAgents } from "./seeds/listings/shared"
 import { Listing } from "./listings/entities/listing.entity"
-import { ListingColiseumSeed } from "./seeds/listings/listing-coliseum-seed"
-import { ListingDefaultOpenSoonSeed } from "./seeds/listings/listing-default-open-soon"
-import { ListingDefaultOnePreferenceSeed } from "./seeds/listings/listing-default-one-preference-seed"
-import { ListingDefaultNoPreferenceSeed } from "./seeds/listings/listing-default-no-preference-seed"
-import { ListingTritonSeed } from "./seeds/listings/listing-triton-seed"
 import { ApplicationMethodsService } from "./application-methods/application-methods.service"
 import { ApplicationMethodType } from "./application-methods/types/application-method-type-enum"
 import { AuthContext } from "./auth/types/auth-context"
-import { ListingDefaultReservedSeed } from "./seeds/listings/listing-default-reserved-seed"
 import { Listing10158Seed } from "./seeds/listings/listing-detroit-10158"
 import { Listing10157Seed } from "./seeds/listings/listing-detroit-10157"
 import { Listing10147Seed } from "./seeds/listings/listing-detroit-10147"
@@ -30,8 +24,6 @@ import { ListingTreymoreSeed } from "./seeds/listings/listing-detroit-treymore"
 import { UserRoles } from "./auth/entities/user-roles.entity"
 import { AmiChart } from "./ami-charts/entities/ami-chart.entity"
 import { WayneCountyMSHDA2021 } from "./seeds/ami-charts"
-import { ListingDefaultMultipleAMI } from "./seeds/listings/listing-default-multiple-ami"
-import { ListingDefaultMultipleAMIAndPercentages } from "./seeds/listings/listing-default-multiple-ami-and-percentages"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },
@@ -41,20 +33,11 @@ const argv = yargs.scriptName("seed").options({
 // number in listings.e2e-spec.ts.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const listingSeeds: any[] = [
-  ListingDefaultSeed,
-  ListingColiseumSeed,
-  ListingDefaultOpenSoonSeed,
-  ListingDefaultOnePreferenceSeed,
-  ListingDefaultNoPreferenceSeed,
-  ListingTritonSeed,
-  ListingDefaultReservedSeed,
   Listing10145Seed,
   Listing10147Seed,
   Listing10157Seed,
   Listing10158Seed,
   ListingTreymoreSeed,
-  ListingDefaultMultipleAMI,
-  ListingDefaultMultipleAMIAndPercentages,
 ]
 
 export function getSeedListingsCount() {
@@ -93,7 +76,7 @@ const seedListings = async (app: INestApplicationContext, rolesRepo: Repository<
 
   for (const [index, listingSeed] of allSeeds.entries()) {
     const listing = await listingSeed.seed()
-    // Don't add leasing agent assignments for Detroit
+    // TODO: add leasing agent assignments for Detroit
     if (listing.countyCode !== CountyCode.detroit) {
       const everyOtherAgent = index % 2 ? leasingAgents[0] : leasingAgents[1]
       listing.leasingAgents = [everyOtherAgent]
