@@ -31,6 +31,7 @@ import {
   ListingEventType,
   ListingEventCreate,
   Preference,
+  UnitsSummary,
 } from "@bloom-housing/backend-core/types"
 import { YesNoAnswer } from "../../applications/PaperApplicationForm/FormTypes"
 import moment from "moment"
@@ -42,7 +43,13 @@ import AdditionalEligibility from "./sections/AdditionalEligibility"
 import LeasingAgent from "./sections/LeasingAgent"
 import AdditionalFees from "./sections/AdditionalFees"
 import Units from "./sections/Units"
-import { stringToBoolean, stringToNumber, createDate, createTime } from "../../../lib/helpers"
+import {
+  stringToBoolean,
+  stringToNumberOrOne,
+  createDate,
+  createTime,
+  toNumberOrNull,
+} from "../../../lib/helpers"
 import BuildingDetails from "./sections/BuildingDetails"
 import ListingIntro from "./sections/ListingIntro"
 import ListingPhoto from "./sections/ListingPhoto"
@@ -211,6 +218,10 @@ export type TempUnit = Unit & {
   tempId?: number
 }
 
+export type TempUnitsSummary = UnitsSummary & {
+  tempId?: number
+}
+
 export type TempEvent = ListingEvent & {
   tempId?: string
 }
@@ -219,18 +230,13 @@ const formatFormData = (
   data: FormListing,
   units: TempUnit[],
   openHouseEvents: TempEvent[],
+  summaries: TempUnitsSummary[],
   preferences: Preference[],
   saveLatLong: LatitudeLongitude,
   customPinPositionChosen: boolean
 ) => {
   const showWaitlistNumber =
     data.waitlistOpenQuestion === YesNoAnswer.Yes && data.waitlistSizeQuestion === YesNoAnswer.Yes
-
-  const applicationDueDateFormatted = createDate(data.applicationDueDateField)
-  const applicationDueTimeFormatted = createTime(
-    applicationDueDateFormatted,
-    data.applicationDueTimeField
-  )
 
   units.forEach((unit) => {
     switch (unit.unitType?.name) {
@@ -250,14 +256,15 @@ const formatFormData = (
         unit.numBedrooms = null
     }
 
-    unit.floor = stringToNumber(unit.floor)
-    unit.maxOccupancy = stringToNumber(unit.maxOccupancy)
-    unit.minOccupancy = stringToNumber(unit.minOccupancy)
-    unit.numBathrooms = stringToNumber(unit.numBathrooms)
+    unit.floor = stringToNumberOrOne(unit.floor)
+    unit.maxOccupancy = stringToNumberOrOne(unit.maxOccupancy)
+    unit.minOccupancy = stringToNumberOrOne(unit.minOccupancy)
+    unit.numBathrooms = stringToNumberOrOne(unit.numBathrooms)
 
-    if (unit.sqFeet.length === 0) {
-      delete unit.sqFeet
-    }
+    // if (unit.sqFeet.length === 0) {
+    //   delete unit.sqFeet
+    // }
+    delete unit.sqFeet
 
     if (unit.id === undefined) {
       unit.id = ""
@@ -266,6 +273,26 @@ const formatFormData = (
     }
 
     delete unit.tempId
+  })
+  summaries.forEach((summary) => {
+    summary.minOccupancy = toNumberOrNull(summary.minOccupancy)
+    summary.maxOccupancy = toNumberOrNull(summary.maxOccupancy)
+    summary.floorMin = toNumberOrNull(summary.floorMin)
+    summary.floorMax = toNumberOrNull(summary.floorMax)
+    summary.totalAvailable = toNumberOrNull(summary.totalAvailable)
+    summary.totalCount = toNumberOrNull(summary.totalCount)
+
+    if (!summary.sqFeetMin) {
+      delete summary.sqFeetMin
+    }
+    if (!summary.sqFeetMax) {
+      delete summary.sqFeetMax
+    }
+
+    if (summary.id === undefined) {
+      summary.id = ""
+    }
+    delete summary.tempId
   })
 
   const events: ListingEventCreate[] = data.events.filter(
@@ -294,7 +321,6 @@ const formatFormData = (
 
   return {
     ...data,
-    applicationDueTime: applicationDueTimeFormatted,
     disableUnitsAccordion: stringToBoolean(data.disableUnitsAccordion),
     units: units,
     preferences: preferences,
@@ -305,7 +331,6 @@ const formatFormData = (
     },
     customMapPin: customPinPositionChosen,
     isWaitlistOpen: data.waitlistOpenQuestion === YesNoAnswer.Yes,
-    applicationDueDate: applicationDueDateFormatted,
     yearBuilt: data.yearBuilt ? Number(data.yearBuilt) : null,
     waitlistCurrentSize:
       data.waitlistCurrentSize && showWaitlistNumber ? Number(data.waitlistCurrentSize) : null,
@@ -340,6 +365,7 @@ const formatFormData = (
       : null,
     events,
     reservedCommunityType: data.reservedCommunityType.id ? data.reservedCommunityType : null,
+    unitsSummary: summaries,
   }
 }
 
@@ -360,6 +386,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
   const [status, setStatus] = useState<ListingStatus>(null)
   const [submitData, setSubmitData] = useState<SubmitData>({ ready: false, data: defaultValues })
   const [units, setUnits] = useState<TempUnit[]>([])
+  const [unitsSummaries, setUnitsSummaries] = useState<TempUnitsSummary[]>([])
   const [openHouseEvents, setOpenHouseEvents] = useState<TempEvent[]>([])
   const [preferences, setPreferences] = useState<Preference[]>(listing?.preferences ?? [])
   const [latLong, setLatLong] = useState<LatitudeLongitude>({
@@ -409,6 +436,14 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
 
       setOpenHouseEvents(events)
     }
+
+    if (listing?.unitsSummary) {
+      const tempSummaries = listing.unitsSummary.map((summary, i) => ({
+        ...summary,
+        tempId: i + 1,
+      }))
+      setUnitsSummaries(tempSummaries)
+    }
   }, [listing, setUnits, setOpenHouseEvents])
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -437,6 +472,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
           data,
           units,
           openHouseEvents,
+          unitsSummaries,
           orderedPreferences,
           latLong,
           customMapPositionChosen
@@ -464,6 +500,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
     },
     [
       units,
+      unitsSummaries,
       openHouseEvents,
       editMode,
       listingsService,
@@ -552,7 +589,8 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                           <Units
                             units={units}
                             setUnits={setUnits}
-                            unitsSummary={listing?.unitsSummarized}
+                            unitsSummaries={unitsSummaries}
+                            setSummaries={setUnitsSummaries}
                             disableUnitsAccordion={listing?.disableUnitsAccordion}
                           />
                           <Preferences preferences={preferences} setPreferences={setPreferences} />
