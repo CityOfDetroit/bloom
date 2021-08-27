@@ -3661,6 +3661,9 @@ export interface ListingFilterParams {
 
   /** */
   seniorHousing?: boolean
+
+  /** */
+  communityType?: EnumListingFilterParamsReservedCommunityType
 }
 
 export interface PreferenceLink {
@@ -5491,6 +5494,10 @@ export enum EnumListingFilterParamsStatus {
   "active" = "active",
   "pending" = "pending",
   "closed" = "closed",
+}
+export enum EnumListingFilterParamsReservedCommunityType {
+  "senior62" = "senior62",
+  "specialNeeds" = "specialNeeds",
 }
 export enum ListingApplicationAddressType {
   "leasingAgent" = "leasingAgent",

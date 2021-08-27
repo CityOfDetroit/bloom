@@ -779,6 +779,7 @@ export class ListingFilterParams extends BaseFilter {
   @Expose()
   @ApiProperty({
     enum: Object.keys(ReservedCommunityType),
+    type: Boolean,
     example: "senior62",
     required: false,
   })
@@ -827,4 +828,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   bedrooms: "unitTypeRef.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
   seniorHousing: "reservedCommunityType.name",
+  communityType: "reservedCommunityType.name",
 }
