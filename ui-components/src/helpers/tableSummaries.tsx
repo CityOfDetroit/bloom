@@ -3,7 +3,7 @@ import { t } from "./translator"
 import { UnitSummary } from "@bloom-housing/backend-core/types"
 import { GroupedTableGroup } from "../tables/GroupedTable"
 
-const getSummaryRow = (
+export const getSummaryRow = (
   minIncomeRangeMin: string,
   minIncomeRangeMax: string,
   rentRangeMin: string,
