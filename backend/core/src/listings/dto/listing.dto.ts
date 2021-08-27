@@ -33,7 +33,7 @@ import { AssetCreateDto, AssetDto, AssetUpdateDto } from "../../assets/dto/asset
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
 import { ListingEventCreateDto, ListingEventDto, ListingEventUpdateDto } from "./listing-event.dto"
 import { listingUrlSlug } from "../../shared/url-helper"
-import { UnitsSummaryUpdateDto } from "src/units-summary/dto/units-summary.dto"
+import { UnitsSummaryUpdateDto } from "../../units-summary/dto/units-summary.dto"
 
 export class ListingDto extends OmitType(Listing, [
   "applicationAddress",

@@ -262,7 +262,7 @@ const formatFormData = (
     unit.minOccupancy = stringToNumberOrOne(unit.minOccupancy)
     unit.numBathrooms = stringToNumberOrOne(unit.numBathrooms)
 
-    if (unit.sqFeet.length === 0) {
+    if (!unit.sqFeet) {
       delete unit.sqFeet
     }
 
@@ -288,8 +288,11 @@ const formatFormData = (
     if (!summary.sqFeetMax) {
       delete summary.sqFeetMax
     }
-    if (!summary.monthlyRent) {
-      delete summary.monthlyRent
+    if (!summary.monthlyRentMin) {
+      delete summary.monthlyRentMin
+    }
+    if (!summary.monthlyRentMax) {
+      delete summary.monthlyRentMax
     }
     if (!summary.monthlyRentAsPercentOfIncome) {
       delete summary.monthlyRentAsPercentOfIncome

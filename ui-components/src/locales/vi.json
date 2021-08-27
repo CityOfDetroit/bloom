@@ -550,6 +550,8 @@
       "occupancy": "Người ở",
       "floorMin": "Tầng tối thiểu",
       "floorMax": "Tầng tối đa",
+      "monthlyRentMin": "Tiền thuê hàng tháng tối thiểu",
+      "monthlyRentMax": "Tiền thuê hàng tháng tối đa",
       "sqFeetMin": "Đoạn Phim Hình vuông Tối thiểu",
       "sqFeetMax": "Đoạn Phim Hình vuông Tối đa",
       "availability": "khả dụng",

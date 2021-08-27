@@ -542,6 +542,8 @@
       "occupancy": "占用",
       "floorMin": "最低楼层",
       "floorMax": "最大楼层",
+      "monthlyRentMin": "最低月租",
+      "monthlyRentMax": "最高月租金",
       "sqFeetMin": "最小平方英尺",
       "sqFeetMax": "最大平方英尺",
       "availability": "可用性",

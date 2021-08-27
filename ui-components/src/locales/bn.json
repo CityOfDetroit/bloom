@@ -994,6 +994,8 @@
             "occupancy": "দখল",
             "floorMin": "ন্যূনতম মেঝে",
             "floorMax": "সর্বোচ্চ মেঝে",
+            "monthlyRentMin": "সর্বনিম্ন মাসিক ভাড়া",
+            "monthlyRentMax": "সর্বোচ্চ মাসিক ভাড়া",
             "sqFeetMin": "ন্যূনতম স্কয়ার ফুটেজ",
             "sqFeetMax": "সর্বোচ্চ স্কয়ার ফুটেজ",
             "availability": "উপস্থিতি",

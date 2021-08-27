@@ -1037,6 +1037,8 @@
       "occupancy": "Occupancy",
       "floorMin": "Minimum Floor",
       "floorMax": "Max Floor",
+      "monthlyRentMin": "Minimum Monthly Rent",
+      "monthlyRentMax": "Max Monthly Rent",
       "sqFeetMin": "Minimum Square Footage",
       "sqFeetMax": "Max Square Footage",
       "availability": "Availability",

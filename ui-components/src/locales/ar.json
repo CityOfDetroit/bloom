@@ -994,6 +994,8 @@
             "occupancy": "شغل",
             "floorMin": "الحد الأدنى من الطابق",
             "floorMax": "أقصى حد",
+            "monthlyRentMin": "الحد الأدنى للإيجار الشهري",
+            "monthlyRentMax": "ايجار شهري كحد أقصى",
             "sqFeetMin": "الحد الأدنى من اللقطات المربعة",
             "sqFeetMax": "أقصى حد بالقدم المربع",
             "availability": "التوفر",

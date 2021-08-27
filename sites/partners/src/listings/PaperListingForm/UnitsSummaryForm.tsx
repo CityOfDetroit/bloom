@@ -56,9 +56,9 @@ const UnitsSummaryForm = ({
       minOccupancy: current?.minOccupancy,
       maxOccupancy: current?.maxOccupancy,
       amiPercentage: current?.amiPercentage,
-      monthlyIncomeMin: current?.minimumIncomeMin,
-      monthlyIncomeMax: current?.minimumIncomeMax,
-      monthlyRent: current?.monthlyRent,
+      minimumIncomeMin: current?.minimumIncomeMin,
+      monthlyRentMin: current?.monthlyRentMin,
+      monthlyRentMax: current?.monthlyRentMax,
       monthlyRentAsPercentOfIncome: current?.monthlyRentAsPercentOfIncome,
       priorityType: current?.priorityType,
       rentType: getRentTypeFromUnitsSummary(current),
@@ -90,8 +90,9 @@ const UnitsSummaryForm = ({
     if (data.rentType === "fixed") {
       delete data.monthlyRentAsPercentOfIncome
     } else if (data.rentType === "percentage") {
-      data.monthlyIncomeMin = "0"
-      delete data.monthlyRent
+      data.minimumIncomeMin = "0"
+      delete data.monthlyRentMin
+      delete data.monthlyRentMax
     }
 
     if (data.priorityType?.id) {
@@ -325,8 +326,8 @@ const UnitsSummaryForm = ({
               <GridCell>
                 <ViewItem label={t("t.minimumIncome")}>
                   <Field
-                    id="monthlyIncomeMin"
-                    name="monthlyIncomeMin"
+                    id="minimumIncomeMin"
+                    name="minimumIncomeMin"
                     label={t("t.minimumIncome")}
                     placeholder="0.00"
                     register={register}
@@ -337,11 +338,23 @@ const UnitsSummaryForm = ({
                 </ViewItem>
               </GridCell>
               <GridCell>
-                <ViewItem label={t("listings.unit.monthlyRent")}>
+                <ViewItem label={t("listings.unitsSummary.monthlyRentMin")}>
                   <Field
-                    id="monthlyRent"
-                    name="monthlyRent"
-                    label={t("listings.unit.monthlyRent")}
+                    id="monthlyRentMin"
+                    name="monthlyRentMin"
+                    label={t("listings.unitsSummary.monthlyRentMin")}
+                    placeholder="0.00"
+                    register={register}
+                    type="number"
+                    prepend="$"
+                    readerOnly
+                  />
+                </ViewItem>
+                <ViewItem label={t("listings.unitsSummary.monthlyRentMax")}>
+                  <Field
+                    id="monthlyRentMax"
+                    name="monthlyRentMax"
+                    label={t("listings.unitsSummary.monthlyRentMax")}
                     placeholder="0.00"
                     register={register}
                     type="number"

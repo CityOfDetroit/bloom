@@ -192,7 +192,7 @@ const FormUnits = ({
       unitsSummaries?.map((summary) => ({
         unitType: summary.unitType && t(`listings.unitTypes.${summary.unitType.name}`),
         amiPercentage: isDefined(summary.amiPercentage) ? `${summary.amiPercentage}%` : "",
-        rent: summary.monthlyRent,
+        monthlyRent: formatRange(summary.monthlyRentMin, summary.monthlyRentMax, "$"),
         sqFeet: formatRange(summary.sqFeetMin, summary.sqFeetMax, "$"),
         priorityType: summary.priorityType?.name,
         occupancy: formatRange(summary.minOccupancy, summary.maxOccupancy, ""),
