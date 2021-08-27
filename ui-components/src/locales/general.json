@@ -1296,7 +1296,6 @@
     },
     "zipCode": "Zip code",
     "zipCodeDescription": "Enter zip code",
-    "seniorHousing": "Age Limited Housing (62+)",
     "adaCompliant": "ADA Compliant",
     "communityType": "Community Type",
     "communityTypeOptions": {

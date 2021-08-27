@@ -77,12 +77,6 @@ const ListingsPage = () => {
     { value: "Foster City", label: "Foster City" },
   ]
 
-  const seniorHousingOptions: SelectOption[] = [
-    EMPTY_OPTION,
-    { value: "true", label: t("t.yes") },
-    { value: "false", label: t("t.no") },
-  ]
-
   function setQueryString(page: number, filters = filterState) {
     void router.push(`/listings?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
       shallow: true,
@@ -179,14 +173,6 @@ const ListingsPage = () => {
               controlClassName="control"
               options={communityTypeOptions}
               defaultValue={filterState?.communityType}
-            />
-            <Select
-              id="seniorHousing"
-              name="seniorHousing"
-              label={t("listingFilters.seniorHousing")}
-              register={register}
-              controlClassName="control"
-              options={seniorHousingOptions}
             />
           </div>
           <div className="text-center mt-6">

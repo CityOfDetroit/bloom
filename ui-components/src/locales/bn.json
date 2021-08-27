@@ -1232,7 +1232,6 @@
         },
         "zipCode": "জিপ কোড",
         "zipCodeDescription": "জিপ কোড প্রবেশ",
-        "seniorHousing": "বয়স সীমিত আবাসন (62+)",
         "adaCompliant": "ADA অনুগত",
         "communityType": "সম্প্রদায়ের ধরন",
         "communityTypeOptions": {
