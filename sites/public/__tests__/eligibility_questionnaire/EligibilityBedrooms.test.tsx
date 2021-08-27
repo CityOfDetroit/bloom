@@ -1,4 +1,11 @@
-import { render, fireEvent, screen, waitFor, waitForElementToBeRemoved, queryByText } from "@testing-library/react"
+import {
+  render,
+  fireEvent,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  queryByText,
+} from "@testing-library/react"
 import EligibilityBedrooms from "../../pages/eligibility/bedrooms"
 import React from "react"
 import { act } from "react-dom/test-utils"
