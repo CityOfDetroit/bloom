@@ -26,8 +26,15 @@ type UnitProps = {
   disableUnitsAccordion: boolean
 }
 
-const formatRange = (min: string | number, max: string | number, prefix: string) => {
-  min == max ? `${prefix}${min}` : `${prefix}${min} ${t("t.to")} ${prefix}${max}`
+function isDefined(item: number | string) {
+  return !item && item !== 0 && item !== ""
+}
+
+function formatRange(min: string | number, max: string | number, prefix: string) {
+  if (!isDefined(min) && !isDefined(max)) return ""
+  if (min == max || !isDefined(max)) return `${prefix}${min}`
+  if (!isDefined(min)) return `${prefix}${max}`
+  return `${prefix}${min} - ${prefix}${max}`
 }
 
 const FormUnits = ({
