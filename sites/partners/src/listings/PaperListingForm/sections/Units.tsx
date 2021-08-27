@@ -27,7 +27,7 @@ type UnitProps = {
 }
 
 function isDefined(item: number | string) {
-  return !item && item !== 0 && item !== ""
+  return item !== null && item !== undefined && item !== ""
 }
 
 function formatRange(min: string | number, max: string | number, prefix: string) {
@@ -191,7 +191,7 @@ const FormUnits = ({
     () =>
       unitsSummaries?.map((summary) => ({
         unitType: summary.unitType && t(`listings.unitTypes.${summary.unitType.name}`),
-        amiPercentage: summary.amiPercentage,
+        amiPercentage: isDefined(summary.amiPercentage) ? `${summary.amiPercentage}%` : "",
         rent: summary.monthlyRent,
         sqFeet: formatRange(summary.sqFeetMin, summary.sqFeetMax, "$"),
         priorityType: summary.priorityType?.name,

@@ -35,6 +35,7 @@ import { ListingReviewOrder } from "../types/listing-review-order-enum"
 import { ListingEventType } from "../types/listing-event-type-enum"
 import { ListingEventCreateDto, ListingEventDto, ListingEventUpdateDto } from "./listing-event.dto"
 import { listingUrlSlug } from "../../shared/url-helper"
+import { UnitsSummaryUpdateDto } from "src/units-summary/dto/units-summary.dto"
 
 export class ListingDto extends OmitType(Listing, [
   "applicationAddress",
@@ -556,6 +557,7 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   "servicesOffered",
   "yearBuilt",
   "unitsSummarized",
+  "unitsSummary",
   "jurisdiction",
   "reservedCommunityType",
   "result",
@@ -735,6 +737,12 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => AssetUpdateDto)
   result?: AssetUpdateDto
+
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => UnitsSummaryUpdateDto)
+  unitsSummary?: UnitsSummaryUpdateDto[]
 }
 
 // add other listing filter params here

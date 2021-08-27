@@ -989,6 +989,19 @@
             "deleteConf": "¿Realmente desea eliminar esta unidad?",
             "eligibility": "Elegibilidad"
         },
+        "unitsSummary": {
+            "add": "Agregar resumen",
+            "occupancy": "Ocupación",
+            "floorMin": "Piso Mínimo",
+            "floorMax": "Piso máximo",
+            "sqFeetMin": "Pies cuadrados mínimos",
+            "sqFeetMax": "Pies cuadrados máximos",
+            "availability": "Disponibilidad",
+            "count": "Cuenta total",
+            "available": "Total disponible",
+            "delete": "Eliminar este resumen",
+            "deleteConf": "¿Realmente desea eliminar este resumen?"
+        },
         "units": "Listado de unidades",
         "unitsDescription": "Seleccione las unidades de construcción que están disponibles a través de la lista.",
         "unitTypesOrIndividual": "¿Quiere mostrar tipos de unidades o unidades individuales?"

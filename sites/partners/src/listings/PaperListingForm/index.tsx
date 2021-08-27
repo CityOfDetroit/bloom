@@ -261,10 +261,9 @@ const formatFormData = (
     unit.minOccupancy = stringToNumberOrOne(unit.minOccupancy)
     unit.numBathrooms = stringToNumberOrOne(unit.numBathrooms)
 
-    // if (unit.sqFeet.length === 0) {
-    //   delete unit.sqFeet
-    // }
-    delete unit.sqFeet
+    if (unit.sqFeet.length === 0) {
+      delete unit.sqFeet
+    }
 
     if (unit.id === undefined) {
       unit.id = ""
@@ -287,6 +286,15 @@ const formatFormData = (
     }
     if (!summary.sqFeetMax) {
       delete summary.sqFeetMax
+    }
+    if (!summary.monthlyRent) {
+      delete summary.monthlyRent
+    }
+    if (!summary.monthlyRentAsPercentOfIncome) {
+      delete summary.monthlyRentAsPercentOfIncome
+    }
+    if (!summary.listing) {
+      summary.listing = data as Listing
     }
 
     if (summary.id === undefined) {
