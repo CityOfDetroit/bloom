@@ -32,6 +32,7 @@ import {
   ListingEventCreate,
   Preference,
   UnitsSummary,
+  EnumListingReviewOrderType,
 } from "@bloom-housing/backend-core/types"
 import { YesNoAnswer } from "../../applications/PaperApplicationForm/FormTypes"
 import moment from "moment"
@@ -198,7 +199,7 @@ const defaults: FormListing = {
   yearBuilt: 2021,
   urlSlug: undefined,
   showWaitlist: false,
-  reviewOrderType: null,
+  reviewOrderType: EnumListingReviewOrderType.firstComeFirstServe,
   unitsSummary: [],
   unitsSummarized: {
     unitTypes: [],
@@ -306,7 +307,13 @@ const formatFormData = (
   const events: ListingEventCreate[] = data.events.filter(
     (event) => !(event?.type === ListingEventType.publicLottery)
   )
-  if (data.lotteryDate && data.reviewOrderQuestion === "reviewOrderLottery") {
+  if (
+    data.lotteryDate &&
+    data.lotteryDate.day &&
+    data.lotteryDate.month &&
+    data.lotteryDate.year &&
+    data.reviewOrderQuestion === "reviewOrderLottery"
+  ) {
     const startTime = createTime(createDate(data.lotteryDate), data.lotteryStartTime)
     const endTime = createTime(createDate(data.lotteryDate), data.lotteryEndTime)
 
@@ -374,6 +381,10 @@ const formatFormData = (
     events,
     reservedCommunityType: data.reservedCommunityType.id ? data.reservedCommunityType : null,
     unitsSummary: summaries,
+    reviewOrderType:
+      data.reviewOrderQuestion === "reviewOrderLottery"
+        ? EnumListingReviewOrderType.lottery
+        : EnumListingReviewOrderType.firstComeFirstServe,
   }
 }
 

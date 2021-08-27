@@ -15,6 +15,7 @@ const views: Views = {
     select: [
       "listings.id",
       "listings.name",
+      "listings.reviewOrderType",
       "listings.status",
       "listings.waitlistMaxSize",
       "listings.waitlistCurrentSize",
@@ -40,7 +41,8 @@ const views: Views = {
       "unitType.name",
       "unitsSummary.id",
       "summaryUnitType.name",
-      "unitsSummary.monthlyRent",
+      "unitsSummary.monthlyRentMin",
+      "unitsSummary.monthlyRentMax",
       "unitsSummary.monthlyRentAsPercentOfIncome",
       "unitsSummary.amiPercentage",
       "unitsSummary.minimumIncomeMin",
