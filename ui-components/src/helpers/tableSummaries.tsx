@@ -1,83 +1,101 @@
 import * as React from "react"
 import { t } from "./translator"
-import { UnitsSummary } from "@bloom-housing/backend-core/types"
+import { UnitSummary } from "@bloom-housing/backend-core/types"
 import { GroupedTableGroup } from "../tables/GroupedTable"
 
-export const unitSummariesTable = (summaries: UnitsSummary[]) => {
-  const unitsSummaries = summaries.map((unitSummary) => {
-    const minIncome =
-      unitSummary.minimumIncomeMin == unitSummary.minimumIncomeMax ? (
-        <strong>{unitSummary.minimumIncomeMin}</strong>
-      ) : (
-        <>
-          <strong>{unitSummary.minimumIncomeMin}</strong> {t("t.to")}{" "}
-          <strong>{unitSummary.minimumIncomeMax}</strong>
-        </>
-      )
+const getSummaryRow = (
+  minIncomeRangeMin: string,
+  minIncomeRangeMax: string,
+  rentRangeMin: string,
+  rentRangeMax: string,
+  rentAsPercentIncomeRangeMin: number,
+  rentAsPercentIncomeRangeMax: number,
+  totalAvailable: number,
+  totalCount: number,
+  unitTypeName: string
+) => {
+  const minIncome =
+    minIncomeRangeMin == minIncomeRangeMax ? (
+      <strong>{minIncomeRangeMin}</strong>
+    ) : (
+      <>
+        <strong>{minIncomeRangeMin}</strong> {t("t.to")} <strong>{minIncomeRangeMax}</strong>
+      </>
+    )
 
-    const getRent = (rent: string, percent = false) => {
-      const unit = percent ? `% ${t("t.income")}` : ` ${t("t.perMonth")}`
-      return (
-        <>
-          {rent ? (
-            <>
-              <strong>{rent}</strong>
-              {unit}
-            </>
-          ) : (
-            <>
-              <strong>{"Data not available"}</strong>
-            </>
-          )}
-        </>
-      )
-    }
+  const getRent = (rentMin: string, rentMax: string, percent = false) => {
+    const unit = percent ? `% ${t("t.income")}` : ` ${t("t.perMonth")}`
+    return rentMin == rentMax ? (
+      <>
+        <strong>{rentMin}</strong>
+        {unit}
+      </>
+    ) : (
+      <>
+        <strong>{rentMin}</strong> {t("t.to")} <strong>{rentMax}</strong>
+        {unit}
+      </>
+    )
+  }
 
-    // Use rent as percent income if available, otherwise use exact rent
-    const rent = unitSummary.monthlyRentAsPercentOfIncome
-      ? getRent(unitSummary.monthlyRentAsPercentOfIncome.toString(), true)
-      : getRent(unitSummary.monthlyRentMin?.toString() || "")
+  // Use rent as percent income if available, otherwise use exact rent
+  const rent = rentAsPercentIncomeRangeMin
+    ? getRent(rentAsPercentIncomeRangeMin.toString(), rentAsPercentIncomeRangeMax.toString(), true)
+    : getRent(rentRangeMin, rentRangeMax)
 
-    return {
-      unitType: <strong>{t(`listings.unitTypes.${unitSummary.unitType.name}`)}</strong>,
-      minimumIncome: (
-        <>
-          {minIncome} {t("t.perMonth")}
-        </>
-      ),
-      rent: <>{rent}</>,
-      availability: (
-        <>
-          {unitSummary.totalAvailable && unitSummary.totalAvailable > 0 ? (
-            <>
-              <strong>{unitSummary.totalAvailable}</strong>{" "}
-              {unitSummary.totalAvailable == 1 ? t("t.unit") : t("t.units")}
-            </>
-          ) : (
-            <span className="uppercase">{t("listings.waitlist.label")}</span>
-          )}
-        </>
-      ),
-      totalCount: (
-        <>
-          <strong>{unitSummary.totalCount}</strong>{" "}
-          {unitSummary.totalCount == 1 ? t("t.unit") : t("t.units")}
-        </>
-      ),
-    }
-  })
-
-  return unitsSummaries
+  return {
+    unitType: <strong>{t(`listings.unitTypes.${unitTypeName}`)}</strong>,
+    minimumIncome: (
+      <>
+        {minIncome} {t("t.perMonth")}
+      </>
+    ),
+    rent: <>{rent}</>,
+    availability: (
+      <>
+        {totalAvailable > 0 ? (
+          <>
+            <strong>{totalAvailable}</strong> {totalAvailable == 1 ? t("t.unit") : t("t.units")}
+          </>
+        ) : (
+          <span className="uppercase">{t("listings.waitlist.label")}</span>
+        )}
+      </>
+    ),
+    totalCount: (
+      <>
+        <strong>{totalCount}</strong> {totalCount == 1 ? t("t.unit") : t("t.units")}
+      </>
+    ),
+  }
 }
 
-export const getSummariesTable = (summaries: UnitsSummary[]) => {
+export const unitSummariesTable = (summaries: UnitSummary[]) => {
+  const unitSummaries = summaries.map((unitSummary) => {
+    getSummaryRow(
+      unitSummary.minIncomeRange.min,
+      unitSummary.minIncomeRange.max,
+      unitSummary.rentRange.min,
+      unitSummary.rentRange.max,
+      unitSummary.rentAsPercentIncomeRange.min,
+      unitSummary.rentAsPercentIncomeRange.max,
+      unitSummary.totalAvailable,
+      unitSummary.totalCount,
+      unitSummary.unitType.name
+    )
+  })
+
+  return unitSummaries
+}
+
+export const getSummariesTable = (summaries: UnitSummary[]) => {
   let groupedUnits = [] as Array<GroupedTableGroup>
 
   if (summaries?.length > 0) {
-    const unitsSummaries = unitSummariesTable(summaries)
+    const unitSummaries = unitSummariesTable(summaries)
     groupedUnits = [
       {
-        data: unitsSummaries,
+        data: unitSummaries,
       },
     ]
   }
