@@ -66,9 +66,9 @@ const ListingsPage = () => {
   ]
   const communityTypeOptions: SelectOption[] = [
     EMPTY_OPTION,
-    { value: "seniorHousing", label: t("listingFilters.communityTypeOptions.senior") },
+    { value: "senior62", label: t("listingFilters.communityTypeOptions.senior") },
     {
-      value: "specialNeedsAndDisabled",
+      value: "specialNeeds",
       label: t("listingFilters.communityTypeOptions.specialNeeds"),
     },
   ]
@@ -173,11 +173,12 @@ const ListingsPage = () => {
             />
             <Select
               id="communityType"
-              name="communityType"
+              name={ListingFilterKeys.communityType}
               label={t("listingFilters.communityType")}
               register={register}
               controlClassName="control"
               options={communityTypeOptions}
+              defaultValue={filterState?.communityType}
             />
             <Select
               id="seniorHousing"
