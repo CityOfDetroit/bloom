@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react"
+import { render, fireEvent, screen, waitFor } from "@testing-library/react"
 import EligibilityWelcome from "../../pages/eligibility/welcome"
 import React from "react"
 
@@ -7,5 +7,10 @@ describe("<EligibilityWelcome>", () => {
     const { getAllByText } = render(<EligibilityWelcome />)
     expect(getAllByText("Welcome")).toBeTruthy()
     expect(getAllByText("Next")).toBeTruthy()
+  })
+
+  it("Clicks Next button", () => {
+    render(<EligibilityWelcome />)
+    fireEvent.click(screen.getByText("Next"))
   })
 })
