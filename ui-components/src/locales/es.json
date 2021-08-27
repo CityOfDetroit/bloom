@@ -1232,7 +1232,6 @@
         },
         "zipCode": "Código postal",
         "zipCodeDescription": "Ingresa tu código postal",
-        "seniorHousing": "Vivienda con edad limitada (62+)",
         "adaCompliant": "Cumple con la ADA",
         "communityType": "Tipo de comunidad",
         "communityTypeOptions": {

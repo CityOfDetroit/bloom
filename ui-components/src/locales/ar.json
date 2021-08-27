@@ -1232,7 +1232,6 @@
         },
         "zipCode": "الرمز البريدي",
         "zipCodeDescription": "أدخل الرمز البريدي",
-        "seniorHousing": "العمر السكني المحدود (62+)",
         "adaCompliant": "متوافق مع ADA",
         "communityType": "نوع المجتمع",
         "communityTypeOptions": {
