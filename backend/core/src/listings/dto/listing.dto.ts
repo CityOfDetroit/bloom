@@ -33,6 +33,7 @@ import { AssetCreateDto, AssetDto, AssetUpdateDto } from "../../assets/dto/asset
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
 import { ListingEventCreateDto, ListingEventDto, ListingEventUpdateDto } from "./listing-event.dto"
 import { listingUrlSlug } from "../../shared/url-helper"
+import { ReservedCommunityType } from "../types/listing-reserved-community-type-enum"
 
 export class ListingDto extends OmitType(Listing, [
   "applicationAddress",
@@ -773,7 +774,15 @@ export class ListingFilterParams extends BaseFilter {
     example: "true",
     required: false,
   })
-  [ListingFilterKeys.seniorHousing]?: boolean
+  [ListingFilterKeys.seniorHousing]?: boolean;
+
+  @Expose()
+  @ApiProperty({
+    enum: Object.keys(ReservedCommunityType),
+    example: "senior62",
+    required: false,
+  })
+  [ListingFilterKeys.communityType]?: ReservedCommunityType
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
