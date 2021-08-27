@@ -1209,7 +1209,8 @@
         "title": "تقدم بطلب للحصول على سكن ميسور التكلفة في",
         "seeMoreOpportunities": "شاهد المزيد من فرص الإسكان الإيجاري والملكية",
         "viewAdditionalHousing": "عرض فرص وموارد الإسكان الإضافية",
-        "checkEligibility": "تحقق من أهليتي",
+        "checkEligibility": "هل أنا مؤهل؟",
+        "checkEligibilityDescription": "تحقق في دقائق إذا كنت مؤهلاً!",
         "subTitle": "انقر فوق الزر أدناه للعثور على سكن مستأجر بناءً على دخلك واحتياجات أسرتك"
     },
     "whatToExpect": {
@@ -1231,6 +1232,14 @@
         },
         "zipCode": "الرمز البريدي",
         "zipCodeDescription": "أدخل الرمز البريدي",
+        "adaCompliant": "متوافق مع ADA",
+        "communityType": "نوع المجتمع",
+        "communityTypeOptions": {
+            "all": "الجميع",
+            "senior": "مساكن كبار السن (62+)",
+            "specialNeeds": "ذوي الاحتياجات الخاصة والإعاقة"
+        },
+        "applyFilters": "تطبيق المرشحات",
         "noResults": "لا نتائج",
         "noResultsSubtitle": "تحرير أو إزالة عوامل التصفية للحصول على أفضل النتائج."
     },
