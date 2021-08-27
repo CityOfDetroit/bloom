@@ -72,7 +72,7 @@ export const getSummaryRow = (
 
 export const unitSummariesTable = (summaries: UnitSummary[]) => {
   const unitSummaries = summaries.map((unitSummary) => {
-    getSummaryRow(
+    return getSummaryRow(
       unitSummary.minIncomeRange.min,
       unitSummary.minIncomeRange.max,
       unitSummary.rentRange.min,
