@@ -79,8 +79,6 @@ export class ListingsService {
       .setParameters(innerFilteredQuery.getParameters())
       .getMany()
 
-    console.log(innerFilteredQuery.getQuery())
-
     // get summarized units from view
     listings = view.mapUnitSummary(listings)
     // Set pagination info
