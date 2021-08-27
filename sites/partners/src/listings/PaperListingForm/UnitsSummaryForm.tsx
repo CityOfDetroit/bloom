@@ -123,7 +123,7 @@ const UnitsSummaryForm = ({
         ...formData,
         id: undefined,
         tempId: summaries.length + 1,
-        listing: undefined
+        listing: undefined,
       })
     }
     setTempId(null)
