@@ -12,6 +12,8 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.status:
     case ListingFilterKeys.seniorHousing:
       return EnumListingFilterParamsComparison["NA"]
+    case ListingFilterKeys.communityType:
+      return EnumListingFilterParamsComparison["NA"]
     case ListingFilterKeys.bedrooms:
       return EnumListingFilterParamsComparison[">="]
     case ListingFilterKeys.zipcode:
