@@ -1,6 +1,6 @@
 import * as React from "react"
 import { t } from "./translator"
-import { UnitSummary } from "@bloom-housing/backend-core/types"
+import { UnitSummary, UnitsSummary } from "@bloom-housing/backend-core/types"
 import { GroupedTableGroup } from "../tables/GroupedTable"
 
 export const getSummaryRow = (
@@ -8,10 +8,10 @@ export const getSummaryRow = (
   minIncomeRangeMax: string,
   rentRangeMin: string,
   rentRangeMax: string,
-  rentAsPercentIncomeRangeMin: number,
-  rentAsPercentIncomeRangeMax: number,
-  totalAvailable: number,
-  totalCount: number,
+  rentAsPercentIncomeRangeMin: string,
+  rentAsPercentIncomeRangeMax: string,
+  totalAvailable: number | undefined,
+  totalCount: number | undefined,
   unitTypeName: string
 ) => {
   const minIncome =
@@ -40,7 +40,7 @@ export const getSummaryRow = (
 
   // Use rent as percent income if available, otherwise use exact rent
   const rent = rentAsPercentIncomeRangeMin
-    ? getRent(rentAsPercentIncomeRangeMin.toString(), rentAsPercentIncomeRangeMax.toString(), true)
+    ? getRent(rentAsPercentIncomeRangeMin, rentAsPercentIncomeRangeMax, true)
     : getRent(rentRangeMin, rentRangeMax)
 
   return {
@@ -53,7 +53,7 @@ export const getSummaryRow = (
     rent: <>{rent}</>,
     availability: (
       <>
-        {totalAvailable > 0 ? (
+        {totalAvailable && totalAvailable > 0 ? (
           <>
             <strong>{totalAvailable}</strong> {totalAvailable == 1 ? t("t.unit") : t("t.units")}
           </>
@@ -77,8 +77,8 @@ export const unitSummariesTable = (summaries: UnitSummary[]) => {
       unitSummary.minIncomeRange.max,
       unitSummary.rentRange.min,
       unitSummary.rentRange.max,
-      unitSummary.rentAsPercentIncomeRange.min,
-      unitSummary.rentAsPercentIncomeRange.max,
+      "",
+      "",
       unitSummary.totalAvailable,
       unitSummary.totalCount,
       unitSummary.unitType.name
@@ -93,6 +93,38 @@ export const getSummariesTable = (summaries: UnitSummary[]) => {
 
   if (summaries?.length > 0) {
     const unitSummaries = unitSummariesTable(summaries)
+    groupedUnits = [
+      {
+        data: unitSummaries,
+      },
+    ]
+  }
+  return groupedUnits
+}
+
+export const unitSummariesTable2 = (summaries: UnitsSummary[]) => {
+  const unitSummaries = summaries.map((unitSummary) => {
+    return getSummaryRow(
+      unitSummary.minimumIncomeMin || "",
+      unitSummary.minimumIncomeMax || "",
+      unitSummary.monthlyRentMin || "",
+      unitSummary.monthlyRentMax || "",
+      unitSummary.monthlyRentAsPercentOfIncome || "",
+      unitSummary.monthlyRentAsPercentOfIncome || "",
+      unitSummary.totalAvailable,
+      unitSummary.totalCount,
+      unitSummary.unitType.name
+    )
+  })
+
+  return unitSummaries
+}
+
+export const getSummariesTable2 = (summaries: UnitsSummary[]) => {
+  let groupedUnits = [] as Array<GroupedTableGroup>
+
+  if (summaries?.length > 0) {
+    const unitSummaries = unitSummariesTable2(summaries)
     groupedUnits = [
       {
         data: unitSummaries,
