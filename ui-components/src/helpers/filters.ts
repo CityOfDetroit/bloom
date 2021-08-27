@@ -10,14 +10,14 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.name:
     case ListingFilterKeys.neighborhood:
     case ListingFilterKeys.status:
-    case ListingFilterKeys.seniorHousing:
-      return EnumListingFilterParamsComparison["NA"]
-    case ListingFilterKeys.communityType:
-      return EnumListingFilterParamsComparison["NA"]
+      return EnumListingFilterParamsComparison["=="]
     case ListingFilterKeys.bedrooms:
       return EnumListingFilterParamsComparison[">="]
     case ListingFilterKeys.zipcode:
       return EnumListingFilterParamsComparison["IN"]
+    case ListingFilterKeys.seniorHousing:
+    case ListingFilterKeys.communityType:
+      return EnumListingFilterParamsComparison["NA"]
     default: {
       const _exhaustiveCheck: never = filterKey
       return _exhaustiveCheck
