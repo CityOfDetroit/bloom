@@ -1,4 +1,4 @@
-import { render, fireEvent, screen, waitFor } from "@testing-library/react"
+import { render, fireEvent, screen } from "@testing-library/react"
 import EligibilityWelcome from "../../pages/eligibility/welcome"
 import React from "react"
 
