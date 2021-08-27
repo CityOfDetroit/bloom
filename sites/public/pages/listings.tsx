@@ -66,10 +66,9 @@ const ListingsPage = () => {
   ]
   const communityTypeOptions: SelectOption[] = [
     EMPTY_OPTION,
-    { value: "all", label: t("listingFilters.communityTypeOptions.all") },
-    { value: "senior", label: t("listingFilters.communityTypeOptions.senior") },
+    { value: "seniorHousing", label: t("listingFilters.communityTypeOptions.senior") },
     {
-      value: "specialNeedsAndDisability",
+      value: "specialNeedsAndDisabled",
       label: t("listingFilters.communityTypeOptions.specialNeeds"),
     },
   ]
