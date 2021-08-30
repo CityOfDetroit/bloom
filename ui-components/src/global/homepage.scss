@@ -2,7 +2,13 @@
   @apply text-center;
   @apply text-base;
 
-  @screen md {
+  @screen md{
     @apply text-lg;
   }
+
+  h2 {
+    @apply text-base;
+    @apply mb-4;
+  }
+
 }
