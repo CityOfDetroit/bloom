@@ -10,7 +10,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.name:
     case ListingFilterKeys.neighborhood:
     case ListingFilterKeys.status:
-      return EnumListingFilterParamsComparison["=="]
+      return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.bedrooms:
       return EnumListingFilterParamsComparison[">="]
     case ListingFilterKeys.zipcode:
