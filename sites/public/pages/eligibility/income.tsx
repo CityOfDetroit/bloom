@@ -20,7 +20,7 @@ import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
-import { ListingFilterParams } from "@bloom-housing/backend-core/dist"
+import { ListingFilterParams } from "@bloom-housing/backend-core/dist/types"
 
 const EligibilityIncome = () => {
   const router = useRouter()
