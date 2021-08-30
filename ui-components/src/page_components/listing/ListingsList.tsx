@@ -29,11 +29,11 @@ const ListingsList = (props: ListingsProps) => {
     }
 
     let unitSummaries = [] as GroupedTableGroup[]
-    if (listing.unitsSummarized !== undefined) {
-      unitSummaries = getSummariesTable(listing.unitsSummarized.byUnitTypeAndRent)
+    if (listing.unitsSummary !== undefined && listing.unitsSummary.length > 0) {
+      unitSummaries = getSummariesTable2(listing.unitsSummary)
     } else {
-      listing.unitsSummary !== undefined &&
-        (unitSummaries = getSummariesTable2(listing.unitsSummary))
+      listing.unitsSummarized !== undefined &&
+        (unitSummaries = getSummariesTable(listing.unitsSummarized.byUnitTypeAndRent))
     }
 
     // address as subtitle
