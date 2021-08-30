@@ -749,6 +749,7 @@
   },
   "listingFilters": {
     "zipCode": "邮政编码",
-    "zipCodeDescription": "输入邮政编号"
+    "zipCodeDescription": "输入邮政编号",
+    "availability": "只顯示有空房的建築物"
   }
 }

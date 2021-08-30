@@ -178,7 +178,7 @@ const ListingsPage = () => {
               id={ListingFilterKeys.hasAvailability}
               name={ListingFilterKeys.hasAvailability}
               type="checkbox"
-              label={"Only show buildings with availability"}
+              label={t("listingFilters.availability")}
               register={register}
               inputProps={{ defaultChecked: filterState?.hasAvailability}}
             />

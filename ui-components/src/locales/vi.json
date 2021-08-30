@@ -749,6 +749,7 @@
   },
   "listingFilters": {
     "zipCode": "Mã Bưu Chính",
-    "zipCodeDescription": "Nhập mã zip"
+    "zipCodeDescription": "Nhập mã zip",
+    "availability": "Chỉ hiển thị các tòa nhà còn trống"
   }
 }
