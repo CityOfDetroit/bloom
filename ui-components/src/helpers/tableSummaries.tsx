@@ -8,8 +8,8 @@ export const getSummaryRow = (
   minIncomeRangeMax?: string,
   rentRangeMin?: string,
   rentRangeMax?: string,
-  rentAsPercentIncomeRangeMin?: string | number,
-  rentAsPercentIncomeRangeMax?: string | number,
+  rentAsPercentIncomeRangeMin?: string,
+  rentAsPercentIncomeRangeMax?: string,
   totalAvailable?: number,
   totalCount?: number,
   unitTypeName?: string
@@ -35,7 +35,7 @@ export const getSummaryRow = (
     )
   }
 
-  const getRent = (rentMin: string, rentMax: string, percent = false) => {
+  const getRent = (rentMin?: string, rentMax?: string, percent = false) => {
     const unit = percent ? `% ${t("t.income")}` : ` ${t("t.perMonth")}`
     if (rentMin == undefined && rentMax == undefined) {
       return <strong>Data Not Here</strong>
@@ -55,7 +55,7 @@ export const getSummaryRow = (
 
   // Use rent as percent income if available, otherwise use exact rent
   const rent = rentAsPercentIncomeRangeMin
-    ? getRent(rentAsPercentIncomeRangeMin.toString(), rentAsPercentIncomeRangeMax.toString(), true)
+    ? getRent(rentAsPercentIncomeRangeMin, rentAsPercentIncomeRangeMax, true)
     : getRent(rentRangeMin, rentRangeMax)
 
   return {
@@ -81,37 +81,33 @@ export const getSummaryRow = (
   }
 }
 
-export const getSummariesTable = (summaries: UnitSummary[] | UnitsSummary[]) => {
+export const unitSummariesTableFromUnitSummary = (summaries: UnitSummary[]) => {
+  const unitSummaries = summaries.map((unitSummary) => {
+    return getSummaryRow(
+      unitSummary.minIncomeRange.min,
+      unitSummary.minIncomeRange.max,
+      unitSummary.rentRange.min,
+      unitSummary.rentRange.max,
+      unitSummary.rentAsPercentIncomeRange.min
+        ? unitSummary.rentAsPercentIncomeRange.min.toString()
+        : "",
+      unitSummary.rentAsPercentIncomeRange.max
+        ? unitSummary.rentAsPercentIncomeRange.max.toString()
+        : "",
+      unitSummary.totalAvailable,
+      unitSummary.totalCount,
+      unitSummary.unitType.name
+    )
+  })
+
+  return unitSummaries
+}
+
+export const getSummariesTableFromUnitSummary = (summaries: UnitSummary[]) => {
   let groupedUnits = [] as Array<GroupedTableGroup>
 
   if (summaries?.length > 0) {
-    const unitSummaries = summaries.map((unitSummary) => {
-      if (unitSummary.minIncomeRange) {
-        return getSummaryRow(
-          unitSummary.minIncomeRange.min,
-          unitSummary.minIncomeRange.max,
-          unitSummary.rentRange.min,
-          unitSummary.rentRange.max,
-          unitSummary.rentAsPercentIncomeRange.min,
-          unitSummary.rentAsPercentIncomeRange.max,
-          unitSummary.totalAvailable,
-          unitSummary.totalCount,
-          unitSummary.unitType.name
-        )
-      } else {
-        return getSummaryRow(
-          unitSummary.minimumIncomeMin,
-          unitSummary.minimumIncomeMax,
-          unitSummary.monthlyRentMin,
-          unitSummary.monthlyRentMax,
-          unitSummary.monthlyRentAsPercentOfIncome,
-          unitSummary.monthlyRentAsPercentOfIncome,
-          unitSummary.totalAvailable,
-          unitSummary.totalCount,
-          unitSummary.unitType.name
-        )
-      }
-    })
+    const unitSummaries = unitSummariesTableFromUnitSummary(summaries)
     groupedUnits = [
       {
         data: unitSummaries,
@@ -120,8 +116,8 @@ export const getSummariesTable = (summaries: UnitSummary[] | UnitsSummary[]) => 
   }
   return groupedUnits
 }
-/*
-export const unitSummariesTable2 = (summaries: UnitsSummary[]) => {
+
+export const unitSummariesTableFromUnitsSummary = (summaries: UnitsSummary[]) => {
   const unitSummaries = summaries.map((unitSummary) => {
     return getSummaryRow(
       unitSummary.minimumIncomeMin,
@@ -139,11 +135,11 @@ export const unitSummariesTable2 = (summaries: UnitsSummary[]) => {
   return unitSummaries
 }
 
-export const getSummariesTable2 = (summaries: UnitsSummary[]) => {
+export const getSummariesTableFromUnitsSummary = (summaries: UnitsSummary[]) => {
   let groupedUnits = [] as Array<GroupedTableGroup>
 
   if (summaries?.length > 0) {
-    const unitSummaries = unitSummariesTable2(summaries)
+    const unitSummaries = unitSummariesTableFromUnitsSummary(summaries)
     groupedUnits = [
       {
         data: unitSummaries,
@@ -152,4 +148,3 @@ export const getSummariesTable2 = (summaries: UnitsSummary[]) => {
   }
   return groupedUnits
 }
-*/
