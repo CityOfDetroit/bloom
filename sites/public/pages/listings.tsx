@@ -15,7 +15,6 @@ import {
   decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
-  IconTypes,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -37,26 +36,6 @@ const isValidZipCodeOrEmpty = (value: string) => {
     }
   })
   return returnValue
-}
-
-function getNumberOfFilters(filterState: ListingFilterParams): number {
-  let number = 0
-  if (filterState?.bedrooms) {
-    number++
-  }
-  if (filterState?.name) {
-    number++
-  }
-  if (filterState?.neighborhood) {
-    number++
-  }
-  if (filterState?.status) {
-    number++
-  }
-  if (filterState?.zipcode) {
-    number++
-  }
-  return number
 }
 
 const ListingsPage = () => {
@@ -120,7 +99,7 @@ const ListingsPage = () => {
     filterState
   )
 
-  const numberOfFilters = getNumberOfFilters(filterState)
+  const numberOfFilters = filterState ? Object.keys(filterState).length : 0
   const buttonTitle = numberOfFilters
     ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
     : t("listingFilters.buttonTitle")
