@@ -701,11 +701,11 @@
         "visitWebsite": "%{Name} এ যান"
     },
     "languages": {
-        "en": "ইংরেজি",
-        "es": "স্পেনীয়",
-        "zh": "চীনা",
-        "vi": "ভিয়েতনামী",
-        "ar": "আরবি",
+        "en": "English",
+        "es": "Español",
+        "zh": "中文",
+        "vi": "Tiếng Việt",
+        "ar": "عربى",
         "bn": "বাংলা"
     },
     "leasingAgent": {

@@ -701,12 +701,12 @@
         "visitWebsite": "Visita% {name}"
     },
     "languages": {
-        "en": "inglés",
+        "en": "English",
         "es": "Español",
-        "zh": "chino",
-        "vi": "vietnamita",
-        "ar": "árabe",
-        "bn": "bengalí"
+        "zh": "中文",
+        "vi": "Tiếng Việt",
+        "ar": "عربى",
+        "bn": "বাংলা"
     },
     "leasingAgent": {
         "contact": "Comuníquese con el agente de arrendamiento",
