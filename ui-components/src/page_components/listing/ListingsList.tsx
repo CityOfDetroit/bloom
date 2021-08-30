@@ -2,7 +2,7 @@ import * as React from "react"
 import { ImageCard } from "../../blocks/ImageCard"
 import { EnumListingReviewOrderType, Listing } from "@bloom-housing/backend-core/types"
 import { LinkButton } from "../../actions/LinkButton"
-import { getSummariesTable, getSummariesTable2 } from "../../helpers/tableSummaries"
+import { getSummariesTable } from "../../helpers/tableSummaries"
 import { GroupedTable, GroupedTableGroup } from "../../tables/GroupedTable"
 import { imageUrlFromListing } from "../../helpers/photos"
 import { t } from "../../helpers/translator"
@@ -30,7 +30,7 @@ const ListingsList = (props: ListingsProps) => {
 
     let unitSummaries = [] as GroupedTableGroup[]
     if (listing.unitsSummary !== undefined && listing.unitsSummary.length > 0) {
-      unitSummaries = getSummariesTable2(listing.unitsSummary)
+      unitSummaries = getSummariesTable(listing.unitsSummary)
     } else {
       listing.unitsSummarized !== undefined &&
         (unitSummaries = getSummariesTable(listing.unitsSummarized.byUnitTypeAndRent))
