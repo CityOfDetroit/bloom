@@ -59,16 +59,19 @@ const ListingsPage = () => {
     { value: "3", label: t("listingFilters.bedroomsOptions.threePlus") },
     { value: "4", label: t("listingFilters.bedroomsOptions.fourPlus") },
   ]
-  const accessibilityOptions: SelectOption[] = [
+  const adaCompliantOptions: SelectOption[] = [
     EMPTY_OPTION,
-    { value: "n", label: "No" },
-    { value: "y", label: "Yes" },
+    { value: "n", label: t("t.no") },
+    { value: "y", label: t("t.yes") },
   ]
-  const communityOptions: SelectOption[] = [
+  const communityTypeOptions: SelectOption[] = [
     EMPTY_OPTION,
-    { value: "general", label: "General" },
-    { value: "senior", label: "Senior" },
-    { value: "assisted", label: "Assisted" },
+    { value: "all", label: t("listingFilters.communityTypeOptions.all") },
+    { value: "senior", label: t("listingFilters.communityTypeOptions.senior") },
+    {
+      value: "specialNeedsAndDisability",
+      label: t("listingFilters.communityTypeOptions.specialNeeds"),
+    },
   ]
   const neighborhoodOptions: SelectOption[] = [
     EMPTY_OPTION,
@@ -90,7 +93,11 @@ const ListingsPage = () => {
     setFilterState(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
-  const { listingsData, listingsLoading } = useListingsData(currentPage, itemsPerPage, filterState)
+  const { listingsData, listingsLoading, listingsError } = useListingsData(
+    currentPage,
+    itemsPerPage,
+    filterState
+  )
 
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
@@ -152,41 +159,58 @@ const ListingsPage = () => {
               defaultValue={filterState?.neighborhood}
             />
             <Select
-              id="accessibilityOptions"
-              name="accessibility"
-              label="Accessibility"
+              id="adaCompliant"
+              name="adaCompliant"
+              label={t("listingFilters.adaCompliant")}
               register={register}
               controlClassName="control"
-              options={accessibilityOptions}
+              options={adaCompliantOptions}
             />
             <Select
-              id="communityOptions"
-              name="community"
-              label="Community Type"
+              id="communityType"
+              name="communityType"
+              label={t("listingFilters.communityType")}
               register={register}
               controlClassName="control"
-              options={communityOptions}
+              options={communityTypeOptions}
             />
           </div>
           <div className="text-center mt-6">
             <Button type="submit" styleType={AppearanceStyleType.primary}>
-              Apply Filters
+              {t("listingFilters.applyFilters")}
             </Button>
           </div>
         </Form>
       </Modal>
-      <div className="max-w-3xl mt-6 m-auto">
-        <LinkButton size={AppearanceSizeType.small} href="/eligibility/welcome">
+      <div className="container max-w-3xl px-4 content-start mx-auto">
+        <LinkButton
+          className="mx-2 mt-6"
+          size={AppearanceSizeType.small}
+          href="/eligibility/welcome"
+        >
           {t("welcome.checkEligibility")}
         </LinkButton>
-        <Button size={AppearanceSizeType.small} onClick={() => setFilterModalVisible(true)}>
-          {/* TODO:avaleske make this a string */}
-          Filter listings
+        <Button
+          className="mx-2 mt-6"
+          size={AppearanceSizeType.small}
+          onClick={() => setFilterModalVisible(true)}
+        >
+          {t("listingFilters.buttonTitle")}
         </Button>
       </div>
+      {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
+        <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
+          <header>
+            <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
+            <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
+          </header>
+        </div>
+      )}
       {!listingsLoading && (
         <div>
-          {listingsData && <ListingsList listings={listingsData.items} hideApplicationStatus />}
+          {listingsData?.meta.totalItems > 0 && (
+            <ListingsList listings={listingsData.items} hideApplicationStatus />
+          )}
           <AgPagination
             totalItems={listingsData?.meta.totalItems}
             totalPages={listingsData?.meta.totalPages}
