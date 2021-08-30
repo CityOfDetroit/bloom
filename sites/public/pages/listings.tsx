@@ -99,7 +99,9 @@ const ListingsPage = () => {
     filterState
   )
 
-  const numberOfFilters = filterState ? Object.keys(filterState).length : 0
+  const numberOfFilters = filterState
+    ? Object.keys(filterState).filter((p) => p !== "$comparison").length
+    : 0
   const buttonTitle = numberOfFilters
     ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
     : t("listingFilters.buttonTitle")
