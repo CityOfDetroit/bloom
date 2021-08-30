@@ -1,5 +1,5 @@
 import { Listing } from "../entities/listing.entity"
-import { Expose, Transform, Type } from "class-transformer"
+import { Expose, plainToClass, Transform, Type } from "class-transformer"
 import {
   ArrayMaxSize,
   IsDate,
@@ -34,6 +34,11 @@ import { ApplicationMethodDto } from "../../application-methods/dto/application-
 import { ListingEventCreateDto, ListingEventDto, ListingEventUpdateDto } from "./listing-event.dto"
 import { listingUrlSlug } from "../../shared/url-helper"
 import { ReservedCommunityType } from "../types/listing-reserved-community-type-enum"
+import {
+  UnitsSummaryCreateDto,
+  UnitsSummaryDto,
+  UnitsSummaryUpdateDto,
+} from "../../units-summary/dto/units-summary.dto"
 
 export class ListingDto extends OmitType(Listing, [
   "applicationAddress",
@@ -51,6 +56,7 @@ export class ListingDto extends OmitType(Listing, [
   "property",
   "reservedCommunityType",
   "result",
+  "unitsSummary",
 ] as const) {
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
@@ -150,7 +156,7 @@ export class ListingDto extends OmitType(Listing, [
   @Type(() => UnitDto)
   @Transform(
     (value, obj: Listing) => {
-      return obj.property?.units
+      return plainToClass(UnitDto, obj.property?.units)
     },
     { toClassOnly: true }
   )
@@ -184,7 +190,7 @@ export class ListingDto extends OmitType(Listing, [
   @Type(() => AddressDto)
   @Transform(
     (value, obj: Listing) => {
-      return obj.property?.buildingAddress
+      return plainToClass(AddressDto, obj.property.buildingAddress)
     },
     { toClassOnly: true }
   )
@@ -320,6 +326,12 @@ export class ListingDto extends OmitType(Listing, [
     { toClassOnly: true }
   )
   urlSlug: string
+
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => UnitsSummaryDto)
+  unitsSummary?: UnitsSummaryDto[]
 }
 
 export class PaginatedListingDto extends PaginationFactory<ListingDto>(ListingDto) {}
@@ -355,6 +367,7 @@ export class ListingCreateDto extends OmitType(ListingDto, [
   "jurisdiction",
   "reservedCommunityType",
   "result",
+  "unitsSummary",
 ] as const) {
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
@@ -514,6 +527,12 @@ export class ListingCreateDto extends OmitType(ListingDto, [
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => AssetCreateDto)
   result?: AssetCreateDto | null
+
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => UnitsSummaryCreateDto)
+  unitsSummary?: UnitsSummaryCreateDto[]
 }
 
 export class ListingUpdateDto extends OmitType(ListingDto, [
@@ -547,6 +566,7 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   "jurisdiction",
   "reservedCommunityType",
   "result",
+  "unitsSummary",
 ] as const) {
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
@@ -723,6 +743,12 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => AssetUpdateDto)
   result?: AssetUpdateDto
+
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => UnitsSummaryUpdateDto)
+  unitsSummary?: UnitsSummaryUpdateDto[]
 }
 
 // add other listing filter params here
@@ -818,6 +844,18 @@ export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   jsonpath?: string
+}
+
+export class ListingsRetrieveQueryParams {
+  @Expose()
+  @ApiProperty({
+    name: "view",
+    required: false,
+    type: String,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  view?: string
 }
 
 // Using a record lets us enforce that all types are handled in addFilter
