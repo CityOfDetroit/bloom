@@ -180,7 +180,7 @@ const ListingsPage = () => {
               type="checkbox"
               label={t("listingFilters.availability")}
               register={register}
-              inputProps={{ defaultChecked: filterState?.hasAvailability}}
+              inputProps={{ defaultChecked: filterState?.hasAvailability }}
             />
           </div>
           <div className="text-center mt-6">

@@ -791,14 +791,14 @@ export class ListingFilterParams extends BaseFilter {
     example: "48211",
     required: false,
   })
-  [ListingFilterKeys.zipcode]?: string
+  [ListingFilterKeys.zipcode]?: string;
 
   @Expose()
   @ApiProperty({
     type: Boolean,
     required: false,
   })
-  [ListingFilterKeys.hasAvailability]?: boolean;
+  [ListingFilterKeys.hasAvailability]?: boolean
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {

@@ -47,7 +47,7 @@ export function encodeToFrontendFilterString(filterParams: ListingFilterParams) 
         default: {
           queryString += `&${filterType}=${value}`
         }
-      } 
+      }
     }
   }
   return queryString
