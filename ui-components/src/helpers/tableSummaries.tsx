@@ -45,12 +45,15 @@ export const getSummaryRow = (
 
   return {
     unitType: <strong>{t(`listings.unitTypes.${unitTypeName}`)}</strong>,
-    minimumIncome: (
-      <>
-        {minIncome} {t("t.perMonth")}
-      </>
-    ),
-    rent: <>{rent}</>,
+    minimumIncome:
+      minIncome.toString() !== "" ? (
+        <>
+          {minIncome} {t("t.perMonth")}
+        </>
+      ) : (
+        <strong>Data not available</strong>
+      ),
+    rent: <>{rent.toString() !== "" ? rent : <strong>Data not available</strong>}</>,
     availability: (
       <>
         {totalAvailable && totalAvailable > 0 ? (

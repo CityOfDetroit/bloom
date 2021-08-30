@@ -29,11 +29,12 @@ const ListingsList = (props: ListingsProps) => {
     }
 
     let unitSummaries = [] as GroupedTableGroup[]
-    //if (listing.unitsSummarized !== undefined) {
-    //  unitSummaries = getSummariesTable(listing.unitsSummarized.byUnitTypeAndRent)
-    // } else {
-    listing.unitsSummary !== undefined && (unitSummaries = getSummariesTable2(listing.unitsSummary))
-    //}
+    if (listing.unitsSummarized !== undefined) {
+      unitSummaries = getSummariesTable(listing.unitsSummarized.byUnitTypeAndRent)
+    } else {
+      listing.unitsSummary !== undefined &&
+        (unitSummaries = getSummariesTable2(listing.unitsSummary))
+    }
 
     // address as subtitle
     const { street, city, state, zipCode } = listing.buildingAddress || {}
