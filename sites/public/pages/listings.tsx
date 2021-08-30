@@ -174,6 +174,14 @@ const ListingsPage = () => {
               controlClassName="control"
               options={communityTypeOptions}
             />
+            <Field
+              id={ListingFilterKeys.hasAvailability}
+              name={ListingFilterKeys.hasAvailability}
+              type="checkbox"
+              label={"Only show buildings with availability"}
+              register={register}
+              inputProps={{ defaultChecked: filterState?.hasAvailability}}
+            />
           </div>
           <div className="text-center mt-6">
             <Button type="submit" styleType={AppearanceStyleType.primary}>

@@ -15,6 +15,8 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
       return EnumListingFilterParamsComparison[">="]
     case ListingFilterKeys.zipcode:
       return EnumListingFilterParamsComparison["IN"]
+    case ListingFilterKeys.hasAvailability:
+      return EnumListingFilterParamsComparison[">="]
     default: {
       const _exhaustiveCheck: never = filterKey
       return _exhaustiveCheck
@@ -38,7 +40,14 @@ export function encodeToFrontendFilterString(filterParams: ListingFilterParams) 
   for (const filterType in filterParams) {
     const value = filterParams[filterType]
     if (filterType in ListingFilterKeys && value !== undefined && value != "") {
-      queryString += `&${filterType}=${value}`
+      switch (filterType) {
+        case ListingFilterKeys.hasAvailability:
+          value && (queryString += `&${filterType}=1`)
+          break
+        default: {
+          queryString += `&${filterType}=${value}`
+        }
+      } 
     }
   }
   return queryString

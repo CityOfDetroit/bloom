@@ -792,6 +792,13 @@ export class ListingFilterParams extends BaseFilter {
     required: false,
   })
   [ListingFilterKeys.zipcode]?: string
+
+  @Expose()
+  @ApiProperty({
+    type: Boolean,
+    required: false,
+  })
+  [ListingFilterKeys.hasAvailability]?: boolean;
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
@@ -847,4 +854,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   neighborhood: "property.neighborhood",
   bedrooms: "unitTypeRef.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
+  hasAvailability: "unitsSummary.total_available",
 }

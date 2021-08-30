@@ -3714,6 +3714,9 @@ export interface ListingFilterParams {
 
   /**  */
   zipcode?: string
+
+  /**  */
+  hasAvailability?: boolean
 }
 
 export interface UnitType {
