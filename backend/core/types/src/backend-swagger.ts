@@ -3717,6 +3717,9 @@ export interface ListingFilterParams {
 
   /**  */
   hasAvailability?: boolean
+
+  /** */
+  seniorHousing?: boolean
 }
 
 export interface UnitType {

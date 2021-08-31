@@ -799,6 +799,14 @@ export class ListingFilterParams extends BaseFilter {
     required: false,
   })
   [ListingFilterKeys.hasAvailability]?: boolean
+
+  @Expose()
+  @ApiProperty({
+    type: Boolean,
+    example: true,
+    required: false,
+  })
+  [ListingFilterKeys.seniorHousing]?: boolean
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
@@ -855,4 +863,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   bedrooms: "unitTypeRef.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
   hasAvailability: "unitsSummary.total_available",
+  seniorHousing: "reservedCommunityType.name",
 }
