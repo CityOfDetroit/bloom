@@ -8,7 +8,7 @@ import {
 import EligibilityAge from "../../pages/eligibility/age"
 import React from "react"
 import { act } from "react-dom/test-utils"
-import userEvent from '@testing-library/user-event'
+import userEvent from "@testing-library/user-event"
 
 const mockRouter = {
   push: jest.fn(),
@@ -24,9 +24,7 @@ describe("<EligibilityAge>", () => {
     act(() => {
       render(<EligibilityAge />)
     })
-    expect(
-      screen.getByRole("heading", { name: "How old are you?" })
-    ).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "How old are you?" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument()
   })
 
@@ -45,9 +43,7 @@ describe("<EligibilityAge>", () => {
 
       // Type in a valid age, wait for error message to go away
       userEvent.type(screen.getByRole("spinbutton", { name: "years old" }), "55")
-      await waitForElementToBeRemoved(() =>
-        screen.queryByText("Please enter a valid age.")
-      )
+      await waitForElementToBeRemoved(() => screen.queryByText("Please enter a valid age."))
     })
   })
 

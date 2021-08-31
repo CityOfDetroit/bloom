@@ -1,9 +1,4 @@
-import {
-  render,
-  fireEvent,
-  screen,
-  waitFor,
-} from "@testing-library/react"
+import { render, fireEvent, screen, waitFor } from "@testing-library/react"
 import EligibilityDisability from "../../pages/eligibility/disability"
 import React from "react"
 import { act } from "react-dom/test-utils"
@@ -22,9 +17,7 @@ describe("<EligibilityDisability>", () => {
     act(() => {
       render(<EligibilityDisability />)
     })
-    expect(
-      screen.getByRole("heading", { name: "Do you have a disability?" })
-    ).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "Do you have a disability?" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument()
   })
 
@@ -44,9 +37,7 @@ describe("<EligibilityDisability>", () => {
       // Select a valid input, wait for error message to go away
       const errorMessage = screen.getByText("Please select one of the options above.")
       fireEvent.click(screen.getByRole("radio", { name: "No" }))
-      await waitFor(() =>
-        expect(errorMessage).not.toBeInTheDocument()
-      )
+      await waitFor(() => expect(errorMessage).not.toBeInTheDocument())
     })
   })
 

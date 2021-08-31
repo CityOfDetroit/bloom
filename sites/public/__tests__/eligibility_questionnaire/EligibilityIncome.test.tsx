@@ -1,12 +1,8 @@
-import {
-  render,
-  fireEvent,
-  screen,
-} from "@testing-library/react"
+import { render, fireEvent, screen } from "@testing-library/react"
 import EligibilityIncome from "../../pages/eligibility/income"
 import React from "react"
 import { act } from "react-dom/test-utils"
-import userEvent from '@testing-library/user-event'
+import userEvent from "@testing-library/user-event"
 
 const mockRouter = {
   push: jest.fn(),
