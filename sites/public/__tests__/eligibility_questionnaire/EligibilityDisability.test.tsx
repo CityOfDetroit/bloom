@@ -3,7 +3,6 @@ import {
   fireEvent,
   screen,
   waitFor,
-  waitForElementToBeRemoved,
 } from "@testing-library/react"
 import EligibilityDisability from "../../pages/eligibility/disability"
 import React from "react"
