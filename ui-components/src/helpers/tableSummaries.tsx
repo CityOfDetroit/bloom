@@ -138,8 +138,8 @@ export const getSummariesTableFromUnitsSummary = (summaries: UnitsSummary[]) => 
         unitSummary.totalCount ? unitSummary.totalCount : 0,
         unitSummary.minimumIncomeMin,
         unitSummary.minimumIncomeMax,
-        unitSummary.monthlyRentMin,
-        unitSummary.monthlyRentMax,
+        unitSummary.monthlyRentMin?.toString(),
+        unitSummary.monthlyRentMax?.toString(),
         unitSummary.monthlyRentAsPercentOfIncome,
         unitSummary.monthlyRentAsPercentOfIncome,
         unitSummary.unitType.name
