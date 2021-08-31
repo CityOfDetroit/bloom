@@ -1320,21 +1320,19 @@
             "header": "Busquemos tu próxima casa",
             "sections": {
                 "welcome": "Bienvenidos",
-                "bedrooms": "Dormitorios",
+                "persons": "Personas",
                 "age": "Edad",
                 "disability": "Invalidez",
-                "income": "Ingreso",
-                "section8": "Sección 8"
+                "income": "Ingreso"
             }
         },
         "welcome": {
             "header": "Bienvenidos",
             "description": "Para encontrarle la casa que mejor se adapte a sus necesidades, primero respondamos algunas preguntas. Algunas propiedades solo aceptan personas con ciertas edades, ingresos, etc."
         },
-        "bedrooms": {
-            "prompt": "¿Cuántas habitaciones necesitas?",
-            "studio": "Estudio",
-            "srCountLabel": "Recuento de dormitorios"
+        "persons": {
+            "prompt": "¿Cuántas personas vivirán en esta propiedad?",
+            "srCountLabel": "Recuento de personas"
         },
         "age": {
             "prompt": "¿Cuántos años tienes?",
@@ -1358,9 +1356,6 @@
                 "40kTo50k": "$40,000 - $50,000",
                 "over50k": "Más de $ 50,000"
             }
-        },
-        "section8": {
-            "prompt": "¿Tiene un vale de la Sección 8?"
         }
     }
 }

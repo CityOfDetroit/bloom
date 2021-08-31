@@ -1,6 +1,6 @@
 /*
-Bedroom Count
-Prompts the user for the number of bedrooms they need.
+Person Count
+Prompts the user for the number of persons in their household.
 */
 import {
   AppearanceStyleType,
@@ -20,7 +20,7 @@ import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
 
-const EligibilityBedrooms = () => {
+const EligibilityPersons = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
   const CURRENT_PAGE = 1
@@ -29,14 +29,14 @@ const EligibilityBedrooms = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors, getValues } = useForm({
     defaultValues: {
-      bedrooms: eligibilityRequirements?.bedroomCounts,
+      persons: eligibilityRequirements?.personCount,
     },
   })
 
   const onSubmit = () => {
     const data = getValues()
-    const { bedrooms } = data
-    eligibilityRequirements.setBedroomCounts(bedrooms)
+    const { persons } = data
+    eligibilityRequirements.setPersonCount(persons)
 
     void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
@@ -45,12 +45,11 @@ const EligibilityBedrooms = () => {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
   }
 
-  const bedroomsOptions = [
-    { id: "studio", label: t("eligibility.bedrooms.studio") },
-    { id: "oneBdrm", label: "1" },
-    { id: "twoBdrm", label: "2" },
-    { id: "threeBdrm", label: "3" },
-    { id: "fourBdrm", label: "4+" },
+  const personsOptions = [
+    { id: "one", label: "1" },
+    { id: "two", label: "2" },
+    { id: "three", label: "3" },
+    { id: "four", label: "4+" },
   ]
 
   return (
@@ -71,17 +70,17 @@ const EligibilityBedrooms = () => {
           }}
         />
         <div className="form-card__lead pb-0 pt-8">
-          <h2 className="form-card__title is-borderless">{t("eligibility.bedrooms.prompt")}</h2>
+          <h2 className="form-card__title is-borderless">{t("eligibility.persons.prompt")}</h2>
         </div>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group">
             <fieldset>
-              <legend className="sr-only">{t("eligibility.bedrooms.prompt")}</legend>
+              <legend className="sr-only">{t("eligibility.persons.prompt")}</legend>
               <FieldGroup
                 type="checkbox"
-                name="bedrooms"
-                fields={bedroomsOptions}
-                error={errors.bedrooms != null}
+                name="persons"
+                fields={personsOptions}
+                error={errors.persons != null}
                 errorMessage={t("errors.selectAtLeastOne")}
                 validation={{ required: true }}
                 register={register}
@@ -99,4 +98,4 @@ const EligibilityBedrooms = () => {
   )
 }
 
-export default EligibilityBedrooms
+export default EligibilityPersons
