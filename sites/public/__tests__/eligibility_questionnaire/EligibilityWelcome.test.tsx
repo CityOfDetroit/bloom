@@ -1,10 +1,10 @@
 import { render, fireEvent, screen } from "@testing-library/react"
 import EligibilityWelcome from "../../pages/eligibility/welcome"
 import React from "react"
-import { act } from "react-dom/test-utils";
+import { act } from "react-dom/test-utils"
 
 const mockRouter = {
-  push: jest.fn()
+  push: jest.fn(),
 }
 jest.mock("next/router", () => ({
   useRouter() {

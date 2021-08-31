@@ -10,7 +10,7 @@ import React from "react"
 import { act } from "react-dom/test-utils"
 
 const mockRouter = {
-  push: jest.fn()
+  push: jest.fn(),
 }
 jest.mock("next/router", () => ({
   useRouter() {
@@ -23,7 +23,9 @@ describe("<EligibilityBedrooms>", () => {
     act(() => {
       render(<EligibilityBedrooms />)
     })
-    expect(screen.getByRole("heading", { name: "How many bedrooms do you need?" })).toBeInTheDocument()
+    expect(
+      screen.getByRole("heading", { name: "How many bedrooms do you need?" })
+    ).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument()
   })
 
@@ -42,7 +44,9 @@ describe("<EligibilityBedrooms>", () => {
 
       // Click one of the bedroom options, wait for error message to go away
       fireEvent.click(screen.getByDisplayValue("threeBdrm"))
-      await waitForElementToBeRemoved(() => screen.queryByText("Please select at least one option."))
+      await waitForElementToBeRemoved(() =>
+        screen.queryByText("Please select at least one option.")
+      )
     })
   })
 
