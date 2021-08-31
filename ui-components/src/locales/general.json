@@ -1317,6 +1317,10 @@
       "specialNeeds": "Special needs and disability"
     },
     "availability": "Unit Availability",
+    "any": "Any",
+    "hasAvailability": "Has Availability",
+    "noAvailability": "No Availability",
+    "waitlist": "Waitlist",
     "applyFilters": "Apply Filters",
     "noResults": "No results",
     "noResultsSubtitle": "Edit or remove filters for best results."

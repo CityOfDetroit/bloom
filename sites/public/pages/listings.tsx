@@ -80,10 +80,10 @@ const ListingsPage = () => {
     { value: "Foster City", label: "Foster City" },
   ]
   const availabilityOptions: SelectOption[] = [
-    { value: AvailabilityFilterType.any, label: "Any" },
-    { value: AvailabilityFilterType.hasAvailability, label: "Has Availability" },
-    { value: AvailabilityFilterType.noAvailability, label: "No Availability" },
-    { value: AvailabilityFilterType.waitlist, label: "Waitlist" },
+    { value: AvailabilityFilterType.any, label: t("listingFilters.any") },
+    { value: AvailabilityFilterType.hasAvailability, label: t("listingFilters.hasAvailability") },
+    { value: AvailabilityFilterType.noAvailability, label: t("listingFilters.noAvailability") },
+    { value: AvailabilityFilterType.waitlist, label: t("listingFilters.waitlist") },
   ]
 
   function setQueryString(page: number, filters = filterState) {
