@@ -1332,7 +1332,17 @@
         },
         "persons": {
             "prompt": "এই সম্পত্তিতে কত লোক বাস করবে?",
-            "srCountLabel": "ব্যক্তি গণনা"
+            "srCountLabel": "ব্যক্তি গণনা",
+            "ranges" : {
+              "one": "1",
+              "two": "2",
+              "three": "3",
+              "four": "4",
+              "five": "5",
+              "six": "6",
+              "seven": "7",
+              "eight": "8+"
+            }
         },
         "age": {
             "prompt": "আপনার বয়স কত?",

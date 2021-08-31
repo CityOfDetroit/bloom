@@ -5,10 +5,10 @@ Prompts the user for the number of persons in their household.
 import {
   AppearanceStyleType,
   Button,
-  FieldGroup,
   Form,
   FormCard,
   ProgressNav,
+  Select,
   t,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
@@ -27,7 +27,7 @@ const EligibilityPersons = () => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors, getValues } = useForm({
+  const { handleSubmit, register, getValues } = useForm({
     defaultValues: {
       persons: eligibilityRequirements?.personCount,
     },
@@ -45,12 +45,7 @@ const EligibilityPersons = () => {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
   }
 
-  const personsOptions = [
-    { id: "one", label: "1" },
-    { id: "two", label: "2" },
-    { id: "three", label: "3" },
-    { id: "four", label: "4+" },
-  ]
+  const personRanges = ["one", "two", "three", "four", "five", "six", "seven", "eight"]
 
   return (
     <FormsLayout>
@@ -76,14 +71,16 @@ const EligibilityPersons = () => {
           <div className="form-card__group">
             <fieldset>
               <legend className="sr-only">{t("eligibility.persons.prompt")}</legend>
-              <FieldGroup
-                type="checkbox"
-                name="persons"
-                fields={personsOptions}
-                error={errors.persons != null}
-                errorMessage={t("errors.selectAtLeastOne")}
+              <Select
+                id="person"
+                name="person"
+                label={t("eligibility.persons.srCountLabel")}
+                describedBy="income-description"
                 validation={{ required: true }}
                 register={register}
+                controlClassName="control"
+                options={personRanges}
+                keyPrefix="eligibility.persons.ranges"
               />
             </fieldset>
           </div>
