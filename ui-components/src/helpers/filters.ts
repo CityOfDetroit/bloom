@@ -1,5 +1,7 @@
 import {
   EnumListingFilterParamsComparison,
+  ListingFilterKeys,
+  ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
 
