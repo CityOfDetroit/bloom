@@ -17,7 +17,7 @@ export const getSummaryRow = (
   let minIncome = <></>
   if (minIncomeRangeMin == undefined) {
     //TODO(#354): figure out what to display when there's no data
-    minIncome = <strong>???</strong>
+    minIncome = <strong>{t("t.call")}</strong>
   } else if (minIncomeRangeMin == minIncomeRangeMax) {
     minIncome = (
       <strong>
@@ -40,7 +40,7 @@ export const getSummaryRow = (
     const unit = percent ? `% ${t("t.income")}` : ` ${t("t.perMonth")}`
     if (rentMin == undefined && rentMax == undefined) {
       //TODO(#354): figure out what to display when there's no data
-      return <strong>???</strong>
+      return <strong>{t("t.call")}</strong>
     }
     return rentMin == rentMax ? (
       <>
