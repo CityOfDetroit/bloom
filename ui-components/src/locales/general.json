@@ -1316,7 +1316,7 @@
       "senior": "Senior housing (62+)",
       "specialNeeds": "Special needs and disability"
     },
-    "availability": "Only show buildings with availability",
+    "availability": "Unit Availability",
     "applyFilters": "Apply Filters",
     "noResults": "No results",
     "noResultsSubtitle": "Edit or remove filters for best results."
