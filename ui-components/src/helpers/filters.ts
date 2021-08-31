@@ -1,7 +1,5 @@
 import {
   EnumListingFilterParamsComparison,
-  ListingFilterKeys,
-  ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
 
@@ -15,6 +13,8 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
       return EnumListingFilterParamsComparison[">="]
     case ListingFilterKeys.zipcode:
       return EnumListingFilterParamsComparison["IN"]
+    case ListingFilterKeys.seniorHousing:
+      return EnumListingFilterParamsComparison["NA"]
     case ListingFilterKeys.seniorHousing:
     case ListingFilterKeys.communityType:
       return EnumListingFilterParamsComparison["NA"]
