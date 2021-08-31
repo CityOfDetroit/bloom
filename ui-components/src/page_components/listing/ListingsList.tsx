@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ImageCard } from "../../blocks/ImageCard"
-import { EnumListingReviewOrderType, Listing } from "@bloom-housing/backend-core/types"
+import { Listing, ListingReviewOrder } from "@bloom-housing/backend-core/types"
 import { LinkButton } from "../../actions/LinkButton"
 import {
   getSummariesTableFromUnitSummary,
@@ -75,7 +75,7 @@ const ListingsList = (props: ListingsProps) => {
       content = content + `: ${formattedDate}`
     }
 
-    if (listing.reviewOrderType === EnumListingReviewOrderType.firstComeFirstServe) {
+    if (listing.reviewOrderType === ListingReviewOrder.firstComeFirstServe) {
       subContent = content
       content = t("listings.applicationFCFS")
     }
