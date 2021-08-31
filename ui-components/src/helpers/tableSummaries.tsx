@@ -4,55 +4,70 @@ import { UnitSummary, UnitsSummary } from "@bloom-housing/backend-core/types"
 import { GroupedTableGroup } from "../tables/GroupedTable"
 
 export const getSummaryRow = (
+  totalAvailable: number,
+  totalCount: number,
   minIncomeRangeMin?: string,
   minIncomeRangeMax?: string,
   rentRangeMin?: string,
   rentRangeMax?: string,
   rentAsPercentIncomeRangeMin?: string,
   rentAsPercentIncomeRangeMax?: string,
-  totalAvailable?: number,
-  totalCount?: number,
   unitTypeName?: string
 ) => {
   let minIncome = <></>
-  if (minIncomeRangeMin == undefined) {
+  if (minIncomeRangeMin == undefined && minIncomeRangeMax == undefined) {
     //TODO(#345): figure out what to display when there's no data
     minIncome = <strong>{t("t.call")}</strong>
-  } else if (minIncomeRangeMin == minIncomeRangeMax) {
+  } else if (minIncomeRangeMin == minIncomeRangeMax || minIncomeRangeMax == undefined) {
     minIncome = (
-      <strong>
-        {minIncomeRangeMin}
+      <>
+        <strong>{minIncomeRangeMin}</strong>
         {t("t.perMonth")}
-      </strong>
+      </>
+    )
+  } else if (minIncomeRangeMin == undefined) {
+    minIncome = (
+      <>
+        <strong>{minIncomeRangeMax}</strong>
+        {t("t.perMonth")}
+      </>
     )
   } else {
     minIncome = (
       <>
-        <strong>{minIncomeRangeMin}</strong> {t("t.to")}{" "}
-        <strong>
-          {minIncomeRangeMax} {t("t.perMonth")}
-        </strong>
+        <strong>{minIncomeRangeMin}</strong> {t("t.to")} <strong>{minIncomeRangeMax}</strong>
+        {t("t.perMonth")}
       </>
     )
   }
 
   const getRent = (rentMin?: string, rentMax?: string, percent = false) => {
     const unit = percent ? `% ${t("t.income")}` : ` ${t("t.perMonth")}`
-    if (rentMin == undefined) {
+    if (rentMin == undefined && rentMax == undefined) {
       //TODO(#345): figure out what to display when there's no data
       return <strong>{t("t.call")}</strong>
+    } else if (rentMin == rentMax || rentMax == undefined) {
+      return (
+        <>
+          <strong>{`$${rentMin}`}</strong>
+          {unit}
+        </>
+      )
+    } else if (rentMin == undefined) {
+      return (
+        <>
+          <strong>{`$${rentMax}`}</strong>
+          {unit}
+        </>
+      )
+    } else {
+      return (
+        <>
+          <strong>{`$${rentMin}`}</strong> {t("t.to")} <strong>{`$${rentMax}`}</strong>
+          {unit}
+        </>
+      )
     }
-    return rentMin == rentMax || rentMax == undefined ? (
-      <>
-        <strong>{`$${rentMin}`}</strong>
-        {unit}
-      </>
-    ) : (
-      <>
-        <strong>{`$${rentMin}`}</strong> {t("t.to")} <strong>{`$${rentMax}`}</strong>
-        {unit}
-      </>
-    )
   }
 
   // Use rent as percent income if available, otherwise use exact rent
@@ -66,7 +81,7 @@ export const getSummaryRow = (
     rent: <>{rent}</>,
     availability: (
       <>
-        {totalAvailable && totalAvailable > 0 ? (
+        {totalAvailable > 0 ? (
           <>
             <strong>{totalAvailable}</strong> {totalAvailable == 1 ? t("t.unit") : t("t.units")}
           </>
@@ -89,6 +104,8 @@ export const getSummariesTableFromUnitSummary = (summaries: UnitSummary[]) => {
   if (summaries?.length > 0) {
     const unitSummaries = summaries.map((unitSummary) => {
       return getSummaryRow(
+        unitSummary.totalAvailable ? unitSummary.totalAvailable : 0,
+        unitSummary.totalCount ? unitSummary.totalCount : 0,
         unitSummary.minIncomeRange.min,
         unitSummary.minIncomeRange.max,
         unitSummary.rentRange.min,
@@ -99,8 +116,6 @@ export const getSummariesTableFromUnitSummary = (summaries: UnitSummary[]) => {
         unitSummary.rentAsPercentIncomeRange.max
           ? unitSummary.rentAsPercentIncomeRange.max.toString()
           : "",
-        unitSummary.totalAvailable,
-        unitSummary.totalCount,
         unitSummary.unitType.name
       )
     })
@@ -119,14 +134,14 @@ export const getSummariesTableFromUnitsSummary = (summaries: UnitsSummary[]) => 
   if (summaries?.length > 0) {
     const unitSummaries = summaries.map((unitSummary) => {
       return getSummaryRow(
+        unitSummary.totalAvailable ? unitSummary.totalAvailable : 0,
+        unitSummary.totalCount ? unitSummary.totalCount : 0,
         unitSummary.minimumIncomeMin,
         unitSummary.minimumIncomeMax,
         unitSummary.monthlyRentMin,
         unitSummary.monthlyRentMax,
         unitSummary.monthlyRentAsPercentOfIncome,
         unitSummary.monthlyRentAsPercentOfIncome,
-        unitSummary.totalAvailable,
-        unitSummary.totalCount,
         unitSummary.unitType.name
       )
     })
