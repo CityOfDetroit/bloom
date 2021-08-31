@@ -562,7 +562,6 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   "servicesOffered",
   "yearBuilt",
   "unitsSummarized",
-  "unitsSummary",
   "jurisdiction",
   "reservedCommunityType",
   "result",

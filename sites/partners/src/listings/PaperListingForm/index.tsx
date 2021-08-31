@@ -267,7 +267,7 @@ const formatFormData = (
     }
 
     if (unit.id === undefined) {
-      unit.id = ""
+      delete unit.id
       delete unit.updatedAt
       delete unit.createdAt
     }
@@ -302,7 +302,7 @@ const formatFormData = (
     }
 
     if (summary.id === undefined) {
-      summary.id = ""
+      delete summary.id
     }
     delete summary.tempId
   })

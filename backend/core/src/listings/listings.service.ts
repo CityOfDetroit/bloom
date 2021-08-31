@@ -136,12 +136,12 @@ export class ListingsService {
       throw new NotFoundException()
     }
     listingDto.units.forEach((unit) => {
-      if (unit.id.length === 0 || unit.id === "undefined") {
+      if (unit.id?.length === 0 || unit.id === "undefined") {
         delete unit.id
       }
     })
     listingDto.unitsSummary.forEach((summary) => {
-      if (summary.id.length === 0 || summary.id === "undefined") {
+      if (summary.id?.length === 0 || summary.id === "undefined") {
         delete summary.id
       }
     })
