@@ -3716,9 +3716,15 @@ export interface ListingFilterParams {
   zipcode?: string
 
   /**  */
-  hasAvailability?: boolean
+  minAvailability?: number
 
-  /** */
+  /**  */
+  maxAvailability?: number
+
+  /**  */
+  waitlist?: boolean
+
+  /**  */
   seniorHousing?: boolean
 }
 

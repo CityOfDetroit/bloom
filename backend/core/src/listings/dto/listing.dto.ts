@@ -795,10 +795,26 @@ export class ListingFilterParams extends BaseFilter {
 
   @Expose()
   @ApiProperty({
+    type: Number,
+    example: "3",
+    required: false,
+  })
+  [ListingFilterKeys.minAvailability]?: number;
+
+  @Expose()
+  @ApiProperty({
+    type: Number,
+    example: "3",
+    required: false,
+  })
+  [ListingFilterKeys.maxAvailability]?: number
+
+  @Expose()
+  @ApiProperty({
     type: Boolean,
     required: false,
   })
-  [ListingFilterKeys.hasAvailability]?: boolean
+  [ListingFilterKeys.waitlist]?: boolean
 
   @Expose()
   @ApiProperty({
@@ -862,6 +878,8 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   neighborhood: "property.neighborhood",
   bedrooms: "unitTypeRef.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
-  hasAvailability: "unitsSummary.total_available",
+  minAvailability: "unitsSummary.total_available",
+  maxAvailability: "unitsSummary.total_available",
+  waitlist: "listings.is_waitlist_open",
   seniorHousing: "reservedCommunityType.name",
 }

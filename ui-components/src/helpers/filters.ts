@@ -10,13 +10,14 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.name:
     case ListingFilterKeys.neighborhood:
     case ListingFilterKeys.status:
+    case ListingFilterKeys.maxAvailability:
+    case ListingFilterKeys.waitlist:
       return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.bedrooms:
+    case ListingFilterKeys.minAvailability:
       return EnumListingFilterParamsComparison[">="]
     case ListingFilterKeys.zipcode:
       return EnumListingFilterParamsComparison["IN"]
-    case ListingFilterKeys.hasAvailability:
-      return EnumListingFilterParamsComparison[">="]
     case ListingFilterKeys.seniorHousing:
       return EnumListingFilterParamsComparison["NA"]
     default: {
@@ -42,26 +43,41 @@ export function encodeToFrontendFilterString(filterParams: ListingFilterParams) 
   for (const filterType in filterParams) {
     const value = filterParams[filterType]
     if (filterType in ListingFilterKeys && value !== undefined && value !== "") {
-      switch (filterType) {
-        case ListingFilterKeys.hasAvailability:
-          value && (queryString += `&${filterType}=1`)
-          break
-        default: {
-          queryString += `&${filterType}=${value}`
-        }
-      }
+      queryString += `&${filterType}=${value}`
     }
   }
   return queryString
 }
 
+export enum AvailabilityFilterType {
+  any = "any",
+  hasAvailability = "hasAvailability",
+  noAvailability = "noAvailability",
+  waitlist = "waitlist",
+}
+
+export type FormFilterData = ListingFilterParams & {
+  availability?: AvailabilityFilterType
+}
+
 export function decodeFiltersFromFrontendUrl(query: ParsedUrlQuery) {
-  const filters: ListingFilterParams = {}
+  const filters: FormFilterData = {}
   let foundFilterKey = false
   for (const queryKey in query) {
-    if (queryKey in ListingFilterKeys) {
-      filters[queryKey] = query[queryKey]
-      foundFilterKey = true
+    if (!(queryKey in ListingFilterKeys)) continue
+    foundFilterKey = true
+    filters[queryKey] = query[queryKey]
+    // Map relevant fields back to `availability` to allow us to track form state.
+    switch (queryKey as ListingFilterKeys) {
+      case ListingFilterKeys.minAvailability:
+        filters.availability = AvailabilityFilterType.hasAvailability
+        break
+      case ListingFilterKeys.maxAvailability:
+        filters.availability = AvailabilityFilterType.noAvailability
+        break
+      case ListingFilterKeys.waitlist:
+        filters.availability = AvailabilityFilterType.waitlist
+        break
     }
   }
   return foundFilterKey ? filters : undefined

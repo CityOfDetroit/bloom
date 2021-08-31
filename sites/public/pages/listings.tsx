@@ -15,6 +15,8 @@ import {
   decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
+  FormFilterData,
+  AvailabilityFilterType,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -43,7 +45,7 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<ListingFilterParams>()
+  const [filterState, setFilterState] = useState<FormFilterData>()
   const itemsPerPage = 10
 
   // Filter state
@@ -77,6 +79,12 @@ const ListingsPage = () => {
     EMPTY_OPTION,
     { value: "Foster City", label: "Foster City" },
   ]
+  const availabilityOptions: SelectOption[] = [
+    { value: AvailabilityFilterType.any, label: "Any" },
+    { value: AvailabilityFilterType.hasAvailability, label: "Has Availability" },
+    { value: AvailabilityFilterType.noAvailability, label: "No Availability" },
+    { value: AvailabilityFilterType.waitlist, label: "Waitlist" },
+  ]
 
   function setQueryString(page: number, filters = filterState) {
     void router.push(`/listings?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
@@ -100,7 +108,8 @@ const ListingsPage = () => {
   )
 
   const numberOfFilters = filterState
-    ? Object.keys(filterState).filter((p) => p !== "$comparison").length
+    // "availability" is a convenience field only used by the frontend. Don't track it here.
+    ? Object.keys(filterState).filter((p) => p !== "$comparison" && p !== "availability").length
     : 0
   const buttonTitle = numberOfFilters
     ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
@@ -113,8 +122,22 @@ const ListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
-  const onSubmit = (data: ListingFilterParams) => {
+
+  const onSubmit = (data: FormFilterData) => {
     setFilterModalVisible(false)
+
+    switch (data.availability) {
+      case (AvailabilityFilterType.hasAvailability):
+        data.minAvailability = 1
+        break
+      case (AvailabilityFilterType.noAvailability):
+        data.maxAvailability = 0
+        break
+      case (AvailabilityFilterType.waitlist):
+        data.waitlist = true
+      default:
+        break
+    }
     setQueryString(/*page=*/ 1, data)
   }
 
@@ -133,6 +156,15 @@ const ListingsPage = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group">
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
+            <Select
+              id={"availability"}
+              name={"availability"}
+              label={t("listingFilters.availability")}
+              register={register}
+              controlClassName="control"
+              options={availabilityOptions}
+              defaultValue={filterState?.availability}
+            />
             <Select
               id="unitOptions"
               name={ListingFilterKeys.bedrooms}
@@ -180,14 +212,6 @@ const ListingsPage = () => {
               register={register}
               controlClassName="control"
               options={communityTypeOptions}
-            />
-            <Field
-              id={ListingFilterKeys.hasAvailability}
-              name={ListingFilterKeys.hasAvailability}
-              type="checkbox"
-              label={t("listingFilters.availability")}
-              register={register}
-              inputProps={{ defaultChecked: filterState?.hasAvailability }}
             />
           </div>
           <div className="text-center mt-6">
