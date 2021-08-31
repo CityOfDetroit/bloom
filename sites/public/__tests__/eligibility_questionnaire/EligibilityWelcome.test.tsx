@@ -1,4 +1,4 @@
-import { render, fireEvent, screen, waitForElementToBeRemoved } from "@testing-library/react"
+import { render, fireEvent, screen } from "@testing-library/react"
 import EligibilityWelcome from "../../pages/eligibility/welcome"
 import React from "react"
 import { act } from "react-dom/test-utils";
