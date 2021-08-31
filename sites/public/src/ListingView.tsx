@@ -20,6 +20,7 @@ import {
   OpenHouseEvent,
   ListingUpdated,
   Message,
+  ApplicationSection,
 } from "@bloom-housing/ui-components"
 import { ErrorPage } from "../pages/_error"
 import { getGenericAddress } from "../lib/helpers"
@@ -50,7 +51,7 @@ export const ListingView = (props: ListingProps) => {
   }
 
   const groupedUnits: GroupedTableGroup[] = getSummariesTable(
-    listing.unitsSummarized.byUnitTypeAndRent
+    listing.unitsSummarized?.byUnitTypeAndRent
   )
 
   let openHouseEvents: ListingEvent[] | null = null
@@ -123,14 +124,17 @@ export const ListingView = (props: ListingProps) => {
           </Message>
         )}
 
-        <GroupedTable
-          headers={unitSummariesHeaders}
-          data={groupedUnits}
-          responsiveCollapse={true}
-        />
+        {groupedUnits?.length > 0 && (
+          <GroupedTable
+            headers={unitSummariesHeaders}
+            data={groupedUnits}
+            responsiveCollapse={true}
+          />
+        )}
       </div>
       <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
         <ListingUpdated listingUpdated={listing.updatedAt} />
+        <ApplicationSection listing={listing} preview={props.preview} internalFormRoute="" />
       </div>
       <ListingDetails>
         <ListingDetailItem
@@ -158,6 +162,7 @@ export const ListingView = (props: ListingProps) => {
                 website: listing.managementWebsite,
               }}
             />
+            <ApplicationSection listing={listing} preview={props.preview} internalFormRoute="" />
           </aside>
         </ListingDetailItem>
 
