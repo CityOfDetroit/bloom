@@ -1,6 +1,6 @@
 /*
 Household Size Count
-Prompts the user for the size of their household.
+Prompts the user for the number of members in their household.
 */
 import {
   AppearanceStyleType,
