@@ -5,7 +5,7 @@ import {
   waitFor,
   waitForElementToBeRemoved,
 } from "@testing-library/react"
-import EligibilityBedrooms from "../../pages/eligibility/bedrooms"
+import EligibilityHouseholdSize from "../../pages/eligibility/householdSize"
 import React from "react"
 import { act } from "react-dom/test-utils"
 
@@ -18,20 +18,20 @@ jest.mock("next/router", () => ({
   },
 }))
 
-describe("<EligibilityBedrooms>", () => {
-  it("Renders bedrooms page of eligibility questionnaire", () => {
+describe("<EligibilityHouseholdSize>", () => {
+  it("Renders household size page of eligibility questionnaire", () => {
     act(() => {
-      render(<EligibilityBedrooms />)
+      render(<EligibilityHouseholdSize />)
     })
     expect(
-      screen.getByRole("heading", { name: "How many bedrooms do you need?" })
+      screen.getByRole("heading", { name: "How many people will be living in this property?" })
     ).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument()
   })
 
-  it("Displays an error message if no bedroom counts have been selected", async () => {
+  it("Displays an error message if no household size has been selected", async () => {
     act(() => {
-      render(<EligibilityBedrooms />)
+      render(<EligibilityHouseholdSize />)
     })
 
     // No error message when we've just rendered the page
@@ -42,8 +42,8 @@ describe("<EligibilityBedrooms>", () => {
       fireEvent.click(screen.getByRole("button", { name: "Next" }))
       await waitFor(() => screen.getByText("Please select at least one option."))
 
-      // Click one of the bedroom options, wait for error message to go away
-      fireEvent.click(screen.getByDisplayValue("threeBdrm"))
+      // Click one of the household size options, wait for error message to go away
+      fireEvent.click(screen.getByDisplayValue("two"))
       await waitForElementToBeRemoved(() =>
         screen.queryByText("Please select at least one option.")
       )
@@ -52,8 +52,8 @@ describe("<EligibilityBedrooms>", () => {
 
   it("Clicks the Next button", async () => {
     await act(async () => {
-      render(<EligibilityBedrooms />)
-      fireEvent.click(screen.getByDisplayValue("threeBdrm"))
+      render(<EligibilityHouseholdSize />)
+      fireEvent.click(screen.getByDisplayValue("two"))
       fireEvent.click(screen.getByRole("button", { name: "Next" }))
     })
 
