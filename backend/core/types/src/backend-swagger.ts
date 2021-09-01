@@ -5730,7 +5730,6 @@ export enum EnumListingFilterParamsStatus {
   "closed" = "closed",
 }
 export enum EnumListingFilterParamsAvailability {
-  "any" = "any",
   "hasAvailability" = "hasAvailability",
   "noAvailability" = "noAvailability",
   "waitlist" = "waitlist",

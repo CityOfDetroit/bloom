@@ -1,5 +1,4 @@
 import {
-  AvailabilityFilterEnum,
   EnumListingFilterParamsComparison,
   ListingFilterKeys,
   ListingFilterParams,

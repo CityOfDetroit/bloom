@@ -119,7 +119,6 @@ const ListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
-
   const onSubmit = (data: ListingFilterParams) => {
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)

@@ -1312,7 +1312,6 @@
             "specialNeeds": "Necesidades especiales y discapacidad"
         },
         "availability": "Disponibilidad de la unidad",
-        "any": "Alguna",
         "hasAvailability": "Tiene disponibilidad",
         "noAvailability": "No disponible",
         "waitlist": "Lista de espera",

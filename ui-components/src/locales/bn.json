@@ -1312,7 +1312,6 @@
             "specialNeeds": "বিশেষ চাহিদা এবং অক্ষমতা"
         },
         "availability": "ইউনিট প্রাপ্যতা",
-        "any": "যেকোনো",
         "hasAvailability": "প্রাপ্যতা আছে",
         "noAvailability": "সক্ষমতা নেই",
         "waitlist": "প্রতীক্ষার তালিকা",
