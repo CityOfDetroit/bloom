@@ -23,7 +23,7 @@ import { AddressCreateDto, AddressDto, AddressUpdateDto } from "../../shared/dto
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { UserBasicDto } from "../../auth/dto/user.dto"
 import { ListingStatus } from "../types/listing-status-enum"
-import { ListingFilterKeys } from "../types/listing-filter-keys-enum"
+import { AvailabilityFilterEnum, ListingFilterKeys } from "../types/listing-filter-keys-enum"
 import { PaginationFactory, PaginationAllowsAllQueryParams } from "../../shared/dto/pagination.dto"
 import { BaseFilter } from "../../shared/dto/filter.dto"
 import { UnitCreateDto, UnitDto, UnitUpdateDto } from "../../units/dto/unit.dto"
@@ -795,26 +795,11 @@ export class ListingFilterParams extends BaseFilter {
 
   @Expose()
   @ApiProperty({
-    type: Number,
-    example: "3",
+    enum: Object.keys(AvailabilityFilterEnum),
+    example: "hasAvailability",
     required: false,
   })
-  [ListingFilterKeys.minAvailability]?: number;
-
-  @Expose()
-  @ApiProperty({
-    type: Number,
-    example: "3",
-    required: false,
-  })
-  [ListingFilterKeys.maxAvailability]?: number
-
-  @Expose()
-  @ApiProperty({
-    type: Boolean,
-    required: false,
-  })
-  [ListingFilterKeys.waitlist]?: boolean
+  [ListingFilterKeys.availability]?: AvailabilityFilterEnum;
 
   @Expose()
   @ApiProperty({
@@ -871,15 +856,18 @@ export class ListingsRetrieveQueryParams {
   view?: string
 }
 
-// Using a record lets us enforce that all types are handled in addFilter
-export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string> = {
+export const filterTypeToFieldMap = {
   status: "listings.status",
   name: "listings.name",
   neighborhood: "property.neighborhood",
   bedrooms: "unitTypeRef.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
-  minAvailability: "unitsSummary.total_available",
-  maxAvailability: "unitsSummary.total_available",
-  waitlist: "listings.is_waitlist_open",
   seniorHousing: "reservedCommunityType.name",
+  // Fields for the availability are determined based on the value of the filter, not the
+  // key. Keep this bogus value to prevent the filter from being rejected.
+  availability: "",
+  // Availability filter fields. See type `AvailabilityFilterEnum`.
+  hasAvailability: "unitsSummary.total_available",
+  noAvailability: "unitsSummary.total_available",
+  waitlist: "listings.is_waitlist_open",
 }

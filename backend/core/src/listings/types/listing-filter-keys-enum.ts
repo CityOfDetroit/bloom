@@ -5,8 +5,13 @@ export enum ListingFilterKeys {
   neighborhood = "neighborhood",
   bedrooms = "bedrooms",
   zipcode = "zipcode",
-  minAvailability = "minAvailability",
-  maxAvailability = "maxAvailability",
-  waitlist = "waitlist",
+  availability = "availability",
   seniorHousing = "seniorHousing",
+}
+
+export enum AvailabilityFilterEnum {
+  any = "any",
+  hasAvailability = "hasAvailability",
+  noAvailability = "noAvailability",
+  waitlist = "waitlist",
 }

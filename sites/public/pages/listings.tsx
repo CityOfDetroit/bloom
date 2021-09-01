@@ -15,8 +15,6 @@ import {
   decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
-  FormFilterData,
-  AvailabilityFilterType,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -24,7 +22,7 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import { ListingFilterKeys, AvailabilityFilterEnum, ListingFilterParams } from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -45,7 +43,7 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<FormFilterData>()
+  const [filterState, setFilterState] = useState<ListingFilterParams>()
   const itemsPerPage = 10
 
   // Filter state
@@ -80,10 +78,10 @@ const ListingsPage = () => {
     { value: "Foster City", label: "Foster City" },
   ]
   const availabilityOptions: SelectOption[] = [
-    { value: AvailabilityFilterType.any, label: t("listingFilters.any") },
-    { value: AvailabilityFilterType.hasAvailability, label: t("listingFilters.hasAvailability") },
-    { value: AvailabilityFilterType.noAvailability, label: t("listingFilters.noAvailability") },
-    { value: AvailabilityFilterType.waitlist, label: t("listingFilters.waitlist") },
+    { value: AvailabilityFilterEnum.any, label: t("listingFilters.any") },
+    { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
+    { value: AvailabilityFilterEnum.noAvailability, label: t("listingFilters.noAvailability") },
+    { value: AvailabilityFilterEnum.waitlist, label: t("listingFilters.waitlist") },
   ]
 
   function setQueryString(page: number, filters = filterState) {
@@ -108,8 +106,7 @@ const ListingsPage = () => {
   )
 
   const numberOfFilters = filterState
-    // "availability" is a convenience field only used by the frontend. Don't track it here.
-    ? Object.keys(filterState).filter((p) => p !== "$comparison" && p !== "availability").length
+    ? Object.keys(filterState).filter((p) => p !== "$comparison").length
     : 0
   const buttonTitle = numberOfFilters
     ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
@@ -123,21 +120,8 @@ const ListingsPage = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
 
-  const onSubmit = (data: FormFilterData) => {
+  const onSubmit = (data: ListingFilterParams) => {
     setFilterModalVisible(false)
-
-    switch (data.availability) {
-      case (AvailabilityFilterType.hasAvailability):
-        data.minAvailability = 1
-        break
-      case (AvailabilityFilterType.noAvailability):
-        data.maxAvailability = 0
-        break
-      case (AvailabilityFilterType.waitlist):
-        data.waitlist = true
-      default:
-        break
-    }
     setQueryString(/*page=*/ 1, data)
   }
 

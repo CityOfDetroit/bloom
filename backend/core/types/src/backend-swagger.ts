@@ -3716,13 +3716,7 @@ export interface ListingFilterParams {
   zipcode?: string
 
   /**  */
-  minAvailability?: number
-
-  /**  */
-  maxAvailability?: number
-
-  /**  */
-  waitlist?: boolean
+  availability?: EnumListingFilterParamsAvailability
 
   /**  */
   seniorHousing?: boolean
@@ -5734,6 +5728,12 @@ export enum EnumListingFilterParamsStatus {
   "active" = "active",
   "pending" = "pending",
   "closed" = "closed",
+}
+export enum EnumListingFilterParamsAvailability {
+  "any" = "any",
+  "hasAvailability" = "hasAvailability",
+  "noAvailability" = "noAvailability",
+  "waitlist" = "waitlist",
 }
 export enum ListingApplicationAddressType {
   "leasingAgent" = "leasingAgent",
