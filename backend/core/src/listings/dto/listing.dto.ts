@@ -804,7 +804,7 @@ export class ListingFilterParams extends BaseFilter {
   @Expose()
   @ApiProperty({
     type: Boolean,
-    example: true,
+    example: "true",
     required: false,
   })
   [ListingFilterKeys.seniorHousing]?: boolean
@@ -856,7 +856,10 @@ export class ListingsRetrieveQueryParams {
   view?: string
 }
 
-export const filterTypeToFieldMap = {
+const FilterKeysList = { ...ListingFilterKeys, ...AvailabilityFilterEnum }
+type FilterKeysList = typeof FilterKeysList
+
+export const filterTypeToFieldMap: Record<keyof typeof FilterKeysList, string> = {
   status: "listings.status",
   name: "listings.name",
   neighborhood: "property.neighborhood",

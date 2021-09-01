@@ -10,7 +10,6 @@ export enum ListingFilterKeys {
 }
 
 export enum AvailabilityFilterEnum {
-  any = "any",
   hasAvailability = "hasAvailability",
   noAvailability = "noAvailability",
   waitlist = "waitlist",

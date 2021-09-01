@@ -78,7 +78,7 @@ const ListingsPage = () => {
     { value: "Foster City", label: "Foster City" },
   ]
   const availabilityOptions: SelectOption[] = [
-    { value: AvailabilityFilterEnum.any, label: t("listingFilters.any") },
+    EMPTY_OPTION,
     { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
     { value: AvailabilityFilterEnum.noAvailability, label: t("listingFilters.noAvailability") },
     { value: AvailabilityFilterEnum.waitlist, label: t("listingFilters.waitlist") },

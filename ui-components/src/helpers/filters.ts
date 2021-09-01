@@ -42,10 +42,6 @@ export function encodeToFrontendFilterString(filterParams: ListingFilterParams) 
   for (const filterType in filterParams) {
     const value = filterParams[filterType]
     if (filterType in ListingFilterKeys && value !== undefined && value !== "") {
-      if (filterType === ListingFilterKeys.availability && value === AvailabilityFilterEnum.any) {
-        // `Any` availability is the default. No filter should be applied.
-        continue
-      }
       queryString += `&${filterType}=${value}`
     }
   }
