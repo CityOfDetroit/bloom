@@ -805,7 +805,6 @@ export class ListingFilterParams extends BaseFilter {
   @Expose()
   @ApiProperty({
     enum: Object.keys(ReservedCommunityType),
-    type: Boolean,
     example: "senior62",
     required: false,
   })
