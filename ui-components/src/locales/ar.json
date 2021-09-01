@@ -707,12 +707,12 @@
     "languages": {
         "srHeading": "اللغات",
         "srNavigation": "لغة",
-        "en": "إنجليزي",
-        "es": "الأسبانية",
-        "zh": "صينى",
-        "vi": "فيتنامي",
+        "en": "English",
+        "es": "Español",
+        "zh": "中文",
+        "vi": "Tiếng Việt",
         "ar": "عربى",
-        "bn": "البنغالية"
+        "bn": "বাংলা"
     },
     "leasingAgent": {
         "contact": "اتصل بوكيل التأجير",
