@@ -54,7 +54,7 @@ describe("Listings", () => {
     const page = "1"
     // This is the number of listings in ../../src/seed.ts minus 1
     // TODO(#374): get this number programmatically
-    const limit = 13
+    const limit = 14
     const params = "/?page=" + page + "&limit=" + limit.toString()
     const res = await supertest(app.getHttpServer())
       .get("/listings" + params)
@@ -66,7 +66,7 @@ describe("Listings", () => {
     // Make the limit 1 less than the full number of listings, so that the second page contains
     // only one listing.
     const page = "2"
-    const limit = "13"
+    const limit = "14"
     const params = "/?page=" + page + "&limit=" + limit
     const res = await supertest(app.getHttpServer())
       .get("/listings" + params)
@@ -113,7 +113,7 @@ describe("Listings", () => {
     expect(listing.amenities).not.toBe(amenitiesValue)
     listing.amenities = amenitiesValue
 
-    const oldOccupancy = listing.units[0].maxOccupancy
+    const oldOccupancy = Number(listing.units[0].maxOccupancy)
     listing.units[0].maxOccupancy = oldOccupancy + 1
 
     const adminAccessToken = await getUserAccessToken(app, "admin@example.com", "abcdef")
@@ -122,9 +122,7 @@ describe("Listings", () => {
       .put(`/listings/${listing.id}`)
       .send(listing)
       .set(...setAuthorization(adminAccessToken))
-      .expect(200)
     const modifiedListing: ListingDto = putResponse.body
-
     expect(modifiedListing.amenities).toBe(amenitiesValue)
     expect(modifiedListing.units[0].maxOccupancy).toBe(oldOccupancy + 1)
   })
@@ -185,7 +183,7 @@ describe("Listings", () => {
     const am: ApplicationMethodCreateDto = {
       type: ApplicationMethodType.FileDownload,
       paperApplications: [{ id: paperApplication.body.id }],
-      listing: listing,
+      listing,
     }
 
     const applicationMethod = await supertest(app.getHttpServer())

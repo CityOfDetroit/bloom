@@ -22,7 +22,11 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import {
+  ListingFilterKeys,
+  AvailabilityFilterEnum,
+  ListingFilterParams,
+} from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -59,20 +63,29 @@ const ListingsPage = () => {
     { value: "3", label: t("listingFilters.bedroomsOptions.threePlus") },
     { value: "4", label: t("listingFilters.bedroomsOptions.fourPlus") },
   ]
-  const accessibilityOptions: SelectOption[] = [
+  const adaCompliantOptions: SelectOption[] = [
     EMPTY_OPTION,
-    { value: "n", label: "No" },
-    { value: "y", label: "Yes" },
+    { value: "n", label: t("t.no") },
+    { value: "y", label: t("t.yes") },
   ]
-  const communityOptions: SelectOption[] = [
+  const communityTypeOptions: SelectOption[] = [
     EMPTY_OPTION,
-    { value: "general", label: "General" },
-    { value: "senior", label: "Senior" },
-    { value: "assisted", label: "Assisted" },
+    { value: "all", label: t("listingFilters.communityTypeOptions.all") },
+    { value: "senior", label: t("listingFilters.communityTypeOptions.senior") },
+    {
+      value: "specialNeedsAndDisability",
+      label: t("listingFilters.communityTypeOptions.specialNeeds"),
+    },
   ]
   const neighborhoodOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: "Foster City", label: "Foster City" },
+  ]
+  const availabilityOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
+    { value: AvailabilityFilterEnum.noAvailability, label: t("listingFilters.noAvailability") },
+    { value: AvailabilityFilterEnum.waitlist, label: t("listingFilters.waitlist") },
   ]
 
   function setQueryString(page: number, filters = filterState) {
@@ -95,6 +108,13 @@ const ListingsPage = () => {
     itemsPerPage,
     filterState
   )
+
+  const numberOfFilters = filterState
+    ? Object.keys(filterState).filter((p) => p !== "$comparison").length
+    : 0
+  const buttonTitle = numberOfFilters
+    ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
+    : t("listingFilters.buttonTitle")
 
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
@@ -123,6 +143,15 @@ const ListingsPage = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group">
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
+            <Select
+              id={"availability"}
+              name={"availability"}
+              label={t("listingFilters.availability")}
+              register={register}
+              controlClassName="control"
+              options={availabilityOptions}
+              defaultValue={filterState?.availability}
+            />
             <Select
               id="unitOptions"
               name={ListingFilterKeys.bedrooms}
@@ -156,25 +185,25 @@ const ListingsPage = () => {
               defaultValue={filterState?.neighborhood}
             />
             <Select
-              id="accessibilityOptions"
-              name="accessibility"
-              label="Accessibility"
+              id="adaCompliant"
+              name="adaCompliant"
+              label={t("listingFilters.adaCompliant")}
               register={register}
               controlClassName="control"
-              options={accessibilityOptions}
+              options={adaCompliantOptions}
             />
             <Select
-              id="communityOptions"
-              name="community"
-              label="Community Type"
+              id="communityType"
+              name="communityType"
+              label={t("listingFilters.communityType")}
               register={register}
               controlClassName="control"
-              options={communityOptions}
+              options={communityTypeOptions}
             />
           </div>
           <div className="text-center mt-6">
             <Button type="submit" styleType={AppearanceStyleType.primary}>
-              Apply Filters
+              {t("listingFilters.applyFilters")}
             </Button>
           </div>
         </Form>
@@ -192,8 +221,21 @@ const ListingsPage = () => {
           size={AppearanceSizeType.small}
           onClick={() => setFilterModalVisible(true)}
         >
-          {t("listingFilters.buttonTitle")}
+          {buttonTitle}
         </Button>
+        {numberOfFilters > 0 && (
+          <Button
+            className="mx-2 mt-6"
+            size={AppearanceSizeType.small}
+            styleType={AppearanceStyleType.secondary}
+            // "Submit" the form with no params to trigger a reset.
+            onClick={() => onSubmit({})}
+            icon="close"
+            iconPlacement="left"
+          >
+            {t("listingFilters.resetButton")}
+          </Button>
+        )}
       </div>
       {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
         <div className="container max-w-3xl my-4 px-4 content-start mx-auto">

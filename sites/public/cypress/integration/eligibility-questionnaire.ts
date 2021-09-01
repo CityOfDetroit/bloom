@@ -2,8 +2,8 @@ describe("Verifying the eligibility questionnaire flow", () => {
   it("Clicks the button on the homepage to launch the eligibility questionnaire", () => {
     cy.visit("/")
 
-    // Find and click the button that says "Check My Eligibility"
-    const checkEligibilityButton = cy.contains("Check My Eligibility")
+    // Find and click the button that says "Do I Qualify"
+    const checkEligibilityButton = cy.contains("Do I Qualify")
 
     // Click the eligibility button and verify it takes us to the questionnaire welcome page
     checkEligibilityButton.click()
@@ -41,13 +41,6 @@ describe("Verifying the eligibility questionnaire flow", () => {
 
     // Select "$30k to $40k"
     cy.get("select").select("30kTo40k")
-
-    // Click "Next" to go to the "Section 8" section
-    cy.contains("Next").click()
-    cy.url().should("include", "/eligibility/section8")
-
-    // Click "no" to indicate no Section 8 voucher.
-    cy.get("#section8No").click()
 
     // Click "Done"
     cy.contains("Done").click()

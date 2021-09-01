@@ -571,6 +571,13 @@
     "viewApplication": "View Application",
     "yourLotteryNumber": "Your confirmation number is"
   },
+  "users": {
+    "confirmed": "Confirmed",
+    "unconfirmed": "Unconfirmed",
+    "totalUsers": "total users",
+    "administrator": "Administrator",
+    "partner": "Partner"
+  },
   "flags": {
     "flaggedSet": "Flagged Set",
     "ruleName": "Rule Name",
@@ -741,6 +748,8 @@
     "additionalInformation": "Additional Information",
     "allUnits": "All Units",
     "allUnitsReservedFor": "All units reserved for %{type}",
+    "annualIncome": "%{income} per year",
+    "annualIncomeRange": "%{from} to %{to} per year",
     "applicationTitle": "Application Data",
     "applicationAddress": "Address",
     "applicationDeadline": "Application Due Date",
@@ -766,7 +775,8 @@
       "pickUpAnApplication": "Pick up an application",
       "postmarkedApplicationsMustBeReceivedByDate": "Applications must be received by the deadline. If sending by U.S. Mail, the application must be postmarked by %{applicationDueDate} and received by mail no later than %{postmarkReceivedByDate}. Applications received after %{postmarkReceivedByDate} via mail will not be accepted even if they are postmarked by %{applicationDueDate}. %{developer} is not responsible for lost or delayed mail.",
       "sendByUsMail": "Send Application by US Mail",
-      "submitAPaperApplication": "Submit a Paper Application"
+      "submitAPaperApplication": "Submit a Paper Application",
+      "contactManagment":"Contact Management Company"
     },
     "atAnotherAddress": "At another address",
     "atLeasingAgentAddress": "At the leasing agent address",
@@ -836,6 +846,8 @@
     "mapPreviewNoAddress": "Enter an address to preview the map",
     "maxIncomeMonth": "Maximum Income / Month",
     "maxIncomeYear": "Maximum Income / Year",
+    "monthlyIncome": "%{income} per month",
+    "monthlyIncomeRange": "%{from} to %{to} per month",
     "moreBuildingSelectionCriteria": "Find out more about Building Selection Criteria",
     "newListing": "New Listing",
     "noAvailableUnits": "There are no available units at this time.",
@@ -1058,7 +1070,8 @@
     "siteTitle": "Housing Portal",
     "siteTitlePartners": "Partners Portal",
     "skip": "Skip to main content",
-    "flags": "Flags"
+    "flags": "Flags",
+    "users": "Users"
   },
   "pageTitle": {
     "additionalResources": "More Housing Opportunities",
@@ -1179,6 +1192,7 @@
     "letter": "Letter",
     "less": "Less",
     "link": "Link",
+    "listing": "Listings",
     "loginIsRequired": "Login is required to view this page.",
     "menu": "Menu",
     "minimumIncome": "Minimum Income",
@@ -1221,6 +1235,7 @@
     "otherRelationShip": "Other Relationship",
     "rent": "Rent",
     "review": "Review",
+    "role": "Role",
     "secondPhone": "Second Phone",
     "seconds": "seconds",
     "seeDetails": "See Details",
@@ -1269,15 +1284,18 @@
     "title": "Apply for affordable housing in",
     "seeMoreOpportunities": "See more rental and ownership housing opportunities",
     "viewAdditionalHousing": "View Additional Housing Opportunities and Resources",
-    "checkEligibility": "Check My Eligibility",
+    "checkEligibility": "Do I Qualify?",
+    "checkEligibilityDescription": "Check in Minutes if You Qualify!",
     "subTitle": "Click the button below to find rental housing based on your income and household needs"
   },
   "whatToExpect": {
     "label": "What to Expect",
     "default": "Applicants will be contacted by the property agent in rank order until vacancies are filled. All of the information that you have provided will be verified and your eligibility confirmed. Your application will be removed from the waitlist if you have made any fraudulent statements. If we cannot verify a housing preference that you have claimed, you will not receive the preference but will not be otherwise penalized. Should your application be chosen, be prepared to fill out a more detailed application and provide required supporting documents."
   },
-  "listingFilters":{
+  "listingFilters": {
     "buttonTitle": "Filter Listings",
+    "buttonTitleWithNumber": "Filter Listings (%{number})",
+    "resetButton": "Reset",
     "modalTitle": "Filter Results",
     "modalHeader": "Use these options to refine your list of properties.",
     "neighborhood": "Neighborhood",
@@ -1291,6 +1309,18 @@
     },
     "zipCode": "Zip code",
     "zipCodeDescription": "Enter zip code",
+    "adaCompliant": "ADA Compliant",
+    "communityType": "Community Type",
+    "communityTypeOptions": {
+      "all": "All",
+      "senior": "Senior housing (62+)",
+      "specialNeeds": "Special needs and disability"
+    },
+    "availability": "Unit Availability",
+    "hasAvailability": "Has Availability",
+    "noAvailability": "No Availability",
+    "waitlist": "Waitlist",
+    "applyFilters": "Apply Filters",
     "noResults": "No results",
     "noResultsSubtitle": "Edit or remove filters for best results."
   },

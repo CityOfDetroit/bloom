@@ -1,8 +1,11 @@
 import * as React from "react"
 import { ImageCard } from "../../blocks/ImageCard"
-import { Listing, EnumListingReviewOrderType } from "@bloom-housing/backend-core/types"
+import { Listing, ListingReviewOrder } from "@bloom-housing/backend-core/types"
 import { LinkButton } from "../../actions/LinkButton"
-import { getSummariesTable } from "../../helpers/tableSummaries"
+import {
+  getSummariesTableFromUnitSummary,
+  getSummariesTableFromUnitsSummary,
+} from "../../helpers/tableSummaries"
 import { GroupedTable, GroupedTableGroup } from "../../tables/GroupedTable"
 import { imageUrlFromListing } from "../../helpers/photos"
 import { t } from "../../helpers/translator"
@@ -29,8 +32,10 @@ const ListingsList = (props: ListingsProps) => {
     }
 
     let unitSummaries = [] as GroupedTableGroup[]
-    if (listing.unitsSummarized !== undefined) {
-      unitSummaries = getSummariesTable(listing.unitsSummarized.byUnitTypeAndRent)
+    if (listing.unitsSummary !== undefined && listing.unitsSummary.length > 0) {
+      unitSummaries = getSummariesTableFromUnitsSummary(listing.unitsSummary)
+    } else if (listing.unitsSummarized !== undefined) {
+      unitSummaries = getSummariesTableFromUnitSummary(listing.unitsSummarized.byUnitTypeAndRent)
     }
 
     // address as subtitle
@@ -70,7 +75,7 @@ const ListingsList = (props: ListingsProps) => {
       content = content + `: ${formattedDate}`
     }
 
-    if (listing.reviewOrderType === EnumListingReviewOrderType.firstComeFirstServe) {
+    if (listing.reviewOrderType === ListingReviewOrder.firstComeFirstServe) {
       subContent = content
       content = t("listings.applicationFCFS")
     }
@@ -83,9 +88,11 @@ const ListingsList = (props: ListingsProps) => {
             subtitle={subtitle}
             imageUrl={imageUrl}
             href={`/listing/${listing.id}/${listing.urlSlug}`}
-            appStatus={props.hideApplicationStatus ? undefined : appStatus}
-            appStatusContent={content}
-            appStatusSubContent={subContent}
+            statuses={
+              props.hideApplicationStatus
+                ? undefined
+                : [{ status: appStatus, content: content, subContent: subContent }]
+            }
             tagLabel={
               listing.reservedCommunityType
                 ? t(`listings.reservedCommunityTypes.${listing.reservedCommunityType.name}`)

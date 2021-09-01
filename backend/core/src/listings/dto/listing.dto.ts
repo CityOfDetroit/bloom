@@ -1,5 +1,5 @@
 import { Listing } from "../entities/listing.entity"
-import { Expose, Transform, Type } from "class-transformer"
+import { Expose, plainToClass, Transform, Type } from "class-transformer"
 import {
   ArrayMaxSize,
   IsDate,
@@ -23,7 +23,7 @@ import { AddressCreateDto, AddressDto, AddressUpdateDto } from "../../shared/dto
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { UserBasicDto } from "../../auth/dto/user.dto"
 import { ListingStatus } from "../types/listing-status-enum"
-import { ListingFilterKeys } from "../types/listing-filter-keys-enum"
+import { AvailabilityFilterEnum, ListingFilterKeys } from "../types/listing-filter-keys-enum"
 import { PaginationFactory, PaginationAllowsAllQueryParams } from "../../shared/dto/pagination.dto"
 import { BaseFilter } from "../../shared/dto/filter.dto"
 import { UnitCreateDto, UnitDto, UnitUpdateDto } from "../../units/dto/unit.dto"
@@ -31,10 +31,13 @@ import { JurisdictionDto } from "../../jurisdictions/dto/jurisdiction.dto"
 import { ReservedCommunityTypeDto } from "../../reserved-community-type/dto/reserved-community-type.dto"
 import { AssetCreateDto, AssetDto, AssetUpdateDto } from "../../assets/dto/asset.dto"
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
-import { ListingReviewOrder } from "../types/listing-review-order-enum"
-import { ListingEventType } from "../types/listing-event-type-enum"
 import { ListingEventCreateDto, ListingEventDto, ListingEventUpdateDto } from "./listing-event.dto"
 import { listingUrlSlug } from "../../shared/url-helper"
+import {
+  UnitsSummaryCreateDto,
+  UnitsSummaryDto,
+  UnitsSummaryUpdateDto,
+} from "../../units-summary/dto/units-summary.dto"
 
 export class ListingDto extends OmitType(Listing, [
   "applicationAddress",
@@ -52,6 +55,7 @@ export class ListingDto extends OmitType(Listing, [
   "property",
   "reservedCommunityType",
   "result",
+  "unitsSummary",
 ] as const) {
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
@@ -148,19 +152,10 @@ export class ListingDto extends OmitType(Listing, [
   status: ListingStatus
 
   @Expose()
-  @ApiProperty({ enum: ListingReviewOrder })
-  get reviewOrderType() {
-    if (!this.events) return []
-    return this.events.some((event) => event.type === ListingEventType.publicLottery)
-      ? ListingReviewOrder.lottery
-      : ListingReviewOrder.firstComeFirstServe
-  }
-
-  @Expose()
   @Type(() => UnitDto)
   @Transform(
     (value, obj: Listing) => {
-      return obj.property?.units
+      return plainToClass(UnitDto, obj.property?.units)
     },
     { toClassOnly: true }
   )
@@ -194,7 +189,7 @@ export class ListingDto extends OmitType(Listing, [
   @Type(() => AddressDto)
   @Transform(
     (value, obj: Listing) => {
-      return obj.property?.buildingAddress
+      return plainToClass(AddressDto, obj.property.buildingAddress)
     },
     { toClassOnly: true }
   )
@@ -330,6 +325,12 @@ export class ListingDto extends OmitType(Listing, [
     { toClassOnly: true }
   )
   urlSlug: string
+
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => UnitsSummaryDto)
+  unitsSummary?: UnitsSummaryDto[]
 }
 
 export class PaginatedListingDto extends PaginationFactory<ListingDto>(ListingDto) {}
@@ -346,7 +347,6 @@ export class ListingCreateDto extends OmitType(ListingDto, [
   "leasingAgents",
   "urlSlug",
   "showWaitlist",
-  "reviewOrderType",
   "units",
   "accessibility",
   "amenities",
@@ -366,6 +366,7 @@ export class ListingCreateDto extends OmitType(ListingDto, [
   "jurisdiction",
   "reservedCommunityType",
   "result",
+  "unitsSummary",
 ] as const) {
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
@@ -525,6 +526,12 @@ export class ListingCreateDto extends OmitType(ListingDto, [
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => AssetCreateDto)
   result?: AssetCreateDto | null
+
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => UnitsSummaryCreateDto)
+  unitsSummary?: UnitsSummaryCreateDto[]
 }
 
 export class ListingUpdateDto extends OmitType(ListingDto, [
@@ -539,7 +546,6 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   "urlSlug",
   "leasingAgents",
   "showWaitlist",
-  "reviewOrderType",
   "units",
   "accessibility",
   "amenities",
@@ -559,6 +565,7 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   "jurisdiction",
   "reservedCommunityType",
   "result",
+  "unitsSummary",
 ] as const) {
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
@@ -735,6 +742,12 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => AssetUpdateDto)
   result?: AssetUpdateDto
+
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => UnitsSummaryUpdateDto)
+  unitsSummary?: UnitsSummaryUpdateDto[]
 }
 
 // add other listing filter params here
@@ -778,7 +791,23 @@ export class ListingFilterParams extends BaseFilter {
     example: "48211",
     required: false,
   })
-  [ListingFilterKeys.zipcode]?: string
+  [ListingFilterKeys.zipcode]?: string;
+
+  @Expose()
+  @ApiProperty({
+    enum: Object.keys(AvailabilityFilterEnum),
+    example: "hasAvailability",
+    required: false,
+  })
+  [ListingFilterKeys.availability]?: AvailabilityFilterEnum;
+
+  @Expose()
+  @ApiProperty({
+    type: Boolean,
+    example: "true",
+    required: false,
+  })
+  [ListingFilterKeys.seniorHousing]?: boolean
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
@@ -815,11 +844,33 @@ export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
   jsonpath?: string
 }
 
+export class ListingsRetrieveQueryParams {
+  @Expose()
+  @ApiProperty({
+    name: "view",
+    required: false,
+    type: String,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  view?: string
+}
+
+const FilterKeysList = { ...ListingFilterKeys, ...AvailabilityFilterEnum }
+type FilterKeysList = typeof FilterKeysList
+
 // Using a record lets us enforce that all types are handled in addFilter
-export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string> = {
+export const filterTypeToFieldMap: Record<keyof typeof FilterKeysList, string> = {
   status: "listings.status",
   name: "listings.name",
   neighborhood: "property.neighborhood",
   bedrooms: "unitTypeRef.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
+  seniorHousing: "reservedCommunityType.name",
+  // Fields for the availability are determined based on the value of the filter, not the
+  // key. Keep this bogus value to prevent the filter from being rejected.
+  availability: "",
+  hasAvailability: "unitsSummary.total_available",
+  noAvailability: "unitsSummary.total_available",
+  waitlist: "listings.is_waitlist_open",
 }

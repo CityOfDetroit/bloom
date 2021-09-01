@@ -10,12 +10,17 @@ import { ProgressNav } from "@bloom-housing/ui-components/src/navigation/Progres
 import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
-import { AppearanceStyleType, Select } from "@bloom-housing/ui-components"
-import { useRouter } from "next/router"
+import {
+  AppearanceStyleType,
+  encodeToFrontendFilterString,
+  Select,
+} from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
+import { useRouter } from "next/router"
+import { ListingFilterParams } from "@bloom-housing/backend-core/types"
 
 const EligibilityIncome = () => {
   const router = useRouter()
@@ -23,6 +28,7 @@ const EligibilityIncome = () => {
 
   const incomeRanges = ["below10k", "10kTo20k", "30kTo40k", "40kTo50k", "over50k"]
   const CURRENT_PAGE = 4
+  const SENIOR_AGE = 62
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -35,12 +41,21 @@ const EligibilityIncome = () => {
     const data = getValues()
     const { income } = data
     eligibilityRequirements.setIncome(income)
-
-    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
+    void router.push(getFilterUrl())
   }
 
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
+  }
+
+  function getFilterUrl() {
+    const params: ListingFilterParams = {}
+
+    if (eligibilityRequirements.age < SENIOR_AGE) {
+      params.seniorHousing = false
+    }
+
+    return `/listings?${encodeToFrontendFilterString(params)}`
   }
 
   return (
@@ -60,10 +75,11 @@ const EligibilityIncome = () => {
             // Not extra actions needed.
           }}
         />
-        <div className="form-card__lead pb-0 pt-8">
-          <h2 className="form-card__title is-borderless">{t("eligibility.income.prompt")}</h2>
-        </div>
+
         <Form onSubmit={handleSubmit(onSubmit)}>
+          <div className="form-card__lead pb-0 pt-8">
+            <h2 className="form-card__title is-borderless">{t("eligibility.income.prompt")}</h2>
+          </div>
           <div className="form-card__group">
             <p className="field-note mb-4" id="income-description">
               {t("eligibility.income.description")}
@@ -82,7 +98,7 @@ const EligibilityIncome = () => {
           </div>
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
-              <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
+              <Button styleType={AppearanceStyleType.primary}>{t("t.done")}</Button>
             </div>
           </div>
         </Form>
