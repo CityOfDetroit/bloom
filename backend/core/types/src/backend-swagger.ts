@@ -3719,9 +3719,6 @@ export interface ListingFilterParams {
   seniorHousing?: boolean
 
   /** */
-  seniorHousing?: boolean
-
-  /** */
   communityType?: EnumListingFilterParamsReservedCommunityType
 }
 
