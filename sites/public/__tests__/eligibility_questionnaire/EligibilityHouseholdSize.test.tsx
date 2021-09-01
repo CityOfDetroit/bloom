@@ -29,7 +29,7 @@ describe("<EligibilityHouseholdSize>", () => {
     expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument()
   })
 
-    it("Clicks the Next button", async () => {
+  it("Clicks the Next button", async () => {
     await act(async () => {
       render(<EligibilityHouseholdSize />)
       fireEvent.click(screen.getByDisplayValue("2 Members"))
