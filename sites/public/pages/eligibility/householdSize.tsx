@@ -20,7 +20,7 @@ import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
 
-const EligibilityhouseholdSize = () => {
+const EligibilityHouseholdSize = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
   const CURRENT_PAGE = 1
@@ -36,7 +36,7 @@ const EligibilityhouseholdSize = () => {
   const onSubmit = () => {
     const data = getValues()
     const { householdSize } = data
-    eligibilityRequirements.sethouseholdSizeCount(householdSize)
+    eligibilityRequirements.setHouseholdSizeCount(householdSize)
 
     void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
@@ -95,4 +95,4 @@ const EligibilityhouseholdSize = () => {
   )
 }
 
-export default EligibilityhouseholdSize
+export default EligibilityHouseholdSize

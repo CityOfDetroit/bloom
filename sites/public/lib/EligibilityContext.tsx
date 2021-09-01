@@ -19,7 +19,7 @@ class EligibilityRequirements {
     this.age = age
   }
 
-  sethouseholdSizeCount(householdSizeCount: number) {
+  setHouseholdSizeCount(householdSizeCount: number) {
     this.householdSizeCount = householdSizeCount
   }
   setIncome(income: string) {
