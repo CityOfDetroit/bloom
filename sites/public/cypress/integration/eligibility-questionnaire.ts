@@ -13,13 +13,12 @@ describe("Verifying the eligibility questionnaire flow", () => {
   it("Navigates through the eligibility questionnaire flow", () => {
     cy.visit("/eligibility/welcome")
 
-    // Click the "Next" button to go to the "Persons" section.
+    // Click the "Next" button to go to the "Household Size" section.
     cy.contains("Next").click()
-    cy.url().should("include", "/eligibility/persons")
+    cy.url().should("include", "/eligibility/householdsize")
 
-    // Find and click to indicate both 2 and 3 people
-    cy.get("#two").click()
-    cy.get("#three").click()
+    // Select "Household Size 2"
+    cy.get("select").select("two")
 
     // Click "Next" to go to the "Age" section
     cy.contains("Next").click()

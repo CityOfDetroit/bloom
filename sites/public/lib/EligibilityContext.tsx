@@ -2,14 +2,14 @@ import React from "react"
 
 class EligibilityRequirements {
   age: number
-  personCount: number
+  householdSizeCount: number
   income: string
   disability: string
   completedSections: number
 
-  constructor(age: number, personCount: number, income: string, disability: string) {
+  constructor(age: number, householdSizeCount: number, income: string, disability: string) {
     this.age = age
-    this.personCount = personCount
+    this.householdSizeCount = householdSizeCount
     this.income = income
     this.disability = disability
     this.completedSections = 0
@@ -19,8 +19,8 @@ class EligibilityRequirements {
     this.age = age
   }
 
-  setPersonCount(personCount: number) {
-    this.personCount = personCount
+  sethouseholdSizeCount(householdSizeCount: number) {
+    this.householdSizeCount = householdSizeCount
   }
   setIncome(income: string) {
     this.income = income

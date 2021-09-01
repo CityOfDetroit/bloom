@@ -1,6 +1,6 @@
 /*
-Person Count
-Prompts the user for the number of persons in their household.
+Household Size Count
+Prompts the user for the size of their household.
 */
 import {
   AppearanceStyleType,
@@ -20,7 +20,7 @@ import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
 
-const EligibilityPersons = () => {
+const EligibilityhouseholdSize = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
   const CURRENT_PAGE = 1
@@ -29,14 +29,14 @@ const EligibilityPersons = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, getValues } = useForm({
     defaultValues: {
-      persons: eligibilityRequirements?.personCount,
+      householdSize: eligibilityRequirements?.householdSizeCount,
     },
   })
 
   const onSubmit = () => {
     const data = getValues()
-    const { persons } = data
-    eligibilityRequirements.setPersonCount(persons)
+    const { householdSize } = data
+    eligibilityRequirements.sethouseholdSizeCount(householdSize)
 
     void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
@@ -45,7 +45,7 @@ const EligibilityPersons = () => {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
   }
 
-  const personRanges = ["one", "two", "three", "four", "five", "six", "seven", "eight"]
+  const householdSizeRanges = ["one", "two", "three", "four", "five", "six", "seven", "eight"]
 
   return (
     <FormsLayout>
@@ -65,24 +65,24 @@ const EligibilityPersons = () => {
           }}
         />
         <div className="form-card__lead pb-0 pt-8">
-          <h2 className="form-card__title is-borderless">{t("eligibility.persons.prompt")}</h2>
+          <h2 className="form-card__title is-borderless">
+            {t("eligibility.householdSize.prompt")}
+          </h2>
         </div>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-card__group">
-            <fieldset>
-              <legend className="sr-only">{t("eligibility.persons.prompt")}</legend>
-              <Select
-                id="person"
-                name="person"
-                label={t("eligibility.persons.srCountLabel")}
-                describedBy="income-description"
-                validation={{ required: true }}
-                register={register}
-                controlClassName="control"
-                options={personRanges}
-                keyPrefix="eligibility.persons.ranges"
-              />
-            </fieldset>
+            <legend className="sr-only">{t("eligibility.householdSize.prompt")}</legend>
+            <Select
+              id="householdSize"
+              name="householdSize"
+              label={t("eligibility.householdSize.srCountLabel")}
+              describedBy="householdSize-description"
+              validation={{ required: true }}
+              register={register}
+              controlClassName="control"
+              options={householdSizeRanges}
+              keyPrefix="eligibility.householdSize.ranges"
+            />
           </div>
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
@@ -95,4 +95,4 @@ const EligibilityPersons = () => {
   )
 }
 
-export default EligibilityPersons
+export default EligibilityhouseholdSize

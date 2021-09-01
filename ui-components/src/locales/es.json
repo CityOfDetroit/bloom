@@ -1320,7 +1320,7 @@
             "header": "Busquemos tu próxima casa",
             "sections": {
                 "welcome": "Bienvenidos",
-                "persons": "Personas",
+                "householdSize": "Tamaño del hogar",
                 "age": "Edad",
                 "disability": "Invalidez",
                 "income": "Ingreso"
@@ -1330,9 +1330,9 @@
             "header": "Bienvenidos",
             "description": "Para encontrarle la casa que mejor se adapte a sus necesidades, primero respondamos algunas preguntas. Algunas propiedades solo aceptan personas con ciertas edades, ingresos, etc."
         },
-        "persons": {
+        "householdSize": {
             "prompt": "¿Cuántas personas vivirán en esta propiedad?",
-            "srCountLabel": "Recuento de personas",
+            "srCountLabel": "Tamaño del hogar",
             "ranges" : {
               "one": "1",
               "two": "2",
