@@ -29,28 +29,7 @@ describe("<EligibilityHouseholdSize>", () => {
     expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument()
   })
 
-  it("Displays an error message if no household size has been selected", async () => {
-    act(() => {
-      render(<EligibilityHouseholdSize />)
-    })
-
-    // No error message when we've just rendered the page
-    expect(screen.queryByText("Please select at least one option.")).not.toBeInTheDocument()
-
-    await act(async () => {
-      // Click "Next" --> error message
-      fireEvent.click(screen.getByRole("button", { name: "Next" }))
-      await waitFor(() => screen.getByText("Please select at least one option."))
-
-      // Click one of the household size options, wait for error message to go away
-      fireEvent.click(screen.getByDisplayValue("two"))
-      await waitForElementToBeRemoved(() =>
-        screen.queryByText("Please select at least one option.")
-      )
-    })
-  })
-
-  it("Clicks the Next button", async () => {
+    it("Clicks the Next button", async () => {
     await act(async () => {
       render(<EligibilityHouseholdSize />)
       fireEvent.click(screen.getByDisplayValue("two"))
