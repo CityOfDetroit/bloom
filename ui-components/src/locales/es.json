@@ -1,5 +1,4 @@
 {
-    "": "",
     "account": {
         "accountSettings": "Configuraciones de la cuenta",
         "errorFetchingApplications": "Error al recuperar aplicaciones",
@@ -637,7 +636,6 @@
             "resendAnEmailTo": "Reenviar un correo electrónico a",
             "errors": {
                 "accountConfirmed": "Tu cuenta ya está confirmada.",
-                "errorSaving": "¡UPS! Parece que algo salió mal. Inténtalo de nuevo.\n\nComuníquese con su departamento de vivienda si aún tiene problemas.",
                 "emailInUse": "Correo electrónico ya está en uso",
                 "emailMismatch": "Los correos electrónicos no coinciden",
                 "emailNotFound": "El correo electrónico no encontrado. Regístrese primero.",
@@ -651,12 +649,9 @@
             "success": "Ha cerrado la sesión con éxito de su cuenta."
         }
     },
-    "config": {
-        "routePrefix": ""
-    },
+    "config": {},
     "errors": {
         "alert": {
-            "badRequest": "¡UPS! Parece que algo salió mal. Inténtalo de nuevo.\n\nComuníquese con su departamento de vivienda si aún tiene problemas.",
             "timeoutPleaseTryAgain": "¡UPS! Parece que algo salió mal. Inténtalo de nuevo."
         },
         "notFound": {
