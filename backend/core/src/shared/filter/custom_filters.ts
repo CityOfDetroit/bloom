@@ -1,5 +1,8 @@
 import { WhereExpression } from "typeorm"
-import { AvailabilityFilterEnum, ListingFilterKeys } from "../../listings/types/listing-filter-keys-enum"
+import {
+  AvailabilityFilterEnum,
+  ListingFilterKeys,
+} from "../../listings/types/listing-filter-keys-enum"
 import { filterTypeToFieldMap } from "../../listings/dto/listing.dto"
 import { Compare } from "../dto/filter.dto"
 
@@ -28,14 +31,12 @@ function addAvailabilityParams(
   filterType: AvailabilityFilterEnum,
   comparison: string,
   filterValue: any
-  ) {
-  const hasAvailabilityColumnName = `LOWER(CAST(${
-    filterTypeToFieldMap[filterType]
-  } as text))`
+) {
+  const hasAvailabilityColumnName = `LOWER(CAST(${filterTypeToFieldMap[filterType]} as text))`
   const whereParameterName = filterType
-  qb.andWhere(
-    `${hasAvailabilityColumnName} ${comparison} LOWER(:${whereParameterName})`,
-    { [whereParameterName]: filterValue })
+  qb.andWhere(`${hasAvailabilityColumnName} ${comparison} LOWER(:${whereParameterName})`, {
+    [whereParameterName]: filterValue,
+  })
 }
 
 export function addAvailabilityQuery(qb: WhereExpression, filterValue: AvailabilityFilterEnum) {

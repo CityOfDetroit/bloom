@@ -22,7 +22,11 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import { ListingFilterKeys, AvailabilityFilterEnum, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import {
+  ListingFilterKeys,
+  AvailabilityFilterEnum,
+  ListingFilterParams,
+} from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.

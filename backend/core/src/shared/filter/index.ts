@@ -1,7 +1,10 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { WhereExpression } from "typeorm"
 import { Compare } from "../dto/filter.dto"
-import { AvailabilityFilterEnum, ListingFilterKeys } from "../../listings/types/listing-filter-keys-enum"
+import {
+  AvailabilityFilterEnum,
+  ListingFilterKeys,
+} from "../../listings/types/listing-filter-keys-enum"
 import { addSeniorHousingQuery, addAvailabilityQuery } from "./custom_filters"
 
 /**
