@@ -1,9 +1,11 @@
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { WhereExpression } from "typeorm"
 import { Compare } from "../dto/filter.dto"
-import { ListingFilterKeys } from "../../listings/types/listing-filter-keys-enum"
-import { addCommunityTypeQuery, addSeniorHousingQuery } from "./custom_filters"
-import Listing from "../../listings/entities/listing.entity"
+import {
+  AvailabilityFilterEnum,
+  ListingFilterKeys,
+} from "../../listings/types/listing-filter-keys-enum"
+import { addSeniorHousingQuery, addAvailabilityQuery, addCommunityTypeQuery } from "./custom_filters"
 
 /**
  *
@@ -76,6 +78,10 @@ export function addFilters<FilterParams, FilterFieldMap>(
             case ListingFilterKeys.communityType:
               addCommunityTypeQuery(qb, filterValue)
               return
+          }
+          if (filterType == ListingFilterKeys.availability) {
+            addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum)
+            return
           }
 
           // Generic filter handler
