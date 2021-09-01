@@ -262,7 +262,7 @@ const formatFormData = (
     unit.minOccupancy = stringToNumberOrOne(unit.minOccupancy)
     unit.numBathrooms = stringToNumberOrOne(unit.numBathrooms)
 
-    if (!unit.sqFeet) {
+    if (!unit.sqFeet || unit.sqFeet.length === 0) {
       delete unit.sqFeet
     }
 
@@ -281,6 +281,8 @@ const formatFormData = (
     summary.floorMax = toNumberOrNull(summary.floorMax)
     summary.totalAvailable = toNumberOrNull(summary.totalAvailable)
     summary.totalCount = toNumberOrNull(summary.totalCount)
+    summary.monthlyRentMin = toNumberOrNull(summary.monthlyRentMin)
+    summary.monthlyRentMax = toNumberOrNull(summary.monthlyRentMax)
 
     if (!summary.sqFeetMin) {
       delete summary.sqFeetMin
@@ -288,11 +290,8 @@ const formatFormData = (
     if (!summary.sqFeetMax) {
       delete summary.sqFeetMax
     }
-    if (!summary.monthlyRentMin) {
-      delete summary.monthlyRentMin
-    }
-    if (!summary.monthlyRentMax) {
-      delete summary.monthlyRentMax
+    if (!summary.minimumIncomeMin) {
+      delete summary.minimumIncomeMin
     }
     if (!summary.monthlyRentAsPercentOfIncome) {
       delete summary.monthlyRentAsPercentOfIncome
@@ -459,6 +458,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       setOpenHouseEvents(events)
     }
 
+    // Use a temp id to track each summary within the form table (prior to submission).
     if (listing?.unitsSummary) {
       const tempSummaries = listing.unitsSummary.map((summary, i) => ({
         ...summary,

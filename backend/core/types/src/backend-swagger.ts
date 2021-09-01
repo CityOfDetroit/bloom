@@ -5060,7 +5060,7 @@ export interface UnitUpdate {
 
 export interface UnitsSummaryUpdate {
   /**  */
-  id: string
+  id?: string
 
   /**  */
   unitType: UnitType
