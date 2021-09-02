@@ -262,7 +262,7 @@ const formatFormData = (
     unit.minOccupancy = stringToNumberOrOne(unit.minOccupancy)
     unit.numBathrooms = stringToNumberOrOne(unit.numBathrooms)
 
-    if (!unit.sqFeet || unit.sqFeet.length === 0) {
+    if (!unit.sqFeet) {
       delete unit.sqFeet
     }
 
