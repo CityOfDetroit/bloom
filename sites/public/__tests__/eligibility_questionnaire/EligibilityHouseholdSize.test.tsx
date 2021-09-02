@@ -32,7 +32,7 @@ describe("<EligibilityHouseholdSize>", () => {
   it("Clicks the Next button", async () => {
     await act(async () => {
       render(<EligibilityHouseholdSize />)
-      fireEvent.click(screen.getByDisplayValue("2 Members"))
+      fireEvent.select(screen.getByRole("combobox"), "2")
       fireEvent.click(screen.getByRole("button", { name: "Next" }))
     })
 
