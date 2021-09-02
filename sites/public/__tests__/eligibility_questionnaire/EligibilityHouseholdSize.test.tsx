@@ -8,6 +8,7 @@ import {
 import EligibilityHouseholdSize from "../../pages/eligibility/householdSize"
 import React from "react"
 import { act } from "react-dom/test-utils"
+import userEvent from "@testing-library/user-event"
 
 const mockRouter = {
   push: jest.fn(),
@@ -32,7 +33,7 @@ describe("<EligibilityHouseholdSize>", () => {
   it("Clicks the Next button", async () => {
     await act(async () => {
       render(<EligibilityHouseholdSize />)
-      fireEvent.select(screen.getByRole("combobox"), "2")
+      userEvent.selectOptions(screen.getByRole("combobox"), "two")
       fireEvent.click(screen.getByRole("button", { name: "Next" }))
     })
 
