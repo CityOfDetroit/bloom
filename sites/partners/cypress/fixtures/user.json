@@ -1,9 +1,4 @@
 {
-  "email": "cypress@example.com",
-  "emailConfirmation": "cypress@example.com",
-  "password": "abcdef123?!",
-  "passwordConfirmation": "abcdef123?!",
-  "firstName": "Test",
-  "lastName": "User",
-  "dob": "1980-01-01",
+  "email": "admin@example.com",
+  "password": "abcdef"
 }
