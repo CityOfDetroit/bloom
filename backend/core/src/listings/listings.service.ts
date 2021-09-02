@@ -143,7 +143,7 @@ export class ListingsService {
       }
     })
     listingDto.unitsSummary.forEach((summary) => {
-      if (summary.id?.length === 0 || summary.id === "undefined") {
+      if (!summary.id) {
         delete summary.id
       }
     })
