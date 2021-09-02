@@ -53,13 +53,11 @@ export default function Home() {
         buttonTitle={t("welcome.seeRentalListings")}
         buttonLink="/listings?page=1"
         backgroundImage={"/images/hero.png"}
-      >
-        {t("welcome.subTitle")}
-      </Hero>
+      />
       <div className="homepage-extra">
         <MarkdownSection fullwidth={true}>
           <>
-            <p>{t("welcome.checkEligibilityDescription")}</p>
+            <h2>{t("welcome.checkEligibilityDescription")}</h2>
             <LinkButton href="/eligibility/welcome">{t("welcome.checkEligibility")}</LinkButton>
           </>
         </MarkdownSection>

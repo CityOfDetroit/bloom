@@ -692,6 +692,10 @@
     "noData": "No data available."
   },
   "footer": {
+    "srHeading": "Footer",
+    "srProjectInformation": "Project information",
+    "srContactInformation": "Contact information",
+    "srLegalInformation": "Legal information",
     "contact": "Contact",
     "disclaimer": "Disclaimer",
     "forGeneralQuestions": "For general program inquiries, you may call us at 000-000-0000.",
@@ -706,6 +710,8 @@
     "visitWebsite": "Visit %{name}"
   },
   "languages": {
+    "srHeading": "Languages",
+    "srNavigation": "Language",
     "en": "English",
     "es": "Español",
     "zh": "中文",
@@ -1069,6 +1075,8 @@
     "viewPreferenceList": "View Preference List"
   },
   "nav": {
+    "srHeading": "Navigation Menu",
+    "srNavigation": "Main",
     "accountSettings": "Account Settings",
     "browseProperties": "Browse Properties",
     "getAssistance": "Get Assistance",
@@ -1106,6 +1114,9 @@
   },
   "region": {
     "name": "Local Region"
+  },
+  "progressNav": {
+    "srHeading": "Progress"
   },
   "states": {
     "AL": "Alabama",
@@ -1176,6 +1187,7 @@
     "call": "Call",
     "cancel": "Cancel",
     "confirm": "Confirm",
+    "contactPropertyManagement": "Contact property management",
     "chooseFromFolder": "Choose from folder",
     "custom": "Custom",
     "day": "Day",
@@ -1331,6 +1343,10 @@
       "senior": "Senior housing (62+)",
       "specialNeeds": "Special needs and disability"
     },
+    "availability": "Unit Availability",
+    "hasAvailability": "Has Availability",
+    "noAvailability": "No Availability",
+    "waitlist": "Waitlist",
     "applyFilters": "Apply Filters",
     "noResults": "No results",
     "noResultsSubtitle": "Edit or remove filters for best results."
@@ -1340,21 +1356,29 @@
       "header" : "Let's find your next home",
       "sections": {
         "welcome" : "Welcome",
-        "bedrooms" : "Bedrooms",
+        "householdSize" : "Household Size",
         "age" : "Age",
         "disability" : "Disability",
-        "income" : "Income",
-        "section8": "Section 8"
+        "income" : "Income"
       }
     },
     "welcome": {
       "header": "Welcome",
       "description": "To find you a home that best fits your needs, let's answer a few questions first. Some properties only accept people with certain ages, incomes, etc."
     },
-    "bedrooms": {
-      "prompt": "How many bedrooms do you need?",
-      "studio": "Studio",
-      "srCountLabel": "Bedroom count"
+    "householdSize": {
+      "prompt": "How many people will be living in this property?",
+      "srCountLabel": "Household Size",
+      "ranges" : {
+        "one": "1 Member",
+        "two": "2 Members",
+        "three": "3 Members",
+        "four": "4 Members",
+        "five": "5 Members",
+        "six": "6 Members",
+        "seven": "7 Members",
+        "eight": "8+ Members"
+      }
     },
     "age" : {
       "prompt": "How old are you?",
@@ -1378,9 +1402,6 @@
         "40kTo50k": "$40,000 - $50,000",
         "over50k": "Over $50,000"
       }
-    },
-    "section8" : {
-      "prompt": "Do you have a Section 8 voucher?"
     }
   }
 }

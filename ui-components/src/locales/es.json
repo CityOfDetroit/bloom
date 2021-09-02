@@ -687,6 +687,10 @@
         "noData": "Datos no disponibles."
     },
     "footer": {
+        "srHeading": "Pie de página",
+        "srProjectInformation": "Información del proyecto",
+        "srContactInformation": "Información del contacto",
+        "srLegalInformation": "Información legal",
         "contact": "Contacto",
         "disclaimer": "Descargo de responsabilidad",
         "forGeneralQuestions": "Para consultas generales sobre el programa, puede llamarnos al 000-000-0000.",
@@ -701,6 +705,8 @@
         "visitWebsite": "Visita% {name}"
     },
     "languages": {
+        "srHeading": "Idiomas",
+        "srNavigation": "Idioma",
         "en": "English",
         "es": "Español",
         "zh": "中文",
@@ -1064,6 +1070,8 @@
         "viewPreferenceList": "Ver lista de preferencias"
     },
     "nav": {
+        "srHeading": "Menú de Navegación",
+        "srNavigation": "Principal",
         "accountSettings": "Configuraciones de la cuenta",
         "browseProperties": "Buscar propiedades",
         "getAssistance": "Obtenga ayuda",
@@ -1101,6 +1109,9 @@
     },
     "region": {
         "name": "Región local"
+    },
+    "progressNav": {
+        "srHeading": "Progreso"
     },
     "states": {
         "AL": "Alabama",
@@ -1171,6 +1182,7 @@
         "call": "Llamada",
         "cancel": "Cancelar",
         "confirm": "Confirmar",
+        "contactPropertyManagement": "Contactar con la administración de la propiedad",
         "chooseFromFolder": "Elija de la carpeta",
         "custom": "Personalizado",
         "day": "Día",
@@ -1326,6 +1338,10 @@
             "senior": "Vivienda para personas mayores (62+)",
             "specialNeeds": "Necesidades especiales y discapacidad"
         },
+        "availability": "Disponibilidad de la unidad",
+        "hasAvailability": "Tiene disponibilidad",
+        "noAvailability": "No disponible",
+        "waitlist": "Lista de espera",
         "applyFilters": "Aplicar filtros",
         "noResults": "No hay resultados",
         "noResultsSubtitle": "Edite o elimine filtros para obtener mejores resultados."
@@ -1335,21 +1351,29 @@
             "header": "Busquemos tu próxima casa",
             "sections": {
                 "welcome": "Bienvenidos",
-                "bedrooms": "Dormitorios",
+                "householdSize": "Tamaño del hogar",
                 "age": "Edad",
                 "disability": "Invalidez",
-                "income": "Ingreso",
-                "section8": "Sección 8"
+                "income": "Ingreso"
             }
         },
         "welcome": {
             "header": "Bienvenidos",
             "description": "Para encontrarle la casa que mejor se adapte a sus necesidades, primero respondamos algunas preguntas. Algunas propiedades solo aceptan personas con ciertas edades, ingresos, etc."
         },
-        "bedrooms": {
-            "prompt": "¿Cuántas habitaciones necesitas?",
-            "studio": "Estudio",
-            "srCountLabel": "Recuento de dormitorios"
+        "householdSize": {
+            "prompt": "¿Cuántas personas vivirán en esta propiedad?",
+            "srCountLabel": "Tamaño del hogar",
+            "ranges" : {
+              "one": "1 miembro",
+              "two": "2 miembros",
+              "three": "3 miembros",
+              "four": "4 miembros",
+              "five": "5 miembros",
+              "six": "6 miembros",
+              "seven": "7 miembros",
+              "eight": "8+ miembros"
+            }
         },
         "age": {
             "prompt": "¿Cuántos años tienes?",
@@ -1373,9 +1397,6 @@
                 "40kTo50k": "$40,000 - $50,000",
                 "over50k": "Más de $ 50,000"
             }
-        },
-        "section8": {
-            "prompt": "¿Tiene un vale de la Sección 8?"
         }
     }
 }
