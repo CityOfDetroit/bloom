@@ -296,9 +296,6 @@ const formatFormData = (
     if (!summary.monthlyRentAsPercentOfIncome) {
       delete summary.monthlyRentAsPercentOfIncome
     }
-    if (!summary.listing) {
-      summary.listing = { id: data.id }
-    }
 
     if (summary.id === undefined) {
       delete summary.id
