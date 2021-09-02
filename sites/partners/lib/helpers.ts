@@ -114,7 +114,12 @@ export const getRentType = (unit: TempUnit): string | null => {
 }
 
 export const getRentTypeFromUnitsSummary = (summary: TempUnitsSummary): string | null => {
-  if (summary?.minimumIncomeMin || summary?.minimumIncomeMax || summary?.monthlyRentMin || summary?.monthlyRentMax) {
+  if (
+    summary?.minimumIncomeMin ||
+    summary?.minimumIncomeMax ||
+    summary?.monthlyRentMin ||
+    summary?.monthlyRentMax
+  ) {
     return "fixed"
   } else if (summary?.monthlyRentAsPercentOfIncome) {
     return "percentage"
