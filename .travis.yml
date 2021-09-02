@@ -39,7 +39,7 @@ jobs:
       script: yarn test:shared:ui:a11y
       name: "Storybook a11y testing"
     - stage: longer tests
-      name: "sites/public Cypress tests"
+      name: "Public site Cypress tests"
       script:
         - yarn cypress install
         - yarn db:reseed
@@ -50,11 +50,10 @@ jobs:
         - yarn wait-on "http-get://localhost:3000" && yarn cypress run
         - kill $(jobs -p) || true
     - stage: longer tests
-      name: "sites/partners Cypress tests"
+      name: "Partners site Cypress tests"
       script:
         - yarn cypress install
-        - cd sites/public
-        - yarn test:headless
+        - yarn test:app:partners:headless
         - kill $(jobs -p) || true
 
 addons:
