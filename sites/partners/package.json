@@ -14,9 +14,9 @@
     "test:headless": "concurrently \"yarn dev:all\" \"yarn cypress:run\"",
     "export": "next export",
     "start": "next start",
-    "dev:backend": "cd ../../backend/core && yarn db:reseed && yarn dev",
+    "dev:reseed-and-run-backend": "cd ../../backend/core && yarn db:reseed && yarn dev",
     "dev:server-wait": "wait-on \"http-get://localhost:${PORT:-3100}/docs\" && yarn dev",
-    "dev:all": "concurrently \"yarn dev:backend\" \"yarn dev:server-wait\""
+    "dev:all": "concurrently \"yarn dev:reseed-and-run-backend\" \"yarn dev:server-wait\""
   },
   "dependencies": {
     "@bloom-housing/ui-components": "^1.0.5",
