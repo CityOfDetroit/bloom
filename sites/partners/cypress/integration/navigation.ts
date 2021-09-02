@@ -21,7 +21,7 @@ describe("Navigating around the site", () => {
       cy.fixture("user").then((user) => {
         cy.get("input#email").type(user.email)
         cy.get("input#password").type(user.password)
-        cy.get(".button.is-filled").contains("Sign In").click()
+        cy.get(".button.is-primary").contains("Sign In").click()
         cy.contains("This will be the home page")
       })
     })

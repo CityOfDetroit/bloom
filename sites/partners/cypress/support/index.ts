@@ -75,13 +75,17 @@ Cypress.Commands.add("logout", () =>
   cy.window().then((window) => window.sessionStorage.removeItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY))
 )
 
-Cypress.Commands.add("createUser", (user: UserFields, { apiBase = "http://localhost:3100" } = {}) =>
-  cy
-    .request({
-      url: `${apiBase}/user`,
-      method: "POST",
-      body: user,
-    })
-    .its("body")
-    .then(({ accessToken }) => accessToken)
+Cypress.Commands.add(
+  "createUser",
+  (user: UserFields, { apiBase = "http://localhost:3100" } = {}) => {
+    console.error("\n\n\n\nI AM HEREEEEEEEEEE\n\n\n\n")
+    return cy
+      .request({
+        url: `${apiBase}/user?noWelcomeEmail=true`,
+        method: "POST",
+        body: user,
+      })
+      .its("body")
+      .then(({ accessToken }) => accessToken)
+  }
 )
