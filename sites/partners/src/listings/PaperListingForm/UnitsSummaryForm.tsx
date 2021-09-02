@@ -117,13 +117,12 @@ const UnitsSummaryForm = ({
 
     const current = summaries.find((summary) => summary.tempId === tempId)
     if (current) {
-      onSubmit({ ...formData, id: current.id, tempId: current.tempId, listing: current.listing })
+      onSubmit({ ...formData, id: current.id, tempId: current.tempId })
     } else {
       onSubmit({
         ...formData,
         id: undefined,
         tempId: summaries.length + 1,
-        listing: undefined,
       })
     }
     setTempId(null)
@@ -132,7 +131,6 @@ const UnitsSummaryForm = ({
         ...formData,
         id: current?.id,
         tempId: summaries.length + 1,
-        listing: current.listing,
       })
       reset({ ...formData })
     } else if (action === "saveNew") {
