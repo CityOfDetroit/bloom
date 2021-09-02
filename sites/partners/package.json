@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect=9231' next -p ${NEXTJS_PORT:-3001}",
     "build": "next build",
-    "cypress:open": "wait-on \"http-get://localhost:${PORT:-3100}/docs\" \"http-get://localhost:${PORT:-3001}\" && cypress open",
-    "cypress:run": "wait-on \"http-get://localhost:${PORT:-3100}/docs\" \"http-get://localhost:${PORT:-3001}\" && cypress run",
+    "cypress:open": "wait-on --interval 1000 \"http-get://localhost:${PORT:-3100}/docs\" \"http-get://localhost:${PORT:-3001}\" && cypress open",
+    "cypress:run": "wait-on --interval 1000 \"http-get://localhost:${PORT:-3100}/docs\" \"http-get://localhost:${PORT:-3001}\" && cypress run",
     "test": "concurrently \"yarn dev:all\" \"yarn cypress:open\"",
     "test:headless": "concurrently \"yarn dev:all\" \"yarn cypress:run\"",
     "export": "next export",
