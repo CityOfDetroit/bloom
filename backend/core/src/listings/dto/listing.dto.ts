@@ -807,7 +807,7 @@ export class ListingFilterParams extends BaseFilter {
     example: "true",
     required: false,
   })
-  [ListingFilterKeys.seniorHousing]?: boolean
+  [ListingFilterKeys.seniorHousing]?: boolean;
 
   @Expose()
   @ApiProperty({
@@ -825,7 +825,7 @@ export class ListingFilterParams extends BaseFilter {
     required: false,
   })
   @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.maxRent]?: number;
+  [ListingFilterKeys.maxRent]?: number
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
