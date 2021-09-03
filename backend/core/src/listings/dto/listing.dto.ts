@@ -791,6 +791,7 @@ export class ListingFilterParams extends BaseFilter {
     example: "48211",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.zipcode]?: string;
 
   @Expose()
@@ -799,6 +800,7 @@ export class ListingFilterParams extends BaseFilter {
     example: "hasAvailability",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.availability]?: AvailabilityFilterEnum;
 
   @Expose()
@@ -807,6 +809,7 @@ export class ListingFilterParams extends BaseFilter {
     example: "true",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.seniorHousing]?: boolean
 
   @Expose()
@@ -815,6 +818,7 @@ export class ListingFilterParams extends BaseFilter {
     example: "300",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.minRent]?: number;
 
@@ -824,6 +828,7 @@ export class ListingFilterParams extends BaseFilter {
     example: "700",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.maxRent]?: number;
 }
