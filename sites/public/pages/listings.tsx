@@ -192,7 +192,7 @@ const ListingsPage = () => {
                 prepend="$"
                 defaultValue={filterState?.minRent}
               />
-              <div className="flex items-center">{t("t.to")}</div>
+              <div className="flex items-center p-3">{t("t.to")}</div>
               <Field
                 id="maxRent"
                 name={ListingFilterKeys.maxRent}
