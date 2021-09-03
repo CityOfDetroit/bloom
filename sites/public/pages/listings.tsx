@@ -112,6 +112,7 @@ const ListingsPage = () => {
   let numberOfFilters = 0
   if (filterState) {
     numberOfFilters = Object.keys(filterState).filter((p) => p !== "$comparison").length
+    // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
     if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
       numberOfFilters -= 1
     }
