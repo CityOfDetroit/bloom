@@ -260,12 +260,6 @@ const formatFormData = (
       delete unit.sqFeet
     }
 
-    if (unit.id === undefined) {
-      delete unit.id
-      delete unit.updatedAt
-      delete unit.createdAt
-    }
-
     delete unit.tempId
   })
 
