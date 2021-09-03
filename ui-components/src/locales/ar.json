@@ -687,6 +687,10 @@
         "noData": "لا تتوافر بيانات."
     },
     "footer": {
+        "srHeading": "تذييل",
+        "srProjectInformation": "معلومات المشروع",
+        "srContactInformation": "معلومات للتواصل",
+        "srLegalInformation": "المعلومات القانونية",
         "contact": "اتصال",
         "disclaimer": "تنصل",
         "forGeneralQuestions": "للاستفسارات العامة عن البرنامج ، يمكنك الاتصال بنا على 000-000-0000.",
@@ -701,6 +705,8 @@
         "visitWebsite": "قم بزيارة٪ {name}"
     },
     "languages": {
+        "srHeading": "اللغات",
+        "srNavigation": "لغة",
         "en": "English",
         "es": "Español",
         "zh": "中文",
@@ -1049,6 +1055,8 @@
         "viewPreferenceList": "عرض قائمة التفضيلات"
     },
     "nav": {
+        "srHeading": "قائمة الإبحار",
+        "srNavigation": "الأساسية",
         "accountSettings": "إعدادت الحساب",
         "browseProperties": "تصفح الخصائص",
         "getAssistance": "احصل على المساعدة",
@@ -1086,6 +1094,9 @@
     },
     "region": {
         "name": "المنطقة المحلية"
+    },
+    "progressNav": {
+        "srHeading": "تقدم"
     },
     "states": {
         "AL": "ألاباما",
@@ -1156,6 +1167,7 @@
         "call": "مكالمة",
         "cancel": "يلغي",
         "confirm": "يتأكد",
+        "contactPropertyManagement": "اتصل بإدارة الممتلكات",
         "chooseFromFolder": "اختر من المجلد",
         "custom": "مخصص",
         "day": "يوم",
@@ -1324,21 +1336,29 @@
             "header": "لنجد منزلك القادم",
             "sections": {
                 "welcome": "أهلا بك",
-                "bedrooms": "غرف نوم",
+                "householdSize": "حجم الأسرة",
                 "age": "عمر",
                 "disability": "عجز",
-                "income": "دخل",
-                "section8": "القسم 8"
+                "income": "دخل"
             }
         },
         "welcome": {
             "header": "أهلا بك",
             "description": "للعثور على منزل يناسب احتياجاتك على أفضل وجه ، دعنا نجيب على بعض الأسئلة أولاً. لا تقبل بعض العقارات سوى الأشخاص ذوي الأعمار والدخول المحددة وما إلى ذلك."
         },
-        "bedrooms": {
-            "prompt": "كم عدد غرف النوم التي تحتاجها؟",
-            "studio": "ستوديو",
-            "srCountLabel": "عدد غرف النوم"
+        "householdSize": {
+            "prompt": "كم عدد الأشخاص الذين سيعيشون في هذا العقار؟",
+            "srCountLabel": "حجم الأسرة",
+            "ranges" : {
+              "one": "1 عضو",
+              "two": "2 أعضاء",
+              "three": "3 أعضاء",
+              "four": "4 أعضاء",
+              "five": "5 أعضاء",
+              "six": "6 أعضاء",
+              "seven": "7 أعضاء",
+              "eight": "8+ أعضاء"
+            }
         },
         "age": {
             "prompt": "كم عمرك؟",
@@ -1362,9 +1382,6 @@
                 "40kTo50k": "$٤٠,٠٠٠ - $٥٠,٠٠٠",
                 "over50k": "أكثر من 50000 دولار"
             }
-        },
-        "section8": {
-            "prompt": "هل لديك قسيمة القسم 8؟"
         }
     }
 }

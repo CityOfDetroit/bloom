@@ -5,7 +5,6 @@ import {
 } from "../../listings/types/listing-filter-keys-enum"
 import { filterTypeToFieldMap } from "../../listings/dto/listing.dto"
 import { ReservedCommunityType } from "../../listings/types/listing-reserved-community-type-enum"
-import { Compare } from "../dto/filter.dto"
 
 export function addSeniorHousingQuery(qb: WhereExpression, filterValue: string) {
   const whereParameterName = ListingFilterKeys.seniorHousing
@@ -47,15 +46,22 @@ function addAvailabilityParams(
 }
 
 export function addAvailabilityQuery(qb: WhereExpression, filterValue: AvailabilityFilterEnum) {
+  const whereParameterName = "availability"
   switch (filterValue) {
     case AvailabilityFilterEnum.hasAvailability:
-      addAvailabilityParams(qb, filterValue, Compare[">="], 1)
+      qb.andWhere(`unitsSummary.total_available >= :${whereParameterName}`, {
+        [whereParameterName]: 1,
+      })
       return
     case AvailabilityFilterEnum.noAvailability:
-      addAvailabilityParams(qb, filterValue, Compare["="], 0)
+      qb.andWhere(`unitsSummary.total_available = :${whereParameterName}`, {
+        [whereParameterName]: 0,
+      })
       return
     case AvailabilityFilterEnum.waitlist:
-      addAvailabilityParams(qb, filterValue, Compare["="], true)
+      qb.andWhere(`listings.is_waitlist_open = :${whereParameterName}`, {
+        [whereParameterName]: true,
+      })
       return
     default:
       return
