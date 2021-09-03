@@ -4132,7 +4132,7 @@ export interface UnitsSummary {
   monthlyRentAsPercentOfIncome?: string
 
   /**  */
-  amiPercentage?: string
+  amiPercentage?: number
 
   /**  */
   minimumIncomeMin?: string
@@ -4587,7 +4587,7 @@ export interface UnitsSummaryCreate {
   monthlyRentAsPercentOfIncome?: string
 
   /**  */
-  amiPercentage?: string
+  amiPercentage?: number
 
   /**  */
   minimumIncomeMin?: string
@@ -5078,7 +5078,7 @@ export interface UnitsSummaryUpdate {
   monthlyRentAsPercentOfIncome?: string
 
   /**  */
-  amiPercentage?: string
+  amiPercentage?: number
 
   /**  */
   minimumIncomeMin?: string
