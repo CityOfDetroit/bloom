@@ -10,6 +10,8 @@ import {
   IsUUID,
   ValidateNested,
   IsNumberString,
+  IsEnum,
+  IsBooleanString,
 } from "class-validator"
 import moment from "moment"
 import {
@@ -791,6 +793,8 @@ export class ListingFilterParams extends BaseFilter {
     example: "48211",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.zipcode]?: string;
 
   @Expose()
@@ -799,6 +803,8 @@ export class ListingFilterParams extends BaseFilter {
     example: "hasAvailability",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsEnum(ListingStatus, { groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.availability]?: AvailabilityFilterEnum;
 
   @Expose()
@@ -807,7 +813,19 @@ export class ListingFilterParams extends BaseFilter {
     example: "true",
     required: false,
   })
-  [ListingFilterKeys.seniorHousing]?: boolean
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsBooleanString({ groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.seniorHousing]?: boolean;
+
+  @Expose()
+  @ApiProperty({
+    type: String,
+    example: "40",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.ami]?: number
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
@@ -867,4 +885,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   // Fields for the availability are determined based on the value of the filter, not the
   // key. Keep this bogus value to prevent the filter from being rejected.
   availability: "",
+  ami: "",
 }

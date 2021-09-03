@@ -47,3 +47,9 @@ export function addAvailabilityQuery(qb: WhereExpression, filterValue: Availabil
       return
   }
 }
+
+export function addAmiPercentageFilter(qb: WhereExpression, filterValue: any) {
+  const whereParameterName = "amiPercentage"
+
+  return
+}

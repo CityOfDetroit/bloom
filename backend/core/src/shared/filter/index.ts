@@ -5,7 +5,11 @@ import {
   AvailabilityFilterEnum,
   ListingFilterKeys,
 } from "../../listings/types/listing-filter-keys-enum"
-import { addSeniorHousingQuery, addAvailabilityQuery } from "./custom_filters"
+import {
+  addSeniorHousingQuery,
+  addAvailabilityQuery,
+  addAmiPercentageFilter,
+} from "./custom_filters"
 
 /**
  *
@@ -74,13 +78,16 @@ export function addFilters<FilterParams, FilterFieldMap>(
           const filterField = filterTypeToFieldMap[filterType as string]
 
           // Handle custom filters here, before dropping into generic filter handler
-          if (filterType == ListingFilterKeys.seniorHousing) {
-            addSeniorHousingQuery(qb, filterValue)
-            return
-          }
-          if (filterType == ListingFilterKeys.availability) {
-            addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum)
-            return
+          switch (filterType) {
+            case ListingFilterKeys.seniorHousing:
+              addSeniorHousingQuery(qb, filterValue)
+              return
+            case ListingFilterKeys.availability:
+              addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum)
+              return
+            case ListingFilterKeys.ami:
+              addAmiPercentageFilter(qb, filterValue)
+              return
           }
 
           // Generic filter handler
