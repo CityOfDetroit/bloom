@@ -94,6 +94,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
             case Compare["<>"]:
             case Compare["="]:
             case Compare[">="]:
+            case Compare["<="]:
               qb.andWhere(
                 `LOWER(CAST(${filterField} as text)) ${comparison} LOWER(:${whereParameterName})`,
                 {

@@ -808,6 +808,24 @@ export class ListingFilterParams extends BaseFilter {
     required: false,
   })
   [ListingFilterKeys.seniorHousing]?: boolean
+
+  @Expose()
+  @ApiProperty({
+    type: Number,
+    example: "300",
+    required: false,
+  })
+  @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.minRent]?: number;
+
+  @Expose()
+  @ApiProperty({
+    type: Number,
+    example: "700",
+    required: false,
+  })
+  @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.maxRent]?: number;
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
@@ -873,4 +891,6 @@ export const filterTypeToFieldMap: Record<keyof typeof FilterKeysList, string> =
   hasAvailability: "unitsSummary.total_available",
   noAvailability: "unitsSummary.total_available",
   waitlist: "listings.is_waitlist_open",
+  minRent: "unitsSummary.monthly_rent_max",
+  maxRent: "unitsSummary.monthly_rent_min",
 }

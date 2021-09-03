@@ -109,9 +109,14 @@ const ListingsPage = () => {
     filterState
   )
 
-  const numberOfFilters = filterState
-    ? Object.keys(filterState).filter((p) => p !== "$comparison").length
-    : 0
+  let numberOfFilters = 0
+  if (filterState) {
+    numberOfFilters = Object.keys(filterState).filter((p) => p !== "$comparison").length
+    if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
+      numberOfFilters -= 1
+    }
+  }
+
   const buttonTitle = numberOfFilters
     ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
     : t("listingFilters.buttonTitle")
@@ -175,6 +180,28 @@ const ListingsPage = () => {
               errorMessage={t("errors.multipleZipCodeError")}
               defaultValue={filterState?.zipcode}
             />
+            <label className="field-label">Rent Range</label>
+            <div className="flex flex-row">
+              <Field
+                id="minRent"
+                name={ListingFilterKeys.minRent}
+                register={register}
+                type="number"
+                placeholder={t("t.min")}
+                prepend="$"
+                defaultValue={filterState?.minRent}
+              />
+              <div className="flex items-center">{t("t.to")}</div>
+              <Field
+                id="maxRent"
+                name={ListingFilterKeys.maxRent}
+                register={register}
+                type="number"
+                placeholder={t("t.max")}
+                prepend="$"
+                defaultValue={filterState?.maxRent}
+              />
+            </div>
             <Select
               id="neighborhoodOptions"
               name={ListingFilterKeys.neighborhood}
