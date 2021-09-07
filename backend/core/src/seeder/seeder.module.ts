@@ -49,6 +49,7 @@ import { Listing10154Seed } from "../seeds/listings/listing-detroit-10154"
 import { Listing10155Seed } from "../seeds/listings/listing-detroit-10155"
 import { Listing10159Seed } from "../seeds/listings/listing-detroit-10159"
 import { Listing10168Seed } from "../seeds/listings/listing-detroit-10168"
+import { ListingDefaultSummaryWithAmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-ami-percentage-seed"
 
 @Module({})
 export class SeederModule {
@@ -115,6 +116,7 @@ export class SeederModule {
         ListingDefaultMultipleAMI,
         ListingDefaultMultipleAMIAndPercentages,
         ListingDefaultMissingAMI,
+        ListingDefaultSummaryWithAmiPercentageSeed,
       ],
     }
   }

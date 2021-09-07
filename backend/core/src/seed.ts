@@ -17,6 +17,7 @@ import { ListingDefaultOpenSoonSeed } from "./seeds/listings/listing-default-ope
 import { ListingDefaultOnePreferenceSeed } from "./seeds/listings/listing-default-one-preference-seed"
 import { ListingDefaultNoPreferenceSeed } from "./seeds/listings/listing-default-no-preference-seed"
 import { ListingTritonSeed } from "./seeds/listings/listing-triton-seed"
+import { ListingDefaultSummaryWithAmiPercentageSeed } from "./seeds/listings/listing-default-summary-with-ami-percentage-seed"
 import { ApplicationMethodsService } from "./application-methods/application-methods.service"
 import { ApplicationMethodType } from "./application-methods/types/application-method-type-enum"
 import { AuthContext } from "./auth/types/auth-context"
@@ -49,6 +50,7 @@ const listingSeeds: any[] = [
   ListingDefaultNoPreferenceSeed,
   ListingTritonSeed,
   ListingDefaultReservedSeed,
+  ListingDefaultSummaryWithAmiPercentageSeed,
   Listing10145Seed,
   Listing10147Seed,
   Listing10157Seed,

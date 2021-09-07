@@ -54,7 +54,7 @@ describe("Listings", () => {
     const page = "1"
     // This is the number of listings in ../../src/seed.ts minus 1
     // TODO(#374): get this number programmatically
-    const limit = 14
+    const limit = 15
     const params = "/?page=" + page + "&limit=" + limit.toString()
     const res = await supertest(app.getHttpServer())
       .get("/listings" + params)

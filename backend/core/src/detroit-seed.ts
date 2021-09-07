@@ -30,6 +30,7 @@ import { Listing10154Seed } from "./seeds/listings/listing-detroit-10154"
 import { Listing10155Seed } from "./seeds/listings/listing-detroit-10155"
 import { Listing10159Seed } from "./seeds/listings/listing-detroit-10159"
 import { Listing10168Seed } from "./seeds/listings/listing-detroit-10168"
+import { ListingDefaultSummaryWithAmiPercentageSeed } from "./seeds/listings/listing-default-summary-with-ami-percentage-seed"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },
@@ -50,6 +51,7 @@ const listingSeeds: any[] = [
   Listing10159Seed,
   Listing10168Seed,
   ListingTreymoreSeed,
+  ListingDefaultSummaryWithAmiPercentageSeed,
 ]
 
 export function getSeedListingsCount() {
