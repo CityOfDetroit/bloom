@@ -126,8 +126,6 @@ export class ListingsService {
       property: plainToClass(PropertyCreateDto, listingDto),
     })
     const saveResult = await listing.save()
-    console.log("HEREEEEEEE")
-    console.log(saveResult)
     return saveResult
   }
 
@@ -140,8 +138,13 @@ export class ListingsService {
       throw new NotFoundException()
     }
     listingDto.units.forEach((unit) => {
-      if (unit.id.length === 0 || unit.id === "undefined") {
+      if (!unit.id) {
         delete unit.id
+      }
+    })
+    listingDto.unitsSummary.forEach((summary) => {
+      if (!summary.id) {
+        delete summary.id
       }
     })
     Object.assign(listing, {
