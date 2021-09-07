@@ -3,8 +3,13 @@ describe("Individual listing page", () => {
     cy.fixture("listing").then((listing) => cy.createListing(listing))
   })
 
-  it("renders the page correctly, with the name of the listing", () => {
-    cy.visit("/listing/06436559-e84c-4f75-881a-13765f480b39")
-    cy.contains("Archer Studios")
+  it("clicks into an individual listing page", () => {
+    cy.visit("/listings")
+    cy.contains("Cypress Test Listing").click()
+
+    // Verify that the listing page has some data/headings that we expect it to have
+    cy.contains("Cypress Test Listing")
+    cy.contains("Features")
+    cy.contains("Neighborhood")
   })
 })

@@ -31,7 +31,7 @@ Cypress.Commands.add(
 
     return cy
       .request({
-        url: `${apiBase}/listing`,
+        url: `${apiBase}/listings`,
         method: "POST",
         body: listing,
       })

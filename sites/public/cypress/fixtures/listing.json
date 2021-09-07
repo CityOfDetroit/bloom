@@ -1,5 +1,5 @@
 {
-  "name": "Minimal Listing",
+  "name": "Cypress Test Listing",
   "status": "active",
   "CSVFormattingType": "basic",
   "countyCode": "Detroit",
@@ -12,13 +12,7 @@
     "latitude": "42.36",
     "longitude": "-83.1"
   },
-  "units": [
-    {
-      "unitType": "oneBdrm",
-      "status": "available",
-      "amiChart": {}
-    }
-  ],
+  "units": [],
   "assets": [],
   "applicationMethods": [],
   "events": [],
