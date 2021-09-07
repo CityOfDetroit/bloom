@@ -17,26 +17,21 @@ declare global {
 Cypress.Commands.add(
   "createListing",
   (listing: Listing, { apiBase = "http://localhost:3100" } = {}) => {
+    console.error("\n\nWILL THIS LOG ANYTHING\n\n")
     // In order to add a new listing, we have to authenticate as an admin. This relies on the database being seeded with a user account with email "admin@example.com" and password "abcdef"
-    cy.request({
+    const accessToken = cy.request({
       url: `${apiBase}/auth/login`,
       method: "POST",
       body: { email: "admin@example.com", password: "abcdef" },
     })
-      .its("body")
-      .then(({ accessToken }) =>
-        cy
-          .window()
-          .then((window) =>
-            window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, accessToken)
-          )
-      )
+      .its("body.accessToken")
 
     return cy
       .request({
         url: `${apiBase}/listings`,
         method: "POST",
         body: listing,
+        headers: { "bearer": accessToken }
       })
       .its("body")
       .then(({ accessToken }) => accessToken)
