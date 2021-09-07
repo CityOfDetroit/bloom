@@ -86,7 +86,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
               addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum)
               return
             case ListingFilterKeys.ami:
-              addAmiPercentageFilter(qb, filterValue)
+              addAmiPercentageFilter(qb, parseInt(filterValue))
               return
           }
 

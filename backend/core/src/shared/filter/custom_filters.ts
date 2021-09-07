@@ -48,8 +48,10 @@ export function addAvailabilityQuery(qb: WhereExpression, filterValue: Availabil
   }
 }
 
-export function addAmiPercentageFilter(qb: WhereExpression, filterValue: any) {
+export function addAmiPercentageFilter(qb: WhereExpression, filterValue: number) {
   const whereParameterName = "amiPercentage"
-
+  qb.andWhere(`unitsSummary.ami_percentage >= :${whereParameterName}`, {
+    [whereParameterName]: filterValue,
+  })
   return
 }
