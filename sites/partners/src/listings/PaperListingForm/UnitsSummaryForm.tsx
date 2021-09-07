@@ -81,6 +81,7 @@ const UnitsSummaryForm = ({
   const rentType = watch("rentType")
 
   async function onFormSubmit(action?: string) {
+    // Triggers validation across the form.
     const validation = await trigger()
 
     if (!validation) return
