@@ -33,7 +33,6 @@ const LeasingAgent = () => {
             error={errors?.leasingAgentEmail !== undefined}
             errorMessage={t("errors.requiredFieldError")}
             validation={{ required: true }}
-            
           />
           <PhoneField
             label={t("t.phone")}
