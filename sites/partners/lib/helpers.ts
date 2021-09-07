@@ -13,7 +13,7 @@ import {
   ListingEventType,
   ListingEvent,
 } from "@bloom-housing/backend-core/types"
-import { TempUnit, FormListing } from "../src/listings/PaperListingForm"
+import { TempUnit, FormListing, TempUnitsSummary } from "../src/listings/PaperListingForm"
 
 type DateTimePST = {
   hour: string
@@ -89,7 +89,11 @@ export const convertDataToPst = (dateObj: Date, type: ApplicationSubmissionType)
   }
 }
 
-export const stringToNumber = (str: string | number | undefined): number => {
+export const toNumberOrNull = (obj: string | number | undefined): number => {
+  return obj ? Number(obj) : null
+}
+
+export const stringToNumberOrOne = (str: string | number | undefined): number => {
   return str ? Number(str) : 1
 }
 
@@ -107,6 +111,20 @@ export const getRentType = (unit: TempUnit): string | null => {
     : unit?.monthlyRentAsPercentOfIncome
     ? "percentage"
     : null
+}
+
+export const getRentTypeFromUnitsSummary = (summary: TempUnitsSummary): string | null => {
+  if (
+    summary?.minimumIncomeMin ||
+    summary?.minimumIncomeMax ||
+    summary?.monthlyRentMin ||
+    summary?.monthlyRentMax
+  ) {
+    return "fixed"
+  } else if (summary?.monthlyRentAsPercentOfIncome) {
+    return "percentage"
+  }
+  return null
 }
 
 export const getAmiChartId = (chart: AmiChart | string | undefined): string | null => {
@@ -144,6 +162,7 @@ export const createTime = (
   date: Date,
   formTime: { hours: string; minutes: string; period: TimeFieldPeriod }
 ) => {
+  if (!date || !formTime) return null
   let formattedHours = parseInt(formTime.hours)
   if (formTime.period === "am" && formattedHours === 12) {
     formattedHours = 0
@@ -159,6 +178,7 @@ export const createTime = (
  * Create Date object depending on DateField component
  */
 export const createDate = (formDate: { year: string; month: string; day: string }) => {
+  if (!formDate) return null
   return new Date(`${formDate.month}-${formDate.day}-${formDate.year}`)
 }
 

@@ -804,7 +804,7 @@ export class ListingFilterParams extends BaseFilter {
     required: false,
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  @IsEnum(ListingStatus, { groups: [ValidationsGroupsEnum.default] })
+  @IsEnum(AvailabilityFilterEnum, { groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.availability]?: AvailabilityFilterEnum;
 
   @Expose()
@@ -816,6 +816,26 @@ export class ListingFilterParams extends BaseFilter {
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsBooleanString({ groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.seniorHousing]?: boolean;
+
+  @Expose()
+  @ApiProperty({
+    type: Number,
+    example: "300",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.minRent]?: number;
+
+  @Expose()
+  @ApiProperty({
+    type: Number,
+    example: "700",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.maxRent]?: number;
 
   @Expose()
   @ApiProperty({
@@ -882,6 +902,8 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   bedrooms: "unitTypeRef.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
   seniorHousing: "reservedCommunityType.name",
+  minRent: "unitsSummary.monthly_rent_max",
+  maxRent: "unitsSummary.monthly_rent_min",
   // Fields for the availability are determined based on the value of the filter, not the
   // key. Keep this bogus value to prevent the filter from being rejected.
   availability: "",
