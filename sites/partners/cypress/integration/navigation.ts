@@ -34,7 +34,7 @@ describe("Navigating around the site", () => {
       cy.visit("/")
       cy.contains("Listings")
       cy.contains("Add Listing").click()
-      cy.contains("New Listing")
+      cy.contains("Listing Details")
     })
   })
 })
