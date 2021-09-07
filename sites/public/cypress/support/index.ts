@@ -24,13 +24,18 @@ Cypress.Commands.add(
     })
       .its("body")
       .then(({ accessToken }) => {
+        console.log("accessToken:")
+        console.log(accessToken)
         cy.window().then((window) => window.sessionStorage.setItem("@bht", accessToken))
       })
 
-    return cy.request({
-      url: `${apiBase}/listing`,
-      method: "POST",
-      body: listing,
-    })
+    return cy
+      .request({
+        url: `${apiBase}/listing`,
+        method: "POST",
+        body: listing,
+      })
+      .its("body")
+      .then(({ accessToken }) => accessToken)
   }
 )

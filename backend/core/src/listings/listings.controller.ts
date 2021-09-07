@@ -39,10 +39,8 @@ import { ListingLangCacheInterceptor } from "../cache/listing-lang-cache.interce
 
 @Controller("listings")
 @ApiTags("listings")
-@ApiBearerAuth()
 @ResourceType("listing")
 @ApiExtraModels(ListingFilterParams)
-@UseGuards(OptionalAuthGuard, AuthzGuard)
 @UsePipes(new ValidationPipe(defaultValidationPipeOptions))
 export class ListingsController {
   cacheKeys: string[]
@@ -64,6 +62,7 @@ export class ListingsController {
   @Post()
   @ApiOperation({ summary: "Create listing", operationId: "create" })
   async create(@Body() listingDto: ListingCreateDto): Promise<ListingDto> {
+    console.log("\n\nOKAY ACTUALLY GOT A POST REQUEST\n\n")
     const listing = await this.listingsService.create(listingDto)
     await this.cacheManager.reset()
     return mapTo(ListingDto, listing)
