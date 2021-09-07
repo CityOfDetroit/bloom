@@ -58,7 +58,7 @@ jobs:
         - yarn nest start &
         - cd ../../sites/partners
         - yarn dev &
-        - yarn wait-on "http-get://localhost:3000" && yarn cypress run
+        - yarn wait-on "http-get://localhost:3001" && yarn cypress run
         - kill $(jobs -p) || true
 
 addons:
