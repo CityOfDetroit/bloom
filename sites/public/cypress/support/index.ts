@@ -1,4 +1,5 @@
 import { Listing } from "@bloom-housing/backend-core/types"
+import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "../../../../ui-components/src/authentication/token"
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -23,11 +24,9 @@ Cypress.Commands.add(
       body: { email: "admin@example.com", password: "abcdef" },
     })
       .its("body")
-      .then(({ accessToken }) => {
-        console.log("accessToken:")
-        console.log(accessToken)
-        cy.window().then((window) => window.sessionStorage.setItem("@bht", accessToken))
-      })
+      .then(({ accessToken }) =>
+        cy.window().then((window) => window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, accessToken))
+      )
 
     return cy
       .request({
