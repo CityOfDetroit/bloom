@@ -687,6 +687,10 @@
         "noData": "কোন তথ্য নেই."
     },
     "footer": {
+        "srHeading": "পাদলেখ",
+        "srProjectInformation": "প্রকল্প সম্পর্কিত তথ্য",
+        "srContactInformation": "যোগাযোগের তথ্য",
+        "srLegalInformation": "আইনি তথ্য",
         "contact": "যোগাযোগ",
         "disclaimer": "অস্বীকৃতি",
         "forGeneralQuestions": "সাধারণ প্রোগ্রাম অনুসন্ধানের জন্য, আপনি আমাদের 000-000-0000 এ কল করতে পারেন।",
@@ -701,6 +705,8 @@
         "visitWebsite": "%{Name} এ যান"
     },
     "languages": {
+        "srHeading": "ভাষা",
+        "srNavigation": "ভাষা",
         "en": "English",
         "es": "Español",
         "zh": "中文",
@@ -1035,6 +1041,21 @@
             "deleteConf": "আপনি কি সত্যিই এই ইউনিটটি মুছে ফেলতে চান?",
             "eligibility": "যোগ্যতা"
         },
+        "unitsSummary": {
+            "add": "সারাংশ যোগ করুন",
+            "occupancy": "দখল",
+            "floorMin": "ন্যূনতম মেঝে",
+            "floorMax": "সর্বোচ্চ মেঝে",
+            "monthlyRentMin": "সর্বনিম্ন মাসিক ভাড়া",
+            "monthlyRentMax": "সর্বোচ্চ মাসিক ভাড়া",
+            "sqFeetMin": "ন্যূনতম স্কয়ার ফুটেজ",
+            "sqFeetMax": "সর্বোচ্চ স্কয়ার ফুটেজ",
+            "availability": "উপস্থিতি",
+            "count": "মোট গণনা",
+            "available": "মোট উপলব্ধ",
+            "delete": "এই সারাংশ মুছে ফেলুন",
+            "deleteConf": "আপনি কি সত্যিই এই সারাংশ মুছে ফেলতে চান?"
+        },
         "events": {
             "deleteThisEvent": "এই ইভেন্টটি মুছুন",
             "deleteConf": "আপনি কি সত্যিই এই ইভেন্টটি মুছে ফেলতে চান?",
@@ -1049,6 +1070,8 @@
         "viewPreferenceList": "পছন্দ তালিকা দেখুন"
     },
     "nav": {
+        "srHeading": "ন্যাভিগেশন মেনু",
+        "srNavigation": "প্রধান",
         "accountSettings": "অ্যাকাউন্ট সেটিংস",
         "browseProperties": "বৈশিষ্ট্য ব্রাউজ করুন",
         "getAssistance": "সহায়তা পান",
@@ -1086,6 +1109,9 @@
     },
     "region": {
         "name": "স্থানীয় অঞ্চল"
+    },
+    "progressNav": {
+        "srHeading": "অগ্রগতি"
     },
     "states": {
         "AL": "আলাবামা",
@@ -1156,6 +1182,7 @@
         "call": "ডাক",
         "cancel": "বাতিল করুন",
         "confirm": "নিশ্চিত করুন",
+        "contactPropertyManagement": "সম্পত্তি পরিচালনার সাথে যোগাযোগ করুন",
         "chooseFromFolder": "ফোল্ডার থেকে বেছে নিন",
         "custom": "কাস্টম",
         "day": "দিন",
@@ -1189,7 +1216,9 @@
         "link": "লিঙ্ক",
         "listing": "তালিকা",
         "loginIsRequired": "এই পৃষ্ঠাটি দেখতে লগইন প্রয়োজন।",
+        "max": "সর্বোচ্চ",
         "menu": "তালিকা",
+        "min": "ন্যূনতম",
         "minimumIncome": "ন্যূনতম আয়",
         "minutes": "মিনিট",
         "month": "মাস",
@@ -1324,21 +1353,29 @@
             "header": "আসুন আপনার পরবর্তী বাসাটি খুঁজে বের করি",
             "sections": {
                 "welcome": "স্বাগত",
-                "bedrooms": "বেডরুম",
+                "householdSize": "পরিবারের আকার",
                 "age": "আগে",
                 "disability": "অক্ষমতা",
-                "income": "আয়",
-                "section8": "অধ্যায় 8"
+                "income": "আয়"
             }
         },
         "welcome": {
             "header": "স্বাগত",
             "description": "আপনার প্রয়োজনের জন্য সবচেয়ে উপযুক্ত একটি বাড়ি খুঁজে পেতে, প্রথমে কয়েকটি প্রশ্নের উত্তর দেওয়া যাক। কিছু সম্পত্তি শুধুমাত্র নির্দিষ্ট বয়স, আয় ইত্যাদি মানুষকে গ্রহণ করে।"
         },
-        "bedrooms": {
-            "prompt": "আপনার কয়টি বেডরুম দরকার?",
-            "studio": "স্টুডিও",
-            "srCountLabel": "বেডরুমের সংখ্যা"
+        "householdSize": {
+            "prompt": "এই সম্পত্তিতে কত লোক বাস করবে?",
+            "srCountLabel": "পরিবারের আকার",
+            "ranges" : {
+              "one": "1 সদস্য",
+              "two": "2 সদস্য",
+              "three": "3 সদস্য",
+              "four": "4 সদস্য",
+              "five": "5 সদস্য",
+              "six": "6 সদস্য",
+              "seven": "7 সদস্য",
+              "eight": "8+ সদস্য"
+            }
         },
         "age": {
             "prompt": "আপনার বয়স কত?",
@@ -1362,9 +1399,6 @@
                 "40kTo50k": "$৪০,০০০ - $৫০,০০০",
                 "over50k": "$ 50,000 এরও বেশি"
             }
-        },
-        "section8": {
-            "prompt": "আপনার কি একটি অধ্যায় 8 ভাউচার আছে?"
         }
     }
 }
