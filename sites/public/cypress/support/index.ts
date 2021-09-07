@@ -25,7 +25,11 @@ Cypress.Commands.add(
     })
       .its("body")
       .then(({ accessToken }) =>
-        cy.window().then((window) => window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, accessToken))
+        cy
+          .window()
+          .then((window) =>
+            window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, accessToken)
+          )
       )
 
     return cy
