@@ -53,7 +53,12 @@ jobs:
       name: "Partners site Cypress tests"
       script:
         - yarn cypress install
-        - yarn test:app:partners:headless
+        - yarn db:reseed
+        - cd backend/core
+        - yarn nest start &
+        - cd ../../sites/partners
+        - yarn dev &
+        - yarn wait-on "http-get://localhost:3000" && yarn cypress run
         - kill $(jobs -p) || true
 
 addons:
