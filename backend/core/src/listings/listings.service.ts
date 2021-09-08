@@ -38,15 +38,14 @@ export class ListingsService {
     }
 
     // Inner query to get the sorted listing ids of the listings to display
-    // TODO(avaleske): Only join the tables we need for the filters that are applied
+    // TODO(avaleske): Only join the tables we need for the filters that are applied.
     const innerFilteredQuery = this.listingRepository
       .createQueryBuilder("listings")
       .select("listings.id", "listings_id")
       .leftJoin("listings.property", "property")
-      .leftJoin("property.units", "units")
-      .leftJoin("units.unitType", "unitTypeRef")
       .leftJoin("property.buildingAddress", "buildingAddress")
       .leftJoin("listings.unitsSummary", "unitsSummary")
+      .leftJoin("unitsSummary.unitType", "summaryUnitType")
       .leftJoin("listings.reservedCommunityType", "reservedCommunityType")
       .groupBy("listings.id")
       .orderBy(getOrderByCondition())
