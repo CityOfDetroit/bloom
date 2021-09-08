@@ -44,6 +44,12 @@ const isValidZipCodeOrEmpty = (value: string) => {
   return returnValue
 }
 
+enum RenderState {
+  notReady = 0,
+  renderStatic = 1,
+  renderDynamic = 2,
+}
+
 const ListingsPage = ({ initialListings }) => {
   const router = useRouter()
 
@@ -55,8 +61,8 @@ const ListingsPage = ({ initialListings }) => {
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
-  // Initial state
-  const firstRender = useRef(true)
+  // Initial listings render state
+  const [listingsRenderState, setlLstingsRenderState] = useState<RenderState>(RenderState.notReady)
 
   // TODO: Select options should come from the database (#252)
   const EMPTY_OPTION = { value: "", label: "" }
@@ -101,11 +107,23 @@ const ListingsPage = ({ initialListings }) => {
 
   // Checks for changes in url params.
   useEffect(() => {
+    if (!router.isReady) {
+      // Don't show any listing state until we can get filter data from the router.
+      setlLstingsRenderState(RenderState.notReady)
+      return
+    }
     if (router.query.page) {
       setCurrentPage(Number(router.query.page))
     }
 
-    setFilterState(decodeFiltersFromFrontendUrl(router.query))
+    // Dynamically fetch listings if there are any filters provided, or this isn't the first page.
+    const filters = decodeFiltersFromFrontendUrl(router.query)
+    if (filters || (router.query.page && Number(router.query.page) !== 1)) {
+      setlLstingsRenderState(RenderState.renderDynamic)
+    } else if (listingsRenderState === RenderState.notReady) {
+      setlLstingsRenderState(RenderState.renderStatic)
+    }
+    setFilterState(filters)
   }, [router.query])
 
   const { listingsData: asyncListingData, listingsLoading, listingsError } = useListingsData(
@@ -139,13 +157,16 @@ const ListingsPage = ({ initialListings }) => {
     setQueryString(/*page=*/ 1, data)
   }
 
-  // Use pre-rendered listing data on the first page load.
   let listingsData
-  if (firstRender.current) {
-    listingsData = initialListings
-    firstRender.current = false
-  } else {
-    listingsData = asyncListingData
+  switch (listingsRenderState) {
+    case RenderState.notReady:
+      return <>Loading...</>
+    case RenderState.renderStatic:
+      listingsData = initialListings
+      break
+    case RenderState.renderDynamic:
+      listingsData = asyncListingData
+      break
   }
 
   return (
