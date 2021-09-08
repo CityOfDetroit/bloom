@@ -33,7 +33,7 @@ export class ListingsService {
   }
 
   public async list(params: ListingsQueryParams): Promise<Pagination<Listing>> {
-    const getOrdering = (): OrderByCondition => {
+    const getOrderByCondition = (): OrderByCondition => {
       return { "listings.updated_at": "DESC" }
     }
 
@@ -49,7 +49,7 @@ export class ListingsService {
       .leftJoin("listings.unitsSummary", "unitsSummary")
       .leftJoin("listings.reservedCommunityType", "reservedCommunityType")
       .groupBy("listings.id")
-      .orderBy(getOrdering())
+      .orderBy(getOrderByCondition())
 
     if (params.filter) {
       addFilters<ListingFilterParams, typeof filterTypeToFieldMap>(
@@ -79,7 +79,7 @@ export class ListingsService {
       // (WHERE params are the values passed to andWhere() that TypeORM escapes
       // and substitues for the `:paramName` placeholders in the WHERE clause.)
       .setParameters(innerFilteredQuery.getParameters())
-      .orderBy(getOrdering())
+      .orderBy(getOrderByCondition())
       .getMany()
 
     // get summarized units from view
