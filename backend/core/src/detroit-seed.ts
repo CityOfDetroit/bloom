@@ -30,7 +30,6 @@ import { Listing10154Seed } from "./seeds/listings/listing-detroit-10154"
 import { Listing10155Seed } from "./seeds/listings/listing-detroit-10155"
 import { Listing10159Seed } from "./seeds/listings/listing-detroit-10159"
 import { Listing10168Seed } from "./seeds/listings/listing-detroit-10168"
-import { ListingDefaultSummaryWithAmiPercentageSeed } from "./seeds/listings/listing-default-summary-with-ami-percentage-seed"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },
@@ -51,7 +50,6 @@ const listingSeeds: any[] = [
   Listing10159Seed,
   Listing10168Seed,
   ListingTreymoreSeed,
-  ListingDefaultSummaryWithAmiPercentageSeed,
 ]
 
 export function getSeedListingsCount() {
@@ -64,17 +62,18 @@ export async function createLeasingAgents(
 ) {
   const usersService = await app.resolve<UserService>(UserService)
   const leasingAgents = await Promise.all(
-    defaultLeasingAgents.map(
-      async (leasingAgent) => await usersService.createUser(leasingAgent, new AuthContext(null))
-    )
-  )
-  await Promise.all([
-    leasingAgents.map(async (agent: User) => {
-      const roles: UserRoles = { user: agent, isPartner: true }
+    defaultLeasingAgents.map(async (leasingAgent) => {
+      const user = await usersService.findByEmail(leasingAgent.email)
+      if (user !== undefined) {
+        return user
+      }
+      const newUser = await usersService.createUser(leasingAgent, new AuthContext(null))
+      const roles: UserRoles = { user: newUser, isPartner: true }
       await rolesRepo.save(roles)
-      await usersService.confirm({ token: agent.confirmationToken })
-    }),
-  ])
+      await usersService.confirm({ token: newUser.confirmationToken })
+      return newUser
+    })
+  )
   return leasingAgents
 }
 
@@ -122,49 +121,64 @@ async function seed() {
   const rolesRepo = app.get<Repository<UserRoles>>(getRepositoryToken(UserRoles))
   const listings = await seedListings(app, rolesRepo)
 
-  const user1 = await userService.createUser(
-    plainToClass(UserCreateDto, {
-      email: "test@example.com",
-      emailConfirmation: "test@example.com",
-      firstName: "First",
-      middleName: "Mid",
-      lastName: "Last",
-      dob: new Date(),
-      password: "abcdef",
-      passwordConfirmation: "Abcdef1!",
-    }),
-    new AuthContext(null)
-  )
-  await userService.confirm({ token: user1.confirmationToken })
+  let user1 = await userService.findByEmail("test@example.com")
+  if (user1 === undefined) {
+    user1 = await userService.createUser(
+      plainToClass(UserCreateDto, {
+        email: "test@example.com",
+        emailConfirmation: "test@example.com",
+        firstName: "First",
+        middleName: "Mid",
+        lastName: "Last",
+        dob: new Date(),
+        password: "abcdef",
+        passwordConfirmation: "Abcdef1!",
+      }),
+      new AuthContext(null)
+    )
+    await userService.confirm({ token: user1.confirmationToken })
+  }
 
-  const user2 = await userService.createUser(
-    plainToClass(UserCreateDto, {
-      email: "test2@example.com",
-      emailConfirmation: "test2@example.com",
-      firstName: "Second",
-      middleName: "Mid",
-      lastName: "Last",
-      dob: new Date(),
-      password: "ghijkl",
-      passwordConfirmation: "Ghijkl1!",
-    }),
-    new AuthContext(null)
-  )
-  await userService.confirm({ token: user2.confirmationToken })
+  let user2 = await userService.findByEmail("test2@example.com")
+  if (user2 === undefined) {
+    user2 = await userService.createUser(
+      plainToClass(UserCreateDto, {
+        email: "test2@example.com",
+        emailConfirmation: "test2@example.com",
+        firstName: "Second",
+        middleName: "Mid",
+        lastName: "Last",
+        dob: new Date(),
+        password: "ghijkl",
+        passwordConfirmation: "Ghijkl1!",
+      }),
+      new AuthContext(null)
+    )
+    await userService.confirm({ token: user2.confirmationToken })
+  }
 
-  const admin = await userService.createUser(
-    plainToClass(UserCreateDto, {
-      email: "admin@example.com",
-      emailConfirmation: "admin@example.com",
-      firstName: "Second",
-      middleName: "Mid",
-      lastName: "Last",
-      dob: new Date(),
-      password: "abcdef",
-      passwordConfirmation: "Abcdef1!",
-    }),
-    new AuthContext(null)
-  )
+  let admin = await userService.findByEmail("admin@example.com")
+  if (admin === undefined) {
+    admin = await userService.createUser(
+      plainToClass(UserCreateDto, {
+        email: "admin@example.com",
+        emailConfirmation: "admin@example.com",
+        firstName: "Second",
+        middleName: "Mid",
+        lastName: "Last",
+        dob: new Date(),
+        password: "abcdef",
+        passwordConfirmation: "Abcdef1!",
+      }),
+      new AuthContext(null)
+    )
+
+    await userRepo.save(admin)
+    const roles: UserRoles = { user: admin, isPartner: true, isAdmin: true }
+    await rolesRepo.save(roles)
+
+    await userService.confirm({ token: admin.confirmationToken })
+  }
 
   for (let i = 0; i < 10; i++) {
     for (const listing of listings) {
@@ -180,12 +194,6 @@ async function seed() {
   // Seed the Detroit AMI data, since it's not linked to any units.
   const amiChartRepo = app.get<Repository<AmiChart>>(getRepositoryToken(AmiChart))
   await amiChartRepo.save(JSON.parse(JSON.stringify(WayneCountyMSHDA2021)))
-
-  await userRepo.save(admin)
-  const roles: UserRoles = { user: admin, isPartner: true, isAdmin: true }
-  await rolesRepo.save(roles)
-
-  await userService.confirm({ token: admin.confirmationToken })
   await app.close()
 }
 
