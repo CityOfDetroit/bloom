@@ -10,7 +10,6 @@ import {
   t,
   Select,
   Form,
-  SelectOption,
   encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,
   LinkButton,
@@ -22,11 +21,8 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import {
-  ListingFilterKeys,
-  AvailabilityFilterEnum,
-  ListingFilterParams,
-} from "@bloom-housing/backend-core/types"
+import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import { adaCompliantOptions, blankFrontEndFilters, FrontEndFilters } from "../lib/FrontEndFilters"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -48,46 +44,14 @@ const ListingsPage = () => {
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [filterState, setFilterState] = useState<ListingFilterParams>()
+  const [{ filters }, setFilters] = useState<FrontEndFilters>(() => blankFrontEndFilters())
+
   const itemsPerPage = 10
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
-  // TODO: Select options should come from the database (#252)
-  const EMPTY_OPTION = { value: "", label: "" }
-  const preferredUnitOptions: SelectOption[] = [
-    EMPTY_OPTION,
-    { value: "0", label: t("listingFilters.bedroomsOptions.studioPlus") },
-    { value: "1", label: t("listingFilters.bedroomsOptions.onePlus") },
-    { value: "2", label: t("listingFilters.bedroomsOptions.twoPlus") },
-    { value: "3", label: t("listingFilters.bedroomsOptions.threePlus") },
-    { value: "4", label: t("listingFilters.bedroomsOptions.fourPlus") },
-  ]
-  const adaCompliantOptions: SelectOption[] = [
-    EMPTY_OPTION,
-    { value: "n", label: t("t.no") },
-    { value: "y", label: t("t.yes") },
-  ]
-  const communityTypeOptions: SelectOption[] = [
-    EMPTY_OPTION,
-    { value: "senior62", label: t("listingFilters.communityTypeOptions.senior") },
-    {
-      value: "specialNeeds",
-      label: t("listingFilters.communityTypeOptions.specialNeeds"),
-    },
-  ]
-  const neighborhoodOptions: SelectOption[] = [
-    EMPTY_OPTION,
-    { value: "Foster City", label: "Foster City" },
-  ]
-  const availabilityOptions: SelectOption[] = [
-    EMPTY_OPTION,
-    { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
-    { value: AvailabilityFilterEnum.noAvailability, label: t("listingFilters.noAvailability") },
-    { value: AvailabilityFilterEnum.waitlist, label: t("listingFilters.waitlist") },
-  ]
-
-  function setQueryString(page: number, filters = filterState) {
+  function setQueryString(page: number, filters) {
     void router.push(`/listings?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
       shallow: true,
     })
@@ -99,7 +63,7 @@ const ListingsPage = () => {
       setCurrentPage(Number(router.query.page))
     }
 
-    setFilterState(decodeFiltersFromFrontendUrl(router.query))
+    // setFilters(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
   const { listingsData, listingsLoading, listingsError } = useListingsData(
@@ -108,9 +72,10 @@ const ListingsPage = () => {
     filterState
   )
 
-  const numberOfFilters = filterState
-    ? Object.keys(filterState).filter((p) => p !== "$comparison").length
-    : 0
+  const numberOfFilters = Object.keys(filters).filter(
+    (filterType) => filters[filterType].value !== undefined && filters[filterType].value != ""
+  ).length
+
   const buttonTitle = numberOfFilters
     ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
     : t("listingFilters.buttonTitle")
@@ -122,9 +87,14 @@ const ListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
-  const onSubmit = (data: ListingFilterParams) => {
+  const onSubmit = (data: Record<string, string>) => {
+    for (const filterName in data) {
+      if (filters[filterName] !== undefined) {
+        filters[filterName].value = data[filterName]
+      }
+    }
     setFilterModalVisible(false)
-    setQueryString(/*page=*/ 1, data)
+    setQueryString(/*page=*/ 1, filters)
   }
 
   return (
@@ -144,12 +114,12 @@ const ListingsPage = () => {
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
               id={"availability"}
-              name={"availability"}
+              name={ListingFilterKeys.availability}
               label={t("listingFilters.availability")}
               register={register}
               controlClassName="control"
-              options={availabilityOptions}
-              defaultValue={filterState?.availability}
+              options={filters[ListingFilterKeys.availability].options}
+              defaultValue={filters[ListingFilterKeys.availability].value}
             />
             <Select
               id="unitOptions"
@@ -157,8 +127,8 @@ const ListingsPage = () => {
               label={t("listingFilters.bedrooms")}
               register={register}
               controlClassName="control"
-              options={preferredUnitOptions}
-              defaultValue={filterState?.bedrooms?.toString()}
+              options={filters[ListingFilterKeys.bedrooms].options}
+              defaultValue={filters[ListingFilterKeys.bedrooms].value}
             />
             <Field
               id="zipCodeField"
@@ -172,7 +142,7 @@ const ListingsPage = () => {
               }}
               error={errors.zipCodeField}
               errorMessage={t("errors.multipleZipCodeError")}
-              defaultValue={filterState?.zipcode}
+              defaultValue={filters[ListingFilterKeys.zipcode].value}
             />
             <Select
               id="neighborhoodOptions"
@@ -180,8 +150,8 @@ const ListingsPage = () => {
               label={t("listingFilters.neighborhood")}
               register={register}
               controlClassName="control"
-              options={neighborhoodOptions}
-              defaultValue={filterState?.neighborhood}
+              options={filters[ListingFilterKeys.neighborhood].options}
+              defaultValue={filters[ListingFilterKeys.neighborhood].value}
             />
             <Select
               id="adaCompliant"
@@ -193,12 +163,12 @@ const ListingsPage = () => {
             />
             <Select
               id="communityType"
-              name={ListingFilterKeys.communityType}
+              name="communityType"
               label={t("listingFilters.communityType")}
               register={register}
               controlClassName="control"
-              options={communityTypeOptions}
-              defaultValue={filterState?.communityType}
+              options={filters["communityType"].options}
+              defaultValue={filters["communityType"].value}
             />
           </div>
           <div className="text-center mt-6">

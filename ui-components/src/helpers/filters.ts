@@ -4,6 +4,7 @@ import {
   ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
+import { FrontEndFilters, blankFrontEndFilters } from "@bloom-housing/public/lib/FrontEndFilters"
 
 function getComparisonForFilter(filterKey: ListingFilterKeys) {
   switch (filterKey) {
@@ -15,9 +16,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
       return EnumListingFilterParamsComparison[">="]
     case ListingFilterKeys.zipcode:
       return EnumListingFilterParamsComparison["IN"]
-    case ListingFilterKeys.seniorHousing:
     case ListingFilterKeys.availability:
-      return EnumListingFilterParamsComparison["NA"]
     case ListingFilterKeys.seniorHousing:
     case ListingFilterKeys.communityType:
       return EnumListingFilterParamsComparison["NA"]
@@ -39,25 +38,27 @@ export function encodeToBackendFilterString(filterParams: ListingFilterParams) {
   return queryString
 }
 
-export function encodeToFrontendFilterString(filterParams: ListingFilterParams) {
+export function encodeToFrontendFilterString(filters: FrontEndFilters) {
   let queryString = ""
-  for (const filterType in filterParams) {
-    const value = filterParams[filterType]
-    if (filterType in ListingFilterKeys && value !== undefined && value !== "") {
-      queryString += `&${filterType}=${value}`
+  for (const filterName in filters) {
+    const type = filters[filterName].getFilterType()
+    const value = filters[filterName].getFilterValue()
+    if (type in ListingFilterKeys && value !== undefined && value !== "") {
+      queryString += `&${type}=${value}`
     }
   }
   return queryString
 }
 
 export function decodeFiltersFromFrontendUrl(query: ParsedUrlQuery) {
-  const filters: ListingFilterParams = {}
-  let foundFilterKey = false
-  for (const queryKey in query) {
-    if (queryKey in ListingFilterKeys) {
-      filters[queryKey] = query[queryKey]
-      foundFilterKey = true
-    }
-  }
-  return foundFilterKey ? filters : undefined
+  // This is causing a "TypeError: Object(...) is not a function" error
+  // const filters = blankFrontEndFilters()
+  // let foundFilterKey = false
+  // for (const queryKey in query) {
+  //   if (filters[queryKey] !== undefined) {
+  //     filters[queryKey] = query[queryKey]
+  //     foundFilterKey = true
+  //   }
+  // }
+  // return foundFilterKey ? filters : undefined
 }
