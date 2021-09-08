@@ -1,13 +1,13 @@
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
 
-export class ListingDefaultSummaryWithAmiPercentageSeed extends ListingDefaultSeed {
+export class ListingDefaultSummaryWith30And60AmiPercentageSeed extends ListingDefaultSeed {
   async seed() {
     const listing = await super.seed()
 
     const newListing = await this.listingRepository.save({
       ...listing,
-      name: "Test: Default, Summary With Ami Percentage",
+      name: "Test: Default, Summary With 30 and 60 Ami Percentage",
     })
 
     const unitTypeTwoBdrm = await this.unitTypeRepository.findOneOrFail({ name: "twoBdrm" })

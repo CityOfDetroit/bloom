@@ -16,6 +16,7 @@ import { PaperApplicationsModule } from "../../src/paper-applications/paper-appl
 import { ListingEventCreateDto } from "../../src/listings/dto/listing-event.dto"
 import { ListingEventType } from "../../src/listings/types/listing-event-type-enum"
 import { Listing } from "../../src/listings/entities/listing.entity"
+import qs from "qs"
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const dbOptions = require("../../ormconfig.test")
@@ -43,7 +44,7 @@ describe("Listings", () => {
     await app.init()
   })
 
-  it("should return all listings", async () => {
+  it("should return listings", async () => {
     const res = await supertest(app.getHttpServer()).get("/listings").expect(200)
     expect(res.body.items.map((listing) => listing.id).length).toBeGreaterThan(0)
   })
@@ -54,7 +55,7 @@ describe("Listings", () => {
     const page = "1"
     // This is the number of listings in ../../src/seed.ts minus 1
     // TODO(#374): get this number programmatically
-    const limit = 15
+    const limit = 18
     const params = "/?page=" + page + "&limit=" + limit.toString()
     const res = await supertest(app.getHttpServer())
       .get("/listings" + params)
@@ -66,8 +67,10 @@ describe("Listings", () => {
     // Make the limit 1 less than the full number of listings, so that the second page contains
     // only one listing.
     const page = "2"
-    const limit = "14"
-    const params = "/?page=" + page + "&limit=" + limit
+    // This is the number of listings in ../../src/seed.ts minus 1
+    // TODO(#374): get this number programmatically
+    const limit = 18
+    const params = "/?page=" + page + "&limit=" + limit.toString()
     const res = await supertest(app.getHttpServer())
       .get("/listings" + params)
       .expect(200)
@@ -240,6 +243,124 @@ describe("Listings", () => {
     expect(modifiedListing.events[0].file.id).toBeDefined()
     expect(modifiedListing.events[0].file.fileId).toBe(listingEvent.file.fileId)
     expect(modifiedListing.events[0].file.label).toBe(listingEvent.file.label)
+  })
+
+  it("should return listings with AMI >= the filter value", async () => {
+    const paramsWithEqualAmi = {
+      view: "base",
+      limit: "all",
+      filter: {
+        $comparison: "NA",
+        ami: "60",
+      },
+    }
+    const res = await supertest(app.getHttpServer())
+      .get("/listings?" + qs.stringify(paramsWithEqualAmi))
+      .expect(200)
+    expect(res.body.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: "Test: Default, Summary With 30 and 60 Ami Percentage" }),
+      ])
+    )
+
+    const paramsWithLessAmi = {
+      view: "base",
+      limit: "all",
+      filter: {
+        $comparison: "NA",
+        ami: "59",
+      },
+    }
+    const res2 = await supertest(app.getHttpServer())
+      .get("/listings?" + qs.stringify(paramsWithLessAmi))
+      .expect(200)
+    expect(res2.body.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: "Test: Default, Summary With 30 and 60 Ami Percentage" }),
+      ])
+    )
+  })
+
+  it("should not return listings with AMI < the filter value", async () => {
+    const params = {
+      view: "base",
+      limit: "all",
+      filter: {
+        $comparison: "NA",
+        ami: "61",
+      },
+    }
+    const res = await supertest(app.getHttpServer())
+      .get("/listings?" + qs.stringify(params))
+      .expect(200)
+    expect(res.body.items).not.toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: "Test: Default, Summary With 30 and 60 Ami Percentage" }),
+      ])
+    )
+  })
+
+  it("should return listings with matching AMI in Units Summary, even if Listings.amiPercentageMax field does not match", async () => {
+    const params = {
+      view: "base",
+      limit: "all",
+      filter: {
+        $comparison: "NA",
+        ami: "30",
+      },
+    }
+    const res = await supertest(app.getHttpServer())
+      .get("/listings?" + qs.stringify(params))
+      .expect(200)
+    expect(res.body.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: "Test: Default, Summary With 30 Listing With 10 Ami Percentage",
+        }),
+      ])
+    )
+  })
+
+  it("should not return listings with matching AMI in Listings.amiPercentageMax field, if Unit Summary field does not match", async () => {
+    const params = {
+      view: "base",
+      limit: "all",
+      filter: {
+        $comparison: "NA",
+        ami: "30",
+      },
+    }
+    const res = await supertest(app.getHttpServer())
+      .get("/listings?" + qs.stringify(params))
+      .expect(200)
+    expect(res.body.items).not.toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: "Test: Default, Summary With 10 Listing With 30 Ami Percentage",
+        }),
+      ])
+    )
+  })
+
+  it("should return listings with matching AMI in the Listings.amiPercentageMax field, if the Unit Summary field is empty", async () => {
+    const params = {
+      view: "base",
+      limit: "all",
+      filter: {
+        $comparison: "NA",
+        ami: "19",
+      },
+    }
+    const res = await supertest(app.getHttpServer())
+      .get("/listings?" + qs.stringify(params))
+      .expect(200)
+    expect(res.body.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: "Test: Default, Summary Without And Listing With 20 Ami Percentage",
+        }),
+      ])
+    )
   })
 
   afterEach(() => {

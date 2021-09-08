@@ -49,7 +49,10 @@ import { Listing10154Seed } from "../seeds/listings/listing-detroit-10154"
 import { Listing10155Seed } from "../seeds/listings/listing-detroit-10155"
 import { Listing10159Seed } from "../seeds/listings/listing-detroit-10159"
 import { Listing10168Seed } from "../seeds/listings/listing-detroit-10168"
-import { ListingDefaultSummaryWithAmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-ami-percentage-seed"
+import { ListingDefaultSummaryWith30And60AmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-30-and-60-ami-percentage-seed"
+import { ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed } from "../seeds/listings/listing-default-summary-without-and-listing-with-20-ami-percentage-seed"
+import { ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-30-listing-with-10-ami-percentage-seed"
+import { ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-10-listing-with-30-ami-percentage-seed"
 
 @Module({})
 export class SeederModule {
@@ -116,7 +119,10 @@ export class SeederModule {
         ListingDefaultMultipleAMI,
         ListingDefaultMultipleAMIAndPercentages,
         ListingDefaultMissingAMI,
-        ListingDefaultSummaryWithAmiPercentageSeed,
+        ListingDefaultSummaryWith30And60AmiPercentageSeed,
+        ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed,
+        ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed,
+        ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed,
       ],
     }
   }
