@@ -247,6 +247,8 @@ describe("Listings", () => {
     for (let i = 0; i < res.body.items.length - 1; ++i) {
       const currentUpdatedAt = new Date(res.body.items[i].updatedAt)
       const nextUpdatedAt = new Date(res.body.items[i + 1].updatedAt)
+
+      // Verify that each listing's updatedAt timestamp is more recent than the next listing's.
       expect(currentUpdatedAt.getTime()).toBeGreaterThan(nextUpdatedAt.getTime())
     }
   })
