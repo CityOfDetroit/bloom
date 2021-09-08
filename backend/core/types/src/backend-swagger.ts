@@ -3726,6 +3726,9 @@ export interface ListingFilterParams {
 
   /**  */
   maxRent?: number
+
+  /**  */
+  ami?: string
 }
 
 export interface UnitType {
