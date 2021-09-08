@@ -242,6 +242,15 @@ describe("Listings", () => {
     expect(modifiedListing.events[0].file.label).toBe(listingEvent.file.label)
   })
 
+  it("should sort results from most recently updated to least", async () => {
+    const res = await supertest(app.getHttpServer()).get(`/listings?limit=all`).expect(200)
+    for (let i = 0; i < res.body.items.length - 1; ++i) {
+      const currentUpdatedAt = new Date(res.body.items[i].updatedAt)
+      const nextUpdatedAt = new Date(res.body.items[i + 1].updatedAt)
+      expect(currentUpdatedAt.getTime()).toBeGreaterThan(nextUpdatedAt.getTime())
+    }
+  })
+
   afterEach(() => {
     jest.clearAllMocks()
   })

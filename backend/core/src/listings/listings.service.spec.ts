@@ -302,4 +302,22 @@ describe("ListingsService", () => {
       })
     })
   })
+
+  describe("ListingsService.list sorting", () => {
+    it("orderBy should be called on both query builders with the same argument", async () => {
+      mockListingsRepo.createQueryBuilder
+        .mockReturnValueOnce(mockInnerQueryBuilder)
+        .mockReturnValueOnce(mockQueryBuilder)
+
+      await service.list({})
+
+      const expectedOrderByArgument = { "listings.updated_at": "DESC" }
+
+      expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
+      expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
+
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
+    })
+  })
 })
