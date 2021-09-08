@@ -1,4 +1,5 @@
 import Head from "next/head"
+import axios from "axios"
 import {
   ListingsList,
   PageHeader,
@@ -27,6 +28,7 @@ import {
   AvailabilityFilterEnum,
   ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
+import { useRef } from "react"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -42,7 +44,7 @@ const isValidZipCodeOrEmpty = (value: string) => {
   return returnValue
 }
 
-const ListingsPage = () => {
+const ListingsPage = ({ initialListings }) => {
   const router = useRouter()
 
   // Pagination state
@@ -52,6 +54,9 @@ const ListingsPage = () => {
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
+
+  // Initial state
+  const firstRender = useRef(true)
 
   // TODO: Select options should come from the database (#252)
   const EMPTY_OPTION = { value: "", label: "" }
@@ -103,7 +108,7 @@ const ListingsPage = () => {
     setFilterState(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
-  const { listingsData, listingsLoading, listingsError } = useListingsData(
+  const { listingsData: asyncListingData, listingsLoading, listingsError } = useListingsData(
     currentPage,
     itemsPerPage,
     filterState
@@ -132,6 +137,15 @@ const ListingsPage = () => {
   const onSubmit = (data: ListingFilterParams) => {
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
+  }
+
+  // Use pre-rendered listing data on the first page load.
+  let listingsData
+  if (firstRender.current) {
+    listingsData = initialListings
+    firstRender.current = false
+  } else {
+    listingsData = asyncListingData
   }
 
   return (
@@ -291,4 +305,16 @@ const ListingsPage = () => {
     </Layout>
   )
 }
+
+export async function getStaticProps() {
+  let initialListings = []
+  try {
+    const response = await axios.get(`${process.env.listingServiceUrl}?page=1?limit=10`)
+    initialListings = response.data
+  } catch (error) {
+    console.error(error)
+  }
+  return { props: { initialListings } }
+}
+
 export default ListingsPage
