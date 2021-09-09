@@ -95,7 +95,6 @@ export function encodeToBackendFilterString(filterParams: ListingFilterState) {
 // seniorHousing = true -> store it that way -> add it to the url
 // communityType = true -> store it that way -> add the right communityType to the URL
 
-
 // so now these just pass through the url to the filter state, and do nothing to normalize it and ensure
 // the state makes sense re senior housing
 export function encodeToFrontendFilterString(filterParams: ListingFilterState) {
