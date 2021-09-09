@@ -255,7 +255,9 @@ describe("Listings", () => {
 
   it("should sort results within a page, and across sequential pages", async () => {
     // Get the first page of 5 results.
-    const firstPage = await supertest(app.getHttpServer()).get(`/listings?limit=5&page=1`).expect(200)
+    const firstPage = await supertest(app.getHttpServer())
+      .get(`/listings?limit=5&page=1`)
+      .expect(200)
 
     // Verify that listings on the first page are ordered from most to least recently updated.
     for (let i = 0; i < 4; ++i) {
@@ -269,13 +271,17 @@ describe("Listings", () => {
     const lastListingOnFirstPageUpdateTimestamp = new Date(firstPage.body.items[4].updatedAt)
 
     // Get the second page of 5 results
-    const secondPage = await supertest(app.getHttpServer()).get(`/listings?limit=5&page=2`).expect(200)
+    const secondPage = await supertest(app.getHttpServer())
+      .get(`/listings?limit=5&page=2`)
+      .expect(200)
 
     // Verify that each of the listings on the second page was less recently updated than the last
     // first-page listing.
     for (const secondPageListing of secondPage.body.items) {
       const secondPageListingUpdateTimestamp = new Date(secondPageListing.updatedAt)
-      expect(lastListingOnFirstPageUpdateTimestamp.getTime()).toBeGreaterThan(secondPageListingUpdateTimestamp.getTime())
+      expect(lastListingOnFirstPageUpdateTimestamp.getTime()).toBeGreaterThan(
+        secondPageListingUpdateTimestamp.getTime()
+      )
     }
   })
 
