@@ -19,6 +19,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.zipcode:
       return EnumListingFilterParamsComparison["IN"]
     case ListingFilterKeys.seniorHousing:
+    case ListingFilterKeys.specialNeeds:
     case ListingFilterKeys.availability:
       return EnumListingFilterParamsComparison["NA"]
     default: {

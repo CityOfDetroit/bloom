@@ -814,6 +814,15 @@ export class ListingFilterParams extends BaseFilter {
 
   @Expose()
   @ApiProperty({
+    type: Boolean,
+    example: "true",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.specialNeeds]?: boolean;
+
+  @Expose()
+  @ApiProperty({
     type: Number,
     example: "300",
     required: false,
@@ -887,6 +896,7 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   bedrooms: "summaryUnitType.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
   seniorHousing: "reservedCommunityType.name",
+  specialNeeds: "reservedCommunityType.name",
   // Fields for the availability are determined based on the value of the filter, not the
   // key. Keep this bogus value to prevent the filter from being rejected.
   availability: "",
