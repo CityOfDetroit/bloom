@@ -26,7 +26,7 @@ export class ListingsService {
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     private readonly translationService: TranslationsService
-  ) {}
+  ) { }
 
   private getFullyJoinedQueryBuilder() {
     return getView(this.listingRepository.createQueryBuilder("listings"), "full").getViewQb()
@@ -79,6 +79,7 @@ export class ListingsService {
       // and substitues for the `:paramName` placeholders in the WHERE clause.)
       .setParameters(innerFilteredQuery.getParameters())
       .orderBy(getOrderByCondition())
+      .addOrderBy("summaryUnitType.num_bedrooms", "ASC", "NULLS LAST")
       .getMany()
 
     // get summarized units from view
