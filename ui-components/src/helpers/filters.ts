@@ -53,15 +53,15 @@ export function encodeToFrontendFilterString(filters: FrontEndFilters) {
   return queryString
 }
 
-export function decodeFiltersFromFrontendUrl(query: ParsedUrlQuery) {
+export function decodeFiltersFromFrontendUrl(query: ParsedUrlQuery, filters: FrontEndFilters) {
   // This is causing a "TypeError: Object(...) is not a function" error
   // const filters = blankFrontEndFilters()
-  // let foundFilterKey = false
-  // for (const queryKey in query) {
-  //   if (filters[queryKey] !== undefined) {
-  //     filters[queryKey] = query[queryKey]
-  //     foundFilterKey = true
-  //   }
-  // }
-  // return foundFilterKey ? filters : undefined
+  let foundFilterKey = false
+  for (const queryKey in query) {
+    if (filters[queryKey] !== undefined) {
+      filters[queryKey] = query[queryKey]
+      foundFilterKey = true
+    }
+  }
+  return foundFilterKey ? filters : undefined
 }

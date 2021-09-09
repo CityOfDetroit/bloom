@@ -1,5 +1,7 @@
 import { SelectOption, t } from "@bloom-housing/ui-components"
 import { AvailabilityFilterEnum, ListingFilterKeys } from "@bloom-housing/backend-core/dist"
+import React from "react"
+import { blankEligibilityRequirements } from "./EligibilityContext"
 
 export const COMMUNITY_TYPE = "communityType"
 const EMPTY_OPTION = { value: "", label: "" }
@@ -89,8 +91,5 @@ export class CommunityTypeFilter extends FrontEndFilter {
 }
 
 export const blankFrontEndFilters = () => {
-  const f = new FrontEndFilters()
-  console.log(f)
-  console.log(typeof f)
   return new FrontEndFilters()
 }
