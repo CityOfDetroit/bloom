@@ -75,11 +75,11 @@ const SiteHeader = (props: SiteHeaderProps) => {
         >
           <div
             className={`logo__lockup ${getLogoWidthClass()} ${
-              props.logoWidth && "navbar-custom-width"
-            } ${props.imageOnly && "navbar-image-only-container"}`}
+              props.logoWidth ? "navbar-custom-width" : ""
+            } ${props.imageOnly ? "navbar-image-only-container" : ""}`}
           >
             <img
-              className={`logo__image ${props.imageOnly && "navbar-image-only"}`}
+              className={`logo__image ${props.imageOnly ? "navbar-image-only" : ""}`}
               src={props.logoSrc}
               alt="Site logo"
             />
@@ -119,7 +119,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
       {noticeBar()}
       <div className="navbar__wrapper">
         <nav className="navbar" role="navigation" aria-label={t("nav.srNavigation")}>
-          <div className="navbar-brand">
+          <div className="navbar-brand test-test">
             {logo(props.logoClass)}
             {hamburgerMenu()}
           </div>
