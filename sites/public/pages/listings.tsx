@@ -26,6 +26,7 @@ import {
   ListingFilterKeys,
   AvailabilityFilterEnum,
   ListingFilterParams,
+  OrderByFieldsEnum,
 } from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
@@ -106,7 +107,8 @@ const ListingsPage = () => {
   const { listingsData, listingsLoading, listingsError } = useListingsData(
     currentPage,
     itemsPerPage,
-    filterState
+    filterState,
+    OrderByFieldsEnum.mostRecentlyUpdated,
   )
 
   let numberOfFilters = 0
