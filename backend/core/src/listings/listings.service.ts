@@ -96,6 +96,7 @@ export class ListingsService {
       // and substitues for the `:paramName` placeholders in the WHERE clause.)
       .setParameters(innerFilteredQuery.getParameters())
       .orderBy(getOrderByCondition(params))
+      .addOrderBy("summaryUnitType.num_bedrooms", "ASC", "NULLS LAST")
       .getMany()
 
     // get summarized units from view
