@@ -108,7 +108,7 @@ const ListingsPage = () => {
     currentPage,
     itemsPerPage,
     filterState,
-    OrderByFieldsEnum.mostRecentlyUpdated,
+    OrderByFieldsEnum.mostRecentlyUpdated
   )
 
   let numberOfFilters = 0
