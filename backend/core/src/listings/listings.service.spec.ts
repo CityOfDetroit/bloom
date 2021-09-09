@@ -325,7 +325,11 @@ describe("ListingsService", () => {
 
       // The full query is additionally ordered by listing.unitsSummary.unitType.numBedrooms
       expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(1)
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith("summaryUnitType.num_bedrooms", "ASC", "NULLS LAST")
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
+        "summaryUnitType.num_bedrooms",
+        "ASC",
+        "NULLS LAST"
+      )
     })
   })
 })
