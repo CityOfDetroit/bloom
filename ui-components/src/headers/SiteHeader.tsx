@@ -119,7 +119,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
       {noticeBar()}
       <div className="navbar__wrapper">
         <nav className="navbar" role="navigation" aria-label={t("nav.srNavigation")}>
-          <div className="navbar-brand test-test">
+          <div className="navbar-brand">
             {logo(props.logoClass)}
             {hamburgerMenu()}
           </div>
