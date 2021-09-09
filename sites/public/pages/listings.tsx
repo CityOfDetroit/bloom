@@ -15,6 +15,8 @@ import {
   decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
+  ListingFilterState,
+  CommunityTypeOptionsEnum,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -22,11 +24,7 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import {
-  ListingFilterKeys,
-  AvailabilityFilterEnum,
-  ListingFilterParams,
-} from "@bloom-housing/backend-core/types"
+import { ListingFilterKeys, AvailabilityFilterEnum } from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -47,7 +45,7 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<ListingFilterParams>()
+  const [filterState, setFilterState] = useState<ListingFilterState>()
   const itemsPerPage = 10
 
   // Filter state
@@ -129,7 +127,7 @@ const ListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
-  const onSubmit = (data: ListingFilterParams) => {
+  const onSubmit = (data: ListingFilterState) => {
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
   }
@@ -222,11 +220,12 @@ const ListingsPage = () => {
             />
             <Select
               id="communityType"
-              name="communityType"
+              name="communityType" /* todo does this need to be the filterKeys filter name, or is it ok that's it's a string? */
               label={t("listingFilters.communityType")}
               register={register}
               controlClassName="control"
               options={communityTypeOptions}
+              defaultValue={filterState?.communityType}
             />
           </div>
           <div className="text-center mt-6">
