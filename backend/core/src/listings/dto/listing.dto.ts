@@ -335,7 +335,7 @@ export class ListingDto extends OmitType(Listing, [
   unitsSummary?: UnitsSummaryDto[]
 }
 
-export class PaginatedListingDto extends PaginationFactory<ListingDto>(ListingDto) { }
+export class PaginatedListingDto extends PaginationFactory<ListingDto>(ListingDto) {}
 
 export class ListingCreateDto extends OmitType(ListingDto, [
   "id",
