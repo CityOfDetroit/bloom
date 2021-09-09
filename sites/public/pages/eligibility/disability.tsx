@@ -15,7 +15,7 @@ import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
 import React, { useContext } from "react"
 import { useRouter } from "next/router"
-import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { DISABILITY_NO, ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
@@ -44,7 +44,7 @@ const EligibilityDisability = () => {
   const disabilityValues = [
     {
       id: "disabilityNo",
-      value: "no",
+      value: DISABILITY_NO,
       label: t("t.no"),
     },
     {

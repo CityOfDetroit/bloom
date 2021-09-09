@@ -34,6 +34,26 @@ export function addSeniorHousingQuery(
   }
 }
 
+export function addSpecialNeedsQuery(qb: WhereExpression, filterValue: string) {
+  const whereParameterName = ListingFilterKeys.specialNeeds
+  const specialNeedsCommunityType = "specialNeeds"
+  const reservedCommunityTypeColumnName = `LOWER(CAST(${
+    filterTypeToFieldMap[ListingFilterKeys.specialNeeds]
+  } as text))`
+  if (filterValue == "true") {
+    qb.andWhere(`${reservedCommunityTypeColumnName} = LOWER(:${whereParameterName})`, {
+      [whereParameterName]: specialNeedsCommunityType,
+    })
+  } else if (filterValue == "false") {
+    qb.andWhere(
+      `(${reservedCommunityTypeColumnName} IS NULL OR ${reservedCommunityTypeColumnName} <> LOWER(:${whereParameterName}))`,
+      {
+        [whereParameterName]: specialNeedsCommunityType,
+      }
+    )
+  }
+}
+
 export function addAvailabilityQuery(
   qb: WhereExpression,
   filterValue: AvailabilityFilterEnum,
