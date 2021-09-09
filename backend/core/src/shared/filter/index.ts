@@ -108,6 +108,7 @@ export function addFilters<FilterParams, FilterFieldMap>(
               )
               break
             case Compare[">="]:
+            case Compare["<="]:
               qb.andWhere(`${filterField} ${comparison} :${whereParameterName}`, {
                 [whereParameterName]: filterValue,
               })
