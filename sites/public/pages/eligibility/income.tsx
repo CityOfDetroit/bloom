@@ -7,7 +7,7 @@ import React, { useContext } from "react"
 import { FormCard } from "@bloom-housing/ui-components/src/blocks/FormCard"
 import { t } from "@bloom-housing/ui-components/src/helpers/translator"
 import { ProgressNav } from "@bloom-housing/ui-components/src/navigation/ProgressNav"
-import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { DISABILITY_NO, ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
 import {
@@ -16,11 +16,12 @@ import {
   Select,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
-import { EligibilityContext } from "../../lib/EligibilityContext"
+import { disabilityValues, EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
 import { ListingFilterParams } from "@bloom-housing/backend-core/types"
+import EligibilityDisability from "./disability"
 
 const EligibilityIncome = () => {
   const router = useRouter()
@@ -53,6 +54,9 @@ const EligibilityIncome = () => {
 
     if (eligibilityRequirements.age < SENIOR_AGE) {
       params.seniorHousing = false
+    }
+    if (eligibilityRequirements.disability == DISABILITY_NO) {
+      params.specialNeeds = false
     }
 
     return `/listings?${encodeToFrontendFilterString(params)}`

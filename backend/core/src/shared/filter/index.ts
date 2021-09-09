@@ -5,7 +5,8 @@ import {
   AvailabilityFilterEnum,
   ListingFilterKeys,
 } from "../../listings/types/listing-filter-keys-enum"
-import { addSeniorHousingQuery, addAvailabilityQuery } from "./custom_filters"
+import { addSeniorHousingQuery, addAvailabilityQuery, addSpecialNeedsQuery } from "./custom_filters"
+import Listing from "../../listings/entities/listing.entity"
 
 /**
  *
@@ -76,6 +77,10 @@ export function addFilters<FilterParams, FilterFieldMap>(
           // Handle custom filters here, before dropping into generic filter handler
           if (filterType == ListingFilterKeys.seniorHousing) {
             addSeniorHousingQuery(qb, filterValue)
+            return
+          }
+          if (filterType == ListingFilterKeys.specialNeeds) {
+            addSpecialNeedsQuery(qb, filterValue)
             return
           }
           if (filterType == ListingFilterKeys.availability) {
