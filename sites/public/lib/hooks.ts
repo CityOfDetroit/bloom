@@ -9,8 +9,9 @@ import {
   openDateState,
   t,
   encodeToBackendFilterString,
+  ListingFilterState,
 } from "@bloom-housing/ui-components"
-import { Listing, ListingReviewOrder, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import { Listing, ListingReviewOrder } from "@bloom-housing/backend-core/types"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
 
@@ -42,7 +43,7 @@ export const useFormConductor = (stepName: string) => {
 }
 
 const listingsFetcher = function () {
-  return async (url: string, page: number, limit: number, filters: ListingFilterParams) => {
+  return async (url: string, page: number, limit: number, filters: ListingFilterState) => {
     const res = await axios.get(
       `${url}?page=${page}&limit=${limit}${encodeToBackendFilterString(filters)}`
     )
@@ -51,7 +52,7 @@ const listingsFetcher = function () {
 }
 
 // TODO: move this so it can be shared with the partner site.
-export function useListingsData(pageIndex: number, limit = 10, filters: ListingFilterParams) {
+export function useListingsData(pageIndex: number, limit = 10, filters: ListingFilterState) {
   const { data, error } = useSWR(
     [`${process.env.listingServiceUrl}`, pageIndex, limit, filters],
     listingsFetcher()
