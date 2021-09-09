@@ -243,7 +243,7 @@ describe("Listings", () => {
   })
 
   it("should sort results from most recently updated to least", async () => {
-    const res = await supertest(app.getHttpServer()).get(`/listings?limit=all`).expect(200)
+    const res = await supertest(app.getHttpServer()).get(`/listings?orderBy=mostRecentlyUpdated&limit=all`).expect(200)
     for (let i = 0; i < res.body.items.length - 1; ++i) {
       const currentUpdatedAt = new Date(res.body.items[i].updatedAt)
       const nextUpdatedAt = new Date(res.body.items[i + 1].updatedAt)
@@ -256,7 +256,7 @@ describe("Listings", () => {
   it("should sort results within a page, and across sequential pages", async () => {
     // Get the first page of 5 results.
     const firstPage = await supertest(app.getHttpServer())
-      .get(`/listings?limit=5&page=1`)
+      .get(`/listings?orderBy=mostRecentlyUpdated&limit=5&page=1`)
       .expect(200)
 
     // Verify that listings on the first page are ordered from most to least recently updated.
@@ -272,7 +272,7 @@ describe("Listings", () => {
 
     // Get the second page of 5 results
     const secondPage = await supertest(app.getHttpServer())
-      .get(`/listings?limit=5&page=2`)
+      .get(`/listings?orderBy=mostRecentlyUpdated&limit=5&page=2`)
       .expect(200)
 
     // Verify that each of the listings on the second page was less recently updated than the last

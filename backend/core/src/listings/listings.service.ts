@@ -19,6 +19,8 @@ import { summarizeUnits } from "../shared/units-transformations"
 import { Language } from "../../types"
 import { TranslationsService } from "../translations/translations.service"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
+import { HttpException, HttpStatus } from "@nestjs/common"
+import { OrderByFieldsEnum } from "./types/listing-orderby-enum"
 
 @Injectable()
 export class ListingsService {
@@ -26,15 +28,30 @@ export class ListingsService {
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     private readonly translationService: TranslationsService
-  ) {}
+  ) { }
 
   private getFullyJoinedQueryBuilder() {
     return getView(this.listingRepository.createQueryBuilder("listings"), "full").getViewQb()
   }
 
   public async list(params: ListingsQueryParams): Promise<Pagination<Listing>> {
-    const getOrderByCondition = (): OrderByCondition => {
-      return { "listings.updated_at": "DESC" }
+    const getOrderByCondition = (params: ListingsQueryParams): OrderByCondition => {
+      if (params.orderBy) {
+        switch (params.orderBy) {
+          case OrderByFieldsEnum.mostRecentlyUpdated:
+            return { "listings.updated_at": "DESC" }
+          default:
+            throw new HttpException(
+              `OrderBy parameter (${params.orderBy}) not recognized or not yet implemented.`,
+              HttpStatus.NOT_IMPLEMENTED
+            )
+        }
+      }
+      return {
+        "listings.applicationDueDate": "ASC",
+        "listings.applicationOpenDate": "DESC",
+        "units.max_occupancy": "ASC",
+      }
     }
 
     // Inner query to get the sorted listing ids of the listings to display
@@ -48,7 +65,7 @@ export class ListingsService {
       .leftJoin("unitsSummary.unitType", "summaryUnitType")
       .leftJoin("listings.reservedCommunityType", "reservedCommunityType")
       .groupBy("listings.id")
-      .orderBy(getOrderByCondition())
+      .orderBy(getOrderByCondition(params))
 
     if (params.filter) {
       addFilters<ListingFilterParams, typeof filterTypeToFieldMap>(
@@ -78,7 +95,7 @@ export class ListingsService {
       // (WHERE params are the values passed to andWhere() that TypeORM escapes
       // and substitues for the `:paramName` placeholders in the WHERE clause.)
       .setParameters(innerFilteredQuery.getParameters())
-      .orderBy(getOrderByCondition())
+      .orderBy(getOrderByCondition(params))
       .getMany()
 
     // get summarized units from view

@@ -10,6 +10,7 @@ import {
   IsUUID,
   ValidateNested,
   IsNumberString,
+  IsEnum,
 } from "class-validator"
 import moment from "moment"
 import {
@@ -38,6 +39,7 @@ import {
   UnitsSummaryDto,
   UnitsSummaryUpdateDto,
 } from "../../units-summary/dto/units-summary.dto"
+import { OrderByFieldsEnum } from "../types/listing-orderby-enum"
 
 export class ListingDto extends OmitType(Listing, [
   "applicationAddress",
@@ -333,7 +335,7 @@ export class ListingDto extends OmitType(Listing, [
   unitsSummary?: UnitsSummaryDto[]
 }
 
-export class PaginatedListingDto extends PaginationFactory<ListingDto>(ListingDto) {}
+export class PaginatedListingDto extends PaginationFactory<ListingDto>(ListingDto) { }
 
 export class ListingCreateDto extends OmitType(ListingDto, [
   "id",
@@ -856,6 +858,18 @@ export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   view?: string
+
+  @Expose()
+  @ApiProperty({
+    name: "orderBy",
+    required: false,
+    enum: OrderByFieldsEnum,
+    enumName: "OrderByFieldsEnum",
+    example: "updatedAt",
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsEnum(OrderByFieldsEnum, { groups: [ValidationsGroupsEnum.default] })
+  orderBy?: OrderByFieldsEnum
 
   @Expose()
   @ApiProperty({
