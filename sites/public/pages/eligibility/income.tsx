@@ -16,12 +16,11 @@ import {
   Select,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
-import { disabilityValues, EligibilityContext } from "../../lib/EligibilityContext"
+import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
 import { ListingFilterParams } from "@bloom-housing/backend-core/types"
-import EligibilityDisability from "./disability"
 
 const EligibilityIncome = () => {
   const router = useRouter()
