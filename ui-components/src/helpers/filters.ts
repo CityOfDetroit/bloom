@@ -13,7 +13,10 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.status:
       return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.bedrooms:
+    case ListingFilterKeys.minRent:
       return EnumListingFilterParamsComparison[">="]
+    case ListingFilterKeys.maxRent:
+      return EnumListingFilterParamsComparison["<="]
     case ListingFilterKeys.zipcode:
       return EnumListingFilterParamsComparison["IN"]
     case ListingFilterKeys.availability:
