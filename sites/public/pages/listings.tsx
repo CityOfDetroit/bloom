@@ -63,7 +63,7 @@ const ListingsPage = () => {
       setCurrentPage(Number(router.query.page))
     }
 
-    setFilters(decodeFiltersFromFrontendUrl(router.query, blankFrontEndFilters()))
+    setFilters(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
   const { listingsData, listingsLoading, listingsError } = useListingsData(
