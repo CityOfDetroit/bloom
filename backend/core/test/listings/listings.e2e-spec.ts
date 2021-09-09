@@ -243,7 +243,9 @@ describe("Listings", () => {
   })
 
   it("should sort results from most recently updated to least", async () => {
-    const res = await supertest(app.getHttpServer()).get(`/listings?orderBy=mostRecentlyUpdated&limit=all`).expect(200)
+    const res = await supertest(app.getHttpServer())
+      .get(`/listings?orderBy=mostRecentlyUpdated&limit=all`)
+      .expect(200)
     for (let i = 0; i < res.body.items.length - 1; ++i) {
       const currentUpdatedAt = new Date(res.body.items[i].updatedAt)
       const nextUpdatedAt = new Date(res.body.items[i + 1].updatedAt)
