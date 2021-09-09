@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file. The format 
   - UI for adding / editing units summaries ([#475](https://github.com/CityOfDetroit/bloom/pull/475))
   - Validate listing edit form ([#535](https://github.com/CityOfDetroit/bloom/pull/535))
   - Add basic backend listing filtering ([#542](https://github.com/CityOfDetroit/bloom/pull/542))
+  - Filtering for special needs requirement ([#546](https://github.com/CityOfDetroit/bloom/pull/546))
 
 ## Detroit Team M10
 
