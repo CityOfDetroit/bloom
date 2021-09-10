@@ -356,7 +356,7 @@ describe("ListingsService", () => {
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
 
-      // Verify that the full query is still ordered by the number of bedrooms
+      // Verify that the full query is still also ordered by the number of bedrooms
       // (or max_occupancy) at the unit level.
       expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(2)
       expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
