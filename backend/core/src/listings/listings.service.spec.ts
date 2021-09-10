@@ -329,14 +329,12 @@ describe("ListingsService", () => {
 
       // The full query is additionally ordered by the number of bedrooms (or max_occupancy) at the unit level.
       expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(2)
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenNthCalledWith(
-        1,
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
         "summaryUnitType.num_bedrooms",
         "ASC",
         "NULLS LAST"
       )
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenNthCalledWith(
-        2,
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
         "units.max_occupancy",
         "ASC",
         "NULLS LAST"
