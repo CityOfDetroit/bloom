@@ -314,7 +314,10 @@ describe("ListingsService", () => {
 
       await service.list({})
 
-      const expectedOrderByArgument = { "listings.applicationDueDate": "ASC", "listings.applicationOpenDate": "DESC" }
+      const expectedOrderByArgument = {
+        "listings.applicationDueDate": "ASC",
+        "listings.applicationOpenDate": "DESC",
+      }
 
       // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)
       expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
@@ -326,12 +329,14 @@ describe("ListingsService", () => {
 
       // The full query is additionally ordered by the number of bedrooms (or max_occupancy) at the unit level.
       expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(2)
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenNthCalledWith(1,
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenNthCalledWith(
+        1,
         "summaryUnitType.num_bedrooms",
         "ASC",
         "NULLS LAST"
       )
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenNthCalledWith(2,
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenNthCalledWith(
+        2,
         "units.max_occupancy",
         "ASC",
         "NULLS LAST"
