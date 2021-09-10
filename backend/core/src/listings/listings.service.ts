@@ -41,8 +41,8 @@ export class ListingsService {
           return { "listings.updated_at": "DESC" }
         case OrderByFieldsEnum.soonestApplicationDates:
         case undefined:
-          // Default to ordering by applicationDueDate and applicationOpenDate,
-          // if no orderBy param is specified.
+          // Default to ordering by soonestApplicationDates (i.e. 
+          // applicationDueDate and applicationOpenDate) if no orderBy param is specified.
           return {
             "listings.applicationDueDate": "ASC",
             "listings.applicationOpenDate": "DESC",
