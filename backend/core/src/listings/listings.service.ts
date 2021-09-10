@@ -28,7 +28,7 @@ export class ListingsService {
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     private readonly translationService: TranslationsService
-  ) {}
+  ) { }
 
   private getFullyJoinedQueryBuilder() {
     return getView(this.listingRepository.createQueryBuilder("listings"), "full").getViewQb()
@@ -36,23 +36,22 @@ export class ListingsService {
 
   public async list(params: ListingsQueryParams): Promise<Pagination<Listing>> {
     const getOrderByCondition = (params: ListingsQueryParams): OrderByCondition => {
-      if (params.orderBy) {
-        switch (params.orderBy) {
-          case OrderByFieldsEnum.mostRecentlyUpdated:
-            return { "listings.updated_at": "DESC" }
-          default:
-            throw new HttpException(
-              `OrderBy parameter (${params.orderBy}) not recognized or not yet implemented.`,
-              HttpStatus.NOT_IMPLEMENTED
-            )
-        }
-      }
-
-      // Default to ordering by applicationDueDate and applicationOpenDate,
-      // if no orderBy param is specified.
-      return {
-        "listings.applicationDueDate": "ASC",
-        "listings.applicationOpenDate": "DESC",
+      switch (params.orderBy) {
+        case OrderByFieldsEnum.mostRecentlyUpdated:
+          return { "listings.updated_at": "DESC" }
+        case OrderByFieldsEnum.soonestApplicationDates:
+        case undefined:
+          // Default to ordering by applicationDueDate and applicationOpenDate,
+          // if no orderBy param is specified.
+          return {
+            "listings.applicationDueDate": "ASC",
+            "listings.applicationOpenDate": "DESC",
+          }
+        default:
+          throw new HttpException(
+            `OrderBy parameter (${params.orderBy}) not recognized or not yet implemented.`,
+            HttpStatus.NOT_IMPLEMENTED
+          )
       }
     }
 
