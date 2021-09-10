@@ -64,14 +64,17 @@ async function uploadAmiCharts(units) {
   }
 }
 
-async function linkToUnitTypes(units) {
+interface T {
+  unitType?: any
+}
+async function linkToUnitTypes(objList: T[]) {
   const unitTypesService = new client.UnitTypesService()
   const unitTypes = await unitTypesService.list()
 
-  for (const unit of units) {
-    const unitTypeStr = unit.unitType
+  for (const obj of objList) {
+    const unitTypeStr = obj.unitType
     if (!unitTypeStr) {
-      throw new Error("Each unit must have a unitType.")
+      throw new Error("Required unitType field not found.")
     }
 
     // Look for the unitType by name.
@@ -79,9 +82,9 @@ async function linkToUnitTypes(units) {
 
     // If it doesn't exist, throw an error.
     if (!unitType) {
-      throw new Error(`No unit type with name "${unitTypeStr}" found`)
+      throw new Error(`No unitType with name "${unitTypeStr}" found`)
     }
-    unit.unitType = unitType
+    obj.unitType = unitType
   }
 }
 
@@ -126,9 +129,10 @@ export async function importListing(
 
   await uploadAmiCharts(listing.units)
 
-  // Replace each unit's unitType string with a foreign-key reference to the corresponding row in
-  // the unit_types table.
+  // Replace each unit's and unitsSummary's unitType string with a foreign-key reference to the corresponding
+  // row in the unit_types table.
   await linkToUnitTypes(listing.units)
+  await linkToUnitTypes(listing.unitsSummary)
 
   // Upload the listing, and then return it.
   return await uploadListing(listing)
