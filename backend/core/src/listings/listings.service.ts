@@ -28,7 +28,7 @@ export class ListingsService {
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     private readonly translationService: TranslationsService
-  ) { }
+  ) {}
 
   private getFullyJoinedQueryBuilder() {
     return getView(this.listingRepository.createQueryBuilder("listings"), "full").getViewQb()
@@ -41,7 +41,7 @@ export class ListingsService {
           return { "listings.updated_at": "DESC" }
         case OrderByFieldsEnum.soonestApplicationDates:
         case undefined:
-          // Default to ordering by soonestApplicationDates (i.e. 
+          // Default to ordering by soonestApplicationDates (i.e.
           // applicationDueDate and applicationOpenDate) if no orderBy param is specified.
           return {
             "listings.applicationDueDate": "ASC",
