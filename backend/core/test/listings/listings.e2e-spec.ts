@@ -242,6 +242,36 @@ describe("Listings", () => {
     expect(modifiedListing.events[0].file.label).toBe(listingEvent.file.label)
   })
 
+  it("default to sorting listings by applicationDueDate, then applicationOpenDate", async () => {
+    const res = await supertest(app.getHttpServer())
+      .get(`/listings?limit=all`)
+      .expect(200)
+    const listings = res.body.items
+
+    // The Coliseum seed has the soonest applicationDueDate (1 day in the future)
+    expect(listings[0].name).toBe("Test: Coliseum")
+
+    // Triton and "Default, No Preferences" share the next-soonest applicationDueDate
+    // (5 days in the future). Between the two, Triton appears first because it has
+    // the earlier applicationOpenDate.
+    const secondListing = listings[1]
+    expect(secondListing.name).toBe("Test: Triton")
+    const thirdListing = listings[2]
+    expect(thirdListing.name).toBe("Test: Default, No Preferences")
+
+    const secondListingAppDueDate = new Date(secondListing.applicationDueDate)
+    const thirdListingAppDueDate = new Date(thirdListing.applicationDueDate)
+    expect(secondListingAppDueDate.getDate()).toEqual(thirdListingAppDueDate.getDate())
+
+    const secondListingAppOpenDate = new Date(secondListing.applicationOpenDate)
+    const thirdListingAppOpenDate = new Date(thirdListing.applicationOpenDate)
+    expect(secondListingAppOpenDate.getTime()).toBeLessThanOrEqual(thirdListingAppOpenDate.getTime())
+
+    // Verify that listings with null applicationDueDate's appear at the end.
+    const lastListing = listings[listings.length - 1]
+    expect(lastListing.applicationDueDate).toBeNull()
+  })
+
   it("should sort results from most recently updated to least", async () => {
     const res = await supertest(app.getHttpServer())
       .get(`/listings?orderBy=mostRecentlyUpdated&limit=all`)

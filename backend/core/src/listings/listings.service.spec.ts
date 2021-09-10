@@ -7,6 +7,7 @@ import { ListingsQueryParams, ListingFilterParams } from "./dto/listing.dto"
 import { Compare } from "../shared/dto/filter.dto"
 import { TranslationsService } from "../translations/translations.service"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
+import { OrderByFieldsEnum } from "./types/listing-orderby-enum"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -306,14 +307,14 @@ describe("ListingsService", () => {
   })
 
   describe("ListingsService.list sorting", () => {
-    it("verify both queries have correct ORDER BY clauses", async () => {
+    it("verify the default ordering (no orderBy param)", async () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
 
       await service.list({})
 
-      const expectedOrderByArgument = { "listings.updated_at": "DESC" }
+      const expectedOrderByArgument = { "listings.applicationDueDate": "ASC", "listings.applicationOpenDate": "DESC" }
 
       // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)
       expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
@@ -323,13 +324,34 @@ describe("ListingsService", () => {
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
 
-      // The full query is additionally ordered by listing.unitsSummary.unitType.numBedrooms
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(1)
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
+      // The full query is additionally ordered by the number of bedrooms (or max_occupancy) at the unit level.
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(2)
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenNthCalledWith(1,
         "summaryUnitType.num_bedrooms",
         "ASC",
         "NULLS LAST"
       )
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenNthCalledWith(2,
+        "units.max_occupancy",
+        "ASC",
+        "NULLS LAST"
+      )
+    })
+
+    it("verify the ordering when the orderBy param is set", async () => {
+      mockListingsRepo.createQueryBuilder
+        .mockReturnValueOnce(mockInnerQueryBuilder)
+        .mockReturnValueOnce(mockQueryBuilder)
+
+      await service.list({ orderBy: OrderByFieldsEnum.mostRecentlyUpdated })
+
+      const expectedOrderByArgument = { "listings.updated_at": "DESC" }
+
+      expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
+      expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
+
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
     })
   })
 })

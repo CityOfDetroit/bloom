@@ -28,7 +28,7 @@ export class ListingsService {
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     private readonly translationService: TranslationsService
-  ) {}
+  ) { }
 
   private getFullyJoinedQueryBuilder() {
     return getView(this.listingRepository.createQueryBuilder("listings"), "full").getViewQb()
@@ -50,7 +50,6 @@ export class ListingsService {
       return {
         "listings.applicationDueDate": "ASC",
         "listings.applicationOpenDate": "DESC",
-        "units.max_occupancy": "ASC",
       }
     }
 
@@ -96,7 +95,11 @@ export class ListingsService {
       // and substitues for the `:paramName` placeholders in the WHERE clause.)
       .setParameters(innerFilteredQuery.getParameters())
       .orderBy(getOrderByCondition(params))
+      // Order by unitSummary.unitType.numBedrooms and units.maxOccupancy so that, for a
+      // given listing, its unitSummary's or units are sorted from lowest to highest
+      // bedroom count.
       .addOrderBy("summaryUnitType.num_bedrooms", "ASC", "NULLS LAST")
+      .addOrderBy("units.max_occupancy", "ASC", "NULLS LAST")
       .getMany()
 
     // get summarized units from view
