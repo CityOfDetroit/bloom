@@ -243,9 +243,7 @@ describe("Listings", () => {
   })
 
   it("default to sorting listings by applicationDueDate, then applicationOpenDate", async () => {
-    const res = await supertest(app.getHttpServer())
-      .get(`/listings?limit=all`)
-      .expect(200)
+    const res = await supertest(app.getHttpServer()).get(`/listings?limit=all`).expect(200)
     const listings = res.body.items
 
     // The Coliseum seed has the soonest applicationDueDate (1 day in the future)
@@ -265,7 +263,9 @@ describe("Listings", () => {
 
     const secondListingAppOpenDate = new Date(secondListing.applicationOpenDate)
     const thirdListingAppOpenDate = new Date(thirdListing.applicationOpenDate)
-    expect(secondListingAppOpenDate.getTime()).toBeLessThanOrEqual(thirdListingAppOpenDate.getTime())
+    expect(secondListingAppOpenDate.getTime()).toBeLessThanOrEqual(
+      thirdListingAppOpenDate.getTime()
+    )
 
     // Verify that listings with null applicationDueDate's appear at the end.
     const lastListing = listings[listings.length - 1]
