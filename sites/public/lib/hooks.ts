@@ -48,7 +48,13 @@ export const useFormConductor = (stepName: string) => {
 }
 
 const listingsFetcher = function () {
-  return async (url: string, page: number, limit: number, filters: ListingFilterParams, orderBy: OrderByFieldsEnum) => {
+  return async (
+    url: string,
+    page: number,
+    limit: number,
+    filters: ListingFilterParams,
+    orderBy: OrderByFieldsEnum
+  ) => {
     const res = await axios.get(url, {
       params: {
         page: page,
