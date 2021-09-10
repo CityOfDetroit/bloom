@@ -47,6 +47,9 @@ export class ListingsService {
             )
         }
       }
+
+      // Default to ordering by applicationDueDate and applicationOpenDate,
+      // if no orderBy param is specified.
       return {
         "listings.applicationDueDate": "ASC",
         "listings.applicationOpenDate": "DESC",

@@ -285,6 +285,12 @@ describe("Listings", () => {
     }
   })
 
+  it("fails if orderBy param doesn't conform to one of the enum values", async () => {
+    await supertest(app.getHttpServer())
+      .get(`/listings?orderBy=notAValidOrderByParam`)
+      .expect(400)
+  })
+
   it("should sort results within a page, and across sequential pages", async () => {
     // Get the first page of 5 results.
     const firstPage = await supertest(app.getHttpServer())
