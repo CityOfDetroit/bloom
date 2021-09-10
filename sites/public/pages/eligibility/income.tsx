@@ -13,6 +13,7 @@ import { Button } from "@bloom-housing/ui-components/src/actions/Button"
 import {
   AppearanceStyleType,
   encodeToFrontendFilterString,
+  FrontEndFilters,
   Select,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
@@ -20,7 +21,7 @@ import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
-import { ListingFilterParams } from "@bloom-housing/backend-core/types"
+import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
 
 const EligibilityIncome = () => {
   const router = useRouter()
@@ -49,10 +50,10 @@ const EligibilityIncome = () => {
   }
 
   function getFilterUrl() {
-    const params: ListingFilterParams = {}
+    const params: FrontEndFilters = {}
 
     if (eligibilityRequirements.age < SENIOR_AGE) {
-      params.seniorHousing = false
+      params[ListingFilterKeys.seniorHousing] = { value: false }
     }
 
     return `/listings?${encodeToFrontendFilterString(params)}`

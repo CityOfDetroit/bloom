@@ -14,6 +14,9 @@ import {
   decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
+  adaCompliantOptions, 
+  defaultFrontendFilters, 
+  FrontEndFilters,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -21,8 +24,7 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
-import { adaCompliantOptions, blankFrontEndFilters, FrontEndFilters } from "../lib/FrontEndFilters"
+import { ListingFilterKeys } from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -43,16 +45,15 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<ListingFilterParams>()
-  const [{ filters }, setFilters] = useState<FrontEndFilters>(() => blankFrontEndFilters())
+  const [filters, setFilters] = useState<FrontEndFilters>(defaultFrontendFilters)
 
   const itemsPerPage = 10
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
-  function setQueryString(page: number, filters) {
-    void router.push(`/listings?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
+  function setQueryString(page: number, filterState = filters) {
+    void router.push(`/listings?page=${page}${encodeToFrontendFilterString(filterState)}`, undefined, {
       shallow: true,
     })
   }
@@ -63,13 +64,13 @@ const ListingsPage = () => {
       setCurrentPage(Number(router.query.page))
     }
 
-    // setFilters(decodeFiltersFromFrontendUrl(router.query))
+    setFilters(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
   const { listingsData, listingsLoading, listingsError } = useListingsData(
     currentPage,
     itemsPerPage,
-    filterState
+    filters
   )
 
   const numberOfFilters = Object.keys(filters).filter(
