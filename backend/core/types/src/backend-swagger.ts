@@ -3470,6 +3470,20 @@ export interface UserRoles {
   isPartner?: boolean
 }
 
+export interface Jurisdiction {
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
+  /**  */
+  name: string
+}
+
 export interface User {
   /**  */
   language?: Language
@@ -3479,6 +3493,9 @@ export interface User {
 
   /**  */
   roles?: CombinedRolesTypes
+
+  /**  */
+  jurisdictions: Jurisdiction[]
 
   /**  */
   id: string
@@ -3525,6 +3542,9 @@ export interface UserCreate {
   appUrl?: string
 
   /**  */
+  jurisdictions?: Jurisdiction[]
+
+  /**  */
   confirmedAt?: Date
 
   /**  */
@@ -3549,6 +3569,9 @@ export interface UserBasic {
 
   /**  */
   roles: UserRoles
+
+  /**  */
+  jurisdictions: Jurisdiction[]
 
   /**  */
   id: string
@@ -3640,6 +3663,9 @@ export interface UserUpdate {
   currentPassword?: string
 
   /**  */
+  jurisdictions: Id[]
+
+  /**  */
   confirmedAt?: Date
 
   /**  */
@@ -3666,20 +3692,6 @@ export interface PaginatedUserList {
   meta: PaginationMeta
 }
 
-export interface Jurisdiction {
-  /**  */
-  id: string
-
-  /**  */
-  createdAt: Date
-
-  /**  */
-  updatedAt: Date
-
-  /**  */
-  name: string
-}
-
 export interface JurisdictionCreate {
   /**  */
   name: string
@@ -3701,7 +3713,7 @@ export interface JurisdictionUpdate {
 
 export interface ListingFilterParams {
   /**  */
-  $comparison?: EnumListingFilterParamsComparison
+  $comparison: EnumListingFilterParamsComparison
 
   /**  */
   name?: string
@@ -3729,6 +3741,9 @@ export interface ListingFilterParams {
 
   /**  */
   maxRent?: number
+
+  /**  */
+  leasingAgents?: string
 }
 
 export interface UnitType {
@@ -4191,9 +4206,6 @@ export interface Listing {
   CSVFormattingType: CSVFormattingType
 
   /**  */
-  countyCode: CountyCode
-
-  /**  */
   showWaitlist: boolean
 
   /**  */
@@ -4230,7 +4242,7 @@ export interface Listing {
   leasingAgents?: UserBasic[]
 
   /**  */
-  jurisdiction?: Jurisdiction
+  jurisdiction: IdName
 
   /**  */
   reservedCommunityType?: ReservedCommunityType
@@ -4288,6 +4300,9 @@ export interface Listing {
 
   /**  */
   unitsSummary?: UnitsSummary[]
+
+  /**  */
+  countyCode?: string
 
   /**  */
   id: string
@@ -4646,9 +4661,6 @@ export interface ListingCreate {
   CSVFormattingType: CSVFormattingType
 
   /**  */
-  countyCode: CountyCode
-
-  /**  */
   applicationMethods: Id[]
 
   /**  */
@@ -4724,7 +4736,7 @@ export interface ListingCreate {
   yearBuilt?: number
 
   /**  */
-  jurisdiction?: CombinedJurisdictionTypes
+  jurisdiction: Id
 
   /**  */
   reservedCommunityType?: Id
@@ -4875,6 +4887,9 @@ export interface ListingCreate {
 
   /**  */
   region?: string
+
+  /**  */
+  countyCode?: string
 }
 
 export interface PreferenceUpdate {
@@ -5134,9 +5149,6 @@ export interface ListingUpdate {
   CSVFormattingType: CSVFormattingType
 
   /**  */
-  countyCode: CountyCode
-
-  /**  */
   id?: string
 
   /**  */
@@ -5221,7 +5233,7 @@ export interface ListingUpdate {
   yearBuilt?: number
 
   /**  */
-  jurisdiction?: Id
+  jurisdiction: Id
 
   /**  */
   reservedCommunityType?: Id
@@ -5372,6 +5384,9 @@ export interface ListingUpdate {
 
   /**  */
   region?: string
+
+  /**  */
+  countyCode?: string
 }
 
 export interface PaperApplicationCreate {
@@ -5615,10 +5630,10 @@ export interface ReservedCommunityTypeUpdate {
 
 export interface Translation {
   /**  */
-  countyCode: CountyCode
+  language: Language
 
   /**  */
-  language: Language
+  jurisdiction: Id
 
   /**  */
   id: string
@@ -5635,19 +5650,16 @@ export interface Translation {
 
 export interface TranslationCreate {
   /**  */
-  countyCode: CountyCode
-
-  /**  */
   language: Language
 
   /**  */
   translations: object
+
+  /**  */
+  jurisdiction: Id
 }
 
 export interface TranslationUpdate {
-  /**  */
-  countyCode: CountyCode
-
   /**  */
   language: Language
 
@@ -5662,6 +5674,9 @@ export interface TranslationUpdate {
 
   /**  */
   translations: object
+
+  /**  */
+  jurisdiction: Id
 }
 
 export enum IncomePeriod {
@@ -5763,13 +5778,6 @@ export enum CSVFormattingType {
   "bhaFormat" = "bhaFormat",
 }
 
-export enum CountyCode {
-  "Alameda" = "Alameda",
-  "San Mateo" = "San Mateo",
-  "San Jose" = "San Jose",
-  "Detroit" = "Detroit",
-}
-
 export enum ListingEventType {
   "openHouse" = "openHouse",
   "publicLottery" = "publicLottery",
@@ -5790,4 +5798,3 @@ export type CombinedApplicationMailingAddressTypes = AddressUpdate
 export type CombinedImageTypes = AssetCreate
 export type CombinedLeasingAgentAddressTypes = AddressUpdate
 export type CombinedResultTypes = AssetCreate
-export type CombinedJurisdictionTypes = Id

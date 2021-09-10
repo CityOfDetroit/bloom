@@ -61,6 +61,7 @@ export class ListingsService {
       .createQueryBuilder("listings")
       .select("listings.id", "listings_id")
       .leftJoin("listings.property", "property")
+      .leftJoin("listings.leasingAgents", "leasingAgents")
       .leftJoin("property.buildingAddress", "buildingAddress")
       .leftJoin("listings.unitsSummary", "unitsSummary")
       .leftJoin("unitsSummary.unitType", "summaryUnitType")
@@ -69,7 +70,7 @@ export class ListingsService {
       .orderBy(getOrderByCondition(params))
 
     if (params.filter) {
-      addFilters<ListingFilterParams, typeof filterTypeToFieldMap>(
+      addFilters<Array<ListingFilterParams>, typeof filterTypeToFieldMap>(
         params.filter,
         filterTypeToFieldMap,
         innerFilteredQuery
