@@ -315,7 +315,7 @@ describe("ListingsService", () => {
   })
 
   describe("ListingsService.list sorting", () => {
-    it("verify the default ordering (no orderBy param)", async () => {
+    it("defaults to ordering by application dates when no orderBy param is set", async () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
@@ -349,7 +349,7 @@ describe("ListingsService", () => {
       )
     })
 
-    it("verify the ordering when the orderBy param is set", async () => {
+    it("orders by the orderBy param (when set)", async () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)

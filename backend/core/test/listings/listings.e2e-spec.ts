@@ -252,7 +252,7 @@ describe("Listings", () => {
     expect(modifiedListing.events[0].file.label).toBe(listingEvent.file.label)
   })
 
-  it("default to sorting listings by applicationDueDate, then applicationOpenDate", async () => {
+  it("defaults to sorting listings by applicationDueDate, then applicationOpenDate", async () => {
     const res = await supertest(app.getHttpServer()).get(`/listings?limit=all`).expect(200)
     const listings = res.body.items
 
@@ -282,7 +282,7 @@ describe("Listings", () => {
     expect(lastListing.applicationDueDate).toBeNull()
   })
 
-  it("should sort results from most recently updated to least", async () => {
+  it("sorts listings by most recently updated when that orderBy param is set", async () => {
     const res = await supertest(app.getHttpServer())
       .get(`/listings?orderBy=mostRecentlyUpdated&limit=all`)
       .expect(200)
@@ -299,7 +299,7 @@ describe("Listings", () => {
     await supertest(app.getHttpServer()).get(`/listings?orderBy=notAValidOrderByParam`).expect(400)
   })
 
-  it("should sort results within a page, and across sequential pages", async () => {
+  it("sorts results within a page, and across sequential pages", async () => {
     // Get the first page of 5 results.
     const firstPage = await supertest(app.getHttpServer())
       .get(`/listings?orderBy=mostRecentlyUpdated&limit=5&page=1`)
@@ -331,7 +331,7 @@ describe("Listings", () => {
     }
   })
 
-  it("listing.unitsSummary should be sorted by number of bedrooms (ascending)", async () => {
+  it("sorts listing.unitsSummary by number of bedrooms (ascending)", async () => {
     const listings = await supertest(app.getHttpServer()).get("/listings?limit=all").expect(200)
 
     for (const listing of listings.body.items) {
