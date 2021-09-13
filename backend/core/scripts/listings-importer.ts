@@ -65,7 +65,9 @@ async function uploadAmiCharts(units) {
   }
 }
 
-interface T { unitType?: any }
+interface T {
+  unitType?: any
+}
 async function linkToUnitTypes(objList: T[]) {
   const unitTypesService = new client.UnitTypesService()
   const unitTypes = await unitTypesService.list()
