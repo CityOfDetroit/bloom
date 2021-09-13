@@ -940,7 +940,7 @@ export class ListingsRetrieveQueryParams {
 
 // Fields for the Availability and AMI filters are determined based on the value
 // of the filter or by checking multiple columns. Since we can't specify a single
-// field they correspond to, we remove the from the filterTypeToFieldMap.
+// field the filters correspond to, we remove them from the filterTypeToFieldMap.
 type keysWithMappedField = Exclude<keyof typeof ListingFilterKeys, "ami" | "availability">
 
 // Using a record lets us enforce that all types are handled in addFilter
