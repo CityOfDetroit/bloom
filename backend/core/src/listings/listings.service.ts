@@ -122,7 +122,6 @@ export class ListingsService {
   }
 
   async create(listingDto: ListingCreateDto) {
-    delete listingDto.countyCode
     const listing = this.listingRepository.create({
       ...listingDto,
       property: plainToClass(PropertyCreateDto, listingDto),

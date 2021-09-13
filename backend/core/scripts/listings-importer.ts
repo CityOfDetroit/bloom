@@ -120,7 +120,6 @@ export async function importListing(
     listing.status = ListingStatus.active
   }
   delete listing["id"]
-  delete listing["countyCode"]
 
   // Create corresponding preferences (if any).
   if (listing.preferences) {
