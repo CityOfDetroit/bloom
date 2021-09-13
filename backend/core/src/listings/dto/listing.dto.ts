@@ -935,7 +935,24 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   // Fields for the availability are determined based on the value of the filter, not the
   // key. Keep this bogus value to prevent the filter from being rejected.
   availability: "",
+  // This is the inverse of the explaination for maxRent below.
   minRent: "unitsSummary.monthly_rent_max",
+  // The maxRent filter uses the monthly_rent_min field to avoid missing units
+  // in the unitsSummary's rent range. For example, if there's a unitsSummary with
+  // monthly_rent_min of $300 and monthly_rent_max of $800, we could have a
+  // real unit with rent $500, which would look like:
+  //
+  // $300 ---------------- $500 ------ $600 ----------- $800
+  //  ^                     ^           ^                ^
+  //  |                     |           |                unitsSummary.monthly_rent_max
+  //  |                     |           maxRent filter value
+  //  |                     actual unit's rent
+  //  unitsSummary.monthly_rent_min
+  //
+  // If a user sets the maxRent filter to $600 we should show this potential unit.
+  // To make sure we show this potential unit in results, we want to search for
+  // listings with a monthly_rent_min that's <= $600. If we used the
+  // monthly_rent_max field, we'd miss it.
   maxRent: "unitsSummary.monthly_rent_min",
   leasingAgents: "leasingAgents.id",
 }
