@@ -1,6 +1,12 @@
 import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 import { Address, Listing } from "@bloom-housing/backend-core/types"
-import { t, ListingCard, imageUrlFromListing, getSummariesTableFromUnitSummary, getSummariesTableFromUnitsSummary } from "@bloom-housing/ui-components"
+import {
+  t,
+  ListingCard,
+  imageUrlFromListing,
+  getSummariesTableFromUnitSummary,
+  getSummariesTableFromUnitsSummary,
+} from "@bloom-housing/ui-components"
 
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`

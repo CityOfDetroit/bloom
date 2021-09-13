@@ -16,10 +16,7 @@ import { MetaTags } from "../../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../../lib/hooks"
-import {
-  ListingFilterParams,
-  OrderByFieldsEnum,
-} from "@bloom-housing/backend-core/types"
+import { ListingFilterParams, OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
 import FilterForm from "../../src/forms/filters/FilterForm"
 import { getListings } from "../../lib/helpers"
 
@@ -35,9 +32,13 @@ const FilteredListingsPage = () => {
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
   function setQueryString(page: number, filters = filterState) {
-    void router.push(`/listings/filtered?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
-      shallow: true,
-    })
+    void router.push(
+      `/listings/filtered?page=${page}${encodeToFrontendFilterString(filters)}`,
+      undefined,
+      {
+        shallow: true,
+      }
+    )
   }
 
   // Checks for changes in url params.
@@ -93,10 +94,7 @@ const FilteredListingsPage = () => {
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
       >
-        <FilterForm 
-          onSubmit={onSubmit}
-          filterState={filterState}
-        />
+        <FilterForm onSubmit={onSubmit} filterState={filterState} />
       </Modal>
       <div className="container max-w-3xl px-4 content-start mx-auto">
         <LinkButton

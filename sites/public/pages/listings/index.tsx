@@ -22,7 +22,7 @@ import FilterForm from "../../src/forms/filters/FilterForm"
 import { getListings } from "../../lib/helpers"
 
 const emptyFilters: ListingFilterParams = {
-  $comparison: EnumListingFilterParamsComparison.NA
+  $comparison: EnumListingFilterParamsComparison.NA,
 }
 
 const ListingsPage = ({ initialListings }) => {
@@ -55,7 +55,7 @@ const ListingsPage = ({ initialListings }) => {
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
       >
-         <FilterForm onSubmit={(data) => onSubmit(/*page=*/1, data)} />
+        <FilterForm onSubmit={(data) => onSubmit(/*page=*/ 1, data)} />
       </Modal>
       <div className="container max-w-3xl px-4 content-start mx-auto">
         <LinkButton

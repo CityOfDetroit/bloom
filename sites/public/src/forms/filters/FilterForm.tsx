@@ -1,161 +1,165 @@
-import { AvailabilityFilterEnum, ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
-import { 
-    t,
-    SelectOption,
-    Form,
-    Select,
-    Field,
-    Button,
-    AppearanceStyleType,
+import {
+  AvailabilityFilterEnum,
+  ListingFilterKeys,
+  ListingFilterParams,
+} from "@bloom-housing/backend-core/types"
+import {
+  t,
+  SelectOption,
+  Form,
+  Select,
+  Field,
+  Button,
+  AppearanceStyleType,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
- 
+
 const isValidZipCodeOrEmpty = (value: string) => {
-    // Empty strings or whitespace are valid and will reset the filter.
-    if (!value.trim()) {
-        return true
+  // Empty strings or whitespace are valid and will reset the filter.
+  if (!value.trim()) {
+    return true
+  }
+  let returnValue = true
+  value.split(",").forEach((element) => {
+    if (!/^[0-9]{5}$/.test(element.trim())) {
+      returnValue = false
     }
-    let returnValue = true
-    value.split(",").forEach((element) => {
-        if (!/^[0-9]{5}$/.test(element.trim())) {
-        returnValue = false
-        }
-    })
-    return returnValue
+  })
+  return returnValue
 }
 
 interface FilterFormProps {
-    onSubmit: (data: ListingFilterParams) => void
-    filterState?: ListingFilterParams,
+  onSubmit: (data: ListingFilterParams) => void
+  filterState?: ListingFilterParams
 }
 
- const FilterForm = (props: FilterFormProps) => {
-    // TODO: Select options should come from the database (#252)
-    const EMPTY_OPTION = { value: "", label: "" }
-    const preferredUnitOptions: SelectOption[] = [
+const FilterForm = (props: FilterFormProps) => {
+  // TODO: Select options should come from the database (#252)
+  const EMPTY_OPTION = { value: "", label: "" }
+  const preferredUnitOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: "0", label: t("listingFilters.bedroomsOptions.studioPlus") },
     { value: "1", label: t("listingFilters.bedroomsOptions.onePlus") },
     { value: "2", label: t("listingFilters.bedroomsOptions.twoPlus") },
     { value: "3", label: t("listingFilters.bedroomsOptions.threePlus") },
     { value: "4", label: t("listingFilters.bedroomsOptions.fourPlus") },
-    ]
-    const adaCompliantOptions: SelectOption[] = [
+  ]
+  const adaCompliantOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: "n", label: t("t.no") },
     { value: "y", label: t("t.yes") },
-    ]
-    const communityTypeOptions: SelectOption[] = [
+  ]
+  const communityTypeOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: "all", label: t("listingFilters.communityTypeOptions.all") },
     { value: "senior", label: t("listingFilters.communityTypeOptions.senior") },
     {
-        value: "specialNeedsAndDisability",
-        label: t("listingFilters.communityTypeOptions.specialNeeds"),
+      value: "specialNeedsAndDisability",
+      label: t("listingFilters.communityTypeOptions.specialNeeds"),
     },
-    ]
-    const neighborhoodOptions: SelectOption[] = [
+  ]
+  const neighborhoodOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: "Foster City", label: "Foster City" },
-    ]
-    const availabilityOptions: SelectOption[] = [
+  ]
+  const availabilityOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
     { value: AvailabilityFilterEnum.noAvailability, label: t("listingFilters.noAvailability") },
     { value: AvailabilityFilterEnum.waitlist, label: t("listingFilters.waitlist") },
-    ]
+  ]
 
   const { handleSubmit, register, errors } = useForm()
   return (
     <Form onSubmit={handleSubmit(props.onSubmit)}>
-          <div className="form-card__group">
-            <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
-            <Select
-              id={"availability"}
-              name={"availability"}
-              label={t("listingFilters.availability")}
-              register={register}
-              controlClassName="control"
-              options={availabilityOptions}
-              defaultValue={props.filterState?.availability}
-            />
-            <Select
-              id="unitOptions"
-              name={ListingFilterKeys.bedrooms}
-              label={t("listingFilters.bedrooms")}
-              register={register}
-              controlClassName="control"
-              options={preferredUnitOptions}
-              defaultValue={props.filterState?.bedrooms?.toString()}
-            />
-            <Field
-              id="zipCodeField"
-              name={ListingFilterKeys.zipcode}
-              label={t("listingFilters.zipCode")}
-              register={register}
-              controlClassName="control"
-              placeholder={t("listingFilters.zipCodeDescription")}
-              validation={{
-                validate: (value) => isValidZipCodeOrEmpty(value),
-              }}
-              error={errors.zipCodeField}
-              errorMessage={t("errors.multipleZipCodeError")}
-              defaultValue={props.filterState?.zipcode}
-            />
-            <label className="field-label">Rent Range</label>
-            <div className="flex flex-row">
-              <Field
-                id="minRent"
-                name={ListingFilterKeys.minRent}
-                register={register}
-                type="number"
-                placeholder={t("t.min")}
-                prepend="$"
-                defaultValue={props.filterState?.minRent}
-              />
-              <div className="flex items-center p-3">{t("t.to")}</div>
-              <Field
-                id="maxRent"
-                name={ListingFilterKeys.maxRent}
-                register={register}
-                type="number"
-                placeholder={t("t.max")}
-                prepend="$"
-                defaultValue={props.filterState?.maxRent}
-              />
-            </div>
-            <Select
-              id="neighborhoodOptions"
-              name={ListingFilterKeys.neighborhood}
-              label={t("listingFilters.neighborhood")}
-              register={register}
-              controlClassName="control"
-              options={neighborhoodOptions}
-              defaultValue={props.filterState?.neighborhood}
-            />
-            <Select
-              id="adaCompliant"
-              name="adaCompliant"
-              label={t("listingFilters.adaCompliant")}
-              register={register}
-              controlClassName="control"
-              options={adaCompliantOptions}
-            />
-            <Select
-              id="communityType"
-              name="communityType"
-              label={t("listingFilters.communityType")}
-              register={register}
-              controlClassName="control"
-              options={communityTypeOptions}
-            />
-          </div>
-          <div className="text-center mt-6">
-            <Button type="submit" styleType={AppearanceStyleType.primary}>
-              {t("listingFilters.applyFilters")}
-            </Button>
-          </div>
-        </Form>
+      <div className="form-card__group">
+        <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
+        <Select
+          id={"availability"}
+          name={"availability"}
+          label={t("listingFilters.availability")}
+          register={register}
+          controlClassName="control"
+          options={availabilityOptions}
+          defaultValue={props.filterState?.availability}
+        />
+        <Select
+          id="unitOptions"
+          name={ListingFilterKeys.bedrooms}
+          label={t("listingFilters.bedrooms")}
+          register={register}
+          controlClassName="control"
+          options={preferredUnitOptions}
+          defaultValue={props.filterState?.bedrooms?.toString()}
+        />
+        <Field
+          id="zipCodeField"
+          name={ListingFilterKeys.zipcode}
+          label={t("listingFilters.zipCode")}
+          register={register}
+          controlClassName="control"
+          placeholder={t("listingFilters.zipCodeDescription")}
+          validation={{
+            validate: (value) => isValidZipCodeOrEmpty(value),
+          }}
+          error={errors.zipCodeField}
+          errorMessage={t("errors.multipleZipCodeError")}
+          defaultValue={props.filterState?.zipcode}
+        />
+        <label className="field-label">Rent Range</label>
+        <div className="flex flex-row">
+          <Field
+            id="minRent"
+            name={ListingFilterKeys.minRent}
+            register={register}
+            type="number"
+            placeholder={t("t.min")}
+            prepend="$"
+            defaultValue={props.filterState?.minRent}
+          />
+          <div className="flex items-center p-3">{t("t.to")}</div>
+          <Field
+            id="maxRent"
+            name={ListingFilterKeys.maxRent}
+            register={register}
+            type="number"
+            placeholder={t("t.max")}
+            prepend="$"
+            defaultValue={props.filterState?.maxRent}
+          />
+        </div>
+        <Select
+          id="neighborhoodOptions"
+          name={ListingFilterKeys.neighborhood}
+          label={t("listingFilters.neighborhood")}
+          register={register}
+          controlClassName="control"
+          options={neighborhoodOptions}
+          defaultValue={props.filterState?.neighborhood}
+        />
+        <Select
+          id="adaCompliant"
+          name="adaCompliant"
+          label={t("listingFilters.adaCompliant")}
+          register={register}
+          controlClassName="control"
+          options={adaCompliantOptions}
+        />
+        <Select
+          id="communityType"
+          name="communityType"
+          label={t("listingFilters.communityType")}
+          register={register}
+          controlClassName="control"
+          options={communityTypeOptions}
+        />
+      </div>
+      <div className="text-center mt-6">
+        <Button type="submit" styleType={AppearanceStyleType.primary}>
+          {t("listingFilters.applyFilters")}
+        </Button>
+      </div>
+    </Form>
   )
 }
 
