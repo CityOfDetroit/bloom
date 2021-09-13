@@ -29,11 +29,38 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
   }
 }
 
+function getComparisonForFilterAllowUnknowns(filterKey: ListingFilterKeys) {
+  switch (filterKey) {
+    case ListingFilterKeys.name:
+    case ListingFilterKeys.neighborhood:
+    case ListingFilterKeys.status:
+    case ListingFilterKeys.leasingAgents:
+      return EnumListingFilterParamsComparison["=U"]
+    case ListingFilterKeys.bedrooms:
+    case ListingFilterKeys.minRent:
+      return EnumListingFilterParamsComparison[">=U"]
+    case ListingFilterKeys.maxRent:
+      return EnumListingFilterParamsComparison["<=U"]
+    case ListingFilterKeys.zipcode:
+      return EnumListingFilterParamsComparison["INU"]
+    case ListingFilterKeys.seniorHousing:
+    case ListingFilterKeys.availability:
+      return EnumListingFilterParamsComparison["NAU"]
+    default: {
+      const _exhaustiveCheck: never = filterKey
+      return _exhaustiveCheck
+    }
+  }
+}
+
 export function encodeToBackendFilterArray(filterParams: ListingFilterParams) {
   const filterArray = []
+  const checkFlag = false
   for (const filterType in filterParams) {
     if (filterType in ListingFilterKeys) {
-      const comparison = getComparisonForFilter(ListingFilterKeys[filterType])
+      const comparison = checkFlag
+        ? getComparisonForFilterAllowUnknowns(ListingFilterKeys[filterType])
+        : getComparisonForFilter(ListingFilterKeys[filterType])
       filterArray.push({
         $comparison: comparison,
         [filterType]: filterParams[filterType],
