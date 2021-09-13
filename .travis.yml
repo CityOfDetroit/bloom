@@ -25,8 +25,15 @@ jobs:
   include:
     - script: yarn test:shared:ui
       name: "UI components tests"
-    - script: yarn build:app:public
+    - stage: build public site
       name: "Build public site"
+      script: 
+        - cd backend/core
+        - yarn start
+        - cd ../../
+        - yarn wait-on "http-get://localhost:3100/listings"
+        - yarn build:app:public
+        - kill $(jobs -p) || true
     - script: yarn build:app:partners
       name: "Build partners site"
     - script: yarn test:backend:core:testdbsetup && yarn test:backend:core
