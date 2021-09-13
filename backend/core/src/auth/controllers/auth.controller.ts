@@ -18,6 +18,7 @@ export class AuthController {
   @ApiBody({ type: LoginDto })
   @ApiOperation({ summary: "Login", operationId: "login" })
   login(@Request() req): LoginResponseDto {
+    console.log("hitting login endpoint")
     const accessToken = this.authService.generateAccessToken(req.user)
     return mapTo(LoginResponseDto, { accessToken })
   }
