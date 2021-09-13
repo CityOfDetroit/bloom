@@ -2,6 +2,7 @@ import * as client from "../types/src/backend-swagger"
 import axios from "axios"
 import { ListingCreate, ListingStatus, serviceOptions } from "../types/src/backend-swagger"
 import { UnitStatus } from "../src/units/types/unit-status-enum"
+import { CountyCode } from "../src/shared/types/county-code"
 
 // NOTE: This script relies on any logged-in users having permission to create
 // listings and properties (defined in backend/core/src/auth/authz_policy.csv)
@@ -119,6 +120,7 @@ export async function importListing(
     listing.status = ListingStatus.active
   }
   delete listing["id"]
+  delete listing["countyCode"]
 
   // Create corresponding preferences (if any).
   if (listing.preferences) {
@@ -134,4 +136,50 @@ export async function importListing(
 
   // Upload the listing, and then return it.
   return await uploadListing(listing)
+}
+
+export async function getJurisdictions(
+  apiUrl: string,
+  email: string,
+  password: string
+): Promise<client.Jurisdiction[]> {
+  serviceOptions.axios = axios.create({
+    baseURL: apiUrl,
+    timeout: 10000,
+  })
+  // Log in to retrieve an access token.
+  const authService = new client.AuthService()
+  const { accessToken } = await authService.login({
+    body: {
+      email: email,
+      password: password,
+    },
+  })
+
+  // Update the axios config so future requests include the access token in the header.
+  serviceOptions.axios = axios.create({
+    baseURL: apiUrl,
+    timeout: 10000,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+
+  const jurisdictionsService = new client.JurisdictionsService()
+
+  return jurisdictionsService.list()
+}
+
+export async function getDetroitJurisdiction(
+  apiUrl: string,
+  email: string,
+  password: string
+): Promise<client.Jurisdiction> {
+  try {
+    const jurisdictions = await getJurisdictions(apiUrl, email, password)
+    return jurisdictions.find((jurisdiction) => jurisdiction.name === CountyCode.detroit)
+  } catch (e) {
+    console.log(e)
+    return undefined
+  }
 }

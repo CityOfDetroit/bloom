@@ -1,10 +1,9 @@
 import csv from "csv-parser"
 import fs from "fs"
-import { importListing, createUnitsArray } from "./listings-importer"
+import { importListing, createUnitsArray, getDetroitJurisdiction } from "./listings-importer"
 import {
   ListingCreate,
   AddressCreate,
-  CountyCode,
   CSVFormattingType,
   ListingStatus,
 } from "../types/src/backend-swagger"
@@ -48,7 +47,7 @@ async function main() {
       .on("data", (listingFields) => {
         // Include only listings that are "regulated" affordable housing
         const affordabilityStatus: string = listingFields["Affordability status [Regulated Only]"]
-        if (affordabilityStatus.toLowerCase() === "regulated") {
+        if (affordabilityStatus?.toLowerCase() === "regulated") {
           rawListingFields.push(listingFields)
         }
       })
@@ -58,6 +57,8 @@ async function main() {
   await promise
 
   console.log(`CSV file successfully read in; ${rawListingFields.length} listings to upload`)
+
+  const jurisdiction = await getDetroitJurisdiction(importApiUrl, email, password)
 
   const uploadFailureMessages = []
   let numListingsSuccessfullyUploaded = 0
@@ -71,35 +72,35 @@ async function main() {
       latitude: listingFields["Latitude"],
     }
 
-    // Add data about units
+    // Add data about units and summaries
     let units = []
-    let unitsSummaries = []
+    const unitsSummaries = []
     if (listingFields["Number 0BR"]) {
       units = units.concat(createUnitsArray("studio", listingFields["Number 0BR"]))
       unitsSummaries.push({
         unitType: "studio",
-        totalCount: listingFields["Number 0BR"]
+        totalCount: Number(listingFields["Number 0BR"]),
       })
     }
     if (listingFields["Number 1BR"]) {
       units = units.concat(createUnitsArray("oneBdrm", parseInt(listingFields["Number 1BR"])))
       unitsSummaries.push({
         unitType: "oneBdrm",
-        totalCount: listingFields["Number 1BR"]
+        totalCount: Number(listingFields["Number 1BR"]),
       })
     }
     if (listingFields["Number 2BR"]) {
       units = units.concat(createUnitsArray("twoBdrm", parseInt(listingFields["Number 2BR"])))
       unitsSummaries.push({
         unitType: "twoBdrm",
-        totalCount: listingFields["Number 2BR"]
+        totalCount: Number(listingFields["Number 2BR"]),
       })
     }
     if (listingFields["Number 3BR"]) {
       units = units.concat(createUnitsArray("threeBdrm", parseInt(listingFields["Number 3BR"])))
       unitsSummaries.push({
         unitType: "threeBdrm",
-        totalCount: listingFields["Number 3BR"]
+        totalCount: Number(listingFields["Number 3BR"]),
       })
     }
     // Lump 4BR and 5BR together as "fourBdrm"
@@ -109,7 +110,7 @@ async function main() {
       units = units.concat(createUnitsArray("fourBdrm", numberFourBdrm + numberFiveBdrm))
       unitsSummaries.push({
         unitType: "fourBdrm",
-        totalCount: numberFourBdrm + numberFiveBdrm
+        totalCount: numberFourBdrm + numberFiveBdrm,
       })
     }
 
@@ -155,11 +156,11 @@ async function main() {
       managementWebsite: listingFields["Management Website"],
       leasingAgentEmail: leasingAgentEmail,
       phoneNumber: listingFields["Property Phone"],
-      countyCode: CountyCode.Detroit,
       amiPercentageMin: amiPercentageMin,
       amiPercentageMax: amiPercentageMax,
       status: ListingStatus.active,
       unitsSummary: unitsSummaries,
+      jurisdiction: jurisdiction,
 
       // The following fields are only set because they are required
       CSVFormattingType: CSVFormattingType.basic,
