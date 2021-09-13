@@ -73,6 +73,7 @@ async function linkToUnitTypes(objList: T[]) {
   const unitTypes = await unitTypesService.list()
 
   for (const obj of objList) {
+    // unitType is initially a string in imported listings. Map it to a UnitType object here.
     const unitTypeStr = obj.unitType
     if (!unitTypeStr) {
       throw new Error("Required unitType field not found.")
