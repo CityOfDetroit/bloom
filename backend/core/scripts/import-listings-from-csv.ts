@@ -47,7 +47,7 @@ async function main() {
       .on("data", (listingFields) => {
         // Include only listings that are "regulated" affordable housing
         const affordabilityStatus: string = listingFields["Affordability status [Regulated Only]"]
-        if (affordabilityStatus?.toLowerCase() === "regulated") {
+        if (affordabilityStatus.toLowerCase() === "regulated") {
           rawListingFields.push(listingFields)
         }
       })
