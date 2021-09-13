@@ -51,7 +51,7 @@ export default function Home() {
       <Hero
         title={heroTitle}
         buttonTitle={t("welcome.seeRentalListings")}
-        buttonLink="/listings?page=1"
+        buttonLink="/listings"
         backgroundImage={"/images/hero.png"}
       />
       <div className="homepage-extra">
