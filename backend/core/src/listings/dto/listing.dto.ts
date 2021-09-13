@@ -12,6 +12,7 @@ import {
   IsNumberString,
   IsEnum,
   IsBooleanString,
+  IsArray,
 } from "class-validator"
 import moment from "moment"
 import {
@@ -19,7 +20,7 @@ import {
   PreferenceDto,
   PreferenceUpdateDto,
 } from "../../preferences/dto/preference.dto"
-import { ApiProperty, getSchemaPath, OmitType } from "@nestjs/swagger"
+import { ApiProperty, OmitType, getSchemaPath } from "@nestjs/swagger"
 import { IdDto } from "../../shared/dto/id.dto"
 import { AddressCreateDto, AddressDto, AddressUpdateDto } from "../../shared/dto/address.dto"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
@@ -29,7 +30,6 @@ import { AvailabilityFilterEnum, ListingFilterKeys } from "../types/listing-filt
 import { PaginationFactory, PaginationAllowsAllQueryParams } from "../../shared/dto/pagination.dto"
 import { BaseFilter } from "../../shared/dto/filter.dto"
 import { UnitCreateDto, UnitDto, UnitUpdateDto } from "../../units/dto/unit.dto"
-import { JurisdictionDto } from "../../jurisdictions/dto/jurisdiction.dto"
 import { ReservedCommunityTypeDto } from "../../reserved-community-type/dto/reserved-community-type.dto"
 import { AssetCreateDto, AssetDto, AssetUpdateDto } from "../../assets/dto/asset.dto"
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
@@ -40,6 +40,8 @@ import {
   UnitsSummaryDto,
   UnitsSummaryUpdateDto,
 } from "../../units-summary/dto/units-summary.dto"
+import { OrderByFieldsEnum } from "../types/listing-orderby-enum"
+import { IdNameDto } from "../../shared/dto/idName.dto"
 
 export class ListingDto extends OmitType(Listing, [
   "applicationAddress",
@@ -121,16 +123,15 @@ export class ListingDto extends OmitType(Listing, [
   leasingAgents?: UserBasicDto[] | null
 
   @Expose()
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
-  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
-  @Type(() => JurisdictionDto)
-  jurisdiction?: JurisdictionDto
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
+  @Type(() => IdNameDto)
+  jurisdiction: IdNameDto
 
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
-  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => ReservedCommunityTypeDto)
   reservedCommunityType?: ReservedCommunityTypeDto
 
@@ -333,6 +334,18 @@ export class ListingDto extends OmitType(Listing, [
   @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
   @Type(() => UnitsSummaryDto)
   unitsSummary?: UnitsSummaryDto[]
+
+  // Keep countyCode so we don't have to update frontend apps yet
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @Transform(
+    (value, obj: Listing) => {
+      return obj.jurisdiction?.name
+    },
+    { toClassOnly: true }
+  )
+  countyCode?: string
 }
 
 export class PaginatedListingDto extends PaginationFactory<ListingDto>(ListingDto) {}
@@ -510,16 +523,15 @@ export class ListingCreateDto extends OmitType(ListingDto, [
   yearBuilt?: number | null
 
   @Expose()
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
-  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => IdDto)
-  jurisdiction?: IdDto | null
+  jurisdiction: IdDto
 
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
-  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => IdDto)
   reservedCommunityType?: IdDto
 
@@ -726,16 +738,15 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   yearBuilt?: number | null
 
   @Expose()
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
-  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => IdDto)
-  jurisdiction?: IdDto
+  jurisdiction: IdDto
 
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
-  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => IdDto)
   reservedCommunityType?: IdDto
 
@@ -760,6 +771,8 @@ export class ListingFilterParams extends BaseFilter {
     example: "Coliseum",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.name]?: string;
 
   @Expose()
@@ -768,6 +781,8 @@ export class ListingFilterParams extends BaseFilter {
     example: "active",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsEnum(ListingStatus, { groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.status]?: ListingStatus;
 
   @Expose()
@@ -776,6 +791,8 @@ export class ListingFilterParams extends BaseFilter {
     example: "Fox Creek",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.neighborhood]?: string;
 
   @Expose()
@@ -784,6 +801,7 @@ export class ListingFilterParams extends BaseFilter {
     example: "3",
     required: false,
   })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
   [ListingFilterKeys.bedrooms]?: number;
 
@@ -845,7 +863,17 @@ export class ListingFilterParams extends BaseFilter {
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.ami]?: number
+  [ListingFilterKeys.ami]?: number;
+
+  @Expose()
+  @ApiProperty({
+    type: String,
+    example: "FAB1A3C6-965E-4054-9A48-A282E92E9426",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.leasingAgents]?: string
 }
 
 export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
@@ -857,10 +885,14 @@ export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
     items: {
       $ref: getSchemaPath(ListingFilterParams),
     },
-    example: { $comparison: ["=", "<>"], status: "active", name: "Coliseum" },
+    example: { $comparison: "=", status: "active", name: "Coliseum" },
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  filter?: ListingFilterParams
+  @IsArray({ groups: [ValidationsGroupsEnum.default] })
+  @ArrayMaxSize(16, { groups: [ValidationsGroupsEnum.default] })
+  @Type(() => ListingFilterParams)
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  filter?: ListingFilterParams[]
 
   @Expose()
   @ApiProperty({
@@ -871,6 +903,18 @@ export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   view?: string
+
+  @Expose()
+  @ApiProperty({
+    name: "orderBy",
+    required: false,
+    enum: OrderByFieldsEnum,
+    enumName: "OrderByFieldsEnum",
+    example: "updatedAt",
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsEnum(OrderByFieldsEnum, { groups: [ValidationsGroupsEnum.default] })
+  orderBy?: OrderByFieldsEnum
 
   @Expose()
   @ApiProperty({
@@ -899,7 +943,7 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   status: "listings.status",
   name: "listings.name",
   neighborhood: "property.neighborhood",
-  bedrooms: "unitTypeRef.num_bedrooms",
+  bedrooms: "summaryUnitType.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
   seniorHousing: "reservedCommunityType.name",
   minRent: "unitsSummary.monthly_rent_max",
@@ -908,4 +952,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   // key. Keep this bogus value to prevent the filter from being rejected.
   availability: "",
   ami: "",
+  leasingAgents: "leasingAgents.id",
 }

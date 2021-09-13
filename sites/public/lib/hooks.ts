@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react"
+import qs from "qs"
 import moment from "moment"
 import { useRouter } from "next/router"
 import axios from "axios"
@@ -8,9 +9,14 @@ import {
   isInternalLink,
   openDateState,
   t,
-  encodeToBackendFilterString,
+  encodeToBackendFilterArray,
 } from "@bloom-housing/ui-components"
-import { Listing, ListingReviewOrder, ListingFilterParams } from "@bloom-housing/backend-core/types"
+import {
+  Listing,
+  ListingReviewOrder,
+  ListingFilterParams,
+  OrderByFieldsEnum,
+} from "@bloom-housing/backend-core/types"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
 
@@ -42,18 +48,37 @@ export const useFormConductor = (stepName: string) => {
 }
 
 const listingsFetcher = function () {
-  return async (url: string, page: number, limit: number, filters: ListingFilterParams) => {
-    const res = await axios.get(
-      `${url}?page=${page}&limit=${limit}${encodeToBackendFilterString(filters)}`
-    )
+  return async (
+    url: string,
+    page: number,
+    limit: number,
+    filters: ListingFilterParams,
+    orderBy: OrderByFieldsEnum
+  ) => {
+    const res = await axios.get(url, {
+      params: {
+        page: page,
+        limit: limit,
+        filter: encodeToBackendFilterArray(filters),
+        orderBy: orderBy,
+      },
+      paramsSerializer: (params) => {
+        return qs.stringify(params)
+      },
+    })
     return res.data
   }
 }
 
 // TODO: move this so it can be shared with the partner site.
-export function useListingsData(pageIndex: number, limit = 10, filters: ListingFilterParams) {
+export function useListingsData(
+  pageIndex: number,
+  limit = 10,
+  filters: ListingFilterParams,
+  orderBy: OrderByFieldsEnum
+) {
   const { data, error } = useSWR(
-    [`${process.env.listingServiceUrl}`, pageIndex, limit, filters],
+    [`${process.env.listingServiceUrl}`, pageIndex, limit, filters, orderBy],
     listingsFetcher()
   )
 
