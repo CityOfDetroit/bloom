@@ -139,6 +139,11 @@ async function seed() {
       }),
       new AuthContext(null)
     )
+
+    await userRepo.save(admin)
+    const roles: UserRoles = { user: admin, isPartner: true, isAdmin: true }
+    await rolesRepo.save(roles)
+    await userService.confirm({ token: admin.confirmationToken })
   }
 
   // Seed the Detroit AMI data, since it's not linked to any units.
