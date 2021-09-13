@@ -951,7 +951,7 @@ export const filterTypeToFieldMap: Record<keysWithMappedField, string> = {
   bedrooms: "summaryUnitType.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
   seniorHousing: "reservedCommunityType.name",
-  // This is the inverse of the explaination for maxRent below.
+  // This is the inverse of the explanation for maxRent below.
   minRent: "unitsSummary.monthly_rent_max",
   // The maxRent filter uses the monthly_rent_min field to avoid missing units
   // in the unitsSummary's rent range. For example, if there's a unitsSummary with
