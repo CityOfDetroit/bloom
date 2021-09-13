@@ -40,13 +40,11 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
         continue
       }
       // Throw if this is not a supported filter type
-      if (!(filterKey in filterTypeToFieldMap)) {
+      if (!(filterKey in ListingFilterKeys)) {
         throw new HttpException("Filter Not Implemented", HttpStatus.NOT_IMPLEMENTED)
       }
-      const whereParameterName = `${filterKey}_${index}`
-      const filterField = filterTypeToFieldMap[filterKey]
-      const filterValue = filter[filterKey]
 
+      const filterValue = filter[filterKey]
       // Handle custom filters here, before dropping into generic filter handler
       switch (filterKey) {
         case ListingFilterKeys.seniorHousing:
@@ -60,6 +58,8 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
           return
       }
 
+      const whereParameterName = `${filterKey}_${index}`
+      const filterField = filterTypeToFieldMap[filterKey]
       switch (comparison) {
         case Compare.IN:
           qb.andWhere(`LOWER(CAST(${filterField} as text)) IN (:...${whereParameterName})`, {

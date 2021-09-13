@@ -808,7 +808,7 @@ export class ListingFilterParams extends BaseFilter {
   @Expose()
   @ApiProperty({
     type: String,
-    example: "48211",
+    example: "48211, 48212",
     required: false,
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
@@ -857,7 +857,7 @@ export class ListingFilterParams extends BaseFilter {
 
   @Expose()
   @ApiProperty({
-    type: String,
+    type: Number,
     example: "40",
     required: false,
   })
@@ -938,8 +938,13 @@ export class ListingsRetrieveQueryParams {
   view?: string
 }
 
+// Fields for the Availability and AMI filters are determined based on the value
+// of the filter or by checking multiple columns. Since we can't specify a single
+// field they correspond to, we remove the from the filterTypeToFieldMap.
+type keysWithMappedField = Exclude<keyof typeof ListingFilterKeys, "ami" | "availability">
+
 // Using a record lets us enforce that all types are handled in addFilter
-export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string> = {
+export const filterTypeToFieldMap: Record<keysWithMappedField, string> = {
   status: "listings.status",
   name: "listings.name",
   neighborhood: "property.neighborhood",
@@ -948,9 +953,5 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   seniorHousing: "reservedCommunityType.name",
   minRent: "unitsSummary.monthly_rent_max",
   maxRent: "unitsSummary.monthly_rent_min",
-  // Fields for the availability are determined based on the value of the filter, not the
-  // key. Keep this bogus value to prevent the filter from being rejected.
-  availability: "",
-  ami: "",
   leasingAgents: "leasingAgents.id",
 }
