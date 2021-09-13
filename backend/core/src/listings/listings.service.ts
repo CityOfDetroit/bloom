@@ -43,6 +43,7 @@ export class ListingsService {
       .createQueryBuilder("listings")
       .select("listings.id", "listings_id")
       .leftJoin("listings.property", "property")
+      .leftJoin("listings.leasingAgents", "leasingAgents")
       .leftJoin("property.buildingAddress", "buildingAddress")
       .leftJoin("listings.unitsSummary", "unitsSummary")
       .leftJoin("unitsSummary.unitType", "summaryUnitType")
@@ -51,7 +52,7 @@ export class ListingsService {
       .orderBy(getOrderByCondition())
 
     if (params.filter) {
-      addFilters<ListingFilterParams, typeof filterTypeToFieldMap>(
+      addFilters<Array<ListingFilterParams>, typeof filterTypeToFieldMap>(
         params.filter,
         filterTypeToFieldMap,
         innerFilteredQuery
@@ -121,6 +122,7 @@ export class ListingsService {
   }
 
   async create(listingDto: ListingCreateDto) {
+    delete listingDto.countyCode
     const listing = this.listingRepository.create({
       ...listingDto,
       property: plainToClass(PropertyCreateDto, listingDto),
