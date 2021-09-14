@@ -14,6 +14,10 @@ import {
   decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
+  FrontEndFilters,
+  blankFrontEndFilters,
+  adaCompliantOptions,
+  COMMUNITY_TYPE,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -21,8 +25,7 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import { ListingFilterKeys, ListingFilterParams } from "@bloom-housing/backend-core/types"
-import { adaCompliantOptions, blankFrontEndFilters, FrontEndFilters } from "../lib/FrontEndFilters"
+import { ListingFilterKeys } from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -43,8 +46,7 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<ListingFilterParams>()
-  const [{ filters }, setFilters] = useState<FrontEndFilters>(() => blankFrontEndFilters())
+  const [{ filters }, setFilterState] = useState<FrontEndFilters>(() => blankFrontEndFilters())
 
   const itemsPerPage = 10
 
@@ -63,22 +65,26 @@ const ListingsPage = () => {
       setCurrentPage(Number(router.query.page))
     }
 
-    setFilters(decodeFiltersFromFrontendUrl(router.query))
+    setFilterState(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
+  // Fetches the listing data.
   const { listingsData, listingsLoading, listingsError } = useListingsData(
     currentPage,
     itemsPerPage,
-    filterState
+    filters
   )
 
   let numberOfFilters = 0
-  if (filterState) {
+  if (filters) {
     numberOfFilters = Object.keys(filters).filter(
       (filterType) => filters[filterType].value !== undefined && filters[filterType].value != ""
     ).length
     // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
-    if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
+    if (
+      filters[ListingFilterKeys.minRent].value !== undefined &&
+      filters[ListingFilterKeys.maxRent].value != undefined
+    ) {
       numberOfFilters -= 1
     }
   }
@@ -104,6 +110,10 @@ const ListingsPage = () => {
     setQueryString(/*page=*/ 1, filters)
   }
 
+  function resetFilters() {
+    setQueryString(1, blankFrontEndFilters().filters)
+  }
+
   return (
     <Layout>
       <Head>
@@ -125,7 +135,7 @@ const ListingsPage = () => {
               label={t("listingFilters.availability")}
               register={register}
               controlClassName="control"
-              options={filters[ListingFilterKeys.availability].options}
+              options={filters[ListingFilterKeys.availability].options()}
               defaultValue={filters[ListingFilterKeys.availability].value}
             />
             <Select
@@ -134,7 +144,7 @@ const ListingsPage = () => {
               label={t("listingFilters.bedrooms")}
               register={register}
               controlClassName="control"
-              options={filters[ListingFilterKeys.bedrooms].options}
+              options={filters[ListingFilterKeys.bedrooms].options()}
               defaultValue={filters[ListingFilterKeys.bedrooms].value}
             />
             <Field
@@ -160,7 +170,7 @@ const ListingsPage = () => {
                 type="number"
                 placeholder={t("t.min")}
                 prepend="$"
-                defaultValue={filterState?.minRent}
+                defaultValue={filters[ListingFilterKeys.minRent].value}
               />
               <div className="flex items-center p-3">{t("t.to")}</div>
               <Field
@@ -170,7 +180,7 @@ const ListingsPage = () => {
                 type="number"
                 placeholder={t("t.max")}
                 prepend="$"
-                defaultValue={filterState?.maxRent}
+                defaultValue={filters[ListingFilterKeys.maxRent].value}
               />
             </div>
             <Select
@@ -179,7 +189,7 @@ const ListingsPage = () => {
               label={t("listingFilters.neighborhood")}
               register={register}
               controlClassName="control"
-              options={filters[ListingFilterKeys.neighborhood].options}
+              options={filters[ListingFilterKeys.neighborhood].options()}
               defaultValue={filters[ListingFilterKeys.neighborhood].value}
             />
             <Select
@@ -188,7 +198,7 @@ const ListingsPage = () => {
               label={t("listingFilters.adaCompliant")}
               register={register}
               controlClassName="control"
-              options={adaCompliantOptions}
+              options={adaCompliantOptions()}
             />
             <Select
               id="communityType"
@@ -196,7 +206,7 @@ const ListingsPage = () => {
               label={t("listingFilters.communityType")}
               register={register}
               controlClassName="control"
-              options={filters["communityType"].options}
+              options={filters[COMMUNITY_TYPE].options()}
               defaultValue={filters["communityType"].value}
             />
           </div>
@@ -227,8 +237,7 @@ const ListingsPage = () => {
             className="mx-2 mt-6"
             size={AppearanceSizeType.small}
             styleType={AppearanceStyleType.secondary}
-            // "Submit" the form with no params to trigger a reset.
-            onClick={() => onSubmit({})}
+            onClick={() => resetFilters()}
             icon="close"
             iconPlacement="left"
           >
