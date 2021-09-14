@@ -12,7 +12,7 @@ export const COMMUNITY_TYPE = "communityType"
 export const EMPTY_OPTION = { value: "", label: "" }
 
 // TODO: Select options should come from the database (#252)
-// The options needs to be methods to avoid a race condition in translation
+// The options need to be methods to avoid a race condition in translation
 // generation. The translations need to be generated after the app is
 // initialized.
 export const adaCompliantOptions: () => SelectOption[] = () => [
