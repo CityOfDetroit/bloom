@@ -3736,9 +3736,6 @@ export interface ListingFilterParams {
   /**  */
   seniorHousing?: boolean
 
-  /** */
-  communityType?: EnumListingFilterParamsReservedCommunityType
-
   /**  */
   minRent?: number
 
@@ -5750,10 +5747,6 @@ export enum EnumListingFilterParamsStatus {
   "active" = "active",
   "pending" = "pending",
   "closed" = "closed",
-}
-export enum EnumListingFilterParamsReservedCommunityType {
-  "senior62" = "senior62",
-  "specialNeeds" = "specialNeeds",
 }
 export enum EnumListingFilterParamsAvailability {
   "hasAvailability" = "hasAvailability",
