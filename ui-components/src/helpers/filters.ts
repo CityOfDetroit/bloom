@@ -109,6 +109,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.name:
     case ListingFilterKeys.neighborhood:
     case ListingFilterKeys.status:
+    case ListingFilterKeys.leasingAgents:
       return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.bedrooms:
     case ListingFilterKeys.minRent:
@@ -119,6 +120,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
       return EnumListingFilterParamsComparison["IN"]
     case ListingFilterKeys.availability:
     case ListingFilterKeys.seniorHousing:
+    case ListingFilterKeys.ami:
       return EnumListingFilterParamsComparison["NA"]
     default: {
       const _exhaustiveCheck: never = filterKey
@@ -127,17 +129,17 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
   }
 }
 
-export function encodeToBackendFilterString(filters: Record<string, FrontEndFilter>) {
-  let queryString = ""
+export function encodeToBackendFilterArray(filters: Record<string, FrontEndFilter>) {
+  const filterArray = []
   for (const filterName in filters) {
     const type = filters[filterName].getFilterType()
     const value = filters[filterName].getFilterValue()
     if (type in ListingFilterKeys && value !== undefined && value !== "") {
       const comparison = getComparisonForFilter(ListingFilterKeys[type])
-      queryString += `&filter[$comparison]=${comparison}&filter[${type}]=${value}`
+      filterArray.push({ $comparison: comparison, [type]: value })
     }
   }
-  return queryString
+  return filterArray
 }
 
 export function encodeToFrontendFilterString(filters: Record<string, FrontEndFilter>) {

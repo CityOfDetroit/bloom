@@ -7,6 +7,7 @@ import { ListingsQueryParams, ListingFilterParams } from "./dto/listing.dto"
 import { Compare } from "../shared/dto/filter.dto"
 import { TranslationsService } from "../translations/translations.service"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
+import { OrderByFieldsEnum } from "./types/listing-orderby-enum"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -70,6 +71,7 @@ const mockInnerQueryBuilder = {
   select: jest.fn().mockReturnThis(),
   leftJoin: jest.fn().mockReturnThis(),
   orderBy: jest.fn().mockReturnThis(),
+  addOrderBy: jest.fn().mockReturnThis(),
   groupBy: jest.fn().mockReturnThis(),
   andWhere: jest.fn().mockReturnThis(),
   offset: jest.fn().mockReturnThis(),
@@ -85,6 +87,7 @@ const mockQueryBuilder = {
   andWhere: jest.fn().mockReturnThis(),
   setParameters: jest.fn().mockReturnThis(),
   orderBy: jest.fn().mockReturnThis(),
+  addOrderBy: jest.fn().mockReturnThis(),
   getMany: jest.fn().mockReturnValue(mockListings),
 }
 const mockListingsRepo = {
@@ -144,10 +147,12 @@ describe("ListingsService", () => {
       const expectedNeighborhood = "Fox Creek"
 
       const queryParams: ListingsQueryParams = {
-        filter: {
-          $comparison: Compare["="],
-          neighborhood: expectedNeighborhood,
-        },
+        filter: [
+          {
+            $comparison: Compare["="],
+            neighborhood: expectedNeighborhood,
+          },
+        ],
       }
 
       const listings = await service.list(queryParams)
@@ -170,10 +175,12 @@ describe("ListingsService", () => {
       const expectedNeighborhoodArray = ["fox creek", "coliseum"]
 
       const queryParams: ListingsQueryParams = {
-        filter: {
-          $comparison: Compare["IN"],
-          neighborhood: expectedNeighborhoodString,
-        },
+        filter: [
+          {
+            $comparison: Compare["IN"],
+            neighborhood: expectedNeighborhoodString,
+          },
+        ],
       }
 
       const listings = await service.list(queryParams)
@@ -191,16 +198,18 @@ describe("ListingsService", () => {
       mockListingsRepo.createQueryBuilder.mockReturnValueOnce(mockInnerQueryBuilder)
 
       const queryParams: ListingsQueryParams = {
-        filter: {
-          $comparison: Compare["="],
-          otherField: "otherField",
-          // The querystring can contain unknown fields that aren't on the
-          // ListingFilterParams type, so we force it to the type for testing.
-        } as ListingFilterParams,
+        filter: [
+          {
+            $comparison: Compare["="],
+            otherField: "otherField",
+            // The querystring can contain unknown fields that aren't on the
+            // ListingFilterParams type, so we force it to the type for testing.
+          } as ListingFilterParams,
+        ],
       }
 
       await expect(service.list(queryParams)).rejects.toThrow(
-        new HttpException('Filter "otherField" Not Implemented', HttpStatus.NOT_IMPLEMENTED)
+        new HttpException("Filter Not Implemented", HttpStatus.NOT_IMPLEMENTED)
       )
     })
 
@@ -209,13 +218,15 @@ describe("ListingsService", () => {
       mockListingsRepo.createQueryBuilder.mockReturnValueOnce(mockInnerQueryBuilder)
 
       const queryParams: ListingsQueryParams = {
-        filter: {
-          // The value of the filter[$comparison] query param is not validated,
-          // and the type system trusts that whatever is provided is correct,
-          // so we force it to an invalid type for testing.
-          $comparison: "); DROP TABLE Students;" as Compare,
-          name: "test name",
-        } as ListingFilterParams,
+        filter: [
+          {
+            // The value of the filter[$comparison] query param is not validated,
+            // and the type system trusts that whatever is provided is correct,
+            // so we force it to an invalid type for testing.
+            $comparison: "); DROP TABLE Students;" as Compare,
+            name: "test name",
+          } as ListingFilterParams,
+        ],
       }
 
       await expect(service.list(queryParams)).rejects.toThrow(
@@ -300,6 +311,72 @@ describe("ListingsService", () => {
         totalItems: mockListings.length,
         totalPages: 4,
       })
+    })
+  })
+
+  describe("ListingsService.list sorting", () => {
+    it("defaults to ordering by application dates when no orderBy param is set", async () => {
+      mockListingsRepo.createQueryBuilder
+        .mockReturnValueOnce(mockInnerQueryBuilder)
+        .mockReturnValueOnce(mockQueryBuilder)
+
+      await service.list({})
+
+      const expectedOrderByArgument = {
+        "listings.applicationDueDate": "ASC",
+        "listings.applicationOpenDate": "DESC",
+      }
+
+      // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)
+      expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
+      expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
+
+      // The full query must be ordered so that the ordering is applied within a page (if pagination is requested)
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
+
+      // The full query is additionally ordered by the number of bedrooms (or max_occupancy) at the unit level.
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(2)
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
+        "summaryUnitType.num_bedrooms",
+        "ASC",
+        "NULLS LAST"
+      )
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
+        "units.max_occupancy",
+        "ASC",
+        "NULLS LAST"
+      )
+    })
+
+    it("orders by the orderBy param (when set)", async () => {
+      mockListingsRepo.createQueryBuilder
+        .mockReturnValueOnce(mockInnerQueryBuilder)
+        .mockReturnValueOnce(mockQueryBuilder)
+
+      await service.list({ orderBy: OrderByFieldsEnum.mostRecentlyUpdated })
+
+      const expectedOrderByArgument = { "listings.updated_at": "DESC" }
+
+      expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
+      expect(mockInnerQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
+
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
+
+      // Verify that the full query is still also ordered by the number of bedrooms
+      // (or max_occupancy) at the unit level.
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(2)
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
+        "summaryUnitType.num_bedrooms",
+        "ASC",
+        "NULLS LAST"
+      )
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
+        "units.max_occupancy",
+        "ASC",
+        "NULLS LAST"
+      )
     })
   })
 })

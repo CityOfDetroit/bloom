@@ -1,6 +1,5 @@
 import Head from "next/head"
 import {
-  ListingsList,
   PageHeader,
   AgPagination,
   Button,
@@ -18,6 +17,10 @@ import {
   blankFrontEndFilters,
   adaCompliantOptions,
   COMMUNITY_TYPE,
+  imageUrlFromListing,
+  getSummariesTableFromUnitsSummary,
+  getSummariesTableFromUnitSummary,
+  ListingCard,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -25,7 +28,12 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import { ListingFilterKeys } from "@bloom-housing/backend-core/types"
+import {
+  ListingFilterKeys,
+  OrderByFieldsEnum,
+  Listing,
+  Address,
+} from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -39,6 +47,54 @@ const isValidZipCodeOrEmpty = (value: string) => {
     }
   })
   return returnValue
+}
+
+const getListingCardSubtitle = (address: Address) => {
+  const { street, city, state, zipCode } = address || {}
+  return address ? `${street}, ${city} ${state}, ${zipCode}` : null
+}
+
+const getListingTableData = (listing: Listing) => {
+  if (listing.unitsSummary !== undefined && listing.unitsSummary.length > 0) {
+    return getSummariesTableFromUnitsSummary(listing.unitsSummary)
+  } else if (listing.unitsSummarized !== undefined) {
+    return getSummariesTableFromUnitSummary(listing.unitsSummarized.byUnitTypeAndRent)
+  }
+  return []
+}
+
+const getListings = (listings: Listing[]) => {
+  const unitSummariesHeaders = {
+    unitType: t("t.unitType"),
+    minimumIncome: t("t.minimumIncome"),
+    rent: t("t.rent"),
+  }
+  return listings.map((listing: Listing, index) => {
+    return (
+      <ListingCard
+        key={index}
+        imageCardProps={{
+          imageUrl:
+            imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")) || "",
+          subtitle: getListingCardSubtitle(listing.buildingAddress),
+          title: listing.name,
+          href: `/listing/${listing.id}/${listing.urlSlug}`,
+          tagLabel: listing.reservedCommunityType
+            ? t(`listings.reservedCommunityTypes.${listing.reservedCommunityType.name}`)
+            : undefined,
+        }}
+        tableProps={{
+          headers: unitSummariesHeaders,
+          data: getListingTableData(listing),
+          responsiveCollapse: true,
+          cellClassName: "px-5 py-3",
+        }}
+        seeDetailsLink={`/listing/${listing.id}/${listing.urlSlug}`}
+        detailsLinkClass="float-right"
+        tableHeader={listing.showWaitlist ? t("listings.waitlist.open") : null}
+      />
+    )
+  })
 }
 
 const ListingsPage = () => {
@@ -72,7 +128,8 @@ const ListingsPage = () => {
   const { listingsData, listingsLoading, listingsError } = useListingsData(
     currentPage,
     itemsPerPage,
-    filters
+    filters,
+    OrderByFieldsEnum.mostRecentlyUpdated
   )
 
   let numberOfFilters = 0
@@ -157,7 +214,7 @@ const ListingsPage = () => {
               validation={{
                 validate: (value) => isValidZipCodeOrEmpty(value),
               }}
-              error={errors.zipCodeField}
+              error={errors?.[ListingFilterKeys.zipcode]}
               errorMessage={t("errors.multipleZipCodeError")}
               defaultValue={filters[ListingFilterKeys.zipcode].value}
             />
@@ -255,9 +312,7 @@ const ListingsPage = () => {
       )}
       {!listingsLoading && (
         <div>
-          {listingsData?.meta.totalItems > 0 && (
-            <ListingsList listings={listingsData.items} hideApplicationStatus />
-          )}
+          {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
           <AgPagination
             totalItems={listingsData?.meta.totalItems}
             totalPages={listingsData?.meta.totalPages}
