@@ -33,7 +33,6 @@ import { AssetCreateDto, AssetDto, AssetUpdateDto } from "../../assets/dto/asset
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
 import { ListingEventCreateDto, ListingEventDto, ListingEventUpdateDto } from "./listing-event.dto"
 import { listingUrlSlug } from "../../shared/url-helper"
-import { ReservedCommunityType } from "../types/listing-reserved-community-type-enum"
 import {
   UnitsSummaryCreateDto,
   UnitsSummaryDto,
@@ -814,16 +813,6 @@ export class ListingFilterParams extends BaseFilter {
 
   @Expose()
   @ApiProperty({
-    enum: Object.keys(ReservedCommunityType),
-    example: "senior62",
-    required: false,
-  })
-  [ListingFilterKeys.communityType]?: ReservedCommunityType
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.seniorHousing]?: boolean;
-
-  @Expose()
-  @ApiProperty({
     type: Number,
     example: "300",
     required: false,
@@ -897,7 +886,6 @@ export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string
   bedrooms: "summaryUnitType.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
   seniorHousing: "reservedCommunityType.name",
-  communityType: "reservedCommunityType.name",
   // Fields for the availability are determined based on the value of the filter, not the
   // key. Keep this bogus value to prevent the filter from being rejected.
   availability: "",
