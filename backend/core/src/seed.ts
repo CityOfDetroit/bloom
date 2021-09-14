@@ -39,6 +39,10 @@ import { ListingDefaultMultipleAMIAndPercentages } from "./seeds/listings/listin
 import { ListingDefaultMissingAMI } from "./seeds/listings/listing-default-missing-ami"
 import { createJurisdictions } from "./seeds/jurisdictions"
 import { Jurisdiction } from "./jurisdictions/entities/jurisdiction.entity"
+import { ListingDefaultSummaryHighMinRent2Br3Br } from "./seeds/listings/listing-default-summary-high-min-rent-2br-3br-seed"
+import { ListingDefaultSummaryLowMinRent1Br2Br3Br4Br } from "./seeds/listings/listing-default-summary-low-min-rent-1br-2br-3br-4br-seed"
+import { ListingDefaultSummaryMediumMinRent1Br2Br } from "./seeds/listings/listing-default-summary-medium-min-rent-1br-2br-seed"
+import { ListingDefaultSummaryWideRangingMinRent1Br2Br3Br } from "./seeds/listings/listing-default-summary-wide-ranging-min-rent-1br-2br-3br-seed"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },
@@ -59,6 +63,10 @@ const listingSeeds: any[] = [
   ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed,
   ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed,
   ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed,
+  ListingDefaultSummaryHighMinRent2Br3Br,
+  ListingDefaultSummaryLowMinRent1Br2Br3Br4Br,
+  ListingDefaultSummaryMediumMinRent1Br2Br,
+  ListingDefaultSummaryWideRangingMinRent1Br2Br3Br,
   Listing10145Seed,
   Listing10147Seed,
   Listing10157Seed,
