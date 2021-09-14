@@ -98,7 +98,7 @@ export class FrontEndFilters {
     this.filters[filterName].value = filterValue
     if (filterName === COMMUNITY_TYPE && filterValue === ListingFilterKeys.seniorHousing) {
       this.filters[ListingFilterKeys.seniorHousing].value = true
-    } else if (filterName === ListingFilterKeys.seniorHousing && filterValue == true) {
+    } else if (filterName === ListingFilterKeys.seniorHousing && filterValue == "true") {
       this.filters[COMMUNITY_TYPE].value = ListingFilterKeys.seniorHousing
     }
   }
