@@ -49,7 +49,7 @@ export class ListingsService {
           }
         default:
           throw new HttpException(
-            `OrderBy parameter (${params.orderBy}) not recognized or not yet implemented.`,
+            `OrderBy parameter not recognized or not yet implemented.`,
             HttpStatus.NOT_IMPLEMENTED
           )
       }
@@ -102,6 +102,8 @@ export class ListingsService {
       // given listing, its unitSummaries or units are sorted from lowest to highest
       // bedroom count.
       .addOrderBy("summaryUnitType.num_bedrooms", "ASC", "NULLS LAST")
+      // Order by units.maxOccupancy is applied last so that it affects the order
+      // of units _within_ a listing, rather than the overall listing order)
       .addOrderBy("units.max_occupancy", "ASC", "NULLS LAST")
       .getMany()
 

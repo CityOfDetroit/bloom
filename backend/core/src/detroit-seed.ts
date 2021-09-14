@@ -3,7 +3,6 @@ import { NestFactory } from "@nestjs/core"
 import yargs from "yargs"
 import { UserService } from "./auth/services/user.service"
 import { plainToClass } from "class-transformer"
-import { UserCreateDto } from "./auth/dto/user.dto"
 import { Repository } from "typeorm"
 import { getRepositoryToken } from "@nestjs/typeorm"
 import { User } from "./auth/entities/user.entity"
@@ -27,6 +26,7 @@ import { Listing10159Seed } from "./seeds/listings/listing-detroit-10159"
 import { Listing10168Seed } from "./seeds/listings/listing-detroit-10168"
 import { createJurisdictions } from "./seeds/jurisdictions"
 import { Jurisdiction } from "./jurisdictions/entities/jurisdiction.entity"
+import { UserCreateDto } from "./auth/dto/user-create.dto"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },

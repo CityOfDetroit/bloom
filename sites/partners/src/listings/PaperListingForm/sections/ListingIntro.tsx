@@ -23,7 +23,6 @@ const ListingIntro = () => {
       return (
         <Controller
           type="hidden"
-          id={"jurisdiction.id"}
           defaultValue={profile.jurisdictions[0].id}
           name="jurisdiction.id"
           as={<input />}

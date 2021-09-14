@@ -24,7 +24,6 @@ import { ApiProperty, OmitType, getSchemaPath } from "@nestjs/swagger"
 import { IdDto } from "../../shared/dto/id.dto"
 import { AddressCreateDto, AddressDto, AddressUpdateDto } from "../../shared/dto/address.dto"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
-import { UserBasicDto } from "../../auth/dto/user.dto"
 import { ListingStatus } from "../types/listing-status-enum"
 import { AvailabilityFilterEnum, ListingFilterKeys } from "../types/listing-filter-keys-enum"
 import { PaginationFactory, PaginationAllowsAllQueryParams } from "../../shared/dto/pagination.dto"
@@ -32,7 +31,11 @@ import { BaseFilter } from "../../shared/dto/filter.dto"
 import { UnitCreateDto, UnitDto, UnitUpdateDto } from "../../units/dto/unit.dto"
 import { ReservedCommunityTypeDto } from "../../reserved-community-type/dto/reserved-community-type.dto"
 import { AssetCreateDto, AssetDto, AssetUpdateDto } from "../../assets/dto/asset.dto"
-import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
+import {
+  ApplicationMethodCreateDto,
+  ApplicationMethodDto,
+  ApplicationMethodUpdateDto,
+} from "../../application-methods/dto/application-method.dto"
 import { ListingEventCreateDto, ListingEventDto, ListingEventUpdateDto } from "./listing-event.dto"
 import { listingUrlSlug } from "../../shared/url-helper"
 import {
@@ -42,6 +45,7 @@ import {
 } from "../../units-summary/dto/units-summary.dto"
 import { OrderByFieldsEnum } from "../types/listing-orderby-enum"
 import { IdNameDto } from "../../shared/dto/idName.dto"
+import { UserBasicDto } from "../../auth/dto/user-basic.dto"
 
 export class ListingDto extends OmitType(Listing, [
   "applicationAddress",
@@ -386,8 +390,8 @@ export class ListingCreateDto extends OmitType(ListingDto, [
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
   @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
-  @Type(() => IdDto)
-  applicationMethods: IdDto[]
+  @Type(() => ApplicationMethodCreateDto)
+  applicationMethods: ApplicationMethodCreateDto[]
 
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
@@ -601,8 +605,8 @@ export class ListingUpdateDto extends OmitType(ListingDto, [
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
   @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
-  @Type(() => IdDto)
-  applicationMethods: IdDto[]
+  @Type(() => ApplicationMethodUpdateDto)
+  applicationMethods: ApplicationMethodUpdateDto[]
 
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
