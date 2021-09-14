@@ -493,27 +493,9 @@ describe("Listings", () => {
       expect(highMinRentsListingIndex).toBeLessThan(nullMinRentListingIndex)
     })
 
-    /*
     it("can sort listings by minimum rent, with a bedroom filter applied", async () => {
-      const res = await supertest(app.getHttpServer())
-        .get(`/listings?orderBy=minRentLowToHigh&limit=all`)
-        .expect(200)
-
-      const listings = res.body.items
-
-      expect(listings[0].name).toBe("New Center Commons") // min rent: 470
-      expect(listings[1].name).toBe("Medical Center Village") // min rent: 500
-      expect(listings[2].name).toBe("Treymore Apartments") // min rent: 707
-      expect(listings[3].name).toBe("Melrose Square Homes") // min rent: 1300
-
-      // Verify that all of the unitSummaries for all of the remaining listings are null.
-      for (let i = 4; i < listings.length; ++i) {
-        for (const unitSummary of listings[i].unitSummary) {
-          expect(unitSummary.monthly_rent_min).toBeNull()
-        }
-      }
+      // TODO
     })
-    */
 
     it("sorts listing.unitsSummary by number of bedrooms (ascending)", async () => {
       const listings = await supertest(app.getHttpServer()).get("/listings?limit=all").expect(200)
