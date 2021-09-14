@@ -77,23 +77,6 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
             [whereParameterName]: filterValue,
           })
           break
-        case Compare["=U"]:
-          qb.andWhere(
-            `LOWER(CAST(${filterField} as text)) = LOWER(:${whereParameterName}) OR ${filterField} IS NULL`,
-            {
-              [whereParameterName]: filterValue,
-            }
-          )
-          break
-        case Compare[">=U"]:
-        case Compare["<=U"]:
-          qb.andWhere(
-            `${filterField} ${comparison} :${whereParameterName} OR ${filterField} IS NULL`,
-            {
-              [whereParameterName]: filterValue,
-            }
-          )
-          break
         case Compare.NA:
           // If we're here, it's because we expected this filter to be handled by a custom filter handler
           // that ignores the $comparison param, but it was not.
