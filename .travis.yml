@@ -29,7 +29,7 @@ jobs:
       name: "Build public site"
       script: 
         - cd backend/core
-        - yarn start
+        - yarn nest start &
         - cd ../../
         - yarn wait-on "http-get://localhost:3100/listings"
         - yarn build:app:public
