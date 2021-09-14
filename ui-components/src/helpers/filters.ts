@@ -63,10 +63,10 @@ export class FrontEndFilter {
     }
   }
 
-  getFilterType() {
+  getBackendFilterType() {
     return this.name
   }
-  getFilterValue() {
+  getBackendFilterValue() {
     return this.value
   }
 }
@@ -101,10 +101,10 @@ export class FrontEndFilters {
 }
 
 export class CommunityTypeFilter extends FrontEndFilter {
-  getFilterType() {
+  getBackendFilterType() {
     return this.value
   }
-  getFilterValue() {
+  getBackendFilterValue() {
     if (this.value == EMPTY_OPTION || this.value == undefined) {
       return undefined
     } else {
@@ -145,8 +145,8 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
 export function encodeToBackendFilterArray(filters: Record<string, FrontEndFilter>) {
   const filterArray = []
   for (const filterName in filters) {
-    const type = filters[filterName].getFilterType()
-    const value = filters[filterName].getFilterValue()
+    const type = filters[filterName].getBackendFilterType()
+    const value = filters[filterName].getBackendFilterValue()
     if (type in ListingFilterKeys && value !== undefined && value !== "") {
       const comparison = getComparisonForFilter(ListingFilterKeys[type])
       filterArray.push({ $comparison: comparison, [type]: value })
@@ -158,8 +158,8 @@ export function encodeToBackendFilterArray(filters: Record<string, FrontEndFilte
 export function encodeToFrontendFilterString(filters: Record<string, FrontEndFilter>) {
   let queryString = ""
   for (const filterName in filters) {
-    const type = filters[filterName].getFilterType()
-    const value = filters[filterName].getFilterValue()
+    const type = filters[filterName].getBackendFilterType()
+    const value = filters[filterName].getBackendFilterValue()
     if (type in ListingFilterKeys && value !== undefined && value !== "") {
       queryString += `&${type}=${value}`
     }
