@@ -73,7 +73,7 @@ const ListingsPage = ({ initialListings }) => {
           {t("listingFilters.buttonTitle")}
         </Button>
       </div>
-      {initialListings?.meta.totalItems === 0 && (
+      {initialListings?.meta?.totalItems === 0 && (
         <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
           <header>
             <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
@@ -81,9 +81,9 @@ const ListingsPage = ({ initialListings }) => {
           </header>
         </div>
       )}
-      {initialListings?.meta.totalItems > 0 && (
+      {initialListings?.meta?.totalItems > 0 && (
         <div>
-          {initialListings?.meta.totalItems > 0 && getListings(initialListings?.items)}
+          {initialListings?.meta?.totalItems > 0 && getListings(initialListings?.items)}
           <AgPagination
             totalItems={initialListings?.meta.totalItems}
             totalPages={initialListings?.meta.totalPages}
