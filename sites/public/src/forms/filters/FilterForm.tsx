@@ -58,10 +58,6 @@ const FilterForm = (props: FilterFormProps) => {
       label: t("listingFilters.communityTypeOptions.specialNeeds"),
     },
   ]
-  const neighborhoodOptions: SelectOption[] = [
-    EMPTY_OPTION,
-    { value: "Foster City", label: "Foster City" },
-  ]
   const availabilityOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
@@ -128,15 +124,6 @@ const FilterForm = (props: FilterFormProps) => {
             defaultValue={props.filterState?.maxRent}
           />
         </div>
-        <Select
-          id="neighborhoodOptions"
-          name={ListingFilterKeys.neighborhood}
-          label={t("listingFilters.neighborhood")}
-          register={register}
-          controlClassName="control"
-          options={neighborhoodOptions}
-          defaultValue={props.filterState?.neighborhood}
-        />
         <Select
           id="adaCompliant"
           name="adaCompliant"
