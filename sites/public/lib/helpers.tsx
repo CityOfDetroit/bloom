@@ -7,6 +7,7 @@ import {
   getSummariesTableFromUnitSummary,
   getSummariesTableFromUnitsSummary,
 } from "@bloom-housing/ui-components"
+import React from "react"
 
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
