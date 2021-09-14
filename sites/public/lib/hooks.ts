@@ -12,11 +12,7 @@ import {
   FrontEndFilter,
   encodeToBackendFilterArray,
 } from "@bloom-housing/ui-components"
-import {
-  Listing,
-  ListingReviewOrder,
-  OrderByFieldsEnum,
-} from "@bloom-housing/backend-core/types"
+import { Listing, ListingReviewOrder, OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
 
