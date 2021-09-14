@@ -133,7 +133,6 @@ export class Listing10145Seed extends ListingDefaultSeed {
       unitType: unitTypeOneBdrm,
       totalCount: 28,
       listing: listing,
-      monthlyRentMin: 500,
     }
     mcvUnitsSummaryToBeCreated.push(oneBdrmUnitsSummary)
 
@@ -141,7 +140,6 @@ export class Listing10145Seed extends ListingDefaultSeed {
       unitType: unitTypeTwoBdrm,
       totalCount: 142,
       listing: listing,
-      monthlyRentMin: 600,
     }
     mcvUnitsSummaryToBeCreated.push(twoBdrmUnitsSummary)
 
@@ -149,7 +147,6 @@ export class Listing10145Seed extends ListingDefaultSeed {
       unitType: unitTypeThreeBdrm,
       totalCount: 24,
       listing: listing,
-      monthlyRentMin: 700,
     }
     mcvUnitsSummaryToBeCreated.push(threeBdrmUnitsSummary)
 

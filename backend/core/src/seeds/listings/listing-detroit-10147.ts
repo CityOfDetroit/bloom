@@ -123,21 +123,19 @@ export class Listing10147Seed extends ListingDefaultSeed {
 
     const mshUnitsSummaryToBeCreated: UnitsSummaryCreateDto[] = []
 
-    const threeBdrmUnitsSummary: UnitsSummaryCreateDto = {
-      unitType: unitTypeThreeBdrm,
-      totalCount: 9,
-      listing: listing,
-      monthlyRentMin: 1300,
-    }
-    mshUnitsSummaryToBeCreated.push(threeBdrmUnitsSummary)
-
     const fourBdrmUnitsSummary: UnitsSummaryCreateDto = {
       unitType: unitTypeFourBdrm,
       totalCount: 15,
       listing: listing,
-      monthlyRentMin: 1500,
     }
     mshUnitsSummaryToBeCreated.push(fourBdrmUnitsSummary)
+
+    const threeBdrmUnitsSummary: UnitsSummaryCreateDto = {
+      unitType: unitTypeThreeBdrm,
+      totalCount: 9,
+      listing: listing,
+    }
+    mshUnitsSummaryToBeCreated.push(threeBdrmUnitsSummary)
 
     await this.unitsSummaryRepository.save(mshUnitsSummaryToBeCreated)
 
