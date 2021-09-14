@@ -475,11 +475,21 @@ describe("Listings", () => {
 
       const listings = res.body.items
 
-      const lowMinRentsListingIndex = listings.findIndex((listing) => listing.name === "Test: Default, Summary With Low Minimum Rents")
-      const mediumMinRentsListingIndex = listings.findIndex((listing) => listing.name === "Test: Default, Summary With Medium Minimum Rents")
-      const highMinRentsListingIndex = listings.findIndex((listing) => listing.name === "Test: Default, Summary With High Minimum Rents")
-      const wideRangingMinRentsListingIndex = listings.findIndex((listing) => listing.name === "Test: Default, Summary With Wide-Ranging Minimum Rents")
-      const nullMinRentListingIndex = listings.findIndex((listing) => listing.name === "Test: Default")
+      const lowMinRentsListingIndex = listings.findIndex(
+        (listing) => listing.name === "Test: Default, Summary With Low Minimum Rents"
+      )
+      const mediumMinRentsListingIndex = listings.findIndex(
+        (listing) => listing.name === "Test: Default, Summary With Medium Minimum Rents"
+      )
+      const highMinRentsListingIndex = listings.findIndex(
+        (listing) => listing.name === "Test: Default, Summary With High Minimum Rents"
+      )
+      const wideRangingMinRentsListingIndex = listings.findIndex(
+        (listing) => listing.name === "Test: Default, Summary With Wide-Ranging Minimum Rents"
+      )
+      const nullMinRentListingIndex = listings.findIndex(
+        (listing) => listing.name === "Test: Default"
+      )
 
       // Order should be:
       // - "Low Minimum Rents" (lowest minimum rent: 100)
