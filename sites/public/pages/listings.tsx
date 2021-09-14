@@ -10,16 +10,16 @@ import {
   LinkButton,
   encodeToFrontendFilterString,
 } from "@bloom-housing/ui-components"
-import Layout from "../../layouts/application"
-import { MetaTags } from "../../src/MetaTags"
+import Layout from "../layouts/application"
+import { MetaTags } from "../src/MetaTags"
 import React, { useState } from "react"
 import { useRouter } from "next/router"
 import {
   EnumListingFilterParamsComparison,
   ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
-import FilterForm from "../../src/forms/filters/FilterForm"
-import { getListings } from "../../lib/helpers"
+import FilterForm from "../src/forms/filters/FilterForm"
+import { getListings } from "../lib/helpers"
 
 const emptyFilters: ListingFilterParams = {
   $comparison: EnumListingFilterParamsComparison.NA,
