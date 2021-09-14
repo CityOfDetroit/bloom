@@ -53,6 +53,10 @@ import { ListingDefaultSummaryWith30And60AmiPercentageSeed } from "../seeds/list
 import { ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed } from "../seeds/listings/listing-default-summary-without-and-listing-with-20-ami-percentage-seed"
 import { ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-30-listing-with-10-ami-percentage-seed"
 import { ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-10-listing-with-30-ami-percentage-seed"
+import { ListingDefaultSummaryHighMinRent2Br3Br } from "../seeds/listings/listing-default-summary-high-min-rent-2br-3br-seed"
+import { ListingDefaultSummaryLowMinRent1Br2Br3Br4Br } from "../seeds/listings/listing-default-summary-low-min-rent-1br-2br-3br-4br-seed"
+import { ListingDefaultSummaryWideRangingMinRent1Br2Br3Br } from "../seeds/listings/listing-default-summary-wide-ranging-min-rent-1br-2br-3br-seed"
+import { ListingDefaultSummaryMediumMinRent1Br2Br } from "../seeds/listings/listing-default-summary-medium-min-rent-1br-2br-seed"
 
 @Module({})
 export class SeederModule {
@@ -123,6 +127,10 @@ export class SeederModule {
         ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed,
         ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed,
         ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed,
+        ListingDefaultSummaryHighMinRent2Br3Br,
+        ListingDefaultSummaryLowMinRent1Br2Br3Br4Br,
+        ListingDefaultSummaryWideRangingMinRent1Br2Br3Br,
+        ListingDefaultSummaryMediumMinRent1Br2Br,
       ],
     }
   }
