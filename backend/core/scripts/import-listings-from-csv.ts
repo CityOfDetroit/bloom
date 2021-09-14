@@ -1,10 +1,9 @@
 import csv from "csv-parser"
 import fs from "fs"
-import { importListing, createUnitsArray } from "./listings-importer"
+import { importListing, createUnitsArray, getDetroitJurisdiction } from "./listings-importer"
 import {
   ListingCreate,
   AddressCreate,
-  CountyCode,
   CSVFormattingType,
   ListingStatus,
 } from "../types/src/backend-swagger"
@@ -32,10 +31,8 @@ async function main() {
   const [importApiUrl, userAndPassword, csvFilePath] = process.argv.slice(2)
   const [email, password] = userAndPassword.split(":")
 
-  // Regexes used to parse the "Affordability Mix" field
-  const amiRangeRegex = /(\d+)-(\d+)% AMI/ // e.g. 30-60% AMI
-  const amiValueRegex = /^(\d+)% AMI/ // e.g. 40% AMI
-  const amiUpperLimitRegex = /^Up to (\d+)% AMI/ // e.g. Up to 80% AMI
+  // Regex used to parse the AMI from an AMI column name
+  const amiColumnRegex = /(\d+) Pct AMI/ // e.g. 30 Pct AMI
 
   // Read raw CSV data into memory.
   // Note: createReadStream creates ReadStream's whose on("data", ...) methods are called
@@ -47,7 +44,7 @@ async function main() {
       .pipe(csv())
       .on("data", (listingFields) => {
         // Include only listings that are "regulated" affordable housing
-        const affordabilityStatus: string = listingFields["Affordability status [Regulated Only]"]
+        const affordabilityStatus: string = listingFields["Affordability status"]
         if (affordabilityStatus.toLowerCase() === "regulated") {
           rawListingFields.push(listingFields)
         }
@@ -58,6 +55,8 @@ async function main() {
   await promise
 
   console.log(`CSV file successfully read in; ${rawListingFields.length} listings to upload`)
+
+  const jurisdiction = await getDetroitJurisdiction(importApiUrl, email, password)
 
   const uploadFailureMessages = []
   let numListingsSuccessfullyUploaded = 0
@@ -71,49 +70,53 @@ async function main() {
       latitude: listingFields["Latitude"],
     }
 
-    // Add data about units
-    let units = []
+    // Add data about unitsSummaries
+    const unitsSummaries = []
     if (listingFields["Number 0BR"]) {
-      units = units.concat(createUnitsArray("studio", listingFields["Number 0BR"]))
+      unitsSummaries.push({
+        unitType: "studio",
+        totalCount: Number(listingFields["Number 0BR"]),
+      })
     }
     if (listingFields["Number 1BR"]) {
-      units = units.concat(createUnitsArray("oneBdrm", parseInt(listingFields["Number 1BR"])))
+      unitsSummaries.push({
+        unitType: "oneBdrm",
+        totalCount: Number(listingFields["Number 1BR"]),
+      })
     }
     if (listingFields["Number 2BR"]) {
-      units = units.concat(createUnitsArray("twoBdrm", parseInt(listingFields["Number 2BR"])))
+      unitsSummaries.push({
+        unitType: "twoBdrm",
+        totalCount: Number(listingFields["Number 2BR"]),
+      })
     }
     if (listingFields["Number 3BR"]) {
-      units = units.concat(createUnitsArray("threeBdrm", parseInt(listingFields["Number 3BR"])))
+      unitsSummaries.push({
+        unitType: "threeBdrm",
+        totalCount: Number(listingFields["Number 3BR"]),
+      })
     }
     // Lump 4BR and 5BR together as "fourBdrm"
     const numberFourBdrm = listingFields["Number 4BR"] ? parseInt(listingFields["Number 4BR"]) : 0
     const numberFiveBdrm = listingFields["Number 5BR"] ? parseInt(listingFields["Number 5BR"]) : 0
     if (numberFourBdrm + numberFiveBdrm > 0) {
-      units = units.concat(createUnitsArray("fourBdrm", numberFourBdrm + numberFiveBdrm))
-    }
-
-    // If we don't have any data per unit type, but we do have an overall count, create that many
-    // "unknown" units
-    if (units.length == 0 && listingFields["Affordable Units"]) {
-      createUnitsArray("unknown", parseInt(listingFields["Affordable Units"]))
+      unitsSummaries.push({
+        unitType: "fourBdrm",
+        totalCount: numberFourBdrm + numberFiveBdrm,
+      })
     }
 
     // Listing affordability details
     let amiPercentageMin, amiPercentageMax
-    const affordabilityMix: string = listingFields["Affordability Mix"]
-    const amiRange: string[] = amiRangeRegex.exec(affordabilityMix)
-    const amiValue: string[] = amiValueRegex.exec(affordabilityMix)
-    const amiUpperLimit: string[] = amiUpperLimitRegex.exec(affordabilityMix)
-    if (amiRange) {
-      amiPercentageMin = parseInt(amiRange[1])
-      amiPercentageMax = parseInt(amiRange[2])
-    }
-    if (amiValue) {
-      amiPercentageMin = parseInt(amiValue[1])
-      amiPercentageMax = parseInt(amiValue[1])
-    }
-    if (amiUpperLimit) {
-      amiPercentageMax = parseInt(amiUpperLimit[1])
+    const listingFieldsArray = Object.entries(listingFields)
+    const colStart = listingFieldsArray.findIndex((element) => element[0] === "15 Pct AMI")
+    const colEnd = listingFieldsArray.findIndex((element) => element[0] === "80 Pct AMI")
+    for (const [key, value] of listingFieldsArray.slice(colStart, colEnd + 1)) {
+      if (!value) continue
+      if (!amiPercentageMin) {
+        amiPercentageMin = parseInt(amiColumnRegex.exec(key)[1])
+      }
+      amiPercentageMax = parseInt(amiColumnRegex.exec(key)[1])
     }
 
     let leasingAgentEmail = null
@@ -126,7 +129,6 @@ async function main() {
       hrdId: listingFields["HRDID"],
       buildingAddress: address,
       region: listingFields["Region"],
-      units: units,
       ownerCompany: listingFields["Owner Company"],
       managementCompany: listingFields["Management Company"],
       leasingAgentName: listingFields["Manager Contact"],
@@ -134,12 +136,14 @@ async function main() {
       managementWebsite: listingFields["Management Website"],
       leasingAgentEmail: leasingAgentEmail,
       phoneNumber: listingFields["Property Phone"],
-      countyCode: CountyCode.Detroit,
       amiPercentageMin: amiPercentageMin,
       amiPercentageMax: amiPercentageMax,
       status: ListingStatus.active,
+      unitsSummary: unitsSummaries,
+      jurisdiction: jurisdiction,
 
       // The following fields are only set because they are required
+      units: [],
       CSVFormattingType: CSVFormattingType.basic,
       applicationMethods: [],
       preferences: [],
