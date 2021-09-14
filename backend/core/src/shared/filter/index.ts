@@ -5,12 +5,7 @@ import {
   AvailabilityFilterEnum,
   ListingFilterKeys,
 } from "../../listings/types/listing-filter-keys-enum"
-import {
-  addSeniorHousingQuery,
-  addAvailabilityQuery,
-  addCommunityTypeQuery,
-} from "./custom_filters"
-import Listing from "../../listings/entities/listing.entity"
+import { addSeniorHousingQuery, addAvailabilityQuery } from "./custom_filters"
 
 /**
  *
