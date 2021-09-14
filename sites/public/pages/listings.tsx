@@ -202,12 +202,12 @@ const ListingsPage = () => {
             />
             <Select
               id="communityType"
-              name="communityType"
+              name={COMMUNITY_TYPE}
               label={t("listingFilters.communityType")}
               register={register}
               controlClassName="control"
               options={filters[COMMUNITY_TYPE].options()}
-              defaultValue={filters["communityType"].value}
+              defaultValue={filters[COMMUNITY_TYPE].value}
             />
           </div>
           <div className="text-center mt-6">

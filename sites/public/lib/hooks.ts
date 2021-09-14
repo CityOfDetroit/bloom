@@ -49,7 +49,6 @@ const listingsFetcher = function () {
     limit: number,
     filters: Record<string, FrontEndFilter>
   ) => {
-    console.log("encode filters", encodeToBackendFilterString(filters))
     const res = await axios.get(
       `${url}?page=${page}&limit=${limit}${encodeToBackendFilterString(filters)}`
     )

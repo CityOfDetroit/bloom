@@ -12,6 +12,9 @@ export const COMMUNITY_TYPE = "communityType"
 export const EMPTY_OPTION = { value: "", label: "" }
 
 // TODO: Select options should come from the database (#252)
+// The options needs to be methods to avoid a race condition in translation
+// generation. The translations need to be generated after the app is
+// initialized.
 export const adaCompliantOptions: () => SelectOption[] = () => [
   EMPTY_OPTION,
   { value: "n", label: t("t.no") },
@@ -98,9 +101,7 @@ export class CommunityTypeFilter extends FrontEndFilter {
 }
 
 export const blankFrontEndFilters = () => {
-  const filters = new FrontEndFilters()
-  console.log(filters)
-  return filters
+  return new FrontEndFilters()
 }
 
 function getComparisonForFilter(filterKey: ListingFilterKeys) {
@@ -118,7 +119,6 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
       return EnumListingFilterParamsComparison["IN"]
     case ListingFilterKeys.availability:
     case ListingFilterKeys.seniorHousing:
-    case ListingFilterKeys.communityType:
       return EnumListingFilterParamsComparison["NA"]
     default: {
       const _exhaustiveCheck: never = filterKey
@@ -137,7 +137,6 @@ export function encodeToBackendFilterString(filters: Record<string, FrontEndFilt
       queryString += `&filter[$comparison]=${comparison}&filter[${type}]=${value}`
     }
   }
-  console.log(queryString)
   return queryString
 }
 

@@ -7,7 +7,6 @@ export enum ListingFilterKeys {
   zipcode = "zipcode",
   availability = "availability",
   seniorHousing = "seniorHousing",
-  communityType = "communityType",
   minRent = "minRent",
   maxRent = "maxRent",
 }

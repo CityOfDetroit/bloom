@@ -5,7 +5,12 @@ import {
   AvailabilityFilterEnum,
   ListingFilterKeys,
 } from "../../listings/types/listing-filter-keys-enum"
-import { addSeniorHousingQuery, addAvailabilityQuery, addCommunityTypeQuery } from "./custom_filters"
+import {
+  addSeniorHousingQuery,
+  addAvailabilityQuery,
+  addCommunityTypeQuery,
+} from "./custom_filters"
+import Listing from "../../listings/entities/listing.entity"
 
 /**
  *
@@ -78,13 +83,9 @@ export function addFilters<FilterParams, FilterFieldMap>(
             case ListingFilterKeys.seniorHousing:
               addSeniorHousingQuery(qb, filterValue)
               return
-            case ListingFilterKeys.communityType:
-              addCommunityTypeQuery(qb, filterValue)
+            case ListingFilterKeys.availability:
+              addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum)
               return
-          }
-          if (filterType == ListingFilterKeys.availability) {
-            addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum)
-            return
           }
 
           // Generic filter handler
