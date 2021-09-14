@@ -57,17 +57,27 @@ export const communityTypeOptions: () => SelectOption[] = () => [
  */
 export class FrontEndFilter {
   /* The frontend filter name. */
-  name: string
+  readonly name: string
 
   /* The frontend filter value.
    *
    * Do not set this value directly! Use the setValue method in FrontEndFilters.
    */
   value: any
-  options: () => SelectOption[]
 
-  constructor(name: string, options?: () => SelectOption[]) {
+  /* Comparison operator needed by the backend filter representation. */
+  readonly comparison: EnumListingFilterParamsComparison
+
+  /* The allowed options if this is a dropdown filter. */
+  readonly options: () => SelectOption[]
+
+  constructor(
+    name: string,
+    comparison: EnumListingFilterParamsComparison,
+    options?: () => SelectOption[]
+  ) {
     this.name = name
+    this.comparison = comparison
     if (options) {
       this.options = options
     }
@@ -95,14 +105,35 @@ export class FrontEndFilters {
 
   constructor() {
     this.filters = [
-      new CommunityTypeFilter(COMMUNITY_TYPE, communityTypeOptions),
-      new FrontEndFilter(ListingFilterKeys.availability, availabilityOptions),
-      new FrontEndFilter(ListingFilterKeys.neighborhood, neighborhoodOptions),
-      new FrontEndFilter(ListingFilterKeys.bedrooms, preferredUnitOptions),
-      new FrontEndFilter(ListingFilterKeys.zipcode),
-      new FrontEndFilter(ListingFilterKeys.minRent),
-      new FrontEndFilter(ListingFilterKeys.maxRent),
-      new FrontEndFilter(ListingFilterKeys.seniorHousing),
+      new CommunityTypeFilter(
+        COMMUNITY_TYPE,
+        EnumListingFilterParamsComparison["NA"],
+        communityTypeOptions
+      ),
+      new FrontEndFilter(
+        ListingFilterKeys.availability,
+        EnumListingFilterParamsComparison["NA"],
+        availabilityOptions
+      ),
+      new FrontEndFilter(
+        ListingFilterKeys.neighborhood,
+        EnumListingFilterParamsComparison["="],
+        neighborhoodOptions
+      ),
+      new FrontEndFilter(
+        ListingFilterKeys.bedrooms,
+        EnumListingFilterParamsComparison[">="],
+        preferredUnitOptions
+      ),
+      new FrontEndFilter(ListingFilterKeys.zipcode, EnumListingFilterParamsComparison["IN"]),
+      new FrontEndFilter(ListingFilterKeys.minRent, EnumListingFilterParamsComparison[">="]),
+      new FrontEndFilter(ListingFilterKeys.maxRent, EnumListingFilterParamsComparison["<="]),
+      new FrontEndFilter(ListingFilterKeys.seniorHousing, EnumListingFilterParamsComparison["NA"]),
+      // Check if the filters below are used or should be deleted
+      new FrontEndFilter(ListingFilterKeys.name, EnumListingFilterParamsComparison["="]),
+      new FrontEndFilter(ListingFilterKeys.leasingAgents, EnumListingFilterParamsComparison["="]),
+      new FrontEndFilter(ListingFilterKeys.status, EnumListingFilterParamsComparison["="]),
+      new FrontEndFilter(ListingFilterKeys.ami, EnumListingFilterParamsComparison["NA"]),
     ].reduce(function (filters: Record<string, FrontEndFilter>, currFilter: FrontEndFilter) {
       filters[currFilter.name] = currFilter
       return filters
@@ -127,38 +158,14 @@ export const blankFrontEndFilters = () => {
   return new FrontEndFilters()
 }
 
-function getComparisonForFilter(filterKey: ListingFilterKeys) {
-  switch (filterKey) {
-    case ListingFilterKeys.name:
-    case ListingFilterKeys.neighborhood:
-    case ListingFilterKeys.status:
-    case ListingFilterKeys.leasingAgents:
-      return EnumListingFilterParamsComparison["="]
-    case ListingFilterKeys.bedrooms:
-    case ListingFilterKeys.minRent:
-      return EnumListingFilterParamsComparison[">="]
-    case ListingFilterKeys.maxRent:
-      return EnumListingFilterParamsComparison["<="]
-    case ListingFilterKeys.zipcode:
-      return EnumListingFilterParamsComparison["IN"]
-    case ListingFilterKeys.availability:
-    case ListingFilterKeys.seniorHousing:
-    case ListingFilterKeys.ami:
-      return EnumListingFilterParamsComparison["NA"]
-    default: {
-      const _exhaustiveCheck: never = filterKey
-      return _exhaustiveCheck
-    }
-  }
-}
-
 export function encodeToBackendFilterArray(filters: Record<string, FrontEndFilter>) {
   const filterArray = []
   for (const filterName in filters) {
     const type = filters[filterName].getBackendFilterType()
     const value = filters[filterName].getBackendFilterValue()
+    const comparison = filters[filterName].comparison
+
     if (type in ListingFilterKeys && value !== undefined && value !== "") {
-      const comparison = getComparisonForFilter(ListingFilterKeys[type])
       filterArray.push({ $comparison: comparison, [type]: value })
     }
   }
