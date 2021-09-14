@@ -5,16 +5,25 @@ import {
 } from "../../listings/types/listing-filter-keys-enum"
 import { filterTypeToFieldMap } from "../../listings/dto/listing.dto"
 
-export function addSeniorHousingQuery(qb: WhereExpression, filterValue: string) {
+export function addSeniorHousingQuery(
+  qb: WhereExpression,
+  filterValue: string,
+  includeNulls?: boolean
+) {
   const whereParameterName = ListingFilterKeys.seniorHousing
   const seniorHousingCommunityType = "senior62"
   const reservedCommunityTypeColumnName = `LOWER(CAST(${
     filterTypeToFieldMap[ListingFilterKeys.seniorHousing]
   } as text))`
   if (filterValue == "true") {
-    qb.andWhere(`${reservedCommunityTypeColumnName} = LOWER(:${whereParameterName})`, {
-      [whereParameterName]: seniorHousingCommunityType,
-    })
+    qb.andWhere(
+      `${reservedCommunityTypeColumnName} = LOWER(:${whereParameterName})  ${
+        includeNulls ? `OR ${reservedCommunityTypeColumnName} IS NULL` : ""
+      }`,
+      {
+        [whereParameterName]: seniorHousingCommunityType,
+      }
+    )
   } else if (filterValue == "false") {
     qb.andWhere(
       `(${reservedCommunityTypeColumnName} IS NULL OR ${reservedCommunityTypeColumnName} <> LOWER(:${whereParameterName}))`,
@@ -25,23 +34,42 @@ export function addSeniorHousingQuery(qb: WhereExpression, filterValue: string) 
   }
 }
 
-export function addAvailabilityQuery(qb: WhereExpression, filterValue: AvailabilityFilterEnum) {
+export function addAvailabilityQuery(
+  qb: WhereExpression,
+  filterValue: AvailabilityFilterEnum,
+  includeNulls?: boolean
+) {
   const whereParameterName = "availability"
   switch (filterValue) {
     case AvailabilityFilterEnum.hasAvailability:
-      qb.andWhere(`unitsSummary.total_available >= :${whereParameterName}`, {
-        [whereParameterName]: 1,
-      })
+      qb.andWhere(
+        `unitsSummary.total_available >= :${whereParameterName}   ${
+          includeNulls ? `OR unitsSummary.total_available IS NULL` : ""
+        }`,
+        {
+          [whereParameterName]: 1,
+        }
+      )
       return
     case AvailabilityFilterEnum.noAvailability:
-      qb.andWhere(`unitsSummary.total_available = :${whereParameterName}`, {
-        [whereParameterName]: 0,
-      })
+      qb.andWhere(
+        `unitsSummary.total_available = :${whereParameterName}   ${
+          includeNulls ? `OR unitsSummary.total_available IS NULL` : ""
+        }`,
+        {
+          [whereParameterName]: 0,
+        }
+      )
       return
     case AvailabilityFilterEnum.waitlist:
-      qb.andWhere(`listings.is_waitlist_open = :${whereParameterName}`, {
-        [whereParameterName]: true,
-      })
+      qb.andWhere(
+        `listings.is_waitlist_open = :${whereParameterName}   ${
+          includeNulls ? `OR listings.is_waitlist_open is NULL` : ""
+        }`,
+        {
+          [whereParameterName]: true,
+        }
+      )
       return
     default:
       return
