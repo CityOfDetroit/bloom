@@ -52,12 +52,15 @@ export const communityTypeOptions: () => SelectOption[] = () => [
 
 export class FrontEndFilter {
   name: string
+  // Do not set this value directly! Use the setValue method in FrontEndFilters.
   value: any
   options: () => SelectOption[]
 
-  constructor(name: string, options: () => SelectOption[]) {
+  constructor(name: string, options?: () => SelectOption[]) {
     this.name = name
-    this.options = options
+    if (options) {
+      this.options = options
+    }
   }
 
   getFilterType() {
@@ -71,15 +74,25 @@ export class FrontEndFilter {
 export class FrontEndFilters {
   filters: Record<string, FrontEndFilter>
 
+  setValue(filterName: string, filterValue: any) {
+    this.filters[filterName].value = filterValue
+    if (filterName === COMMUNITY_TYPE && filterValue === ListingFilterKeys.seniorHousing) {
+      this.filters[ListingFilterKeys.seniorHousing].value = true
+    } else if (filterName === ListingFilterKeys.seniorHousing && filterValue == true) {
+      this.filters[COMMUNITY_TYPE].value = ListingFilterKeys.seniorHousing
+    }
+  }
+
   constructor() {
     this.filters = [
       new CommunityTypeFilter(COMMUNITY_TYPE, communityTypeOptions),
       new FrontEndFilter(ListingFilterKeys.availability, availabilityOptions),
       new FrontEndFilter(ListingFilterKeys.neighborhood, neighborhoodOptions),
       new FrontEndFilter(ListingFilterKeys.bedrooms, preferredUnitOptions),
-      new FrontEndFilter(ListingFilterKeys.zipcode, null),
-      new FrontEndFilter(ListingFilterKeys.minRent, null),
-      new FrontEndFilter(ListingFilterKeys.maxRent, null),
+      new FrontEndFilter(ListingFilterKeys.zipcode),
+      new FrontEndFilter(ListingFilterKeys.minRent),
+      new FrontEndFilter(ListingFilterKeys.maxRent),
+      new FrontEndFilter(ListingFilterKeys.seniorHousing),
     ].reduce(function (filters: Record<string, FrontEndFilter>, currFilter: FrontEndFilter) {
       filters[currFilter.name] = currFilter
       return filters
@@ -157,11 +170,8 @@ export function encodeToFrontendFilterString(filters: Record<string, FrontEndFil
 export function decodeFiltersFromFrontendUrl(query: ParsedUrlQuery) {
   const frontEndFilters = blankFrontEndFilters()
   for (const queryKey in query) {
-    if (queryKey == ListingFilterKeys.seniorHousing && query[queryKey] == "true") {
-      frontEndFilters.filters[COMMUNITY_TYPE].value = ListingFilterKeys.seniorHousing
-    }
     if (frontEndFilters.filters[queryKey] !== undefined) {
-      frontEndFilters.filters[queryKey].value = query[queryKey]
+      frontEndFilters.setValue(queryKey, query[queryKey])
     }
   }
   return frontEndFilters
