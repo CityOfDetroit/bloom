@@ -19,7 +19,7 @@ export class ListingDefaultSummaryMediumMinRent1Br2Br extends ListingDefaultSeed
       unitType: unitTypeOneBdrm,
       totalCount: 5,
       listing: listing,
-      monthlyRentMin: 500
+      monthlyRentMin: 500,
     }
     unitsSummaryToBeCreated.push(oneBdrmUnitsSummary)
 
@@ -27,7 +27,7 @@ export class ListingDefaultSummaryMediumMinRent1Br2Br extends ListingDefaultSeed
       unitType: unitTypeTwoBdrm,
       totalCount: 5,
       listing: listing,
-      monthlyRentMin: 800
+      monthlyRentMin: 800,
     }
     unitsSummaryToBeCreated.push(twoBdrmUnitsSummary)
 

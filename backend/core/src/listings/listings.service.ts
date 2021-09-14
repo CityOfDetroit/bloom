@@ -28,7 +28,7 @@ export class ListingsService {
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     private readonly translationService: TranslationsService
-  ) { }
+  ) {}
 
   private getFullyJoinedQueryBuilder() {
     return getView(this.listingRepository.createQueryBuilder("listings"), "full").getViewQb()
@@ -40,7 +40,7 @@ export class ListingsService {
         case OrderByFieldsEnum.mostRecentlyUpdated:
           return { "listings.updated_at": "DESC" }
         case OrderByFieldsEnum.minRentLowToHigh:
-          return { "lowestMinimumRent": "ASC" }
+          return { lowestMinimumRent: "ASC" }
         case OrderByFieldsEnum.applicationDates:
         case undefined:
           // Default to ordering by applicationDates (i.e. applicationDueDate

@@ -21,7 +21,7 @@ export class ListingDefaultSummaryLowMinRent1Br2Br3Br4Br extends ListingDefaultS
       unitType: unitTypeOneBdrm,
       totalCount: 5,
       listing: listing,
-      monthlyRentMin: 100
+      monthlyRentMin: 100,
     }
     unitsSummaryToBeCreated.push(oneBdrmUnitsSummary)
 
@@ -29,7 +29,7 @@ export class ListingDefaultSummaryLowMinRent1Br2Br3Br4Br extends ListingDefaultS
       unitType: unitTypeTwoBdrm,
       totalCount: 5,
       listing: listing,
-      monthlyRentMin: 200
+      monthlyRentMin: 200,
     }
     unitsSummaryToBeCreated.push(twoBdrmUnitsSummary)
 
@@ -37,7 +37,7 @@ export class ListingDefaultSummaryLowMinRent1Br2Br3Br4Br extends ListingDefaultS
       unitType: unitTypeThreeBdrm,
       totalCount: 5,
       listing: listing,
-      monthlyRentMin: 300
+      monthlyRentMin: 300,
     }
     unitsSummaryToBeCreated.push(threeBdrmUnitsSummary)
 
@@ -45,7 +45,7 @@ export class ListingDefaultSummaryLowMinRent1Br2Br3Br4Br extends ListingDefaultS
       unitType: unitTypeFourBdrm,
       totalCount: 5,
       listing: listing,
-      monthlyRentMin: 400
+      monthlyRentMin: 400,
     }
     unitsSummaryToBeCreated.push(fourBdrmUnitsSummary)
 
