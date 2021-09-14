@@ -50,9 +50,19 @@ export const communityTypeOptions: () => SelectOption[] = () => [
   },
 ]
 
+/* Representation of the front end filters.
+ *
+ * This is decoupled from the backend representation in ListingFilterParams to
+ * allow greater flexibility in how filters are displayed in the front end.
+ */
 export class FrontEndFilter {
+  /* The frontend filter name. */
   name: string
-  // Do not set this value directly! Use the setValue method in FrontEndFilters.
+
+  /* The frontend filter value.
+   *
+   * Do not set this value directly! Use the setValue method in FrontEndFilters.
+   */
   value: any
   options: () => SelectOption[]
 
