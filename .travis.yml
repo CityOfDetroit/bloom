@@ -25,16 +25,9 @@ jobs:
   include:
     - script: yarn test:shared:ui
       name: "UI components tests"
-    - stage: build public site
+    - script: yarn build:app:public
       name: "Build public site"
-      script: 
-        - cd backend/core
-        - yarn nest start &
-        - cd ../../
-        - yarn wait-on "http-get://localhost:3100/listings"
-        - yarn build:app:public
-        - kill $(jobs -p) || true
-  - script: yarn build:app:partners
+    - script: yarn build:app:partners
       name: "Build partners site"
     - script: yarn test:backend:core:testdbsetup && yarn test:backend:core
       name: "Backend unit tests"
@@ -81,6 +74,7 @@ addons:
 env:
   global: PGPORT=5433
     PGUSER=travis
+    BACKEND_API_BASE=https://backend-core-tj3gg4i5eq-uc.a.run.app
     TEST_DATABASE_URL=postgres://localhost:5433/bloom_test
     REDIS_TLS_URL=redis://127.0.0.1:6379/0
     NEW_RELIC_ENABLED=false
