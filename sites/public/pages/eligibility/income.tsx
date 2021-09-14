@@ -12,6 +12,7 @@ import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
 import {
   AppearanceStyleType,
+  blankFrontEndFilters,
   encodeToFrontendFilterString,
   Select,
 } from "@bloom-housing/ui-components"
@@ -22,6 +23,7 @@ import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
 import {
   EnumListingFilterParamsComparison,
+  ListingFilterKeys,
   ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
 
@@ -52,16 +54,13 @@ const EligibilityIncome = () => {
   }
 
   function getFilterUrl() {
-    const params: ListingFilterParams = {
-      // $comparison is a required field even though it won't be used on the frontend. Will be fixed in #484.
-      $comparison: EnumListingFilterParamsComparison.NA,
-    }
+    const filters = blankFrontEndFilters().filters
 
     if (eligibilityRequirements.age < SENIOR_AGE) {
-      params.seniorHousing = false
+      filters[ListingFilterKeys.seniorHousing].value = false
     }
 
-    return `/listings?${encodeToFrontendFilterString(params)}`
+    return `/listings?${encodeToFrontendFilterString(filters)}`
   }
 
   return (
