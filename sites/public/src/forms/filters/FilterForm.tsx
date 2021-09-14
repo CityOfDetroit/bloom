@@ -102,7 +102,7 @@ const FilterForm = (props: FilterFormProps) => {
           validation={{
             validate: (value) => isValidZipCodeOrEmpty(value),
           }}
-          error={errors.zipCodeField}
+          error={errors?.[ListingFilterKeys.zipcode]}
           errorMessage={t("errors.multipleZipCodeError")}
           defaultValue={props.filterState?.zipcode}
         />
