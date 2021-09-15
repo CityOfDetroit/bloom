@@ -31,10 +31,6 @@ export const preferredUnitOptions: () => SelectOption[] = () => [
   { value: "4", label: t("listingFilters.bedroomsOptions.fourPlus") },
 ]
 
-export const neighborhoodOptions: () => SelectOption[] = () => [
-  EMPTY_OPTION,
-  { value: "Foster City", label: "Foster City" },
-]
 export const availabilityOptions: () => SelectOption[] = () => [
   EMPTY_OPTION,
   { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
