@@ -113,12 +113,20 @@ export class FrontEndFilters {
     const hasSeniorHousingCommunityTypeOverCount =
       this.filters[ListingFilterKeys.seniorHousing].value != undefined &&
       this.filters[COMMUNITY_TYPE].value != undefined
+    // The false senior housing filter is not displayed in the filter modal,
+    // so we shouldn't count it
+    const hasSeniorHousingFalseFilter =
+      this.filters[ListingFilterKeys.seniorHousing].value === "false"
     if (hasMinMaxRentOverCount) {
       numberOfFilters -= 1
     }
     if (hasSeniorHousingCommunityTypeOverCount) {
       numberOfFilters -= 1
     }
+    if (hasSeniorHousingFalseFilter) {
+      numberOfFilters -= 1
+    }
+
     return numberOfFilters
   }
 
