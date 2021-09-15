@@ -17,9 +17,9 @@ export function addSeniorHousingQuery(
   } as text))`
   if (filterValue == "true") {
     qb.andWhere(
-      `${reservedCommunityTypeColumnName} = LOWER(:${whereParameterName})  ${
+      `(${reservedCommunityTypeColumnName} = LOWER(:${whereParameterName})  ${
         includeNulls ? `OR ${reservedCommunityTypeColumnName} IS NULL` : ""
-      }`,
+      })`,
       {
         [whereParameterName]: seniorHousingCommunityType,
       }
@@ -43,9 +43,9 @@ export function addAvailabilityQuery(
   switch (filterValue) {
     case AvailabilityFilterEnum.hasAvailability:
       qb.andWhere(
-        `unitsSummary.total_available >= :${whereParameterName}   ${
+        `(unitsSummary.total_available >= :${whereParameterName}   ${
           includeNulls ? `OR unitsSummary.total_available IS NULL` : ""
-        }`,
+        })`,
         {
           [whereParameterName]: 1,
         }
@@ -53,9 +53,9 @@ export function addAvailabilityQuery(
       return
     case AvailabilityFilterEnum.noAvailability:
       qb.andWhere(
-        `unitsSummary.total_available = :${whereParameterName}   ${
+        `(unitsSummary.total_available = :${whereParameterName}   ${
           includeNulls ? `OR unitsSummary.total_available IS NULL` : ""
-        }`,
+        })`,
         {
           [whereParameterName]: 0,
         }
@@ -63,9 +63,9 @@ export function addAvailabilityQuery(
       return
     case AvailabilityFilterEnum.waitlist:
       qb.andWhere(
-        `listings.is_waitlist_open = :${whereParameterName}   ${
+        `(listings.is_waitlist_open = :${whereParameterName}   ${
           includeNulls ? `OR listings.is_waitlist_open is NULL` : ""
-        }`,
+        })`,
         {
           [whereParameterName]: true,
         }
@@ -87,12 +87,12 @@ export function addAmiPercentageFilter(
   // Check the listing.ami_percentage field iff the field is not set on the Units Summary table.
   qb.andWhere(
     `((unitsSummary.ami_percentage IS NOT NULL AND unitsSummary.ami_percentage >= :${whereParameterName}) ` +
-      `OR (unitsSummary.ami_percentage IS NULL AND listings.ami_percentage_max >= :${whereParameterName2}))
+      `OR (unitsSummary.ami_percentage IS NULL AND listings.ami_percentage_max >= :${whereParameterName2})
       ${
         includeNulls
           ? `OR unitsSummary.ami_percentage is NULL AND listings.ami_percentage_max is NULL`
           : ""
-      }`,
+      })`,
     {
       [whereParameterName]: filterValue,
       [whereParameterName2]: filterValue,

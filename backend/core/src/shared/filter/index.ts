@@ -56,7 +56,7 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
           addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum, includeNulls)
           return
         case ListingFilterKeys.ami:
-          addAmiPercentageFilter(qb, parseInt(filterValue))
+          addAmiPercentageFilter(qb, parseInt(filterValue), includeNulls)
           return
       }
 
