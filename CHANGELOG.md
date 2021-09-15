@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. The format 
 ## Detroit Team M12
 
 - Added:
-  
+
   - Partially Senior reserved community type ([#572](https://github.com/CityOfDetroit/bloom/pull/572))
 
 ## Detroit Team M11
