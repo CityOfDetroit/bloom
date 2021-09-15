@@ -227,13 +227,13 @@ const FormUnits = ({
       id: "summaries",
       label: t("listings.unit.unitTypes"),
       value: "true",
-      defaultChecked: showUnitsSummary
+      defaultChecked: showUnitsSummary,
     },
     {
       id: "units",
       label: t("listings.unit.individualUnits"),
       value: "false",
-      defaultChecked: !showUnitsSummary
+      defaultChecked: !showUnitsSummary,
     },
   ]
 
