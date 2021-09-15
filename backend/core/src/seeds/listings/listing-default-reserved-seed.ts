@@ -4,7 +4,7 @@ export class ListingDefaultReservedSeed extends ListingDefaultSeed {
   async seed() {
     const listing = await super.seed()
 
-    const reservedType = await this.reservedTypeRepository.findOneOrFail({ name: "partiallySenior" })
+    const reservedType = await this.reservedTypeRepository.findOneOrFail({ name: "senior62" })
 
     return await this.listingRepository.save({
       ...listing,
