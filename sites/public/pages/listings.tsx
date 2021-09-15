@@ -102,7 +102,7 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [{ filters }, setFilterState] = useState<FrontEndFilters>(() => blankFrontEndFilters())
+  const [filterState, setFilterState] = useState<FrontEndFilters>(() => blankFrontEndFilters())
 
   const itemsPerPage = 10
 
@@ -128,23 +128,11 @@ const ListingsPage = () => {
   const { listingsData, listingsLoading, listingsError } = useListingsData(
     currentPage,
     itemsPerPage,
-    filters,
+    filterState.filters,
     OrderByFieldsEnum.mostRecentlyUpdated
   )
 
-  let numberOfFilters = 0
-  if (filters) {
-    numberOfFilters = Object.keys(filters).filter(
-      (filterType) => filters[filterType].value !== undefined && filters[filterType].value != ""
-    ).length
-    // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
-    if (
-      filters[ListingFilterKeys.minRent].value !== undefined &&
-      filters[ListingFilterKeys.maxRent].value != undefined
-    ) {
-      numberOfFilters -= 1
-    }
-  }
+  const numberOfFilters = filterState.getFilterCount()
 
   const buttonTitle = numberOfFilters
     ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
@@ -159,12 +147,12 @@ const ListingsPage = () => {
   const { handleSubmit, register, errors } = useForm()
   const onSubmit = (data: Record<string, string>) => {
     for (const filterName in data) {
-      if (filters[filterName] !== undefined) {
-        filters[filterName].value = data[filterName]
+      if (filterState.filters[filterName] !== undefined) {
+        filterState.filters[filterName].value = data[filterName]
       }
     }
     setFilterModalVisible(false)
-    setQueryString(/*page=*/ 1, filters)
+    setQueryString(/*page=*/ 1, filterState.filters)
   }
 
   function resetFilters() {
@@ -192,8 +180,8 @@ const ListingsPage = () => {
               label={t("listingFilters.availability")}
               register={register}
               controlClassName="control"
-              options={filters[ListingFilterKeys.availability].options()}
-              defaultValue={filters[ListingFilterKeys.availability].value}
+              options={filterState.filters[ListingFilterKeys.availability].options()}
+              defaultValue={filterState.filters[ListingFilterKeys.availability].value}
             />
             <Select
               id="unitOptions"
@@ -201,8 +189,8 @@ const ListingsPage = () => {
               label={t("listingFilters.bedrooms")}
               register={register}
               controlClassName="control"
-              options={filters[ListingFilterKeys.bedrooms].options()}
-              defaultValue={filters[ListingFilterKeys.bedrooms].value}
+              options={filterState.filters[ListingFilterKeys.bedrooms].options()}
+              defaultValue={filterState.filters[ListingFilterKeys.bedrooms].value}
             />
             <Field
               id="zipCodeField"
@@ -216,7 +204,7 @@ const ListingsPage = () => {
               }}
               error={errors?.[ListingFilterKeys.zipcode]}
               errorMessage={t("errors.multipleZipCodeError")}
-              defaultValue={filters[ListingFilterKeys.zipcode].value}
+              defaultValue={filterState.filters[ListingFilterKeys.zipcode].value}
             />
             <label className="field-label">Rent Range</label>
             <div className="flex flex-row">
@@ -227,7 +215,7 @@ const ListingsPage = () => {
                 type="number"
                 placeholder={t("t.min")}
                 prepend="$"
-                defaultValue={filters[ListingFilterKeys.minRent].value}
+                defaultValue={filterState.filters[ListingFilterKeys.minRent].value}
               />
               <div className="flex items-center p-3">{t("t.to")}</div>
               <Field
@@ -237,7 +225,7 @@ const ListingsPage = () => {
                 type="number"
                 placeholder={t("t.max")}
                 prepend="$"
-                defaultValue={filters[ListingFilterKeys.maxRent].value}
+                defaultValue={filterState.filters[ListingFilterKeys.maxRent].value}
               />
             </div>
             <Select
@@ -246,8 +234,8 @@ const ListingsPage = () => {
               label={t("listingFilters.neighborhood")}
               register={register}
               controlClassName="control"
-              options={filters[ListingFilterKeys.neighborhood].options()}
-              defaultValue={filters[ListingFilterKeys.neighborhood].value}
+              options={filterState.filters[ListingFilterKeys.neighborhood].options()}
+              defaultValue={filterState.filters[ListingFilterKeys.neighborhood].value}
             />
             <Select
               id="adaCompliant"
@@ -263,8 +251,8 @@ const ListingsPage = () => {
               label={t("listingFilters.communityType")}
               register={register}
               controlClassName="control"
-              options={filters[COMMUNITY_TYPE].options()}
-              defaultValue={filters[COMMUNITY_TYPE].value}
+              options={filterState.filters[COMMUNITY_TYPE].options()}
+              defaultValue={filterState.filters[COMMUNITY_TYPE].value}
             />
           </div>
           <div className="text-center mt-6">

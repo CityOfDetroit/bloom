@@ -6,6 +6,7 @@ import { ParsedUrlQuery } from "querystring"
 import { SelectOption } from "./formOptions"
 import { t } from "./translator"
 import { AvailabilityFilterEnum } from "@bloom-housing/backend-core/dist"
+import Listing from "@bloom-housing/backend-core/dist/src/listings/entities/listing.entity"
 
 export const COMMUNITY_TYPE = "communityType"
 
@@ -101,6 +102,27 @@ export class FrontEndFilters {
     } else if (filterName === ListingFilterKeys.seniorHousing && filterValue == "true") {
       this.filters[COMMUNITY_TYPE].value = ListingFilterKeys.seniorHousing
     }
+  }
+
+  getFilterCount(): number {
+    let numberOfFilters = Object.keys(this.filters).filter(
+      (filterType) =>
+        this.filters[filterType].value !== undefined && this.filters[filterType].value != ""
+    ).length
+    // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
+    const hasMinMaxRentOverCount =
+      this.filters[ListingFilterKeys.minRent].value !== undefined &&
+      this.filters[ListingFilterKeys.maxRent].value != undefined
+    const hasSeniorHousingCommunityTypeOverCount =
+      this.filters[ListingFilterKeys.seniorHousing].value != undefined &&
+      this.filters[COMMUNITY_TYPE].value != undefined
+    if (hasMinMaxRentOverCount) {
+      numberOfFilters -= 1
+    }
+    if (hasSeniorHousingCommunityTypeOverCount) {
+      numberOfFilters -= 1
+    }
+    return numberOfFilters
   }
 
   constructor() {
