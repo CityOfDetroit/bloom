@@ -87,6 +87,7 @@ export class FrontEndFilter {
   getBackendFilterType() {
     return this.name
   }
+
   getBackendFilterValue() {
     return this.value
   }
@@ -136,11 +137,6 @@ export class FrontEndFilters {
         ListingFilterKeys.availability,
         EnumListingFilterParamsComparison["NA"],
         availabilityOptions
-      ),
-      new FrontEndFilter(
-        ListingFilterKeys.neighborhood,
-        EnumListingFilterParamsComparison["="],
-        neighborhoodOptions
       ),
       new FrontEndFilter(
         ListingFilterKeys.bedrooms,
