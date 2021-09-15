@@ -229,15 +229,6 @@ const ListingsPage = () => {
               />
             </div>
             <Select
-              id="neighborhoodOptions"
-              name={ListingFilterKeys.neighborhood}
-              label={t("listingFilters.neighborhood")}
-              register={register}
-              controlClassName="control"
-              options={filterState.filters[ListingFilterKeys.neighborhood].options()}
-              defaultValue={filterState.filters[ListingFilterKeys.neighborhood].value}
-            />
-            <Select
               id="adaCompliant"
               name="adaCompliant"
               label={t("listingFilters.adaCompliant")}
