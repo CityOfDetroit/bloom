@@ -8,6 +8,8 @@ import { Compare } from "../shared/dto/filter.dto"
 import { TranslationsService } from "../translations/translations.service"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
 import { OrderByFieldsEnum } from "./types/listing-orderby-enum"
+import { migratePhoneNumberAndRegionToListing1629306778673 } from "src/migration/1629306778673-migratePhoneNumberAndRegionToListing"
+import { AvailabilityFilterEnum } from "./types/listing-filter-keys-enum"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -190,6 +192,56 @@ describe("ListingsService", () => {
         "LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0)",
         {
           neighborhood_0: expectedNeighborhoodArray,
+        }
+      )
+    })
+
+    it("should support basic filters with null data", async () => {
+      mockListingsRepo.createQueryBuilder
+        .mockReturnValueOnce(mockInnerQueryBuilder)
+        .mockReturnValueOnce(mockQueryBuilder)
+      const queryParams: ListingsQueryParams = {
+        filter: [
+          {
+            $comparison: Compare["="],
+            name: "minRent",
+            $include_nulls: true,
+          },
+        ],
+      }
+
+      const listings = await service.list(queryParams)
+
+      expect(listings.items).toEqual(mockListings)
+      expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
+        "(LOWER(CAST(listings.name as text)) = LOWER(:name_0) OR listings.name IS NULL)",
+        {
+          name_0: "minRent",
+        }
+      )
+    })
+
+    it("should support custom filters with null data", async () => {
+      mockListingsRepo.createQueryBuilder
+        .mockReturnValueOnce(mockInnerQueryBuilder)
+        .mockReturnValueOnce(mockQueryBuilder)
+      const queryParams: ListingsQueryParams = {
+        filter: [
+          {
+            $comparison: Compare["NA"],
+            availability: AvailabilityFilterEnum.waitlist,
+            $include_nulls: true,
+          },
+        ],
+      }
+
+      const listings = await service.list(queryParams)
+
+      expect(listings.items).toEqual(mockListings)
+      expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
+        "(listings.is_waitlist_open = :availability   OR listings.is_waitlist_open is NULL)",
+        {
+          availability: true,
         }
       )
     })
