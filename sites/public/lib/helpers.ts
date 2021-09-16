@@ -1,5 +1,6 @@
 import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 import { Address } from "@bloom-housing/backend-core/types"
+import { AmiChartDto } from "@bloom-housing/backend-core/dist/src/ami-charts/dto/ami-chart.dto"
 
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
@@ -17,4 +18,12 @@ export const getGenericAddress = (bloomAddress: Address) => {
     longitude: bloomAddress.longitude,
     placeName: bloomAddress.placeName,
   }
+}
+
+export function getMinAmi(amiChart, householdSize: number, income: number) {
+  return Math.min(
+    ...amiChart.items
+      .filter((item) => item.householdSize === householdSize && item.income >= income)
+      .map((item) => item.percentOfAmi)
+  )
 }

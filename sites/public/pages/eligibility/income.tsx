@@ -17,17 +17,19 @@ import {
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import { EligibilityContext } from "../../lib/EligibilityContext"
-import { eligibilityRoute } from "../../lib/helpers"
+import { eligibilityRoute, getMinAmi } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
 import {
   EnumListingFilterParamsComparison,
   ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
+import { useAmiChartList } from "@bloom-housing/partners/lib/hooks"
 
 const EligibilityIncome = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
+  const { data: amiCharts = [] } = useAmiChartList()
 
   const incomeRanges = ["below10k", "10kTo20k", "30kTo40k", "40kTo50k", "over50k"]
   const CURRENT_PAGE = 4
@@ -52,6 +54,8 @@ const EligibilityIncome = () => {
   }
 
   function getFilterUrl() {
+    const minAmi = getMinAmi(amiCharts[0], eligibilityRequirements.householdSizeCount, 10000)
+
     const params: ListingFilterParams = {
       // $comparison is a required field even though it won't be used on the frontend. Will be fixed in #484.
       $comparison: EnumListingFilterParamsComparison.NA,
