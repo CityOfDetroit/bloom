@@ -4,12 +4,14 @@ Prompts the user for the number of members in their household.
 */
 import {
   AppearanceStyleType,
+  AppearanceSizeType,
   Button,
   Form,
   FormCard,
   ProgressNav,
   Select,
   t,
+  LinkButton,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
@@ -86,7 +88,16 @@ const EligibilityHouseholdSize = () => {
           </div>
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
-              <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
+              <Button className="mx-2 mt-6" styleType={AppearanceStyleType.primary}>
+                {t("t.next")}
+              </Button>
+              <LinkButton
+                className="mx-2 mt-6"
+                styleType={AppearanceStyleType.primary}
+                href={"/listings/"}
+              >
+                {t("t.viewListings")}
+              </LinkButton>
             </div>
           </div>
         </Form>
