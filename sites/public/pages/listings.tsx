@@ -311,6 +311,9 @@ const ListingsPage = () => {
       </div>
       <LoadingOverlay isLoading={listingsLoading}>
         <>
+          {listingsLoading && (
+            <div className="container max-w-3xl my-4 px-4 py-10 content-start mx-auto" />
+          )}
           {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
             <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
               <header>

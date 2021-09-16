@@ -49,6 +49,6 @@ a.button.is-primary:hover {
   overflow-y: auto;
 }
 
-.loading-overlay__spinner {
-  @apply text-primary
+.loading-overlay__spinner circle {
+  stroke: $tailwind-primary
 }
