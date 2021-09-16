@@ -75,6 +75,7 @@ export type FormListing = Omit<Listing, "countyCode"> & {
   arePostmarksConsidered?: boolean
   canApplicationsBeDroppedOff?: boolean
   canPaperApplicationsBePickedUp?: boolean
+  displaySummaryData?: string
   dueDateQuestion?: boolean
   lotteryDate?: {
     month: string
@@ -276,6 +277,7 @@ const formatFormData = (
     summary.totalCount = toNumberOrNull(summary.totalCount)
     summary.monthlyRentMin = toNumberOrNull(summary.monthlyRentMin)
     summary.monthlyRentMax = toNumberOrNull(summary.monthlyRentMax)
+    summary.amiPercentage = toNumberOrNull(summary.amiPercentage)
 
     if (!summary.sqFeetMin) {
       delete summary.sqFeetMin
@@ -328,7 +330,7 @@ const formatFormData = (
 
   return {
     ...data,
-    disableUnitsAccordion: stringToBoolean(data.disableUnitsAccordion),
+    disableUnitsAccordion: stringToBoolean(data.displaySummaryData),
     units: units,
     preferences: preferences,
     buildingAddress: {
