@@ -1378,14 +1378,14 @@
             "prompt": "¿Cuántas personas vivirán en esta propiedad?",
             "srCountLabel": "Tamaño del hogar",
             "ranges" : {
-              "one": "1 miembro",
-              "two": "2 miembros",
-              "three": "3 miembros",
-              "four": "4 miembros",
-              "five": "5 miembros",
-              "six": "6 miembros",
-              "seven": "7 miembros",
-              "eight": "8+ miembros"
+              "1": "1 miembro",
+              "2": "2 miembros",
+              "3": "3 miembros",
+              "4": "4 miembros",
+              "5": "5 miembros",
+              "6": "6 miembros",
+              "7": "7 miembros",
+              "8": "8+ miembros"
             }
         },
         "age": {

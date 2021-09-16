@@ -29,14 +29,14 @@ const EligibilityHouseholdSize = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, getValues } = useForm({
     defaultValues: {
-      householdSize: eligibilityRequirements?.householdSizeCount,
+      householdSize: eligibilityRequirements?.householdSizeCount.toString(),
     },
   })
 
   const onSubmit = () => {
     const data = getValues()
     const { householdSize } = data
-    eligibilityRequirements.setHouseholdSizeCount(householdSize)
+    eligibilityRequirements.setHouseholdSizeCount(parseInt(householdSize))
 
     void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
@@ -45,7 +45,7 @@ const EligibilityHouseholdSize = () => {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
   }
 
-  const householdSizeRanges = ["one", "two", "three", "four", "five", "six", "seven", "eight"]
+  const householdSizeRanges = Array.from({ length: 8 }, (_, i) => (i + 1).toString())
 
   return (
     <FormsLayout>

@@ -1383,14 +1383,14 @@
       "prompt": "How many people will be living in this property?",
       "srCountLabel": "Household Size",
       "ranges" : {
-        "one": "1 Member",
-        "two": "2 Members",
-        "three": "3 Members",
-        "four": "4 Members",
-        "five": "5 Members",
-        "six": "6 Members",
-        "seven": "7 Members",
-        "eight": "8+ Members"
+        "1": "1 Member",
+        "2": "2 Members",
+        "3": "3 Members",
+        "4": "4 Members",
+        "5": "5 Members",
+        "6": "6 Members",
+        "7": "7 Members",
+        "8": "8+ Members"
       }
     },
     "age" : {
