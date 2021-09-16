@@ -43,8 +43,8 @@ export function addAvailabilityQuery(
   switch (filterValue) {
     case AvailabilityFilterEnum.hasAvailability:
       qb.andWhere(
-        `(unitsSummary.total_available >= :${whereParameterName}   ${
-          includeNulls ? `OR unitsSummary.total_available IS NULL` : ""
+        `(unitsSummary.total_available >= :${whereParameterName}${
+          includeNulls ? ` OR unitsSummary.total_available IS NULL` : ""
         })`,
         {
           [whereParameterName]: 1,
@@ -53,8 +53,8 @@ export function addAvailabilityQuery(
       return
     case AvailabilityFilterEnum.noAvailability:
       qb.andWhere(
-        `(unitsSummary.total_available = :${whereParameterName}   ${
-          includeNulls ? `OR unitsSummary.total_available IS NULL` : ""
+        `(unitsSummary.total_available = :${whereParameterName}${
+          includeNulls ? ` OR unitsSummary.total_available IS NULL` : ""
         })`,
         {
           [whereParameterName]: 0,
@@ -63,8 +63,8 @@ export function addAvailabilityQuery(
       return
     case AvailabilityFilterEnum.waitlist:
       qb.andWhere(
-        `(listings.is_waitlist_open = :${whereParameterName}   ${
-          includeNulls ? `OR listings.is_waitlist_open is NULL` : ""
+        `(listings.is_waitlist_open = :${whereParameterName}${
+          includeNulls ? ` OR listings.is_waitlist_open is NULL` : ""
         })`,
         {
           [whereParameterName]: true,

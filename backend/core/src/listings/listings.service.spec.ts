@@ -196,7 +196,7 @@ describe("ListingsService", () => {
       )
     })
 
-    it("should support basic filters with null data", async () => {
+    it("should include listings with missing data if $include_nulls is true", async () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
@@ -221,7 +221,7 @@ describe("ListingsService", () => {
       )
     })
 
-    it("should support custom filters with null data", async () => {
+    it("should include listings with missing data if $include_nulls is true for custom filters", async () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
@@ -239,7 +239,7 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "(listings.is_waitlist_open = :availability   OR listings.is_waitlist_open is NULL)",
+        "(listings.is_waitlist_open = :availability OR listings.is_waitlist_open is NULL)",
         {
           availability: true,
         }
