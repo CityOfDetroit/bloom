@@ -161,7 +161,7 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "LOWER(CAST(listings.status as text)) = LOWER(:status_0)",
+        "(LOWER(CAST(listings.status as text)) = LOWER(:status_0))",
         {
           status_0: expectedStatus,
         }
@@ -189,7 +189,7 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "LOWER(CAST(buildingAddress.zipCode as text)) IN (:...zipcode_0)",
+        "(LOWER(CAST(buildingAddress.zipCode as text)) IN (:...zipcode_0))",
         {
           zipcode_0: expectedZipCodeArray,
         }

@@ -65,8 +65,8 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
       switch (comparison) {
         case Compare.IN:
           qb.andWhere(
-            `(LOWER(CAST(${filterField} as text)) IN (:...${whereParameterName}) ${
-              includeNulls ? `OR ${filterField} IS NULL` : ""
+            `(LOWER(CAST(${filterField} as text)) IN (:...${whereParameterName})${
+              includeNulls ? ` OR ${filterField} IS NULL` : ""
             })`,
             {
               [whereParameterName]: filterValue
@@ -79,8 +79,8 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
         case Compare["<>"]:
         case Compare["="]:
           qb.andWhere(
-            `(LOWER(CAST(${filterField} as text)) ${comparison} LOWER(:${whereParameterName}) ${
-              includeNulls ? `OR ${filterField} IS NULL` : ""
+            `(LOWER(CAST(${filterField} as text)) ${comparison} LOWER(:${whereParameterName})${
+              includeNulls ? ` OR ${filterField} IS NULL` : ""
             })`,
             {
               [whereParameterName]: filterValue,
