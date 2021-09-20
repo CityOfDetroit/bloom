@@ -11,6 +11,7 @@ import {
   Select,
   t,
   encodeToFrontendFilterString,
+  Waitlist,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
@@ -63,7 +64,22 @@ const EligibilityHouseholdSize = () => {
       // $comparison is a required field even though it won't be used on the frontend. Will be fixed in #484.
       $comparison: EnumListingFilterParamsComparison.NA,
     }
-    params.bedrooms = 3
+    switch (eligibilityRequirements.householdSizeCount.toString()) {
+      case "one":
+      case "two":
+        params.bedrooms = 1
+        break
+      case "three":
+        params.bedrooms = 2
+        break
+      case "four":
+        params.bedrooms = 3
+        break
+      default:
+        params.bedrooms = 4
+    }
+    params.seniorHousing = true
+
     return `/listings?${encodeToFrontendFilterString(params)}`
   }
 
