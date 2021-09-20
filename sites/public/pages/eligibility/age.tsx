@@ -31,11 +31,12 @@ const EligibilityAge = () => {
   // Check if they need to be 18 or older to apply?
   const MIN_AGE = 0
   const MAX_AGE = 120
+  const SENIOR_AGE = 62
   const CURRENT_PAGE = 2
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors, setError, getValues } = useForm()
+  const { handleSubmit, register, errors, setError } = useForm()
   const { eligibilityRequirements } = useContext(EligibilityContext)
 
   const onSubmit = (data) => {
@@ -64,6 +65,12 @@ const EligibilityAge = () => {
     const params: ListingFilterParams = {
       // $comparison is a required field even though it won't be used on the frontend. Will be fixed in #484.
       $comparison: EnumListingFilterParamsComparison.NA,
+    }
+
+    if (eligibilityRequirements.age < SENIOR_AGE) {
+      params.seniorHousing = false
+    } else {
+      params.seniorHousing = true
     }
 
     return `/listings?${encodeToFrontendFilterString(params)}`

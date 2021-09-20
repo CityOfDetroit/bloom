@@ -50,9 +50,7 @@ const EligibilityHouseholdSize = () => {
     const data = getValues()
     const { householdSize } = data
     eligibilityRequirements.setHouseholdSizeCount(householdSize)
-    console.log(householdSize)
-    console.log(getFilterUrl().toString())
-    console.log(EnumListingFilterParamsComparison.NA)
+    console.log(eligibilityRequirements.householdSizeCount.valueOf())
     void router.push(getFilterUrl())
   }
 
@@ -65,7 +63,7 @@ const EligibilityHouseholdSize = () => {
       // $comparison is a required field even though it won't be used on the frontend. Will be fixed in #484.
       $comparison: EnumListingFilterParamsComparison.NA,
     }
-    console.log(params)
+    params.bedrooms = 3
     return `/listings?${encodeToFrontendFilterString(params)}`
   }
 
