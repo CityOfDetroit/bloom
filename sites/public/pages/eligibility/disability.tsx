@@ -10,7 +10,7 @@ import {
   Form,
   ProgressNav,
   FieldGroup,
-  LinkButton,
+  encodeToFrontendFilterString,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
@@ -20,6 +20,10 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
+import {
+  EnumListingFilterParamsComparison,
+  ListingFilterParams,
+} from "@bloom-housing/backend-core/types"
 
 const EligibilityDisability = () => {
   const router = useRouter()
@@ -60,8 +64,23 @@ const EligibilityDisability = () => {
     },
   ]
 
+  const onClick = () => {
+    const data = getValues()
+    const { disability } = data
+    eligibilityRequirements.setDisability(disability)
+    void router.push(getFilterUrl())
+  }
+
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
+  }
+
+  function getFilterUrl() {
+    const params: ListingFilterParams = {
+      // $comparison is a required field even though it won't be used on the frontend. Will be fixed in #484.
+      $comparison: EnumListingFilterParamsComparison.NA,
+    }
+    return `/listings?${encodeToFrontendFilterString(params)}`
   }
 
   return (
@@ -103,13 +122,13 @@ const EligibilityDisability = () => {
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
               <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
-              <LinkButton
+              <Button
+                onClick={handleSubmit(onClick)}
                 className="mx-2 mt-6"
                 styleType={AppearanceStyleType.primary}
-                href={"/listings/"}
               >
                 {t("t.viewListings")}
-              </LinkButton>
+              </Button>
             </div>
           </div>
         </Form>

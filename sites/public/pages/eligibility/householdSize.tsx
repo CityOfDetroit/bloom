@@ -4,14 +4,13 @@ Prompts the user for the number of members in their household.
 */
 import {
   AppearanceStyleType,
-  AppearanceSizeType,
   Button,
   Form,
   FormCard,
   ProgressNav,
   Select,
   t,
-  LinkButton,
+  encodeToFrontendFilterString,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
@@ -21,6 +20,10 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
+import {
+  EnumListingFilterParamsComparison,
+  ListingFilterParams,
+} from "@bloom-housing/backend-core/types"
 
 const EligibilityHouseholdSize = () => {
   const router = useRouter()
@@ -43,8 +46,27 @@ const EligibilityHouseholdSize = () => {
     void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
+  const onClick = () => {
+    const data = getValues()
+    const { householdSize } = data
+    eligibilityRequirements.setHouseholdSizeCount(householdSize)
+    console.log(householdSize)
+    console.log(getFilterUrl().toString())
+    console.log(EnumListingFilterParamsComparison.NA)
+    void router.push(getFilterUrl())
+  }
+
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
+  }
+
+  function getFilterUrl() {
+    const params: ListingFilterParams = {
+      // $comparison is a required field even though it won't be used on the frontend. Will be fixed in #484.
+      $comparison: EnumListingFilterParamsComparison.NA,
+    }
+    console.log(params)
+    return `/listings?${encodeToFrontendFilterString(params)}`
   }
 
   const householdSizeRanges = ["one", "two", "three", "four", "five", "six", "seven", "eight"]
@@ -91,13 +113,13 @@ const EligibilityHouseholdSize = () => {
               <Button className="mx-2 mt-6" styleType={AppearanceStyleType.primary}>
                 {t("t.next")}
               </Button>
-              <LinkButton
+              <Button
+                onClick={handleSubmit(onClick)}
                 className="mx-2 mt-6"
                 styleType={AppearanceStyleType.primary}
-                href={"/listings/"}
               >
                 {t("t.viewListings")}
-              </LinkButton>
+              </Button>
             </div>
           </div>
         </Form>
