@@ -1,6 +1,6 @@
 import csv from "csv-parser"
 import fs from "fs"
-import { importListing, createUnitsArray, getDetroitJurisdiction } from "./listings-importer"
+import { importListing, getDetroitJurisdiction } from "./listings-importer"
 import {
   ListingCreate,
   AddressCreate,
@@ -43,7 +43,7 @@ async function main() {
     fs.createReadStream(csvFilePath)
       .pipe(csv())
       .on("data", (listingFields) => {
-        const listingName: string = listingFields["Name"]
+        const listingName: string = listingFields["Project Name"]
         // Exclude listings that are not "regulated" affordable housing
         const affordabilityStatus: string = listingFields["Affordability status"]
         if (affordabilityStatus.toLowerCase() !== "regulated") {
