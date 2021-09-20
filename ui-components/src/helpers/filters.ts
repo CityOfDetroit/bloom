@@ -20,6 +20,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
       return EnumListingFilterParamsComparison["IN"]
     case ListingFilterKeys.seniorHousing:
     case ListingFilterKeys.availability:
+    case ListingFilterKeys.include_nulls:
     case ListingFilterKeys.ami:
       return EnumListingFilterParamsComparison["NA"]
     default: {
@@ -36,6 +37,7 @@ export function encodeToBackendFilterArray(filterParams: ListingFilterParams) {
       const comparison = getComparisonForFilter(ListingFilterKeys[filterType])
       filterArray.push({
         $comparison: comparison,
+        $include_nulls: filterParams.$include_nulls,
         [filterType]: filterParams[filterType],
       })
     }
@@ -58,6 +60,7 @@ export function decodeFiltersFromFrontendUrl(query: ParsedUrlQuery) {
   // ListingFilterParams must have a comparison, so set one here even though it's unused.
   const filters: ListingFilterParams = {
     $comparison: EnumListingFilterParamsComparison.NA,
+    $include_nulls: query.include_nulls === "true",
   }
   let foundFilterKey = false
   for (const queryKey in query) {

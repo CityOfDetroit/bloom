@@ -19,6 +19,7 @@ import {
   getSummariesTableFromUnitsSummary,
   getSummariesTableFromUnitSummary,
   LoadingOverlay,
+  FieldGroup,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -271,6 +272,12 @@ const ListingsPage = () => {
               register={register}
               controlClassName="control"
               options={communityTypeOptions}
+            />
+            <FieldGroup
+              type="checkbox"
+              name="include_nulls"
+              fields={[{ id: "true", label: "Include Unknowns" }]}
+              register={register}
             />
           </div>
           <div className="text-center mt-6">

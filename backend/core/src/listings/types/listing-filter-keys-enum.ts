@@ -10,6 +10,7 @@ export enum ListingFilterKeys {
   maxRent = "maxRent",
   ami = "ami",
   leasingAgents = "leasingAgents",
+  include_nulls = "include_nulls",
 }
 
 export enum AvailabilityFilterEnum {
