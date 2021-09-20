@@ -62,8 +62,11 @@
     "webpack": "^4.44.2"
   },
   "dependencies": {
+    "@arcgis/core": "^4.20.2",
     "@bloom-housing/backend-core": "^1.0.5",
+    "@esri/react-arcgis": "^5.1.0",
     "@mapbox/mapbox-sdk": "^0.13.0",
+    "@types/arcgis-js-api": "^4.20.1",
     "@types/body-scroll-lock": "^2.6.1",
     "@types/jwt-decode": "^2.2.1",
     "@types/markdown-to-jsx": "^6.11.2",
@@ -76,6 +79,7 @@
     "axios": "^0.21.1",
     "body-scroll-lock": "^3.1.5",
     "bulma": "^0.9.1",
+    "esri-loader": "^3.2.0",
     "jwt-decode": "^2.2.0",
     "markdown-to-jsx": "^6.11.4",
     "moment": "^2.29.1",
