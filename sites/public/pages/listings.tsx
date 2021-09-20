@@ -90,7 +90,7 @@ const getListings = (listings: Listing[]) => {
           cellClassName: "px-5 py-3",
         }}
         seeDetailsLink={`/listing/${listing.id}/${listing.urlSlug}`}
-        detailsLinkClass="float-right"
+        detailsLinkClass="float-start"
         tableHeader={listing.showWaitlist ? t("listings.waitlist.open") : null}
       />
     )
