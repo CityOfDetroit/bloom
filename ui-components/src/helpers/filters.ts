@@ -91,11 +91,11 @@ export class FrontendFilter {
     }
   }
 
-  getBackendFilterType() {
-    return this.filterKey
+  getBackendFilterType(): ListingFilterKeys {
+    return ListingFilterKeys[this.filterKey]
   }
 
-  getBackendFilterValue() {
+  getBackendFilterValue(): any {
     return this.value
   }
 }
@@ -198,10 +198,10 @@ export class FrontendFilterState {
 }
 
 export class CommunityTypeFilter extends FrontendFilter {
-  getBackendFilterType() {
-    return this.value
+  getBackendFilterType(): ListingFilterKeys {
+    return ListingFilterKeys[this.value]
   }
-  getBackendFilterValue() {
+  getBackendFilterValue(): any {
     if (this.value == EMPTY_OPTION || this.value == undefined) {
       return undefined
     } else {
