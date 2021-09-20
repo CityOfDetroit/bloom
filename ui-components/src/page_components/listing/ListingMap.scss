@@ -29,8 +29,12 @@
   @apply shadow-md;
   @apply inline-block;
   @apply float-left;
-  @apply relative;
+  @apply absolute;
   left: 15px;
   top: 15px;
   z-index: 1;
+}
+
+.listing-map {
+  @apply relative;
 }
