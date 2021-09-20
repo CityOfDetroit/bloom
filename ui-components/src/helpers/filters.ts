@@ -6,9 +6,6 @@ import { ParsedUrlQuery } from "querystring"
 import { SelectOption } from "./formOptions"
 import { t } from "./translator"
 import { AvailabilityFilterEnum } from "@bloom-housing/backend-core/dist"
-import Listing from "@bloom-housing/backend-core/dist/src/listings/entities/listing.entity"
-
-export const COMMUNITY_TYPE = "communityType"
 
 export const EMPTY_OPTION = { value: "", label: "" }
 
@@ -47,14 +44,28 @@ export const communityTypeOptions: () => SelectOption[] = () => [
   },
 ]
 
+export enum FrontendFilterKey {
+  status = "status",
+  name = "name",
+  bedrooms = "bedrooms",
+  zipcode = "zipcode",
+  availability = "availability",
+  seniorHousing = "seniorHousing",
+  minRent = "minRent",
+  maxRent = "maxRent",
+  ami = "ami",
+  leasingAgents = "leasingAgents",
+  communityType = "communityType",
+}
+
 /* Representation of the front end filters.
  *
  * This is decoupled from the backend representation in ListingFilterParams to
  * allow greater flexibility in how filters are displayed in the front end.
  */
-export class FrontEndFilter {
+export class FrontendFilter {
   /* The frontend filter name. */
-  readonly name: string
+  readonly name: FrontendFilterKey
 
   /* The frontend filter value.
    *
@@ -66,17 +77,17 @@ export class FrontEndFilter {
   readonly comparison: EnumListingFilterParamsComparison
 
   /* The allowed options if this is a dropdown filter. */
-  readonly options: () => SelectOption[]
+  readonly selectOptions: () => SelectOption[]
 
   constructor(
-    name: string,
+    name: FrontendFilterKey,
     comparison: EnumListingFilterParamsComparison,
-    options?: () => SelectOption[]
+    selectOptions?: () => SelectOption[]
   ) {
     this.name = name
     this.comparison = comparison
-    if (options) {
-      this.options = options
+    if (selectOptions) {
+      this.selectOptions = selectOptions
     }
   }
 
@@ -89,15 +100,70 @@ export class FrontEndFilter {
   }
 }
 
-export class FrontEndFilters {
-  filters: Record<string, FrontEndFilter>
+export class FrontendFilterState {
+  filters: Record<FrontendFilterKey, FrontendFilter>
 
-  setValue(filterName: string, filterValue: any) {
+  constructor() {
+    const filters: Record<string, FrontendFilter> = {}
+    filters[FrontendFilterKey.communityType] = new CommunityTypeFilter(
+      FrontendFilterKey.communityType,
+      EnumListingFilterParamsComparison["NA"],
+      communityTypeOptions
+    )
+    filters[FrontendFilterKey.availability] = new FrontendFilter(
+      FrontendFilterKey.availability,
+      EnumListingFilterParamsComparison["NA"],
+      availabilityOptions
+    )
+    filters[FrontendFilterKey.bedrooms] = new FrontendFilter(
+      FrontendFilterKey.bedrooms,
+      EnumListingFilterParamsComparison[">="],
+      preferredUnitOptions
+    )
+    filters[FrontendFilterKey.zipcode] = new FrontendFilter(
+      FrontendFilterKey.zipcode,
+      EnumListingFilterParamsComparison["IN"]
+    )
+    filters[FrontendFilterKey.minRent] = new FrontendFilter(
+      FrontendFilterKey.minRent,
+      EnumListingFilterParamsComparison[">="]
+    )
+    filters[FrontendFilterKey.maxRent] = new FrontendFilter(
+      FrontendFilterKey.maxRent,
+      EnumListingFilterParamsComparison["<="]
+    )
+    filters[FrontendFilterKey.seniorHousing] = new FrontendFilter(
+      FrontendFilterKey.seniorHousing,
+      EnumListingFilterParamsComparison["NA"]
+    )
+    filters[FrontendFilterKey.name] = new FrontendFilter(
+      FrontendFilterKey.name,
+      EnumListingFilterParamsComparison["="]
+    )
+    filters[FrontendFilterKey.leasingAgents] = new FrontendFilter(
+      FrontendFilterKey.leasingAgents,
+      EnumListingFilterParamsComparison["="]
+    )
+    filters[FrontendFilterKey.status] = new FrontendFilter(
+      FrontendFilterKey.status,
+      EnumListingFilterParamsComparison["="]
+    )
+    filters[FrontendFilterKey.ami] = new FrontendFilter(
+      FrontendFilterKey.ami,
+      EnumListingFilterParamsComparison["NA"]
+    )
+    this.filters = filters
+  }
+
+  setValue(filterName: FrontendFilterKey, filterValue: any) {
     this.filters[filterName].value = filterValue
-    if (filterName === COMMUNITY_TYPE && filterValue === ListingFilterKeys.seniorHousing) {
-      this.filters[ListingFilterKeys.seniorHousing].value = true
-    } else if (filterName === ListingFilterKeys.seniorHousing && filterValue == "true") {
-      this.filters[COMMUNITY_TYPE].value = ListingFilterKeys.seniorHousing
+    if (
+      filterName === FrontendFilterKey.communityType &&
+      filterValue === FrontendFilterKey.seniorHousing
+    ) {
+      this.filters[FrontendFilterKey.seniorHousing].value = true
+    } else if (filterName === FrontendFilterKey.seniorHousing && filterValue == "true") {
+      this.filters[FrontendFilterKey.communityType].value = FrontendFilterKey.seniorHousing
     }
   }
 
@@ -108,15 +174,15 @@ export class FrontEndFilters {
     ).length
     // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
     const hasMinMaxRentOverCount =
-      this.filters[ListingFilterKeys.minRent].value !== undefined &&
-      this.filters[ListingFilterKeys.maxRent].value != undefined
+      this.filters[FrontendFilterKey.minRent].value !== undefined &&
+      this.filters[FrontendFilterKey.maxRent].value != undefined
     const hasSeniorHousingCommunityTypeOverCount =
-      this.filters[ListingFilterKeys.seniorHousing].value != undefined &&
-      this.filters[COMMUNITY_TYPE].value != undefined
+      this.filters[FrontendFilterKey.seniorHousing].value != undefined &&
+      this.filters[FrontendFilterKey.communityType].value != undefined
     // The false senior housing filter is not displayed in the filter modal,
     // so we shouldn't count it
     const hasSeniorHousingFalseFilter =
-      this.filters[ListingFilterKeys.seniorHousing].value === "false"
+      this.filters[FrontendFilterKey.seniorHousing].value === "false"
     if (hasMinMaxRentOverCount) {
       numberOfFilters -= 1
     }
@@ -129,41 +195,9 @@ export class FrontEndFilters {
 
     return numberOfFilters
   }
-
-  constructor() {
-    this.filters = [
-      new CommunityTypeFilter(
-        COMMUNITY_TYPE,
-        EnumListingFilterParamsComparison["NA"],
-        communityTypeOptions
-      ),
-      new FrontEndFilter(
-        ListingFilterKeys.availability,
-        EnumListingFilterParamsComparison["NA"],
-        availabilityOptions
-      ),
-      new FrontEndFilter(
-        ListingFilterKeys.bedrooms,
-        EnumListingFilterParamsComparison[">="],
-        preferredUnitOptions
-      ),
-      new FrontEndFilter(ListingFilterKeys.zipcode, EnumListingFilterParamsComparison["IN"]),
-      new FrontEndFilter(ListingFilterKeys.minRent, EnumListingFilterParamsComparison[">="]),
-      new FrontEndFilter(ListingFilterKeys.maxRent, EnumListingFilterParamsComparison["<="]),
-      new FrontEndFilter(ListingFilterKeys.seniorHousing, EnumListingFilterParamsComparison["NA"]),
-      // Check if the filters below are used or should be deleted
-      new FrontEndFilter(ListingFilterKeys.name, EnumListingFilterParamsComparison["="]),
-      new FrontEndFilter(ListingFilterKeys.leasingAgents, EnumListingFilterParamsComparison["="]),
-      new FrontEndFilter(ListingFilterKeys.status, EnumListingFilterParamsComparison["="]),
-      new FrontEndFilter(ListingFilterKeys.ami, EnumListingFilterParamsComparison["NA"]),
-    ].reduce(function (filters: Record<string, FrontEndFilter>, currFilter: FrontEndFilter) {
-      filters[currFilter.name] = currFilter
-      return filters
-    }, {})
-  }
 }
 
-export class CommunityTypeFilter extends FrontEndFilter {
+export class CommunityTypeFilter extends FrontendFilter {
   getBackendFilterType() {
     return this.value
   }
@@ -176,11 +210,11 @@ export class CommunityTypeFilter extends FrontEndFilter {
   }
 }
 
-export const blankFrontEndFilters = () => {
-  return new FrontEndFilters()
+export const blankFrontendFilters = () => {
+  return new FrontendFilterState()
 }
 
-export function encodeToBackendFilterArray(filters: Record<string, FrontEndFilter>) {
+export function encodeToBackendFilterArray(filters: Record<string, FrontendFilter>) {
   const filterArray = []
   for (const filterName in filters) {
     const type = filters[filterName].getBackendFilterType()
@@ -194,12 +228,12 @@ export function encodeToBackendFilterArray(filters: Record<string, FrontEndFilte
   return filterArray
 }
 
-export function encodeToFrontendFilterString(filters: Record<string, FrontEndFilter>) {
+export function encodeToFrontendFilterString(filters: Record<string, FrontendFilter>) {
   let queryString = ""
   for (const filterName in filters) {
     const type = filters[filterName].getBackendFilterType()
     const value = filters[filterName].getBackendFilterValue()
-    if (type in ListingFilterKeys && value !== undefined && value !== "") {
+    if (type in FrontendFilterKey && value !== undefined && value !== "") {
       queryString += `&${type}=${value}`
     }
   }
@@ -207,11 +241,11 @@ export function encodeToFrontendFilterString(filters: Record<string, FrontEndFil
 }
 
 export function decodeFiltersFromFrontendUrl(query: ParsedUrlQuery) {
-  const frontEndFilters = blankFrontEndFilters()
+  const filterState = blankFrontendFilters()
   for (const queryKey in query) {
-    if (frontEndFilters.filters[queryKey] !== undefined) {
-      frontEndFilters.setValue(queryKey, query[queryKey])
+    if (filterState.filters[queryKey] !== undefined) {
+      filterState.setValue(FrontendFilterKey[queryKey], query[queryKey])
     }
   }
-  return frontEndFilters
+  return filterState
 }

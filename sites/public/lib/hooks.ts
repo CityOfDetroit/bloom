@@ -9,8 +9,9 @@ import {
   isInternalLink,
   openDateState,
   t,
-  FrontEndFilter,
+  FrontendFilter,
   encodeToBackendFilterArray,
+  FrontendFilterKey,
 } from "@bloom-housing/ui-components"
 import { Listing, ListingReviewOrder, OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
 import { AppSubmissionContext } from "./AppSubmissionContext"
@@ -48,7 +49,7 @@ const listingsFetcher = function () {
     url: string,
     page: number,
     limit: number,
-    filters: Record<string, FrontEndFilter>,
+    filters: Record<FrontendFilterKey, FrontendFilter>,
     orderBy: OrderByFieldsEnum
   ) => {
     const res = await axios.get(url, {
@@ -70,7 +71,7 @@ const listingsFetcher = function () {
 export function useListingsData(
   pageIndex: number,
   limit = 10,
-  filters: Record<string, FrontEndFilter>,
+  filters: Record<FrontendFilterKey, FrontendFilter>,
   orderBy: OrderByFieldsEnum
 ) {
   const { data, error } = useSWR(

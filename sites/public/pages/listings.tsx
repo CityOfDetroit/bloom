@@ -13,15 +13,15 @@ import {
   decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
-  FrontEndFilters,
-  blankFrontEndFilters,
+  FrontendFilterState,
+  blankFrontendFilters,
   adaCompliantOptions,
-  COMMUNITY_TYPE,
   imageUrlFromListing,
   getSummariesTableFromUnitsSummary,
   getSummariesTableFromUnitSummary,
   ListingCard,
   LoadingOverlay,
+  FrontendFilterKey,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -29,12 +29,7 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import {
-  ListingFilterKeys,
-  OrderByFieldsEnum,
-  Listing,
-  Address,
-} from "@bloom-housing/backend-core/types"
+import { OrderByFieldsEnum, Listing, Address } from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -103,7 +98,7 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<FrontEndFilters>(() => blankFrontEndFilters())
+  const [filterState, setFilterState] = useState<FrontendFilterState>(() => blankFrontendFilters())
 
   const itemsPerPage = 10
 
@@ -157,7 +152,7 @@ const ListingsPage = () => {
   }
 
   function resetFilters() {
-    setQueryString(1, blankFrontEndFilters().filters)
+    setQueryString(1, blankFrontendFilters().filters)
   }
 
   return (
@@ -177,25 +172,25 @@ const ListingsPage = () => {
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
               id={"availability"}
-              name={ListingFilterKeys.availability}
+              name={FrontendFilterKey.availability}
               label={t("listingFilters.availability")}
               register={register}
               controlClassName="control"
-              options={filterState.filters[ListingFilterKeys.availability].options()}
-              defaultValue={filterState.filters[ListingFilterKeys.availability].value}
+              options={filterState.filters[FrontendFilterKey.availability].selectOptions()}
+              defaultValue={filterState.filters[FrontendFilterKey.availability].value}
             />
             <Select
               id="unitOptions"
-              name={ListingFilterKeys.bedrooms}
+              name={FrontendFilterKey.bedrooms}
               label={t("listingFilters.bedrooms")}
               register={register}
               controlClassName="control"
-              options={filterState.filters[ListingFilterKeys.bedrooms].options()}
-              defaultValue={filterState.filters[ListingFilterKeys.bedrooms].value}
+              options={filterState.filters[FrontendFilterKey.bedrooms].selectOptions()}
+              defaultValue={filterState.filters[FrontendFilterKey.bedrooms].value}
             />
             <Field
               id="zipCodeField"
-              name={ListingFilterKeys.zipcode}
+              name={FrontendFilterKey.zipcode}
               label={t("listingFilters.zipCode")}
               register={register}
               controlClassName="control"
@@ -203,30 +198,30 @@ const ListingsPage = () => {
               validation={{
                 validate: (value) => isValidZipCodeOrEmpty(value),
               }}
-              error={errors?.[ListingFilterKeys.zipcode]}
+              error={errors?.[FrontendFilterKey.zipcode]}
               errorMessage={t("errors.multipleZipCodeError")}
-              defaultValue={filterState.filters[ListingFilterKeys.zipcode].value}
+              defaultValue={filterState.filters[FrontendFilterKey.zipcode].value}
             />
             <label className="field-label">Rent Range</label>
             <div className="flex flex-row">
               <Field
                 id="minRent"
-                name={ListingFilterKeys.minRent}
+                name={FrontendFilterKey.minRent}
                 register={register}
                 type="number"
                 placeholder={t("t.min")}
                 prepend="$"
-                defaultValue={filterState.filters[ListingFilterKeys.minRent].value}
+                defaultValue={filterState.filters[FrontendFilterKey.minRent].value}
               />
               <div className="flex items-center p-3">{t("t.to")}</div>
               <Field
                 id="maxRent"
-                name={ListingFilterKeys.maxRent}
+                name={FrontendFilterKey.maxRent}
                 register={register}
                 type="number"
                 placeholder={t("t.max")}
                 prepend="$"
-                defaultValue={filterState.filters[ListingFilterKeys.maxRent].value}
+                defaultValue={filterState.filters[FrontendFilterKey.maxRent].value}
               />
             </div>
             <Select
@@ -239,12 +234,12 @@ const ListingsPage = () => {
             />
             <Select
               id="communityType"
-              name={COMMUNITY_TYPE}
+              name={FrontendFilterKey.communityType}
               label={t("listingFilters.communityType")}
               register={register}
               controlClassName="control"
-              options={filterState.filters[COMMUNITY_TYPE].options()}
-              defaultValue={filterState.filters[COMMUNITY_TYPE].value}
+              options={filterState.filters[FrontendFilterKey.communityType].selectOptions()}
+              defaultValue={filterState.filters[FrontendFilterKey.communityType].value}
             />
           </div>
           <div className="text-center mt-6">
