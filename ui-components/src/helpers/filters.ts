@@ -65,7 +65,7 @@ export enum FrontendFilterKey {
  */
 export class FrontendFilter {
   /* The frontend filter name. */
-  readonly name: FrontendFilterKey
+  readonly filterKey: FrontendFilterKey
 
   /* The frontend filter value.
    *
@@ -80,11 +80,11 @@ export class FrontendFilter {
   readonly selectOptions: () => SelectOption[]
 
   constructor(
-    name: FrontendFilterKey,
+    filterKey: FrontendFilterKey,
     comparison: EnumListingFilterParamsComparison,
     selectOptions?: () => SelectOption[]
   ) {
-    this.name = name
+    this.filterKey = filterKey
     this.comparison = comparison
     if (selectOptions) {
       this.selectOptions = selectOptions
@@ -92,7 +92,7 @@ export class FrontendFilter {
   }
 
   getBackendFilterType() {
-    return this.name
+    return this.filterKey
   }
 
   getBackendFilterValue() {
