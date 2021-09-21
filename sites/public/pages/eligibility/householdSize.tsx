@@ -11,7 +11,6 @@ import {
   Select,
   t,
   encodeToFrontendFilterString,
-  Waitlist,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
