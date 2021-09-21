@@ -108,7 +108,7 @@ export class FrontendFilter {
 }
 
 export class FrontendFilterState {
-  filters: Record<FrontendFilterKey, FrontendFilter>
+  readonly filters: Record<FrontendFilterKey, FrontendFilter>
 
   constructor() {
     const filters: Record<string, FrontendFilter> = {}
