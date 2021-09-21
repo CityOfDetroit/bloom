@@ -1,6 +1,7 @@
 import * as client from "../types/src/backend-swagger"
 import axios from "axios"
 import { ListingCreate, ListingStatus, serviceOptions } from "../types/src/backend-swagger"
+import { OmitType } from "@nestjs/swagger"
 
 // NOTE: This script relies on any logged-in users having permission to create
 // listings and properties (defined in backend/core/src/auth/authz_policy.csv)
@@ -12,6 +13,10 @@ const unitTypesService = new client.UnitTypesService()
 const unitAccessibilityPriorityTypesService = new client.UnitAccessibilityPriorityTypesService()
 const applicationMethodsService = new client.ApplicationMethodsService()
 const reservedCommunityTypesService = new client.ReservedCommunityTypesService()
+
+export interface ListingImport extends Omit<ListingCreate, "reservedCommunityType"> {
+  reservedCommunityType?: string
+}
 
 async function uploadEntity(entityKey, entityService, listing) {
   const newRecordsIds = await Promise.all(
@@ -105,7 +110,7 @@ export async function importListing(
   apiUrl: string,
   email: string,
   password: string,
-  listing: ListingCreate
+  listing: ListingImport
 ) {
   // Log in to retrieve an access token.
   const { accessToken } = await authService.login({
@@ -140,7 +145,7 @@ export async function importListing(
       reservedCommunityType = await uploadReservedCommunityType(listing.reservedCommunityType)
     }
   }
-  listing.reservedCommunityType = reservedCommunityType
+  const listingCreate = { ...listing, reservedCommunityType: reservedCommunityType }
 
   listing.units.forEach((unit) => {
     unit.priorityType = findByName(priorityTypes, unit.priorityType)
@@ -151,5 +156,5 @@ export async function importListing(
   })
 
   // Upload the listing, and then return it.
-  return await uploadListing(listing)
+  return await uploadListing(listingCreate)
 }

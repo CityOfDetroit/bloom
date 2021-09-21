@@ -1,12 +1,7 @@
-import { importListing } from "./import-helpers"
+import { importListing, ListingImport } from "./import-helpers"
 import { createUnitsArray, getDetroitJurisdiction } from "./detroit-helpers"
 import axios from "axios"
-import {
-  AddressCreate,
-  ListingCreate,
-  ListingStatus,
-  CSVFormattingType,
-} from "../types/src/backend-swagger"
+import { AddressCreate, ListingStatus, CSVFormattingType } from "../types/src/backend-swagger"
 
 // Sample usage:
 // $ yarn ts-node scripts/import-listings-from-detroit-arcgis.ts http://localhost:3100 admin@example.com:abcdef https://services2.arcgis.com/qvkbeam7Wirps6zC/ArcGIS/rest/services/Affordable_Housing_Website_data_12_20/FeatureServer/0//query
@@ -79,7 +74,7 @@ async function main() {
       updatedAt: null,
     }
 
-    const listing: ListingCreate = {
+    const listing: ListingImport = {
       name: listingAttributes.Project_Name,
       buildingAddress: address,
       units: units,

@@ -1,13 +1,8 @@
 import csv from "csv-parser"
 import fs from "fs"
-import { importListing } from "./import-helpers"
+import { importListing, ListingImport } from "./import-helpers"
 import { getDetroitJurisdiction } from "./detroit-helpers"
-import {
-  ListingCreate,
-  AddressCreate,
-  CSVFormattingType,
-  ListingStatus,
-} from "../types/src/backend-swagger"
+import { AddressCreate, CSVFormattingType, ListingStatus } from "../types/src/backend-swagger"
 
 // This script reads in listing data from a CSV file and sends requests to the backend to create
 // the corresponding Listings. A few notes:
@@ -146,7 +141,21 @@ async function main() {
       leasingAgentEmail = listingFields["Manager Email"]
     }
 
-    const listing: ListingCreate = {
+    let reservedCommunityType: string = null
+    const hudClientGroup = listingFields["HUD Client group"]
+    if (
+      ["wholly physically handicapped", "wholly physically disabled"].includes(
+        hudClientGroup?.toLowerCase()
+      )
+    ) {
+      console.log("Got one that's special needs!")
+      reservedCommunityType = "specialNeeds"
+    } else if (hudClientGroup?.toLowerCase() === "wholly elderly housekeeping") {
+      console.log("Got one that's wholly elderly!")
+      reservedCommunityType = "senior62"
+    }
+
+    const listing: ListingImport = {
       name: listingFields["Project Name"],
       hrdId: listingFields["HRDID"],
       buildingAddress: address,
@@ -163,6 +172,7 @@ async function main() {
       status: ListingStatus.active,
       unitsSummary: unitsSummaries,
       jurisdiction: jurisdiction,
+      reservedCommunityType: reservedCommunityType,
 
       // The following fields are only set because they are required
       units: [],
@@ -179,6 +189,8 @@ async function main() {
     try {
       const newListing = await importListing(importApiUrl, email, password, listing)
       console.log(`New listing uploaded successfully: ${newListing.name}`)
+      console.log(newListing.reservedCommunityType)
+      console.log()
       numListingsSuccessfullyUploaded++
     } catch (e) {
       console.log(e)
