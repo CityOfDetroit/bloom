@@ -3,7 +3,7 @@ Income
 Prompts the user for their annual income.
 */
 import FormsLayout from "../../layouts/forms"
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { FormCard } from "@bloom-housing/ui-components/src/blocks/FormCard"
 import { t } from "@bloom-housing/ui-components/src/helpers/translator"
 import { ProgressNav } from "@bloom-housing/ui-components/src/navigation/ProgressNav"
@@ -12,9 +12,8 @@ import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
 import {
   AppearanceStyleType,
-  blankFrontendFilters,
-  encodeToFrontendFilterString,
   FrontendFilterKey,
+  FrontendFilterState,
   Select,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
@@ -26,6 +25,7 @@ import { useRouter } from "next/router"
 const EligibilityIncome = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
+  const [filterState] = useState<FrontendFilterState>(() => new FrontendFilterState())
 
   const incomeRanges = ["below10k", "10kTo20k", "30kTo40k", "40kTo50k", "over50k"]
   const CURRENT_PAGE = 4
@@ -50,13 +50,11 @@ const EligibilityIncome = () => {
   }
 
   function getFilterUrl() {
-    const filters = blankFrontendFilters().filters
-
     if (eligibilityRequirements.age < SENIOR_AGE) {
-      filters[FrontendFilterKey.seniorHousing].value = false
+      filterState.setValue(FrontendFilterKey.seniorHousing, false)
     }
 
-    return `/listings?${encodeToFrontendFilterString(filters)}`
+    return `/listings?${filterState.getFrontendFilterString()}`
   }
 
   return (
