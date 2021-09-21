@@ -3045,11 +3045,6 @@
     lodash-es "4.17.21"
     sortablejs "1.13.0"
 
-"@esri/react-arcgis@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@esri/react-arcgis/-/react-arcgis-5.1.0.tgz#1d49380cb8f99a3968e0e72b83c0516a9273c213"
-  integrity sha512-4zXVx5DoJ5OFN+s1gp9sIWsTP307NlvT7meCsFe/lqPJfs239ztYNnEy6V9tMpPBIx+Lz5fTy47SS61VJM7ToQ==
-
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.2.tgz#ecf7f6ce6b004e9f942b098d92200be4a4b1c845"
