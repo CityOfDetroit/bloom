@@ -142,9 +142,9 @@ const ListingsPage = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
   const onSubmit = (data: Record<string, string>) => {
-    for (const filterName in data) {
-      if (filterState.filters[filterName] !== undefined) {
-        filterState.filters[filterName].value = data[filterName]
+    for (const filterKey in data) {
+      if (filterState.filters[filterKey] !== undefined) {
+        filterState.setValue(FrontendFilterKey[filterKey], data[filterKey])
       }
     }
     setFilterModalVisible(false)
