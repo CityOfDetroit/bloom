@@ -1,14 +1,15 @@
 import React from "react"
 import { MarkdownSection, t, PageHeader, GridSection, GridCell } from "@bloom-housing/ui-components"
+import Markdown from "markdown-to-jsx"
 import Layout from "../layouts/application"
-import PageContent from "../page_content/about.md"
+import pageContent from "../page_content/about.md"
 
 export default function About() {
   return (
     <Layout>
       <PageHeader title={t("pageTitle.about")} inverse />
       <MarkdownSection>
-        <PageContent />
+        <Markdown>{pageContent}</Markdown>
       </MarkdownSection>
       <MarkdownSection fullwidth>
         <GridSection title="Thank You to Our Partners">
