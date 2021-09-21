@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react"
 import "mapbox-gl/dist/mapbox-gl.css"
 import MapGL, { Marker } from "react-map-gl"
-import { loadModules } from 'esri-loader';
+import { loadModules } from "esri-loader"
 // import Map from "@arcgis/core/Map";
 // import MapView from "@arcgis/core/views/MapView";
 
@@ -30,48 +30,50 @@ export interface Viewport {
 }
 
 const ListingMap = (props: ListingMapProps) => {
-  const mapDiv = useRef(null);
+  const mapDiv = useRef(null)
 
   useEffect(() => {
     // setRenderMap(false)
     if (mapDiv.current) {
-      loadModules(['esri/views/MapView', 'esri/Map', 'esri/Graphic']).then(([MapView, Map, Graphic]) => {
-        const map = new Map({
-          basemap: "streets-vector",
-        })
-        const mapView = new MapView({
-          map: map,
-          container: mapDiv.current,
-          center: [props.address?.longitude, props.address?.latitude],
-          zoom: 13
-        })
+      loadModules(["esri/views/MapView", "esri/Map", "esri/Graphic"]).then(
+        ([MapView, Map, Graphic]) => {
+          const map = new Map({
+            basemap: "streets-vector",
+          })
+          const mapView = new MapView({
+            map: map,
+            container: mapDiv.current,
+            center: [props.address?.longitude, props.address?.latitude],
+            zoom: 13,
+          })
 
-        // create point
-        const point = {
-          type: "point",
-          // todo use viewport lat/long instead?
-          longitude: props.address?.longitude,
-          latitude: props.address?.latitude
-        };
-
-        // Create a symbol for drawing the point
-        const markerSymbol = {
-          type: "simple-marker",
-          color: [24, 37, 42],
-          outline: {
-            color: [255, 255, 255],
-            width: 2
+          // create point
+          const point = {
+            type: "point",
+            // todo use viewport lat/long instead?
+            longitude: props.address?.longitude,
+            latitude: props.address?.latitude,
           }
-        };
 
-        // Create a graphic and add the geometry and symbol to it
-        const pointGraphic = new Graphic({
-          geometry: point,
-          symbol: markerSymbol
-        });
+          // Create a symbol for drawing the point
+          const markerSymbol = {
+            type: "simple-marker",
+            color: [24, 37, 42],
+            outline: {
+              color: [255, 255, 255],
+              width: 2,
+            },
+          }
 
-        mapView.graphics.add(pointGraphic)
-      })
+          // Create a graphic and add the geometry and symbol to it
+          const pointGraphic = new Graphic({
+            geometry: point,
+            symbol: markerSymbol,
+          })
+
+          mapView.graphics.add(pointGraphic)
+        }
+      )
     }
   }, [props.address?.latitude, props.address?.longitude])
 
@@ -109,7 +111,6 @@ const ListingMap = (props: ListingMapProps) => {
     })
   }, [props.address?.latitude, props.address?.longitude, props.enableCustomPinPositioning])
 
-
   if (
     !props.address ||
     !props.address.latitude ||
@@ -125,7 +126,7 @@ const ListingMap = (props: ListingMapProps) => {
         {props.listingName && <h3 className="text-caps-tiny">{props.listingName}</h3>}
         <MultiLineAddress address={props.address} />
       </div>
-      <div style={{height: "400px"}} ref={mapDiv}></div>
+      <div style={{ height: "400px" }} ref={mapDiv}></div>
     </div>
   )
 }
