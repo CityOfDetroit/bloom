@@ -79,13 +79,19 @@ export class FrontendFilter {
   /* The allowed options if this is a dropdown filter. */
   readonly selectOptions: () => SelectOption[]
 
+  readonly hasBackendFilter: boolean
+
   constructor(
     filterKey: FrontendFilterKey,
     comparison: EnumListingFilterParamsComparison,
-    selectOptions?: () => SelectOption[]
+    selectOptions?: () => SelectOption[],
+    hasBackendFilter = true
   ) {
     this.filterKey = filterKey
     this.comparison = comparison
+    if (hasBackendFilter) {
+      this.hasBackendFilter = hasBackendFilter
+    }
     if (selectOptions) {
       this.selectOptions = selectOptions
     }
@@ -108,7 +114,8 @@ export class FrontendFilterState {
     filters[FrontendFilterKey.communityType] = new CommunityTypeFilter(
       FrontendFilterKey.communityType,
       EnumListingFilterParamsComparison["NA"],
-      communityTypeOptions
+      communityTypeOptions,
+      false
     )
     filters[FrontendFilterKey.availability] = new FrontendFilter(
       FrontendFilterKey.availability,
@@ -169,24 +176,20 @@ export class FrontendFilterState {
 
   getFilterCount(): number {
     let numberOfFilters = Object.keys(this.filters).filter(
-      (filterType) =>
-        this.filters[filterType].value !== undefined && this.filters[filterType].value != ""
+      (filterKey) =>
+        this.filters[filterKey].value !== undefined &&
+        this.filters[filterKey].value != "" &&
+        this.filters[filterKey].hasBackendFilter
     ).length
     // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
     const hasMinMaxRentOverCount =
       this.filters[FrontendFilterKey.minRent].value !== undefined &&
       this.filters[FrontendFilterKey.maxRent].value != undefined
-    const hasSeniorHousingCommunityTypeOverCount =
-      this.filters[FrontendFilterKey.seniorHousing].value != undefined &&
-      this.filters[FrontendFilterKey.communityType].value != undefined
     // The false senior housing filter is not displayed in the filter modal,
     // so we shouldn't count it
     const hasSeniorHousingFalseFilter =
       this.filters[FrontendFilterKey.seniorHousing].value === "false"
     if (hasMinMaxRentOverCount) {
-      numberOfFilters -= 1
-    }
-    if (hasSeniorHousingCommunityTypeOverCount) {
       numberOfFilters -= 1
     }
     if (hasSeniorHousingFalseFilter) {
@@ -199,14 +202,10 @@ export class FrontendFilterState {
 
 export class CommunityTypeFilter extends FrontendFilter {
   getBackendFilterType(): ListingFilterKeys {
-    return ListingFilterKeys[this.value]
+    throw new Error("The community filter does not have a corresponding backend filter type.")
   }
   getBackendFilterValue(): any {
-    if (this.value == EMPTY_OPTION || this.value == undefined) {
-      return undefined
-    } else {
-      return true
-    }
+    throw new Error("The community filter does not have a corresponding backend filter value.")
   }
 }
 
@@ -216,13 +215,15 @@ export const blankFrontendFilters = () => {
 
 export function encodeToBackendFilterArray(filters: Record<string, FrontendFilter>) {
   const filterArray = []
-  for (const filterName in filters) {
-    const type = filters[filterName].getBackendFilterType()
-    const value = filters[filterName].getBackendFilterValue()
-    const comparison = filters[filterName].comparison
+  for (const filterKey in filters) {
+    if (filters[filterKey].hasBackendFilter) {
+      const type = filters[filterKey].getBackendFilterType()
+      const value = filters[filterKey].getBackendFilterValue()
+      const comparison = filters[filterKey].comparison
 
-    if (type in ListingFilterKeys && value !== undefined && value !== "") {
-      filterArray.push({ $comparison: comparison, [type]: value })
+      if (type in ListingFilterKeys && value !== undefined && value !== "") {
+        filterArray.push({ $comparison: comparison, [type]: value })
+      }
     }
   }
   return filterArray
@@ -230,11 +231,13 @@ export function encodeToBackendFilterArray(filters: Record<string, FrontendFilte
 
 export function encodeToFrontendFilterString(filters: Record<string, FrontendFilter>) {
   let queryString = ""
-  for (const filterName in filters) {
-    const type = filters[filterName].getBackendFilterType()
-    const value = filters[filterName].getBackendFilterValue()
-    if (type in FrontendFilterKey && value !== undefined && value !== "") {
-      queryString += `&${type}=${value}`
+  for (const filterKey in filters) {
+    if (filters[filterKey].hasBackendFilter) {
+      const type = filters[filterKey].getBackendFilterType()
+      const value = filters[filterKey].getBackendFilterValue()
+      if (value !== undefined && value !== "") {
+        queryString += `&${type}=${value}`
+      }
     }
   }
   return queryString
