@@ -10,7 +10,6 @@ import {
   ProgressNav,
   Select,
   t,
-  encodeToFrontendFilterString,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
@@ -20,10 +19,6 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
-import {
-  EnumListingFilterParamsComparison,
-  ListingFilterParams,
-} from "@bloom-housing/backend-core/types"
 
 const EligibilityHouseholdSize = () => {
   const router = useRouter()
@@ -46,40 +41,8 @@ const EligibilityHouseholdSize = () => {
     void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
-  const onClick = () => {
-    const data = getValues()
-    const { householdSize } = data
-    eligibilityRequirements.setHouseholdSizeCount(householdSize)
-    console.log(eligibilityRequirements.householdSizeCount.valueOf())
-    void router.push(getFilterUrl())
-  }
-
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
-  }
-
-  function getFilterUrl() {
-    const params: ListingFilterParams = {
-      // $comparison is a required field even though it won't be used on the frontend. Will be fixed in #484.
-      $comparison: EnumListingFilterParamsComparison.NA,
-    }
-    switch (eligibilityRequirements.householdSizeCount.toString()) {
-      case "one":
-      case "two":
-        params.bedrooms = 1
-        break
-      case "three":
-        params.bedrooms = 2
-        break
-      case "four":
-        params.bedrooms = 3
-        break
-      default:
-        params.bedrooms = 4
-    }
-    params.seniorHousing = true
-
-    return `/listings?${encodeToFrontendFilterString(params)}`
   }
 
   const householdSizeRanges = ["one", "two", "three", "four", "five", "six", "seven", "eight"]
@@ -126,11 +89,7 @@ const EligibilityHouseholdSize = () => {
               <Button className="mx-2 mt-6" styleType={AppearanceStyleType.primary}>
                 {t("t.next")}
               </Button>
-              <Button
-                onClick={handleSubmit(onClick)}
-                className="mx-2 mt-6"
-                styleType={AppearanceStyleType.primary}
-              >
+              <Button className="mx-2 mt-6" styleType={AppearanceStyleType.primary}>
                 {t("t.viewListings")}
               </Button>
             </div>

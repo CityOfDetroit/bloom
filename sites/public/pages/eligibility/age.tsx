@@ -10,7 +10,6 @@ import {
   Form,
   Field,
   ProgressNav,
-  encodeToFrontendFilterString,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
@@ -21,17 +20,12 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
-import {
-  EnumListingFilterParamsComparison,
-  ListingFilterParams,
-} from "@bloom-housing/backend-core/types"
 
 const EligibilityAge = () => {
   const router = useRouter()
   // Check if they need to be 18 or older to apply?
   const MIN_AGE = 0
   const MAX_AGE = 120
-  const SENIOR_AGE = 62
   const CURRENT_PAGE = 2
 
   /* Form Handler */
@@ -52,28 +46,8 @@ const EligibilityAge = () => {
     return age >= MIN_AGE && age <= MAX_AGE
   }
 
-  const onClick = (data) => {
-    eligibilityRequirements.setAge(data.age)
-    void router.push(getFilterUrl())
-  }
-
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
-  }
-
-  function getFilterUrl() {
-    const params: ListingFilterParams = {
-      // $comparison is a required field even though it won't be used on the frontend. Will be fixed in #484.
-      $comparison: EnumListingFilterParamsComparison.NA,
-    }
-
-    if (eligibilityRequirements.age < SENIOR_AGE) {
-      params.seniorHousing = false
-    } else {
-      params.seniorHousing = true
-    }
-
-    return `/listings?${encodeToFrontendFilterString(params)}`
   }
 
   return (
@@ -120,11 +94,7 @@ const EligibilityAge = () => {
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
               <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
-              <Button
-                onClick={handleSubmit(onClick)}
-                className="mx-2 mt-6"
-                styleType={AppearanceStyleType.primary}
-              >
+              <Button className="mx-2 mt-6" styleType={AppearanceStyleType.primary}>
                 {t("t.viewListings")}
               </Button>
             </div>
