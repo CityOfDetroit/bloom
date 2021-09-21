@@ -1,6 +1,7 @@
 import {
   EnumListingFilterParamsComparison,
   ListingFilterKeys,
+  ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
 import { SelectOption } from "./formOptions"
@@ -162,7 +163,7 @@ export class FrontendFilterState {
     this.filters = filters
   }
 
-  setValue(filterName: FrontendFilterKey, filterValue: any) {
+  setValue(filterName: FrontendFilterKey, filterValue: any): void {
     this.filters[filterName].value = filterValue
     if (
       filterName === FrontendFilterKey.communityType &&
@@ -198,6 +199,46 @@ export class FrontendFilterState {
 
     return numberOfFilters
   }
+
+  getBackendFilterArray(): ListingFilterParams[] {
+    const filterArray = []
+    for (const filterKey in this.filters) {
+      if (this.filters[filterKey].hasBackendFilter) {
+        const type = this.filters[filterKey].getBackendFilterType()
+        const value = this.filters[filterKey].getBackendFilterValue()
+        const comparison = this.filters[filterKey].comparison
+
+        if (type in ListingFilterKeys && value !== undefined && value !== "") {
+          filterArray.push({ $comparison: comparison, [type]: value })
+        }
+      }
+    }
+    return filterArray
+  }
+
+  getFrontendFilterString(): string {
+    let queryString = ""
+    for (const filterKey in this.filters) {
+      if (this.filters[filterKey].hasBackendFilter) {
+        const type = this.filters[filterKey].getBackendFilterType()
+        const value = this.filters[filterKey].getBackendFilterValue()
+        if (value !== undefined && value !== "") {
+          queryString += `&${type}=${value}`
+        }
+      }
+    }
+    return queryString
+  }
+
+  getFiltersFromFrontendUrl(query: ParsedUrlQuery): FrontendFilterState {
+    const filterState = new FrontendFilterState()
+    for (const queryKey in query) {
+      if (filterState.filters[queryKey] !== undefined) {
+        filterState.setValue(FrontendFilterKey[queryKey], query[queryKey])
+      }
+    }
+    return filterState
+  }
 }
 
 export class CommunityTypeFilter extends FrontendFilter {
@@ -207,48 +248,4 @@ export class CommunityTypeFilter extends FrontendFilter {
   getBackendFilterValue(): any {
     throw new Error("The community filter does not have a corresponding backend filter value.")
   }
-}
-
-export const blankFrontendFilters = () => {
-  return new FrontendFilterState()
-}
-
-export function encodeToBackendFilterArray(filters: Record<string, FrontendFilter>) {
-  const filterArray = []
-  for (const filterKey in filters) {
-    if (filters[filterKey].hasBackendFilter) {
-      const type = filters[filterKey].getBackendFilterType()
-      const value = filters[filterKey].getBackendFilterValue()
-      const comparison = filters[filterKey].comparison
-
-      if (type in ListingFilterKeys && value !== undefined && value !== "") {
-        filterArray.push({ $comparison: comparison, [type]: value })
-      }
-    }
-  }
-  return filterArray
-}
-
-export function encodeToFrontendFilterString(filters: Record<string, FrontendFilter>) {
-  let queryString = ""
-  for (const filterKey in filters) {
-    if (filters[filterKey].hasBackendFilter) {
-      const type = filters[filterKey].getBackendFilterType()
-      const value = filters[filterKey].getBackendFilterValue()
-      if (value !== undefined && value !== "") {
-        queryString += `&${type}=${value}`
-      }
-    }
-  }
-  return queryString
-}
-
-export function decodeFiltersFromFrontendUrl(query: ParsedUrlQuery) {
-  const filterState = blankFrontendFilters()
-  for (const queryKey in query) {
-    if (filterState.filters[queryKey] !== undefined) {
-      filterState.setValue(FrontendFilterKey[queryKey], query[queryKey])
-    }
-  }
-  return filterState
 }

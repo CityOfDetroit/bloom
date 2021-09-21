@@ -9,12 +9,9 @@ import {
   t,
   Select,
   Form,
-  encodeToFrontendFilterString,
-  decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
   FrontendFilterState,
-  blankFrontendFilters,
   adaCompliantOptions,
   imageUrlFromListing,
   getSummariesTableFromUnitsSummary,
@@ -98,15 +95,17 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<FrontendFilterState>(() => blankFrontendFilters())
+  const [filterState, setFilterState] = useState<FrontendFilterState>(
+    () => new FrontendFilterState()
+  )
 
   const itemsPerPage = 10
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
-  function setQueryString(page: number, filters) {
-    void router.push(`/listings?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
+  function setQueryString(page: number) {
+    void router.push(`/listings?page=${page}${filterState.getFrontendFilterString()}`, undefined, {
       shallow: true,
     })
   }
@@ -117,14 +116,14 @@ const ListingsPage = () => {
       setCurrentPage(Number(router.query.page))
     }
 
-    setFilterState(decodeFiltersFromFrontendUrl(router.query))
+    setFilterState(filterState.getFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
   // Fetches the listing data.
   const { listingsData, listingsLoading, listingsError } = useListingsData(
     currentPage,
     itemsPerPage,
-    filterState.filters,
+    filterState,
     OrderByFieldsEnum.mostRecentlyUpdated
   )
 
@@ -148,11 +147,17 @@ const ListingsPage = () => {
       }
     }
     setFilterModalVisible(false)
-    setQueryString(/*page=*/ 1, filterState.filters)
+    setQueryString(/*page=*/ 1)
   }
 
   function resetFilters() {
-    setQueryString(1, blankFrontendFilters().filters)
+    void router.push(
+      `/listings?page=1${new FrontendFilterState().getFrontendFilterString()}`,
+      undefined,
+      {
+        shallow: true,
+      }
+    )
   }
 
   return (
