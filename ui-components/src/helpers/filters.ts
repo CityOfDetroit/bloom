@@ -44,12 +44,12 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
 // the filter state object, ListingFilterState.
 export const FrontendListingFilterStateKeys = { ...ListingFilterKeys }
 export interface ListingFilterState {
-  [FrontendListingFilterStateKeys.availability]?: string
-  [FrontendListingFilterStateKeys.bedrooms]?: string
+  [FrontendListingFilterStateKeys.availability]?: string | AvailabilityFilterEnum
+  [FrontendListingFilterStateKeys.bedrooms]?: string | number
   [FrontendListingFilterStateKeys.zipcode]?: string
-  [FrontendListingFilterStateKeys.minRent]?: string
-  [FrontendListingFilterStateKeys.maxRent]?: string
-  [FrontendListingFilterStateKeys.seniorHousing]?: string
+  [FrontendListingFilterStateKeys.minRent]?: string | number
+  [FrontendListingFilterStateKeys.maxRent]?: string | number
+  [FrontendListingFilterStateKeys.seniorHousing]?: string | boolean
 }
 
 export function encodeToBackendFilterArray(filterState: ListingFilterState) {
