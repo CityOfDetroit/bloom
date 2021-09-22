@@ -28,6 +28,7 @@ const ProgressNavItem = (props: {
         aria-disabled={bgColor == "is-disabled"}
         href={"#"}
         onClick={(e) => {
+          // Prevent default event behavior, which would route using href and not onClick.
           e.preventDefault()
           if (props.route) {
             router.push(props.route)
