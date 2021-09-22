@@ -35,7 +35,7 @@ describe("encode backend filter array", () => {
     expect(encodeToBackendFilterArray(filter)).toEqual([
       {
         $comparison: EnumListingFilterParamsComparison[">="],
-        bedrooms: "3"
+        bedrooms: "3",
       },
       {
         $comparison: EnumListingFilterParamsComparison["IN"],
@@ -74,7 +74,7 @@ describe("get filter state from parsed url", () => {
   it("should handle single filter", () => {
     const filterString = parse("localhost:3000/listings?page=1&zipcode=48226")
     const expected: ListingFilterState = {
-      zipcode: "48226"
+      zipcode: "48226",
     }
     expect(decodeFiltersFromFrontendUrl(filterString)).toStrictEqual(expected)
   })
