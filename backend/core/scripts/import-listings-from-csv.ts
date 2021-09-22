@@ -1,6 +1,6 @@
 import csv from "csv-parser"
 import fs from "fs"
-import { importListing, ListingImport } from "./import-helpers"
+import { importListing, ListingImport, UnitsSummaryImport } from "./import-helpers"
 import { getDetroitJurisdiction } from "./detroit-helpers"
 import { AddressCreate, CSVFormattingType, ListingStatus } from "../types/src/backend-swagger"
 
@@ -88,7 +88,7 @@ async function main() {
     }
 
     // Add data about unitsSummaries
-    const unitsSummaries = []
+    const unitsSummaries: UnitsSummaryImport[] = []
     if (listingFields["Number 0BR"]) {
       unitsSummaries.push({
         unitType: "studio",
@@ -141,20 +141,6 @@ async function main() {
       leasingAgentEmail = listingFields["Manager Email"]
     }
 
-    let reservedCommunityType: string = null
-    const hudClientGroup = listingFields["HUD Client group"]
-    if (
-      ["wholly physically handicapped", "wholly physically disabled"].includes(
-        hudClientGroup?.toLowerCase()
-      )
-    ) {
-      console.log("Got one that's special needs!")
-      reservedCommunityType = "specialNeeds"
-    } else if (hudClientGroup?.toLowerCase() === "wholly elderly housekeeping") {
-      console.log("Got one that's wholly elderly!")
-      reservedCommunityType = "senior62"
-    }
-
     const listing: ListingImport = {
       name: listingFields["Project Name"],
       hrdId: listingFields["HRDID"],
@@ -172,7 +158,6 @@ async function main() {
       status: ListingStatus.active,
       unitsSummary: unitsSummaries,
       jurisdiction: jurisdiction,
-      reservedCommunityType: reservedCommunityType,
 
       // The following fields are only set because they are required
       units: [],
@@ -188,9 +173,6 @@ async function main() {
 
     try {
       const newListing = await importListing(importApiUrl, email, password, listing)
-      console.log(`New listing uploaded successfully: ${newListing.name}`)
-      console.log(newListing.reservedCommunityType)
-      console.log()
       numListingsSuccessfullyUploaded++
     } catch (e) {
       console.log(e)

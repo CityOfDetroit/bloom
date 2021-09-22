@@ -1,7 +1,12 @@
 import * as client from "../types/src/backend-swagger"
 import axios from "axios"
-import { ListingCreate, ListingStatus, serviceOptions } from "../types/src/backend-swagger"
-import { OmitType } from "@nestjs/swagger"
+import {
+  ListingCreate,
+  ListingStatus,
+  serviceOptions,
+  UnitsSummaryCreate,
+  UnitCreate,
+} from "../types/src/backend-swagger"
 
 // NOTE: This script relies on any logged-in users having permission to create
 // listings and properties (defined in backend/core/src/auth/authz_policy.csv)
@@ -14,8 +19,17 @@ const unitAccessibilityPriorityTypesService = new client.UnitAccessibilityPriori
 const applicationMethodsService = new client.ApplicationMethodsService()
 const reservedCommunityTypesService = new client.ReservedCommunityTypesService()
 
-export interface ListingImport extends Omit<ListingCreate, "reservedCommunityType"> {
-  reservedCommunityType?: string
+export interface UnitsSummaryImport extends Omit<UnitsSummaryCreate, "unitType"> {
+  unitType?: string
+}
+export interface UnitImport extends Omit<UnitCreate, "unitType" | "priorityType"> {
+  priorityType?: string
+  unitType?: string
+}
+
+export interface ListingImport extends Omit<ListingCreate, "unitsSummary" | "units"> {
+  unitsSummary?: UnitsSummaryImport[]
+  units?: UnitImport[]
 }
 
 async function uploadEntity(entityKey, entityService, listing) {
@@ -150,16 +164,24 @@ export async function importListing(
       reservedCommunityType = await uploadReservedCommunityType(listing.reservedCommunityType)
     }
   }
-  const listingCreate = { ...listing, reservedCommunityType: reservedCommunityType }
 
+  const unitsCreate: UnitCreate[] = []
   listing.units.forEach((unit) => {
-    unit.priorityType = findByName(priorityTypes, unit.priorityType)
-    unit.unitType = findByName(unitTypes, unit.unitType)
+    const priorityType = findByName(priorityTypes, unit.priorityType)
+    const unitType = findByName(unitTypes, unit.unitType)
+    unitsCreate.push({ ...unit, priorityType: priorityType, unitType: unitType })
   })
+  const unitsSummaryCreate: UnitsSummaryCreate[] = []
   if (listing.unitsSummary) {
     listing.unitsSummary.forEach((summary) => {
-      summary.unitType = findByName(unitTypes, summary.unitType)
+      const unitType = findByName(unitTypes, summary.unitType)
+      unitsSummaryCreate.push({ ...summary, unitType: unitType })
     })
+  }
+  const listingCreate: ListingCreate = {
+    ...listing,
+    unitsSummary: unitsSummaryCreate,
+    units: unitsCreate,
   }
 
   // Upload the listing, and then return it.

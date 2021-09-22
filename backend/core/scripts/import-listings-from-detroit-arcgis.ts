@@ -1,4 +1,4 @@
-import { importListing, ListingImport } from "./import-helpers"
+import { importListing, ListingImport, UnitImport } from "./import-helpers"
 import { createUnitsArray, getDetroitJurisdiction } from "./detroit-helpers"
 import axios from "axios"
 import { AddressCreate, ListingStatus, CSVFormattingType } from "../types/src/backend-swagger"
@@ -36,7 +36,7 @@ async function main() {
       state: "MI",
     }
 
-    let units = []
+    let units: UnitImport[] = []
     if (listingAttributes.Number_0BR) {
       units = units.concat(createUnitsArray("studio", listingAttributes.Number_0BR))
     }
