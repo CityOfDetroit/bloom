@@ -31,6 +31,10 @@ h1.form-card__header_title {
   text-transform: capitalize;
 }
 
+li.progress-nav__item {
+  width: 20%;
+}
+
 // Body text should have normal font weight
 .field-note {
   @apply font-normal;
