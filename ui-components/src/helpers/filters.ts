@@ -1,4 +1,5 @@
 import {
+  AvailabilityFilterEnum,
   EnumListingFilterParamsComparison,
   ListingFilterKeys,
   ListingFilterParams,
@@ -6,7 +7,6 @@ import {
 import { ParsedUrlQuery } from "querystring"
 import { SelectOption } from "./formOptions"
 import { t } from "./translator"
-import { AvailabilityFilterEnum } from "@bloom-housing/backend-core/dist"
 
 export const EMPTY_OPTION = { value: "", label: "" }
 
