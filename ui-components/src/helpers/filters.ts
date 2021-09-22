@@ -165,13 +165,24 @@ export class FrontendFilterState {
 
   setValue(filterName: FrontendFilterKey, filterValue: any): void {
     this.filters[filterName].value = filterValue
-    if (
-      filterName === FrontendFilterKey.communityType &&
-      filterValue === FrontendFilterKey.seniorHousing
-    ) {
-      this.filters[FrontendFilterKey.seniorHousing].value = true
-    } else if (filterName === FrontendFilterKey.seniorHousing && filterValue == "true") {
-      this.filters[FrontendFilterKey.communityType].value = FrontendFilterKey.seniorHousing
+    if (filterName === FrontendFilterKey.communityType) {
+      switch (filterValue) {
+        case FrontendFilterKey.seniorHousing:
+          this.filters[FrontendFilterKey.seniorHousing].value = true
+          break
+        case "":
+        case undefined:
+          this.filters[FrontendFilterKey.seniorHousing].value = undefined
+      }
+    } else if (filterName === FrontendFilterKey.seniorHousing) {
+      switch (filterValue) {
+        case "true":
+          this.filters[FrontendFilterKey.communityType].value = FrontendFilterKey.seniorHousing
+          break
+        case "":
+        case undefined:
+          this.filters[FrontendFilterKey.communityType].value = undefined
+      }
     }
   }
 
