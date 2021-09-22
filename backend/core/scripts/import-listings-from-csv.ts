@@ -173,6 +173,7 @@ async function main() {
 
     try {
       const newListing = await importListing(importApiUrl, email, password, listing)
+      console.log(`New listing uploaded successfully: ${newListing.name}`)
       numListingsSuccessfullyUploaded++
     } catch (e) {
       console.log(e)

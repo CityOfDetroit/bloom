@@ -19,17 +19,20 @@ const unitAccessibilityPriorityTypesService = new client.UnitAccessibilityPriori
 const applicationMethodsService = new client.ApplicationMethodsService()
 const reservedCommunityTypesService = new client.ReservedCommunityTypesService()
 
+// Create these import interfaces to mimic the format defined in backend-swagger.ts, but allow
+// certain fields to have a simpler type. For example: allow listing.units.unitType to be a
+// string (e.g. "oneBdrm"), and then the importListing function will look up the corresponding
+// unitType object by name and use that unitType object to construct the UnitCreate.
+export interface ListingImport extends Omit<ListingCreate, "unitsSummary" | "units"> {
+  unitsSummary?: UnitsSummaryImport[]
+  units?: UnitImport[]
+}
 export interface UnitsSummaryImport extends Omit<UnitsSummaryCreate, "unitType"> {
   unitType?: string
 }
 export interface UnitImport extends Omit<UnitCreate, "unitType" | "priorityType"> {
   priorityType?: string
   unitType?: string
-}
-
-export interface ListingImport extends Omit<ListingCreate, "unitsSummary" | "units"> {
-  unitsSummary?: UnitsSummaryImport[]
-  units?: UnitImport[]
 }
 
 async function uploadEntity(entityKey, entityService, listing) {
@@ -165,6 +168,8 @@ export async function importListing(
     }
   }
 
+  // Construct the units and unitsSummary arrays expected by the backend, by looking up the
+  // unitTypes and priorityTypes referenced by name.
   const unitsCreate: UnitCreate[] = []
   listing.units.forEach((unit) => {
     const priorityType = findByName(priorityTypes, unit.priorityType)
@@ -178,6 +183,10 @@ export async function importListing(
       unitsSummaryCreate.push({ ...summary, unitType: unitType })
     })
   }
+
+  // Construct the ListingCreate to be sent to the backend. Its structure mostly mimics that of the
+  // input ListingImport, with the exception of the fields for which we had to look up referenced
+  // types.
   const listingCreate: ListingCreate = {
     ...listing,
     unitsSummary: unitsSummaryCreate,
