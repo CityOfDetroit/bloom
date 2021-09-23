@@ -301,10 +301,10 @@
         "optionsLabel": "Check all that apply:",
         "options": {
           "studio": "Studio",
-          "oneBedroom": "1 Bedroom",
-          "twoBedroom": "2 Bedroom",
-          "threeBedroom": "3 Bedroom",
-          "moreThanThreeBedroom": "3+ Bedroom"
+          "oneBdrm": "1 Bedroom",
+          "twoBdrm": "2 Bedroom",
+          "threeBdrm": "3 Bedroom",
+          "fourBdrm": "3+ Bedroom"
         }
       },
       "member": {
@@ -759,6 +759,7 @@
     "additionalInformation": "Additional Information",
     "allUnits": "All Units",
     "allUnitsReservedFor": "All units reserved for %{type}",
+    "amiOverrideTitle": "Override for household size of %{householdSize}",
     "annualIncome": "%{income} per year",
     "annualIncomeRange": "%{from} to %{to} per year",
     "applicationTitle": "Application Data",
@@ -787,7 +788,7 @@
       "postmarkedApplicationsMustBeReceivedByDate": "Applications must be received by the deadline. If sending by U.S. Mail, the application must be postmarked by %{applicationDueDate} and received by mail no later than %{postmarkReceivedByDate}. Applications received after %{postmarkReceivedByDate} via mail will not be accepted even if they are postmarked by %{applicationDueDate}. %{developer} is not responsible for lost or delayed mail.",
       "sendByUsMail": "Send Application by US Mail",
       "submitAPaperApplication": "Submit a Paper Application",
-      "contactManagment":"Contact Management Company"
+      "contactManagment": "Contact Management Company"
     },
     "atAnotherAddress": "At another address",
     "atLeasingAgentAddress": "At the leasing agent address",
@@ -859,6 +860,7 @@
     "mapPinPosition": "Map Pin Position",
     "mapPreview": "Map Preview",
     "mapPreviewNoAddress": "Enter an address to preview the map",
+    "maxAnnualIncome": "Maximum Annual Income",
     "maxIncomeMonth": "Maximum Income / Month",
     "maxIncomeYear": "Maximum Income / Year",
     "monthlyIncome": "%{income} per month",
@@ -1128,7 +1130,8 @@
     "privacy": "Privacy Policy",
     "welcomeEnglish": "Welcome",
     "welcomeSpanish": "Bienvenido",
-    "welcomeVietnamese": "Tiếng Việt"
+    "welcomeVietnamese": "Tiếng Việt",
+    "about": "About Us"
   },
   "pageDescription": {
     "welcome": "Search and apply for affordable housing on %{regionName}'s Housing Portal",
@@ -1283,7 +1286,7 @@
     "range": "%{from} to %{to}",
     "readLess": "read less",
     "readMore": "read more",
-    "region":"Region",
+    "region": "Region",
     "relationship": "Relationship",
     "otherRelationShip": "Other Relationship",
     "rent": "Rent",
@@ -1336,10 +1339,12 @@
     "seeRentalListings": "See Rentals",
     "title": "Apply for affordable housing in",
     "seeMoreOpportunities": "See more rental and ownership housing opportunities",
-    "viewAdditionalHousing": "View Additional Housing Opportunities and Resources",
     "checkEligibility": "Do I Qualify?",
     "checkEligibilityDescription": "Check in Minutes if You Qualify!",
-    "subTitle": "Click the button below to find rental housing based on your income and household needs"
+    "subTitle": "Click the button below to find rental housing based on your income and household needs",
+    "signUp": "Get emailed whenever a new listing is posted",
+    "signUpToday": "Sign up today",
+    "viewAdditionalHousing": "View Additional Housing Opportunities and Resources"
   },
   "whatToExpect": {
     "label": "What to Expect",
@@ -1379,23 +1384,23 @@
   },
   "eligibility": {
     "progress": {
-      "header" : "Let's find your next home",
+      "header": "Let's find your next home",
       "sections": {
-        "welcome" : "Welcome",
-        "householdSize" : "Household Size",
-        "age" : "Age",
-        "disability" : "Disability",
-        "income" : "Income"
+        "welcome": "Welcome",
+        "household": "Household",
+        "age": "Age",
+        "disability": "Disability",
+        "income": "Income"
       }
     },
     "welcome": {
       "header": "Welcome",
       "description": "To find you a home that best fits your needs, let's answer a few questions first. Some properties only accept people with certain ages, incomes, etc."
     },
-    "householdSize": {
+    "household": {
       "prompt": "How many people will be living in this property?",
       "srCountLabel": "Household Size",
-      "ranges" : {
+      "ranges": {
         "one": "1 Member",
         "two": "2 Members",
         "three": "3 Members",
@@ -1406,22 +1411,22 @@
         "eight": "8+ Members"
       }
     },
-    "age" : {
+    "age": {
       "prompt": "How old are you?",
       "description": "Some properties only accept individuals over 62 years of age.",
       "label": "years old",
       "error": "Please enter a valid age."
     },
-    "disability" : {
-      "prompt" : "Do you have a disability?",
-      "description" : "Some properties are meant for residents with disabilities. Some homes might request proof of disability with your application.",
+    "disability": {
+      "prompt": "Do you have a disability?",
+      "description": "Some properties are meant for residents with disabilities. Some homes might request proof of disability with your application.",
       "preferNotToSay": "Prefer not to say"
     },
-    "income" : {
+    "income": {
       "prompt": "What is your total household annual income?",
       "description": "Include income for everyone who will be living in your household including yourself. Income includes social security, retirement accounts and wages.",
-      "label" : "Income range",
-      "ranges" : {
+      "label": "Income range",
+      "ranges": {
         "below10k": "Below $10,000",
         "10kTo20k": "$10,000 - $20,000",
         "30kTo40k": "$30,000 - $40,000",

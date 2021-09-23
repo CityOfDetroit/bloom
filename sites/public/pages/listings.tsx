@@ -19,7 +19,8 @@ import {
   getSummariesTableFromUnitsSummary,
   getSummariesTableFromUnitSummary,
   LoadingOverlay,
-  FieldGroup,
+  ListingFilterState,
+  FrontendListingFilterStateKeys,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -28,9 +29,7 @@ import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
 import {
-  ListingFilterKeys,
   AvailabilityFilterEnum,
-  ListingFilterParams,
   OrderByFieldsEnum,
   Listing,
   Address,
@@ -103,7 +102,7 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<ListingFilterParams>()
+  const [filterState, setFilterState] = useState<ListingFilterState>()
   const itemsPerPage = 10
 
   // Filter state
@@ -182,7 +181,7 @@ const ListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
-  const onSubmit = (data: ListingFilterParams) => {
+  const onSubmit = (data: ListingFilterState) => {
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
   }
@@ -205,7 +204,7 @@ const ListingsPage = () => {
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
               id={"availability"}
-              name={"availability"}
+              name={FrontendListingFilterStateKeys.availability}
               label={t("listingFilters.availability")}
               register={register}
               controlClassName="control"
@@ -214,7 +213,7 @@ const ListingsPage = () => {
             />
             <Select
               id="unitOptions"
-              name={ListingFilterKeys.bedrooms}
+              name={FrontendListingFilterStateKeys.bedrooms}
               label={t("listingFilters.bedrooms")}
               register={register}
               controlClassName="control"
@@ -223,7 +222,7 @@ const ListingsPage = () => {
             />
             <Field
               id="zipCodeField"
-              name={ListingFilterKeys.zipcode}
+              name={FrontendListingFilterStateKeys.zipcode}
               label={t("listingFilters.zipCode")}
               register={register}
               controlClassName="control"
@@ -231,7 +230,7 @@ const ListingsPage = () => {
               validation={{
                 validate: (value) => isValidZipCodeOrEmpty(value),
               }}
-              error={errors?.[ListingFilterKeys.zipcode]}
+              error={errors?.[FrontendListingFilterStateKeys.zipcode]}
               errorMessage={t("errors.multipleZipCodeError")}
               defaultValue={filterState?.zipcode}
             />
@@ -239,7 +238,7 @@ const ListingsPage = () => {
             <div className="flex flex-row">
               <Field
                 id="minRent"
-                name={ListingFilterKeys.minRent}
+                name={FrontendListingFilterStateKeys.minRent}
                 register={register}
                 type="number"
                 placeholder={t("t.min")}
@@ -249,7 +248,7 @@ const ListingsPage = () => {
               <div className="flex items-center p-3">{t("t.to")}</div>
               <Field
                 id="maxRent"
-                name={ListingFilterKeys.maxRent}
+                name={FrontendListingFilterStateKeys.maxRent}
                 register={register}
                 type="number"
                 placeholder={t("t.max")}

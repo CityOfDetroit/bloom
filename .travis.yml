@@ -2,7 +2,7 @@ language: node_js
 
 node_js:
   # Node version
-  - 12
+  - 14
 
 cache:
   yarn: true
@@ -46,7 +46,8 @@ jobs:
         - cd backend/core
         - yarn nest start &
         - cd ../../sites/public
-        - yarn dev &
+        - yarn build
+        - yarn start &
         - yarn wait-on "http-get://localhost:3000" && yarn cypress run
         - kill $(jobs -p) || true
     - stage: longer tests
@@ -57,7 +58,8 @@ jobs:
         - cd backend/core
         - yarn nest start &
         - cd ../../sites/partners
-        - yarn dev &
+        - yarn build
+        - yarn start -p 3001 &
         - yarn wait-on "http-get://localhost:3001" && yarn cypress run
         - kill $(jobs -p) || true
 
