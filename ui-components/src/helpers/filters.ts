@@ -51,6 +51,7 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.minRent]?: string | number
   [FrontendListingFilterStateKeys.maxRent]?: string | number
   [FrontendListingFilterStateKeys.seniorHousing]?: string | boolean
+  [FrontendListingFilterStateKeys.include_nulls]?: boolean
 }
 
 export function encodeToBackendFilterArray(filterState: ListingFilterState) {
@@ -64,6 +65,7 @@ export function encodeToBackendFilterArray(filterState: ListingFilterState) {
       const comparison = getComparisonForFilter(ListingFilterKeys[filterType])
       filterArray.push({
         $comparison: comparison,
+        $include_nulls: filterState.include_nulls,
         [filterType]: filterState[filterType],
       })
     }

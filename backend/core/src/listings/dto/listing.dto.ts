@@ -964,4 +964,5 @@ export const filterTypeToFieldMap: Record<keysWithMappedField, string> = {
   // monthly_rent_max field, we'd miss it.
   maxRent: "unitsSummary.monthly_rent_min",
   leasingAgents: "leasingAgents.id",
+  include_nulls: "include_nulls",
 }
