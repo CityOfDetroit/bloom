@@ -29,6 +29,7 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
   filterTypeToFieldMap: FilterFieldMap,
   qb: WhereExpression
 ): void {
+  // todo avaleske this is the wrong index to use for the where param name
   for (const [index, filter] of filters.entries()) {
     const comparison = filter["$comparison"]
     const includeNulls = filter["$include_nulls"]
@@ -51,13 +52,13 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
       switch (filterKey) {
         case ListingFilterKeys.seniorHousing:
           addSeniorHousingQuery(qb, filterValue, includeNulls)
-          return
+          continue
         case ListingFilterKeys.availability:
           addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum, includeNulls)
-          return
+          continue
         case ListingFilterKeys.ami:
           addAmiPercentageFilter(qb, parseInt(filterValue), includeNulls)
-          return
+          continue
       }
 
       const whereParameterName = `${filterKey}_${index}`
