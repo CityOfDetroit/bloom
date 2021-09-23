@@ -11,6 +11,7 @@ import {
   decodeFiltersFromFrontendUrl,
   LinkButton,
   LoadingOverlay,
+  ListingFilterState,
 } from "@bloom-housing/ui-components"
 import Layout from "../../layouts/application"
 import { MetaTags } from "../../src/MetaTags"
@@ -26,20 +27,16 @@ const FilteredListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<ListingFilterParams>()
+  const [filterState, setFilterState] = useState<ListingFilterState>()
   const itemsPerPage = 10
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
   function setQueryString(page: number, filters = filterState) {
-    void router.push(
-      `/listings/filtered?page=${page}${encodeToFrontendFilterString(filters)}`,
-      undefined,
-      {
-        shallow: true,
-      }
-    )
+    void router.push(`/listings/filtered?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
+      shallow: true,
+    })
   }
 
   // Checks for changes in url params.

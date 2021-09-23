@@ -9,90 +9,17 @@ import {
   t,
   LinkButton,
   encodeToFrontendFilterString,
-  Field,
-  ListingCard,
-  imageUrlFromListing,
-  getSummariesTableFromUnitsSummary,
-  getSummariesTableFromUnitSummary,
-  LoadingOverlay,
   ListingFilterState,
-  FrontendListingFilterStateKeys,
 } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
 import React, { useState } from "react"
 import { useRouter } from "next/router"
-import {
-  EnumListingFilterParamsComparison,
-  ListingFilterParams,
-  AvailabilityFilterEnum,
-  OrderByFieldsEnum,
-  Listing,
-  Address,
-} from "@bloom-housing/backend-core/types"
 import FilterForm from "../src/forms/filters/FilterForm"
 import { getListings } from "../lib/helpers"
-import { useForm } from "react-hook-form"
-
-const emptyFilters: ListingFilterParams = {
-  $comparison: EnumListingFilterParamsComparison.NA,
-}
-
-const getListingCardSubtitle = (address: Address) => {
-  const { street, city, state, zipCode } = address || {}
-  return address ? `${street}, ${city} ${state}, ${zipCode}` : null
-}
-
-const getListingTableData = (listing: Listing) => {
-  if (listing.unitsSummary !== undefined && listing.unitsSummary.length > 0) {
-    return getSummariesTableFromUnitsSummary(listing.unitsSummary)
-  } else if (listing.unitsSummarized !== undefined) {
-    return getSummariesTableFromUnitSummary(listing.unitsSummarized.byUnitTypeAndRent)
-  }
-  return []
-}
-
-const getListings = (listings: Listing[]) => {
-  const unitSummariesHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
-  }
-  return listings.map((listing: Listing, index) => {
-    return (
-      <ListingCard
-        key={index}
-        imageCardProps={{
-          imageUrl:
-            imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")) || "",
-          subtitle: getListingCardSubtitle(listing.buildingAddress),
-          title: listing.name,
-          href: `/listing/${listing.id}/${listing.urlSlug}`,
-          tagLabel: listing.reservedCommunityType
-            ? t(`listings.reservedCommunityTypes.${listing.reservedCommunityType.name}`)
-            : undefined,
-        }}
-        tableProps={{
-          headers: unitSummariesHeaders,
-          data: getListingTableData(listing),
-          responsiveCollapse: true,
-          cellClassName: "px-5 py-3",
-        }}
-        seeDetailsLink={`/listing/${listing.id}/${listing.urlSlug}`}
-        detailsLinkClass="float-right"
-        tableHeader={listing.showWaitlist ? t("listings.waitlist.open") : null}
-      />
-    )
-  })
-}
 
 const ListingsPage = ({ initialListings }) => {
   const router = useRouter()
-
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<ListingFilterState>()
-  const itemsPerPage = 10
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
@@ -103,10 +30,9 @@ const ListingsPage = ({ initialListings }) => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors } = useForm()
   const onSubmit = (page: number, data: ListingFilterState) => {
     setFilterModalVisible(false)
-    router.push(`/listings/filtered?page=${page}${encodeToFrontendFilterString(filters)}`)
+    router.push(`/listings/filtered?page=${page}${encodeToFrontendFilterString(data)}`)
   }
 
   return (
@@ -157,7 +83,7 @@ const ListingsPage = ({ initialListings }) => {
             currentPage={1}
             itemsPerPage={10}
             quantityLabel={t("listings.totalListings")}
-            setCurrentPage={(page) => onSubmit(page, emptyFilters)}
+            setCurrentPage={(page) => onSubmit(page, {})}
           />
         </div>
       )}
@@ -168,7 +94,7 @@ const ListingsPage = ({ initialListings }) => {
 export async function getStaticProps() {
   let initialListings = []
   try {
-    const response = await axios.get(`${process.env.listingServiceUrl}?page=1?limit=10`)
+    const response = await axios.get(`${process.env.listingServiceUrl}?page=1?limit=10&orderBy=mostRecentlyUpdated`)
     initialListings = response.data
   } catch (error) {
     console.error(error)
