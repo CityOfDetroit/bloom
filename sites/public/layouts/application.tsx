@@ -7,12 +7,10 @@ import {
   SiteFooter,
   FooterNav,
   FooterSection,
-  ExygyFooter,
   UserNav,
   t,
   AuthContext,
   setSiteAlertMessage,
-  getTranslationMarkup,
 } from "@bloom-housing/ui-components"
 
 const Layout = (props) => {
@@ -34,7 +32,7 @@ const Layout = (props) => {
         <SiteHeader
           skip={t("nav.skip")}
           logoSrc="/images/detroit-logo.png"
-          notice={<div dangerouslySetInnerHTML={getTranslationMarkup("nav.getFeedback")}></div>}
+          notice=""
           title={t("nav.siteTitle")}
           language={{
             list: languages,
@@ -95,9 +93,6 @@ const Layout = (props) => {
             <a>{t("pageTitle.disclaimer")}</a>
           </Link>
         </FooterNav>
-        <FooterSection className="bg-black" small>
-          <ExygyFooter />
-        </FooterSection>
       </SiteFooter>
     </div>
   )

@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file. The format 
 
 (_Note:_ it our intention to improve our release process going forward by using [Semantic Versioning](https://semver.org/spec/v2.0.0.html).)
 
+## Detroit Team M12
+
+- Fixed:
+
+  - Removed units and application methods from seed listings
+    ([#590](https://github.com/CityOfDetroit/bloom/pull/590))
+
+- Added:
+
+  - Partially Senior reserved community type ([#572](https://github.com/CityOfDetroit/bloom/pull/572))
+  - "About" page ([#589](https://github.com/CityOfDetroit/bloom/pull/589))
+  - RTL support ([#627](https://github.com/CityOfDetroit/bloom/pull/627))
+
 ## Detroit Team M11
 
 - Added:
@@ -18,6 +31,10 @@ All notable changes to this project will be documented in this file. The format 
   - Validate listing edit form ([#535](https://github.com/CityOfDetroit/bloom/pull/535))
   - Backend Filtering by AMI ([#532](https://github.com/CityOfDetroit/bloom/pull/532))
   - Add backend listing sorting ([#542](https://github.com/CityOfDetroit/bloom/pull/542) and [#548](https://github.com/CityOfDetroit/bloom/pull/548))
+
+- Removed:
+
+  - Removed minimum income from frontend forms and tables ([#578](https://github.com/CityOfDetroit/bloom/pull/578))
 
 ## Detroit Team M10
 
@@ -74,6 +91,12 @@ All notable changes to this project will be documented in this file. The format 
 
 ## Unreleased
 
+### Backend
+
+- Added:
+
+  - Add POST /users/invite endpoint and extend PUT /users/confirm with optional password change ([#1801](https://github.com/bloom-housing/bloom/pull/1801))
+
 ## Frontend
 
 - Added:
@@ -86,8 +109,10 @@ All notable changes to this project will be documented in this file. The format 
   - Allow application status to show both FCFS and a due date ([#1680](https://github.com/bloom-housing/bloom/pull/1680)) (Emily Jablonski)
   - Add new /users page with table ([#1679](https://github.com/bloom-housing/bloom/pull/1679)) (Dominik Barcikowski)
   - Add new /unauthorized page ([#1763](https://github.com/bloom-housing/bloom/pull/1763)) (Dominik Barcikowski)
+  - Adds ability to create AMI chart overrides in listings management and refactors the unit form ([#1706](https://github.com/bloom-housing/bloom/pull/1706)) (Emily Jablonski)
 
 - Fixed:
+
   - Update Listings component to sort listings by status ([#1585](https://github.com/bloom-housing/bloom/pull/1585))
   - Preferences ordinal bug in listings management ([#1641](https://github.com/bloom-housing/bloom/pull/1641)) (Emily Jablonski)
   - Updates EnumListingReviewOrderType to be ListingReviewOrder ([#1679](https://github.com/bloom-housing/bloom/pull/1679))
@@ -96,6 +121,13 @@ All notable changes to this project will be documented in this file. The format 
   - Update textarea character limit ([#1751](https://github.com/bloom-housing/bloom/pull/1751)) (Dominik Barcikowski)
   - Update unit availability field ([#1767](https://github.com/bloom-housing/bloom/pull/1767)) (Dominik Barcikowski)
   - Update select width ([#1765](https://github.com/bloom-housing/bloom/pull/1765)) (Dominik Barcikowski)
+  - Reset page to 1 on limit change ([#1809](https://github.com/bloom-housing/bloom/pull/1809)) (Dominik Barcikowski)
+  - Update public and partners to support preferred unit ids ([#1774](https://github.com/bloom-housing/bloom/pull/1774)) (Dominik Barcikowski)
+
+- Changed:
+
+  - Upgrade the public and partners sites to Next v11 and React v17 ([#1793](https://github.com/bloom-housing/bloom/pull/1793)) (Jared White)
+    - **Breaking Change**
 
 ### UI Components
 
@@ -104,6 +136,7 @@ All notable changes to this project will be documented in this file. The format 
   - Add ResponsiveTable for pricing
   - Ability to have multiple statuses under the ImageCard ([#1700](https://github.com/bloom-housing/bloom/pull/1700)) (Emily Jablonski)
     - **Breaking Change**: Removed three props (appStatus, appStatusContent, and appStatusSubContent) in favor of an array that contains that data - will need to transition any status information to the new array format
+  - Add Heading component and numbered-list styles ([#1405](https://github.com/bloom-housing/bloom/pull/1405)) (Marcin Jedras)
 
 - Fixed:
 
@@ -111,6 +144,9 @@ All notable changes to this project will be documented in this file. The format 
   - More robust Features section for public listing view ([#1688](https://github.com/bloom-housing/bloom/pull/1688))
 
 - Changed:
+
+  - Upgraded Tailwind to v2, PostCSS to v8, and Storybook to 6.3 ([#1805])(https://github.com/bloom-housing/bloom/pull/1805)) (Jared White)
+  - Upgraded React to v17
   - StandardTable new optional prop to translate cell content ([#1707](https://github.com/bloom-housing/bloom/pull/1707)) (Emily Jablonski)
   - Removed business logic from ListingsList component ([#1752](https://github.com/bloom-housing/bloom/pull/1752)) (Emily Jablonski)
     - **Breaking Change**: Removed listings prop and replaced with children and a listingsCount prop
@@ -122,6 +158,12 @@ All notable changes to this project will be documented in this file. The format 
     - **Breaking Change**: Removed ListingsList component and replaced with more generalizable ListingCard component which represents the image and table for one listing
   - Remove formatIncome helper from ui-components ([#1744](https://github.com/bloom-housing/bloom/pull/1744)) (Emily Jablonski)
     - **Breaking Change**
+  - Removed business logic from HouseholdMemberForm component ([#1722](https://github.com/bloom-housing/bloom/pull/1722)) (Emily Jablonski)
+    - **Breaking Change**: Removed existing props except for editMode and replaced with a set not dependent on data model
+  - Removed business logic from Hero component ([#1816](https://github.com/bloom-housing/bloom/pull/1816)) (Emily Jablonski)
+    - **Breaking Change**: Removed listings prop and replaced with allApplicationsClosed prop
+  - Removed business logic from AppStatusItem component ([#1714](https://github.com/bloom-housing/bloom/pull/1714)) (Emily Jablonski)
+    - **Breaking Change**: Removed both existing props, replaced with a set not dependent on data model, and renamed component to StatusItem
 
 ### Backend
 
@@ -136,6 +178,7 @@ All notable changes to this project will be documented in this file. The format 
   - Adds UnitAmiChartOverride entity and implements ami chart overriding at Unit level [#1575](https://github.com/bloom-housing/bloom/pull/1575)
   - Adds `authz.e2e-spec.ts` test cover for preventing user from voluntarily changing his associated `roles` object [#1575](https://github.com/bloom-housing/bloom/pull/1575)
   - Adds Jurisdictions to users, listings and translations. The migration script assigns the first alpha sorted jurisdiction to users, so this piece may need to be changed for Detroit, if they have more than Detroit in their DB. [#1776](https://github.com/bloom-housing/bloom/pull/1776)
+  - Added the optional jurisdiction setting notificationsSignUpURL, which now appears on the home page if set ([#1802](https://github.com/bloom-housing/bloom/pull/1802)) (Emily Jablonski)
 
 - Changed:
 
@@ -149,6 +192,8 @@ All notable changes to this project will be documented in this file. The format 
   - Allow for unit sets to have multiple ami charts ([#1678](https://github.com/bloom-housing/bloom/pull/1678)) (Emily Jablonski)
   - UnitDto now only contains an AMI chart ID instead of the entire object AmiChart. AmiCharts must now be fetched separately from `/amiCharts` ([#1575](https://github.com/bloom-housing/bloom/pull/1575)
   - `GET /listings` filters query param has been changed to support a querystring serialized array of filters, it's a breaking change because comparison property can no longer be an array. Also a property ordering problem has been resolved. Now the strict requirement for every client using the API is to use `qs` serialization format for query params. ([#1782](https://github.com/bloom-housing/bloom/pull/1782))
+  - `amiPercentage` field on UnitsSummary is migrated to an integer instead of a string. ((#1797)[https://github.com/bloom-housing/bloom/pull/1797])
+  - Change preferredUnit property to store unitType ids ([#1787](https://github.com/bloom-housing/bloom/pull/1787)) (Sean Albert)
 
 - Fixed:
   - Added checks for property in listing.dto transforms
@@ -163,7 +208,12 @@ All notable changes to this project will be documented in this file. The format 
 ### General
 
 - Updated:
+
   - Updates so leasing agent can access listing detail on frontend and removes applicationCount logic on backend and the ability for a leasing agent to create a new listing [#1627](https://github.com/bloom-housing/bloom/pull/1627)
+
+- Fixed:
+
+  - Prettier action issues ([#1826](https://github.com/bloom-housing/bloom/issues/1826)) (Emily Jablonski)
 
 ## v1.0.5 08/03/2021
 
