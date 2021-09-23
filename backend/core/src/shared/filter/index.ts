@@ -29,7 +29,6 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
   filterTypeToFieldMap: FilterFieldMap,
   qb: WhereExpression
 ): void {
-  // todo avaleske this is the wrong index to use for the where param name
   for (const [index, filter] of filters.entries()) {
     const comparison = filter["$comparison"]
     const includeNulls = filter["$include_nulls"]
