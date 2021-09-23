@@ -1,7 +1,5 @@
 import {
   AvailabilityFilterEnum,
-  ListingFilterKeys,
-  ListingFilterParams,
 } from "@bloom-housing/backend-core/types"
 import {
   t,
@@ -11,6 +9,8 @@ import {
   Field,
   Button,
   AppearanceStyleType,
+  FrontendListingFilterStateKeys,
+  ListingFilterState,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 
@@ -29,8 +29,8 @@ const isValidZipCodeOrEmpty = (value: string) => {
 }
 
 interface FilterFormProps {
-  onSubmit: (data: ListingFilterParams) => void
-  filterState?: ListingFilterParams
+  onSubmit: (data: ListingFilterState) => void
+  filterState?: ListingFilterState
 }
 
 const FilterForm = (props: FilterFormProps) => {
@@ -72,7 +72,7 @@ const FilterForm = (props: FilterFormProps) => {
         <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
         <Select
           id={"availability"}
-          name={"availability"}
+          name={FrontendListingFilterStateKeys.availability}
           label={t("listingFilters.availability")}
           register={register}
           controlClassName="control"
@@ -81,7 +81,7 @@ const FilterForm = (props: FilterFormProps) => {
         />
         <Select
           id="unitOptions"
-          name={ListingFilterKeys.bedrooms}
+          name={FrontendListingFilterStateKeys.bedrooms}
           label={t("listingFilters.bedrooms")}
           register={register}
           controlClassName="control"
@@ -90,7 +90,7 @@ const FilterForm = (props: FilterFormProps) => {
         />
         <Field
           id="zipCodeField"
-          name={ListingFilterKeys.zipcode}
+          name={FrontendListingFilterStateKeys.zipcode}
           label={t("listingFilters.zipCode")}
           register={register}
           controlClassName="control"
@@ -98,7 +98,7 @@ const FilterForm = (props: FilterFormProps) => {
           validation={{
             validate: (value) => isValidZipCodeOrEmpty(value),
           }}
-          error={errors?.[ListingFilterKeys.zipcode]}
+          error={errors?.[FrontendListingFilterStateKeys.zipcode]}
           errorMessage={t("errors.multipleZipCodeError")}
           defaultValue={props.filterState?.zipcode}
         />
@@ -106,7 +106,7 @@ const FilterForm = (props: FilterFormProps) => {
         <div className="flex flex-row">
           <Field
             id="minRent"
-            name={ListingFilterKeys.minRent}
+            name={FrontendListingFilterStateKeys.minRent}
             register={register}
             type="number"
             placeholder={t("t.min")}
@@ -116,7 +116,7 @@ const FilterForm = (props: FilterFormProps) => {
           <div className="flex items-center p-3">{t("t.to")}</div>
           <Field
             id="maxRent"
-            name={ListingFilterKeys.maxRent}
+            name={FrontendListingFilterStateKeys.maxRent}
             register={register}
             type="number"
             placeholder={t("t.max")}

@@ -31,6 +31,8 @@ import {
   ListingEventCreate,
   Preference,
   UnitsSummary,
+  PaperApplication,
+  PaperApplicationCreate,
   ListingReviewOrder,
 } from "@bloom-housing/backend-core/types"
 import { YesNoAnswer } from "../../applications/PaperApplicationForm/FormTypes"
@@ -57,6 +59,7 @@ import BuildingFeatures from "./sections/BuildingFeatures"
 import RankingsAndResults from "./sections/RankingsAndResults"
 import ApplicationAddress from "./sections/ApplicationAddress"
 import LotteryResults from "./sections/LotteryResults"
+import ApplicationTypes from "./sections/ApplicationTypes"
 import Preferences from "./sections/Preferences"
 import CommunityType from "./sections/CommunityType"
 
@@ -75,7 +78,13 @@ export type FormListing = Omit<Listing, "countyCode"> & {
   arePostmarksConsidered?: boolean
   canApplicationsBeDroppedOff?: boolean
   canPaperApplicationsBePickedUp?: boolean
+  displaySummaryData?: string
   dueDateQuestion?: boolean
+  digitalApplicationChoice?: YesNoAnswer
+  commonDigitalApplicationChoice?: YesNoAnswer
+  paperApplicationChoice?: YesNoAnswer
+  referralOpportunityChoice?: YesNoAnswer
+  dueDateQuestionChoice?: boolean
   lotteryDate?: {
     month: string
     day: string
@@ -216,6 +225,14 @@ const defaults: FormListing = {
 
 export type TempUnit = Unit & {
   tempId?: number
+  maxIncomeHouseholdSize1?: string
+  maxIncomeHouseholdSize2?: string
+  maxIncomeHouseholdSize3?: string
+  maxIncomeHouseholdSize4?: string
+  maxIncomeHouseholdSize5?: string
+  maxIncomeHouseholdSize6?: string
+  maxIncomeHouseholdSize7?: string
+  maxIncomeHouseholdSize8?: string
 }
 
 export type TempUnitsSummary = UnitsSummary & {
@@ -225,6 +242,8 @@ export type TempUnitsSummary = UnitsSummary & {
 export type TempEvent = ListingEvent & {
   tempId?: string
 }
+
+export type PaperApplicationHybrid = PaperApplication | PaperApplicationCreate
 
 const formatFormData = (
   data: FormListing,
@@ -256,6 +275,24 @@ const formatFormData = (
         unit.numBedrooms = null
     }
 
+    Object.keys(unit).forEach((key) => {
+      if (key.indexOf("maxIncomeHouseholdSize") >= 0) {
+        if (!unit.amiChartOverride) {
+          unit.amiChartOverride = {
+            id: undefined,
+            createdAt: undefined,
+            updatedAt: undefined,
+            items: [],
+          }
+        }
+        unit.amiChartOverride.items.push({
+          percentOfAmi: parseInt(unit.amiPercentage),
+          householdSize: parseInt(key[key.length - 1]),
+          income: parseInt(unit[key]),
+        })
+      }
+    })
+
     unit.floor = stringToNumberOrOne(unit.floor)
     unit.maxOccupancy = stringToNumberOrOne(unit.maxOccupancy)
     unit.minOccupancy = stringToNumberOrOne(unit.minOccupancy)
@@ -276,6 +313,7 @@ const formatFormData = (
     summary.totalCount = toNumberOrNull(summary.totalCount)
     summary.monthlyRentMin = toNumberOrNull(summary.monthlyRentMin)
     summary.monthlyRentMax = toNumberOrNull(summary.monthlyRentMax)
+    summary.amiPercentage = toNumberOrNull(summary.amiPercentage)
 
     if (!summary.sqFeetMin) {
       delete summary.sqFeetMin
@@ -328,7 +366,7 @@ const formatFormData = (
 
   return {
     ...data,
-    disableUnitsAccordion: stringToBoolean(data.disableUnitsAccordion),
+    disableUnitsAccordion: stringToBoolean(data.displaySummaryData),
     units: units,
     preferences: preferences,
     buildingAddress: {
@@ -377,6 +415,10 @@ const formatFormData = (
       data.reviewOrderQuestion === "reviewOrderLottery"
         ? ListingReviewOrder.lottery
         : ListingReviewOrder.firstComeFirstServe,
+    digitalApplication: data.digitalApplicationChoice === YesNoAnswer.Yes,
+    commonDigitalApplication: data.commonDigitalApplicationChoice === YesNoAnswer.Yes,
+    paperApplication: data.paperApplicationChoice === YesNoAnswer.Yes,
+    referralOpportunity: data.referralOpportunityChoice === YesNoAnswer.Yes,
   }
 }
 
@@ -627,6 +669,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                         <TabPanel>
                           <RankingsAndResults listing={listing} />
                           <LeasingAgent />
+                          <ApplicationTypes listing={listing} />
                           <ApplicationAddress listing={listing} />
 
                           <div className="-ml-8 -mt-8 relative" style={{ top: "7rem" }}>

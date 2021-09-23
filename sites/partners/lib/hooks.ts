@@ -52,6 +52,7 @@ export function useListingsData({ page, limit, userId }: UseListingsDataProps) {
           leasingAgents: userId,
         },
       ],
+      view: "base",
     })
   }
 
@@ -198,6 +199,19 @@ export function useAmiChartList() {
   const fetcher = () => amiChartsService.list()
 
   const { data, error } = useSWR(`${process.env.backendApiBase}/amiCharts`, fetcher)
+
+  return {
+    data,
+    loading: !error && !data,
+    error,
+  }
+}
+
+export function useSingleAmiChart(amiChartId: string) {
+  const { amiChartsService } = useContext(AuthContext)
+  const fetcher = () => amiChartsService.retrieve({ amiChartId })
+
+  const { data, error } = useSWR(`${process.env.backendApiBase}/amiCharts/${amiChartId}`, fetcher)
 
   return {
     data,

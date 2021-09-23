@@ -10,6 +10,7 @@ import {
   encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,
   LinkButton,
+  LoadingOverlay,
 } from "@bloom-housing/ui-components"
 import Layout from "../../layouts/application"
 import { MetaTags } from "../../src/MetaTags"
@@ -125,27 +126,34 @@ const FilteredListingsPage = () => {
           </Button>
         )}
       </div>
-      {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
-        <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
-          <header>
-            <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
-            <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
-          </header>
-        </div>
-      )}
-      {!listingsLoading && (
-        <div>
-          {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
-          <AgPagination
-            totalItems={listingsData?.meta.totalItems}
-            totalPages={listingsData?.meta.totalPages}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            quantityLabel={t("listings.totalListings")}
-            setCurrentPage={setQueryString}
-          />
-        </div>
-      )}
+      <LoadingOverlay isLoading={listingsLoading}>
+        <>
+          {listingsLoading && (
+            <div className="container max-w-3xl my-4 px-4 py-10 content-start mx-auto" />
+          )}
+          {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
+            <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
+              <header>
+                <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
+                <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
+              </header>
+            </div>
+          )}
+          {!listingsLoading && (
+            <div>
+              {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
+              <AgPagination
+                totalItems={listingsData?.meta.totalItems}
+                totalPages={listingsData?.meta.totalPages}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                quantityLabel={t("listings.totalListings")}
+                setCurrentPage={setQueryString}
+              />
+            </div>
+          )}
+        </>
+      </LoadingOverlay>
     </Layout>
   )
 }
