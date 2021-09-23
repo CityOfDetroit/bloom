@@ -141,12 +141,12 @@ async function main() {
       leasingAgentEmail = listingFields["Manager Email"]
     }
 
-    let reservedCommunityType: string = null
+    let reservedCommunityTypeName: string = null
     const hudClientGroup = listingFields["HUD Client group"].toLowerCase()
     if (["wholly physically handicapped", "wholly physically disabled"].includes(hudClientGroup)) {
-      reservedCommunityType = "specialNeeds"
+      reservedCommunityTypeName = "specialNeeds"
     } else if (hudClientGroup === "wholly elderly housekeeping") {
-      reservedCommunityType = "senior62"
+      reservedCommunityTypeName = "senior62"
     }
 
     const listing: ListingImport = {
@@ -166,7 +166,7 @@ async function main() {
       status: ListingStatus.active,
       unitsSummary: unitsSummaries,
       jurisdiction: jurisdiction,
-      reservedCommunityType: reservedCommunityType,
+      reservedCommunityTypeName: reservedCommunityTypeName,
 
       // The following fields are only set because they are required
       units: [],

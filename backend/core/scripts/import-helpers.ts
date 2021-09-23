@@ -27,7 +27,7 @@ export interface ListingImport
   extends Omit<ListingCreate, "unitsSummary" | "units" | "reservedCommunityType"> {
   unitsSummary?: UnitsSummaryImport[]
   units?: UnitImport[]
-  reservedCommunityType?: string
+  reservedCommunityTypeName?: string
 }
 export interface UnitsSummaryImport extends Omit<UnitsSummaryCreate, "unitType"> {
   unitType?: string
@@ -165,10 +165,10 @@ export async function importListing(
 
   // Look up the reserved community type by name, or create it if it doesn't yet exist.
   let reservedCommunityType: client.ReservedCommunityType
-  if (listing.reservedCommunityType) {
-    reservedCommunityType = await getReservedCommunityType(listing.reservedCommunityType)
+  if (listing.reservedCommunityTypeName) {
+    reservedCommunityType = await getReservedCommunityType(listing.reservedCommunityTypeName)
     if (!reservedCommunityType) {
-      reservedCommunityType = await uploadReservedCommunityType(listing.reservedCommunityType)
+      reservedCommunityType = await uploadReservedCommunityType(listing.reservedCommunityTypeName)
     }
   }
 
