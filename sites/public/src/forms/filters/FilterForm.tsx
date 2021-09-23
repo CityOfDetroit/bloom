@@ -1,6 +1,4 @@
-import {
-  AvailabilityFilterEnum,
-} from "@bloom-housing/backend-core/types"
+import { AvailabilityFilterEnum } from "@bloom-housing/backend-core/types"
 import {
   t,
   SelectOption,

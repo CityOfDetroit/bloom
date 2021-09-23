@@ -34,9 +34,13 @@ const FilteredListingsPage = () => {
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
   function setQueryString(page: number, filters = filterState) {
-    void router.push(`/listings/filtered?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
-      shallow: true,
-    })
+    void router.push(
+      `/listings/filtered?page=${page}${encodeToFrontendFilterString(filters)}`,
+      undefined,
+      {
+        shallow: true,
+      }
+    )
   }
 
   // Checks for changes in url params.
