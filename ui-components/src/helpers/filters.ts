@@ -5,7 +5,7 @@ import {
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
 
-// TODO: Refactor filter state storage strategy
+// TODO(#629): Refactor filter state storage strategy
 // Currently, the knowledge of "what a filter is" is spread across multiple
 // places: getComparisonForFilter(), ListingFilterState, FrontendListingFilterStateKeys,
 // ListingFilterKeys, the encode/decode methods, and the various enums with options
