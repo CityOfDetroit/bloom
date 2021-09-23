@@ -31,7 +31,6 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
       return EnumListingFilterParamsComparison["IN"]
     case ListingFilterKeys.seniorHousing:
     case ListingFilterKeys.availability:
-    case ListingFilterKeys.include_nulls:
     case ListingFilterKeys.ami:
       return EnumListingFilterParamsComparison["NA"]
     default: {
@@ -43,7 +42,10 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
 
 // Define the keys we expect to see in the frontend URL. These are also used for
 // the filter state object, ListingFilterState.
-export const FrontendListingFilterStateKeys = { ...ListingFilterKeys }
+export const FrontendListingFilterStateKeys = {
+  ...ListingFilterKeys,
+  includeNulls: "includeNulls" as const,
+}
 export interface ListingFilterState {
   [FrontendListingFilterStateKeys.availability]?: string | AvailabilityFilterEnum
   [FrontendListingFilterStateKeys.bedrooms]?: string | number
@@ -51,7 +53,7 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.minRent]?: string | number
   [FrontendListingFilterStateKeys.maxRent]?: string | number
   [FrontendListingFilterStateKeys.seniorHousing]?: string | boolean
-  [FrontendListingFilterStateKeys.include_nulls]?: boolean
+  [FrontendListingFilterStateKeys.includeNulls]?: string | boolean
 }
 
 export function encodeToBackendFilterArray(filterState: ListingFilterState) {
@@ -65,7 +67,7 @@ export function encodeToBackendFilterArray(filterState: ListingFilterState) {
       const comparison = getComparisonForFilter(ListingFilterKeys[filterType])
       filterArray.push({
         $comparison: comparison,
-        $include_nulls: filterState.include_nulls,
+        $include_nulls: filterState[FrontendListingFilterStateKeys.includeNulls],
         [filterType]: filterState[filterType],
       })
     }
