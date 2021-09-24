@@ -21,7 +21,6 @@ import {
   LoadingOverlay,
   ListingFilterState,
   FrontendListingFilterStateKeys,
-  FieldGroup,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -285,7 +284,7 @@ const ListingsPage = () => {
               label={t("listingFilters.includeUnknowns")}
               register={register}
               inputProps={{
-                defaultChecked: filterState?.includeNulls?.toString() === "true",
+                defaultChecked: filterState?.includeNulls,
               }}
             />
           </div>
