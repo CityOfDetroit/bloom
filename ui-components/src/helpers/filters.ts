@@ -80,7 +80,11 @@ export function encodeToFrontendFilterString(filterState: ListingFilterState) {
   for (const filterType in filterState) {
     const value = filterState[filterType]
     if (filterType in FrontendListingFilterStateKeys && value !== undefined && value !== "") {
-      queryString += `&${filterType}=${value}`
+      if (filterType === "includeNulls" && value === false) {
+        queryString += ""
+      } else {
+        queryString += `&${filterType}=${value}`
+      }
     }
   }
   return queryString
