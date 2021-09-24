@@ -65,6 +65,12 @@ const FilterForm = (props: FilterFormProps) => {
     { value: AvailabilityFilterEnum.waitlist, label: t("listingFilters.waitlist") },
   ]
 
+  const seniorHousingOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: "true", label: t("t.yes") },
+    { value: "false", label: t("t.no") },
+  ]
+
   const { handleSubmit, register, errors } = useForm()
   return (
     <Form onSubmit={handleSubmit(props.onSubmit)}>
@@ -133,12 +139,20 @@ const FilterForm = (props: FilterFormProps) => {
           options={adaCompliantOptions}
         />
         <Select
-          id="communityType"
-          name="communityType"
-          label={t("listingFilters.communityType")}
+          id="seniorHousing"
+          name={FrontendListingFilterStateKeys.seniorHousing}
+          label={t("listingFilters.senior")}
           register={register}
           controlClassName="control"
-          options={communityTypeOptions}
+          options={seniorHousingOptions}
+        />
+        <Field
+          id="includeNulls"
+          type="checkbox"
+          name={FrontendListingFilterStateKeys.includeNulls}
+          label={t("listingFilters.includeUnknowns")}
+          register={register}
+          inputProps={{defaultChecked: props.filterState.includeNulls}}
         />
       </div>
       <div className="text-center mt-6">
