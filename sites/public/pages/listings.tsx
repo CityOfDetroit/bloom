@@ -9,16 +9,19 @@ import {
   t,
   Select,
   Form,
+  SelectOption,
+  encodeToFrontendFilterString,
+  decodeFiltersFromFrontendUrl,
   LinkButton,
   Field,
-  FrontendFilterState,
-  adaCompliantOptions,
+  ListingCard,
   imageUrlFromListing,
   getSummariesTableFromUnitsSummary,
   getSummariesTableFromUnitSummary,
-  ListingCard,
   LoadingOverlay,
-  FrontendFilterKey,
+  ListingFilterState,
+  FrontendListingFilterStateKeys,
+  FieldGroup,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -26,7 +29,12 @@ import { MetaTags } from "../src/MetaTags"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
-import { OrderByFieldsEnum, Listing, Address } from "@bloom-housing/backend-core/types"
+import {
+  AvailabilityFilterEnum,
+  OrderByFieldsEnum,
+  Listing,
+  Address,
+} from "@bloom-housing/backend-core/types"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -95,17 +103,43 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<FrontendFilterState>(
-    () => new FrontendFilterState()
-  )
-
+  const [filterState, setFilterState] = useState<ListingFilterState>()
   const itemsPerPage = 10
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
-  function setQueryString(page: number) {
-    void router.push(`/listings?page=${page}${filterState.getFrontendFilterString()}`, undefined, {
+  // TODO: Select options should come from the database (#252)
+  const EMPTY_OPTION = { value: "", label: "" }
+  const preferredUnitOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: "0", label: t("listingFilters.bedroomsOptions.studioPlus") },
+    { value: "1", label: t("listingFilters.bedroomsOptions.onePlus") },
+    { value: "2", label: t("listingFilters.bedroomsOptions.twoPlus") },
+    { value: "3", label: t("listingFilters.bedroomsOptions.threePlus") },
+    { value: "4", label: t("listingFilters.bedroomsOptions.fourPlus") },
+  ]
+  const adaCompliantOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: "n", label: t("t.no") },
+    { value: "y", label: t("t.yes") },
+  ]
+
+  const availabilityOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
+    { value: AvailabilityFilterEnum.noAvailability, label: t("listingFilters.noAvailability") },
+    { value: AvailabilityFilterEnum.waitlist, label: t("listingFilters.waitlist") },
+  ]
+
+  const seniorHousingOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: "true", label: t("t.yes") },
+    { value: "false", label: t("t.no") },
+  ]
+
+  function setQueryString(page: number, filters = filterState) {
+    void router.push(`/listings?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
       shallow: true,
     })
   }
@@ -116,10 +150,9 @@ const ListingsPage = () => {
       setCurrentPage(Number(router.query.page))
     }
 
-    setFilterState(filterState.getFiltersFromFrontendUrl(router.query))
+    setFilterState(decodeFiltersFromFrontendUrl(router.query))
   }, [router.query])
 
-  // Fetches the listing data.
   const { listingsData, listingsLoading, listingsError } = useListingsData(
     currentPage,
     itemsPerPage,
@@ -127,7 +160,14 @@ const ListingsPage = () => {
     OrderByFieldsEnum.mostRecentlyUpdated
   )
 
-  const numberOfFilters = filterState.getFilterCount()
+  let numberOfFilters = 0
+  if (filterState) {
+    numberOfFilters = Object.keys(filterState).filter((p) => p !== "$comparison").length
+    // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
+    if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
+      numberOfFilters -= 1
+    }
+  }
 
   const buttonTitle = numberOfFilters
     ? t("listingFilters.buttonTitleWithNumber", { number: numberOfFilters })
@@ -140,24 +180,9 @@ const ListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
-  const onSubmit = (data: Record<string, string>) => {
-    for (const filterKey in data) {
-      if (filterState.filters[filterKey] !== undefined) {
-        filterState.setValue(FrontendFilterKey[filterKey], data[filterKey])
-      }
-    }
+  const onSubmit = (data: ListingFilterState) => {
     setFilterModalVisible(false)
-    setQueryString(/*page=*/ 1)
-  }
-
-  function resetFilters() {
-    void router.push(
-      `/listings?page=1${new FrontendFilterState().getFrontendFilterString()}`,
-      undefined,
-      {
-        shallow: true,
-      }
-    )
+    setQueryString(/*page=*/ 1, data)
   }
 
   return (
@@ -165,6 +190,7 @@ const ListingsPage = () => {
       <Head>
         <title>{pageTitle}</title>
       </Head>
+
       <MetaTags title={t("nav.siteTitle")} image={metaImage} description={metaDescription} />
       <PageHeader title={t("pageTitle.rent")} />
       <Modal
@@ -177,25 +203,25 @@ const ListingsPage = () => {
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
               id={"availability"}
-              name={FrontendFilterKey.availability}
+              name={FrontendListingFilterStateKeys.availability}
               label={t("listingFilters.availability")}
               register={register}
               controlClassName="control"
-              options={filterState.filters[FrontendFilterKey.availability].selectOptions()}
-              defaultValue={filterState.filters[FrontendFilterKey.availability].value}
+              options={availabilityOptions}
+              defaultValue={filterState?.availability}
             />
             <Select
               id="unitOptions"
-              name={FrontendFilterKey.bedrooms}
+              name={FrontendListingFilterStateKeys.bedrooms}
               label={t("listingFilters.bedrooms")}
               register={register}
               controlClassName="control"
-              options={filterState.filters[FrontendFilterKey.bedrooms].selectOptions()}
-              defaultValue={filterState.filters[FrontendFilterKey.bedrooms].value}
+              options={preferredUnitOptions}
+              defaultValue={filterState?.bedrooms?.toString()}
             />
             <Field
               id="zipCodeField"
-              name={FrontendFilterKey.zipcode}
+              name={FrontendListingFilterStateKeys.zipcode}
               label={t("listingFilters.zipCode")}
               register={register}
               controlClassName="control"
@@ -203,30 +229,30 @@ const ListingsPage = () => {
               validation={{
                 validate: (value) => isValidZipCodeOrEmpty(value),
               }}
-              error={errors?.[FrontendFilterKey.zipcode]}
+              error={errors?.[FrontendListingFilterStateKeys.zipcode]}
               errorMessage={t("errors.multipleZipCodeError")}
-              defaultValue={filterState.filters[FrontendFilterKey.zipcode].value}
+              defaultValue={filterState?.zipcode}
             />
             <label className="field-label">Rent Range</label>
             <div className="flex flex-row">
               <Field
                 id="minRent"
-                name={FrontendFilterKey.minRent}
+                name={FrontendListingFilterStateKeys.minRent}
                 register={register}
                 type="number"
                 placeholder={t("t.min")}
                 prepend="$"
-                defaultValue={filterState.filters[FrontendFilterKey.minRent].value}
+                defaultValue={filterState?.minRent}
               />
               <div className="flex items-center p-3">{t("t.to")}</div>
               <Field
                 id="maxRent"
-                name={FrontendFilterKey.maxRent}
+                name={FrontendListingFilterStateKeys.maxRent}
                 register={register}
                 type="number"
                 placeholder={t("t.max")}
                 prepend="$"
-                defaultValue={filterState.filters[FrontendFilterKey.maxRent].value}
+                defaultValue={filterState?.maxRent}
               />
             </div>
             <Select
@@ -235,16 +261,22 @@ const ListingsPage = () => {
               label={t("listingFilters.adaCompliant")}
               register={register}
               controlClassName="control"
-              options={adaCompliantOptions()}
+              options={adaCompliantOptions}
+              defaultValue={filterState?.seniorHousing?.toString()}
             />
             <Select
-              id="communityType"
-              name={FrontendFilterKey.communityType}
-              label={t("listingFilters.communityType")}
+              id="seniorHousing"
+              name={FrontendListingFilterStateKeys.seniorHousing}
+              label={t("listingFilters.senior")}
               register={register}
               controlClassName="control"
-              options={filterState.filters[FrontendFilterKey.communityType].selectOptions()}
-              defaultValue={filterState.filters[FrontendFilterKey.communityType].value}
+              options={seniorHousingOptions}
+            />
+            <FieldGroup
+              type="checkbox"
+              name={FrontendListingFilterStateKeys.includeNulls}
+              fields={[{ id: "true", label: t("listingFilters.includeUnknowns") }]}
+              register={register}
             />
           </div>
           <div className="text-center mt-6">
@@ -274,7 +306,8 @@ const ListingsPage = () => {
             className="mx-2 mt-6"
             size={AppearanceSizeType.small}
             styleType={AppearanceStyleType.secondary}
-            onClick={() => resetFilters()}
+            // "Submit" the form with no params to trigger a reset.
+            onClick={() => onSubmit(null)}
             icon="close"
             iconPlacement="left"
           >
