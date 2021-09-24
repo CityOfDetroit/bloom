@@ -1359,7 +1359,8 @@
         "waitlist": "قائمة الانتظار",
         "applyFilters": "تطبيق المرشحات",
         "noResults": "لا نتائج",
-        "noResultsSubtitle": "تحرير أو إزالة عوامل التصفية للحصول على أفضل النتائج."
+        "noResultsSubtitle": "تحرير أو إزالة عوامل التصفية للحصول على أفضل النتائج.",
+        "includeUnknowns": "قم بتضمين النتائج بمعلومات غير كاملة"
     },
     "eligibility": {
         "progress": {

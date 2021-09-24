@@ -276,7 +276,7 @@ const ListingsPage = () => {
             <FieldGroup
               type="checkbox"
               name={FrontendListingFilterStateKeys.includeNulls}
-              fields={[{ id: "true", label: "Include Unknowns" }]}
+              fields={[{ id: "true", label: t("listingFilters.includeUnknowns") }]}
               register={register}
             />
           </div>

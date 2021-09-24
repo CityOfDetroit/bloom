@@ -1380,7 +1380,8 @@
     "waitlist": "Waitlist",
     "applyFilters": "Apply Filters",
     "noResults": "No results",
-    "noResultsSubtitle": "Edit or remove filters for best results."
+    "noResultsSubtitle": "Edit or remove filters for best results.",
+    "includeUnknowns": "Include Results with Incomplete Information"
   },
   "eligibility": {
     "progress": {

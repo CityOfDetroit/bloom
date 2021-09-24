@@ -1234,7 +1234,8 @@
         "waitlist": "Lista de espera",
         "applyFilters": "Aplicar filtros",
         "noResults": "No hay resultados",
-        "noResultsSubtitle": "Edite o elimine filtros para obtener mejores resultados."
+        "noResultsSubtitle": "Edite o elimine filtros para obtener mejores resultados.",
+        "includeUnknowns": "Incluir resultados con información incompleta"
     },
     "eligibility": {
         "progress": {
