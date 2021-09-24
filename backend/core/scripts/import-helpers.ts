@@ -159,6 +159,16 @@ export async function importListing(
   const relationsKeys = []
   listing = reformatListing(listing, relationsKeys)
 
+  // If a managementWebsite is provided, make sure it is a well-formed URL.
+  if (listing.managementWebsite) {
+    if (!listing.managementWebsite.startsWith("http")) {
+      listing.managementWebsite = "http://" + listing.managementWebsite
+    }
+
+    // This next line will throw an error if managementWebsite is a malformed URL.
+    new URL(listing.managementWebsite)
+  }
+
   // Upload new entities.
   listing = await uploadEntity("preferences", preferencesService, listing)
   listing = await uploadEntity("applicationMethods", applicationMethodsService, listing)
