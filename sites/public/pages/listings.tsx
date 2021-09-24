@@ -167,6 +167,9 @@ const ListingsPage = () => {
     if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
       numberOfFilters -= 1
     }
+    if (filterState.includeNulls) {
+      numberOfFilters -= 1
+    }
   }
 
   const buttonTitle = numberOfFilters
@@ -181,8 +184,8 @@ const ListingsPage = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
   const onSubmit = (data: ListingFilterState) => {
-    if (data?.includeNulls === false) {
-      delete data.includeNulls
+    if (data?.[FrontendListingFilterStateKeys.includeNulls] === false) {
+      delete data?.[FrontendListingFilterStateKeys.includeNulls]
     }
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
