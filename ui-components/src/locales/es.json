@@ -1222,26 +1222,23 @@
         "zipCode": "Código postal",
         "zipCodeDescription": "Introduzca código postal",
         "adaCompliant": "Cumple con la ADA",
-        "communityType": "Tipo de comunidad",
-        "communityTypeOptions": {
-            "all": "Todos",
-            "senior": "Vivienda para personas mayores (62+)",
-            "specialNeeds": "Necesidades especiales y discapacidad"
-        },
         "availability": "Disponibilidad de la unidad",
         "hasAvailability": "Tiene disponibilidad",
         "noAvailability": "No disponible",
         "waitlist": "Lista de espera",
         "applyFilters": "Aplicar filtros",
         "noResults": "No hay resultados",
-        "noResultsSubtitle": "Edite o elimine filtros para obtener mejores resultados."
+        "noResultsSubtitle": "Edite o elimine filtros para obtener mejores resultados.",
+        "includeUnknowns": "Incluir resultados con información incompleta",
+        "senior": "Vivienda para personas mayores (62+)",
+        "specialNeeds": "Necesidades especiales y discapacidad"
     },
     "eligibility": {
         "progress": {
             "header": "Busquemos tu próxima casa",
             "sections": {
                 "welcome": "Bienvenidos",
-                "householdSize": "Tamaño del hogar",
+                "household": "Hogar",
                 "age": "Edad",
                 "disability": "Invalidez",
                 "income": "Ingreso"
@@ -1251,18 +1248,18 @@
             "header": "Bienvenidos",
             "description": "Para encontrarle la casa que mejor se adapte a sus necesidades, primero respondamos algunas preguntas. Algunas propiedades solo aceptan personas con ciertas edades, ingresos, etc."
         },
-        "householdSize": {
+        "household": {
             "prompt": "¿Cuántas personas vivirán en esta propiedad?",
             "srCountLabel": "Tamaño del hogar",
-            "ranges" : {
-              "one": "1 miembro",
-              "two": "2 miembros",
-              "three": "3 miembros",
-              "four": "4 miembros",
-              "five": "5 miembros",
-              "six": "6 miembros",
-              "seven": "7 miembros",
-              "eight": "8+ miembros"
+            "ranges": {
+                "one": "1 miembro",
+                "two": "2 miembros",
+                "three": "3 miembros",
+                "four": "4 miembros",
+                "five": "5 miembros",
+                "six": "6 miembros",
+                "seven": "7 miembros",
+                "eight": "8+ miembros"
             }
         },
         "age": {
