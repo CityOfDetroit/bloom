@@ -19,6 +19,9 @@ import {
   getSummariesTableFromUnitsSummary,
   getSummariesTableFromUnitSummary,
   LoadingOverlay,
+  ListingFilterState,
+  FrontendListingFilterStateKeys,
+  FieldGroup,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -27,9 +30,7 @@ import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
 import {
-  ListingFilterKeys,
   AvailabilityFilterEnum,
-  ListingFilterParams,
   OrderByFieldsEnum,
   Listing,
   Address,
@@ -102,7 +103,7 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<ListingFilterParams>()
+  const [filterState, setFilterState] = useState<ListingFilterState>()
   const itemsPerPage = 10
 
   // Filter state
@@ -123,20 +124,18 @@ const ListingsPage = () => {
     { value: "n", label: t("t.no") },
     { value: "y", label: t("t.yes") },
   ]
-  const communityTypeOptions: SelectOption[] = [
-    EMPTY_OPTION,
-    { value: "all", label: t("listingFilters.communityTypeOptions.all") },
-    { value: "senior", label: t("listingFilters.communityTypeOptions.senior") },
-    {
-      value: "specialNeedsAndDisability",
-      label: t("listingFilters.communityTypeOptions.specialNeeds"),
-    },
-  ]
+
   const availabilityOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
     { value: AvailabilityFilterEnum.noAvailability, label: t("listingFilters.noAvailability") },
     { value: AvailabilityFilterEnum.waitlist, label: t("listingFilters.waitlist") },
+  ]
+
+  const seniorHousingOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: "true", label: t("t.yes") },
+    { value: "false", label: t("t.no") },
   ]
 
   function setQueryString(page: number, filters = filterState) {
@@ -181,7 +180,7 @@ const ListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
-  const onSubmit = (data: ListingFilterParams) => {
+  const onSubmit = (data: ListingFilterState) => {
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
   }
@@ -204,7 +203,7 @@ const ListingsPage = () => {
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
               id={"availability"}
-              name={"availability"}
+              name={FrontendListingFilterStateKeys.availability}
               label={t("listingFilters.availability")}
               register={register}
               controlClassName="control"
@@ -213,7 +212,7 @@ const ListingsPage = () => {
             />
             <Select
               id="unitOptions"
-              name={ListingFilterKeys.bedrooms}
+              name={FrontendListingFilterStateKeys.bedrooms}
               label={t("listingFilters.bedrooms")}
               register={register}
               controlClassName="control"
@@ -222,7 +221,7 @@ const ListingsPage = () => {
             />
             <Field
               id="zipCodeField"
-              name={ListingFilterKeys.zipcode}
+              name={FrontendListingFilterStateKeys.zipcode}
               label={t("listingFilters.zipCode")}
               register={register}
               controlClassName="control"
@@ -230,7 +229,7 @@ const ListingsPage = () => {
               validation={{
                 validate: (value) => isValidZipCodeOrEmpty(value),
               }}
-              error={errors?.[ListingFilterKeys.zipcode]}
+              error={errors?.[FrontendListingFilterStateKeys.zipcode]}
               errorMessage={t("errors.multipleZipCodeError")}
               defaultValue={filterState?.zipcode}
             />
@@ -238,7 +237,7 @@ const ListingsPage = () => {
             <div className="flex flex-row">
               <Field
                 id="minRent"
-                name={ListingFilterKeys.minRent}
+                name={FrontendListingFilterStateKeys.minRent}
                 register={register}
                 type="number"
                 placeholder={t("t.min")}
@@ -248,7 +247,7 @@ const ListingsPage = () => {
               <div className="flex items-center p-3">{t("t.to")}</div>
               <Field
                 id="maxRent"
-                name={ListingFilterKeys.maxRent}
+                name={FrontendListingFilterStateKeys.maxRent}
                 register={register}
                 type="number"
                 placeholder={t("t.max")}
@@ -263,14 +262,21 @@ const ListingsPage = () => {
               register={register}
               controlClassName="control"
               options={adaCompliantOptions}
+              defaultValue={filterState?.seniorHousing?.toString()}
             />
             <Select
-              id="communityType"
-              name="communityType"
-              label={t("listingFilters.communityType")}
+              id="seniorHousing"
+              name={FrontendListingFilterStateKeys.seniorHousing}
+              label={t("listingFilters.senior")}
               register={register}
               controlClassName="control"
-              options={communityTypeOptions}
+              options={seniorHousingOptions}
+            />
+            <FieldGroup
+              type="checkbox"
+              name={FrontendListingFilterStateKeys.includeNulls}
+              fields={[{ id: "true", label: t("listingFilters.includeUnknowns") }]}
+              register={register}
             />
           </div>
           <div className="text-center mt-6">
