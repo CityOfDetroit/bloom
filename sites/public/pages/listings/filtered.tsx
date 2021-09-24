@@ -12,6 +12,7 @@ import {
   LinkButton,
   LoadingOverlay,
   ListingFilterState,
+  FrontendListingFilterStateKeys,
 } from "@bloom-housing/ui-components"
 import Layout from "../../layouts/application"
 import { MetaTags } from "../../src/MetaTags"
@@ -66,6 +67,9 @@ const FilteredListingsPage = () => {
     if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
       numberOfFilters -= 1
     }
+    if (filterState.includeNulls) {
+      numberOfFilters -= 1
+    }
   }
 
   const buttonTitle = numberOfFilters
@@ -79,6 +83,9 @@ const FilteredListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const onSubmit = (data: ListingFilterParams) => {
+    if (data?.[FrontendListingFilterStateKeys.includeNulls] === false) {
+      delete data[FrontendListingFilterStateKeys.includeNulls]
+    }
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
   }

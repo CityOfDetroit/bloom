@@ -146,11 +146,13 @@ const FilterForm = (props: FilterFormProps) => {
         />
         <Field
           id="includeNulls"
-          type="checkbox"
           name={FrontendListingFilterStateKeys.includeNulls}
+          type="checkbox"
           label={t("listingFilters.includeUnknowns")}
           register={register}
-          inputProps={{defaultChecked: props.filterState.includeNulls}}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls)}
+          }
         />
       </div>
       <div className="text-center mt-6">
