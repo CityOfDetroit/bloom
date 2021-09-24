@@ -167,6 +167,9 @@ const ListingsPage = () => {
     if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
       numberOfFilters -= 1
     }
+    if (filterState.includeNulls) {
+      numberOfFilters -= 1
+    }
   }
 
   const buttonTitle = numberOfFilters
