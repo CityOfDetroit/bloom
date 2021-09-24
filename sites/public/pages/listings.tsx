@@ -167,9 +167,6 @@ const ListingsPage = () => {
     if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
       numberOfFilters -= 1
     }
-    if (filterState.includeNulls) {
-      numberOfFilters -= 1
-    }
   }
 
   const buttonTitle = numberOfFilters
@@ -184,6 +181,9 @@ const ListingsPage = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
   const onSubmit = (data: ListingFilterState) => {
+    if (data?.includeNulls === false) {
+      delete data.includeNulls
+    }
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
   }
@@ -275,17 +275,15 @@ const ListingsPage = () => {
               controlClassName="control"
               options={seniorHousingOptions}
             />
-            <FieldGroup
-              type="checkbox"
+            <Field
+              id="true"
               name={FrontendListingFilterStateKeys.includeNulls}
-              fields={[
-                {
-                  id: "true",
-                  defaultChecked: filterState?.includeNulls?.toString() === "true",
-                  label: t("listingFilters.includeUnknowns"),
-                },
-              ]}
+              type="checkbox"
+              label={t("listingFilters.includeUnknowns")}
               register={register}
+              inputProps={{
+                defaultChecked: filterState?.includeNulls?.toString() === "true",
+              }}
             />
           </div>
           <div className="text-center mt-6">
