@@ -28,11 +28,9 @@ const ListingsPage = ({ initialListings }) => {
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
   const metaImage = "" // TODO: replace with hero image
 
-  /* Form Handler */
-  // eslint-disable-next-line @typescript-eslint/unbound-method
   const onSubmit = (page: number, data: ListingFilterState) => {
     setFilterModalVisible(false)
-    router.push(`/listings/filtered?page=${page}${encodeToFrontendFilterString(data)}`)
+    void router.push(`/listings/filtered?page=${page}${encodeToFrontendFilterString(data)}`)
   }
 
   return (
