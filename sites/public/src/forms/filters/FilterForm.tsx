@@ -150,7 +150,7 @@ const FilterForm = (props: FilterFormProps) => {
           name={FrontendListingFilterStateKeys.includeNulls}
           label={t("listingFilters.includeUnknowns")}
           register={register}
-          inputProps={{defaultChecked: props.filterState.includeNulls}}
+          inputProps={{ defaultChecked: props.filterState.includeNulls }}
         />
       </div>
       <div className="text-center mt-6">
