@@ -92,7 +92,9 @@ const ListingsPage = ({ initialListings }) => {
 export async function getStaticProps() {
   let initialListings = []
   try {
-    const response = await axios.get(`${process.env.listingServiceUrl}?page=1?limit=10&orderBy=mostRecentlyUpdated`)
+    const response = await axios.get(
+      `${process.env.listingServiceUrl}?page=1?limit=10&orderBy=mostRecentlyUpdated`
+    )
     initialListings = response.data
   } catch (error) {
     console.error(error)
