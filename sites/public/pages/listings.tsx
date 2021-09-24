@@ -278,13 +278,13 @@ const ListingsPage = () => {
               options={seniorHousingOptions}
             />
             <Field
-              id="true"
+              id="includeNulls"
               name={FrontendListingFilterStateKeys.includeNulls}
               type="checkbox"
               label={t("listingFilters.includeUnknowns")}
               register={register}
               inputProps={{
-                defaultChecked: filterState?.includeNulls,
+                defaultChecked: Boolean(filterState?.includeNulls),
               }}
             />
           </div>
