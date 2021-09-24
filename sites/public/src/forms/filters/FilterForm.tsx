@@ -151,8 +151,8 @@ const FilterForm = (props: FilterFormProps) => {
           label={t("listingFilters.includeUnknowns")}
           register={register}
           inputProps={{
-            defaultChecked: Boolean(props.filterState?.includeNulls)}
-          }
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
         />
       </div>
       <div className="text-center mt-6">
