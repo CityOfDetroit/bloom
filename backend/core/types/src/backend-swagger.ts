@@ -3894,7 +3894,7 @@ export interface ListingFilterParams {
   seniorHousing?: boolean
 
   /**  */
-  specialNeeds?: boolean
+  specialNeedsHousing?: boolean
 
   /**  */
   minRent?: number
