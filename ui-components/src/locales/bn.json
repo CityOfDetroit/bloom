@@ -1356,7 +1356,7 @@
         "noResultsSubtitle": "সেরা ফলাফলের জন্য ফিল্টার সম্পাদনা বা অপসারণ করুন।",
         "includeUnknowns": "অসম্পূর্ণ তথ্য সহ ফলাফল অন্তর্ভুক্ত করুন",
         "senior": "সিনিয়র হাউজিং (62+)",
-        "specialNeeds": "বিশেষ চাহিদা এবং অক্ষমতা"
+        "specialNeedsHousing": "বিশেষ চাহিদা এবং অক্ষমতা"
     },
     "eligibility": {
         "progress": {

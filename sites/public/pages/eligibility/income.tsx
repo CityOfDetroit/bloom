@@ -7,7 +7,7 @@ import React, { useContext } from "react"
 import { FormCard } from "@bloom-housing/ui-components/src/blocks/FormCard"
 import { t } from "@bloom-housing/ui-components/src/helpers/translator"
 import { ProgressNav } from "@bloom-housing/ui-components/src/navigation/ProgressNav"
-import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { DISABILITY_NO, ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
 import {
@@ -49,13 +49,16 @@ const EligibilityIncome = () => {
   }
 
   function getFilterUrl() {
-    const params: ListingFilterState = {}
+    const state: ListingFilterState = {}
 
     if (eligibilityRequirements.age < SENIOR_AGE) {
-      params.seniorHousing = false
+      state.seniorHousing = false
+    }
+    if (eligibilityRequirements.disability === DISABILITY_NO) {
+      state.specialNeedsHousing = false
     }
 
-    return `/listings?${encodeToFrontendFilterString(params)}`
+    return `/listings?${encodeToFrontendFilterString(state)}`
   }
 
   return (

@@ -34,16 +34,25 @@ export function addSeniorHousingQuery(
   }
 }
 
-export function addSpecialNeedsQuery(qb: WhereExpression, filterValue: string) {
-  const whereParameterName = ListingFilterKeys.specialNeeds
+export function addSpecialNeedsQuery(
+  qb: WhereExpression,
+  filterValue: string,
+  includeNulls?: boolean
+) {
+  const whereParameterName = ListingFilterKeys.specialNeedsHousing
   const specialNeedsCommunityType = "specialNeeds"
   const reservedCommunityTypeColumnName = `LOWER(CAST(${
-    filterTypeToFieldMap[ListingFilterKeys.specialNeeds]
+    filterTypeToFieldMap[ListingFilterKeys.specialNeedsHousing]
   } as text))`
   if (filterValue == "true") {
-    qb.andWhere(`${reservedCommunityTypeColumnName} = LOWER(:${whereParameterName})`, {
-      [whereParameterName]: specialNeedsCommunityType,
-    })
+    qb.andWhere(
+      `(${reservedCommunityTypeColumnName} = LOWER(:${whereParameterName})  ${
+        includeNulls ? `OR ${reservedCommunityTypeColumnName} IS NULL` : ""
+      })`,
+      {
+        [whereParameterName]: specialNeedsCommunityType,
+      }
+    )
   } else if (filterValue == "false") {
     qb.andWhere(
       `(${reservedCommunityTypeColumnName} IS NULL OR ${reservedCommunityTypeColumnName} <> LOWER(:${whereParameterName}))`,

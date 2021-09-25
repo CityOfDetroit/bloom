@@ -137,6 +137,12 @@ const ListingsPage = () => {
     { value: "false", label: t("t.no") },
   ]
 
+  const specialNeedsHousingOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: "true", label: t("t.yes") },
+    { value: "false", label: t("t.no") },
+  ]
+
   function setQueryString(page: number, filters = filterState) {
     void router.push(`/listings?page=${page}${encodeToFrontendFilterString(filters)}`, undefined, {
       shallow: true,
@@ -267,7 +273,6 @@ const ListingsPage = () => {
               register={register}
               controlClassName="control"
               options={adaCompliantOptions}
-              defaultValue={filterState?.seniorHousing?.toString()}
             />
             <Select
               id="seniorHousing"
@@ -276,6 +281,16 @@ const ListingsPage = () => {
               register={register}
               controlClassName="control"
               options={seniorHousingOptions}
+              defaultValue={filterState?.seniorHousing?.toString()}
+            />
+            <Select
+              id="specialNeedsHousing"
+              name={FrontendListingFilterStateKeys.specialNeedsHousing}
+              label={t("listingFilters.specialNeedsHousing")}
+              register={register}
+              controlClassName="control"
+              options={specialNeedsHousingOptions}
+              defaultValue={filterState?.specialNeedsHousing?.toString()}
             />
             <Field
               id="includeNulls"
