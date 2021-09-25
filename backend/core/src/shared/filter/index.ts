@@ -9,6 +9,7 @@ import {
   addSeniorHousingQuery,
   addAvailabilityQuery,
   addAmiPercentageFilter,
+  addSpecialNeedsHousingQuery,
 } from "./custom_filters"
 
 /**
@@ -51,6 +52,9 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
       switch (filterKey) {
         case ListingFilterKeys.seniorHousing:
           addSeniorHousingQuery(qb, filterValue, includeNulls)
+          continue
+        case ListingFilterKeys.specialNeedsHousing:
+          addSpecialNeedsHousingQuery(qb, filterValue, includeNulls)
           continue
         case ListingFilterKeys.availability:
           addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum, includeNulls)
