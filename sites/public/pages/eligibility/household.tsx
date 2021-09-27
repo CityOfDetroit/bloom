@@ -29,7 +29,7 @@ const EligibilityHouseholdSize = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, getValues } = useForm({
     defaultValues: {
-      householdSize: eligibilityRequirements?.householdSizeCount.toString(),
+      householdSize: eligibilityRequirements?.householdSizeCount?.toString(),
     },
   })
 
