@@ -20,6 +20,7 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
+import { getFilterUrlLink } from "./filterUrlLink"
 
 const EligibilityAge = () => {
   const router = useRouter()
@@ -27,11 +28,10 @@ const EligibilityAge = () => {
   const MIN_AGE = 0
   const MAX_AGE = 120
   const CURRENT_PAGE = 2
-
+  const { eligibilityRequirements } = useContext(EligibilityContext)
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors, setError } = useForm()
-  const { eligibilityRequirements } = useContext(EligibilityContext)
 
   const onSubmit = (data) => {
     if (isAgeValid(data.age)) {
@@ -48,6 +48,16 @@ const EligibilityAge = () => {
 
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
+  }
+
+  const onClick = (data) => {
+    if (isAgeValid(data.age)) {
+      eligibilityRequirements.setAge(data.age)
+      void router.push(eligibilityRoute(CURRENT_PAGE + 1))
+    } else {
+      setError("age", { type: "manual", message: "" })
+    }
+    void router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   return (
@@ -94,7 +104,11 @@ const EligibilityAge = () => {
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
               <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
-              <Button className="mx-2 mt-6" styleType={AppearanceStyleType.primary}>
+              <Button
+                onClick={handleSubmit(onClick)}
+                className="mx-2 mt-6"
+                styleType={AppearanceStyleType.primary}
+              >
                 {t("t.viewListings")}
               </Button>
             </div>
@@ -106,3 +120,6 @@ const EligibilityAge = () => {
 }
 
 export default EligibilityAge
+function getValues() {
+  throw new Error("Function not implemented.")
+}
