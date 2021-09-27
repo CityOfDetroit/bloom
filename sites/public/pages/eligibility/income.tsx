@@ -13,32 +13,26 @@ import { Button } from "@bloom-housing/ui-components/src/actions/Button"
 import {
   AppearanceStyleType,
   encodeToFrontendFilterString,
-  Select,
   ListingFilterState,
+  Field,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute, getMinAmi } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
-import { useAmiChartList } from "@bloom-housing/partners/lib/hooks"
+import { useAmiChartList } from "../../lib/hooks"
 
 const EligibilityIncome = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
   const { data: amiCharts = [] } = useAmiChartList()
-
-  const incomeRanges = ["below10k", "10kTo20k", "30kTo40k", "40kTo50k", "over50k"]
   const CURRENT_PAGE = 4
   const SENIOR_AGE = 62
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, getValues } = useForm({
-    defaultValues: {
-      income: eligibilityRequirements?.income ?? incomeRanges[0],
-    },
-  })
+  const { handleSubmit, register, getValues, errors } = useForm()
   const onSubmit = () => {
     const data = getValues()
     const { income } = data
@@ -52,7 +46,11 @@ const EligibilityIncome = () => {
 
   function getFilterUrl() {
     const params: ListingFilterState = {}
-    const minAmi = getMinAmi(amiCharts[0], eligibilityRequirements.householdSizeCount, 10000)
+    params.minAmiPercentage = getMinAmi(
+      amiCharts[0],
+      eligibilityRequirements.householdSizeCount,
+      eligibilityRequirements.income
+    )
 
     if (eligibilityRequirements.age < SENIOR_AGE) {
       params.seniorHousing = false
@@ -87,16 +85,18 @@ const EligibilityIncome = () => {
             <p className="field-note mb-4" id="income-description">
               {t("eligibility.income.description")}
             </p>
-            <Select
+            <Field
               id="income"
               name="income"
               label={t("eligibility.income.label")}
               describedBy="income-description"
+              defaultValue={eligibilityRequirements.income}
+              inputProps={{ maxLength: 7 }}
+              type={"number"}
               validation={{ required: true }}
+              error={errors.income}
+              errorMessage={t("errors.numberError")}
               register={register}
-              controlClassName="control"
-              options={incomeRanges}
-              keyPrefix="eligibility.income.ranges"
             />
           </div>
           <div className="form-card__pager">

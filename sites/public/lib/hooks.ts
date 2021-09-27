@@ -11,6 +11,7 @@ import {
   t,
   encodeToBackendFilterArray,
   ListingFilterState,
+  AuthContext,
 } from "@bloom-housing/ui-components"
 import { Listing, ListingReviewOrder, OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
 import { AppSubmissionContext } from "./AppSubmissionContext"
@@ -82,6 +83,19 @@ export function useListingsData(
     listingsData: data,
     listingsLoading: !error && !data,
     listingsError: error,
+  }
+}
+
+export function useAmiChartList() {
+  const { amiChartsService } = useContext(AuthContext)
+  const fetcher = () => amiChartsService.list()
+
+  const { data, error } = useSWR(`${process.env.backendApiBase}/amiCharts`, fetcher)
+
+  return {
+    data,
+    loading: !error && !data,
+    error,
   }
 }
 
