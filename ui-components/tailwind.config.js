@@ -2,10 +2,8 @@
 
 module.exports = {
   important: true,
+  plugins: [],
   purge: false,
-  future: {
-    removeDeprecatedGapUtilities: true,
-  },
   theme: {
     screens: {
       sm: "640px",
@@ -117,7 +115,7 @@ module.exports = {
     },
     extend: {
       borderColor: (theme) => ({
-        default: theme("colors.gray.450", "currentColor"),
+        DEFAULT: theme("colors.gray.450", "currentColor"),
       }),
       inset: {
         4: "1rem",

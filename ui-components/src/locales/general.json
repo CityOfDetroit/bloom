@@ -301,10 +301,10 @@
         "optionsLabel": "Check all that apply:",
         "options": {
           "studio": "Studio",
-          "oneBedroom": "1 Bedroom",
-          "twoBedroom": "2 Bedroom",
-          "threeBedroom": "3 Bedroom",
-          "moreThanThreeBedroom": "3+ Bedroom"
+          "oneBdrm": "1 Bedroom",
+          "twoBdrm": "2 Bedroom",
+          "threeBdrm": "3 Bedroom",
+          "fourBdrm": "3+ Bedroom"
         }
       },
       "member": {
@@ -751,6 +751,7 @@
     },
     "activePreferences": "Active Preferences",
     "addListing": "Add Listing",
+    "addPaperApplication": "Add Paper Application",
     "addPhoto": "Add Photo",
     "addPreference": "Add Preference",
     "addPreferences": "Add Preferences",
@@ -758,6 +759,7 @@
     "additionalInformation": "Additional Information",
     "allUnits": "All Units",
     "allUnitsReservedFor": "All units reserved for %{type}",
+    "amiOverrideTitle": "Override for household size of %{householdSize}",
     "annualIncome": "%{income} per year",
     "annualIncomeRange": "%{from} to %{to} per year",
     "applicationTitle": "Application Data",
@@ -786,7 +788,7 @@
       "postmarkedApplicationsMustBeReceivedByDate": "Applications must be received by the deadline. If sending by U.S. Mail, the application must be postmarked by %{applicationDueDate} and received by mail no later than %{postmarkReceivedByDate}. Applications received after %{postmarkReceivedByDate} via mail will not be accepted even if they are postmarked by %{applicationDueDate}. %{developer} is not responsible for lost or delayed mail.",
       "sendByUsMail": "Send Application by US Mail",
       "submitAPaperApplication": "Submit a Paper Application",
-      "contactManagment":"Contact Management Company"
+      "contactManagment": "Contact Management Company"
     },
     "atAnotherAddress": "At another address",
     "atLeasingAgentAddress": "At the leasing agent address",
@@ -803,6 +805,7 @@
     "confirmedPreferenceList": "Confirmed %{preference} List",
     "creditHistory": "Credit History",
     "criminalBackground": "Criminal Background",
+    "customOnlineApplicationUrl": "Custom Online Application URL",
     "deleteListingDescription": "Deleting this listing means you will lose all the information you've entered.",
     "depositMax": "Deposit Max",
     "depositMin": "Deposit Min",
@@ -828,6 +831,9 @@
     "householdSize": "Household Size",
     "importantProgramRules": "Important Program Rules",
     "includesPriorityUnits": "Includes Priority Units for %{priorities}",
+    "isDigitalApplication": "Is there a digital application?",
+    "isPaperApplication": "Is there a paper application?",
+    "isReferralOpportunity": "Is there a referral opportunity?",
     "latitude": "Latitude",
     "leasingAgentAddress": "Leasing Agent Address",
     "listingPreviewOnly": "This is a listing preview only.",
@@ -854,6 +860,7 @@
     "mapPinPosition": "Map Pin Position",
     "mapPreview": "Map Preview",
     "mapPreviewNoAddress": "Enter an address to preview the map",
+    "maxAnnualIncome": "Maximum Annual Income",
     "maxIncomeMonth": "Maximum Income / Month",
     "maxIncomeYear": "Maximum Income / Year",
     "monthlyIncome": "%{income} per month",
@@ -883,6 +890,8 @@
       "header": "Public Lottery",
       "seeVideo": "See Video"
     },
+    "referralContactPhone": "Referral Contact Phone",
+    "referralSummary": "Referral Summary",
     "remainingUnitsAfterPreferenceConsideration": "After all preference holders have been considered, any remaining units will be available to other qualified applicants.",
     "rentalHistory": "Rental History",
     "requiredDocuments": "Required Documents",
@@ -894,6 +903,7 @@
       "senior": "Seniors",
       "senior55": "Seniors 55+",
       "senior62": "Seniors 62+",
+      "partiallySenior": "Partially Seniors",
       "specialNeeds": "Special Needs"
     },
     "reservedFor": "Reserved for %{type}",
@@ -920,6 +930,8 @@
       "additionalInformationTitle": "Additional Information",
       "applicationAddressSubtitle": "In the event of paper applications, where do you want applications dropped off or mailed?",
       "applicationAddressTitle": "Application Address",
+      "applicationTypesTitle": "Application Types",
+      "applicationTypesSubtitle": "Configure the online application and upload paper application forms.",
       "buildingDetailsSubtitle": "Tell us where the building is located.",
       "buildingDetailsTitle": "Building Details",
       "buildingFeaturesSubtitle": "Provide details about any amenities and unit details.",
@@ -980,6 +992,8 @@
       "show": "Show Closed Listings",
       "title": "Closed Listings"
     },
+    "usingCommonDigitalApplication": "Are you using the common digital application?",
+    "usingCommonPaperApplication": "Are you using the common paper application?",
     "waitlist": {
       "closed": "Waitlist Closed",
       "currentSizeQuestion": "How many people are on the current list?",
@@ -1116,7 +1130,8 @@
     "privacy": "Privacy Policy",
     "welcomeEnglish": "Welcome",
     "welcomeSpanish": "Bienvenido",
-    "welcomeVietnamese": "Tiếng Việt"
+    "welcomeVietnamese": "Tiếng Việt",
+    "about": "About Us"
   },
   "pageDescription": {
     "welcome": "Search and apply for affordable housing on %{regionName}'s Housing Portal",
@@ -1226,6 +1241,7 @@
     "jumpTo": "Jump to",
     "jurisdiction": "Jurisdiction",
     "label": "Label",
+    "language": "Language",
     "lastUpdated": "Last Updated",
     "letter": "Letter",
     "less": "Less",
@@ -1270,7 +1286,7 @@
     "range": "%{from} to %{to}",
     "readLess": "read less",
     "readMore": "read more",
-    "region":"Region",
+    "region": "Region",
     "relationship": "Relationship",
     "otherRelationShip": "Other Relationship",
     "rent": "Rent",
@@ -1323,10 +1339,12 @@
     "seeRentalListings": "See Rentals",
     "title": "Apply for affordable housing in",
     "seeMoreOpportunities": "See more rental and ownership housing opportunities",
-    "viewAdditionalHousing": "View Additional Housing Opportunities and Resources",
     "checkEligibility": "Do I Qualify?",
     "checkEligibilityDescription": "Check in Minutes if You Qualify!",
-    "subTitle": "Click the button below to find rental housing based on your income and household needs"
+    "subTitle": "Click the button below to find rental housing based on your income and household needs",
+    "signUp": "Get emailed whenever a new listing is posted",
+    "signUpToday": "Sign up today",
+    "viewAdditionalHousing": "View Additional Housing Opportunities and Resources"
   },
   "whatToExpect": {
     "label": "What to Expect",
@@ -1350,39 +1368,36 @@
     "zipCode": "Zip code",
     "zipCodeDescription": "Enter zip code",
     "adaCompliant": "ADA Compliant",
-    "communityType": "Community Type",
-    "communityTypeOptions": {
-      "all": "All",
-      "senior": "Senior housing (62+)",
-      "specialNeeds": "Special needs and disability"
-    },
     "availability": "Unit Availability",
     "hasAvailability": "Has Availability",
     "noAvailability": "No Availability",
     "waitlist": "Waitlist",
     "applyFilters": "Apply Filters",
     "noResults": "No results",
-    "noResultsSubtitle": "Edit or remove filters for best results."
+    "noResultsSubtitle": "Edit or remove filters for best results.",
+    "includeUnknowns": "Include Results with Incomplete Information",
+    "senior": "Senior housing (62+)",
+    "specialNeeds": "Special needs and disability"
   },
   "eligibility": {
     "progress": {
-      "header" : "Let's find your next home",
+      "header": "Let's find your next home",
       "sections": {
-        "welcome" : "Welcome",
-        "householdSize" : "Household Size",
-        "age" : "Age",
-        "disability" : "Disability",
-        "income" : "Income"
+        "welcome": "Welcome",
+        "household": "Household",
+        "age": "Age",
+        "disability": "Disability",
+        "income": "Income"
       }
     },
     "welcome": {
       "header": "Welcome",
       "description": "To find you a home that best fits your needs, let's answer a few questions first. Some properties only accept people with certain ages, incomes, etc."
     },
-    "householdSize": {
+    "household": {
       "prompt": "How many people will be living in this property?",
       "srCountLabel": "Household Size",
-      "ranges" : {
+      "ranges": {
         "1": "1 Member",
         "2": "2 Members",
         "3": "3 Members",
@@ -1393,22 +1408,22 @@
         "8": "8+ Members"
       }
     },
-    "age" : {
+    "age": {
       "prompt": "How old are you?",
       "description": "Some properties only accept individuals over 62 years of age.",
       "label": "years old",
       "error": "Please enter a valid age."
     },
-    "disability" : {
-      "prompt" : "Do you have a disability?",
-      "description" : "Some properties are meant for residents with disabilities. Some homes might request proof of disability with your application.",
+    "disability": {
+      "prompt": "Do you have a disability?",
+      "description": "Some properties are meant for residents with disabilities. Some homes might request proof of disability with your application.",
       "preferNotToSay": "Prefer not to say"
     },
-    "income" : {
+    "income": {
       "prompt": "What is your total household annual income?",
       "description": "Include income for everyone who will be living in your household including yourself. Income includes social security, retirement accounts and wages.",
-      "label" : "Income range",
-      "ranges" : {
+      "label": "Income range",
+      "ranges": {
         "below10k": "Below $10,000",
         "10kTo20k": "$10,000 - $20,000",
         "30kTo40k": "$30,000 - $40,000",
