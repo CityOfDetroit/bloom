@@ -45,6 +45,9 @@
     "setup": "yarn install:all && yarn db:reseed",
     "clean": "rm -rf backend/core/dist/ backend/core/node_modules/ node_modules/ sites/partners/.next/ sites/partners/node_modules/ sites/public/.next/ sites/public/node_modules/ ui-components/node_modules/"
   },
+  "dependencies": {
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@2.2.10"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.14",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
@@ -61,8 +64,8 @@
     "lerna": "^3.22.1",
     "lint-staged": "^10.4.0",
     "prettier": "^2.1.0",
-    "react": "16.13.1",
-    "react-test-renderer": "16.13.1",
+    "react": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.1",
     "typescript": "^3.9.7",

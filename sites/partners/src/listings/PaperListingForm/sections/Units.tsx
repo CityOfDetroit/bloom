@@ -17,6 +17,7 @@ import UnitForm from "../UnitForm"
 import { useFormContext } from "react-hook-form"
 import { TempUnit, TempUnitsSummary } from "../"
 import UnitsSummaryForm from "../UnitsSummaryForm"
+import { UnitsSummary } from "@bloom-housing/backend-core/types"
 
 type UnitProps = {
   units: TempUnit[]
@@ -44,8 +45,9 @@ const FormUnits = ({
   setSummaries,
   disableUnitsAccordion,
 }: UnitProps) => {
-  const [unitDrawer, setUnitDrawer] = useState<number | null>(null)
+  const [unitDrawerId, setUnitDrawerId] = useState<number | null>(null)
   const [unitDeleteModal, setUnitDeleteModal] = useState<number | null>(null)
+  const [defaultUnit, setDefaultUnit] = useState<TempUnit | null>(null)
   const [summaryDrawer, setSummaryDrawer] = useState<number | null>(null)
   const [summaryDeleteModal, setSummaryDeleteModal] = useState<number | null>(null)
   const [showUnitsSummary, setShowUnitsSummary] = useState<boolean>(disableUnitsAccordion)
@@ -81,12 +83,10 @@ const FormUnits = ({
     setValue("disableUnitsAccordion", disableUnitsAccordion ? "true" : "false")
   }, [disableUnitsAccordion, setValue])
 
-  const editUnit = useCallback(
-    (tempId: number) => {
-      setUnitDrawer(tempId)
-    },
-    [setUnitDrawer]
-  )
+  const editUnit = (tempId: number) => {
+    setDefaultUnit(units.filter((unit) => unit.tempId === tempId)[0])
+    setUnitDrawerId(tempId)
+  }
 
   const editSummary = useCallback(
     (tempId: number) => {
@@ -176,6 +176,15 @@ const FormUnits = ({
     [editUnit, units]
   )
 
+  const getRentFromSummary = (summary: UnitsSummary) => {
+    if (summary.monthlyRentMin || summary.monthlyRentMax) {
+      return formatRange(summary.monthlyRentMin, summary.monthlyRentMax, "$")
+    }
+    if (summary.monthlyRentAsPercentOfIncome) {
+      return `${summary.monthlyRentAsPercentOfIncome}%`
+    }
+  }
+
   function saveUnitsSummary(newSummary: TempUnitsSummary) {
     const exists = unitsSummaries.some((summary) => summary.tempId === newSummary.tempId)
     if (exists) {
@@ -192,8 +201,8 @@ const FormUnits = ({
       unitsSummaries?.map((summary) => ({
         unitType: summary.unitType && t(`listings.unitTypes.${summary.unitType.name}`),
         amiPercentage: isDefined(summary.amiPercentage) ? `${summary.amiPercentage}%` : "",
-        monthlyRent: formatRange(summary.monthlyRentMin, summary.monthlyRentMax, "$"),
-        sqFeet: formatRange(summary.sqFeetMin, summary.sqFeetMax, "$"),
+        monthlyRent: getRentFromSummary(summary),
+        sqFeet: formatRange(summary.sqFeetMin, summary.sqFeetMax, ""),
         priorityType: summary.priorityType?.name,
         occupancy: formatRange(summary.minOccupancy, summary.maxOccupancy, ""),
         totalAvailable: summary.totalAvailable,
@@ -296,16 +305,30 @@ const FormUnits = ({
       </GridSection>
 
       <Drawer
-        open={!!unitDrawer}
+        open={!!unitDrawerId}
         title={t("listings.unit.add")}
         ariaDescription={t("listings.unit.add")}
-        onClose={() => setUnitDrawer(null)}
+        onClose={() => setUnitDrawerId(null)}
       >
         <UnitForm
           onSubmit={(unit) => saveUnit(unit)}
-          onClose={() => setUnitDrawer(null)}
-          units={units}
-          currentTempId={unitDrawer}
+          onClose={(reopen: boolean, defaultUnit: TempUnit) => {
+            if (reopen) {
+              if (defaultUnit) {
+                setDefaultUnit(defaultUnit)
+                editUnit(units.length + 1)
+              } else {
+                setDefaultUnit(null)
+                setUnitDrawerId(units.length + 1)
+              }
+            } else {
+              setDefaultUnit(null)
+              setUnitDrawerId(null)
+            }
+          }}
+          defaultUnit={defaultUnit}
+          existingId={units.filter((unit) => unit.tempId === defaultUnit?.tempId)[0]?.tempId}
+          nextId={units.length + 1}
         />
       </Drawer>
 

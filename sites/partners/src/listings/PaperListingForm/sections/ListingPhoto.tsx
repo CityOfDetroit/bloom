@@ -27,8 +27,8 @@ const ListingPhoto = () => {
     Set state for the drawer, upload progress, drawer, and more
   */
   const [drawerState, setDrawerState] = useState(false)
-  const [progressValue, setProgressValue] = React.useState(0)
-  const [cloudinaryData, setCloudinaryData] = React.useState({
+  const [progressValue, setProgressValue] = useState(0)
+  const [cloudinaryData, setCloudinaryData] = useState({
     id: "",
     url: "",
   })
@@ -140,9 +140,12 @@ const ListingPhoto = () => {
     <>
       <input type="hidden" {...register("image.fileId")} />
       <input type="hidden" {...register("image.label")} />
-      <GridSection grid={false} separator>
-        <span className="form-section__title">{t("listings.sections.photoTitle")}</span>
-        <span className="form-section__description">{t("listings.sections.photoSubtitle")}</span>
+      <GridSection
+        grid={false}
+        separator
+        title={t("listings.sections.photoTitle")}
+        description={t("listings.sections.photoSubtitle")}
+      >
         <GridSection columns={1} tinted inset>
           <GridCell>
             {listingFormPhoto?.fileId && listingFormPhoto.fileId != "" ? (
@@ -198,7 +201,7 @@ const ListingPhoto = () => {
             accept="image/*"
             progress={progressValue}
           />
-          {cloudinaryData.url != "" && (
+          {cloudinaryData.url !== "" && (
             <MinimalTable headers={photoTableHeaders} data={previewTableRows}></MinimalTable>
           )}
         </section>

@@ -1,12 +1,8 @@
 import csv from "csv-parser"
 import fs from "fs"
-import { importListing, createUnitsArray, getDetroitJurisdiction } from "./listings-importer"
-import {
-  ListingCreate,
-  AddressCreate,
-  CSVFormattingType,
-  ListingStatus,
-} from "../types/src/backend-swagger"
+import { importListing, ListingImport, UnitsSummaryImport } from "./import-helpers"
+import { getDetroitJurisdiction } from "./detroit-helpers"
+import { AddressCreate, CSVFormattingType, ListingStatus } from "../types/src/backend-swagger"
 
 // This script reads in listing data from a CSV file and sends requests to the backend to create
 // the corresponding Listings. A few notes:
@@ -43,11 +39,32 @@ async function main() {
     fs.createReadStream(csvFilePath)
       .pipe(csv())
       .on("data", (listingFields) => {
-        // Include only listings that are "regulated" affordable housing
+        const listingName: string = listingFields["Project Name"]
+        // Exclude listings that are not "regulated" affordable housing
         const affordabilityStatus: string = listingFields["Affordability status"]
-        if (affordabilityStatus.toLowerCase() === "regulated") {
-          rawListingFields.push(listingFields)
+        if (affordabilityStatus.toLowerCase() !== "regulated") {
+          console.log(
+            `Skipping listing because it is not *regulated* affordable housing: ${listingName}`
+          )
+          return
         }
+
+        // Exclude listings that are not at the stage of housing people.
+        // Some listings are in the "development pipeline" and should not yet be shown to
+        // housing seekers. The "Development Pipeline Bucket" below is a code that is meaningful
+        // within HRD.
+        const projectType: string = listingFields["Project Type"]
+        const developmentPipelineBucket: number = parseInt(
+          listingFields["Development Pipeline Bucket"]
+        )
+        if (projectType?.toLowerCase() !== "existing occupied" && developmentPipelineBucket < 3) {
+          console.log(
+            `Skipping listing because it is not far enough along in the development pipeline: ${listingName}`
+          )
+          return
+        }
+
+        rawListingFields.push(listingFields)
       })
       .on("end", resolve)
       .on("error", reject)
@@ -71,7 +88,7 @@ async function main() {
     }
 
     // Add data about unitsSummaries
-    const unitsSummaries = []
+    const unitsSummaries: UnitsSummaryImport[] = []
     if (listingFields["Number 0BR"]) {
       unitsSummaries.push({
         unitType: "studio",
@@ -124,7 +141,15 @@ async function main() {
       leasingAgentEmail = listingFields["Manager Email"]
     }
 
-    const listing: ListingCreate = {
+    let reservedCommunityTypeName: string = null
+    const hudClientGroup = listingFields["HUD Client group"].toLowerCase()
+    if (["wholly physically handicapped", "wholly physically disabled"].includes(hudClientGroup)) {
+      reservedCommunityTypeName = "specialNeeds"
+    } else if (hudClientGroup === "wholly elderly housekeeping") {
+      reservedCommunityTypeName = "senior62"
+    }
+
+    const listing: ListingImport = {
       name: listingFields["Project Name"],
       hrdId: listingFields["HRDID"],
       buildingAddress: address,
@@ -141,6 +166,7 @@ async function main() {
       status: ListingStatus.active,
       unitsSummary: unitsSummaries,
       jurisdiction: jurisdiction,
+      reservedCommunityTypeName: reservedCommunityTypeName,
 
       // The following fields are only set because they are required
       units: [],

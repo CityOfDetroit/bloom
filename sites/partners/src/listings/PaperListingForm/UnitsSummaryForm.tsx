@@ -56,7 +56,6 @@ const UnitsSummaryForm = ({
       minOccupancy: current?.minOccupancy,
       maxOccupancy: current?.maxOccupancy,
       amiPercentage: current?.amiPercentage,
-      minimumIncomeMin: current?.minimumIncomeMin,
       monthlyRentMin: current?.monthlyRentMin,
       monthlyRentMax: current?.monthlyRentMax,
       totalCount: current?.totalCount,
@@ -93,7 +92,6 @@ const UnitsSummaryForm = ({
     if (data.rentType === "fixed") {
       delete data.monthlyRentAsPercentOfIncome
     } else if (data.rentType === "percentage") {
-      data.minimumIncomeMin = "0"
       delete data.monthlyRentMin
       delete data.monthlyRentMax
     }
@@ -337,20 +335,6 @@ const UnitsSummaryForm = ({
           {rentType === "fixed" && (
             <>
               <GridCell>
-                <ViewItem label={t("t.minimumIncome")}>
-                  <Field
-                    id="minimumIncomeMin"
-                    name="minimumIncomeMin"
-                    label={t("t.minimumIncome")}
-                    placeholder="0.00"
-                    register={register}
-                    type="number"
-                    prepend="$"
-                    readerOnly
-                  />
-                </ViewItem>
-              </GridCell>
-              <GridCell>
                 <ViewItem label={t("listings.unitsSummary.monthlyRentMin")}>
                   <Field
                     id="monthlyRentMin"
@@ -366,6 +350,8 @@ const UnitsSummaryForm = ({
                     validation={{ required: true }}
                   />
                 </ViewItem>
+              </GridCell>
+              <GridCell>
                 <ViewItem label={t("listings.unitsSummary.monthlyRentMax")}>
                   <Field
                     id="monthlyRentMax"

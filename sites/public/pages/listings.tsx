@@ -18,6 +18,9 @@ import {
   imageUrlFromListing,
   getSummariesTableFromUnitsSummary,
   getSummariesTableFromUnitSummary,
+  LoadingOverlay,
+  ListingFilterState,
+  FrontendListingFilterStateKeys,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
@@ -26,9 +29,7 @@ import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
 import {
-  ListingFilterKeys,
   AvailabilityFilterEnum,
-  ListingFilterParams,
   OrderByFieldsEnum,
   Listing,
   Address,
@@ -65,8 +66,8 @@ const getListingTableData = (listing: Listing) => {
 const getListings = (listings: Listing[]) => {
   const unitSummariesHeaders = {
     unitType: t("t.unitType"),
-    minimumIncome: t("t.minimumIncome"),
     rent: t("t.rent"),
+    availability: t("t.availability"),
   }
   return listings.map((listing: Listing, index) => {
     return (
@@ -101,7 +102,7 @@ const ListingsPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [filterState, setFilterState] = useState<ListingFilterParams>()
+  const [filterState, setFilterState] = useState<ListingFilterState>()
   const itemsPerPage = 10
 
   // Filter state
@@ -119,23 +120,21 @@ const ListingsPage = () => {
   ]
   const adaCompliantOptions: SelectOption[] = [
     EMPTY_OPTION,
-    { value: "n", label: t("t.no") },
     { value: "y", label: t("t.yes") },
+    { value: "n", label: t("t.no") },
   ]
-  const communityTypeOptions: SelectOption[] = [
-    EMPTY_OPTION,
-    { value: "all", label: t("listingFilters.communityTypeOptions.all") },
-    { value: "senior", label: t("listingFilters.communityTypeOptions.senior") },
-    {
-      value: "specialNeedsAndDisability",
-      label: t("listingFilters.communityTypeOptions.specialNeeds"),
-    },
-  ]
+
   const availabilityOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
     { value: AvailabilityFilterEnum.noAvailability, label: t("listingFilters.noAvailability") },
     { value: AvailabilityFilterEnum.waitlist, label: t("listingFilters.waitlist") },
+  ]
+
+  const seniorHousingOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: "true", label: t("t.yes") },
+    { value: "false", label: t("t.no") },
   ]
 
   function setQueryString(page: number, filters = filterState) {
@@ -162,7 +161,9 @@ const ListingsPage = () => {
 
   let numberOfFilters = 0
   if (filterState) {
-    numberOfFilters = Object.keys(filterState).filter((p) => p !== "$comparison").length
+    numberOfFilters = Object.keys(filterState).filter(
+      (p) => p !== "$comparison" && p !== "includeNulls"
+    ).length
     // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
     if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
       numberOfFilters -= 1
@@ -180,7 +181,10 @@ const ListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
-  const onSubmit = (data: ListingFilterParams) => {
+  const onSubmit = (data: ListingFilterState) => {
+    if (data[FrontendListingFilterStateKeys.includeNulls] === false) {
+      delete data[FrontendListingFilterStateKeys.includeNulls]
+    }
     setFilterModalVisible(false)
     setQueryString(/*page=*/ 1, data)
   }
@@ -203,7 +207,7 @@ const ListingsPage = () => {
             <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
             <Select
               id={"availability"}
-              name={"availability"}
+              name={FrontendListingFilterStateKeys.availability}
               label={t("listingFilters.availability")}
               register={register}
               controlClassName="control"
@@ -212,7 +216,7 @@ const ListingsPage = () => {
             />
             <Select
               id="unitOptions"
-              name={ListingFilterKeys.bedrooms}
+              name={FrontendListingFilterStateKeys.bedrooms}
               label={t("listingFilters.bedrooms")}
               register={register}
               controlClassName="control"
@@ -221,7 +225,7 @@ const ListingsPage = () => {
             />
             <Field
               id="zipCodeField"
-              name={ListingFilterKeys.zipcode}
+              name={FrontendListingFilterStateKeys.zipcode}
               label={t("listingFilters.zipCode")}
               register={register}
               controlClassName="control"
@@ -229,7 +233,7 @@ const ListingsPage = () => {
               validation={{
                 validate: (value) => isValidZipCodeOrEmpty(value),
               }}
-              error={errors?.[ListingFilterKeys.zipcode]}
+              error={errors?.[FrontendListingFilterStateKeys.zipcode]}
               errorMessage={t("errors.multipleZipCodeError")}
               defaultValue={filterState?.zipcode}
             />
@@ -237,7 +241,7 @@ const ListingsPage = () => {
             <div className="flex flex-row">
               <Field
                 id="minRent"
-                name={ListingFilterKeys.minRent}
+                name={FrontendListingFilterStateKeys.minRent}
                 register={register}
                 type="number"
                 placeholder={t("t.min")}
@@ -247,7 +251,7 @@ const ListingsPage = () => {
               <div className="flex items-center p-3">{t("t.to")}</div>
               <Field
                 id="maxRent"
-                name={ListingFilterKeys.maxRent}
+                name={FrontendListingFilterStateKeys.maxRent}
                 register={register}
                 type="number"
                 placeholder={t("t.max")}
@@ -264,12 +268,23 @@ const ListingsPage = () => {
               options={adaCompliantOptions}
             />
             <Select
-              id="communityType"
-              name="communityType"
-              label={t("listingFilters.communityType")}
+              id="seniorHousing"
+              name={FrontendListingFilterStateKeys.seniorHousing}
+              label={t("listingFilters.senior")}
               register={register}
               controlClassName="control"
-              options={communityTypeOptions}
+              options={seniorHousingOptions}
+              defaultValue={filterState?.seniorHousing?.toString()}
+            />
+            <Field
+              id="includeNulls"
+              name={FrontendListingFilterStateKeys.includeNulls}
+              type="checkbox"
+              label={t("listingFilters.includeUnknowns")}
+              register={register}
+              inputProps={{
+                defaultChecked: Boolean(filterState?.includeNulls),
+              }}
             />
           </div>
           <div className="text-center mt-6">
@@ -300,7 +315,7 @@ const ListingsPage = () => {
             size={AppearanceSizeType.small}
             styleType={AppearanceStyleType.secondary}
             // "Submit" the form with no params to trigger a reset.
-            onClick={() => onSubmit(null)}
+            onClick={() => onSubmit({})}
             icon="close"
             iconPlacement="left"
           >
@@ -308,27 +323,34 @@ const ListingsPage = () => {
           </Button>
         )}
       </div>
-      {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
-        <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
-          <header>
-            <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
-            <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
-          </header>
-        </div>
-      )}
-      {!listingsLoading && (
-        <div>
-          {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
-          <AgPagination
-            totalItems={listingsData?.meta.totalItems}
-            totalPages={listingsData?.meta.totalPages}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            quantityLabel={t("listings.totalListings")}
-            setCurrentPage={setQueryString}
-          />
-        </div>
-      )}
+      <LoadingOverlay isLoading={listingsLoading}>
+        <>
+          {listingsLoading && (
+            <div className="container max-w-3xl my-4 px-4 py-10 content-start mx-auto" />
+          )}
+          {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
+            <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
+              <header>
+                <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
+                <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
+              </header>
+            </div>
+          )}
+          {!listingsLoading && (
+            <div>
+              {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
+              <AgPagination
+                totalItems={listingsData?.meta.totalItems}
+                totalPages={listingsData?.meta.totalPages}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                quantityLabel={t("listings.totalListings")}
+                setCurrentPage={setQueryString}
+              />
+            </div>
+          )}
+        </>
+      </LoadingOverlay>
     </Layout>
   )
 }
