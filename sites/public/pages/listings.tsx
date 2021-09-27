@@ -126,22 +126,22 @@ const ListingsPage = () => {
 
   const amiOptions: SelectOption[] = [
     EMPTY_OPTION,
-    { value: "20", label: t("20%") },
-    { value: "25", label: t("25%") },
-    { value: "30", label: t("30%") },
-    { value: "35", label: t("35%") },
-    { value: "40", label: t("40%") },
-    { value: "45", label: t("45%") },
-    { value: "50", label: t("50%") },
-    { value: "55", label: t("55%") },
-    { value: "60", label: t("60%") },
-    { value: "70", label: t("70%") },
-    { value: "80", label: t("80%") },
-    { value: "100", label: t("100%") },
-    { value: "120", label: t("120%") },
-    { value: "125", label: t("125%") },
-    { value: "140", label: t("140%") },
-    { value: "150", label: t("150%") },
+    { value: "20", label: t("listingFilters.minAmiPercentageOptions.amiOption20") },
+    { value: "25", label: t("listingFilters.minAmiPercentageOptions.amiOption25") },
+    { value: "30", label: t("listingFilters.minAmiPercentageOptions.amiOption30") },
+    { value: "35", label: t("listingFilters.minAmiPercentageOptions.amiOption35") },
+    { value: "40", label: t("listingFilters.minAmiPercentageOptions.amiOption40") },
+    { value: "45", label: t("listingFilters.minAmiPercentageOptions.amiOption45") },
+    { value: "50", label: t("listingFilters.minAmiPercentageOptions.amiOption50") },
+    { value: "55", label: t("listingFilters.minAmiPercentageOptions.amiOption55") },
+    { value: "60", label: t("listingFilters.minAmiPercentageOptions.amiOption60") },
+    { value: "70", label: t("listingFilters.minAmiPercentageOptions.amiOption70") },
+    { value: "80", label: t("listingFilters.minAmiPercentageOptions.amiOption80") },
+    { value: "100", label: t("listingFilters.minAmiPercentageOptions.amiOption100") },
+    { value: "120", label: t("listingFilters.minAmiPercentageOptions.amiOption120") },
+    { value: "125", label: t("listingFilters.minAmiPercentageOptions.amiOption125") },
+    { value: "140", label: t("listingFilters.minAmiPercentageOptions.amiOption140") },
+    { value: "150", label: t("listingFilters.minAmiPercentageOptions.amiOption150") },
   ]
 
   const availabilityOptions: SelectOption[] = [
@@ -296,10 +296,12 @@ const ListingsPage = () => {
               options={seniorHousingOptions}
               defaultValue={filterState?.seniorHousing?.toString()}
             />
+            {/* TODO(#515): Add more explanation and an ami percentage
+            calculator to this filter */}
             <Select
               id="amiSelect"
               name={FrontendListingFilterStateKeys.minAmiPercentage}
-              label={t("listingFilters.minAmiPercentage")}
+              label={t("listingFilters.minAmiPercentageLabel")}
               register={register}
               controlClassName="control"
               options={amiOptions}
