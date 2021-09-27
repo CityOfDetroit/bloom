@@ -18,12 +18,13 @@ import { mapTo } from "../shared/mapTo"
 import { AmiChartsService } from "./ami-charts.service"
 import { AmiChartCreateDto, AmiChartDto, AmiChartUpdateDto } from "./dto/ami-chart.dto"
 import { defaultValidationPipeOptions } from "../shared/default-validation-pipe-options"
+import { OptionalAuthGuard } from "../auth/guards/optional-auth.guard"
 
 @Controller("/amiCharts")
 @ApiTags("amiCharts")
 @ApiBearerAuth()
 @ResourceType("amiChart")
-@UseGuards(DefaultAuthGuard, AuthzGuard)
+@UseGuards(OptionalAuthGuard, AuthzGuard)
 @UsePipes(new ValidationPipe(defaultValidationPipeOptions))
 export class AmiChartsController {
   constructor(private readonly amiChartsService: AmiChartsService) {}
