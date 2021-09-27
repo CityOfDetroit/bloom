@@ -166,7 +166,16 @@ export async function importListing(
     }
 
     // This next line will throw an error if managementWebsite is a malformed URL.
-    new URL(listing.managementWebsite)
+    try {
+      new URL(listing.managementWebsite)
+    } catch (e) {
+      console.log(
+        `Error: ${listing.name} has a malformed managementWebsite (${listing.managementWebsite});` +
+          ` this website will be discarded and the listing will be uploaded without it.`
+      )
+      console.log(e)
+      listing.managementWebsite = null
+    }
   }
 
   // Upload new entities.
