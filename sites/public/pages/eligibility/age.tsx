@@ -118,3 +118,5 @@ const EligibilityAge = () => {
     </FormsLayout>
   )
 }
+
+export default EligibilityAge
