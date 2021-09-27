@@ -54,7 +54,7 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
           addSeniorHousingQuery(qb, filterValue, includeNulls)
           continue
         case ListingFilterKeys.specialNeedsHousing:
-          addSpecialNeedsHousingQuery(qb, filterValue, includeNulls)
+          addSpecialNeedsHousingQuery(qb, filterValue)
           continue
         case ListingFilterKeys.availability:
           addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum, includeNulls)
