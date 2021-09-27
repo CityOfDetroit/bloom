@@ -92,7 +92,7 @@ export function decodeFiltersFromFrontendUrl(
   const filterState: ListingFilterState = {}
   let foundFilterKey = false
   for (const queryKey in query) {
-    if (queryKey in FrontendListingFilterStateKeys) {
+    if (queryKey in FrontendListingFilterStateKeys && query[queryKey]) {
       filterState[queryKey] = query[queryKey]
       foundFilterKey = true
     }
