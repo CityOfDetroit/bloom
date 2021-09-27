@@ -118,8 +118,3 @@ const EligibilityAge = () => {
     </FormsLayout>
   )
 }
-
-export default EligibilityAge
-function getValues() {
-  throw new Error("Function not implemented.")
-}
