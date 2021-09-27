@@ -124,6 +124,26 @@ const ListingsPage = () => {
     { value: "n", label: t("t.no") },
   ]
 
+  const amiOptions: SelectOption[] = [
+    EMPTY_OPTION,
+    { value: "20", label: t("20%") },
+    { value: "25", label: t("25%") },
+    { value: "30", label: t("30%") },
+    { value: "35", label: t("35%") },
+    { value: "40", label: t("40%") },
+    { value: "45", label: t("45%") },
+    { value: "50", label: t("50%") },
+    { value: "55", label: t("55%") },
+    { value: "60", label: t("60%") },
+    { value: "70", label: t("70%") },
+    { value: "80", label: t("80%") },
+    { value: "100", label: t("100%") },
+    { value: "120", label: t("120%") },
+    { value: "125", label: t("125%") },
+    { value: "140", label: t("140%") },
+    { value: "150", label: t("150%") },
+  ]
+
   const availabilityOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: AvailabilityFilterEnum.hasAvailability, label: t("listingFilters.hasAvailability") },
@@ -275,6 +295,15 @@ const ListingsPage = () => {
               controlClassName="control"
               options={seniorHousingOptions}
               defaultValue={filterState?.seniorHousing?.toString()}
+            />
+            <Select
+              id="amiSelect"
+              name={FrontendListingFilterStateKeys.minAmiPercentage}
+              label={t("listingFilters.minAmiPercentage")}
+              register={register}
+              controlClassName="control"
+              options={amiOptions}
+              defaultValue={filterState?.minAmiPercentage?.toString()}
             />
             <Field
               id="includeNulls"
