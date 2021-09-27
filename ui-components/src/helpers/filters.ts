@@ -53,7 +53,7 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.minRent]?: string | number
   [FrontendListingFilterStateKeys.maxRent]?: string | number
   [FrontendListingFilterStateKeys.seniorHousing]?: string | boolean
-  [FrontendListingFilterStateKeys.includeNulls]?: string | boolean
+  [FrontendListingFilterStateKeys.includeNulls]?: boolean
 }
 
 export function encodeToBackendFilterArray(filterState: ListingFilterState) {
