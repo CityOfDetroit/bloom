@@ -62,12 +62,11 @@ const FilteredListingsPage = () => {
 
   let numberOfFilters = 0
   if (filterState) {
-    numberOfFilters = Object.keys(filterState).filter((p) => p !== "$comparison").length
+    numberOfFilters = Object.keys(filterState).filter(
+      (p) => p !== "$comparison" && p !== "includeNulls"
+    ).length
     // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
     if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
-      numberOfFilters -= 1
-    }
-    if (filterState.includeNulls) {
       numberOfFilters -= 1
     }
   }
@@ -82,7 +81,7 @@ const FilteredListingsPage = () => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const onSubmit = (data: ListingFilterParams) => {
+  const onSubmit = (data: ListingFilterState) => {
     if (data?.[FrontendListingFilterStateKeys.includeNulls] === false) {
       delete data[FrontendListingFilterStateKeys.includeNulls]
     }
@@ -126,7 +125,7 @@ const FilteredListingsPage = () => {
             size={AppearanceSizeType.small}
             styleType={AppearanceStyleType.secondary}
             // "Submit" the form with no params to trigger a reset.
-            onClick={() => onSubmit(null)}
+            onClick={() => onSubmit({})}
             icon="close"
             iconPlacement="left"
           >

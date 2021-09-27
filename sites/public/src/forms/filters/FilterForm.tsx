@@ -44,8 +44,8 @@ const FilterForm = (props: FilterFormProps) => {
   ]
   const adaCompliantOptions: SelectOption[] = [
     EMPTY_OPTION,
-    { value: "n", label: t("t.no") },
     { value: "y", label: t("t.yes") },
+    { value: "n", label: t("t.no") },
   ]
   const communityTypeOptions: SelectOption[] = [
     EMPTY_OPTION,
@@ -143,6 +143,7 @@ const FilterForm = (props: FilterFormProps) => {
           register={register}
           controlClassName="control"
           options={seniorHousingOptions}
+          defaultValue={props.filterState?.seniorHousing?.toString()}
         />
         <Field
           id="includeNulls"
