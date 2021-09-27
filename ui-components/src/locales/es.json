@@ -1276,14 +1276,7 @@
         "income": {
             "prompt": "¿Cuál es el ingreso anual total de su hogar?",
             "description": "Incluya los ingresos de todas las personas que vivirán en su hogar, incluido usted mismo. Los ingresos incluyen seguridad social, cuentas de jubilación y salarios.",
-            "label": "Rango de ingresos",
-            "ranges": {
-                "below10k": "Por debajo de $ 10,000",
-                "10kTo20k": "$10,000 - $20,000",
-                "30kTo40k": "$30,000 - $40,000",
-                "40kTo50k": "$40,000 - $50,000",
-                "over50k": "Más de $ 50,000"
-            }
+            "label": "Ingreso"
         }
     }
 }
