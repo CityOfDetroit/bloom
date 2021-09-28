@@ -9,7 +9,7 @@ export enum ListingFilterKeys {
   specialNeedsHousing = "specialNeedsHousing",
   minRent = "minRent",
   maxRent = "maxRent",
-  ami = "ami",
+  minAmiPercentage = "minAmiPercentage",
   leasingAgents = "leasingAgents",
 }
 

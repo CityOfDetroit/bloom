@@ -58,6 +58,7 @@ const EligibilityIncome = () => {
       state.specialNeedsHousing = false
     }
 
+    return `/listings/filtered?${encodeToFrontendFilterString(state)}`
     return `/listings?${encodeToFrontendFilterString(state)}`
   }
 
