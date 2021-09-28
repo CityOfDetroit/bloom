@@ -53,11 +53,10 @@ const EligibilityAge = () => {
   const onClick = (data) => {
     if (isAgeValid(data.age)) {
       eligibilityRequirements.setAge(data.age)
-      void router.push(eligibilityRoute(CURRENT_PAGE + 1))
+      void router.push(getFilterUrlLink(eligibilityRequirements))
     } else {
       setError("age", { type: "manual", message: "" })
     }
-    void router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   return (
