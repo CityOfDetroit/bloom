@@ -52,7 +52,6 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
       switch (filterKey) {
         case ListingFilterKeys.seniorHousing:
           addSeniorHousingQuery(qb, filterValue)
-          addSeniorHousingQuery(qb, filterValue, includeNulls)
           continue
         case ListingFilterKeys.specialNeedsHousing:
           addSpecialNeedsHousingQuery(qb, filterValue)
