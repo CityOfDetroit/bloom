@@ -51,12 +51,8 @@ const EligibilityAge = () => {
   }
 
   const onClick = (data) => {
-    if (isAgeValid(data.age)) {
-      eligibilityRequirements.setAge(data.age)
-      void router.push(getFilterUrlLink(eligibilityRequirements))
-    } else {
-      setError("age", { type: "manual", message: "" })
-    }
+    eligibilityRequirements.setAge(data.age)
+    void router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   return (
@@ -104,6 +100,7 @@ const EligibilityAge = () => {
             <div className="form-card__pager-row primary">
               <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
               <Button
+                type="button"
                 onClick={handleSubmit(onClick)}
                 className="mx-2 mt-6"
                 styleType={AppearanceStyleType.primary}
