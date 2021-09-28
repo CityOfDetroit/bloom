@@ -15,7 +15,7 @@ import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
 import React, { useContext } from "react"
 import { useRouter } from "next/router"
-import { DISABILITY_NO, ELIGIBILITY_SECTIONS } from "../../lib/constants"
+import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
@@ -44,14 +44,16 @@ const EligibilityDisability = () => {
   const disabilityValues = [
     {
       id: "disabilityNo",
-      value: DISABILITY_NO,
+      value: "false",
       label: t("t.no"),
     },
     {
       id: "disabilityYes",
-      value: "yes",
+      value: "true",
       label: t("t.yes"),
     },
+    // Treat this case as true because we don't want to filter out any
+    // properties if the user doesn't designate a status.=
     {
       id: "disabilityPreferNotToSay",
       value: "preferNotToSay",

@@ -54,7 +54,7 @@ const EligibilityIncome = () => {
     if (eligibilityRequirements.age < SENIOR_AGE) {
       state.seniorHousing = false
     }
-    if (eligibilityRequirements.disability === DISABILITY_NO) {
+    if (eligibilityRequirements.disability === "false") {
       state.specialNeedsHousing = false
     }
 
