@@ -50,7 +50,7 @@ export const FrontendListingFilterStateKeys = {
 // the values pulled from the URL querystring to their types, so they could be
 // strings or the type the form fields set them to be.
 // TODO: Update `decodeFiltersFromFrontendUrl` to parse each filter into its
-// correct type, so we can remove the `string` type from these fields
+// correct type, so we can remove the `string` type from these fields.
 export interface ListingFilterState {
   [FrontendListingFilterStateKeys.availability]?: string | AvailabilityFilterEnum
   [FrontendListingFilterStateKeys.bedrooms]?: string | number
