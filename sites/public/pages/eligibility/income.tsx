@@ -56,7 +56,7 @@ const EligibilityIncome = () => {
       params.seniorHousing = false
     }
 
-    return `/listings?${encodeToFrontendFilterString(params)}`
+    return `/listings/filtered?${encodeToFrontendFilterString(params)}`
   }
 
   return (
