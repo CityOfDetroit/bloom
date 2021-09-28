@@ -52,8 +52,6 @@ const EligibilityDisability = () => {
       value: "true",
       label: t("t.yes"),
     },
-    // Treat this case as true because we don't want to filter out any
-    // properties if the user doesn't designate a status.=
     {
       id: "disabilityPreferNotToSay",
       value: "preferNotToSay",
