@@ -16,7 +16,7 @@ import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
-import { getFilterUrlLink } from "./filterUrlLink"
+import { getFilterUrlLink } from "../../lib/filterUrlLink"
 
 const EligibilityIncome = () => {
   const router = useRouter()

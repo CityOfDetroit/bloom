@@ -19,7 +19,7 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
-import { getFilterUrlLink } from "./filterUrlLink"
+import { getFilterUrlLink } from "../../lib/filterUrlLink"
 
 const EligibilityDisability = () => {
   const router = useRouter()
