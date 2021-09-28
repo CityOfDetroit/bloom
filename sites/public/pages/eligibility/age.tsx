@@ -42,6 +42,29 @@ const EligibilityAge = () => {
     }
   }
 
+  const ageValues = [
+    {
+      id: "ageLessThan55",
+      value: "<55",
+      label: t("eligibility.age.lessThan55"),
+    },
+    {
+      id: "age55to61",
+      value: "55-61",
+      label: t("eligibility.age.55to61"),
+    },
+    {
+      id: "age62+",
+      value: "62+",
+      label: t("eligibility.age.62plus"),
+    },
+    {
+      id: "preferNotToSay",
+      value: "preferNotToSay",
+      label: t("eligibility.preferNotToSay"),
+    },
+  ]
+
   function isAgeValid(age: number) {
     return age >= MIN_AGE && age <= MAX_AGE
   }

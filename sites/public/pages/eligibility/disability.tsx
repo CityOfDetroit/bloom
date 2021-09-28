@@ -55,7 +55,7 @@ const EligibilityDisability = () => {
     {
       id: "disabilityPreferNotToSay",
       value: "preferNotToSay",
-      label: t("eligibility.disability.preferNotToSay"),
+      label: t("eligibility.preferNotToSay"),
     },
   ]
 

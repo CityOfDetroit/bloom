@@ -1289,8 +1289,7 @@
         },
         "disability": {
             "prompt": "¿Tienes alguna discapacidad?",
-            "description": "Algunas propiedades están destinadas a residentes con discapacidades. Algunas casas pueden solicitar una prueba de discapacidad con su solicitud.",
-            "preferNotToSay": "Prefiero no decirlo"
+            "description": "Algunas propiedades están destinadas a residentes con discapacidades. Algunas casas pueden solicitar una prueba de discapacidad con su solicitud."
         },
         "income": {
             "prompt": "¿Cuál es el ingreso anual total de su hogar?",
@@ -1303,6 +1302,7 @@
                 "40kTo50k": "$40,000 - $50,000",
                 "over50k": "Más de $ 50,000"
             }
-        }
+        },
+        "preferNotToSay": "Prefiero no decirlo"
     }
 }

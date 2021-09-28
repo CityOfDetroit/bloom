@@ -1435,8 +1435,7 @@
     },
     "disability": {
       "prompt": "Do you have a disability?",
-      "description": "Some properties are meant for residents with disabilities. Some homes might request proof of disability with your application.",
-      "preferNotToSay": "Prefer not to say"
+      "description": "Some properties are meant for residents with disabilities. Some homes might request proof of disability with your application."
     },
     "income": {
       "prompt": "What is your total household annual income?",
@@ -1449,6 +1448,7 @@
         "40kTo50k": "$40,000 - $50,000",
         "over50k": "Over $50,000"
       }
-    }
+    },
+    "preferNotToSay": "Prefer not to say"
   }
 }
