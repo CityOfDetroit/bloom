@@ -8,8 +8,8 @@ import {
   FormCard,
   t,
   Form,
-  Field,
   ProgressNav,
+  FieldGroup,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../layouts/forms"
 import { useForm } from "react-hook-form"
@@ -23,14 +23,11 @@ import { eligibilityRoute } from "../../lib/helpers"
 
 const EligibilityAge = () => {
   const router = useRouter()
-  // Check if they need to be 18 or older to apply?
-  const MIN_AGE = 0
-  const MAX_AGE = 120
   const CURRENT_PAGE = 2
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors } = useForm()
+  const { handleSubmit, register } = useForm()
   const { eligibilityRequirements } = useContext(EligibilityContext)
 
   const onSubmit = (data) => {
@@ -43,23 +40,27 @@ const EligibilityAge = () => {
   const ageValues = [
     {
       id: "ageLessThan55",
-      value: AgeRangeType.lessThanFiftyFive,
+      value: AgeRangeType.LessThanFiftyFive,
       label: t("eligibility.age.lessThan55"),
+      defaultChecked: eligibilityRequirements?.age == AgeRangeType.LessThanFiftyFive,
     },
     {
       id: "age55to61",
       value: AgeRangeType.FiftyFiveToSixtyOne,
       label: t("eligibility.age.55to61"),
+      defaultChecked: eligibilityRequirements?.age == AgeRangeType.FiftyFiveToSixtyOne,
     },
     {
       id: "age62+",
       value: AgeRangeType.SixtyTwoAndUp,
       label: t("eligibility.age.62plus"),
+      defaultChecked: eligibilityRequirements?.age == AgeRangeType.SixtyTwoAndUp,
     },
     {
       id: "preferNotToSay",
-      value: "preferNotToSay",
+      value: AgeRangeType.PreferNotSay,
       label: t("eligibility.preferNotToSay"),
+      defaultChecked: eligibilityRequirements?.age == AgeRangeType.PreferNotSay,
     },
   ]
 
@@ -94,11 +95,8 @@ const EligibilityAge = () => {
             </p>
             <FieldGroup
               type="radio"
-              className={styles.age_field}
+              fieldGroupClassName={styles.age_field}
               name="age"
-              describedBy="age-description"
-              isLabelAfterField={true}
-              defaultValue={eligibilityRequirements.age}
               register={register}
               fields={ageValues}
             />

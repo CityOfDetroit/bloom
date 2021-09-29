@@ -1430,8 +1430,9 @@
     "age": {
       "prompt": "How old are you?",
       "description": "Some properties only accept individuals over 62 years of age.",
-      "label": "years old",
-      "error": "Please enter a valid age."
+      "lessThan55": "< 55",
+      "55to61": "55 - 61",
+      "62plus": "62+"
     },
     "disability": {
       "prompt": "Do you have a disability?",

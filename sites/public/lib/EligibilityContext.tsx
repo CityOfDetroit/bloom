@@ -1,9 +1,10 @@
 import React from "react"
 
 export enum AgeRangeType {
-  "lessThanFiftyFive" = "lessThan55",
+  "LessThanFiftyFive" = "lessThan55",
   "FiftyFiveToSixtyOne" = "55to61",
   "SixtyTwoAndUp" = "62andUp",
+  "PreferNotSay" = "preferNotSay",
 }
 
 class EligibilityRequirements {
