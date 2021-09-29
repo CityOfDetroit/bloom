@@ -9,9 +9,7 @@ export function getFilterUrlLink(eligibilityRequirements) {
 
   if (eligibilityRequirements.age < SENIOR_AGE) {
     params.seniorHousing = false
-  } else {
-    params.seniorHousing = true
   }
 
-  return `/listings/filtered?page=${1}${encodeToFrontendFilterString(params)}`
+  return `/listings/filtered?${encodeToFrontendFilterString(params)}`
 }
