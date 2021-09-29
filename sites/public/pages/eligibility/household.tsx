@@ -46,11 +46,11 @@ const EligibilityHouseholdSize = () => {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
   }
 
-  const onClick = () => {
+  const onClick = async () => {
     const data = getValues()
     const { householdSize } = data
     eligibilityRequirements.setHouseholdSizeCount(householdSize)
-    void router.push(getFilterUrlLink(eligibilityRequirements))
+    await router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   const householdSizeRanges = ["one", "two", "three", "four", "five", "six", "seven", "eight"]

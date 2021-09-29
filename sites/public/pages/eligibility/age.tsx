@@ -50,9 +50,9 @@ const EligibilityAge = () => {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
   }
 
-  const onClick = (data) => {
+  const onClick = async (data) => {
     eligibilityRequirements.setAge(data.age)
-    void router.push(getFilterUrlLink(eligibilityRequirements))
+    await router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   return (

@@ -64,11 +64,11 @@ const EligibilityDisability = () => {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
   }
 
-  const onClick = () => {
+  const onClick = async () => {
     const data = getValues()
     const { disability } = data
     eligibilityRequirements.setDisability(disability)
-    void router.push(getFilterUrlLink(eligibilityRequirements))
+    await router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   return (
