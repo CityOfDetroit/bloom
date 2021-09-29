@@ -17,7 +17,7 @@ import styles from "./EligibilityAge.module.scss"
 import React, { useContext } from "react"
 import { useRouter } from "next/router"
 import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
-import { EligibilityContext } from "../../lib/EligibilityContext"
+import { AgeRangeType, EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
 
@@ -30,32 +30,30 @@ const EligibilityAge = () => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors, setError } = useForm()
+  const { handleSubmit, register, errors } = useForm()
   const { eligibilityRequirements } = useContext(EligibilityContext)
 
   const onSubmit = (data) => {
-    if (isAgeValid(data.age)) {
+    if (data.age !== "preferNotSay") {
       eligibilityRequirements.setAge(data.age)
-      void router.push(eligibilityRoute(CURRENT_PAGE + 1))
-    } else {
-      setError("age", { type: "manual", message: "" })
     }
+    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
   const ageValues = [
     {
       id: "ageLessThan55",
-      value: "<55",
+      value: AgeRangeType.lessThanFiftyFive,
       label: t("eligibility.age.lessThan55"),
     },
     {
       id: "age55to61",
-      value: "55-61",
+      value: AgeRangeType.FiftyFiveToSixtyOne,
       label: t("eligibility.age.55to61"),
     },
     {
       id: "age62+",
-      value: "62+",
+      value: AgeRangeType.SixtyTwoAndUp,
       label: t("eligibility.age.62plus"),
     },
     {
@@ -64,10 +62,6 @@ const EligibilityAge = () => {
       label: t("eligibility.preferNotToSay"),
     },
   ]
-
-  function isAgeValid(age: number) {
-    return age >= MIN_AGE && age <= MAX_AGE
-  }
 
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
@@ -98,20 +92,15 @@ const EligibilityAge = () => {
             <p className="field-note mb-4" id="age-description">
               {t("eligibility.age.description")}
             </p>
-            <Field
+            <FieldGroup
+              type="radio"
               className={styles.age_field}
-              id="age"
               name="age"
-              label={t("eligibility.age.label")}
               describedBy="age-description"
               isLabelAfterField={true}
               defaultValue={eligibilityRequirements.age}
-              inputProps={{ maxLength: 3 }}
-              type={"number"}
-              validation={{ required: true }}
-              error={errors.age}
-              errorMessage={t("eligibility.age.error")}
               register={register}
+              fields={ageValues}
             />
           </div>
           <div className="form-card__pager">

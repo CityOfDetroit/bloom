@@ -1,13 +1,19 @@
 import React from "react"
 
+export enum AgeRangeType {
+  "lessThanFiftyFive" = "lessThan55",
+  "FiftyFiveToSixtyOne" = "55to61",
+  "SixtyTwoAndUp" = "62andUp",
+}
+
 class EligibilityRequirements {
-  age: number
+  age: AgeRangeType
   householdSizeCount: number
   income: string
   disability: string
   completedSections: number
 
-  constructor(age: number, householdSizeCount: number, income: string, disability: string) {
+  constructor(age: AgeRangeType, householdSizeCount: number, income: string, disability: string) {
     this.age = age
     this.householdSizeCount = householdSizeCount
     this.income = income
@@ -15,7 +21,7 @@ class EligibilityRequirements {
     this.completedSections = 0
   }
 
-  setAge(age: number) {
+  setAge(age: AgeRangeType) {
     this.age = age
   }
 
