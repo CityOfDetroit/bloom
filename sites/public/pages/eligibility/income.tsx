@@ -17,7 +17,7 @@ import {
   ListingFilterState,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
-import { EligibilityContext } from "../../lib/EligibilityContext"
+import { AgeRangeType, EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
@@ -28,7 +28,6 @@ const EligibilityIncome = () => {
 
   const incomeRanges = ["below10k", "10kTo20k", "30kTo40k", "40kTo50k", "over50k"]
   const CURRENT_PAGE = 4
-  const SENIOR_AGE = 62
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -51,7 +50,10 @@ const EligibilityIncome = () => {
   function getFilterUrl() {
     const params: ListingFilterState = {}
 
-    if (eligibilityRequirements.age < SENIOR_AGE) {
+    if (
+      eligibilityRequirements?.age == AgeRangeType.LessThanFiftyFive ||
+      eligibilityRequirements?.age == AgeRangeType.FiftyFiveToSixtyOne
+    ) {
       params.seniorHousing = false
     }
 
