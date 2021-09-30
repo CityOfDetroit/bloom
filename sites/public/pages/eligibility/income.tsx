@@ -10,17 +10,13 @@ import { ProgressNav } from "@bloom-housing/ui-components/src/navigation/Progres
 import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
-import {
-  AppearanceStyleType,
-  encodeToFrontendFilterString,
-  Select,
-  ListingFilterState,
-} from "@bloom-housing/ui-components"
+import { AppearanceStyleType, Select } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
+import { getFilterUrlLink } from "../../lib/filterUrlLink"
 
 const EligibilityIncome = () => {
   const router = useRouter()
@@ -28,7 +24,6 @@ const EligibilityIncome = () => {
 
   const incomeRanges = ["below10k", "10kTo20k", "30kTo40k", "40kTo50k", "over50k"]
   const CURRENT_PAGE = 4
-  const SENIOR_AGE = 62
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -41,30 +36,11 @@ const EligibilityIncome = () => {
     const data = getValues()
     const { income } = data
     eligibilityRequirements.setIncome(income)
-    void router.push(getFilterUrl())
+    void router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
-  }
-
-  function getFilterUrl() {
-    const state: ListingFilterState = {}
-
-    if (eligibilityRequirements.age < SENIOR_AGE) {
-      state.seniorHousing = false
-    }
-
-    // If the user has as a disability or they prefer not to reveal they're
-    // disability status, we don't need to filter the listings down further.
-    // We show all listings as well as the communities that require a disability
-    // status to apply.
-    if (eligibilityRequirements.disability === "false") {
-      state.specialNeedsHousing = false
-    }
-
-    return `/listings/filtered?${encodeToFrontendFilterString(state)}`
-    return `/listings?${encodeToFrontendFilterString(state)}`
   }
 
   return (
