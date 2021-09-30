@@ -19,6 +19,7 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
+import { getFilterUrlLink } from "../../lib/filterUrlLink"
 
 const EligibilityDisability = () => {
   const router = useRouter()
@@ -35,8 +36,12 @@ const EligibilityDisability = () => {
 
   const onSubmit = async (data) => {
     eligibilityRequirements.setDisability(data.disability)
-
     await router.push(eligibilityRoute(CURRENT_PAGE + 1))
+  }
+
+  const onClick = async (data) => {
+    eligibilityRequirements.setDisability(data.disability)
+    await router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   const disabilityValues = [
@@ -97,6 +102,13 @@ const EligibilityDisability = () => {
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
               <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
+              <Button
+                onClick={handleSubmit(onClick)}
+                className="mx-2 mt-6"
+                styleType={AppearanceStyleType.primary}
+              >
+                {t("t.viewListings")}
+              </Button>
             </div>
           </div>
         </Form>

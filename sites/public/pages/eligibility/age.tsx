@@ -20,21 +20,24 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { AgeRangeType, EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
+import { getFilterUrlLink } from "../../lib/filterUrlLink"
 
 const EligibilityAge = () => {
   const router = useRouter()
   const CURRENT_PAGE = 2
-
+  const { eligibilityRequirements } = useContext(EligibilityContext)
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register } = useForm()
-  const { eligibilityRequirements } = useContext(EligibilityContext)
 
   const onSubmit = async (data) => {
-    if (data.age !== "preferNotSay") {
-      eligibilityRequirements.setAge(data.age)
-    }
+    eligibilityRequirements.setAge(data.age)
     await router.push(eligibilityRoute(CURRENT_PAGE + 1))
+  }
+
+  const onClick = async (data) => {
+    eligibilityRequirements.setAge(data.age)
+    await router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   const ageValues = [
@@ -104,6 +107,14 @@ const EligibilityAge = () => {
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
               <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
+              <Button
+                type="button"
+                onClick={handleSubmit(onClick)}
+                className="mx-2 mt-6"
+                styleType={AppearanceStyleType.primary}
+              >
+                {t("t.viewListings")}
+              </Button>
             </div>
           </div>
         </Form>
