@@ -47,12 +47,12 @@ const EligibilityDisability = () => {
   const disabilityValues = [
     {
       id: "disabilityNo",
-      value: "no",
+      value: "false",
       label: t("t.no"),
     },
     {
       id: "disabilityYes",
-      value: "yes",
+      value: "true",
       label: t("t.yes"),
     },
     {
