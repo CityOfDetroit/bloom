@@ -2,8 +2,6 @@ import {
   render,
   fireEvent,
   screen,
-  waitFor,
-  waitForElementToBeRemoved,
 } from "@testing-library/react"
 import EligibilityHouseholdSize from "../../pages/eligibility/household"
 import React from "react"
@@ -33,7 +31,7 @@ describe("<EligibilityHouseholdSize>", () => {
   it("Clicks the Next button", async () => {
     await act(async () => {
       render(<EligibilityHouseholdSize />)
-      userEvent.selectOptions(screen.getByRole("combobox"), "two")
+      userEvent.selectOptions(screen.getByRole("combobox"), "2")
       fireEvent.click(screen.getByRole("button", { name: "Next" }))
     })
 
