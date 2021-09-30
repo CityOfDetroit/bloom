@@ -1,4 +1,4 @@
-import { render, fireEvent, screen } from "@testing-library/react"
+import {render, fireEvent, screen, waitFor} from "@testing-library/react"
 import EligibilityIncome from "../../pages/eligibility/income"
 import React from "react"
 import { act } from "react-dom/test-utils"
@@ -27,7 +27,8 @@ describe("<EligibilityIncome>", () => {
   it("Clicks the Done button", async () => {
     await act(async () => {
       render(<EligibilityIncome />)
-      userEvent.selectOptions(screen.getByRole("combobox"), "10kTo20k")
+
+      userEvent.type(screen.getByRole("spinbutton", { name: "Income" }), "10000")
       fireEvent.click(screen.getByRole("button", { name: "Done" }))
     })
 
