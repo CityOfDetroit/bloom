@@ -30,11 +30,11 @@ const EligibilityAge = () => {
   const { handleSubmit, register } = useForm()
   const { eligibilityRequirements } = useContext(EligibilityContext)
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (data.age !== "preferNotSay") {
       eligibilityRequirements.setAge(data.age)
     }
-    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
+    await router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
   const ageValues = [

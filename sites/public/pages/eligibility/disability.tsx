@@ -27,18 +27,16 @@ const EligibilityDisability = () => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors, getValues } = useForm({
+  const { handleSubmit, register } = useForm({
     defaultValues: {
       disability: eligibilityRequirements?.disability,
     },
   })
 
-  const onSubmit = () => {
-    const data = getValues()
-    const { disability } = data
-    eligibilityRequirements.setDisability(disability)
+  const onSubmit = async (data) => {
+    eligibilityRequirements.setDisability(data.disability)
 
-    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
+    await router.push(eligibilityRoute(CURRENT_PAGE + 1))
   }
 
   const disabilityValues = [
@@ -91,10 +89,7 @@ const EligibilityDisability = () => {
               <FieldGroup
                 type="radio"
                 name="disability"
-                error={errors.disability != null}
-                errorMessage={t("errors.selectOption")}
                 register={register}
-                validation={{ required: true }}
                 fields={disabilityValues}
               />
             </fieldset>

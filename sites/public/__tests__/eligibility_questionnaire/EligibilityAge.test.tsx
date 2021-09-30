@@ -30,7 +30,7 @@ describe("<EligibilityAge>", () => {
     expect(screen.queryByText("Please enter a valid age.")).not.toBeInTheDocument()
 
     await act(async () => {
-      // Click "Next" with no age entered --> error message
+      // Click "Next" with no age entered --> no error message
       fireEvent.click(screen.getByRole("button", { name: "Next" }))
     })
 

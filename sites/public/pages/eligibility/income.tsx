@@ -36,11 +36,9 @@ const EligibilityIncome = () => {
       income: eligibilityRequirements?.income ?? incomeRanges[0],
     },
   })
-  const onSubmit = () => {
-    const data = getValues()
-    const { income } = data
-    eligibilityRequirements.setIncome(income)
-    void router.push(getFilterUrl())
+  const onSubmit = async (data) => {
+    eligibilityRequirements.setIncome(data.income)
+    await router.push(getFilterUrl())
   }
 
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
