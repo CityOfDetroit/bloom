@@ -47,17 +47,7 @@ const AgPagination = ({
 
   return (
     <div className={dataPagerClassName.join(" ")}>
-      <div
-        // Issue: I only want to apply these styles at (min-width: 1200px), like listings-row
-        style={{
-          width: "100%", // to take up the full width available
-          maxWidth: "64rem", // to match the listings-row class
-          display: "flex", // to make it so the buttons organize horizontally
-          margin: "0 auto", // seems like this centers it
-          paddingRight: "0.75rem", // to match listings-row class
-          paddingLeft: "0.75rem", // to match listings-row class
-        }}
-      >
+      <div className="andys-new-class">
         <div className="hidden md:block">
           <Button
             className="data-pager__previous data-pager__control"
