@@ -15,7 +15,7 @@ export function getFilterUrlLink(eligibilityRequirements) {
   // We show all listings as well as the communities that require a disability
   // status to apply.
   if (eligibilityRequirements.disability === "false") {
-    state.specialNeedsHousing = false
+    state.independentLivingHousing = false
   }
 
   return `/listings/filtered?${encodeToFrontendFilterString(state)}`

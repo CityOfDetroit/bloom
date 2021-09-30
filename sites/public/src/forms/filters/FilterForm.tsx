@@ -61,7 +61,7 @@ const FilterForm = (props: FilterFormProps) => {
     { value: "false", label: t("t.no") },
   ]
 
-  const specialNeedsHousingOptions: SelectOption[] = [
+  const independentLivingHousingOptions: SelectOption[] = [
     EMPTY_OPTION,
     { value: "true", label: t("t.yes") },
     { value: "false", label: t("t.no") },
@@ -164,13 +164,13 @@ const FilterForm = (props: FilterFormProps) => {
           defaultValue={props.filterState?.seniorHousing?.toString()}
         />
         <Select
-          id="specialNeedsHousing"
-          name={FrontendListingFilterStateKeys.specialNeedsHousing}
-          label={t("listingFilters.specialNeedsHousing")}
+          id="independentLivingHousing"
+          name={FrontendListingFilterStateKeys.independentLivingHousing}
+          label={t("listingFilters.independentLivingHousing")}
           register={register}
           controlClassName="control"
-          options={specialNeedsHousingOptions}
-          defaultValue={props.filterState?.specialNeedsHousing?.toString()}
+          options={independentLivingHousingOptions}
+          defaultValue={props.filterState?.independentLivingHousing?.toString()}
         />
         {/* TODO(#515): Add more explanation and an ami percentage
         calculator to this filter */}

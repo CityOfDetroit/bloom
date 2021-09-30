@@ -25,21 +25,21 @@ export function addSeniorHousingQuery(qb: WhereExpression, filterValue: string) 
   }
 }
 
-export function addSpecialNeedsHousingQuery(qb: WhereExpression, filterValue: string) {
-  const whereParameterName = ListingFilterKeys.specialNeedsHousing
-  const specialNeedsCommunityType = "specialNeeds"
+export function addIndependentLivingHousingQuery(qb: WhereExpression, filterValue: string) {
+  const whereParameterName = ListingFilterKeys.independentLivingHousing
+  const independentLivingCommunityType = "specialNeeds"
   const reservedCommunityTypeColumnName = `LOWER(CAST(${
-    filterTypeToFieldMap[ListingFilterKeys.specialNeedsHousing]
+    filterTypeToFieldMap[ListingFilterKeys.independentLivingHousing]
   } as text))`
   if (filterValue == "true") {
     qb.andWhere(`(${reservedCommunityTypeColumnName} = LOWER(:${whereParameterName}))`, {
-      [whereParameterName]: specialNeedsCommunityType,
+      [whereParameterName]: independentLivingCommunityType,
     })
   } else if (filterValue == "false") {
     qb.andWhere(
       `(${reservedCommunityTypeColumnName} IS NULL OR ${reservedCommunityTypeColumnName} <> LOWER(:${whereParameterName}))`,
       {
-        [whereParameterName]: specialNeedsCommunityType,
+        [whereParameterName]: independentLivingCommunityType,
       }
     )
   }

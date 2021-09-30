@@ -837,7 +837,7 @@ export class ListingFilterParams extends BaseFilter {
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsBooleanString({ groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.specialNeedsHousing]?: boolean;
+  [ListingFilterKeys.independentLivingHousing]?: boolean;
 
   @Expose()
   @ApiProperty({
@@ -957,7 +957,7 @@ export const filterTypeToFieldMap: Record<keysWithMappedField, string> = {
   bedrooms: "summaryUnitType.num_bedrooms",
   zipcode: "buildingAddress.zipCode",
   seniorHousing: "reservedCommunityType.name",
-  specialNeedsHousing: "reservedCommunityType.name",
+  independentLivingHousing: "reservedCommunityType.name",
   // This is the inverse of the explanation for maxRent below.
   minRent: "unitsSummary.monthly_rent_max",
   // The maxRent filter uses the monthly_rent_min field to avoid missing units

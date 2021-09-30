@@ -3894,7 +3894,7 @@ export interface ListingFilterParams {
   seniorHousing?: boolean
 
   /**  */
-  specialNeedsHousing?: boolean
+  independentLivingHousing?: boolean
 
   /**  */
   minRent?: number
@@ -3903,7 +3903,7 @@ export interface ListingFilterParams {
   maxRent?: number
 
   /**  */
-  ami?: number
+  minAmiPercentage?: number
 
   /**  */
   leasingAgents?: string
