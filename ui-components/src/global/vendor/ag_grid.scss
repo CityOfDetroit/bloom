@@ -147,8 +147,9 @@
 }
 
 .pagination-bar {
+  @apply w-full;
+
   @screen md {
-    @apply w-full;
     max-width: 48rem; // to match the listings-row class
     @apply flex;
     @apply m-auto;
