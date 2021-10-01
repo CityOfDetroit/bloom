@@ -47,7 +47,7 @@ const AgPagination = ({
 
   return (
     <div className={dataPagerClassName.join(" ")}>
-      <div className="andys-new-class">
+      <div className="pagination-bar">
         <div className="hidden md:block">
           <Button
             className="data-pager__previous data-pager__control"

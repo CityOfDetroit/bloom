@@ -146,14 +146,13 @@
   margin-left: auto;
 }
 
-.andys-new-class {
-  @media(min-width: 760px) {
-    width: 100%; // to take up the full width available
+.pagination-bar {
+  @screen md {
+    @apply w-full;
     max-width: 48rem; // to match the listings-row class
-    display: flex; // to make it so the buttons organize horizontally
-    margin: 0 auto; // seems like this centers it
-    padding-right: 0.75rem; // to match listings-row class
-    padding-left: 0.75rem; // to match listings-row class
+    @apply flex;
+    @apply m-auto;
+    @apply px-3;
   }
 
   @screen lg {
