@@ -86,8 +86,8 @@ const ListingsPage = ({ initialListings }) => {
             itemsPerPage={10}
             quantityLabel={t("listings.totalListings")}
             setCurrentPage={(page) => onSubmit(page, {})}
-            additionalPaginationBarStyleClassName="max-width-matching-listing-cards"
             includeBorder={false}
+            matchListingCardWidth={true}
           />
         </div>
       )}

@@ -13,7 +13,7 @@ type AgPaginationProps = {
   onPageChange?: (page: number) => void
   onPerPageChange?: (size: number) => void
   includeBorder?: boolean
-  additionalPaginationBarStyleClassName?: string
+  matchListingCardWidth?: boolean
 }
 
 const AG_PER_PAGE_OPTIONS = [8, 100, 500, 1000]
@@ -27,7 +27,7 @@ const AgPagination = ({
   setCurrentPage,
   onPageChange,
   includeBorder,
-  additionalPaginationBarStyleClassName,
+  matchListingCardWidth,
 }: AgPaginationProps) => {
   const onNextClick = () => {
     setCurrentPage(currentPage + 1)
@@ -53,8 +53,8 @@ const AgPagination = ({
   }
 
   const paginationBarClassName = ["pagination-bar"]
-  if (additionalPaginationBarStyleClassName) {
-    paginationBarClassName.push(additionalPaginationBarStyleClassName)
+  if (matchListingCardWidth) {
+    paginationBarClassName.push("match-listing-card-width")
   }
 
   return (

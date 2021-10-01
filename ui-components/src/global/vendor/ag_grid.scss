@@ -159,7 +159,8 @@
   }
 }
 
-.max-width-matching-listing-cards {
+.match-listing-card-width {
+  // These styles match the .listings-row class's max widths
   @screen md {
     max-width: 48rem;
   }
