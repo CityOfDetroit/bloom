@@ -52,7 +52,7 @@ const AgPagination = ({
     dataPagerContainerClassName.push("include-border")
   }
 
-  const paginationBarClassName = ["pagination-bar"]
+  const paginationBarClassName = ["data-pager"]
   if (matchListingCardWidth) {
     paginationBarClassName.push("match-listing-card-width")
   }
