@@ -44,12 +44,12 @@ const AgPagination = ({
     onPageChange && onPageChange(currentPage)
   }
 
-  const dataPagerClassName = ["data-pager flex flex-col md:flex-row"]
+  const dataPagerContainerClassName = ["data-pager-container"]
   if (sticky) {
-    dataPagerClassName.push("sticky")
+    dataPagerContainerClassName.push("sticky")
   }
   if (includeBorder) {
-    dataPagerClassName.push("include-border")
+    dataPagerContainerClassName.push("include-border")
   }
 
   const paginationBarClassName = ["pagination-bar"]
