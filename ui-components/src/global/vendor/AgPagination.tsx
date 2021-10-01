@@ -52,14 +52,14 @@ const AgPagination = ({
     dataPagerContainerClassName.push("include-border")
   }
 
-  const paginationBarClassName = ["data-pager"]
+  const dataPagerClassName = ["data-pager"]
   if (matchListingCardWidth) {
-    paginationBarClassName.push("match-listing-card-width")
+    dataPagerClassName.push("match-listing-card-width")
   }
 
   return (
-    <div className={dataPagerClassName.join(" ")}>
-      <div className={paginationBarClassName.join(" ")}>
+    <div className={dataPagerContainerClassName.join(" ")}>
+      <div className={dataPagerClassName.join(" ")}>
         <div className="hidden md:block">
           <Button
             className="data-pager__previous data-pager__control"
