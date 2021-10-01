@@ -12,6 +12,7 @@ type AgPaginationProps = {
   setItemsPerPage?: React.Dispatch<React.SetStateAction<number>>
   onPageChange?: (page: number) => void
   onPerPageChange?: (size: number) => void
+  includeBorder?: boolean
   additionalPaginationBarStyleClassName?: string
 }
 
@@ -25,6 +26,7 @@ const AgPagination = ({
   quantityLabel,
   setCurrentPage,
   onPageChange,
+  includeBorder,
   additionalPaginationBarStyleClassName,
 }: AgPaginationProps) => {
   const onNextClick = () => {
@@ -45,6 +47,9 @@ const AgPagination = ({
   const dataPagerClassName = ["data-pager flex flex-col md:flex-row"]
   if (sticky) {
     dataPagerClassName.push("sticky")
+  }
+  if (includeBorder) {
+    dataPagerClassName.push("include-border")
   }
 
   const paginationBarClassName = ["pagination-bar"]

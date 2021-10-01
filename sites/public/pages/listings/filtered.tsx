@@ -156,6 +156,8 @@ const FilteredListingsPage = () => {
                 itemsPerPage={itemsPerPage}
                 quantityLabel={t("listings.totalListings")}
                 setCurrentPage={setQueryString}
+                additionalPaginationBarStyleClassName="max-width-matching-listing-cards"
+                includeBorder={false}
               />
             </div>
           )}

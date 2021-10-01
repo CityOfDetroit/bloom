@@ -114,11 +114,14 @@
   @apply p-4;
   @apply flex;
   @apply items-center;
+  @apply bg-gray-200;
+}
+
+.include-border {
+  @apply rounded-b-md;
   @apply border;
   @apply border-t-0;
-  @apply rounded-b-md;
   @apply border-gray-500;
-  @apply bg-gray-200;
 }
 
 .sticky {
