@@ -150,10 +150,15 @@
   @apply w-full;
 
   @screen md {
-    max-width: 48rem; // to match the listings-row class
     @apply flex;
     @apply m-auto;
     @apply px-3;
+  }
+}
+
+.max-width-matching-listing-cards {
+  @screen md {
+    max-width: 48rem;
   }
 
   @screen lg {

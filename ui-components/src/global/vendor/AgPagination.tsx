@@ -12,6 +12,7 @@ type AgPaginationProps = {
   setItemsPerPage?: React.Dispatch<React.SetStateAction<number>>
   onPageChange?: (page: number) => void
   onPerPageChange?: (size: number) => void
+  additionalPaginationBarStyleClassName?: string
 }
 
 const AG_PER_PAGE_OPTIONS = [8, 100, 500, 1000]
@@ -24,6 +25,7 @@ const AgPagination = ({
   quantityLabel,
   setCurrentPage,
   onPageChange,
+  additionalPaginationBarStyleClassName,
 }: AgPaginationProps) => {
   const onNextClick = () => {
     setCurrentPage(currentPage + 1)
@@ -45,9 +47,14 @@ const AgPagination = ({
     dataPagerClassName.push("sticky")
   }
 
+  const paginationBarClassName = ["pagination-bar"]
+  if (additionalPaginationBarStyleClassName) {
+    paginationBarClassName.push(additionalPaginationBarStyleClassName)
+  }
+
   return (
     <div className={dataPagerClassName.join(" ")}>
-      <div className="pagination-bar">
+      <div className={paginationBarClassName.join(" ")}>
         <div className="hidden md:block">
           <Button
             className="data-pager__previous data-pager__control"
