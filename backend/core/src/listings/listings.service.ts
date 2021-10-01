@@ -37,12 +37,12 @@ export class ListingsService {
   public async list(params: ListingsQueryParams): Promise<Pagination<Listing>> {
     const getOrderByCondition = (params: ListingsQueryParams): OrderByCondition => {
       if (!params.orderBy) {
-          // Default to ordering by applicationDates (i.e. applicationDueDate
-          // and applicationOpenDate) if no orderBy param is specified.
-          return {
-            "listings.applicationDueDate": "ASC",
-            "listings.applicationOpenDate": "DESC",
-          }
+        // Default to ordering by applicationDates (i.e. applicationDueDate
+        // and applicationOpenDate) if no orderBy param is specified.
+        return {
+          "listings.applicationDueDate": "ASC",
+          "listings.applicationOpenDate": "DESC",
+        }
       }
       switch (params.orderBy) {
         case OrderByFieldsEnum.mostRecentlyUpdated:
