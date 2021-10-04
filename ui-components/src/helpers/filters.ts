@@ -30,6 +30,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.zipcode:
       return EnumListingFilterParamsComparison["IN"]
     case ListingFilterKeys.seniorHousing:
+    case ListingFilterKeys.independentLivingHousing:
     case ListingFilterKeys.availability:
     case ListingFilterKeys.minAmiPercentage:
       return EnumListingFilterParamsComparison["NA"]
@@ -46,6 +47,11 @@ export const FrontendListingFilterStateKeys = {
   ...ListingFilterKeys,
   includeNulls: "includeNulls" as const,
 }
+// The types in this interface are `string | ...` because we don't currently parse
+// the values pulled from the URL querystring to their types, so they could be
+// strings or the type the form fields set them to be.
+// TODO: Update `decodeFiltersFromFrontendUrl` to parse each filter into its
+// correct type, so we can remove the `string` type from these fields.
 export interface ListingFilterState {
   [FrontendListingFilterStateKeys.availability]?: string | AvailabilityFilterEnum
   [FrontendListingFilterStateKeys.bedrooms]?: string | number
@@ -53,6 +59,7 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.minRent]?: string | number
   [FrontendListingFilterStateKeys.maxRent]?: string | number
   [FrontendListingFilterStateKeys.seniorHousing]?: string | boolean
+  [FrontendListingFilterStateKeys.independentLivingHousing]?: string | boolean
   [FrontendListingFilterStateKeys.includeNulls]?: boolean
   [FrontendListingFilterStateKeys.minAmiPercentage]?: string | number
 }

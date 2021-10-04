@@ -10,53 +10,31 @@ import { ProgressNav } from "@bloom-housing/ui-components/src/navigation/Progres
 import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { Form } from "@bloom-housing/ui-components/src/forms/Form"
 import { Button } from "@bloom-housing/ui-components/src/actions/Button"
-import {
-  AppearanceStyleType,
-  encodeToFrontendFilterString,
-  ListingFilterState,
-  Field,
-} from "@bloom-housing/ui-components"
+import { AppearanceStyleType, Field } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import { EligibilityContext } from "../../lib/EligibilityContext"
-import { eligibilityRoute, getMinAmi } from "../../lib/helpers"
+import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { useRouter } from "next/router"
 import { useAmiChartList } from "../../lib/hooks"
+import { getFilterUrlLink } from "../../lib/filterUrlLink"
 
 const EligibilityIncome = () => {
   const router = useRouter()
   const { eligibilityRequirements } = useContext(EligibilityContext)
   const { data: amiCharts = [] } = useAmiChartList()
   const CURRENT_PAGE = 4
-  const SENIOR_AGE = 62
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, getValues, errors } = useForm()
-  const onSubmit = () => {
-    const data = getValues()
-    const { income } = data
-    eligibilityRequirements.setIncome(income)
-    void router.push(getFilterUrl())
+  const { handleSubmit, register, errors } = useForm()
+  const onSubmit = async (data) => {
+    eligibilityRequirements.setIncome(data.income)
+    await router.push(getFilterUrlLink(eligibilityRequirements, amiCharts))
   }
 
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
     eligibilityRequirements.setCompletedSections(CURRENT_PAGE + 1)
-  }
-
-  function getFilterUrl() {
-    const params: ListingFilterState = {}
-    params.minAmiPercentage = getMinAmi(
-      amiCharts[0],
-      eligibilityRequirements.householdSizeCount,
-      eligibilityRequirements.income
-    )
-
-    if (eligibilityRequirements.age < SENIOR_AGE) {
-      params.seniorHousing = false
-    }
-
-    return `/listings/filtered?${encodeToFrontendFilterString(params)}`
   }
 
   return (

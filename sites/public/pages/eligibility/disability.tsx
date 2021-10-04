@@ -19,6 +19,7 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import { eligibilityRoute } from "../../lib/helpers"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
+import { getFilterUrlLink } from "../../lib/filterUrlLink"
 
 const EligibilityDisability = () => {
   const router = useRouter()
@@ -27,35 +28,37 @@ const EligibilityDisability = () => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, errors, getValues } = useForm({
+  const { handleSubmit, register } = useForm({
     defaultValues: {
       disability: eligibilityRequirements?.disability,
     },
   })
 
-  const onSubmit = () => {
-    const data = getValues()
-    const { disability } = data
-    eligibilityRequirements.setDisability(disability)
+  const onSubmit = async (data) => {
+    eligibilityRequirements.setDisability(data.disability)
+    await router.push(eligibilityRoute(CURRENT_PAGE + 1))
+  }
 
-    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
+  const onClick = async (data) => {
+    eligibilityRequirements.setDisability(data.disability)
+    await router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   const disabilityValues = [
     {
       id: "disabilityNo",
-      value: "no",
+      value: "false",
       label: t("t.no"),
     },
     {
       id: "disabilityYes",
-      value: "yes",
+      value: "true",
       label: t("t.yes"),
     },
     {
       id: "disabilityPreferNotToSay",
       value: "preferNotToSay",
-      label: t("eligibility.disability.preferNotToSay"),
+      label: t("eligibility.preferNotToSay"),
     },
   ]
 
@@ -91,10 +94,7 @@ const EligibilityDisability = () => {
               <FieldGroup
                 type="radio"
                 name="disability"
-                error={errors.disability != null}
-                errorMessage={t("errors.selectOption")}
                 register={register}
-                validation={{ required: true }}
                 fields={disabilityValues}
               />
             </fieldset>
@@ -102,6 +102,13 @@ const EligibilityDisability = () => {
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
               <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
+              <Button
+                onClick={handleSubmit(onClick)}
+                className="mx-2 mt-6"
+                styleType={AppearanceStyleType.primary}
+              >
+                {t("t.viewListings")}
+              </Button>
             </div>
           </div>
         </Form>

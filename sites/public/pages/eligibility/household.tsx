@@ -19,6 +19,7 @@ import { ELIGIBILITY_SECTIONS } from "../../lib/constants"
 import { EligibilityContext } from "../../lib/EligibilityContext"
 import FormBackLink from "../../src/forms/applications/FormBackLink"
 import { eligibilityRoute } from "../../lib/helpers"
+import { getFilterUrlLink } from "../../lib/filterUrlLink"
 
 const EligibilityHouseholdSize = () => {
   const router = useRouter()
@@ -27,18 +28,21 @@ const EligibilityHouseholdSize = () => {
 
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, getValues } = useForm({
+  const { handleSubmit, register } = useForm({
     defaultValues: {
       householdSize: eligibilityRequirements?.householdSizeCount?.toString(),
     },
   })
 
-  const onSubmit = () => {
-    const data = getValues()
-    const { householdSize } = data
-    eligibilityRequirements.setHouseholdSizeCount(parseInt(householdSize))
+  const onSubmit = async (data) => {
+    eligibilityRequirements.setHouseholdSizeCount(parseInt(data.householdSize))
 
-    void router.push(eligibilityRoute(CURRENT_PAGE + 1))
+    await router.push(eligibilityRoute(CURRENT_PAGE + 1))
+  }
+
+  const onClick = async (data) => {
+    eligibilityRequirements.setHouseholdSizeCount(data.householdSize)
+    await router.push(getFilterUrlLink(eligibilityRequirements))
   }
 
   if (eligibilityRequirements.completedSections <= CURRENT_PAGE) {
@@ -84,7 +88,16 @@ const EligibilityHouseholdSize = () => {
           </div>
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
-              <Button styleType={AppearanceStyleType.primary}>{t("t.next")}</Button>
+              <Button className="mx-2 mt-6" styleType={AppearanceStyleType.primary}>
+                {t("t.next")}
+              </Button>
+              <Button
+                onClick={handleSubmit(onClick)}
+                className="mx-2 mt-6"
+                styleType={AppearanceStyleType.primary}
+              >
+                {t("t.viewListings")}
+              </Button>
             </div>
           </div>
         </Form>

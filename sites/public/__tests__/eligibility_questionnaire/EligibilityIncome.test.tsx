@@ -39,7 +39,6 @@ jest.mock("../../lib/hooks", () => {
 })
 
 describe("<EligibilityIncome>", () => {
-
   it("Renders Income page of eligibility questionnaire", () => {
     act(() => {
       render(<EligibilityIncome />)
@@ -52,8 +51,6 @@ describe("<EligibilityIncome>", () => {
   })
 
   it("Clicks the Done button", async () => {
-    debugger;
-
     await act(async () => {
       render(<EligibilityIncome />)
 
