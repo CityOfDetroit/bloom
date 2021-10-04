@@ -87,6 +87,9 @@ const FilterForm = (props: FilterFormProps) => {
     { value: "150", label: t("listingFilters.minAmiPercentageOptions.amiOption150") },
   ]
 
+  // This is causing a linting issue with unbound-method, see open issue as of 10/21/2020:
+  // https://github.com/react-hook-form/react-hook-form/issues/2887
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const { handleSubmit, register, errors } = useForm()
   return (
     <Form onSubmit={handleSubmit(props.onSubmit)}>
