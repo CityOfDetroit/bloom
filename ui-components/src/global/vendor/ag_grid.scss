@@ -115,13 +115,13 @@
   @apply flex;
   @apply items-center;
   @apply bg-gray-200;
-}
 
-.include-border {
-  @apply rounded-b-md;
-  @apply border;
-  @apply border-t-0;
-  @apply border-gray-500;
+  &.include-border {
+    @apply rounded-b-md;
+    @apply border;
+    @apply border-t-0;
+    @apply border-gray-500;
+  }
 }
 
 .sticky {
