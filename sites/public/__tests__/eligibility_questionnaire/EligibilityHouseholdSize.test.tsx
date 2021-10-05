@@ -1,8 +1,4 @@
-import {
-  render,
-  fireEvent,
-  screen,
-} from "@testing-library/react"
+import { render, fireEvent, screen } from "@testing-library/react"
 import EligibilityHouseholdSize from "../../pages/eligibility/household"
 import React from "react"
 import { act } from "react-dom/test-utils"
