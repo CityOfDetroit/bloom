@@ -18,7 +18,7 @@ describe("Verifying the eligibility questionnaire flow", () => {
     cy.url().should("include", "/eligibility/household")
 
     // Select "Household Size 2"
-    cy.get("select").select("two")
+    cy.get("select").select("2")
 
     // Click "Next" to go to the "Age" section
     cy.contains("Next").click()
@@ -39,7 +39,7 @@ describe("Verifying the eligibility questionnaire flow", () => {
     cy.url().should("include", "/eligibility/income")
 
     // Select "$30k to $40k"
-    cy.get("select").select("30kTo40k")
+    cy.get("input").type("10000")
 
     // Click "Done"
     cy.contains("Done").click()
