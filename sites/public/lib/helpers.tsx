@@ -27,6 +27,24 @@ export const getGenericAddress = (bloomAddress: Address) => {
   }
 }
 
+/**
+ * Gets the minimum AMI that the user qualifies for.
+ *
+ * AMI is computed using a chart keyed off of the household size and income.
+ *
+ * For example, for a simplified chart:
+ * AMI | 1 Person | 2 Person
+ * 20% | 11,000   | 12,560
+ * 30% | 13,750   | 15,700
+ * 35% | 19,250   | 18,840
+ *
+ * If the user has annual income of $14,000 for a 2 person household, they
+ * qualify for properties at 30% and 35% AMI. We look at the 2 person column
+ * and find all AMIs with income equal to or greater than the user's income.
+ *
+ * In this method, we return the minimum AMI that they qualify for. For the
+ * above example, we would return 30.
+ */
 export function getMinAmi(amiChart, householdSize: number, income: number) {
   return Math.min(
     ...amiChart.items
