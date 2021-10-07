@@ -5,6 +5,9 @@
   @apply text-white;
   @apply text-center;
   @apply bg-cover;
+  @apply font-bold;
+  @apply rounded-2xl;
+  @apply m-4;
 
   @screen md {
     @apply py-20;
@@ -25,7 +28,7 @@
   @apply mb-5;
   @apply mx-auto;
   letter-spacing: -0.04em;
-  max-width: 41rem;
+  max-width: 35rem;
 
   @screen md {
     @apply text-6xl;

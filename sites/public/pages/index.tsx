@@ -22,7 +22,7 @@ export default function Home() {
 
   const heroTitle = (
     <>
-      {t("welcome.title")} <em>{t("region.name")}</em>
+      {t("welcome.title")} in {t("region.name")}
     </>
   )
 
