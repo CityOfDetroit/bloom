@@ -1,4 +1,3 @@
 **/*.hbs
 .github
 .travis.yml
-ui-components/src/locales
