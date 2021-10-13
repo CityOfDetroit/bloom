@@ -86,6 +86,8 @@ const ListingsPage = ({ initialListings }) => {
             itemsPerPage={10}
             quantityLabel={t("listings.totalListings")}
             setCurrentPage={(page) => onSubmit(page, {})}
+            includeBorder={false}
+            matchListingCardWidth={true}
           />
         </div>
       )}
@@ -103,7 +105,7 @@ export async function getStaticProps() {
   } catch (error) {
     console.error(error)
   }
-  return { props: { initialListings } }
+  return { props: { initialListings }, revalidate: process.env.cacheRevalidate }
 }
 
 export default ListingsPage
