@@ -1,13 +1,6 @@
 import React, { useState } from "react"
 import Head from "next/head"
-import {
-  AlertBox,
-  LinkButton,
-  Hero,
-  t,
-  SiteAlert,
-  MarkdownSection,
-} from "@bloom-housing/ui-components"
+import { AlertBox, Hero, t, SiteAlert } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { ConfirmationModal } from "../src/ConfirmationModal"
 import { MetaTags } from "../src/MetaTags"
