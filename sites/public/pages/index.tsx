@@ -52,16 +52,10 @@ export default function Home() {
         title={heroTitle}
         buttonTitle={t("welcome.seeRentalListings")}
         buttonLink="/listings"
+        secondaryButtonTitle={t("welcome.checkEligibility")}
+        secondaryButtonLink="/eligibility/welcome"
         backgroundImage={"/images/hero.png"}
       />
-      <div className="homepage-extra">
-        <MarkdownSection fullwidth={true}>
-          <>
-            <h2 className="text-xl">{t("welcome.checkEligibilityDescription")}</h2>
-            <LinkButton href="/eligibility/welcome">{t("welcome.checkEligibility")}</LinkButton>
-          </>
-        </MarkdownSection>
-      </div>
       <ConfirmationModal
         setSiteAlertMessage={(alertMessage, alertType) => setAlertInfo({ alertMessage, alertType })}
       />
