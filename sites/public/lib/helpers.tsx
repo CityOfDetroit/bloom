@@ -46,11 +46,16 @@ export const getGenericAddress = (bloomAddress: Address) => {
  * above example, we would return 30.
  */
 export function getMinAmi(amiChart, householdSize: number, income: number) {
-  return Math.min(
+  const maxPossibleAmi = Math.max(...amiChart.items.map((item) => item.percentOfAmi))
+  const minAmi = Math.min(
     ...amiChart.items
       .filter((item) => item.householdSize === householdSize && item.income >= income)
       .map((item) => item.percentOfAmi)
   )
+  // We get a minAmi of Infinity if the user does not qualify for any AMI.
+  // In that case, use the maxPossibleAmi + 1 to filter out all results,
+  // because the backend cannot handle a value of Infinity.
+  return minAmi === Infinity ? maxPossibleAmi + 1 : minAmi
 }
 
 const getListingCardSubtitle = (address: Address) => {
