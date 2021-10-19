@@ -1,6 +1,7 @@
-import * as React from "react"
+import React, { useContext } from "react"
 import { LinkButton } from "../actions/LinkButton"
 import { t } from "../helpers/translator"
+import { NavigationContext } from "../config/NavigationContext"
 import "./Hero.scss"
 
 export interface HeroProps {
@@ -15,11 +16,19 @@ export interface HeroProps {
   centered?: boolean
 }
 
-const HeroButton = (props: { title: string; href: string; className?: string }) => (
+const HeroButton = (props: { title: string; href: string; className?: string }) => {
+  const { LinkComponent } = useContext(NavigationContext)
+  /*
   <span className={props.className + " hero__button"}>
     <LinkButton href={props.href}>{props.title}</LinkButton>
   </span>
-)
+  */
+  return (
+    <span className={props.className + " hero__button"}>
+      <LinkComponent href={props.href}>{props.title}</LinkComponent>
+    </span>
+  )
+}
 
 const Hero = (props: HeroProps) => {
   let subHeader, styles
@@ -43,14 +52,20 @@ const Hero = (props: HeroProps) => {
       {props.buttonTitle && props.buttonLink && (
         <>
           {props.secondaryButtonTitle && props.secondaryButtonLink ? (
-            <div className="grid md:grid-cols-6 gap-5 ">
+            <div /*className="grid md:grid-cols-6 gap-5 "*/ className="hero__container">
+              <div className="hero__text">
+                Detroit Home Connect is a place for you to find housing that you can afford based on
+                your household needs and characteristics.
+              </div>
               <HeroButton
-                className={"md:col-start-3 with_secondary"}
+                // className={"md:col-start-3 with_secondary"}
+                className={"hero__button__left"}
                 href={props.buttonLink}
                 title={props.buttonTitle}
               />
               <HeroButton
-                className={"with_secondary"}
+                // className={"with_secondary"}
+                className={"hero__button__right"}
                 href={props.secondaryButtonLink}
                 title={props.secondaryButtonTitle}
               />
