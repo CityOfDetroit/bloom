@@ -47,10 +47,7 @@ const Hero = (props: HeroProps) => {
         <>
           {props.secondaryButtonTitle && props.secondaryButtonLink ? (
             <div /*className="grid md:grid-cols-6 gap-5 "*/ className="hero__container">
-              <div className="hero__text">
-                Detroit Home Connect is a place for you to find housing that you can afford based on
-                your household needs and characteristics.
-              </div>
+              <div className="hero__text">{t("welcome.heroText")}</div>
               <HeroButton
                 className={"hero__button__first"}
                 href={props.buttonLink}
