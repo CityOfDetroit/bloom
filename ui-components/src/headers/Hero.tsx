@@ -52,14 +52,12 @@ const Hero = (props: HeroProps) => {
                 your household needs and characteristics.
               </div>
               <HeroButton
-                // className={"md:col-start-3 with_secondary"}
-                className={"hero__button__left"}
+                className={"hero__button__first"}
                 href={props.buttonLink}
                 title={props.buttonTitle}
               />
               <HeroButton
-                // className={"with_secondary"}
-                className={"hero__button__right"}
+                className={"hero__button__second"}
                 href={props.secondaryButtonLink}
                 title={props.secondaryButtonTitle}
               />
