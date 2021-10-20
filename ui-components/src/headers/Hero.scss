@@ -19,12 +19,6 @@
   }
 }
 
-// Good stuff, next things to work on:
-//   - Try to remove the green focus outline when the button is clicked
-
-// ... then clean everything up, try to keep changes to ui-components small,
-// put things in override files or pass it in via props
-
 .hero__button {
   background-color: #ffbe42;
   padding: 12px;
@@ -32,6 +26,12 @@
   width: 12rem;
   margin-right: 0;
   font-size: large;
+  color: black;
+
+  &:hover {
+    @apply bg-primary;
+    color: white;
+  }
 }
 
 .hero__container {
@@ -55,11 +55,19 @@
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   border-right-width: 1px;
+
+  &:focus {
+    border-right-width: 0px;
+  }
 }
 .hero__button__right {
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
   border-left-width: 1px;
+
+  &:focus {
+    border-left-width: 0px;
+  }
 }
 
 .hero__title {

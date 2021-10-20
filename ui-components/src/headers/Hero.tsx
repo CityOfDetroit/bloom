@@ -18,11 +18,9 @@ export interface HeroProps {
 
 const HeroButton = (props: { title: string; href: string; className?: string }) => {
   return (
-    <span className={props.className + " hero__button"}>
-      <a href={props.href} style={{ color: "black" }}>
-        {props.title}
-      </a>
-    </span>
+    <a href={props.href} className={props.className + " hero__button"}>
+      {props.title}
+    </a>
   )
 }
 
