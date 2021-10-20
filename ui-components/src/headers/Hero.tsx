@@ -17,15 +17,11 @@ export interface HeroProps {
 }
 
 const HeroButton = (props: { title: string; href: string; className?: string }) => {
-  const { LinkComponent } = useContext(NavigationContext)
-  /*
-  <span className={props.className + " hero__button"}>
-    <LinkButton href={props.href}>{props.title}</LinkButton>
-  </span>
-  */
   return (
     <span className={props.className + " hero__button"}>
-      <LinkComponent href={props.href}>{props.title}</LinkComponent>
+      <a href={props.href} style={{ color: "black" }}>
+        {props.title}
+      </a>
     </span>
   )
 }

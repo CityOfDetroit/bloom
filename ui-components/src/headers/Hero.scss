@@ -20,8 +20,7 @@
 }
 
 // Good stuff, next things to work on:
-//   - Make the buttons wider (why isn't width element respected?)
-//   - Make the text color black
+//   - Try to remove the green focus outline when the button is clicked
 
 // ... then clean everything up, try to keep changes to ui-components small,
 // put things in override files or pass it in via props
@@ -29,10 +28,10 @@
 .hero__button {
   background-color: #ffbe42;
   padding: 12px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: gray;
-  width: 200px;
+  display: inline-block;
+  width: 12rem;
+  margin-right: 0;
+  font-size: large;
 }
 
 .hero__container {
@@ -53,12 +52,14 @@
 }
 
 .hero__button__left {
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-right-width: 1px;
 }
 .hero__button__right {
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  border-left-width: 1px;
 }
 
 .hero__title {
