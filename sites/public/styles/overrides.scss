@@ -64,3 +64,68 @@ a.button.is-primary:hover {
 .markdown-section__inner {
   @apply text-xl;
 }
+
+.hero__button {
+  background-color: #ffbe42;
+  padding: 12px;
+  display: inline-block;
+  width: 12rem;
+  margin-right: 0;
+  font-size: large;
+  color: black;
+  border-radius: 15px;
+  max-width: 100%;
+
+  &:hover {
+    @apply bg-primary;
+    color: white;
+  }
+}
+
+// TODO: For certain screen widths (e.g. 540px), the two hero buttons are aligned horizontally but
+// should instead be stacked vertically.
+.hero__container {
+  background-color: white;
+  opacity: 0.95;
+  color: black;
+  border-radius: 25px;
+  padding: 30px;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero__text {
+  font-weight: 300;
+  font-size: medium;
+  padding-bottom: 30px;
+}
+
+.hero__button__first {
+  margin-bottom: 1rem;
+
+  @screen sm {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-right-width: 1px;
+  }
+
+  &:focus {
+    border-right-width: 0px;
+  }
+}
+.hero__button__second {
+  @screen sm {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-left-width: 1px;
+  }
+
+  &:focus {
+    border-left-width: 0px;
+  }
+}
