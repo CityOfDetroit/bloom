@@ -5,10 +5,6 @@
   @apply text-white;
   @apply text-center;
   @apply bg-cover;
-  @apply font-bold;
-  @apply rounded-2xl;
-  @apply mx-4;
-  @apply mb-4;
 
   @screen md {
     @apply py-20;
@@ -19,13 +15,17 @@
   }
 }
 
+.hero__button,
+.with_secondary a {
+  width: 100%;
+}
+
 .hero__title {
   @apply text-4xl;
   @apply mb-5;
   @apply mx-auto;
   letter-spacing: -0.04em;
-  max-width: 35rem;
-  text-shadow: 0px 0px 20px black;
+  max-width: 41rem;
 
   @screen md {
     @apply text-6xl;

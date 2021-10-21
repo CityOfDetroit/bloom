@@ -17,6 +17,11 @@
   }
 }
 
+.hero__button,
+.with_secondary a {
+  width: 100%;
+}
+
 .navbar-brand .logo {
   max-height: 15rem;
   max-width: 100%;
@@ -65,11 +70,26 @@ a.button.is-primary:hover {
   @apply text-xl;
 }
 
+.hero {
+  @apply font-bold;
+  @apply rounded-2xl;
+  @apply mx-4;
+  @apply mb-4;
+}
+
+.hero__title {
+  text-shadow: 0px 0px 20px black;
+
+  // TODO: this next line is being overridden by Hero.scss. I feel like the definitions in this
+  // overrides.scss file should (in the event of a direct conflict) override all ui-components
+  // definitions?
+  max-width: 35rem;
+}
+
 .hero__button {
   background-color: #ffbe42;
   padding: 12px;
   display: inline-block;
-  width: 12rem;
   margin-right: 0;
   font-size: large;
   color: black;
@@ -103,6 +123,7 @@ a.button.is-primary:hover {
 
 .hero__button__first {
   margin-bottom: 1rem;
+  width: 12rem;
 
   @screen sm {
     border-top-right-radius: 0px;
@@ -117,6 +138,8 @@ a.button.is-primary:hover {
   }
 }
 .hero__button__second {
+  width: 12rem;
+  
   @screen sm {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
