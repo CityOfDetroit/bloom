@@ -17,11 +17,6 @@
   }
 }
 
-.hero__button,
-.with_secondary a {
-  width: 100%;
-}
-
 .navbar-brand .logo {
   max-height: 15rem;
   max-width: 100%;
@@ -79,10 +74,6 @@ a.button.is-primary:hover {
 
 .hero__title {
   text-shadow: 0px 0px 20px black;
-
-  // TODO: this next line is being overridden by Hero.scss. I feel like the definitions in this
-  // overrides.scss file should (in the event of a direct conflict) override all ui-components
-  // definitions?
   max-width: 35rem;
 }
 
