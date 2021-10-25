@@ -19,8 +19,8 @@ export default function Home() {
     </>
   )
 
-  const heroContainer: React.ReactNode = (
-    <div className="hero__container">
+  const heroInset: React.ReactNode = (
+    <div className="hero__inset">
       <div className="hero__text">{t("welcome.heroText")}</div>
       <a href="/listings" className={"hero__button__first hero__button"}>
         {t("welcome.seeRentalListings")}
@@ -53,15 +53,7 @@ export default function Home() {
           {alertInfo.alertMessage}
         </AlertBox>
       )}
-      <Hero
-        title={heroTitle}
-        buttonTitle={t("welcome.seeRentalListings")}
-        buttonLink="/listings"
-        secondaryButtonTitle={t("welcome.checkEligibility")}
-        secondaryButtonLink="/eligibility/welcome"
-        backgroundImage={"/images/hero.png"}
-        heroContainer={heroContainer}
-      />
+      <Hero title={heroTitle} backgroundImage={"/images/hero.png"} heroInset={heroInset} />
       <ConfirmationModal
         setSiteAlertMessage={(alertMessage, alertType) => setAlertInfo({ alertMessage, alertType })}
       />

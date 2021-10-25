@@ -1,7 +1,6 @@
 import * as React from "react"
 import { LinkButton } from "../actions/LinkButton"
 import { t } from "../helpers/translator"
-import { NavigationContext } from "../config/NavigationContext"
 import "./Hero.scss"
 
 export interface HeroProps {
@@ -14,7 +13,7 @@ export interface HeroProps {
   allApplicationsClosed?: boolean
   children?: React.ReactNode
   centered?: boolean
-  heroContainer?: React.ReactNode
+  heroInset?: React.ReactNode
 }
 
 const HeroButton = (props: { title: string; href: string; className?: string }) => (
@@ -42,8 +41,8 @@ const Hero = (props: HeroProps) => {
       <h1 className="hero__title">{props.title}</h1>
       {subHeader}
 
-      {props.heroContainer}
-      {!props.heroContainer && props.buttonTitle && props.buttonLink && (
+      {props.heroInset}
+      {!props.heroInset && props.buttonTitle && props.buttonLink && (
         <>
           {props.secondaryButtonTitle && props.secondaryButtonLink ? (
             <div className="grid md:grid-cols-6 gap-5 ">
