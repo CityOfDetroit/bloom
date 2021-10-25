@@ -24,7 +24,7 @@ export function addSeniorHousingQuery(qb: WhereExpression, filterValue: string) 
     )
   }
 }
-
+/** 
 export function addIndependentLivingHousingQuery(qb: WhereExpression, filterValue: string) {
   const whereParameterName = ListingFilterKeys.independentLivingHousing
   const independentLivingCommunityType = "specialNeeds"
@@ -43,7 +43,7 @@ export function addIndependentLivingHousingQuery(qb: WhereExpression, filterValu
       }
     )
   }
-}
+}**/
 
 export function addAvailabilityQuery(
   qb: WhereExpression,
