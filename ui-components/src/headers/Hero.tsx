@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import * as React from "react"
 import { LinkButton } from "../actions/LinkButton"
 import { t } from "../helpers/translator"
 import { NavigationContext } from "../config/NavigationContext"
@@ -14,15 +14,14 @@ export interface HeroProps {
   allApplicationsClosed?: boolean
   children?: React.ReactNode
   centered?: boolean
+  heroContainer?: React.ReactNode
 }
 
-const HeroButton = (props: { title: string; href: string; className?: string }) => {
-  return (
-    <a href={props.href} className={props.className + " hero__button"}>
-      {props.title}
-    </a>
-  )
-}
+const HeroButton = (props: { title: string; href: string; className?: string }) => (
+  <span className={props.className + " hero__button"}>
+    <LinkButton href={props.href}>{props.title}</LinkButton>
+  </span>
+)
 
 const Hero = (props: HeroProps) => {
   let subHeader, styles
@@ -43,18 +42,18 @@ const Hero = (props: HeroProps) => {
       <h1 className="hero__title">{props.title}</h1>
       {subHeader}
 
-      {props.buttonTitle && props.buttonLink && (
+      {props.heroContainer}
+      {!props.heroContainer && props.buttonTitle && props.buttonLink && (
         <>
           {props.secondaryButtonTitle && props.secondaryButtonLink ? (
-            <div /*className="grid md:grid-cols-6 gap-5 "*/ className="hero__container">
-              <div className="hero__text">{t("welcome.heroText")}</div>
+            <div className="grid md:grid-cols-6 gap-5 ">
               <HeroButton
-                className={"hero__button__first"}
+                className={"md:col-start-3 with_secondary"}
                 href={props.buttonLink}
                 title={props.buttonTitle}
               />
               <HeroButton
-                className={"hero__button__second"}
+                className={"with_secondary"}
                 href={props.secondaryButtonLink}
                 title={props.secondaryButtonTitle}
               />

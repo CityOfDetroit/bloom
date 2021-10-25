@@ -19,6 +19,18 @@ export default function Home() {
     </>
   )
 
+  const heroContainer: React.ReactNode = (
+    <div className="hero__container">
+      <div className="hero__text">{t("welcome.heroText")}</div>
+      <a href="/listings" className={"hero__button__first hero__button"}>
+        {t("welcome.seeRentalListings")}
+      </a>
+      <a href="/eligibility/welcome" className="hero__button__second hero__button">
+        {t("welcome.checkEligibility")}
+      </a>
+    </div>
+  )
+
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
   const metaImage = "" // TODO: replace with hero image
   const alertClasses = "flex-grow mt-6 max-w-6xl w-full"
@@ -48,6 +60,7 @@ export default function Home() {
         secondaryButtonTitle={t("welcome.checkEligibility")}
         secondaryButtonLink="/eligibility/welcome"
         backgroundImage={"/images/hero.png"}
+        heroContainer={heroContainer}
       />
       <ConfirmationModal
         setSiteAlertMessage={(alertMessage, alertType) => setAlertInfo({ alertMessage, alertType })}
