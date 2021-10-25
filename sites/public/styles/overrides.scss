@@ -111,7 +111,11 @@ a.button.is-primary:hover {
   color: black;
   border-radius: 15px;
   max-width: 100%;
-  width: 12rem;
+  width: 14rem;
+
+  @screen sm {
+    width: 12rem;
+  }
 
   &:hover {
     @apply bg-primary;
