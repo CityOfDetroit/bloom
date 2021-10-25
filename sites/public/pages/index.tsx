@@ -22,7 +22,7 @@ export default function Home() {
   const heroInset: React.ReactNode = (
     <div className="hero__inset">
       <div className="hero__text">{t("welcome.heroText")}</div>
-      <a href="/listings" className={"hero__button__first hero__button"}>
+      <a href="/listings" className="hero__button__first hero__button">
         {t("welcome.seeRentalListings")}
       </a>
       <a href="/eligibility/welcome" className="hero__button__second hero__button">
