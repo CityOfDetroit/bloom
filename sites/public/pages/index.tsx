@@ -13,6 +13,7 @@ export default function Home() {
 
   const [alertInfo, setAlertInfo] = useState(blankAlertInfo)
 
+  // TODO(https://github.com/CityOfDetroit/bloom/issues/712): avoid concatenating translated strings
   const heroTitle = (
     <>
       {t("welcome.title")} {t("region.name")}

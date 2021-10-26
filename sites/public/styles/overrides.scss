@@ -73,42 +73,41 @@ a.button.is-primary:hover {
 
 .hero {
   @apply font-bold;
-  @apply rounded-2xl;
   @apply mx-4;
   @apply mb-4;
+  @apply rounded-2xl;
 }
 
 .hero__title {
-  text-shadow: 0px 0px 20px black;
   max-width: 35rem;
+  text-shadow: 0 0 20px black;
 }
 
 .hero__inset {
   background-color: white;
-  opacity: 0.95;
-  color: black;
   border-radius: 25px;
-  padding: 30px;
+  color: black;
+  margin: 0 auto;
   max-width: 32rem;
-  margin-left: auto;
-  margin-right: auto;
+  opacity: 0.95;
+  padding: 30px;
 }
 
 .hero__text {
-  font-weight: 300;
   font-size: medium;
+  font-weight: 300;
   padding-bottom: 30px;
 }
 
 .hero__button {
   background-color: #ffbe42;
-  padding: 12px;
-  display: inline-block;
-  margin-right: 0;
-  font-size: large;
-  color: black;
   border-radius: 15px;
+  color: black;
+  display: inline-block;
+  font-size: large;
+  margin-right: 0;
   max-width: 100%;
+  padding: 12px;
   width: 14rem;
 
   @screen sm {
@@ -126,27 +125,21 @@ a.button.is-primary:hover {
 
   @screen sm {
     margin-bottom: 0;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
+    border-radius: 30px 0 0 30px;
     border-right-width: 1px;
   }
 
   &:focus {
-    border-right-width: 0px;
+    border-right-width: 0;
   }
 }
 .hero__button__second {
   @screen sm {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
+    border-radius: 0 30px 30px 0;
     border-left-width: 1px;
   }
 
   &:focus {
-    border-left-width: 0px;
+    border-left-width: 0;
   }
 }
