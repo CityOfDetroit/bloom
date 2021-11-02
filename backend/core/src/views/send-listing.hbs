@@ -364,43 +364,37 @@
                               <td width="30%">
                                 <strong>Application Due</strong>
                               </td>
-                              <td>{{listing.Due}</td>
+                              <td>{{listing.applicationDueDate}}</td>
                             </tr>
                             <tr>
                               <td width="30%">
                                 <strong>Address</strong>
                               </td>
-                              <td>{{listing.Address}}</td>
+                              <td>{{listing.property.buildingAddress}}</td>
                             </tr>
                             <tr>
                               <td>
                                 <strong>Units</strong>
                               </td>
-                              <td>{{listing.Units}}</td>
+                              <td>{{listing.property.unitsAvailable}}</td>
                             </tr>
                             <tr>
                               <td width="30%">
                                 <strong>Rent</strong>
                               </td>
-                              <td>{{listing.Rent}}</td>
+                              <td>{{listing.property.units[0].monthlyrent}}</td>
                             </tr>
                             <tr>
                               <td width="30%">
                                 <strong>Minimum Income</strong>
                               </td>
-                              <td>{{listing.Minimum}}</td>
+                              <td>{{listing.amiPercentageMin}}</td>
                             </tr>
                             <tr>
                               <td width="30%">
                                 <strong>Maximum Income</strong>
                               </td>
-                              <td>{{listing.Maximum}}</td>
-                            </tr>
-                            <tr>
-                              <td width="30%">
-                                <strong>Lottery Due</strong>
-                              </td>
-                              <td>{{listing.Lottery}}</td>
+                              <td>{{listing.amiPercentageMin}}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -437,7 +431,7 @@
                     <span class="apple-link"
                       >Detroit Housing Portal is a project of the</span
                     >
-                    <br /><span class="apple-link">{{listing.Jurisdiction}}</span>
+                    <br /><span class="apple-link">{{listing.jurisdiction}}</span>
                   </td>
                 </tr>
                 <tr>

@@ -132,7 +132,6 @@ export class EmailService {
   }
 
   public async sendlisting(listing: Listing, user: User) {
-
     if (this.configService.get<string>("NODE_ENV") == "production") {
       Logger.log(
         `Preparing to send a listing email to ${
@@ -143,7 +142,7 @@ export class EmailService {
 
     await this.send(
       user.email,
-      this.polyglot.t("New Listing"),
+      this.polyglot.t("New Listings"),
       this.template("send-listing")({
         listing: Listing,
       })
