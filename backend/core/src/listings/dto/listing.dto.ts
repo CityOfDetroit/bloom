@@ -949,7 +949,7 @@ export class ListingsRetrieveQueryParams {
 // field the filters correspond to, we remove them from the filterTypeToFieldMap.
 type keysWithMappedField = Exclude<
   keyof typeof ListingFilterKeys,
-  "minAmiPercentage" | "availability" 
+  "minAmiPercentage" | "availability"
 >
 
 // Using a record lets us enforce that all types are handled in addFilter
