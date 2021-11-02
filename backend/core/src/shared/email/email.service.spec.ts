@@ -1,5 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing"
 import { SendGridModule, SendGridService } from "@anchan828/nest-sendgrid"
+import { ResponseError } from "@sendgrid/helpers/classes"
 import { User } from "../../auth/entities/user.entity"
 import { EmailService } from "./email.service"
 import { ConfigModule } from "@nestjs/config"
@@ -151,6 +152,16 @@ describe("EmailService", () => {
       expect(sendMock.mock.calls[0][0].subject).toEqual("Welcome to Bloom")
       // Check if translation is working correctly
       expect(sendMock.mock.calls[0][0].html.substring(0, 26)).toEqual("<h1>Hello Test \n User</h1>")
+    })
+
+    it("should retry on errors", async () => {
+      sendMock.mockImplementation((data, isMultiple, cb) => {
+        cb(new ResponseError(""))
+      })
+
+      await service.welcome(user, "http://localhost:3000", "http://localhost:3000/?token=")
+
+      expect(sendMock).toHaveBeenCalledTimes(4)
     })
   })
 
