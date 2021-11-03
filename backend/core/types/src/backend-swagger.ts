@@ -4005,6 +4005,9 @@ export interface ListingFilterParams {
   seniorHousing?: boolean
 
   /**  */
+  independentLivingHousing?: boolean
+
+  /**  */
   minRent?: number
 
   /**  */
