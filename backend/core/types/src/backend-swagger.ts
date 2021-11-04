@@ -3671,6 +3671,9 @@ export interface UserCreate {
 
   /**  */
   dob?: Date
+
+  /**  */
+  emailSubscription: string
 }
 
 export interface UserBasic {
