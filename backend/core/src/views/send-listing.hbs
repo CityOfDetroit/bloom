@@ -382,7 +382,9 @@
                               <td width="30%">
                                 <strong>Rent</strong>
                               </td>
-                              <td>{{listing.property.units[0].monthlyrent}}</td>
+                              <td>{{listing.unitsSummary[0].monthlyRentMin}}</td>
+                              <td>{{" - "}}</td>
+                              <td>{{listing.unitsSummary[0].monthlyRentMax}}</td>
                             </tr>
                             <tr>
                               <td width="30%">
