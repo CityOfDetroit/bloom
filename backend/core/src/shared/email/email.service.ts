@@ -48,8 +48,8 @@ export class EmailService {
           "EMAIL_FROM_ADDRESS"
         )}...`
       )
-    }-
-    await this.send(
+    }
+    ;-(await this.send(
       user.email,
       "Welcome to Bloom",
       this.template("register-email")({
@@ -57,7 +57,7 @@ export class EmailService {
         confirmationUrl: confirmationUrl,
         appOptions: { appUrl: appUrl },
       })
-    )
+    ))
   }
 
   public async confirmation(listing: Listing, application: Application, appUrl: string) {
@@ -134,9 +134,9 @@ export class EmailService {
   public async sendlisting(listing: Listing, user: User) {
     if (this.configService.get<string>("NODE_ENV") == "production") {
       Logger.log(
-        `Preparing to send a listing email to ${
-          user.email
-        } from ${this.configService.get<string>("EMAIL_FROM_ADDRESS")}...`
+        `Preparing to send a listing email to ${user.email} from ${this.configService.get<string>(
+          "EMAIL_FROM_ADDRESS"
+        )}...`
       )
     }
 
