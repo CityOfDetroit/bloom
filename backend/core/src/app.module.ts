@@ -42,7 +42,7 @@ import { ApplicationMethodsModule } from "./application-methods/applications-met
 import { PaperApplicationsModule } from "./paper-applications/paper-applications.module"
 import { SmsModule } from "./sms/sms.module"
 import { ScheduleModule } from "@nestjs/schedule"
-import { ListingsNotificationModule } from "./cron/listings-notification.module"
+import { CronModule } from "./cron/cron.module"
 
 export function applicationSetup(app: INestApplication) {
   app.enableCors()
@@ -90,7 +90,7 @@ export class AppModule {
         AuthModule,
         JurisdictionsModule,
         ListingsModule,
-        ListingsNotificationModule,
+        CronModule,
         PaperApplicationsModule,
         PreferencesModule,
         PropertiesModule,
