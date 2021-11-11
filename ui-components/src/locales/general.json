@@ -614,6 +614,7 @@
     "signIn": {
       "loginError": "Please enter a valid email address",
       "passwordError": "Please enter a valid password",
+      "phoneError": "Please enter a valid US phone number.",
       "cantFindAccount": "We couldn't find an account with that email address/password.",
       "error": "There was an error signing you in",
       "errorGenericMessage": "Please try again, or contact support for help.",
@@ -635,6 +636,8 @@
       "email": "Email",
       "emailPrivacy": "We will only use your email address to contact you about your application.",
       "reEnterEmail": "Re-enter email address",
+      "phonePlaceholder": "(555) 555-5555",
+      "phone": "Phone",
       "reEnterPassword": "Re-enter your password",
       "resendTheEmail": "Resend the email",
       "linkExpired": "Your link has expired",
@@ -1446,7 +1449,7 @@
     },
     "welcome": {
       "header": "Welcome",
-      "description": "To find you a home that best fits your needs, let's answer a few questions first. Some properties only accept people with certain ages, incomes, etc."
+      "description": "Welcome to Detroit Home Connect! We know that finding housing can be difficult. We are here to help. To find you a home that best fits your needs, let's answer four simple questions first. Some affordable housing only accepts people of certain ages or certain incomes, so we want to make sure you are applying to properties that work for your household."
     },
     "household": {
       "prompt": "How many people will be living in this property?",
