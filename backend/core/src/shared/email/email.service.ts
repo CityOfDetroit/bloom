@@ -148,6 +148,24 @@ export class EmailService {
     )
   }
 
+  public async sendlisting(listing: Listing, user: User) {
+    if (this.configService.get<string>("NODE_ENV") == "production") {
+      Logger.log(
+        `Preparing to send a listing email to ${
+          user.email
+        } from ${this.configService.get<string>("EMAIL_FROM_ADDRESS")}...`
+      )
+    }
+
+    await this.send(
+      user.email,
+      this.polyglot.t("New Listings"),
+      this.template("send-listing")({
+        listing: Listing,
+      })
+    )
+  }
+
   private async loadTranslations(jurisdiction: Jurisdiction | null, language: Language) {
     const translation = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
       language,

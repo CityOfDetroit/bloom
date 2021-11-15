@@ -3760,12 +3760,9 @@ export interface UserCreate {
 
   /**  */
   emailSubscription: string
-<<<<<<< HEAD
-=======
 
   /**  */
   preferences?: CombinedPreferencesTypes
->>>>>>> 542061a65ea93d9facc1ab1d76066a62f8e22494
 }
 
 export interface UserBasic {
