@@ -1182,6 +1182,13 @@
         "WI": "উইসকনসিন",
         "WY": "ওয়াইমিং"
     },
+    "neighborhoods":{
+        "Midtown": "मिडटाउन",
+        "ElmwoodPark": "एल्मवुड पार्क",
+        "Islandview": "आईलैंडव्यू",
+        "Brightmoor": "ब्राइटमूर",
+        "FoxCreek": "फॉक्स क्रीक"
+    },
     "t": {
         "areYouSure": "তুমি কি নিশ্চিত?",
         "addNotes": "নোট যোগ করুন",

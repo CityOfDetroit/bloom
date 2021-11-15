@@ -1182,6 +1182,13 @@
         "WI": "ويسكونسن",
         "WY": "وايومنغ"
     },
+    "neighborhoods":{
+        "Midtown": "ميدتاون",
+        "ElmwoodPark": "إلموود بارك",
+        "Islandview": "آيلاندفيو",
+        "Brightmoor": "برايتمور",
+        "FoxCreek": "فوكس كريك"
+    },
     "t": {
         "areYouSure": "هل أنت متأكد؟",
         "addNotes": "أضف ملاحظات",

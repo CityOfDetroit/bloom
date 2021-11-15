@@ -178,3 +178,5 @@ export const preferredUnit = [
 ]
 
 export const bedroomKeys = ["studio", "oneBdrm", "twoBdrm", "threeBdrm"]
+
+export const neighborhoodKeys = ["Midtown", "ElmwoodPark", "Islandview", "Brightmoor", "FoxCreek"]
