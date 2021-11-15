@@ -23,18 +23,7 @@ const Layout = (props) => {
       label: t(`languages.${item}`),
     })) || []
 
-  const menuLinks: MenuLink[] = [
-    {
-      title: t("nav.listings"),
-      href: "/listings",
-    },
-  ]
-  if (process.env.housingCounselorServiceUrl) {
-    menuLinks.push({
-      title: t("nav.getAssistance"),
-      href: "/housing-counselors",
-    })
-  }
+  const menuLinks: MenuLink[] = []
   if (profile) {
     menuLinks.push({
       title: t("nav.myAccount"),
@@ -107,6 +96,9 @@ const Layout = (props) => {
           <p className="text-tiny">{t("footer.forGeneralInquiries")}</p>
         </FooterSection>
         <FooterNav copyright={t("footer.copyright")}>
+          <Link href="/feedback">
+            <a>{t("pageTitle.feedback")}</a>
+          </Link>
           <Link href="/privacy">
             <a>{t("pageTitle.privacy")}</a>
           </Link>
