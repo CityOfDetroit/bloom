@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common"
+import { Injectable, NotFoundException, HttpException, HttpStatus } from "@nestjs/common"
 import jp from "jsonpath"
 import { Listing } from "./entities/listing.entity"
 import { InjectRepository } from "@nestjs/typeorm"
@@ -12,20 +12,22 @@ import { summarizeUnits } from "../shared/units-transformations"
 import { Language } from "../../types"
 import { TranslationsService } from "../translations/translations.service"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
-import { HttpException, HttpStatus } from "@nestjs/common"
 import { OrderByFieldsEnum } from "./types/listing-orderby-enum"
 import { ListingCreateDto } from "./dto/listing-create.dto"
 import { ListingUpdateDto } from "./dto/listing-update.dto"
 import { ListingFilterParams } from "./dto/listing-filter-params"
 import { ListingsQueryParams } from "./dto/listings-query-params"
 import { filterTypeToFieldMap } from "./dto/filter-type-to-field-map"
+import { Queue } from "bull"
+import { InjectQueue } from "@nestjs/bull"
 
 @Injectable()
 export class ListingsService {
   constructor(
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
-    private readonly translationService: TranslationsService
+    private readonly translationService: TranslationsService,
+    @InjectQueue("listings-notifications") private listingsNotificationsQueue: Queue
   ) {}
 
   private getFullyJoinedQueryBuilder() {
