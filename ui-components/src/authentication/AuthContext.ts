@@ -15,6 +15,7 @@ import {
   UnitAccessibilityPriorityTypesService,
   UnitTypesService,
   PreferencesService,
+  SmsService,
 } from "@bloom-housing/backend-core/types"
 import {
   createContext,
@@ -42,6 +43,7 @@ type ContextProps = {
   authService: AuthService
   preferencesService: PreferencesService
   reservedCommunityTypeService: ReservedCommunityTypesService
+  smsService: SmsService
   unitPriorityService: UnitAccessibilityPriorityTypesService
   unitTypesService: UnitTypesService
   login: (email: string, password: string) => Promise<User | undefined>
@@ -228,6 +230,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
     authService: new AuthService(),
     preferencesService: new PreferencesService(),
     reservedCommunityTypeService: new ReservedCommunityTypesService(),
+    smsService: new SmsService(),
     unitPriorityService: new UnitAccessibilityPriorityTypesService(),
     unitTypesService: new UnitTypesService(),
     loading: state.loading,

@@ -32,7 +32,7 @@ const Edit = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { control, register, handleSubmit, errors, watch } = useForm()
-  const { profile, userProfileService } = useContext(AuthContext)
+  const { profile, userProfileService, smsService } = useContext(AuthContext)
   const [passwordAlert, setPasswordAlert] = useState<AlertMessage>()
   const [nameAlert, setNameAlert] = useState<AlertMessage>()
   const [dobAlert, setDobAlert] = useState<AlertMessage>()
@@ -41,6 +41,14 @@ const Edit = () => {
   const MIN_PASSWORD_LENGTH = 8
   const password = useRef({})
   password.current = watch("password", "")
+
+  const onSmsSubmit = async (data: { smsPhoneNumber: string; smsMessage: string }) => {
+    console.log("Sending SMS!")
+    const { smsPhoneNumber, smsMessage } = data
+    console.log("    phoneNumber: " + smsPhoneNumber)
+    console.log("    message: " + smsMessage)
+    smsService.sendSms({ body: { body: smsMessage, phoneNumber: smsPhoneNumber } })
+  }
 
   const onNameSubmit = async (data: {
     firstName: string
@@ -362,6 +370,33 @@ const Edit = () => {
                   <Button className={"items-center"}>{t("account.settings.update")}</Button>
                 </div>
               </fieldset>
+            </div>
+          </Form>
+        </FormCard>
+        <FormCard>
+          <Form id="send-sms" onSubmit={handleSubmit(onSmsSubmit)}>
+            <div className="form-card__group border-b">
+              <Field
+                controlClassName="mt-2"
+                name="smsPhoneNumber"
+                label={"Phone Number"}
+                placeholder={"+11234567890"}
+                error={errors.phoneNumber}
+                errorMessage={t("errors.firstNameError")}
+                register={register}
+              />
+              <Field
+                controlClassName="mt-2"
+                name="smsMessage"
+                label={"SMS Contents"}
+                placeholder={"SMS message contents..."}
+                error={errors.phoneNumber}
+                errorMessage={t("errors.firstNameError")}
+                register={register}
+              />
+              <div className="text-center">
+                <Button className="items-center">{"Send Test SMS"}</Button>
+              </div>
             </div>
           </Form>
         </FormCard>
