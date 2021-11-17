@@ -509,11 +509,7 @@
             "phone": "Teléfono",
             "reEnterPassword": "reingresa tu contraseña",
             "resendTheEmail": "Reenvíe el correo electrónico",
-<<<<<<< HEAD
-            "emailSubscription": "Envíeme un correo electrónico cada vez que se publique un nuevo anuncio",
-=======
             "emailSubscription": "Envíeme un correo electrónico cada vez que se publique o actualice una lista.",
->>>>>>> 542061a65ea93d9facc1ab1d76066a62f8e22494
             "linkExpired": "Tu enlace ha caducado",
             "mustBe8Chars": "Debe tener 8 caracteres",
             "password": "Clave",
@@ -1320,5 +1316,17 @@
             }
         },
         "preferNotToSay": "Prefiero no decirlo"
-    }
+    },
+    "newListing": {
+        "title": "Oportunidad de alquiler",
+        "rentalOpportunity": "Oportunidad de alquiler en",
+        "applicationDue": "Solicitud vencida",
+        "addressHeading": "Dirección",
+        "unitHeading": "Unidades",
+        "rentHeading": "Alquiler",
+        "applyMessage": "Ver listado y aplicar",
+        "dhcMessage": "Detroit Home Connect es un proyecto del",
+        "deptTitle": "Departamento de Vivienda y Revitalización de la Ciudad de Detroit",
+        "unsubscribeMessage": "Cancelar suscripción de la lista"
+      }
 }

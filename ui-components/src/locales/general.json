@@ -641,11 +641,7 @@
       "phone": "Phone",
       "reEnterPassword": "Re-enter your password",
       "resendTheEmail": "Resend the email",
-<<<<<<< HEAD
-      "emailSubscription": "Email me whenever a new listing is posted",
-=======
       "emailSubscription": "Email me whenever a listing is posted or updated.",
->>>>>>> 542061a65ea93d9facc1ab1d76066a62f8e22494
       "linkExpired": "Your link has expired",
       "mustBe8Chars": "Must be 8 characters",
       "password": "Password",
@@ -1496,5 +1492,17 @@
       }
     },
     "preferNotToSay": "Prefer not to say"
+  },
+  "newListing": {
+    "title": "Rental Opportunity",
+    "rentalOpportunity": "Rental Opportunity at",
+    "applicationDue": "Application Due",
+    "addressHeading": "Address",
+    "unitsHeading": "Units",
+    "rentHeading": "Rent",
+    "applyMessage": "See Listing and Apply",
+    "dhcMessage": "Detroit Home Connect is a project of the",
+    "deptTitle": "Housing & Revitalization Department of the City of Detroit",
+    "unsubscribeMessage": "Unsubscribe from list"
   }
 }

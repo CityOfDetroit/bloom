@@ -634,11 +634,7 @@
             "phone": "هاتف",
             "reEnterPassword": "إعادة إدخال كلمة المرور الخاصة بك",
             "resendTheEmail": "إعادة إرسال البريد الإلكتروني",
-<<<<<<< HEAD
-            "emailSubscription": "راسلني كلما تم نشر قائمة جديدة",
-=======
             "emailSubscription": "راسلني كلما تم نشر قائمة أو تحديثها.",
->>>>>>> 542061a65ea93d9facc1ab1d76066a62f8e22494
             "linkExpired": "انتهت صلاحية الرابط الخاص بك",
             "mustBe8Chars": "يجب أن يتكون من 8 أحرف",
             "password": "كلمة المرور",
@@ -1445,5 +1441,17 @@
             }
         },
         "preferNotToSay": "افضل عدم القول"
-    }
+    },
+    "newListing": {
+        "title": "Rental Opportunity",
+        "rentalOpportunity": "Rental Opportunity at",
+        "applicationDue": "Application Due",
+        "addressHeading": "Address",
+        "unitsHeading": "Units",
+        "rentHeading": "Rent",
+        "applyMessage": "See Listing and Apply",
+        "dhcMessage": "Detroit Home Connect is a project of the",
+        "deptTitle": "Housing & Revitalization Department of the City of Detroit",
+        "unsubscribeMessage": "Unsubscribe from list"
+      }
 }

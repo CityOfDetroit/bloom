@@ -634,11 +634,7 @@
             "phone": "ফোন",
             "reEnterPassword": "আপনার পাসওয়ার্ড পুনরায় লিখুন",
             "resendTheEmail": "ইমেলটি আবার পাঠান",
-<<<<<<< HEAD
-            "emailSubscription": "जब भी कोई नई लिस्टिंग पोस्ट की जाती है तो मुझे ईमेल करें",
-=======
             "emailSubscription": "जब भी कोई लिस्टिंग पोस्ट या अपडेट की जाती है तो मुझे ईमेल करें।",
->>>>>>> 542061a65ea93d9facc1ab1d76066a62f8e22494
             "linkExpired": "আপনার লিঙ্কের মেয়াদ শেষ হয়ে গেছে",
             "mustBe8Chars": "8 টি অক্ষর হতে হবে",
             "password": "পাসওয়ার্ড",
@@ -1445,5 +1441,17 @@
             }
         },
         "preferNotToSay": "না বলা পছন্দ"
-    }
+    },
+    "newListing": {
+        "title": "فرصة تأجير",
+        "rentalOpportunity": "فرصة تأجير في",
+        "applicationDue": "تقديم الطلب",
+        "addressHeading": "عنوان",
+        "unitsHeading": "الوحدات",
+        "rentHeading": "تأجير",
+        "applyMessage": "انظر الإدراج والتطبيق",
+        "dhcMessage": "ديترويت هوم كونيكت هو مشروع تابع لـ",
+        "deptTitle": "إدارة الإسكان والتنشيط في مدينة ديترويت",
+        "unsubscribeMessage": "إلغاء الاشتراك من القائمة"
+      }
 }

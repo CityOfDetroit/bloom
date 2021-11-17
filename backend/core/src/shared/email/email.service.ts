@@ -17,12 +17,11 @@ import { Jurisdiction } from "../../jurisdictions/entities/jurisdiction.entity"
 @Injectable({ scope: Scope.REQUEST })
 export class EmailService {
   polyglot: Polyglot
-
   constructor(
     private readonly sendGrid: SendGridService,
     private readonly configService: ConfigService,
     private readonly translationService: TranslationsService,
-    private readonly jurisdictionResolverService: JurisdictionResolverService
+    private readonly jurisdictionResolverService: JurisdictionResolverService,
   ) {
     this.polyglot = new Polyglot({
       phrases: {},
@@ -149,6 +148,7 @@ export class EmailService {
   }
 
   public async sendlisting(listing: Listing, user: User) {
+    await this.loadTranslationsForUser(user)
     if (this.configService.get<string>("NODE_ENV") == "production") {
       Logger.log(
         `Preparing to send a listing email to ${
@@ -157,13 +157,28 @@ export class EmailService {
       )
     }
 
+    const rentRange = await this.getRentRange(listing)
+    console.log(this.polyglot.t("newListing.rentalOpportunity"))
     await this.send(
       user.email,
-      this.polyglot.t("New Listings"),
-      this.template("send-listing")({
-        listing: Listing,
+      "New Listing",
+      this.template("new-listing")({
+        listing: listing,
+        rent: rentRange,
       })
     )
+  }
+
+  // function to calculate rent - min of all mins and max of all maxs
+  private async getRentRange(listing: Listing){
+    const minArray = listing.unitsSummary.map(a => a.monthlyRentMin)
+    const maxArray = listing.unitsSummary.map(a => a.monthlyRentMax)
+    if ((minArray.length == 0) || (maxArray.length == 0)){
+      return "Call"
+    }
+    const minRent =  "$".concat(String(Math.min(...minArray)))
+    const maxRent = "$".concat(String(Math.max(...maxArray)))
+    return minRent.concat(" - ", maxRent)
   }
 
   private async loadTranslations(jurisdiction: Jurisdiction | null, language: Language) {

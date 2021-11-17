@@ -3738,6 +3738,9 @@ export interface UserCreate {
   jurisdictions?: Id[]
 
   /**  */
+  emailSubscription: boolean
+
+  /**  */
   email: string
 
   /**  */
@@ -3757,9 +3760,6 @@ export interface UserCreate {
 
   /**  */
   phoneNumber?: string
-
-  /**  */
-  emailSubscription: string
 
   /**  */
   preferences?: CombinedPreferencesTypes

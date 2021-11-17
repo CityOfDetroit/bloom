@@ -165,8 +165,6 @@ export default () => {
               label={t("authentication.createAccount.emailSubscription")}
               register={register}
             />
-<<<<<<< HEAD
-=======
           </div>
           <div className="form-card__group border-b">
             <PhoneField
@@ -179,7 +177,6 @@ export default () => {
               controlClassName="control"
               control={control}
             />
->>>>>>> 542061a65ea93d9facc1ab1d76066a62f8e22494
           </div>
 
           <div className="form-card__group border-b">
