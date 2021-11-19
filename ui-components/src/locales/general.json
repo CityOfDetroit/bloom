@@ -1,4 +1,10 @@
 {
+  "about": {
+    "body1": "We know that finding housing that meets your needs can be difficult and frustrating. Detroit Home Connect is your helping hand to find a new place to call home.",
+    "body2": "Detroit Home Connect is a new City of Detroit service that provides you a central first step in finding housing in Detroit that meets your affordability and household needs. You can understand your eligibility for rental units by exploring options based on your family size, age, and income. The City of Detroit’s Housing and Revitalization Department has collaborated with Google.org to create Detroit Home Connect. The design and features of the website is based on feedback and insight from area residents and community-based organizations.", 
+    "moreInfoContact": "For more information, please contact Safiya Merchant at safiya.merchant@detroitmi.gov.",
+    "thankYouPartners": "Thank You To Our Partners:"
+  },
   "account": {
     "accountSettings": "Account Settings",
     "errorFetchingApplications": "Error fetching applications",
@@ -1161,7 +1167,8 @@
     "welcomeSpanish": "Bienvenido",
     "welcomeVietnamese": "Tiếng Việt",
     "about": "About Us",
-    "feedback": "Feedback"
+    "feedback": "Feedback",
+    "resources": "Resident Resources"
   },
   "pageDescription": {
     "welcome": "Search and apply for affordable housing on %{regionName}'s Housing Portal",
@@ -1265,6 +1272,7 @@
     "filter": "Filter",
     "edit": "Edit",
     "email": "Email",
+    "finish": "Finish",
     "floor": "floor",
     "floors": "floors",
     "getDirections": "Get Directions",
@@ -1447,7 +1455,8 @@
         "household": "Household",
         "age": "Age",
         "disability": "Disability",
-        "income": "Income"
+        "income": "Income",
+        "disclaimer": "Disclaimer"
       }
     },
     "welcome": {
@@ -1491,6 +1500,19 @@
         "over50k": "Over $50,000"
       }
     },
+    "disclaimer": {
+      "description": "Thank you for checking how you qualify for affordable housing. Because affordable housing can be reserved for certain age groups or income levels, we have filtered our property listings based on your household characteristics. We hope you find housing that meets your needs. It's important to note that a good portion of affordable housing has a waitlist, but calling properties you're interested in is a good way to get on waitlists or learn of immediate openings."
+    },
     "preferNotToSay": "Prefer not to say"
+  },
+  "resources": {
+    "body1": "You may need additional assistance in your search for housing. HRD has compiled a list of resources to help you find and maintain your housing.",
+    "evictionAssistance": "Eviction assistance",
+    "detroitHousingNetwork": "Detroit Housing Network",
+    "detroitHousingNetworkBody": "The Detroit Housing Network is a collection of Detroit community organizations that provide a variety of services for homeowners and renters, including utility assistance, tenant and landlord counseling, eviction counseling, and property tax solutions. For more information, visit ",
+    "utilityAssistance": "Utility assistance",
+    "homelessnessServices": "Homelessness services",
+    "detroitLandBankAuthority": "Detroit Land Bank Authority",
+    "homeRepairResources": "Home repair resources"
   }
 }

@@ -2,6 +2,12 @@
     "config": {
         "routePrefix": "es"
     },
+    "about": {
+        "body1": "Sabemos que encontrar una vivienda que satisfaga sus necesidades puede ser difícil y frustrante. Detroit Home Connect es su mano amiga para encontrar un nuevo lugar al que llamar hogar.",
+        "body2": "Detroit Home Connect es un nuevo servicio de la ciudad de Detroit que le brinda un primer paso central para encontrar una vivienda en Detroit que satisfaga sus necesidades económicas y familiares. Puede comprender su elegibilidad para unidades de alquiler explorando opciones según el tamaño, la edad y los ingresos de su familia. El Departamento de Vivienda y Revitalización de la Ciudad de Detroit ha colaborado con Google.org para crear Detroit Home Connect. El diseño y las características del sitio web se basan en los comentarios y la información de los residentes del área y las organizaciones comunitarias.",
+        "moreInfoContact": "Para obtener más información, comuníquese con Safiya Merchant en safiya.merchant@detroitmi.gov.",
+        "thankYouPartners": "Gracias a nuestros socios:"
+    },
     "account": {
         "accountSettings": "Configuraciones de la cuenta",
         "errorFetchingApplications": "Error al recuperar aplicaciones",
@@ -995,7 +1001,8 @@
         "welcomeSpanish": "Bienvenido",
         "welcomeVietnamese": "vietnamita",
         "about": "Sobre nosotras",
-        "feedback": "Realimentación"
+        "feedback": "Realimentación",
+        "resources": "Recursos para residentes"
     },
     "pageDescription": {
         "welcome": "Busque y solicite viviendas asequibles en el portal de viviendas de% {regionName}",
@@ -1097,6 +1104,7 @@
         "filter": "Filtrar",
         "edit": "Editar",
         "email": "Correo electrónico",
+        "finish": "Terminar",
         "floor": "piso",
         "floors": "pisos",
         "getDirections": "Obtener las direcciones",
@@ -1271,7 +1279,8 @@
                 "household": "Hogar",
                 "age": "Edad",
                 "disability": "Invalidez",
-                "income": "Ingreso"
+                "income": "Ingreso",
+                "disclaimer": "Descargo de responsabilidad"
             }
         },
         "welcome": {
@@ -1315,6 +1324,19 @@
                 "over50k": "Más de $ 50,000"
             }
         },
+        "disclaimer": {
+            "description": "Gracias por verificar cómo califica para una vivienda asequible. Debido a que las viviendas asequibles se pueden reservar para ciertos grupos de edad o niveles de ingresos, hemos filtrado nuestros listados de propiedades en función de las características de su hogar. Esperamos que encuentre una vivienda que satisfaga sus necesidades. Es importante tener en cuenta que una buena parte de las viviendas asequibles tiene una lista de espera, pero llamar a las propiedades que le interesan es una buena manera de ingresar a las listas de espera o conocer las vacantes inmediatas."
+        },
         "preferNotToSay": "Prefiero no decirlo"
+    },
+    "resources": {
+    "body1": "Es posible que necesite ayuda adicional en su búsqueda de vivienda. HRD ha compilado una lista de recursos para ayudarle a encontrar y mantener su vivienda",
+     "evictionAssistance": "Asistencia de desalojo",
+     "detroitHousingNetwork": "Red de Vivienda de Detroit",
+     "detroitHousingNetworkBody": "La Red de Vivienda de Detroit es una colección de organizaciones comunitarias de Detroit que brindan una variedad de servicios para propietarios e inquilinos, que incluyen asistencia con servicios públicos, asesoramiento para inquilinos y propietarios, asesoramiento sobre desalojos y soluciones de impuestos a la propiedad. Para obtener más información, visite" ,
+     "utilityAssistance": "Asistencia de servicios públicos",
+     "homelessnessServices": "Servicios para personas sin hogar",
+     "detroitLandBankAuthority": "Detroit Land Bank Authority",
+     "homeRepairResources": "Recursos de reparación del hogar"
     }
 }
