@@ -158,7 +158,7 @@ export class EmailService {
     }
 
     const rentRange = await this.getRentRange(listing)
-    console.log(this.polyglot.t("newListing.rentalOpportunity"))
+    //console.log(this.polyglot.t("newListing.rentalOpportunity"))
     await this.send(
       user.email,
       "New Listing",

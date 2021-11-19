@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>{{t "newListing.title" }} </title>
+    <title>Rental Opportunity </title>
     <style>
       /* -------------------------------------
           GLOBAL RESETS
@@ -350,7 +350,7 @@
                     </tr>
                     <tr>
                       <td>
-                        <h1>{{t "newListing.rentalOpportunity"}}  <br />{{listing.name}}</h1>
+                        <h1>Rental opportunity at <br />{{listing.name}}</h1>
 
                         <table
                           role="presentation"
@@ -362,25 +362,25 @@
                           <tbody>
                             <tr>
                               <td width="30%">
-                                <strong>{{t "newListing.applicationDue"}} </strong>
+                                <strong>Application Due</strong>
                               </td>
                               <td>{{listing.applicationDueDate}}</td>
                             </tr>
                             <tr>
                               <td width="30%">
-                                <strong>{{t "newListing.addressHeading"}} </strong>
+                                <strong>Address</strong>
                               </td>
                               <td>{{listing.property.buildingAddress.street}}, {{listing.property.buildingAddress.city}}, {{listing.property.buildingAddress.state}}, {{listing.property.buildingAddress.zipCode}}</td>
                             </tr>
                             <tr>
                               <td>
-                                <strong>{{t "newListing.unitsHeading"}} </strong>
+                                <strong>Units</strong>
                               </td>
                               <td>{{listing.property.unitsAvailable}}</td>
                             </tr>
                             <tr>
                               <td width="30%">
-                                <strong>{{t "newListing.rentHeading"}} </strong>
+                                <strong>Rent</strong>
                               </td>
                               <td>{{rent}}</td>
                             </tr>
@@ -395,7 +395,7 @@
                                   class="btn btn-primary"
                                   href="http://htmlemail.io"
                                   target="_blank"
-                                  >{{t "newListing.applyMessage"}} </a
+                                  >See Listing and Apply</a
                                 >
                               </td>
                             </tr>
@@ -417,14 +417,14 @@
                 <tr>
                   <td class="content-block">
                     <span class="apple-link"
-                      >{{t "newListing.dhcMessage"}} </span
+                      >Detroit Home Connect is a project of the</span
                     >
-                    <br /><span class="apple-link">{{t "newListing.deptTitle"}} </span>
+                    <br /><span class="apple-link">Housing & Revitalization Department of the City of Detroit</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="content-block">
-                    <a href="INSERT LINK TO UNSUBSCRIBE">{{t "newListing.unsubscribeMessage"}} </a>
+                    <a href="INSERT LINK TO UNSUBSCRIBE">Unsubscribe from list </a>
                   </td>
                 </tr>
               </table>
