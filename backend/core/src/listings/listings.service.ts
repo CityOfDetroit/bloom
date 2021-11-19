@@ -144,12 +144,16 @@ export class ListingsService {
     return paginatedListings
   }
 
-  async create(listingDto: ListingCreateDto) {
+  async create(listingDto: ListingCreateDto): Promise<Listing> {
     const listing = this.listingRepository.create({
       ...listingDto,
       property: plainToClass(PropertyCreateDto, listingDto),
     })
-    const saveResult = await listing.save()
+    const saveResult: Listing = await listing.save()
+    await this.listingsNotificationsQueue.add({
+      listing: saveResult,
+      updateType: "create",
+    })
     return saveResult
   }
 

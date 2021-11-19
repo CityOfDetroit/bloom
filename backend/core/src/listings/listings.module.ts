@@ -50,6 +50,7 @@ if (process.env.REDIS_USE_TLS !== "0") {
       // limiter: { max: 12345, duration: 12345 },
       // defaultJobOptions: {},
     }),
+    // TODO: explore running this in a separate process (https://docs.nestjs.com/techniques/queues#separate-processes)
     BullModule.registerQueue({ name: "listings-notifications" }),
   ],
   providers: [ListingsService],
