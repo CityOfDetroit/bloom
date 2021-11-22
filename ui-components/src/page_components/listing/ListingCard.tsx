@@ -6,6 +6,8 @@ import { StackedTable, StackedTableProps } from "../../tables/StackedTable"
 import { t } from "../../helpers/translator"
 import "./ListingCard.scss"
 import { StandardTable, StandardTableProps } from "../../tables/StandardTable"
+import { AuthContext, Icon } from "../../.."
+import { useContext, useState } from "react"
 
 interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
 
@@ -22,10 +24,21 @@ export interface ListingCardProps {
   tableHeaderProps?: ListingCardHeaderProps
   tableProps: ListingCardTableProps
   detailsLinkClass?: string
+  listingID?: string
 }
 
 const ListingCard = (props: ListingCardProps) => {
   const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps } = props
+
+  const [favorite, setFavorite] = useState([])
+
+  const addToFavorite = (listingID) => {
+    if (!favorite.includes(listingID)) setFavorite(favorite.concat(listingID))
+    console.log(listingID)
+    console.log("Fav " + favorite.concat(listingID).length.toString())
+  }
+
+  const { profile } = useContext(AuthContext)
 
   return (
     <article className="listings-row">
@@ -62,6 +75,25 @@ const ListingCard = (props: ListingCardProps) => {
             </>
           )}
         </div>
+        {profile ? (
+          !profile.preferences ? (
+            <button>
+              <Icon symbol={"favorite"} size={"large"} />
+              {" Remove from Favorites"}
+              {console.log("Remove from Favorites Array")}
+            </button>
+          ) : (
+            <button onClick={() => addToFavorite(props.listingID)}>
+              <Icon symbol={"plus"} size={"large"} />
+              {" Add to Favorites"}
+              {console.log("Add to Favorites Array")}
+            </button>
+          )
+        ) : (
+          <LinkButton className={detailsLinkClass} href={"/sign-in"}>
+            {"Sign in For Favs"}
+          </LinkButton>
+        )}
         {props.seeDetailsLink && (
           <LinkButton className={detailsLinkClass} href={props.seeDetailsLink}>
             {t("t.seeDetails")}
