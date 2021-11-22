@@ -147,7 +147,7 @@ export class EmailService {
     )
   }
 
-  public async sendlisting(listing: Listing, user: User) {
+  public async newlisting(listing: Listing, user: User) {
     await this.loadTranslationsForUser(user)
     if (this.configService.get<string>("NODE_ENV") == "production") {
       Logger.log(
@@ -158,11 +158,31 @@ export class EmailService {
     }
 
     const rentRange = await this.getRentRange(listing)
-    //console.log(this.polyglot.t("newListing.rentalOpportunity"))
     await this.send(
       user.email,
       "New Listing",
       this.template("new-listing")({
+        listing: listing,
+        rent: rentRange,
+      })
+    )
+  }
+
+  public async updateListingReminder(listing: Listing, user: User) {
+    await this.loadTranslationsForUser(user)
+    if (this.configService.get<string>("NODE_ENV") == "production") {
+      Logger.log(
+        `Preparing to send a reminder to update listing email to ${
+          user.email
+        } from ${this.configService.get<string>("EMAIL_FROM_ADDRESS")}...`
+      )
+    }
+
+    const rentRange = await this.getRentRange(listing)
+    await this.send(
+      user.email,
+      "Update Listing",
+      this.template("update-listing")({
         listing: listing,
         rent: rentRange,
       })
