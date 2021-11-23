@@ -6,8 +6,9 @@ import { StackedTable, StackedTableProps } from "../../tables/StackedTable"
 import { t } from "../../helpers/translator"
 import "./ListingCard.scss"
 import { StandardTable, StandardTableProps } from "../../tables/StandardTable"
-import { AuthContext, Icon } from "../../.."
+import { AuthContext, Icon } from "@bloom-housing/ui-components"
 import { useContext } from "react"
+import { UserPreferences } from "@bloom-housing/backend-core/types"
 
 interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
 
@@ -25,32 +26,14 @@ export interface ListingCardProps {
   tableProps: ListingCardTableProps
   detailsLinkClass?: string
   listingID: string
+  addFavorite: unknown
+  removeFavorite: unknown
 }
 
 const ListingCard = (props: ListingCardProps) => {
   const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps } = props
-
-  const addToFavorite = (listingID: string) => {
-    if (!profile.preferences) {
-      profile.preferences = { favorites: [] }
-    }
-    if (!profile?.preferences?.favorites.includes(listingID)) {
-      profile?.preferences.favorites.push(listingID)
-    }
-    console.log(profile?.preferences.favorites)
-  }
-
-  const removeFavorite = (listingID: string) => {
-    const index = profile?.preferences.favorites.indexOf(listingID)
-    const temp = [
-      ...profile.preferences.favorites.slice(0, index),
-      ...profile.preferences.favorites.slice(index + 1),
-    ]
-    profile.preferences.favorites = temp
-    console.log(profile?.preferences.favorites)
-  }
-
-  const { profile } = useContext(AuthContext)
+  const { profile, userProfileService } = useContext(AuthContext)
+  const preferences: UserPreferences = profile?.preferences
 
   return (
     <article className="listings-row">
@@ -88,18 +71,17 @@ const ListingCard = (props: ListingCardProps) => {
           )}
         </div>
         {profile ? (
-          //profile.preferences.favorites.includes(props.listingID) ? (
-          <>
-            <button onClick={() => removeFavorite(props.listingID)}>
+          profile?.preferences?.favorites?.includes(props.listingID) ? (
+            <button onClick={() => props.removeFavorite(props.listingID)}>
               <Icon symbol={"favorite"} size={"large"} />
               {" Remove from Favorites"}
             </button>
-
-            <button onClick={() => addToFavorite(props.listingID)}>
+          ) : (
+            <button onClick={() => props.addFavorite(props.listingID)}>
               <Icon symbol={"plus"} size={"large"} />
               {" Add to Favorites"}
             </button>
-          </>
+          )
         ) : (
           <LinkButton className={detailsLinkClass} href={"/sign-in"}>
             {"Sign in For Favs"}
