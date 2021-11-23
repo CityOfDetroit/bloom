@@ -3669,6 +3669,9 @@ export interface UserPreferences {
 
   /**  */
   sendSmsNotifications?: boolean
+
+  /**  */
+  favorites: Array<string>
 }
 
 export interface User {
