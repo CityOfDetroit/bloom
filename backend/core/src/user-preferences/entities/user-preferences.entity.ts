@@ -17,4 +17,8 @@ export class UserPreferences {
   @Column("boolean", { default: false })
   @Expose()
   sendSmsNotifications?: boolean
+
+  @Column("jsonb")
+  @Expose()
+  favorites: Array<string>
 }
