@@ -1,14 +1,15 @@
+import React, { useContext } from "react"
 import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 import moment from "moment"
-import { Address, Listing } from "@bloom-housing/backend-core/types"
+import { Address, Listing, UserPreferences } from "@bloom-housing/backend-core/types"
 import {
   t,
   ListingCard,
   imageUrlFromListing,
   getSummariesTableFromUnitSummary,
   getSummariesTableFromUnitsSummary,
+  AuthContext,
 } from "@bloom-housing/ui-components"
-import React from "react"
 
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
@@ -64,6 +65,45 @@ export const getListings = (listings) => {
     rent: t("t.rent"),
     availability: t("t.availability"),
   }
+
+  const { profile, userProfileService } = useContext(AuthContext)
+
+  const addToFavorite = async (listingID: string) => {
+    const preferences: UserPreferences = profile?.preferences || { favorites: [] }
+
+    if (!preferences.favorites?.includes(listingID)) {
+      preferences.favorites?.push(listingID)
+    }
+    console.log(preferences?.favorites)
+
+    try {
+      await userProfileService?.update({
+        body: { ...profile, preferences },
+      })
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  const removeFavorite = async (listingID: string) => {
+    const preferences: UserPreferences = profile?.preferences
+    const index = preferences.favorites.indexOf(listingID)
+    const temp = [
+      ...profile.preferences.favorites.slice(0, index),
+      ...profile.preferences.favorites.slice(index + 1),
+    ]
+    profile.preferences.favorites = temp
+    console.log(preferences.favorites)
+
+    try {
+      await userProfileService?.update({
+        body: { ...profile, preferences },
+      })
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
   return listings.map((listing: Listing, index) => {
     return (
       <ListingCard
@@ -88,6 +128,8 @@ export const getListings = (listings) => {
           tableHeader: listing.showWaitlist ? t("listings.waitlist.open") : null,
         }}
         listingID={listing.id}
+        addFavorite={addToFavorite}
+        removeFavorite={removeFavorite}
       />
     )
   })
