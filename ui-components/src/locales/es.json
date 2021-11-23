@@ -1057,13 +1057,6 @@
         "WI": "Wisconsin",
         "WY": "Wyoming"
     },
-    "neighborhoods":{
-        "Midtown": "Midtown",
-        "ElmwoodPark": "Elmwood Park",
-        "Islandview": "Islandview",
-        "Brightmoor": "Brightmoor",
-        "FoxCreek": "Fox Creek"
-    },
     "t": {
         "areYouSure": "¿Está seguro?",
         "addNotes": "Agregar notas",
