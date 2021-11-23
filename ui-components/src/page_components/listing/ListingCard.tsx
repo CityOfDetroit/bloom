@@ -93,13 +93,11 @@ const ListingCard = (props: ListingCardProps) => {
             <button onClick={() => removeFavorite(props.listingID)}>
               <Icon symbol={"favorite"} size={"large"} />
               {" Remove from Favorites"}
-              {console.log("Remove from Favorites Array")}
             </button>
 
             <button onClick={() => addToFavorite(props.listingID)}>
               <Icon symbol={"plus"} size={"large"} />
               {" Add to Favorites"}
-              {console.log("Add to Favorites Array")}
             </button>
           </>
         ) : (
