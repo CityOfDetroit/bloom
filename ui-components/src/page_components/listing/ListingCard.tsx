@@ -32,7 +32,7 @@ export interface ListingCardProps {
 
 const ListingCard = (props: ListingCardProps) => {
   const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps } = props
-  const { profile, userProfileService } = useContext(AuthContext)
+  const { profile } = useContext(AuthContext)
   const preferences: UserPreferences = profile?.preferences
 
   return (
