@@ -20,6 +20,7 @@ import { ListingsQueryParams } from "./dto/listings-query-params"
 import { filterTypeToFieldMap } from "./dto/filter-type-to-field-map"
 import { Queue } from "bull"
 import { InjectQueue } from "@nestjs/bull"
+import { ListingNotificationInfo, ListingUpdateType } from "./listings-notifications"
 
 @Injectable()
 export class ListingsService {
@@ -27,8 +28,48 @@ export class ListingsService {
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     private readonly translationService: TranslationsService,
-    @InjectQueue("listings-notifications") private listingsNotificationsQueue: Queue
-  ) {}
+    @InjectQueue("listings-notifications")
+    private listingsNotificationsQueue: Queue<ListingNotificationInfo>
+  ) {
+    this.listingsNotificationsQueue.on("completed", (job, result) => {
+      console.log(`QUEUE -- Job (ID: ${job.id}) completed with result ${result.status}`)
+    })
+    this.listingsNotificationsQueue.on("active", (job) => {
+      console.log(`QUEUE -- Job (ID: ${job.id}) is active`)
+    })
+    this.listingsNotificationsQueue.on("error", (error) => {
+      console.log(`QUEUE -- Error: ${error.name}, ${error.message}`)
+    })
+    this.listingsNotificationsQueue.on("failed", (job, error) => {
+      console.log(`QUEUE -- Job (ID: ${job.id}) failed with error: ${error.message}`)
+    })
+    this.listingsNotificationsQueue.on("stalled", (job) => {
+      console.log(`QUEUE -- Job (ID: ${job.id}) stalled`)
+    })
+    this.listingsNotificationsQueue.on("removed", (job) => {
+      console.log(`QUEUE -- Job (ID: ${job.id}) was removed`)
+    })
+    this.listingsNotificationsQueue.on("waiting", (jobId) => {
+      console.log(`QUEUE -- Job (ID: ${jobId}) is waiting`)
+    })
+    this.listingsNotificationsQueue.on("progress", (job, progress) => {
+      console.log(`QUEUE -- Job (ID: ${job.id}) has made progress: ${progress}`)
+    })
+    this.listingsNotificationsQueue.on("paused", () => {
+      console.log(`QUEUE -- The queue has been paused`)
+    })
+    this.listingsNotificationsQueue.on("resumed", (job) => {
+      console.log(`QUEUE -- The queue has been resumed (Job ID: ${job.id})`)
+    })
+    this.listingsNotificationsQueue.on("cleaned", (jobs, type) => {
+      console.log(
+        `QUEUE -- The queue has been cleaned (Jobs length: ${jobs.length}, type: ${type})`
+      )
+    })
+    this.listingsNotificationsQueue.on("drained", () => {
+      console.log(`QUEUE -- The queue has been drained`)
+    })
+  }
 
   private getFullyJoinedQueryBuilder() {
     return getView(this.listingRepository.createQueryBuilder("listings"), "full").getViewQb()
@@ -152,7 +193,7 @@ export class ListingsService {
     const saveResult: Listing = await listing.save()
     await this.listingsNotificationsQueue.add({
       listing: saveResult,
-      updateType: "create",
+      updateType: ListingUpdateType.CREATE,
     })
     return saveResult
   }

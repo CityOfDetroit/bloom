@@ -6,6 +6,7 @@ import Redis from "redis"
 import { ListingsService } from "./listings.service"
 import { ListingsController } from "./listings.controller"
 import { Listing } from "./entities/listing.entity"
+import { ListingsNotificationsConsumer } from "./listings-notifications"
 import { Unit } from "../units/entities/unit.entity"
 import { Preference } from "../preferences/entities/preference.entity"
 import { AuthModule } from "../auth/auth.module"
@@ -14,6 +15,7 @@ import { Property } from "../property/entities/property.entity"
 import { TranslationsModule } from "../translations/translations.module"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
 import { BullModule } from "@nestjs/bull"
+import { SmsModule } from "../sms/sms.module"
 
 interface RedisCache extends Cache {
   store: RedisStore
@@ -45,15 +47,11 @@ if (process.env.REDIS_USE_TLS !== "0") {
     TypeOrmModule.forFeature([Listing, Preference, Unit, User, Property, AmiChart]),
     AuthModule,
     TranslationsModule,
-    BullModule.forRoot({
-      redis: { host: "localhost", port: 6379 },
-      // limiter: { max: 12345, duration: 12345 },
-      // defaultJobOptions: {},
-    }),
     // TODO: explore running this in a separate process (https://docs.nestjs.com/techniques/queues#separate-processes)
     BullModule.registerQueue({ name: "listings-notifications" }),
+    SmsModule,
   ],
-  providers: [ListingsService],
+  providers: [ListingsService, ListingsNotificationsConsumer],
   exports: [ListingsService],
   controllers: [ListingsController],
 })
