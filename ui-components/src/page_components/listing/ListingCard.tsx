@@ -83,9 +83,7 @@ const ListingCard = (props: ListingCardProps) => {
             </button>
           )
         ) : (
-          <LinkButton className={detailsLinkClass} href={"/sign-in"}>
-            {"Sign in For Favs"}
-          </LinkButton>
+          <LinkButton href={"/sign-in"}>{"Sign in For Favs"}</LinkButton>
         )}
         {props.seeDetailsLink && (
           <LinkButton className={detailsLinkClass} href={props.seeDetailsLink}>
