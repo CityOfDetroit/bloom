@@ -71,7 +71,7 @@ const ListingCard = (props: ListingCardProps) => {
           )}
         </div>
         {profile ? (
-          profile?.preferences?.favorites?.includes(props.listingID) ? (
+          preferences?.favorites?.includes(props.listingID) ? (
             <button onClick={() => props.removeFavorite(props.listingID)}>
               <Icon symbol={"favorite"} size={"large"} />
               {" Remove from Favorites"}
