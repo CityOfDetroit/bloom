@@ -26,8 +26,8 @@ export interface ListingCardProps {
   tableProps: ListingCardTableProps
   detailsLinkClass?: string
   listingID: string
-  addFavorite: unknown
-  removeFavorite: unknown
+  addFavorite: (arg0: string) => void
+  removeFavorite: (arg0: string) => void
 }
 
 const ListingCard = (props: ListingCardProps) => {
@@ -74,16 +74,16 @@ const ListingCard = (props: ListingCardProps) => {
           preferences?.favorites?.includes(props.listingID) ? (
             <button onClick={() => props.removeFavorite(props.listingID)}>
               <Icon symbol={"favorite"} size={"large"} />
-              {" Remove from Favorites"}
+              {t("t.removeFavorties")}
             </button>
           ) : (
             <button onClick={() => props.addFavorite(props.listingID)}>
               <Icon symbol={"plus"} size={"large"} />
-              {" Add to Favorites"}
+              {t("t.addFavorties")}
             </button>
           )
         ) : (
-          <LinkButton href={"/sign-in"}>{"Sign in For Favs"}</LinkButton>
+          <LinkButton href={"/sign-in"}>{t("t.signInFavorites")}</LinkButton>
         )}
         {props.seeDetailsLink && (
           <LinkButton className={detailsLinkClass} href={props.seeDetailsLink}>
