@@ -1,8 +1,12 @@
 import { INestApplicationContext } from "@nestjs/common"
 import { JurisdictionsService } from "../jurisdictions/services/jurisdictions.service"
-import { JurisdictionCreateDto } from "../jurisdictions/dto/jurisdiction.dto"
+import { JurisdictionCreateDto } from "../jurisdictions/dto/jurisdiction-create.dto"
 
-export const defaultJurisdictions: JurisdictionCreateDto[] = [{ name: "Detroit" }]
+import { Language } from "../shared/types/language-enum"
+
+export const defaultJurisdictions: JurisdictionCreateDto[] = [
+  { name: "Detroit", preferences: [], languages: [Language.en], programs: [] },
+]
 
 export async function createJurisdictions(app: INestApplicationContext) {
   const jurisdictionService = await app.resolve<JurisdictionsService>(JurisdictionsService)

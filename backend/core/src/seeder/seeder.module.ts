@@ -10,6 +10,7 @@ import { ApplicationsModule } from "../applications/applications.module"
 import { ListingsModule } from "../listings/listings.module"
 import { AmiChartsModule } from "../ami-charts/ami-charts.module"
 import { ListingDefaultSeed } from "../seeds/listings/listing-default-seed"
+import { ListingDefaultSanJoseSeed } from "../seeds/listings/listing-default-sanjose-seed"
 import { Listing } from "../listings/entities/listing.entity"
 import { UnitAccessibilityPriorityType } from "../unit-accessbility-priority-types/entities/unit-accessibility-priority-type.entity"
 import { ReservedCommunityType } from "../reserved-community-type/entities/reserved-community-type.entity"
@@ -26,7 +27,7 @@ import { ListingDefaultNoPreferenceSeed } from "../seeds/listings/listing-defaul
 import { Preference } from "../preferences/entities/preference.entity"
 import { ListingDefaultFCFSSeed } from "../seeds/listings/listing-default-fcfs-seed"
 import { ListingDefaultOpenSoonSeed } from "../seeds/listings/listing-default-open-soon"
-import { ListingTritonSeed } from "../seeds/listings/listing-triton-seed"
+import { ListingTritonSeed, ListingTritonSeedDetroit } from "../seeds/listings/listing-triton-seed"
 import { ListingDefaultBmrChartSeed } from "../seeds/listings/listing-default-bmr-chart-seed"
 import { ApplicationMethod } from "../application-methods/entities/application-method.entity"
 import { PaperApplication } from "../paper-applications/entities/paper-application.entity"
@@ -50,12 +51,15 @@ import { Listing10154Seed } from "../seeds/listings/listing-detroit-10154"
 import { Listing10155Seed } from "../seeds/listings/listing-detroit-10155"
 import { Listing10159Seed } from "../seeds/listings/listing-detroit-10159"
 import { Listing10168Seed } from "../seeds/listings/listing-detroit-10168"
-import { ListingDefaultSummaryWith30And60AmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-30-and-60-ami-percentage-seed"
-import { ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed } from "../seeds/listings/listing-default-summary-without-and-listing-with-20-ami-percentage-seed"
-import { ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-30-listing-with-10-ami-percentage-seed"
-import { ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed } from "../seeds/listings/listing-default-summary-with-10-listing-with-30-ami-percentage-seed"
 import { UnitTypesModule } from "../unit-types/unit-types.module"
 import { Jurisdiction } from "../jurisdictions/entities/jurisdiction.entity"
+import { Program } from "../program/entities/program.entity"
+import { AmiChartDefaultSeed } from "../seeds/ami-charts/default-ami-chart"
+import { AmiDefaultMissingAMI } from "../seeds/ami-charts/missing-household-ami-levels"
+import { AmiDefaultTriton } from "../seeds/ami-charts/triton-ami-chart"
+import { AmiDefaultTritonDetroit } from "../seeds/ami-charts/triton-ami-chart-detroit"
+import { AmiDefaultSanJose } from "../seeds/ami-charts/default-ami-chart-san-jose"
+import { AmiDefaultSanMateo } from "../seeds/ami-charts/default-ami-chart-san-mateo"
 
 @Module({})
 export class SeederModule {
@@ -85,6 +89,7 @@ export class SeederModule {
           ApplicationMethod,
           PaperApplication,
           Jurisdiction,
+          Program,
         ]),
         ThrottlerModule.forRoot({
           ttl: 60,
@@ -125,10 +130,14 @@ export class SeederModule {
         ListingDefaultMultipleAMI,
         ListingDefaultMultipleAMIAndPercentages,
         ListingDefaultMissingAMI,
-        ListingDefaultSummaryWith30And60AmiPercentageSeed,
-        ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed,
-        ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed,
-        ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed,
+        ListingDefaultSanJoseSeed,
+        ListingTritonSeedDetroit,
+        AmiChartDefaultSeed,
+        AmiDefaultMissingAMI,
+        AmiDefaultTriton,
+        AmiDefaultTritonDetroit,
+        AmiDefaultSanJose,
+        AmiDefaultSanMateo,
       ],
     }
   }

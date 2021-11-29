@@ -9,17 +9,25 @@ import { User } from "./auth/entities/user.entity"
 import { makeNewApplication } from "./seeds/applications"
 import { INestApplicationContext } from "@nestjs/common"
 import { ListingDefaultSeed } from "./seeds/listings/listing-default-seed"
-import { defaultLeasingAgents } from "./seeds/listings/shared"
+import {
+  defaultLeasingAgents,
+  getDisabilityOrMentalIllnessProgram,
+  getHousingSituationProgram,
+  getServedInMilitaryProgram,
+  getTayProgram,
+  getDisplaceePreference,
+  getHopwaPreference,
+  getLiveWorkPreference,
+  getPbvPreference,
+} from "./seeds/listings/shared"
+import { ListingDefaultSanJoseSeed } from "./seeds/listings/listing-default-sanjose-seed"
 import { Listing } from "./listings/entities/listing.entity"
 import { ListingColiseumSeed } from "./seeds/listings/listing-coliseum-seed"
 import { ListingDefaultOpenSoonSeed } from "./seeds/listings/listing-default-open-soon"
 import { ListingDefaultOnePreferenceSeed } from "./seeds/listings/listing-default-one-preference-seed"
 import { ListingDefaultNoPreferenceSeed } from "./seeds/listings/listing-default-no-preference-seed"
-import { ListingTritonSeed } from "./seeds/listings/listing-triton-seed"
-import { ListingDefaultSummaryWith30And60AmiPercentageSeed } from "./seeds/listings/listing-default-summary-with-30-and-60-ami-percentage-seed"
-import { ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed } from "./seeds/listings/listing-default-summary-without-and-listing-with-20-ami-percentage-seed"
-import { ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed } from "./seeds/listings/listing-default-summary-with-30-listing-with-10-ami-percentage-seed"
-import { ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed } from "./seeds/listings/listing-default-summary-with-10-listing-with-30-ami-percentage-seed"
+import { ListingTritonSeed, ListingTritonSeedDetroit } from "./seeds/listings/listing-triton-seed"
+import { ListingDefaultBmrChartSeed } from "./seeds/listings/listing-default-bmr-chart-seed"
 import { ApplicationMethodsService } from "./application-methods/application-methods.service"
 import { ApplicationMethodType } from "./application-methods/types/application-method-type-enum"
 import { AuthContext } from "./auth/types/auth-context"
@@ -32,14 +40,22 @@ import { CountyCode } from "./shared/types/county-code"
 import { ListingTreymoreSeed } from "./seeds/listings/listing-detroit-treymore"
 import { UserRoles } from "./auth/entities/user-roles.entity"
 import { AmiChart } from "./ami-charts/entities/ami-chart.entity"
-import { WayneCountyMSHDA2021 } from "./seeds/ami-charts"
+import { WayneCountyMSHDA2021 } from "./seeds/ami-charts/WayneCountyMSHDA2021"
 import { ListingDefaultMultipleAMI } from "./seeds/listings/listing-default-multiple-ami"
 import { ListingDefaultMultipleAMIAndPercentages } from "./seeds/listings/listing-default-multiple-ami-and-percentages"
 import { ListingDefaultMissingAMI } from "./seeds/listings/listing-default-missing-ami"
+import { AmiChartDefaultSeed } from "./seeds/ami-charts/default-ami-chart"
 import { createJurisdictions } from "./seeds/jurisdictions"
 import { Jurisdiction } from "./jurisdictions/entities/jurisdiction.entity"
 import { UserCreateDto } from "./auth/dto/user-create.dto"
 import { UnitTypesService } from "./unit-types/unit-types.service"
+import { Preference } from "./preferences/entities/preference.entity"
+import { Program } from "./program/entities/program.entity"
+import { AmiDefaultMissingAMI } from "./seeds/ami-charts/missing-household-ami-levels"
+import { AmiDefaultTriton } from "./seeds/ami-charts/triton-ami-chart"
+import { AmiDefaultTritonDetroit } from "./seeds/ami-charts/triton-ami-chart-detroit"
+import { AmiDefaultSanJose } from "./seeds/ami-charts/default-ami-chart-san-jose"
+import { AmiDefaultSanMateo } from "./seeds/ami-charts/default-ami-chart-san-mateo"
 
 const argv = yargs.scriptName("seed").options({
   test: { type: "boolean", default: false },
@@ -54,12 +70,9 @@ const listingSeeds: any[] = [
   ListingDefaultOpenSoonSeed,
   ListingDefaultOnePreferenceSeed,
   ListingDefaultNoPreferenceSeed,
+  ListingDefaultBmrChartSeed,
   ListingTritonSeed,
   ListingDefaultReservedSeed,
-  ListingDefaultSummaryWith30And60AmiPercentageSeed,
-  ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed,
-  ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed,
-  ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed,
   Listing10145Seed,
   Listing10147Seed,
   Listing10157Seed,
@@ -68,6 +81,17 @@ const listingSeeds: any[] = [
   ListingDefaultMultipleAMI,
   ListingDefaultMultipleAMIAndPercentages,
   ListingDefaultMissingAMI,
+  ListingDefaultSanJoseSeed,
+  ListingTritonSeedDetroit,
+]
+
+const amiSeeds: any[] = [
+  AmiChartDefaultSeed,
+  AmiDefaultMissingAMI,
+  AmiDefaultTriton,
+  AmiDefaultTritonDetroit,
+  AmiDefaultSanJose,
+  AmiDefaultSanMateo,
 ]
 
 export function getSeedListingsCount() {
@@ -102,6 +126,67 @@ export async function createLeasingAgents(
   return leasingAgents
 }
 
+export async function createPreferences(
+  app: INestApplicationContext,
+  jurisdictions: Jurisdiction[]
+) {
+  const preferencesRepository = app.get<Repository<Preference>>(getRepositoryToken(Preference))
+  const preferencesToSave = []
+
+  jurisdictions.forEach((jurisdiction) => {
+    preferencesToSave.push(
+      getLiveWorkPreference(jurisdiction.name),
+      getPbvPreference(jurisdiction.name),
+      getHopwaPreference(jurisdiction.name),
+      getDisplaceePreference(jurisdiction.name)
+    )
+  })
+
+  const preferences = await preferencesRepository.save(preferencesToSave)
+
+  for (const jurisdiction of jurisdictions) {
+    jurisdiction.preferences = preferences.filter((preference) => {
+      const jurisdictionName = preference.title.split("-").pop()
+      return jurisdictionName === ` ${jurisdiction.name}`
+    })
+  }
+  const jurisdictionsRepository = app.get<Repository<Jurisdiction>>(
+    getRepositoryToken(Jurisdiction)
+  )
+  await jurisdictionsRepository.save(jurisdictions)
+  return preferences
+}
+
+export async function createPrograms(app: INestApplicationContext, jurisdictions: Jurisdiction[]) {
+  const programsRepository = app.get<Repository<Program>>(getRepositoryToken(Program))
+  const programs = await programsRepository.save([
+    getServedInMilitaryProgram(),
+    getTayProgram(),
+    getDisabilityOrMentalIllnessProgram(),
+    getHousingSituationProgram(),
+  ])
+
+  for (const jurisdiction of jurisdictions) {
+    jurisdiction.programs = programs
+  }
+  const jurisdictionsRepository = app.get<Repository<Jurisdiction>>(
+    getRepositoryToken(Jurisdiction)
+  )
+  await jurisdictionsRepository.save(jurisdictions)
+
+  return programs
+}
+
+const seedAmiCharts = async (app: INestApplicationContext) => {
+  const allSeeds = amiSeeds.map((amiSeed) => app.get<AmiChartDefaultSeed>(amiSeed))
+  const amiCharts = []
+  for (const chart of allSeeds) {
+    const amiChart = await chart.seed()
+    amiCharts.push(amiChart)
+  }
+  return amiCharts
+}
+
 const seedListings = async (
   app: INestApplicationContext,
   rolesRepo: Repository<UserRoles>,
@@ -109,7 +194,7 @@ const seedListings = async (
 ) => {
   const seeds = []
   const leasingAgents = await createLeasingAgents(app, rolesRepo, jurisdictions)
-
+  await createPreferences(app, jurisdictions)
   const allSeeds = listingSeeds.map((listingSeed) => app.get<ListingDefaultSeed>(listingSeed))
   const listingRepository = app.get<Repository<Listing>>(getRepositoryToken(Listing))
   const applicationMethodsService = await app.resolve<ApplicationMethodsService>(
@@ -118,8 +203,11 @@ const seedListings = async (
 
   for (const [index, listingSeed] of allSeeds.entries()) {
     const everyOtherAgent = index % 2 ? leasingAgents[0] : leasingAgents[1]
-    const listing = await listingSeed.seed()
-    listing.jurisdiction = jurisdictions[0]
+    const listing: Listing & { jurisdictionName?: string } = await listingSeed.seed()
+    // set jurisdiction based off of the name provided on the seed
+    listing.jurisdiction = jurisdictions.find(
+      (jurisdiction) => jurisdiction.name === listing.jurisdictionName
+    )
     listing.leasingAgents = [everyOtherAgent]
     const applicationMethods = await applicationMethodsService.create({
       type: ApplicationMethodType.Internal,
@@ -147,6 +235,8 @@ async function seed() {
   const userRepo = app.get<Repository<User>>(getRepositoryToken(User))
   const rolesRepo = app.get<Repository<UserRoles>>(getRepositoryToken(UserRoles))
   const jurisdictions = await createJurisdictions(app)
+  await createPrograms(app, jurisdictions)
+  await seedAmiCharts(app)
   const listings = await seedListings(app, rolesRepo, jurisdictions)
 
   const user1 = await userService.createPublicUser(
@@ -158,7 +248,7 @@ async function seed() {
       lastName: "Last",
       dob: new Date(),
       password: "abcdef",
-      passwordConfirmation: "Abcdef1!",
+      passwordConfirmation: "abcdef",
       jurisdictions: [jurisdictions[0]],
     }),
     new AuthContext(null)
@@ -174,7 +264,7 @@ async function seed() {
       lastName: "Last",
       dob: new Date(),
       password: "ghijkl",
-      passwordConfirmation: "Ghijkl1!",
+      passwordConfirmation: "ghijkl",
       jurisdictions: [jurisdictions[0]],
     }),
     new AuthContext(null)
@@ -190,7 +280,7 @@ async function seed() {
       lastName: "Last",
       dob: new Date(),
       password: "abcdef",
-      passwordConfirmation: "Abcdef1!",
+      passwordConfirmation: "abcdef",
       jurisdictions,
     }),
     new AuthContext(null)

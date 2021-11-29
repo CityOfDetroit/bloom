@@ -22,6 +22,7 @@ import { REQUEST } from "@nestjs/core"
 import retry from "async-retry"
 import { authzActions } from "../auth/enum/authz-actions.enum"
 import crypto from "crypto"
+import { Listing } from "../listings/entities/listing.entity"
 
 @Injectable({ scope: Scope.REQUEST })
 export class ApplicationsService {
@@ -31,7 +32,8 @@ export class ApplicationsService {
     private readonly authzService: AuthzService,
     private readonly listingsService: ListingsService,
     private readonly emailService: EmailService,
-    @InjectRepository(Application) private readonly repository: Repository<Application>
+    @InjectRepository(Application) private readonly repository: Repository<Application>,
+    @InjectRepository(Listing) private readonly listingsRepository: Repository<Listing>
   ) {}
 
   public async list(params: PaginatedApplicationListQueryParams) {
@@ -45,37 +47,20 @@ export class ApplicationsService {
     return result
   }
 
-  public async listWithFlagged(params: PaginatedApplicationListQueryParams) {
+  public async rawListWithFlagged(params: PaginatedApplicationListQueryParams) {
     const qb = this._getQb(params)
-    const result = await qb.getMany()
-
-    // Get flagged applications
-    const flaggedQuery = await this.repository
-      .createQueryBuilder("applications")
-      .leftJoin(
-        "application_flagged_set_applications_applications",
-        "application_flagged_set_applications_applications",
-        "application_flagged_set_applications_applications.applications_id = applications.id"
-      )
-      .andWhere("applications.listing_id = :lid", { lid: params.listingId })
-      .select(
-        "applications.id, count(application_flagged_set_applications_applications.applications_id) > 0 as flagged"
-      )
-      .groupBy("applications.id")
-      .getRawAndEntities()
-
-    // Reorganize flagged to object to make it faster to map
-    const flagged = flaggedQuery.raw.reduce((obj, application) => {
-      return { ...obj, [application.id]: application.flagged }
-    }, {})
-    await Promise.all(
-      result.map(async (application) => {
-        // Because TypeOrm can't map extra flagged field we need to map it manually
-        application.flagged = flagged[application.id]
-        await this.authorizeUserAction(this.req.user, application, authzActions.read)
-      })
+    qb.leftJoin(
+      "application_flagged_set_applications_applications",
+      "application_flagged_set_applications_applications",
+      "application_flagged_set_applications_applications.applications_id = application.id"
     )
-    return result
+    qb.addSelect(
+      "count(application_flagged_set_applications_applications.applications_id) > 0 as flagged"
+    )
+    qb.groupBy(
+      "application.id, applicant.id, applicant_address.id, applicant_workAddress.id, alternateAddress.id, mailingAddress.id, alternateContact.id, alternateContact_mailingAddress.id, accessibility.id, demographics.id, householdMembers.id, householdMembers_address.id, householdMembers_workAddress.id, preferredUnit.id"
+    )
+    return await qb.getRawMany()
   }
 
   async listPaginated(
@@ -91,22 +76,29 @@ export class ApplicationsService {
     return result
   }
 
+  // Submitting an application from public
   async submit(applicationCreateDto: ApplicationCreateDto) {
     applicationCreateDto.submissionDate = new Date()
-    const listing = await this.listingsService.findOne(applicationCreateDto.listing.id)
+    const listing = await this.listingsRepository
+      .createQueryBuilder("listings")
+      .where(`listings.id = :listingId`, { listingId: applicationCreateDto.listing.id })
+      .select("listings.applicationDueDate")
+      .getOne()
     if (
+      listing &&
       listing.applicationDueDate &&
       applicationCreateDto.submissionDate > listing.applicationDueDate
     ) {
       throw new BadRequestException("Listing is not open for application submission.")
     }
     await this.authorizeUserAction(this.req.user, applicationCreateDto, authzActions.submit)
-    return await this._create(applicationCreateDto)
+    return await this._create(applicationCreateDto, true)
   }
 
+  // Entering a paper application from partners
   async create(applicationCreateDto: ApplicationCreateDto) {
     await this.authorizeUserAction(this.req.user, applicationCreateDto, authzActions.create)
-    return this._create(applicationCreateDto)
+    return this._create(applicationCreateDto, false)
   }
 
   async findOne(applicationId: string) {
@@ -220,7 +212,10 @@ export class ApplicationsService {
     )
   }
 
-  private async _create(applicationCreateDto: ApplicationUpdateDto) {
+  private async _create(
+    applicationCreateDto: ApplicationUpdateDto,
+    shouldSendConfirmation: boolean
+  ) {
     let application: Application
 
     try {
@@ -255,6 +250,7 @@ export class ApplicationsService {
         { retries: 6, minTimeout: 200 }
       )
     } catch (e) {
+      console.log("Create application error = ", e)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (e instanceof QueryFailedError && e.code === "40001") {
@@ -273,7 +269,7 @@ export class ApplicationsService {
     // Listing is not eagerly joined on application entity so let's use the one provided with
     // create dto
     const listing = await this.listingsService.findOne(applicationCreateDto.listing.id)
-    if (application.applicant.emailAddress) {
+    if (application.applicant.emailAddress && shouldSendConfirmation) {
       await this.emailService.confirmation(listing, application, applicationCreateDto.appUrl)
     }
     return application

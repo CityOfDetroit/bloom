@@ -1,7 +1,6 @@
 import { ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
@@ -28,12 +27,13 @@ const ncpListing: ListingSeedType = {
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
   costsNotIncluded: "Electricity Included Gas Included Water Included",
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   hrdId: "HRD10158",
   isWaitlistOpen: false,
+  jurisdictionName: "Detroit",
   leasingAgentPhone: "313-872-7717",
+  listingPreferences: [],
   managementCompany: "KMG Prestige",
   managementWebsite: "www.kmgprestige.com/communities/",
   name: "New Center Pavilion",
@@ -68,7 +68,6 @@ export class Listing10158Seed extends ListingDefaultSeed {
       assets: [],
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

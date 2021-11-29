@@ -1,7 +1,6 @@
 import { ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
@@ -24,12 +23,13 @@ const mshListing: ListingSeedType = {
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   hrdId: "HRD10147",
+  jurisdictionName: "Detroit",
   leasingAgentName: "Kim Hagood",
   leasingAgentPhone: "248-228-1340",
+  listingPreferences: [],
   managementCompany: "Elite Property Management LLC",
   managementWebsite: "www.elitep-m.com",
   name: "Melrose Square Homes",
@@ -64,7 +64,6 @@ export class Listing10147Seed extends ListingDefaultSeed {
       assets: [],
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

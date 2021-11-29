@@ -21,6 +21,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.name:
     case ListingFilterKeys.status:
     case ListingFilterKeys.leasingAgents:
+    case ListingFilterKeys.jurisdiction:
       return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.minRent:
       return EnumListingFilterParamsComparison[">="]

@@ -4,7 +4,7 @@ import { Expose } from "class-transformer"
 import { ApiProperty } from "@nestjs/swagger"
 import { IsBooleanString, IsEnum, IsNumberString, IsOptional, IsString } from "class-validator"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
-import { AvailabilityFilterEnum, ListingFilterKeys } from "../../.."
+import { AvailabilityFilterEnum, ListingFilterKeys } from "../types/listing-filter-keys-enum"
 import { ListingStatus } from "../types/listing-status-enum"
 
 // add other listing filter params here
@@ -61,8 +61,8 @@ export class ListingFilterParams extends BaseFilter {
 
   @Expose()
   @ApiProperty({
-    enum: Object.keys(AvailabilityFilterEnum),
-    example: "hasAvailability",
+    type: String,
+    example: "bab6cb4f-7a5a-4ee5-b327-0c2508807780",
     required: false,
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
@@ -117,5 +117,15 @@ export class ListingFilterParams extends BaseFilter {
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.minAmiPercentage]?: number
+  [ListingFilterKeys.minAmiPercentage]?: number;
+
+  @Expose()
+  @ApiProperty({
+    type: String,
+    example: "bab6cb4f-7a5a-4ee5-b327-0c2508807780",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.jurisdiction]?: string
 }

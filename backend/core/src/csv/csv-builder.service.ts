@@ -1,130 +1,115 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CsvEncoder } from "./csv-encoder.service"
-import { Injectable } from "@nestjs/common"
-import { CSVFormattingType } from "./types/csv-formatting-type-enum"
-import { FormattingMetadata } from "./types/formatting-metadata"
-import { FormattingMetadataArray } from "./types/formatting-metadata-array"
-import { FormattingMetadataAggregate } from "./types/formatting-metadata-aggregate"
-import { FormattingMetadataAggregateFactory } from "./types/formatting-metadata-aggregate-factory"
+import { Injectable, Scope } from "@nestjs/common"
 
-@Injectable()
+export interface KeyNumber {
+  [key: string]: number
+}
+
+@Injectable({ scope: Scope.REQUEST })
 export class CsvBuilder {
-  constructor(private readonly csvEncoder: CsvEncoder) {}
-
-  private incrementMetadataArrayItemLabel(item: FormattingMetadata, index: number) {
-    const newItem = { ...item }
-    newItem.label += ` (${index})`
-    return newItem
-  }
-
-  private retrieveValueByDiscriminator(obj, discriminator: string) {
-    let value: any = obj
-    for (const key of discriminator.split(".")) {
-      if (!key) {
-        continue
-      }
-      value = value[key]
-    }
-    return value
-  }
-
-  private flattenJson(obj: any, metadataAggregate: FormattingMetadataAggregate): Array<string> {
-    let outputRows: string[] = []
-    for (const metadataObj of metadataAggregate) {
-      let value
-      try {
-        value = this.retrieveValueByDiscriminator(obj, metadataObj.discriminator)
-      } catch (e) {
-        value = undefined
-      }
-      if (metadataObj.type === "array") {
-        const metadataArray: FormattingMetadataArray = metadataObj as FormattingMetadataArray
-        for (let i = 0; i < metadataArray.size; i++) {
-          let row
-          try {
-            row = value[i]
-          } catch (e) {
-            row = {}
-          }
-          const metadataArrayItems = metadataArray.items.map((item) =>
-            this.incrementMetadataArrayItemLabel(item, i + 1)
-          )
-          outputRows = outputRows.concat(this.flattenJson(row, metadataArrayItems))
-        }
-      } else {
-        const metadata: FormattingMetadata = metadataObj as FormattingMetadata
-        try {
-          outputRows.push(metadata.formatter(value))
-        } catch (e) {
-          outputRows.push("")
-        }
-      }
-    }
-    return outputRows
-  }
-
-  private getHeaders(metadataArray: any[]) {
-    let headers: string[] = []
-    for (const metadata of metadataArray) {
-      if (metadata.type === "array") {
-        for (let i = 0; i < metadata.size; i++) {
-          const items = metadata.items.map((item) =>
-            this.incrementMetadataArrayItemLabel(item, i + 1)
-          )
-          headers = headers.concat(this.getHeaders(items))
-        }
-      } else {
-        headers.push(metadata.label)
-      }
-    }
-    return headers
-  }
-
-  private normalizeMetadataArrays(
-    arr: any[],
-    formattingMetadataAggregate: FormattingMetadataAggregate
-  ) {
-    formattingMetadataAggregate
-      .filter((metadata) => metadata.type === "array")
-      .forEach((metadata) => {
-        const md = metadata as FormattingMetadataArray
-        if (md.size !== null) {
-          return
-        }
-        md.size = Math.max(
-          ...arr.map((item) => {
-            const value = this.retrieveValueByDiscriminator(item, md.discriminator)
-            if (!value || !Array.isArray(value)) {
-              return 0
-            }
-            return value.length
-          })
-        )
-      })
-    return formattingMetadataAggregate
-  }
-
-  public build(
-    arr: any[],
-    formattingMetadataAggregateFactory: FormattingMetadataAggregateFactory,
-    csvFormattingType: CSVFormattingType,
-    includeHeaders?: boolean,
-    extraFormatters?: Array<FormattingMetadata>
+  /**
+   * this assumes a flat file structure since it's getting fed data from a raw query
+   * relational data should be handled with the use of extraHeaders and extraGroupKeys,
+   * see application-csv-exporter Household Members for an example of this
+   * All formatting should be done before passing in
+   */
+  public buildFromIdIndex(
+    obj: { [key: string]: any },
+    extraHeaders?: { [key: string]: number },
+    extraGroupKeys?: (
+      group: string,
+      obj?: { [key: string]: any }
+    ) => { nested: boolean; keys: string[] }
   ): string {
-    let formattingMetadataAggregate = formattingMetadataAggregateFactory(csvFormattingType)
-    if (!formattingMetadataAggregate) {
-      return ""
-    }
-    if (extraFormatters) {
-      formattingMetadataAggregate = formattingMetadataAggregate.concat(extraFormatters)
-    }
-    const normalizedMetadataAggregate = this.normalizeMetadataArrays(
-      arr,
-      formattingMetadataAggregate
-    )
-    const rows: Array<Array<string>> = []
-    rows.push(this.getHeaders(normalizedMetadataAggregate))
-    arr.forEach((item) => rows.push(this.flattenJson(item, normalizedMetadataAggregate)))
-    return this.csvEncoder.encode(rows, includeHeaders)
+    const headerIndex: { [key: string]: number } = {}
+    // rootKeys should be the ids
+    const rootKeys = Object.keys(obj)
+
+    if (rootKeys.length === 0) return ""
+    /**
+     * initialApp should have all possible keys.
+     * If it can't, use extraHeaders
+     */
+    const initialApp = obj[rootKeys[0]]
+    let index = 0
+    // set headerIndex
+    Object.keys(initialApp).forEach((key) => {
+      // if the key is in extra headers, we want to group them all together
+      if (extraHeaders && extraHeaders[key] && extraGroupKeys) {
+        const groupKeys = extraGroupKeys(key, initialApp)
+        for (let i = 1; i < extraHeaders[key] + 1; i++) {
+          const headerGroup = groupKeys.nested ? `${key} (${i})` : key
+          groupKeys.keys.forEach((groupKey) => {
+            headerIndex[`${headerGroup} ${groupKey}`] = index
+            index++
+          })
+        }
+      } else {
+        headerIndex[key] = index
+        index++
+      }
+    })
+    const headers = Object.keys(headerIndex)
+
+    // initiate arrays to insert data
+    const rows = Array.from({ length: rootKeys.length }, () => Array(headers.length))
+
+    // set rows (a row is a record)
+    rootKeys.forEach((obj_id, row) => {
+      const thisObj = obj[obj_id]
+      Object.keys(thisObj).forEach((key) => {
+        const val = thisObj[key]
+        const groupKeys = extraGroupKeys && extraGroupKeys(key, initialApp)
+        if (extraHeaders && extraHeaders[key] && groupKeys) {
+          // val in this case is an object with ids as the keys
+          const ids = Object.keys(val)
+          if (groupKeys.nested && ids.length) {
+            Object.keys(val).forEach((sub_id, i) => {
+              const headerGroup = `${key} (${i + 1})`
+              groupKeys.keys.forEach((groupKey) => {
+                const column = headerIndex[`${headerGroup} ${groupKey}`]
+                const sub_val = val[sub_id][groupKey]
+                rows[row][column] =
+                  sub_val !== undefined && sub_val !== null ? JSON.stringify(sub_val) : ""
+              })
+            })
+          } else if (groupKeys.nested === false) {
+            Object.keys(val).forEach((sub_key) => {
+              const column = headerIndex[`${key} ${sub_key}`]
+              const sub_val = val[sub_key]
+              rows[row][column] =
+                sub_val !== undefined && sub_val !== null ? JSON.stringify(sub_val) : ""
+            })
+          }
+        } else {
+          const column = headerIndex[key]
+          let value
+          if (Array.isArray(val)) {
+            value = val.join(", ")
+          } else if (val instanceof Object) {
+            value = Object.keys(val)
+              .map((key) => val[key])
+              .sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
+              .join(", ")
+          } else {
+            value = val
+          }
+          rows[row][column] = value !== undefined && value !== null ? JSON.stringify(value) : ""
+        }
+      })
+    })
+
+    let csvString = headers.join(",")
+    csvString += "\n"
+
+    // turn rows into csv format
+    rows.forEach((row) => {
+      if (row.length) {
+        csvString += row.join(",")
+        csvString += "\n"
+      }
+    })
+
+    return csvString
   }
 }

@@ -1,7 +1,6 @@
 import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
@@ -27,17 +26,17 @@ const treymoreProperty: PropertySeedType = {
 }
 
 const treymoreListing: ListingSeedType = {
-  applicationAddress: {
+  applicationPickUpAddress: {
     city: "Detroit",
     state: "MI",
     street: "2140 Martin Luther King Jr Blvd",
     zipCode: "48208",
   },
+  jurisdictionName: "Detroit",
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
   costsNotIncluded: "Water Included Resident Pays Electricity Resident Pays Gas Resident Pays Heat",
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   isWaitlistOpen: false,
@@ -54,6 +53,7 @@ const treymoreListing: ListingSeedType = {
   depositMax: undefined,
   leasingAgentEmail: undefined,
   leasingAgentName: undefined,
+  listingPreferences: [],
   rentalAssistance: undefined,
   reviewOrderType: undefined,
 }
@@ -83,7 +83,6 @@ export class ListingTreymoreSeed extends ListingDefaultSeed {
       assets: JSON.parse(JSON.stringify(assets)),
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

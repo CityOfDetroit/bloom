@@ -1,7 +1,6 @@
 import { ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
@@ -26,11 +25,12 @@ const listingSeed: ListingSeedType = {
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   hrdId: "HRD10153",
+  jurisdictionName: "Detroit",
   leasingAgentPhone: "313-999-1268",
+  listingPreferences: [],
   managementCompany: "Smiley Management",
   name: "Morang Apartments",
   status: ListingStatus.active,
@@ -64,7 +64,6 @@ export class Listing10153Seed extends ListingDefaultSeed {
       assets: [],
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

@@ -1,7 +1,6 @@
 import { ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
@@ -26,12 +25,13 @@ const listingSeed: ListingSeedType = {
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   hrdId: "HRD10151",
+  jurisdictionName: "Detroit",
   leasingAgentName: "Natasha Gaston",
   leasingAgentPhone: "313-926-8509",
+  listingPreferences: [],
   managementCompany: "NRP Group",
   managementWebsite: "www.nrpgroup.com/Home/Communities",
   name: "MLK Homes",
@@ -68,7 +68,6 @@ export class Listing10151Seed extends ListingDefaultSeed {
       assets: [],
       events: [],
       property: property,
-      preferences: [],
       reservedCommunityType: reservedType,
       // If a reservedCommunityType is specified, a reservedCommunityDescription MUST also be specified
       reservedCommunityDescription: "",

@@ -96,11 +96,11 @@ const applicationCreateDtoTemplate: Omit<
   },
   contactPreferences: [],
   demographics: {
-    ethnicity: "ethnicity",
-    gender: "gender",
+    ethnicity: null,
+    gender: null,
     howDidYouHear: ["email", "facebook"],
-    race: "race",
-    sexualOrientation: "orientation",
+    race: ["asian", "filipino"],
+    sexualOrientation: null,
   },
   householdMembers: [
     {
@@ -148,6 +148,8 @@ const applicationCreateDtoTemplate: Omit<
   income: "5000.00",
   incomePeriod: IncomePeriod.perMonth,
   incomeVouchers: false,
+  householdExpectingChanges: false,
+  householdStudent: false,
   language: Language.en,
   mailingAddress: {
     city: "city",

@@ -30,6 +30,7 @@ export interface FieldProps {
   getValues?: UseFormMethods["getValues"]
   setValue?: UseFormMethods["setValue"]
   isLabelAfterField?: boolean
+  dataTestId?: string
 }
 
 const Field = (props: FieldProps) => {
@@ -98,6 +99,7 @@ const Field = (props: FieldProps) => {
       <div className={controlClasses.join(" ")}>
         {props.prepend && <span className="prepend">{props.prepend}</span>}
         <input
+          {...props}
           aria-describedby={props.describedBy ? props.describedBy : `${idOrName}`}
           aria-invalid={!!props.error || false}
           className="input"
@@ -111,6 +113,7 @@ const Field = (props: FieldProps) => {
           onPaste={props.onPaste}
           onDrop={props.onDrop}
           onChange={props.onChange}
+          data-test-id={props.dataTestId}
           {...inputProps}
         />
         {(isRadioOrCheckbox || props.isLabelAfterField) && label}
