@@ -46,16 +46,19 @@ const FormUnits = ({
   setSummaries,
   disableUnitsAccordion,
 }: UnitProps) => {
-  const [unitDrawerId, setUnitDrawerId] = useState<number | null>(null)
+  const [unitDrawerOpen, setUnitDrawerOpen] = useState(false)
   const [unitDeleteModal, setUnitDeleteModal] = useState<number | null>(null)
   const [defaultUnit, setDefaultUnit] = useState<TempUnit | null>(null)
   const [summaryDrawer, setSummaryDrawer] = useState<number | null>(null)
   const [summaryDeleteModal, setSummaryDeleteModal] = useState<number | null>(null)
   const [showUnitsSummary, setShowUnitsSummary] = useState<boolean>(disableUnitsAccordion)
+  const [toastContent, setToastContent] = useState(null)
 
   const formMethods = useFormContext()
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, setValue, errors, clearErrors } = formMethods
+
+  const nextId = units && units.length > 0 ? units[units.length - 1]?.tempId + 1 : 1
 
   const unitTableHeaders = {
     number: "listings.unit.number",
@@ -92,10 +95,13 @@ const FormUnits = ({
     }
   }, [units])
 
-  const editUnit = (tempId: number) => {
-    setDefaultUnit(units.filter((unit) => unit.tempId === tempId)[0])
-    setUnitDrawerId(tempId)
-  }
+  const editUnit = useCallback(
+    (tempId: number) => {
+      setDefaultUnit(units.filter((unit) => unit.tempId === tempId)[0])
+      setUnitDrawerOpen(true)
+    },
+    [units]
+  )
 
   const editSummary = useCallback(
     (tempId: number) => {
@@ -288,6 +294,7 @@ const FormUnits = ({
               />
             </div>
             <Button
+              id="addUnitsSummaryButton"
               type="button"
               size={AppearanceSizeType.normal}
               styleType={fieldHasError(errors?.unitsSummaries) ? AppearanceStyleType.alert : null}
@@ -312,6 +319,7 @@ const FormUnits = ({
               </div>
             )}
             <Button
+              id="addUnitsButton"
               type="button"
               size={AppearanceSizeType.normal}
               styleType={fieldHasError(errors?.units) ? AppearanceStyleType.alert : null}
@@ -335,30 +343,42 @@ const FormUnits = ({
       )}
 
       <Drawer
-        open={!!unitDrawerId}
+        open={unitDrawerOpen}
         title={t("listings.unit.add")}
+        headerTag={
+          units.some((unit) => unit.tempId === defaultUnit?.tempId) ? t("t.saved") : t("t.draft")
+        }
+        headerTagStyle={
+          units.some((unit) => unit.tempId === defaultUnit?.tempId)
+            ? AppearanceStyleType.success
+            : null
+        }
         ariaDescription={t("listings.unit.add")}
-        onClose={() => setUnitDrawerId(null)}
+        onClose={() => setUnitDrawerOpen(false)}
+        toastContent={toastContent}
+        toastStyle={"success"}
       >
         <UnitForm
-          onSubmit={(unit) => saveUnit(unit)}
-          onClose={(reopen: boolean, defaultUnit: TempUnit) => {
-            if (reopen) {
+          onSubmit={(unit) => {
+            setToastContent(null)
+            saveUnit(unit)
+          }}
+          onClose={(openNextUnit: boolean, openCurrentUnit: boolean, defaultUnit: TempUnit) => {
+            setDefaultUnit(defaultUnit)
+            if (openNextUnit) {
               if (defaultUnit) {
-                setDefaultUnit(defaultUnit)
-                editUnit(units.length + 1)
-              } else {
-                setDefaultUnit(null)
-                setUnitDrawerId(units.length + 1)
+                setToastContent(t("listings.unit.unitCopied"))
               }
+              editUnit(nextId)
+            } else if (!openCurrentUnit) {
+              setUnitDrawerOpen(false)
             } else {
-              setDefaultUnit(null)
-              setUnitDrawerId(null)
+              setToastContent(t("listings.unit.unitSaved"))
             }
           }}
+          draft={!units.some((unit) => unit.tempId === defaultUnit?.tempId)}
           defaultUnit={defaultUnit}
-          existingId={units.filter((unit) => unit.tempId === defaultUnit?.tempId)[0]?.tempId}
-          nextId={units.length + 1}
+          nextId={nextId}
         />
       </Drawer>
 

@@ -327,6 +327,7 @@ input[type="number"] {
   @apply text-tiny;
   @apply text-gray-700;
   @apply font-semibold;
+  white-space: pre-line;
 }
 
 .error-message {

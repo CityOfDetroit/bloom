@@ -19,7 +19,7 @@ import { Listing10145Seed } from "./seeds/listings/listing-detroit-10145"
 import { ListingTreymoreSeed } from "./seeds/listings/listing-detroit-treymore"
 import { UserRoles } from "./auth/entities/user-roles.entity"
 import { AmiChart } from "./ami-charts/entities/ami-chart.entity"
-import { WayneCountyMSHDA2021 } from "./seeds/ami-charts"
+import { WayneCountyMSHDA2021 } from "./seeds/ami-charts/WayneCountyMSHDA2021"
 import { Listing10151Seed } from "./seeds/listings/listing-detroit-10151"
 import { Listing10153Seed } from "./seeds/listings/listing-detroit-10153"
 import { Listing10154Seed } from "./seeds/listings/listing-detroit-10154"
@@ -184,6 +184,7 @@ async function seed() {
   const amiChartRepo = app.get<Repository<AmiChart>>(getRepositoryToken(AmiChart))
   await amiChartRepo.save({
     ...JSON.parse(JSON.stringify(WayneCountyMSHDA2021)),
+    name: "Wayne County 2021",
     jurisdiction: jurisdictions.find((jurisdiction) => jurisdiction.name == "Detroit"),
   })
   await app.close()

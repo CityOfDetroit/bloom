@@ -11,6 +11,7 @@ export enum ListingFilterKeys {
   maxRent = "maxRent",
   minAmiPercentage = "minAmiPercentage",
   leasingAgents = "leasingAgents",
+  jurisdiction = "jurisdiction",
 }
 
 export enum AvailabilityFilterEnum {

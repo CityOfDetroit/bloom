@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -12,7 +13,6 @@ import {
 } from "typeorm"
 import { Application } from "../../applications/entities/application.entity"
 import { User } from "../../auth/entities/user.entity"
-import { Preference } from "../../preferences/entities/preference.entity"
 import { Expose, Type } from "class-transformer"
 import {
   IsBoolean,
@@ -30,7 +30,6 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
 import { Property } from "../../property/entities/property.entity"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { ListingStatus } from "../types/listing-status-enum"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
 import { Jurisdiction } from "../../jurisdictions/entities/jurisdiction.entity"
 import { ReservedCommunityType } from "../../reserved-community-type/entities/reserved-community-type.entity"
 import { Asset } from "../../assets/entities/asset.entity"
@@ -44,9 +43,12 @@ import { UnitsSummary } from "../../units-summary/entities/units-summary.entity"
 import { ListingReviewOrder } from "../types/listing-review-order-enum"
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
 import { ApplicationMethodType } from "../../application-methods/types/application-method-type-enum"
+import { ListingProgram } from "../../program/entities/listing-program.entity"
 import { EnforceLowerCase } from "../../shared/decorators/enforceLowerCase.decorator"
+import { ListingPreference } from "../../preferences/entities/listing-preference.entity"
 
 @Entity({ name: "listings" })
+@Index(["jurisdiction"])
 class Listing extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Expose()
@@ -79,11 +81,14 @@ class Listing extends BaseEntity {
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   additionalApplicationSubmissionNotes?: string | null
 
-  @OneToMany(() => Preference, (preference) => preference.listing, { cascade: true })
+  @OneToMany(() => ListingPreference, (listingPreference) => listingPreference.listing, {
+    cascade: true,
+    eager: true,
+  })
   @Expose()
   @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
-  @Type(() => Preference)
-  preferences: Preference[]
+  @Type(() => ListingPreference)
+  listingPreferences: ListingPreference[]
 
   @OneToMany(() => ApplicationMethod, (am) => am.listing, { cascade: true, eager: true })
   @Expose()
@@ -188,13 +193,6 @@ class Listing extends BaseEntity {
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => Address)
-  applicationAddress?: Address | null
-
-  @ManyToOne(() => Address, { eager: true, nullable: true, cascade: true })
-  @Expose()
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
-  @Type(() => Address)
   applicationPickUpAddress?: Address | null
 
   @Column({ type: "text", nullable: true })
@@ -285,6 +283,12 @@ class Listing extends BaseEntity {
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   depositMax?: string | null
+
+  @Column({ type: "text", nullable: true })
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  depositHelperText?: string | null
 
   @Column({ type: "boolean", nullable: true })
   @Expose()
@@ -434,12 +438,6 @@ class Listing extends BaseEntity {
   @IsBoolean({ groups: [ValidationsGroupsEnum.default] })
   displayWaitlistSize: boolean
 
-  @Column({ enum: CSVFormattingType, default: CSVFormattingType.basic })
-  @Expose()
-  @IsEnum(CSVFormattingType, { groups: [ValidationsGroupsEnum.default] })
-  @ApiProperty({ enum: CSVFormattingType, enumName: "CSVFormattingType" })
-  CSVFormattingType: CSVFormattingType
-
   @Expose()
   @ApiProperty()
   get showWaitlist(): boolean {
@@ -566,6 +564,16 @@ class Listing extends BaseEntity {
   @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
   @Type(() => UnitsSummary)
   unitsSummary: UnitsSummary[]
+
+  @OneToMany(() => ListingProgram, (listingProgram) => listingProgram.listing, {
+    cascade: true,
+    eager: true,
+  })
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default], each: true })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => ListingProgram)
+  listingPrograms?: ListingProgram[]
 }
 
 export { Listing as default, Listing }

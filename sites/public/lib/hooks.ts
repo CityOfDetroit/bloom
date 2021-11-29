@@ -11,7 +11,12 @@ import {
   encodeToBackendFilterArray,
   ListingFilterState,
 } from "@bloom-housing/ui-components"
-import { Listing, ListingReviewOrder, OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
+import {
+  Jurisdiction,
+  Listing,
+  ListingReviewOrder,
+  OrderByFieldsEnum,
+} from "@bloom-housing/backend-core/types"
 import { AppSubmissionContext } from "./AppSubmissionContext"
 import { ParsedUrlQuery } from "querystring"
 import { openInFuture } from "../lib/helpers"
@@ -135,6 +140,7 @@ let listingData = []
 
 export async function fetchBaseListingData() {
   try {
+    const { id: jurisdictionId } = await fetchJurisdictionByName()
     const response = await axios.get(process.env.listingServiceUrl, {
       params: {
         view: "base",
@@ -145,6 +151,10 @@ export async function fetchBaseListingData() {
           {
             $comparison: "<>",
             status: "pending",
+          },
+          {
+            $comparison: "=",
+            jurisdiction: jurisdictionId,
           },
         ],
       },
@@ -159,4 +169,24 @@ export async function fetchBaseListingData() {
   }
 
   return listingData
+}
+
+let jurisdiction: Jurisdiction | null = null
+
+export async function fetchJurisdictionByName() {
+  try {
+    if (jurisdiction) {
+      return jurisdiction
+    }
+
+    const jurisdictionName = process.env.jurisdictionName
+    const jurisdictionRes = await axios.get(
+      `${process.env.backendApiBase}/jurisdictions/byName/${jurisdictionName}`
+    )
+    jurisdiction = jurisdictionRes?.data
+  } catch (error) {
+    console.log("error = ", error)
+  }
+
+  return jurisdiction
 }

@@ -1,7 +1,6 @@
 import { ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
@@ -26,12 +25,13 @@ const mcvListing: ListingSeedType = {
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   hrdId: "HRD10145",
+  jurisdictionName: "Detroit",
   leasingAgentName: "Janelle Henderson",
   leasingAgentPhone: "313-831-1725",
+  listingPreferences: [],
   managementCompany: "Associated Management Co",
   managementWebsite: "associated-management.rentlinx.com/listings",
   name: "Medical Center Village",
@@ -69,7 +69,6 @@ export class Listing10145Seed extends ListingDefaultSeed {
       assets: [],
       events: [],
       property: property,
-      preferences: [],
       reservedCommunityType: reservedType,
       // If a reservedCommunityType is specified, a reservedCommunityDescription MUST also be specified
       reservedCommunityDescription: "",

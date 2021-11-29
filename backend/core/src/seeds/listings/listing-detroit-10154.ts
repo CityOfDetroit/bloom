@@ -1,7 +1,6 @@
 import { ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
@@ -26,12 +25,13 @@ const listingSeed: ListingSeedType = {
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   hrdId: "HRD10154",
+  jurisdictionName: "Detroit",
   leasingAgentName: "Kristy Schornak",
   leasingAgentPhone: "313-821-0469",
+  listingPreferences: [],
   managementCompany: "Continental Management",
   managementWebsite: "www.continentalmgt.com",
   name: "Morningside Commons Multi",
@@ -67,7 +67,6 @@ export class Listing10154Seed extends ListingDefaultSeed {
       assets: [],
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

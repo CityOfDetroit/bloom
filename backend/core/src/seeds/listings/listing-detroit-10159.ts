@@ -1,7 +1,6 @@
 import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
@@ -26,15 +25,16 @@ const listingSeed: ListingSeedType = {
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   isWaitlistOpen: true,
   waitlistCurrentSize: 20,
   waitlistMaxSize: 50,
   hrdId: "HRD10159",
+  jurisdictionName: "Detroit",
   leasingAgentName: "Kim Hagood",
   leasingAgentPhone: "313-656-4146",
+  listingPreferences: [],
   managementCompany: "Elite Property Management LLC",
   managementWebsite: "www.elitep-m.com",
   name: "New Center Square",
@@ -75,7 +75,6 @@ export class Listing10159Seed extends ListingDefaultSeed {
       assets: JSON.parse(JSON.stringify(assets)),
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

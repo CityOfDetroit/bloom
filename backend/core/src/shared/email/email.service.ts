@@ -1,6 +1,7 @@
 import { Injectable, Logger, Scope } from "@nestjs/common"
 import { SendGridService } from "@anchan828/nest-sendgrid"
 import { ResponseError } from "@sendgrid/helpers/classes"
+import merge from "lodash/merge"
 import Handlebars from "handlebars"
 import path from "path"
 import { User } from "../../auth/entities/user.entity"
@@ -13,6 +14,7 @@ import { TranslationsService } from "../../translations/translations.service"
 import { Language } from "../types/language-enum"
 import { JurisdictionResolverService } from "../../jurisdictions/services/jurisdiction-resolver.service"
 import { Jurisdiction } from "../../jurisdictions/entities/jurisdiction.entity"
+import { ListingReviewOrder } from "../../listings/types/listing-review-order-enum"
 
 @Injectable({ scope: Scope.REQUEST })
 export class EmailService {
@@ -93,7 +95,7 @@ export class EmailService {
     }
 
     if (listing.applicationDueDate) {
-      if (!listing.waitlistMaxSize) {
+      if (listing.reviewOrderType === ListingReviewOrder.lottery) {
         whatToExpectText = this.polyglot.t("confirmation.whatToExpect.lottery", {
           lotteryDate: listing.applicationDueDate,
         })
@@ -203,11 +205,22 @@ export class EmailService {
   }
 
   private async loadTranslations(jurisdiction: Jurisdiction | null, language: Language) {
-    const translation = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
+    const jurisdictionalTranslations = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
       language,
       jurisdiction ? jurisdiction.id : null
     )
-    this.polyglot.replace(translation.translations)
+    const genericTranslations = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
+      language,
+      null
+    )
+
+    // Deep merge
+    const translations = merge(
+      genericTranslations.translations,
+      jurisdictionalTranslations.translations
+    )
+
+    this.polyglot.replace(translations)
   }
 
   private template(view: string) {
@@ -260,7 +273,10 @@ export class EmailService {
   }
 
   async invite(user: User, appUrl: string, confirmationUrl: string) {
-    void (await this.loadTranslations(null, user.language || Language.en))
+    void (await this.loadTranslations(
+      user.jurisdictions?.length === 1 ? user.jurisdictions[0] : null,
+      user.language || Language.en
+    ))
     await this.send(
       user.email,
       this.polyglot.t("invite.hello"),

@@ -1,7 +1,7 @@
 import csv from "csv-parser"
 import fs from "fs"
 import { importListing, ListingImport, UnitsSummaryImport } from "./import-helpers"
-import { AddressCreate, CSVFormattingType, ListingStatus } from "../types/src/backend-swagger"
+import { AddressCreate, ListingStatus } from "../types/src/backend-swagger"
 
 // This script reads in listing data from a CSV file and sends requests to the backend to create
 // the corresponding Listings. A few notes:
@@ -168,9 +168,8 @@ async function main() {
 
       // The following fields are only set because they are required
       units: [],
-      CSVFormattingType: CSVFormattingType.basic,
       applicationMethods: [],
-      preferences: [],
+      listingPreferences: [],
       applicationDropOffAddress: null,
       applicationMailingAddress: null,
       events: [],

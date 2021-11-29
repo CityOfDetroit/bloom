@@ -89,7 +89,8 @@ export class User {
 
   @Column("varchar", { nullable: true })
   @Expose()
-  @IsPhoneNumber(null)
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsPhoneNumber(null, { groups: [ValidationsGroupsEnum.default] })
   phoneNumber?: string
 
   @CreateDateColumn()
@@ -111,6 +112,8 @@ export class User {
     eager: true,
     cascade: true,
     nullable: true,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
   @Expose()
   roles?: UserRoles

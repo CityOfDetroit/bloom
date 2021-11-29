@@ -1,6 +1,5 @@
 // Using a record lets us enforce that all types are handled in addFilter
 import { ListingFilterKeys } from "../../.."
-
 /**
  * Fields for the Availability and AMI filters are determined based on the value
  * of the filter or by checking multiple columns. Since we can't specify a single
@@ -41,4 +40,5 @@ export const filterTypeToFieldMap: Record<keysWithMappedField, string> = {
    * monthly_rent_max field, we'd miss it.
    */
   maxRent: "unitsSummary.monthly_rent_min",
+  jurisdiction: "jurisdiction.id",
 }
