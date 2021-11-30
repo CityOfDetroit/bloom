@@ -16,7 +16,8 @@ export class SmsService {
     //   - Construct an SmsDto for each user
     //   - (in parallel?) send all the SmsDto's using the send method below
     console.log(
-      `This is where we would send SMS updates notifying users that ${listing.name} was just created.`
+      `This is where we would send SMS updates notifying users that ${listing.name} ` +
+        `was just created (this is yet to be implemented).`
     )
     return { status: "ok" }
   }
