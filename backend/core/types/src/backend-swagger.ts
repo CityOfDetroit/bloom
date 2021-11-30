@@ -3759,9 +3759,6 @@ export interface UserCreate {
   phoneNumber?: string
 
   /**  */
-  emailSubscription?: boolean
-
-  /**  */
   preferences?: CombinedPreferencesTypes
 }
 
@@ -4064,7 +4061,7 @@ export interface ListingFilterParams {
   status?: EnumListingFilterParamsStatus
 
   /**  */
-  bedrooms?: number
+  bedrooms?: string
 
   /**  */
   zipcode?: string

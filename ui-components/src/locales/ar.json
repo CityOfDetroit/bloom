@@ -641,6 +641,7 @@
             "reEnterPassword": "إعادة إدخال كلمة المرور الخاصة بك",
             "resendTheEmail": "إعادة إرسال البريد الإلكتروني",
             "emailSubscription": "راسلني كلما تم نشر قائمة أو تحديثها.",
+            "smsSubscription": "أرسل لي رسالة نصية كلما تم نشر أو تحديث قائمة.",
             "linkExpired": "انتهت صلاحية الرابط الخاص بك",
             "mustBe8Chars": "يجب أن يتكون من 8 أحرف",
             "password": "كلمة المرور",
@@ -1354,13 +1355,13 @@
         "modalTitle": "تصفية النتائج",
         "modalHeader": "استخدم هذه الخيارات لتحسين قائمة الخصائص الخاصة بك.",
         "neighborhood": "حي",
-        "bedrooms": "حجم الوحدة",
+        "bedrooms": "غرف نوم",
         "bedroomsOptions": {
-            "studioPlus": "0 أو أكثر من غرف النوم (استوديو)",
-            "onePlus": "غرفة نوم واحدة أو أكثر",
-            "twoPlus": "2 غرف نوم أو أكثر",
-            "threePlus": "3 غرف نوم أو أكثر",
-            "fourPlus": "4 غرف نوم أو أكثر"
+            "studioPlus": "0 (استوديو)",
+            "onePlus": "1",
+            "twoPlus": "2",
+            "threePlus": "3",
+            "fourPlus": "4 أو أكثر"
         },
         "zipCode": "الرمز البريدي",
         "zipCodeDescription": "أدخل الرمز البريدي",
