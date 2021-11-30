@@ -47,7 +47,6 @@ if (process.env.REDIS_USE_TLS !== "0") {
     TypeOrmModule.forFeature([Listing, Preference, Unit, User, Property, AmiChart]),
     AuthModule,
     TranslationsModule,
-    // TODO: explore running this in a separate process (https://docs.nestjs.com/techniques/queues#separate-processes)
     BullModule.registerQueue({ name: "listings-notifications" }),
     SmsModule,
   ],

@@ -4,8 +4,6 @@ import { Listing } from "./entities/listing.entity"
 import { SmsService } from "../sms/services/sms.service"
 import { StatusDto } from "../shared/dto/status.dto"
 
-// TODO: how to test this? Integration test where we inject a fake email/sms module?
-
 export enum ListingUpdateType {
   CREATE,
   MODIFY,
@@ -16,8 +14,8 @@ export class ListingNotificationInfo {
   updateType: ListingUpdateType
 }
 
-// This class defines the consumer/processor for the "listings-notifications" queue. It is
-// responsible for sending email and SMS notifications when listings are created or updated.
+// This class defines the processor for the "listings-notifications" queue. It is responsible
+// for sending email and SMS notifications when listings are created or updated.
 @Processor("listings-notifications")
 export class ListingsNotificationsConsumer {
   constructor(private readonly smsService: SmsService) {}

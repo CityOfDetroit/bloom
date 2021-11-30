@@ -5,7 +5,7 @@ import { mapTo } from "../../shared/mapTo"
 import { SmsDto } from "../dto/sms.dto"
 import { TwilioService } from "./twilio.service"
 
-@Injectable({ scope: Scope.DEFAULT })
+@Injectable({ scope: Scope.REQUEST })
 export class SmsService {
   constructor(private readonly twilio: TwilioService) {}
 
