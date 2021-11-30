@@ -11,6 +11,7 @@ import { AvailabilityFilterEnum } from "./types/listing-filter-keys-enum"
 import { ListingStatus } from "./types/listing-status-enum"
 import { ListingFilterParams } from "./dto/listing-filter-params"
 import { ListingsQueryParams } from "./dto/listings-query-params"
+import { BullModule } from "@nestjs/bull"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -118,6 +119,7 @@ describe("ListingsService", () => {
           useValue: { translateListing: jest.fn() },
         },
       ],
+      imports: [BullModule.registerQueue({ name: "listings-notifications" })],
     }).compile()
 
     service = module.get(ListingsService)

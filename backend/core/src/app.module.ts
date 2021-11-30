@@ -91,9 +91,7 @@ export class AppModule {
         AssetsModule,
         AuthModule,
         BullModule.forRoot({
-          redis: { host: "localhost", port: 6379 },
-          // limiter: { max: 12345, duration: 12345 },
-          // defaultJobOptions: {},
+          redis: redis.options,
         }),
         JurisdictionsModule,
         ListingsModule,
