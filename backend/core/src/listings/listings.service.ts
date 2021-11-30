@@ -152,10 +152,14 @@ export class ListingsService {
       property: plainToClass(PropertyCreateDto, listingDto),
     })
     const saveResult: Listing = await listing.save()
+
+    // Add a job to the listings notification queue, to asynchronously send notifications about
+    // the creation of this new listing.
     await this.listingsNotificationsQueue.add({
       listing: saveResult,
       updateType: ListingUpdateType.CREATE,
     })
+
     return saveResult
   }
 
