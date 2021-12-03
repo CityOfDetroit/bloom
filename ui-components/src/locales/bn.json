@@ -1395,7 +1395,19 @@
           "amiOption125": "125% AMI বা তার বেশি",
           "amiOption140": "140% AMI বা তার বেশি",
           "amiOption150": "150% AMI বা তার বেশি"
-        }
+        },
+        "elevator": "লিফট",
+        "wheelchair_ramp": "হুইলচেয়ার র‌্যাম্প",
+        "service_animals_allowed": "পরিষেবা অনুমোদিত",
+        "accessible_parking": "অভিগম্য পার্কিং",
+        "parking_on_site": "সাইটে পার্কিং",
+        "in_unit_washer_dryer": "ইউনিট ওয়াশার ড্রায়ার",
+        "laundry_in_building": "বিল্ডিংয়ে লন্ড্রি",
+        "barrier_free_entrance": "বাধা_মুক্ত_প্রবেশ",
+        "roll_in_shower": "স্নানে রোল",
+        "grab_bars": "দখল বার",
+        "heating_in_unit": "হিটিং ইউনিট",
+        "ac_in_unit": "ইউনিট এ এসি"
     },
     "eligibility": {
         "progress": {

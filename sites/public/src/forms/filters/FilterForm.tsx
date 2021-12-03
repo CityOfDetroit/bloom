@@ -218,6 +218,126 @@ const FilterForm = (props: FilterFormProps) => {
         />
         <Field
           id="includeNulls"
+          name={FrontendListingFilterStateKeys.elevator}
+          type="checkbox"
+          label={t("listingFilters.elevator")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+        <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.wheelchair_ramp}
+          type="checkbox"
+          label={t("listingFilters.wheelchair_ramp")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+        <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.service_animals_allowed}
+          type="checkbox"
+          label={t("listingFilters.service_animals_allowed")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+          />
+       <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.accessible_parking}
+          type="checkbox"
+          label={t("listingFilters.accessible_parking")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+       <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.parking_on_site}
+          type="checkbox"
+          label={t("listingFilters.parking_on_site")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+        <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.in_unit_washer_dryer}
+          type="checkbox"
+          label={t("listingFilters.in_unit_washer_dryer")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+         <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.laundry_in_building}
+          type="checkbox"
+          label={t("listingFilters.laundry_in_building")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+        <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.barrier_free_entrance}
+          type="checkbox"
+          label={t("listingFilters.barrier_free_entrance")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+        <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.roll_in_shower}
+          type="checkbox"
+          label={t("listingFilters.roll_in_shower")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+        <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.grab_bars}
+          type="checkbox"
+          label={t("listingFilters.grab_bars")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+        <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.heating_in_unit}
+          type="checkbox"
+          label={t("listingFilters.heating_in_unit")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+        <Field
+          id="includeNulls"
+          name={FrontendListingFilterStateKeys.ac_in_unit}
+          type="checkbox"
+          label={t("listingFilters.ac_in_unit")}
+          register={register}
+          inputProps={{
+            defaultChecked: Boolean(props.filterState?.includeNulls),
+          }}
+        />
+        <Field
+          id="includeNulls"
           name={FrontendListingFilterStateKeys.includeNulls}
           type="checkbox"
           label={t("listingFilters.includeUnknowns")}
