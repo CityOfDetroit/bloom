@@ -21,7 +21,7 @@ const nccProperty: PropertySeedType = {
   buildingTotalUnits: 71,
   neighborhood: "New Center Commons",
   petPolicy: "No Pets Allowed",
-  unitAmenities: "Air Conditioning Dishwasher Garbage Disposal Range Refrigerator",
+  unitAmenities: "Air Conditioning, Dishwasher, Garbage Disposal, Range, Refrigerator",
   unitsAvailable: 5,
   yearBuilt: 1929,
 }
@@ -53,6 +53,20 @@ const nccListing: ListingSeedType = {
   rentalAssistance: undefined,
   reviewOrderType: undefined,
   isWaitlistOpen: undefined,
+  features: {
+    elevator: true,
+    wheelchairRamp: true,
+    serviceAnimalsAllowed: true,
+    accessibleParking: true,
+    parkingOnSite: true,
+    inUnitWasherDryer: false,
+    laundryInBuilding: false,
+    barrierFreeEntrance: true,
+    rollInShower: true,
+    grabBars: true,
+    heatingInUnit: true,
+    acInUnit: true,
+  },
 }
 
 export class Listing10157Seed extends ListingDefaultSeed {

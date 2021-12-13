@@ -1,4 +1,4 @@
-import { ListingSeedType, PropertySeedType } from "./listings"
+import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
 import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
@@ -19,7 +19,7 @@ const ncpProperty: PropertySeedType = {
   },
   buildingTotalUnits: 76,
   neighborhood: "New Center Commons",
-  unitAmenities: "Air Conditioning(Wall unit), Garbage Disposal, Range, Refrigerator",
+  unitAmenities: "Air Conditioning (Wall unit), Garbage Disposal, Range, Refrigerator",
   yearBuilt: 1971,
 }
 
@@ -48,6 +48,20 @@ const ncpListing: ListingSeedType = {
   leasingAgentName: undefined,
   rentalAssistance: undefined,
   reviewOrderType: undefined,
+  features: {
+    elevator: true,
+    wheelchairRamp: true,
+    serviceAnimalsAllowed: true,
+    accessibleParking: true,
+    parkingOnSite: true,
+    inUnitWasherDryer: false,
+    laundryInBuilding: false,
+    barrierFreeEntrance: true,
+    rollInShower: true,
+    grabBars: true,
+    heatingInUnit: true,
+    acInUnit: true,
+  },
 }
 
 export class Listing10158Seed extends ListingDefaultSeed {
@@ -59,13 +73,20 @@ export class Listing10158Seed extends ListingDefaultSeed {
       ...ncpProperty,
     })
 
+    const assets: Array<AssetDtoSeedType> = [
+      {
+        label: "building",
+        fileId: "/images/dev/New Center Pavilion.png",
+      },
+    ]
+
     const listingCreateDto: Omit<
       DeepPartial<Listing>,
       keyof BaseEntity | "urlSlug" | "showWaitlist"
     > = {
       ...ncpListing,
       applicationMethods: [],
-      assets: [],
+      assets: assets,
       events: [],
       property: property,
       preferences: [],

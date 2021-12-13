@@ -16,6 +16,7 @@ import { TranslationsModule } from "../translations/translations.module"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
 import { BullModule } from "@nestjs/bull"
 import { SmsModule } from "../sms/sms.module"
+import { ListingFeatures } from "./entities/listing-features.entity"
 
 interface RedisCache extends Cache {
   store: RedisStore
@@ -44,7 +45,15 @@ if (process.env.REDIS_USE_TLS !== "0") {
 @Module({
   imports: [
     CacheModule.register(cacheConfig),
-    TypeOrmModule.forFeature([Listing, Preference, Unit, User, Property, AmiChart]),
+    TypeOrmModule.forFeature([
+      Listing,
+      Preference,
+      Unit,
+      User,
+      Property,
+      AmiChart,
+      ListingFeatures,
+    ]),
     AuthModule,
     TranslationsModule,
     BullModule.registerQueue({ name: "listings-notifications" }),

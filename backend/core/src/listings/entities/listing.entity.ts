@@ -3,10 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm"
@@ -45,6 +47,7 @@ import { ListingReviewOrder } from "../types/listing-review-order-enum"
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
 import { ApplicationMethodType } from "../../application-methods/types/application-method-type-enum"
 import { EnforceLowerCase } from "../../shared/decorators/enforceLowerCase.decorator"
+import { ListingFeatures } from "./listing-features.entity"
 
 @Entity({ name: "listings" })
 class Listing extends BaseEntity {
@@ -94,7 +97,7 @@ class Listing extends BaseEntity {
   @Expose()
   @ApiPropertyOptional()
   get referralApplication(): ApplicationMethodDto | undefined {
-    return this.applicationMethods.find((method) => method.type === ApplicationMethodType.Referral)
+    return this.applicationMethods?.find((method) => method.type === ApplicationMethodType.Referral)
   }
 
   // booleans to make dealing with different application methods easier to parse
@@ -566,6 +569,18 @@ class Listing extends BaseEntity {
   @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
   @Type(() => UnitsSummary)
   unitsSummary: UnitsSummary[]
+
+  @OneToOne(() => ListingFeatures, {
+    nullable: true,
+    eager: true,
+    cascade: true,
+  })
+  @JoinColumn()
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default], each: true })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => ListingFeatures)
+  features?: ListingFeatures
 }
 
 export { Listing as default, Listing }

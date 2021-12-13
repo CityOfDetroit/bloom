@@ -1,4 +1,4 @@
-import { ListingSeedType, PropertySeedType } from "./listings"
+import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
 import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
@@ -46,6 +46,20 @@ const mcvListing: ListingSeedType = {
   rentalAssistance: undefined,
   reviewOrderType: undefined,
   isWaitlistOpen: undefined,
+  features: {
+    elevator: true,
+    wheelchairRamp: true,
+    serviceAnimalsAllowed: false,
+    accessibleParking: false,
+    parkingOnSite: false,
+    inUnitWasherDryer: false,
+    laundryInBuilding: true,
+    barrierFreeEntrance: true,
+    rollInShower: false,
+    grabBars: false,
+    heatingInUnit: false,
+    acInUnit: true,
+  },
 }
 
 export class Listing10145Seed extends ListingDefaultSeed {
@@ -60,13 +74,22 @@ export class Listing10145Seed extends ListingDefaultSeed {
 
     const reservedType = await this.reservedTypeRepository.findOneOrFail({ name: "senior62" })
 
+    const assets: Array<AssetDtoSeedType> = [
+      {
+        label: "building",
+        // NOTE: this is not an actual image of the property
+        fileId:
+          "https://images.unsplash.com/photo-1612637968894-660373e23b03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+      },
+    ]
+
     const listingCreateDto: Omit<
       DeepPartial<Listing>,
       keyof BaseEntity | "urlSlug" | "showWaitlist"
     > = {
       ...mcvListing,
       applicationMethods: [],
-      assets: [],
+      assets: assets,
       events: [],
       property: property,
       preferences: [],

@@ -11,17 +11,17 @@ const propertySeed: PropertySeedType = {
   buildingAddress: {
     city: "Detroit",
     state: "MI",
-    street: "4000-4100 Blocks Alter Rd & Wayburn St.",
-    zipCode: "48224",
-    latitude: 42.39175,
-    longitude: -82.95057,
+    street: "1854 Lafayette",
+    zipCode: "48207",
+    latitude: 42.339165,
+    longitude: -83.030315,
   },
-  buildingTotalUnits: 64,
-  neighborhood: "Morningside",
+  buildingTotalUnits: 312,
+  neighborhood: "Elmwood Park",
 }
 
 const listingSeed: ListingSeedType = {
-  amiPercentageMax: 50,
+  amiPercentageMax: 60,
   amiPercentageMin: 30,
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
@@ -29,13 +29,13 @@ const listingSeed: ListingSeedType = {
   CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
-  hrdId: "HRD10154",
-  leasingAgentName: "Kristy Schornak",
-  leasingAgentPhone: "313-821-0469",
-  managementCompany: "Continental Management",
-  managementWebsite: "www.continentalmgt.com",
-  name: "Morningside Commons Multi",
-  status: ListingStatus.active,
+  hrdId: "HRD10136",
+  leasingAgentName: "James Harrigan",
+  leasingAgentPhone: "810-750-7000",
+  managementCompany: "Independent Management Service",
+  managementWebsite: "www.imsproperties.net/michigan",
+  name: "Martin Luther King II",
+  status: ListingStatus.pending,
   image: undefined,
   digitalApplication: undefined,
   paperApplication: undefined,
@@ -47,23 +47,25 @@ const listingSeed: ListingSeedType = {
   reviewOrderType: undefined,
   isWaitlistOpen: undefined,
   features: {
-    elevator: false,
+    elevator: true,
     wheelchairRamp: true,
-    serviceAnimalsAllowed: true,
+    serviceAnimalsAllowed: false,
     accessibleParking: true,
     parkingOnSite: true,
-    inUnitWasherDryer: true,
-    laundryInBuilding: false,
+    inUnitWasherDryer: false,
+    laundryInBuilding: true,
     barrierFreeEntrance: true,
     rollInShower: false,
     grabBars: false,
-    heatingInUnit: true,
+    heatingInUnit: false,
     acInUnit: true,
   },
 }
 
-export class Listing10154Seed extends ListingDefaultSeed {
+export class Listing10136Seed extends ListingDefaultSeed {
   async seed() {
+    const unitTypeStudio = await this.unitTypeRepository.findOneOrFail({ name: "studio" })
+    const unitTypeOneBdrm = await this.unitTypeRepository.findOneOrFail({ name: "oneBdrm" })
     const unitTypeTwoBdrm = await this.unitTypeRepository.findOneOrFail({ name: "twoBdrm" })
     const unitTypeThreeBdrm = await this.unitTypeRepository.findOneOrFail({ name: "threeBdrm" })
     const unitTypeFourBdrm = await this.unitTypeRepository.findOneOrFail({ name: "fourBdrm" })
@@ -75,7 +77,9 @@ export class Listing10154Seed extends ListingDefaultSeed {
     const assets: Array<AssetDtoSeedType> = [
       {
         label: "building",
-        fileId: "/images/dev/Morningside Commons.jpg",
+        // NOTE: this is not an actual picture of the property.
+        fileId:
+          "https://images.unsplash.com/photo-1595330449916-e7c3e1962bd3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1546&q=80",
       },
     ]
 
@@ -95,23 +99,37 @@ export class Listing10154Seed extends ListingDefaultSeed {
 
     const unitsSummaryToBeCreated: UnitsSummaryCreateDto[] = []
 
+    const studioUnitsSummary: UnitsSummaryCreateDto = {
+      unitType: unitTypeStudio,
+      totalCount: 8,
+      listing: listing,
+    }
+    unitsSummaryToBeCreated.push(studioUnitsSummary)
+
+    const oneBdrmUnitsSummary: UnitsSummaryCreateDto = {
+      unitType: unitTypeOneBdrm,
+      totalCount: 100,
+      listing: listing,
+    }
+    unitsSummaryToBeCreated.push(oneBdrmUnitsSummary)
+
     const twoBdrmUnitsSummary: UnitsSummaryCreateDto = {
       unitType: unitTypeTwoBdrm,
-      totalCount: 8,
+      totalCount: 118,
       listing: listing,
     }
     unitsSummaryToBeCreated.push(twoBdrmUnitsSummary)
 
     const threeBdrmUnitsSummary: UnitsSummaryCreateDto = {
       unitType: unitTypeThreeBdrm,
-      totalCount: 38,
+      totalCount: 54,
       listing: listing,
     }
     unitsSummaryToBeCreated.push(threeBdrmUnitsSummary)
 
     const fourBdrmUnitsSummary: UnitsSummaryCreateDto = {
       unitType: unitTypeFourBdrm,
-      totalCount: 18,
+      totalCount: 32,
       listing: listing,
     }
     unitsSummaryToBeCreated.push(fourBdrmUnitsSummary)

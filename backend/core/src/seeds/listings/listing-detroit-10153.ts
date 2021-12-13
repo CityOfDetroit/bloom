@@ -1,4 +1,4 @@
-import { ListingSeedType, PropertySeedType } from "./listings"
+import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
 import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
@@ -45,6 +45,20 @@ const listingSeed: ListingSeedType = {
   rentalAssistance: undefined,
   reviewOrderType: undefined,
   isWaitlistOpen: undefined,
+  features: {
+    elevator: true,
+    wheelchairRamp: true,
+    serviceAnimalsAllowed: true,
+    accessibleParking: true,
+    parkingOnSite: true,
+    inUnitWasherDryer: false,
+    laundryInBuilding: false,
+    barrierFreeEntrance: true,
+    rollInShower: true,
+    grabBars: true,
+    heatingInUnit: true,
+    acInUnit: true,
+  },
 }
 
 export class Listing10153Seed extends ListingDefaultSeed {
@@ -55,13 +69,20 @@ export class Listing10153Seed extends ListingDefaultSeed {
       ...propertySeed,
     })
 
+    const assets: Array<AssetDtoSeedType> = [
+      {
+        label: "building",
+        fileId: "/images/dev/Morang Apartments.png",
+      },
+    ]
+
     const listingCreateDto: Omit<
       DeepPartial<Listing>,
       keyof BaseEntity | "urlSlug" | "showWaitlist"
     > = {
       ...listingSeed,
       applicationMethods: [],
-      assets: [],
+      assets: assets,
       events: [],
       property: property,
       preferences: [],

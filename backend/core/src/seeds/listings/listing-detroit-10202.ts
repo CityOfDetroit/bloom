@@ -1,4 +1,4 @@
-import { ListingSeedType, PropertySeedType } from "./listings"
+import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
 import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
@@ -36,7 +36,7 @@ const mcvListing: ListingSeedType = {
   managementCompany: "Associated Management Co",
   managementWebsite: "associated-management.rentlinx.com/listings",
   name: "River Towers",
-  status: ListingStatus.active,
+  status: ListingStatus.pending,
   image: undefined,
   digitalApplication: undefined,
   paperApplication: undefined,
@@ -47,6 +47,20 @@ const mcvListing: ListingSeedType = {
   rentalAssistance: undefined,
   reviewOrderType: undefined,
   isWaitlistOpen: undefined,
+  features: {
+    elevator: true,
+    wheelchairRamp: false,
+    serviceAnimalsAllowed: true,
+    accessibleParking: true,
+    parkingOnSite: true,
+    inUnitWasherDryer: true,
+    laundryInBuilding: false,
+    barrierFreeEntrance: true,
+    rollInShower: false,
+    grabBars: false,
+    heatingInUnit: true,
+    acInUnit: true,
+  },
 }
 
 export class Listing10202Seed extends ListingDefaultSeed {
@@ -58,13 +72,20 @@ export class Listing10202Seed extends ListingDefaultSeed {
       ...mcvProperty,
     })
 
+    const assets: Array<AssetDtoSeedType> = [
+      {
+        label: "building",
+        fileId: "https://s3.amazonaws.com/photos.rentlinx.com/L800/85883803.jpg",
+      },
+    ]
+
     const listingCreateDto: Omit<
       DeepPartial<Listing>,
       keyof BaseEntity | "urlSlug" | "showWaitlist"
     > = {
       ...mcvListing,
       applicationMethods: [],
-      assets: [],
+      assets: assets,
       events: [],
       property: property,
       preferences: [],
