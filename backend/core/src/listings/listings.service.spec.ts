@@ -152,7 +152,6 @@ describe("ListingsService", () => {
     }).compile()
 
     service = module.get(ListingsService)
-    // const queue = module.get(getQueueToken("listings-notifications"))
   })
 
   afterEach(() => {
