@@ -40,6 +40,7 @@ import { Application } from "../../applications/entities/application.entity"
 import { Listing } from "../../listings/entities/listing.entity"
 import { UserRoles } from "../entities/user-roles.entity"
 import { UserPreferences } from "../../../src/user-preferences/entities/user-preferences.entity"
+import { UserPreferencesDto } from "../../../src/user-preferences/dto/user-preferences.dto"
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {
@@ -277,7 +278,7 @@ export class UserService {
         jurisdictions: dto.jurisdictions
           ? (dto.jurisdictions as JurisdictionDto[])
           : [await this.jurisdictionResolverService.getJurisdiction()],
-        preferences: dto.preferences as UserPreferences,
+        preferences: (dto.preferences as unknown) as UserPreferences,
       },
       authContext
     )
@@ -339,7 +340,7 @@ export class UserService {
         jurisdictions: dto.jurisdictions
           ? (dto.jurisdictions as JurisdictionDto[])
           : [await this.jurisdictionResolverService.getJurisdiction()],
-        preferences: dto.preferences as UserPreferences,
+        preferences: (dto.preferences as unknown) as UserPreferences,
       },
       authContext
     )
