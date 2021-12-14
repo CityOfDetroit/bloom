@@ -83,7 +83,7 @@ export const getListings = (listings) => {
           cellClassName: "px-5 py-3",
         }}
         seeDetailsLink={`/listing/${listing.id}/${listing.urlSlug}`}
-        detailsLinkClass="float-right"
+        detailsLinkClass="listings-card-details-button float-right"
         tableHeaderProps={{
           tableHeader: listing.showWaitlist ? t("listings.waitlist.open") : null,
         }}
