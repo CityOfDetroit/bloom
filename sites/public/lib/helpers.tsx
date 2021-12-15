@@ -87,6 +87,7 @@ export const getListings = (listings) => {
         tableHeaderProps={{
           tableHeader: listing.showWaitlist ? t("listings.waitlist.open") : null,
         }}
+        listing={listing}
       />
     )
   })
