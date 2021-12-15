@@ -22,8 +22,7 @@ export class UserPreferences {
   sendSmsNotifications?: boolean
 
   @ManyToMany(() => Listing, (listing) => listing.favoritedPreferences, {
-    nullable: false,
-    cascade: true,
+    nullable: true,
   })
   @JoinTable()
   @Expose()

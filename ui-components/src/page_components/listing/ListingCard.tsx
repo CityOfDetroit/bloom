@@ -7,7 +7,7 @@ import { t } from "../../helpers/translator"
 import "./ListingCard.scss"
 import { StandardTable, StandardTableProps } from "../../tables/StandardTable"
 import { AppearanceSizeType, AuthContext, Button, Icon } from "@bloom-housing/ui-components"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Listing, UserPreferences } from "@bloom-housing/backend-core/types/src/backend-swagger"
 
 interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
@@ -31,6 +31,7 @@ export interface ListingCardProps {
 const ListingCard = (props: ListingCardProps) => {
   const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps } = props
   const { profile, userProfileService } = useContext(AuthContext)
+  const [updatedFavorites, setUpdatedFavorites] = useState(profile?.preferences?.favorites)
 
   const addToFavorite = async () => {
     const localProfile = profile
@@ -49,6 +50,7 @@ const ListingCard = (props: ListingCardProps) => {
     localProfile.preferences = preferences
 
     console.log(preferences.favorites)
+    setUpdatedFavorites(preferences.favorites)
 
     try {
       await userProfileService?.update({
@@ -78,6 +80,7 @@ const ListingCard = (props: ListingCardProps) => {
     console.log("Removing Listing")
     preferences.favorites = temp
     console.log(preferences.favorites)
+    setUpdatedFavorites(preferences.favorites)
 
     try {
       await userProfileService?.update({
@@ -128,22 +131,25 @@ const ListingCard = (props: ListingCardProps) => {
             {t("t.seeDetails")}
           </LinkButton>
         )}
-        <Button
-          className="mx-2 mt-6"
-          size={AppearanceSizeType.small}
-          onClick={() => addToFavorite()}
-        >
-          <Icon symbol={"plus"} size={"medium"} />
-          {t("t.addFavorites")}
-        </Button>
-        <Button
-          className="mx-2 mt-6"
-          size={AppearanceSizeType.small}
-          onClick={() => removeFavorite()}
-        >
-          <Icon symbol={"closeRound"} size={"medium"} />
-          {t("t.removeFavorites")}
-        </Button>
+        <>
+          {updatedFavorites?.map((listing) => listing.id).includes(props.listing.id) ? (
+            <Button
+              className="mx-2 mt-6"
+              size={AppearanceSizeType.small}
+              onClick={() => removeFavorite()}
+            >
+              <Icon symbol={"likeFill"} size={"large"} />
+            </Button>
+          ) : (
+            <Button
+              className="mx-2 mt-6"
+              size={AppearanceSizeType.small}
+              onClick={() => addToFavorite()}
+            >
+              <Icon symbol={"like"} size={"large"} />
+            </Button>
+          )}
+        </>
       </div>
     </article>
   )
