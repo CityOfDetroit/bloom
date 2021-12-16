@@ -150,7 +150,6 @@ export class UserService {
       ...dto,
       passwordHash,
     })
-    console.log(user.id)
     return await this.userRepository.save(user)
   }
 
