@@ -7,7 +7,7 @@ import { t } from "../../helpers/translator"
 import "./ListingCard.scss"
 import { StandardTable, StandardTableProps } from "../../tables/StandardTable"
 import { AppearanceSizeType, AuthContext, Button, Icon } from "@bloom-housing/ui-components"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Listing, UserPreferences } from "@bloom-housing/backend-core/types/src/backend-swagger"
 
 interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
@@ -32,6 +32,15 @@ const ListingCard = (props: ListingCardProps) => {
   const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps } = props
   const { profile, userProfileService } = useContext(AuthContext)
   const [updatedFavorites, setUpdatedFavorites] = useState(profile?.preferences?.favorites)
+
+  useEffect(() => {
+    setFavoriteButtonState()
+  })
+
+  const setFavoriteButtonState = () => {
+    const preferences: UserPreferences = profile?.preferences || { favorites: [] }
+    setUpdatedFavorites(preferences?.favorites)
+  }
 
   const addToFavorite = async () => {
     const localProfile = profile
@@ -72,7 +81,6 @@ const ListingCard = (props: ListingCardProps) => {
     }
 
     const index = preferences.favorites.indexOf(props.listing)
-    console.log(index)
     const temp = [
       ...preferences.favorites.slice(0, index),
       ...preferences.favorites.slice(index + 1),
