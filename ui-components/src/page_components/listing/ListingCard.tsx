@@ -132,23 +132,24 @@ const ListingCard = (props: ListingCardProps) => {
           </LinkButton>
         )}
         <>
-          {updatedFavorites?.map((listing) => listing.id).includes(props.listing.id) ? (
-            <Button
-              className="mx-2 mt-6"
-              size={AppearanceSizeType.small}
-              onClick={() => removeFavorite()}
-            >
-              <Icon symbol={"likeFill"} size={"large"} />
-            </Button>
-          ) : (
-            <Button
-              className="mx-2 mt-6"
-              size={AppearanceSizeType.small}
-              onClick={() => addToFavorite()}
-            >
-              <Icon symbol={"like"} size={"large"} />
-            </Button>
-          )}
+          {profile &&
+            (updatedFavorites?.map((listing) => listing.id).includes(props.listing.id) ? (
+              <Button
+                className="mx-2 mt-6"
+                size={AppearanceSizeType.small}
+                onClick={() => removeFavorite()}
+              >
+                <Icon symbol={"likeFill"} size={"large"} />
+              </Button>
+            ) : (
+              <Button
+                className="mx-2 mt-6"
+                size={AppearanceSizeType.small}
+                onClick={() => addToFavorite()}
+              >
+                <Icon symbol={"like"} size={"large"} />
+              </Button>
+            ))}
         </>
       </div>
     </article>
