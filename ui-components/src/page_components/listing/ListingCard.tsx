@@ -61,6 +61,7 @@ const ListingCard = (props: ListingCardProps) => {
     console.log(preferences.favorites)
     setUpdatedFavorites(preferences.favorites)
 
+    console.log(profile)
     try {
       await userProfileService?.update({
         body: { ...profile, preferences },

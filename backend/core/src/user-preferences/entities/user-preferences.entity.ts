@@ -21,9 +21,7 @@ export class UserPreferences {
   @Expose()
   sendSmsNotifications?: boolean
 
-  @ManyToMany(() => Listing, (listing) => listing.favoritedPreferences, {
-    nullable: true,
-  })
+  @ManyToMany(() => Listing, (listing) => listing.favoritedPreferences, {})
   @JoinTable()
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
