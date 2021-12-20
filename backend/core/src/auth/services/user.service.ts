@@ -150,6 +150,9 @@ export class UserService {
       ...dto,
       passwordHash,
     })
+    console.log(user.id)
+    console.log(user.preferences)
+    console.log(dto.preferences)
     return await this.userRepository.save(user)
   }
 
