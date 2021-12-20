@@ -5,6 +5,7 @@ import { IsOptional, IsString } from "class-validator"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { UserFilterKeys } from "../types/user-filter-keys"
 
+// TODO: extend this to allow filtering on User.preferences
 export class UserFilterParams extends BaseFilter {
   @Expose()
   @ApiProperty({
