@@ -19,8 +19,7 @@ export class SmsService {
     const notificationBody = `A new listing was recently added to Detroit Home Connect: ${listing.name}.`
 
     // TODO(https://github.com/CityOfDetroit/bloom/issues/705): handle filtering in the DB query
-    // instead of here, possibly by updating the filtering allowed by UserService.list(), or by
-    // creating a new method in UserService.
+    // instead of here.
     const users: User[] = await this.userService.listAllUsers()
     for (const user of users) {
       if (user.preferences.sendSmsNotifications && user.phoneNumber) {
