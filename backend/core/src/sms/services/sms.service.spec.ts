@@ -4,7 +4,6 @@ import { Listing } from "../../listings/entities/listing.entity"
 import { UserService } from "../../auth/services/user.service"
 import { SmsService } from "./sms.service"
 import { TwilioService } from "./twilio.service"
-import { StatusDto } from "src/shared/dto/status.dto"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
