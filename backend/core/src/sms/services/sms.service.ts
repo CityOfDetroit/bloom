@@ -7,8 +7,6 @@ import { mapTo } from "../../shared/mapTo"
 import { SmsDto } from "../dto/sms.dto"
 import { TwilioService } from "./twilio.service"
 
-// NEXT STEP: TEST THIS (and make sure it builds, since I added the UserService dependency)
-
 @Injectable({ scope: Scope.REQUEST })
 export class SmsService {
   constructor(private readonly twilio: TwilioService, private readonly userService: UserService) {}
