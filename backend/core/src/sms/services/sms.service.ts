@@ -14,6 +14,7 @@ export class SmsService {
   async sendNewListingNotification(listing: Listing): Promise<StatusDto> {
     // TODO(https://github.com/CityOfDetroit/bloom/issues/705): when Detroit Home Connect has a
     // URL, update this message so that it includes a link to the new listing.
+    // TODO(https://github.com/CityOfDetroit/bloom/issues/705): translate this string.
     const notificationBody = `A new listing was recently added to Detroit Home Connect: ${listing.name}.`
 
     // TODO(https://github.com/CityOfDetroit/bloom/issues/705): handle filtering in the DB query
