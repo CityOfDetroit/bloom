@@ -35,9 +35,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException()
     }
     const userId = payload.sub
-    return this.userRepository.findOne({
-      where: { id: userId },
-      relations: ["leasingAgentInListings"],
-    })
+    return this.userRepository
+      .createQueryBuilder("user")
+      .where("user.id = :id", { id: userId })
+      .leftJoinAndSelect("user.preferences", "user_preferences")
+      .leftJoinAndSelect("user_preferences.favorites", "favorited_listings")
+      .leftJoinAndSelect("user.leasingAgentInListings", "leasing_agent_in_listings")
+      .getOneOrFail()
   }
 }
