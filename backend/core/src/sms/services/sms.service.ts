@@ -14,12 +14,16 @@ export class SmsService {
   constructor(private readonly twilio: TwilioService, private readonly userService: UserService) {}
 
   async sendNewListingNotification(listing: Listing): Promise<StatusDto> {
-    // TODO: when we have a URL, update this message so that it includes a link to the new listing.
+    // TODO(https://github.com/CityOfDetroit/bloom/issues/705): when Detroit Home Connect has a
+    // URL, update this message so that it includes a link to the new listing.
     const notificationBody = `A new listing was recently added to Detroit Home Connect: ${listing.name}.`
+
+    // TODO(https://github.com/CityOfDetroit/bloom/issues/705): handle filtering in the DB query
+    // instead of here, possibly by updating the filtering allowed by UserService.list(), or by
+    // creating a new method in UserService.
     const users: User[] = await this.userService.listAllUsers()
     for (const user of users) {
       if (user.preferences.sendSmsNotifications && user.phoneNumber) {
-        // TODO: make sure we have validation that if sendSmsNotifications is set, a phone number must also be set
         const smsDto: SmsDto = { body: notificationBody, phoneNumber: user.phoneNumber }
         await this.send(smsDto)
       }

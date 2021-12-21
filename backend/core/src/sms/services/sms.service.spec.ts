@@ -4,6 +4,7 @@ import { Listing } from "../../listings/entities/listing.entity"
 import { UserService } from "../../auth/services/user.service"
 import { SmsService } from "./sms.service"
 import { TwilioService } from "./twilio.service"
+import { StatusDto } from "src/shared/dto/status.dto"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -86,6 +87,18 @@ describe("SmsService", () => {
         "A new listing was recently added to Detroit Home Connect: Mock Listing.",
         "+12222222222"
       )
+    })
+
+    it("throws an exception if the Twilio call returns an error", async () => {
+      mockedUserService.listAllUsers.mockResolvedValue([
+        { phoneNumber: "+12222222222", preferences: { sendSmsNotifications: true } },
+      ])
+      mockedTwilioService.send.mockResolvedValue({
+        errorCode: 1,
+        errorMessage: "test error message",
+      })
+
+      await expect(service.sendNewListingNotification(mockListing)).rejects.toThrow(HttpException)
     })
   })
 
