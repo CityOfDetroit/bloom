@@ -11,6 +11,7 @@ import {
   ListingFilterState,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
+import { Region } from "@bloom-housing/ui-components/src/helpers/regionNeighborhoodMap"
 
 const isValidZipCodeOrEmpty = (value: string) => {
   // Empty strings or whitespace are valid and will reset the filter.
@@ -89,7 +90,6 @@ const FilterForm = (props: FilterFormProps) => {
   return (
     <Form onSubmit={handleSubmit(props.onSubmit)}>
       <div className="form-card__group">
-        <p className="field-note mb-4">{t("listingFilters.modalHeader")}</p>
         <Select
           id={"availability"}
           name={FrontendListingFilterStateKeys.availability}
@@ -98,9 +98,10 @@ const FilterForm = (props: FilterFormProps) => {
           controlClassName="control"
           options={availabilityOptions}
           defaultValue={props.filterState?.availability}
+          labelClassName="filter-header"
         />
-        <label className="field-label">{t("listingFilters.bedrooms")}</label>
-        <div className="flex flex-row bedroom-selector">
+        <label className="field-label filter-header">{t("listingFilters.bedrooms")}</label>
+        <div className="flex flex-col bedroom-selector">
           <Field
             id="studio"
             name={FrontendListingFilterStateKeys.studio}
@@ -152,22 +153,144 @@ const FilterForm = (props: FilterFormProps) => {
             }}
           />
         </div>
-        <Field
-          id="zipCodeField"
-          name={FrontendListingFilterStateKeys.zipcode}
-          label={t("listingFilters.zipCode")}
-          register={register}
-          controlClassName="control"
-          placeholder={t("listingFilters.zipCodeDescription")}
-          validation={{
-            validate: (value) => isValidZipCodeOrEmpty(value),
-          }}
-          error={errors?.[FrontendListingFilterStateKeys.zipcode]}
-          errorMessage={t("errors.multipleZipCodeError")}
-          defaultValue={props.filterState?.zipcode}
-        />
-        <label className="field-label">{t("listingFilters.rentRange")}</label>
-        <div className="flex flex-row">
+        <label className="field-label filter-header">{t("listingFilters.region")}</label>
+        <div className="checkbox-filter-group">
+          {Object.entries(Region).map((region) => (
+            <Field
+              id={region[0]}
+              name={region[0]}
+              type="checkbox"
+              label={region[1]}
+              register={register}
+              inputProps={{ defaultChecked: Boolean(props.filterState?.[region[0]]) }}
+            ></Field>
+          ))}
+        </div>
+        <label className="field-label filter-header">{t("eligibility.accessibility.title")}</label>
+        <div className="checkbox-filter-group">
+          <Field
+            id="elevator"
+            name={FrontendListingFilterStateKeys.elevator}
+            type="checkbox"
+            label={t("eligibility.accessibility.elevator")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.elevator),
+            }}
+          />
+          <Field
+            id="wheelchairRamp"
+            name={FrontendListingFilterStateKeys.wheelchairRamp}
+            type="checkbox"
+            label={t("eligibility.accessibility.wheelchairRamp")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.wheelchairRamp),
+            }}
+          />
+          <Field
+            id="serviceAnimalsAllowed"
+            name={FrontendListingFilterStateKeys.serviceAnimalsAllowed}
+            type="checkbox"
+            label={t("eligibility.accessibility.serviceAnimalsAllowed")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.serviceAnimalsAllowed),
+            }}
+          />
+          <Field
+            id="accessibleParking"
+            name={FrontendListingFilterStateKeys.accessibleParking}
+            type="checkbox"
+            label={t("eligibility.accessibility.accessibleParking")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.accessibleParking),
+            }}
+          />
+          <Field
+            id="parkingOnSite"
+            name={FrontendListingFilterStateKeys.parkingOnSite}
+            type="checkbox"
+            label={t("eligibility.accessibility.parkingOnSite")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.parkingOnSite),
+            }}
+          />
+          <Field
+            id="inUnitWasherDryer"
+            name={FrontendListingFilterStateKeys.inUnitWasherDryer}
+            type="checkbox"
+            label={t("eligibility.accessibility.inUnitWasherDryer")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.inUnitWasherDryer),
+            }}
+          />
+          <Field
+            id="laundryInBuilding"
+            name={FrontendListingFilterStateKeys.laundryInBuilding}
+            type="checkbox"
+            label={t("eligibility.accessibility.laundryInBuilding")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.laundryInBuilding),
+            }}
+          />
+          <Field
+            id="barrierFreeEntrance"
+            name={FrontendListingFilterStateKeys.barrierFreeEntrance}
+            type="checkbox"
+            label={t("eligibility.accessibility.barrierFreeEntrance")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.barrierFreeEntrance),
+            }}
+          />
+          <Field
+            id="rollInShower"
+            name={FrontendListingFilterStateKeys.rollInShower}
+            type="checkbox"
+            label={t("eligibility.accessibility.rollInShower")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.rollInShower),
+            }}
+          />
+          <Field
+            id="grabBars"
+            name={FrontendListingFilterStateKeys.grabBars}
+            type="checkbox"
+            label={t("eligibility.accessibility.grabBars")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.grabBars),
+            }}
+          />
+          <Field
+            id="heatingInUnit"
+            name={FrontendListingFilterStateKeys.heatingInUnit}
+            type="checkbox"
+            label={t("eligibility.accessibility.heatingInUnit")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.heatingInUnit),
+            }}
+          />
+          <Field
+            id="acInUnit"
+            name={FrontendListingFilterStateKeys.acInUnit}
+            type="checkbox"
+            label={t("eligibility.accessibility.acInUnit")}
+            register={register}
+            inputProps={{
+              defaultChecked: Boolean(props.filterState?.acInUnit),
+            }}
+          />
+        </div>
+        <label className="field-label filter-header">{t("listingFilters.rentRange")}</label>
+        <div className="flex flex-row rent-range">
           <Field
             id="minRent"
             name={FrontendListingFilterStateKeys.minRent}
@@ -177,7 +300,7 @@ const FilterForm = (props: FilterFormProps) => {
             prepend="$"
             defaultValue={props.filterState?.minRent}
           />
-          <div className="flex items-center p-3">{t("t.to")}</div>
+          <div className="flex items-center px-9">{t("t.to")}</div>
           <Field
             id="maxRent"
             name={FrontendListingFilterStateKeys.maxRent}
@@ -195,6 +318,7 @@ const FilterForm = (props: FilterFormProps) => {
           register={register}
           controlClassName="control"
           options={adaCompliantOptions}
+          labelClassName="filter-header"
         />
         <Select
           id="seniorHousing"
@@ -204,6 +328,7 @@ const FilterForm = (props: FilterFormProps) => {
           controlClassName="control"
           options={seniorHousingOptions}
           defaultValue={props.filterState?.seniorHousing?.toString()}
+          labelClassName="filter-header"
         />
         {/* TODO(#515): Add more explanation and an ami percentage
         calculator to this filter */}
@@ -215,6 +340,7 @@ const FilterForm = (props: FilterFormProps) => {
           controlClassName="control"
           options={amiOptions}
           defaultValue={props.filterState?.minAmiPercentage?.toString()}
+          labelClassName="filter-header"
         />
         <Field
           id="includeNulls"
@@ -227,9 +353,9 @@ const FilterForm = (props: FilterFormProps) => {
           }}
         />
       </div>
-      <div className="text-center mt-6">
+      <div className="text-center mt-8 mb-5">
         <Button type="submit" styleType={AppearanceStyleType.primary}>
-          {t("listingFilters.applyFilters")}
+          {t("listingFilters.applyFilter")}
         </Button>
       </div>
     </Form>

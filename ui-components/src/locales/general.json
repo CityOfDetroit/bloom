@@ -931,7 +931,7 @@
       "senior55": "Seniors 55+",
       "senior62": "Seniors 62+",
       "partiallySenior": "Partially Seniors",
-      "specialNeeds": "Special Needs"
+      "specialNeeds": "Accessible"
     },
     "reservedFor": "Reserved for %{type}",
     "reservedCommunityType": "Reserved Community Type",
@@ -1169,7 +1169,7 @@
     "welcomeSpanish": "Bienvenido",
     "welcomeVietnamese": "Tiếng Việt",
     "about": "About",
-    "feedback": "Feedback",
+    "feedback": "Share website feedback",
     "resources": "Resources"
   },
   "pageDescription": {
@@ -1383,7 +1383,7 @@
   },
   "welcome": {
     "allApplicationClosed": "All applications are currently closed, but you can view closed listings.",
-    "seeRentalListings": "See Rentals",
+    "seeRentalListings": "See all rentals",
     "title": "Apply for affordable housing in",
     "seeMoreOpportunities": "See more rental and ownership housing opportunities",
     "bedrooms": {
@@ -1396,7 +1396,7 @@
     "findRentalsForMe": "Find rentals for me",
     "latestListings": "Latest listings",
     "lastUpdated": "Last updated %{date}",
-    "neighborhoods": "Neighborhoods",
+    "cityRegions": "City regions",
     "subTitle": "Click the button below to find rental housing based on your income and household needs",
     "seeMoreOpportunitiesTruncated": "See more housing opportunities and resources",
     "signUp": "Get emailed whenever a new listing is posted",
@@ -1427,13 +1427,14 @@
     },
     "zipCode": "Zip code",
     "zipCodeDescription": "Enter zip code",
+    "region": "Region",
     "adaCompliant": "Accessible Features for Residents with Disabilities?",
     "rentRange": "Rent range",
     "availability": "Unit availability",
     "hasAvailability": "Has availability",
     "noAvailability": "No availability",
     "waitlist": "Waitlist",
-    "applyFilters": "Apply filters",
+    "applyFilter": "Apply filter",
     "noResults": "No results",
     "noResultsSubtitle": "Edit or remove filters for best results.",
     "includeUnknowns": "Show homes with missing information",
@@ -1457,7 +1458,19 @@
       "amiOption125": "125% of AMI or more",
       "amiOption140": "140% of AMI or more",
       "amiOption150": "150% of AMI or more"
-    }
+    },
+      "elevator": "Elevator",
+      "wheelchairRamp": "Wheelchair Ramp",
+      "serviceAnimalsAllowed": "Service Animals Allowed",
+      "accessibleParking": "Accessible Parking",
+      "parkingOnSite": "Parking On Site",
+      "inUnitWasherDryer": "In Unit Washer Dryer",
+      "laundryInBuilding": "Laundry in Building",
+      "barrierFreeEntrance": "Barrier Free Entrance",
+      "rollInShower": "Roll in Shower",
+      "grabBars": "Grab Bars",
+      "heatingInUnit": "Heating in Unit",
+      "acInUnit": "AC in Unit"
   },
   "eligibility": {
     "progress": {
@@ -1467,16 +1480,17 @@
         "household": "Household",
         "age": "Age",
         "disability": "Disability",
+        "accessibility": "Accessibility",
         "income": "Income",
         "disclaimer": "Disclaimer"
       }
     },
     "welcome": {
       "header": "Welcome",
-      "description": "Welcome to Detroit Home Connect! We know that finding housing can be difficult. We are here to help. To find you a home that best fits your needs, let's answer four simple questions first. Some affordable housing only accepts people of certain ages or certain incomes, so we want to make sure you are applying to properties that work for your household."
+      "description": "Welcome to Detroit Home Connect! To see rentals that you may qualify for, just answer four questions."
     },
     "household": {
-      "prompt": "How many people will be living in this property?",
+      "prompt": "How many people will live in your next rental, including yourself?",
       "srCountLabel": "Household Size",
       "ranges": {
         "one": "1 Member",
@@ -1497,7 +1511,7 @@
       "62plus": "62+"
     },
     "disability": {
-      "prompt": "Do you have a disability?",
+      "prompt": "Does anyone in your household have a disability?",
       "description": "You might need to provide proof of disability when you apply for some homes."
     },
     "income": {
@@ -1511,17 +1525,36 @@
       },
       "label": "Income range",
       "ranges": {
-        "below10k": "Below $10,000",
-        "10kTo20k": "$10,000 - $20,000",
-        "30kTo40k": "$30,000 - $40,000",
-        "40kTo50k": "$40,000 - $50,000",
-        "over50k": "Over $50,000"
+        "below10k": "$0 - $9,999",
+        "10kTo20k": "$10,000 - $19,999",
+        "20kTo30k": "$20,000 - $29,999",
+        "30kTo40k": "$30,000 - $39,999",
+        "40kTo50k": "$40,000 - $49,999",
+        "over50k": "$50,000 or more"
       }
     },
-    "disclaimer": {
-      "description": "Thank you for checking how you qualify for affordable housing. Because affordable housing can be reserved for certain age groups or income levels, we have filtered our property listings based on your household characteristics. We hope you find housing that meets your needs. It's important to note that a good portion of affordable housing has a waitlist, but calling properties you're interested in is a good way to get on waitlists or learn of immediate openings."
+    "accessibility": {
+      "title": "Accessibility Features",
+      "prompt": "Do you require additional accessibility features?",
+      "description": "Some properties have accessibility features that others may not have.",
+      "elevator": "Elevator",
+      "wheelchairRamp": "Wheelchair Ramp",
+      "serviceAnimalsAllowed": "Service Animals Allowed",
+      "accessibleParking": "Accessible Parking",
+      "parkingOnSite": "Parking On Site",
+      "inUnitWasherDryer": "In Unit Washer Dryer",
+      "laundryInBuilding": "Laundry in Building",
+      "barrierFreeEntrance": "Barrier Free Entrance",
+      "rollInShower": "Roll in Shower",
+      "grabBars": "Grab Bars",
+      "heatingInUnit": "Heating in Unit",
+      "acInUnit": "AC in Unit"
     },
-    "preferNotToSay": "Prefer not to say"
+    "disclaimer": {
+      "description": "Thank you for answering these questions. When you click or tap \"See results now\", you'll see rentals that might fit your needs based on your answers. Multiple factors can affect eligibility for specific rentals, so if you see a rental you're interested in, contact the Property Agent on the listing. They can help you determine if you're eligible for that rental."
+    },
+    "preferNotToSay": "Prefer not to say",
+    "seeResultsNow": "See results now"
   },
   "resources": {
     "body1": "You may need additional assistance in your search for housing. HRD has compiled a list of resources to help you find and maintain your housing.",
