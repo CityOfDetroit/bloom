@@ -29,7 +29,10 @@ export class ListingsNotificationsConsumer {
       // TODO(https://github.com/CityOfDetroit/bloom/issues/698): call out to the
       // emailService to send email notifications.
     } else if (job.data.updateType === ListingUpdateType.MODIFY) {
-      // TODO(#698 and #705): send sms and email notifications for modified listings
+      status = await this.smsService.sendNewListingNotification(listing)
+
+      // TODO(https://github.com/CityOfDetroit/bloom/issues/698): call out to the
+      // emailService to send email notifications.
     }
     return status
   }
