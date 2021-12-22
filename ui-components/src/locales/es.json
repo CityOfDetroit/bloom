@@ -1207,9 +1207,7 @@
         "website": "Sitio web",
         "year": "Año",
         "yes": "sí",
-        "you": "Tú",
-        "addFavorites": "Agregar a los favoritos",
-        "removeFavorites": "Quitar de favoritos"
+        "you": "Tú"
     },
     "welcome": {
         "allApplicationClosed": "Actualmente, todas las aplicaciones están cerradas, pero puede ver las listas cerradas.",
