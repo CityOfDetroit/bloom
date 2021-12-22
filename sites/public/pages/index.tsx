@@ -10,6 +10,10 @@ import styles from "./index.module.scss"
 import { Listing } from "@bloom-housing/backend-core/types"
 import { getListings } from "../lib/helpers"
 import moment from "moment"
+import {
+  Region,
+  regionImageUrls,
+} from "@bloom-housing/ui-components/src/helpers/regionNeighborhoodMap"
 
 export default function Home({ latestListings }) {
   const blankAlertInfo = {
@@ -22,15 +26,14 @@ export default function Home({ latestListings }) {
   const heroTitle = <>{t("welcome.title")}</>
 
   const heroInset: React.ReactNode = (
-    <div className="hero__inset">
-      <div className="hero__text">{t("welcome.heroText")}</div>
+    <>
       <a href="/listings" className="hero__button__first hero__button">
         {t("welcome.seeRentalListings")}
       </a>
       <a href="/eligibility/welcome" className="hero__button__second hero__button">
-        {t("welcome.checkEligibility")}
+        {t("welcome.findRentalsForMe")}
       </a>
-    </div>
+    </>
   )
 
   /**
@@ -51,14 +54,14 @@ export default function Home({ latestListings }) {
     return t("welcome.lastUpdated", { date: latestDate })
   }
 
-  // TODO(#674): Fill out neighborhood buttons with real data
-  const NeighborhoodButton = (props: { label: string; image?: string }) => (
+  // TODO(#674): Fill out region buttons with real data
+  const RegionButton = (props: { region: [string, Region] }) => (
     <a
-      className={styles.neighborhood}
-      href="/listings"
-      style={{ backgroundImage: `url(${props.image})` }}
+      className={styles.region}
+      href={`/listings/filtered?page=1&${props.region[0]}=true`}
+      style={{ backgroundImage: `url(${regionImageUrls.get(props.region[1])})` }}
     >
-      <p className={styles.neighborhood__text}>{props.label}</p>
+      <p className={styles.region__text}>{props.region[1]}</p>
     </a>
   )
 
@@ -97,32 +100,14 @@ export default function Home({ latestListings }) {
         </HorizontalScrollSection>
       )}
       <HorizontalScrollSection
-        title={t("welcome.neighborhoods")}
-        scrollAmount={527}
+        title={t("welcome.cityRegions")}
+        scrollAmount={311}
         icon="map"
-        className={styles.neighborhoods}
+        className={styles.regions}
       >
-        {/* TODO(#674): Get official hosted images */}
-        <NeighborhoodButton
-          label="Midtown"
-          image="https://upload.wikimedia.org/wikipedia/commons/0/0f/Milner_Arms_Apartments_-_Detroit_Michigan.jpg"
-        />
-        <NeighborhoodButton
-          label="Elmwood Park"
-          image="https://i2.wp.com/planetdetroit.org/wp-content/uploads/2021/09/Elmwood-3-scaled.jpg?resize=1024%2C683&ssl=1"
-        />
-        <NeighborhoodButton
-          label="Islandview"
-          image="https://d12kp1agyyb87s.cloudfront.net/wp-content/uploads/2019/10/image001.jpg"
-        />
-        <NeighborhoodButton
-          label="Brightmoor"
-          image="https://www.neighborsbuildingbrightmoor.org/uploads/8/1/9/8/81981122/5585414_orig.jpg"
-        />
-        <NeighborhoodButton
-          label="Fox Creek"
-          image="https://theneighborhoods.org/sites/the-neighborhoods/files/styles/gallery_555x357/public/2018-11/small%20business_0.jpg?itok=KhgAsSdn"
-        />
+        {Object.entries(Region).map((region) => (
+          <RegionButton region={region} />
+        ))}
       </HorizontalScrollSection>
       <ConfirmationModal
         setSiteAlertMessage={(alertMessage, alertType) => setAlertInfo({ alertMessage, alertType })}

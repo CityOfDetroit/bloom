@@ -41,4 +41,17 @@ export const filterTypeToFieldMap: Record<keysWithMappedField, string> = {
    * monthly_rent_max field, we'd miss it.
    */
   maxRent: "unitsSummary.monthly_rent_min",
+  elevator: "listing_features.elevator",
+  wheelchairRamp: "listing_features.wheelchairRamp",
+  serviceAnimalsAllowed: "listing_features.serviceAnimalsAllowed",
+  accessibleParking: "listing_features.accessibleParking",
+  parkingOnSite: "listing_features.parkingOnSite",
+  inUnitWasherDryer: "listing_features.inUnitWasherDryer",
+  laundryInBuilding: "listing_features.laundryInBuilding",
+  barrierFreeEntrance: "listing_features.barrierFreeEntrance",
+  rollInShower: "listing_features.rollInShower",
+  grabBars: "listing_features.grabBars",
+  heatingInUnit: "listing_features.heatingInUnit",
+  acInUnit: "listing_features.acInUnit",
+  neighborhood: "property.neighborhood",
 }

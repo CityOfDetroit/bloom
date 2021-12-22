@@ -17,7 +17,9 @@ describe("<EligibilityDisability>", () => {
     act(() => {
       render(<EligibilityDisability />)
     })
-    expect(screen.getByRole("heading", { name: "Do you have a disability?" })).toBeInTheDocument()
+    expect(
+      screen.getByRole("heading", { name: "Does anyone in your household have a disability?" })
+    ).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument()
   })
 
@@ -35,7 +37,7 @@ describe("<EligibilityDisability>", () => {
     })
 
     expect(mockRouter.push.mock.calls.length).toBe(1)
-    expect(mockRouter.push.mock.calls[0][0]).toBe("/eligibility/income")
+    expect(mockRouter.push.mock.calls[0][0]).toBe("/eligibility/accessibility")
   })
 
   it("Clicks the Next button", async () => {
@@ -46,17 +48,17 @@ describe("<EligibilityDisability>", () => {
     })
 
     expect(mockRouter.push.mock.calls.length).toBe(1)
-    expect(mockRouter.push.mock.calls[0][0]).toBe("/eligibility/income")
+    expect(mockRouter.push.mock.calls[0][0]).toBe("/eligibility/accessibility")
   })
 
-  it("Clicks the Finish button", async () => {
+  it("Clicks the See results now button", async () => {
     await act(async () => {
       render(<EligibilityDisability />)
-      fireEvent.click(screen.getByRole("button", { name: "Finish" }))
+      fireEvent.click(screen.getByRole("button", { name: "See results now" }))
     })
 
     expect(mockRouter.push.mock.calls.length).toBe(1)
-    expect(mockRouter.push.mock.calls[0][0]).toBe("/eligibility/disclaimer")
+    expect(mockRouter.push.mock.calls[0][0]).toContain("/listings")
   })
 
   afterEach(() => {
