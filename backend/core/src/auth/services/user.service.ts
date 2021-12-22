@@ -150,9 +150,6 @@ export class UserService {
       ...dto,
       passwordHash,
     })
-    console.log(user.id)
-    console.log(user.preferences)
-    console.log(dto.preferences)
     return await this.userRepository.save(user)
   }
 
@@ -279,7 +276,7 @@ export class UserService {
         jurisdictions: dto.jurisdictions
           ? (dto.jurisdictions as JurisdictionDto[])
           : [await this.jurisdictionResolverService.getJurisdiction()],
-        preferences: (dto.preferences as unknown) as UserPreferences,
+        preferences: dto.preferences as UserPreferences,
       },
       authContext
     )
@@ -341,7 +338,7 @@ export class UserService {
         jurisdictions: dto.jurisdictions
           ? (dto.jurisdictions as JurisdictionDto[])
           : [await this.jurisdictionResolverService.getJurisdiction()],
-        preferences: (dto.preferences as unknown) as UserPreferences,
+        preferences: dto.preferences as UserPreferences,
       },
       authContext
     )

@@ -3663,20 +3663,15 @@ export interface UserRoles {
   isPartner?: boolean
 }
 
-export interface FavoritedListing {
-  /**  */
-  id: string
-}
-
 export interface UserPreferences {
-  /**  */
-  favorites?: FavoritedListing[]
-
   /**  */
   sendEmailNotifications?: boolean
 
   /**  */
   sendSmsNotifications?: boolean
+
+  /**  */
+  favoriteIDs?: string[]
 }
 
 export interface User {
