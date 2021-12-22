@@ -38,6 +38,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return this.userRepository
       .createQueryBuilder("user")
       .where("user.id = :id", { id: userId })
+      .leftJoinAndSelect("user.roles", "user_roles")
+      .leftJoinAndSelect("user.jurisdictions", "jurisdictions")
       .leftJoinAndSelect("user.preferences", "user_preferences")
       .leftJoinAndSelect("user_preferences.favorites", "favorited_listings")
       .leftJoinAndSelect("user.leasingAgentInListings", "leasing_agent_in_listings")

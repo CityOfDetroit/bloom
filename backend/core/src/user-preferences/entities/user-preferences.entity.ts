@@ -1,25 +1,39 @@
 import { User } from "../../../src/auth/entities/user.entity"
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne } from "typeorm"
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm"
 import { Expose, Type } from "class-transformer"
 import { Listing } from "../../../src/listings/entities/listing.entity"
-import { IsOptional } from "class-validator"
+import { IsOptional, IsUUID } from "class-validator"
 import { ValidationsGroupsEnum } from "../../../src/shared/types/validations-groups-enum"
 
 @Entity({ name: "user_preferences" })
-export class UserPreferences {
-  @OneToOne(() => User, (user) => user.preferences, {
-    primary: true,
-  })
+export class UserPreferences extends BaseEntity {
+  @PrimaryGeneratedColumn("uuid")
+  @Expose()
+  @IsUUID(4, { groups: [ValidationsGroupsEnum.default] })
+  id: string
+
+  @OneToOne(() => User, (user) => user.preferences, { primary: true })
   @JoinColumn()
   user: User
 
   @Column("boolean", { default: false })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @Expose()
-  sendEmailNotifications?: boolean
+  sendEmailNotifications?: boolean | null
 
   @Column("boolean", { default: false })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @Expose()
-  sendSmsNotifications?: boolean
+  sendSmsNotifications?: boolean | null
 
   @ManyToMany(() => Listing, (listing) => listing.favoritedPreferences, { nullable: true })
   @JoinTable()
