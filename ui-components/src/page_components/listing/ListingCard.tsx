@@ -32,12 +32,9 @@ const ListingCard = (props: ListingCardProps) => {
   const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps } = props
   const { profile, userProfileService } = useContext(AuthContext)
   const [updatedFavorites, setUpdatedFavorites] = useState(profile?.preferences?.favoriteIDs)
-  console.log("Starting")
-  console.log(profile?.preferences?.favoriteIDs)
 
   useEffect(() => {
     setFavoriteButtonState()
-    console.log("useEffect call")
   })
 
   const setFavoriteButtonState = () => {
@@ -57,7 +54,6 @@ const ListingCard = (props: ListingCardProps) => {
     if (!preferences.favoriteIDs.includes(props.listing.id)) {
       preferences.favoriteIDs.push(props.listing.id)
       console.log("Adding Listing")
-      setUpdatedFavorites(preferences.favoriteIDs)
     } else {
       return
     }
@@ -66,6 +62,7 @@ const ListingCard = (props: ListingCardProps) => {
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
+      setUpdatedFavorites(updatedFavorites?.concat(props.listing.id))
     } catch (err) {
       console.warn(err)
     }
@@ -89,7 +86,7 @@ const ListingCard = (props: ListingCardProps) => {
     preferences.favoriteIDs = temp
 
     try {
-      setUpdatedFavorites(preferences.favoriteIDs)
+      setUpdatedFavorites(temp)
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
