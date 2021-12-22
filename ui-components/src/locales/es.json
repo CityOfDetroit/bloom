@@ -778,7 +778,7 @@
             "senior55": "Mayores de 55 años",
             "senior62": "Mayores 62+",
             "partiallySenior": "Parcialmente Mayores",
-            "specialNeeds": "Necesidades especiales"
+            "specialNeeds": "Accesible"
         },
         "reservedFor": "Reservado para% {type}",
         "reservedCommunityType": "Tipo de comunidad reservada",
@@ -1003,7 +1003,7 @@
         "welcomeSpanish": "Bienvenido",
         "welcomeVietnamese": "vietnamita",
         "about": "Acerca de",
-        "feedback": "Realimentación",
+        "feedback": "Compartir comentarios sobre el sitio web",
         "resources": "Recursos"
     },
     "pageDescription": {
@@ -1211,7 +1211,7 @@
     },
     "welcome": {
         "allApplicationClosed": "Actualmente, todas las aplicaciones están cerradas, pero puede ver las listas cerradas.",
-        "seeRentalListings": "Ver alquileres",
+        "seeRentalListings": "Ver todos los alquileres",
         "title": "Solicite una vivienda asequible en",
         "seeMoreOpportunities": "Ver más oportunidades de alquiler y propiedad de viviendas",
         "viewAdditionalHousing": "Ver recursos y oportunidades de vivienda adicionales",
@@ -1225,7 +1225,7 @@
         "findRentalsForMe": "Encuentra alquileres para mí",
         "latestListings": "Últimos listados",
         "lastUpdated": "Última actualización %{date}",
-        "neighborhoods": "Barrios",
+        "cityRegions": "Regiones de la ciudad",
         "subTitle": "Haga clic en el botón a continuación para encontrar viviendas de alquiler según sus ingresos y las necesidades de su hogar."
     },
     "whatToExpect": {
@@ -1251,13 +1251,14 @@
         },
         "zipCode": "Código postal",
         "zipCodeDescription": "Introduzca código postal",
+        "region": "Región",
         "adaCompliant": "¿Funciones accesibles para residentes con discapacidades?",
         "rentRange": "Rango de alquiler",
         "availability": "Disponibilidad de la unidad",
         "hasAvailability": "Tiene disponibilidad",
         "noAvailability": "No disponible",
         "waitlist": "Lista de espera",
-        "applyFilters": "Aplicar filtros",
+        "applyFilter": "Aplicar filtro",
         "noResults": "No hay resultados",
         "noResultsSubtitle": "Edite o elimine filtros para obtener mejores resultados.",
         "includeUnknowns": "Mostrar casas en las que falta información",
@@ -1292,15 +1293,16 @@
                 "age": "Edad",
                 "disability": "Invalidez",
                 "income": "Ingreso",
+                "accessibility": "Accesibilidad",
                 "disclaimer": "Descargo de responsabilidad"
             }
         },
         "welcome": {
             "header": "Bienvenidos",
-            "description": "¡Bienvenido a Detroit Home Connect! Sabemos que encontrar una vivienda puede resultar complicado. Estamos aquí para ayudar. Para encontrarle la casa que mejor se adapte a sus necesidades, primero respondamos cuatro preguntas simples. Algunas viviendas asequibles solo aceptan personas de ciertas edades o ciertos ingresos, por lo que queremos asegurarnos de que solicite propiedades que funcionen para su hogar."
+            "description": "¡Bienvenido a Detroit Home Connect! Para ver los alquileres para los que puede calificar, solo responda cuatro preguntas."
         },
         "household": {
-            "prompt": "¿Cuántas personas vivirán en esta propiedad?",
+            "prompt": "¿Cuántas personas vivirán en su próximo alquiler, incluido usted mismo?",
             "srCountLabel": "Tamaño del hogar",
             "ranges": {
                 "one": "1 miembro",
@@ -1321,7 +1323,7 @@
             "62plus": "62+"
         },
         "disability": {
-            "prompt": "¿Tienes alguna discapacidad?",
+            "prompt": "¿Alguien en su hogar tiene alguna discapacidad?",
             "description": "Es posible que deba proporcionar un comprobante de discapacidad cuando solicite algunas viviendas."
         },
         "income": {
@@ -1335,15 +1337,33 @@
             },
             "label": "Rango de ingresos",
             "ranges": {
-                "below10k": "Por debajo de $ 10,000",
-                "10kTo20k": "$10,000 - $20,000",
-                "30kTo40k": "$30,000 - $40,000",
-                "40kTo50k": "$40,000 - $50,000",
-                "over50k": "Más de $ 50,000"
+                "below10k": "$0 - $9,999",
+                "10kTo20k": "$10,000 - $19,999",
+                "20kTo30k": "$20,000 - $29,999",
+                "30kTo40k": "$30,000 - $39,999",
+                "40kTo50k": "$40,000 - $49,999",
+                "over50k": "$50,000 o más"
             }
         },
+        "accessibility": {
+            "title": "Funciones de accesibilidad",
+            "prompt": "¿Necesita funciones de accesibilidad adicionales?",
+            "description": "Algunas propiedades tienen funciones de accesibilidad que otras pueden no tener.",
+            "elevator": "Ascensor",
+            "wheelchairRamp": "Rampa para sillas de ruedas",
+            "serviceAnimalsAllowed": "Se admiten animales de servicio",
+            "accessParking": "Estacionamiento accesible",
+            "parkingOnSite": "Aparcamiento en el sitio",
+            "inUnitWasherDryer": "Lavadora secadora en la unidad",
+            "laundryInBuilding": "Lavandería en el edificio",
+            "barrierFreeEntrance": "Entrada sin barreras",
+            "rollInShower": "Rodar en la ducha",
+            "grabBars": "Barras de apoyo",
+            "heatingInUnit": "Calefacción en unidad",
+            "acInUnit": "Aire acondicionado en la unidad"
+          },
         "disclaimer": {
-            "description": "Gracias por verificar cómo califica para una vivienda asequible. Debido a que las viviendas asequibles se pueden reservar para ciertos grupos de edad o niveles de ingresos, hemos filtrado nuestros listados de propiedades en función de las características de su hogar. Esperamos que encuentre una vivienda que satisfaga sus necesidades. Es importante tener en cuenta que una buena parte de las viviendas asequibles tiene una lista de espera, pero llamar a las propiedades que le interesan es una buena manera de ingresar a las listas de espera o conocer las vacantes inmediatas."
+            "description": "Gracias por responder estas preguntas. Al hacer clic o tocar \"Ver resultados ahora \", verá alquileres que podrían adaptarse a sus necesidades según sus respuestas. Múltiples factores pueden afectar la elegibilidad para alquileres específicos, por lo que si ve un alquiler que le interesa, comuníquese con el Agente de la propiedad en el listado. Pueden ayudarlo a determinar si es elegible para ese alquiler."
         },
         "preferNotToSay": "Prefiero no decirlo"
     },

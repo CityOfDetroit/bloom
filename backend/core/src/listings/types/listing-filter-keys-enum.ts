@@ -11,6 +11,19 @@ export enum ListingFilterKeys {
   maxRent = "maxRent",
   minAmiPercentage = "minAmiPercentage",
   leasingAgents = "leasingAgents",
+  elevator = "elevator",
+  wheelchairRamp = "wheelchairRamp",
+  serviceAnimalsAllowed = "serviceAnimalsAllowed",
+  accessibleParking = "accessibleParking",
+  parkingOnSite = "parkingOnSite",
+  inUnitWasherDryer = "inUnitWasherDryer",
+  laundryInBuilding = "laundryInBuilding",
+  barrierFreeEntrance = "barrierFreeEntrance",
+  rollInShower = "rollInShower",
+  grabBars = "grabBars",
+  heatingInUnit = "heatingInUnit",
+  acInUnit = "acInUnit",
+  neighborhood = "neighborhood",
 }
 
 export enum AvailabilityFilterEnum {

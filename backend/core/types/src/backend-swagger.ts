@@ -4089,6 +4089,45 @@ export interface ListingFilterParams {
 
   /**  */
   minAmiPercentage?: number
+
+  /**  */
+  elevator?: boolean
+
+  /**  */
+  wheelchairRamp?: boolean
+
+  /**  */
+  serviceAnimalsAllowed?: boolean
+
+  /**  */
+  accessibleParking?: boolean
+
+  /**  */
+  parkingOnSite?: boolean
+
+  /**  */
+  inUnitWasherDryer?: boolean
+
+  /**  */
+  laundryInBuilding?: boolean
+
+  /**  */
+  barrierFreeEntrance?: boolean
+
+  /**  */
+  rollInShower?: boolean
+
+  /**  */
+  grabBars?: boolean
+
+  /**  */
+  heatingInUnit?: boolean
+
+  /**  */
+  acInUnit?: boolean
+
+  /**  */
+  neighborhood?: string
 }
 
 export interface UnitAccessibilityPriorityType {
