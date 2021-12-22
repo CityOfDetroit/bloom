@@ -31,37 +31,37 @@ export interface ListingCardProps {
 const ListingCard = (props: ListingCardProps) => {
   const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps } = props
   const { profile, userProfileService } = useContext(AuthContext)
-  const [updatedFavorites, setUpdatedFavorites] = useState(profile?.preferences?.favorites)
+  const [updatedFavorites, setUpdatedFavorites] = useState(profile?.preferences?.favoriteIDs)
+  console.log("Starting")
+  console.log(profile?.preferences?.favoriteIDs)
 
   useEffect(() => {
     setFavoriteButtonState()
+    console.log("useEffect call")
   })
 
   const setFavoriteButtonState = () => {
-    const preferences: UserPreferences = profile?.preferences || { favorites: [] }
-    setUpdatedFavorites(preferences?.favorites)
+    const preferences: UserPreferences = profile?.preferences || { favoriteIDs: [] }
+    setUpdatedFavorites(preferences?.favoriteIDs)
   }
 
   const addToFavorite = async () => {
-    const localProfile = profile
-    if (!localProfile) {
+    if (!profile) {
       return
     }
-    const preferences: UserPreferences = profile?.preferences || { favorites: [] }
-    if (!preferences.favorites) {
-      preferences.favorites = []
+    const preferences: UserPreferences = profile?.preferences || { favoriteIDs: [] }
+    if (!preferences.favoriteIDs) {
+      preferences.favoriteIDs = []
     }
 
-    if (!preferences.favorites.map((listing) => listing.id).includes(props.listing.id)) {
-      preferences.favorites.push(props.listing)
+    if (!preferences.favoriteIDs.includes(props.listing.id)) {
+      preferences.favoriteIDs.push(props.listing.id)
       console.log("Adding Listing")
+      setUpdatedFavorites(preferences.favoriteIDs)
+    } else {
+      return
     }
-    localProfile.preferences = preferences
 
-    console.log(preferences.favorites)
-    setUpdatedFavorites(preferences.favorites)
-
-    console.log(profile)
     try {
       await userProfileService?.update({
         body: { ...profile, preferences },
@@ -72,26 +72,24 @@ const ListingCard = (props: ListingCardProps) => {
   }
 
   const removeFavorite = async () => {
-    const localProfile = profile
-    if (!localProfile) {
+    if (!profile) {
       return
     }
-    const preferences: UserPreferences = profile?.preferences || { favorites: [] }
-    if (!preferences.favorites || preferences.favorites.length === 0) {
+    const preferences: UserPreferences = profile?.preferences || { favoriteIDs: [] }
+    if (!preferences.favoriteIDs || preferences.favoriteIDs.length === 0) {
       return
     }
 
-    const index = preferences.favorites.indexOf(props.listing)
+    const index: number = preferences.favoriteIDs.indexOf(props.listing.id)
     const temp = [
-      ...preferences.favorites.slice(0, index),
-      ...preferences.favorites.slice(index + 1),
+      ...preferences.favoriteIDs.slice(0, index),
+      ...preferences.favoriteIDs.slice(index + 1),
     ]
     console.log("Removing Listing")
-    preferences.favorites = temp
-    console.log(preferences.favorites)
-    setUpdatedFavorites(preferences.favorites)
+    preferences.favoriteIDs = temp
 
     try {
+      setUpdatedFavorites(preferences.favoriteIDs)
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
@@ -142,7 +140,7 @@ const ListingCard = (props: ListingCardProps) => {
         )}
         <>
           {profile &&
-            (updatedFavorites?.map((listing) => listing.id).includes(props.listing.id) ? (
+            (updatedFavorites?.includes(props.listing.id) ? (
               <Button
                 className="mx-2 mt-6"
                 size={AppearanceSizeType.small}
