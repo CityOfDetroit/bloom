@@ -1379,9 +1379,7 @@
     "website": "Website",
     "year": "Year",
     "yes": "Yes",
-    "you": "You",
-    "addFavorites": "Add to Favorites",
-    "removeFavorites": "Remove from Favorites"
+    "you": "You"
   },
   "welcome": {
     "allApplicationClosed": "All applications are currently closed, but you can view closed listings.",
