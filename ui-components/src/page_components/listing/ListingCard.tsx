@@ -78,15 +78,11 @@ const ListingCard = (props: ListingCardProps) => {
     }
 
     const index: number = preferences.favoriteIDs.indexOf(props.listing.id)
-    const temp = [
-      ...preferences.favoriteIDs.slice(0, index),
-      ...preferences.favoriteIDs.slice(index + 1),
-    ]
+    preferences.favoriteIDs.splice(index, 1)
     console.log("Removing Listing")
-    preferences.favoriteIDs = temp
 
     try {
-      setUpdatedFavorites(temp)
+      setUpdatedFavorites(preferences.favoriteIDs)
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
@@ -138,6 +134,7 @@ const ListingCard = (props: ListingCardProps) => {
         <>
           {profile &&
             (updatedFavorites?.includes(props.listing.id) ? (
+              //TODO: Update Button UI to match mocks
               <Button
                 className="mx-2 mt-6"
                 size={AppearanceSizeType.small}
