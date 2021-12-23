@@ -32,7 +32,9 @@ describe("<ListingCard>", () => {
         tableHeaderProps={{
           tableHeader: "optional table header",
           tableSubHeader: "optional table subheader",
-        }} listing={listing}      />
+        }}
+        listing={listing}
+      />
     )
     expect(getByText("subtitle")).toBeTruthy()
     expect(getByText("title")).toBeTruthy()
