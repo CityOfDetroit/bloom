@@ -46,16 +46,16 @@ const ListingCard = (props: ListingCardProps) => {
     if (!profile) {
       return
     }
-    const preferences: UserPreferences = profile?.preferences || { favoriteIDs: [] }
+    const preferences: UserPreferences = profile.preferences || { favoriteIDs: [] }
     if (!preferences.favoriteIDs) {
       preferences.favoriteIDs = []
     }
 
-    if (!preferences.favoriteIDs.includes(props.listing.id)) {
+    if (preferences.favoriteIDs.includes(props.listing.id)) {
+      return
+    } else {
       preferences.favoriteIDs.push(props.listing.id)
       console.log("Adding Listing")
-    } else {
-      return
     }
 
     try {
@@ -72,7 +72,7 @@ const ListingCard = (props: ListingCardProps) => {
     if (!profile) {
       return
     }
-    const preferences: UserPreferences = profile?.preferences || { favoriteIDs: [] }
+    const preferences: UserPreferences = profile.preferences || { favoriteIDs: [] }
     if (!preferences.favoriteIDs || preferences.favoriteIDs.length === 0) {
       return
     }

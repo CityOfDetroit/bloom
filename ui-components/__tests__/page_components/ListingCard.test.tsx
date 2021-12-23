@@ -1,11 +1,13 @@
 import React from "react"
 import { render, cleanup } from "@testing-library/react"
 import { ListingCard } from "../../src/page_components/listing/ListingCard"
+import { ArcherListing, Listing } from "@bloom-housing/backend-core/types"
 
 afterEach(cleanup)
 
 describe("<ListingCard>", () => {
   it("renders without error", () => {
+    const listing = Object.assign({}, ArcherListing) as Listing
     const { getByText, getAllByText } = render(
       <ListingCard
         imageCardProps={{
@@ -30,8 +32,7 @@ describe("<ListingCard>", () => {
         tableHeaderProps={{
           tableHeader: "optional table header",
           tableSubHeader: "optional table subheader",
-        }}
-      />
+        }} listing={listing}      />
     )
     expect(getByText("subtitle")).toBeTruthy()
     expect(getByText("title")).toBeTruthy()
