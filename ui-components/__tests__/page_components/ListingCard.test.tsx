@@ -48,5 +48,6 @@ describe("<ListingCard>", () => {
     expect(getAllByText("cellC")).toBeTruthy()
     expect(getAllByText("optional table header")).toBeTruthy()
     expect(getAllByText("optional table subheader")).toBeTruthy()
+    expect(listing.id && getByText(listing.id)).toBeTruthy()
   })
 })
