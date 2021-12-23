@@ -1,13 +1,14 @@
 import React from "react"
 import { render, cleanup } from "@testing-library/react"
 import { ListingCard } from "../../src/page_components/listing/ListingCard"
-import { ArcherListing, Listing } from "@bloom-housing/backend-core/types"
+import Archer from "../fixtures/archer.json"
+import { Listing } from "@bloom-housing/backend-core/types"
 
 afterEach(cleanup)
+const listing: Listing = Object.assign({}, Archer) as any
 
 describe("<ListingCard>", () => {
   it("renders without error", () => {
-    const listing = Object.assign({}, ArcherListing) as Listing
     const { getByText, getAllByText } = render(
       <ListingCard
         imageCardProps={{
@@ -48,6 +49,6 @@ describe("<ListingCard>", () => {
     expect(getAllByText("cellC")).toBeTruthy()
     expect(getAllByText("optional table header")).toBeTruthy()
     expect(getAllByText("optional table subheader")).toBeTruthy()
-    expect(listing.id && getByText(listing.id)).toBeTruthy()
+    expect(getByText(listing.name)).toBeTruthy()
   })
 })
