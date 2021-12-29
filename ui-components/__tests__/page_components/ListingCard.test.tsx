@@ -31,6 +31,7 @@ describe("<ListingCard>", () => {
           tableHeader: "optional table header",
           tableSubHeader: "optional table subheader",
         }}
+        listingID="cc11dc18-12d4-4982-ad66-acf815521495"
       />
     )
     expect(getByText("subtitle")).toBeTruthy()
