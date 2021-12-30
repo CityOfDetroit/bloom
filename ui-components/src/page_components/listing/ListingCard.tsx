@@ -43,14 +43,14 @@ const ListingCard = (props: ListingCardProps) => {
   console.log(updatedFavorites)
   console.log(thing)
   console.log("hello")
-  const [someState, updateState] = useState("0")
-  console.log(someState)
+  const [favoriteState, updateFavoriteState] = useState("favored")
+  console.log(favoriteState)
 
   useEffect(() => {
     if (preferences.favoriteIDs?.includes(props.listingID)) {
-      updateState("0")
+      updateFavoriteState("favored")
     } else {
-      updateState("1")
+      updateFavoriteState("notFavored")
     }
   }, [preferences.favoriteIDs, props.listingID])
 
@@ -58,8 +58,8 @@ const ListingCard = (props: ListingCardProps) => {
     if (!profile) {
       return
     }
-    updateState("0")
-    console.log(someState)
+    updateFavoriteState("favored")
+    console.log(favoriteState)
     const preferences: UserPreferences = profile.preferences || {
       sendEmailNotifications: false,
       sendSmsNotifications: false,
@@ -94,8 +94,8 @@ const ListingCard = (props: ListingCardProps) => {
     if (!profile) {
       return
     }
-    updateState("1")
-    console.log(someState)
+    updateFavoriteState("notFavored")
+    console.log(favoriteState)
     const preferences: UserPreferences = profile.preferences || { favoriteIDs: [] }
     if (!preferences.favoriteIDs || preferences?.favoriteIDs?.length === 0) {
       console.log("Exiting here")
@@ -160,7 +160,7 @@ const ListingCard = (props: ListingCardProps) => {
         )}
         <>
           {profile &&
-            (someState === "0" ? (
+            (favoriteState === "favored" ? (
               //TODO: Update Button UI to match mocks
               <Button
                 className="mx-2 mt-6"
