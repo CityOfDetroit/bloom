@@ -22,6 +22,7 @@ export interface ListingCardProps {
   tableHeaderProps?: ListingCardHeaderProps
   tableProps: ListingCardTableProps
   detailsLinkClass?: string
+  listingID: string
 }
 
 const ListingCard = (props: ListingCardProps) => {

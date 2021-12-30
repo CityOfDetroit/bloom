@@ -48,7 +48,6 @@ import { ApplicationMethodDto } from "../../application-methods/dto/application-
 import { ApplicationMethodType } from "../../application-methods/types/application-method-type-enum"
 import { EnforceLowerCase } from "../../shared/decorators/enforceLowerCase.decorator"
 import { ListingFeatures } from "./listing-features.entity"
-import { UserPreferences } from "../../../src/user-preferences/entities/user-preferences.entity"
 
 @Entity({ name: "listings" })
 class Listing extends BaseEntity {
@@ -582,10 +581,5 @@ class Listing extends BaseEntity {
   @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
   @Type(() => ListingFeatures)
   features?: ListingFeatures
-
-  @ManyToMany(() => UserPreferences, (userPreference) => userPreference.favorites, {
-    nullable: true,
-  })
-  favoritedPreferences?: UserPreferences[] | null
 }
 export { Listing as default, Listing }

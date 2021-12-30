@@ -281,7 +281,7 @@ export class UserService {
         jurisdictions: dto.jurisdictions
           ? (dto.jurisdictions as JurisdictionDto[])
           : [await this.jurisdictionResolverService.getJurisdiction()],
-        preferences: (dto.preferences as unknown) as UserPreferences,
+        preferences: dto.preferences as UserPreferences,
       },
       authContext
     )
