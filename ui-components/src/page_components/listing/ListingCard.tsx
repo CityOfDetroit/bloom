@@ -32,8 +32,12 @@ export interface ListingCardProps {
 const ListingCard = (props: ListingCardProps) => {
   const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps } = props
   const { profile, userProfileService } = useContext(AuthContext)
-  const preferences: UserPreferences = profile?.preferences || { favoriteIDs: [] }
-  console.log(preferences.favoriteIDs)
+  const preferences: UserPreferences = profile?.preferences || {
+    sendEmailNotifications: false,
+    sendSmsNotifications: false,
+    favoriteIDs: [],
+  }
+  console.log(preferences)
   const thing = preferences.favoriteIDs
   const [updatedFavorites, setUpdatedFavorites] = useState(thing)
   console.log(updatedFavorites)
@@ -56,7 +60,11 @@ const ListingCard = (props: ListingCardProps) => {
     }
     updateState("0")
     console.log(someState)
-    const preferences: UserPreferences = profile.preferences || { favoriteIDs: [] }
+    const preferences: UserPreferences = profile.preferences || {
+      sendEmailNotifications: false,
+      sendSmsNotifications: false,
+      favoriteIDs: [],
+    }
     console.log("Here is the first preference")
     console.log(preferences)
 

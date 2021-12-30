@@ -18,7 +18,7 @@ export class UserPreferences {
   @Expose()
   sendSmsNotifications?: boolean
 
-  @Column("json")
+  @Column("jsonb", { default: [] })
   @Expose()
   favoriteIDs?: Array<string>
 }
