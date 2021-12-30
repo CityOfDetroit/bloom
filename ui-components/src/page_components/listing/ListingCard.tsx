@@ -37,14 +37,7 @@ const ListingCard = (props: ListingCardProps) => {
     sendSmsNotifications: false,
     favoriteIDs: [],
   }
-  console.log(preferences)
-  const thing = preferences.favoriteIDs
-  const [updatedFavorites, setUpdatedFavorites] = useState(thing)
-  console.log(updatedFavorites)
-  console.log(thing)
-  console.log("hello")
   const [favoriteState, updateFavoriteState] = useState("favored")
-  console.log(favoriteState)
 
   useEffect(() => {
     if (preferences.favoriteIDs?.includes(props.listingID)) {
@@ -59,17 +52,10 @@ const ListingCard = (props: ListingCardProps) => {
       return
     }
     updateFavoriteState("favored")
-    console.log(favoriteState)
     const preferences: UserPreferences = profile.preferences || {
       sendEmailNotifications: false,
       sendSmsNotifications: false,
       favoriteIDs: [],
-    }
-    console.log("Here is the first preference")
-    console.log(preferences)
-
-    if (!preferences.favoriteIDs) {
-      console.log("I'm here")
     }
 
     if (preferences.favoriteIDs?.includes(props.listingID)) {
@@ -83,8 +69,6 @@ const ListingCard = (props: ListingCardProps) => {
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
-      //setUpdatedFavorites(updatedFavorites?.concat(props.listingID))
-      console.log("settingUpdated favor")
     } catch (err) {
       console.warn(err)
     }
@@ -95,24 +79,23 @@ const ListingCard = (props: ListingCardProps) => {
       return
     }
     updateFavoriteState("notFavored")
-    console.log(favoriteState)
-    const preferences: UserPreferences = profile.preferences || { favoriteIDs: [] }
+    const preferences: UserPreferences = profile.preferences || {
+      sendEmailNotifications: false,
+      sendSmsNotifications: false,
+      favoriteIDs: [],
+    }
     if (!preferences.favoriteIDs || preferences?.favoriteIDs?.length === 0) {
-      console.log("Exiting here")
       return
     }
 
     const index: number = preferences.favoriteIDs?.indexOf(props.listingID) || 0
     preferences?.favoriteIDs?.splice(index, 1)
-    updatedFavorites?.splice(index, 1)
-    const temp: string[] = []
     console.log("Removing Listing")
 
     try {
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
-      //setUpdatedFavorites(updatedFavorites?.concat(temp))
     } catch (err) {
       console.warn(err)
     }
