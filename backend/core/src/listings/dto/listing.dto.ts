@@ -37,7 +37,6 @@ export class ListingDto extends OmitType(Listing, [
   "result",
   "unitsSummary",
   "features",
-  "favoritedPreferences",
 ] as const) {
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
