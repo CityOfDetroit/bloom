@@ -37,65 +37,48 @@ const ListingCard = (props: ListingCardProps) => {
     sendSmsNotifications: false,
     favoriteIDs: [],
   }
-  const [favoriteState, updateFavoriteState] = useState("favored")
+  const [favoriteState, updateFavoriteState] = useState(
+    preferences.favoriteIDs?.includes(props.listingID)
+  )
 
   useEffect(() => {
     if (preferences.favoriteIDs?.includes(props.listingID)) {
-      updateFavoriteState("favored")
+      updateFavoriteState(true)
     } else {
-      updateFavoriteState("notFavored")
+      updateFavoriteState(false)
     }
   }, [preferences.favoriteIDs, props.listingID])
 
   const addToFavorite = async () => {
-    if (!profile) {
-      return
-    }
-    updateFavoriteState("favored")
-    const preferences: UserPreferences = profile.preferences || {
-      sendEmailNotifications: false,
-      sendSmsNotifications: false,
-      favoriteIDs: [],
-    }
-
-    if (preferences.favoriteIDs?.includes(props.listingID)) {
+    if (!profile || preferences.favoriteIDs?.includes(props.listingID)) {
       return
     } else {
       preferences.favoriteIDs?.push(props.listingID)
-      console.log("Adding Listing")
     }
 
     try {
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
+      updateFavoriteState(true)
     } catch (err) {
       console.warn(err)
     }
   }
 
   const removeFavorite = async () => {
-    if (!profile) {
-      return
-    }
-    updateFavoriteState("notFavored")
-    const preferences: UserPreferences = profile.preferences || {
-      sendEmailNotifications: false,
-      sendSmsNotifications: false,
-      favoriteIDs: [],
-    }
-    if (!preferences.favoriteIDs || preferences?.favoriteIDs?.length === 0) {
+    if (!profile || !preferences.favoriteIDs || preferences?.favoriteIDs?.length === 0) {
       return
     }
 
-    const index: number = preferences.favoriteIDs?.indexOf(props.listingID) || 0
+    const index: number = preferences.favoriteIDs?.indexOf(props.listingID)
     preferences?.favoriteIDs?.splice(index, 1)
-    console.log("Removing Listing")
 
     try {
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
+      updateFavoriteState(false)
     } catch (err) {
       console.warn(err)
     }
@@ -143,7 +126,7 @@ const ListingCard = (props: ListingCardProps) => {
         )}
         <>
           {profile &&
-            (favoriteState === "favored" ? (
+            (favoriteState ? (
               //TODO: Update Button UI to match mocks
               <Button
                 className="mx-2 mt-6"
