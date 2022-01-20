@@ -38,6 +38,7 @@ class Dashboard extends Component<DashboardProps> {
         <Icon size="medium" symbol="settings" />
       </span>
     )
+
     return (
       <RequireLogin signInPath="/sign-in" signInMessage={t("t.loginIsRequired")}>
         <Layout>
@@ -47,10 +48,10 @@ class Dashboard extends Component<DashboardProps> {
           <MetaTags title={t("nav.myDashboard")} description="" />
           {this.state.alertMessage && (
             <AlertBox className="" onClose={() => this.closeAlert()} type="success">
-              {this.state.alertMessage}
+              {t(this.state.alertMessage)}
             </AlertBox>
           )}
-          <section className="bg-gray-300">
+          <section className="bg-gray-300 border-t border-gray-450">
             <div className="max-w-5xl mx-auto md:py-8">
               <SiteAlert type="success" className="md:mb-8" timeout={30000} />
 
@@ -61,6 +62,7 @@ class Dashboard extends Component<DashboardProps> {
                     title={t("account.accountSettings")}
                     subtitle={t("account.accountSettingsSubtitle")}
                     icon={settingsIcon}
+                    dataTestId={"account-dashboard-settings"}
                   ></DashBlock>
                 </DashBlocks>
               </div>

@@ -39,12 +39,6 @@ const RankingsAndResults = ({ listing }: RankingsAndResultsProps) => {
       : null,
   })
 
-  const showWaitlistSize = useWatch({
-    control,
-    name: "waitlistSizeQuestion",
-    defaultValue: listing?.waitlistMaxSize ? YesNoAnswer.Yes : YesNoAnswer.No,
-  })
-
   const reviewOrder = useWatch({
     control,
     name: "reviewOrderQuestion",
@@ -197,7 +191,6 @@ const RankingsAndResults = ({ listing }: RankingsAndResultsProps) => {
                   fullWidth={true}
                   register={register}
                   defaultValue={lotteryEvent ? lotteryEvent.note : null}
-                  maxLength={150}
                 />
               </GridCell>
             </GridSection>
@@ -236,30 +229,6 @@ const RankingsAndResults = ({ listing }: RankingsAndResultsProps) => {
           </GridCell>
         </GridSection>
         {waitlistOpen === YesNoAnswer.Yes && (
-          <GridSection columns={2} className={"flex items-center"}>
-            <GridCell>
-              <p className="field-label m-4 ml-0">{t("listings.waitlist.sizeQuestion")}</p>
-              <FieldGroup
-                name="waitlistSizeQuestion"
-                type="radio"
-                register={register}
-                fields={[
-                  {
-                    ...yesNoRadioOptions[0],
-                    id: "showWaitlistSizeYes",
-                    defaultChecked: listing && listing.waitlistMaxSize !== null,
-                  },
-                  {
-                    ...yesNoRadioOptions[1],
-                    id: "showWaitlistSizeNo",
-                    defaultChecked: listing && !listing.waitlistMaxSize,
-                  },
-                ]}
-              />
-            </GridCell>
-          </GridSection>
-        )}
-        {showWaitlistSize === YesNoAnswer.Yes && waitlistOpen === YesNoAnswer.Yes && (
           <GridSection columns={3}>
             <Field
               name="waitlistMaxSize"
@@ -268,6 +237,7 @@ const RankingsAndResults = ({ listing }: RankingsAndResultsProps) => {
               label={t("listings.waitlist.maxSizeQuestion")}
               placeholder={t("listings.waitlist.maxSize")}
               type={"number"}
+              subNote={t("listings.recommended")}
             />
             <Field
               name="waitlistCurrentSize"

@@ -69,6 +69,7 @@ const Aside = ({
               fullWidth
               onClick={() => false}
               type="button"
+              dataTestId="listingEditButton"
             >
               {t("t.edit")}
             </Button>
@@ -81,6 +82,7 @@ const Aside = ({
       elements.push(
         <GridCell key="btn-publish">
           <Button
+            id="publishButton"
             styleType={AppearanceStyleType.success}
             type="button"
             fullWidth
@@ -110,9 +112,8 @@ const Aside = ({
             styleType={AppearanceStyleType.primary}
             type="button"
             fullWidth
-            onClick={() => {
-              submitFormWithStatus(false, listing.status)
-            }}
+            onClick={() => submitFormWithStatus(true, listing.status)}
+            dataTestId={"saveAndExitButton"}
           >
             {t("t.saveExit")}
           </Button>
@@ -123,6 +124,7 @@ const Aside = ({
         elements.push(
           <GridCell key="btn-publish">
             <Button
+              id="publishButton"
               type="button"
               styleType={AppearanceStyleType.success}
               fullWidth

@@ -1,8 +1,12 @@
-import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
+import {
+  AssetDtoSeedType,
+  ListingSeedType,
+  PropertySeedType,
+} from "../../seeder/seeds/listings/listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
 import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
-import { ListingDefaultSeed } from "./listing-default-seed"
+import { ListingDefaultSeed } from "../../seeder/seeds/listings/listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
 import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
@@ -27,12 +31,7 @@ const treymoreProperty: PropertySeedType = {
 }
 
 const treymoreListing: ListingSeedType = {
-  applicationAddress: {
-    city: "Detroit",
-    state: "MI",
-    street: "2140 Martin Luther King Jr Blvd",
-    zipCode: "48208",
-  },
+  jurisdictionName: "Detroit",
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
@@ -97,7 +96,6 @@ export class ListingTreymoreSeed extends ListingDefaultSeed {
       assets: JSON.parse(JSON.stringify(assets)),
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

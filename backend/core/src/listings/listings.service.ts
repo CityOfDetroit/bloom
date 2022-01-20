@@ -1,16 +1,14 @@
-import { Injectable, NotFoundException, HttpException, HttpStatus } from "@nestjs/common"
-import jp from "jsonpath"
+import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common"
 import { Listing } from "./entities/listing.entity"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Pagination } from "nestjs-typeorm-paginate"
 import { In, OrderByCondition, Repository } from "typeorm"
 import { plainToClass } from "class-transformer"
 import { PropertyCreateDto, PropertyUpdateDto } from "../property/dto/property.dto"
-import { addFilters } from "../shared/filter"
+import { addFilters } from "../shared/query-filter"
 import { getView } from "./views/view"
 import { summarizeUnits } from "../shared/units-transformations"
 import { Language } from "../../types"
-import { TranslationsService } from "../translations/translations.service"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
 import { OrderByFieldsEnum } from "./types/listing-orderby-enum"
 import { ListingCreateDto } from "./dto/listing-create.dto"
@@ -21,7 +19,7 @@ import { filterTypeToFieldMap } from "./dto/filter-type-to-field-map"
 import { Queue } from "bull"
 import { InjectQueue } from "@nestjs/bull"
 import { ListingNotificationInfo, ListingUpdateType } from "./listings-notifications"
-import { mapTo } from "../../src/shared/mapTo"
+import { TranslationsService } from "../translations/services/translations.service"
 
 @Injectable()
 export class ListingsService {
@@ -51,6 +49,14 @@ export class ListingsService {
         case OrderByFieldsEnum.mostRecentlyUpdated:
           return { "listings.updated_at": "DESC" }
         case OrderByFieldsEnum.applicationDates:
+        case undefined:
+          // Default to ordering by applicationDates (i.e. applicationDueDate
+          // and applicationOpenDate) if no orderBy param is specified.
+          return {
+            "listings.applicationDueDate": "ASC",
+            "listings.applicationOpenDate": "DESC",
+            "listings.id": "ASC",
+          }
         default:
           throw new HttpException(
             `OrderBy parameter (${params.orderBy}) not recognized or not yet implemented.`,
@@ -123,15 +129,6 @@ export class ListingsService {
       totalPages: Math.ceil(totalItems / itemsPerPage), // will be 1 if no pagination
     }
 
-    // TODO(https://github.com/CityOfDetroit/bloom/issues/135): Decide whether to remove jsonpath
-    if (params.jsonpath) {
-      listings = jp.query(listings, params.jsonpath)
-    }
-
-    // The result of the query above does not produce Listing instances, only objects. To ensure
-    // that `get` accessors work, we need to `mapTo` Listing instances.
-    listings = listings.map((l) => mapTo(Listing, l))
-
     // There is a bug in nestjs-typeorm-paginate's handling of complex, nested
     // queries (https://github.com/nestjsx/nestjs-typeorm-paginate/issues/6) so
     // we build the pagination metadata manually. Additional details are in
@@ -177,9 +174,13 @@ export class ListingsService {
     if (!listing) {
       throw new NotFoundException()
     }
+    let availableUnits = 0
     listingDto.units.forEach((unit) => {
       if (!unit.id) {
         delete unit.id
+      }
+      if (unit.status === "available") {
+        availableUnits++
       }
     })
     listingDto.unitsSummary.forEach((summary) => {
@@ -187,6 +188,7 @@ export class ListingsService {
         delete summary.id
       }
     })
+    listingDto.unitsAvailable = availableUnits
     Object.assign(listing, {
       ...plainToClass(Listing, listingDto, { excludeExtraneousValues: true }),
       property: plainToClass(
@@ -201,7 +203,6 @@ export class ListingsService {
         { excludeExtraneousValues: true }
       ),
     })
-
     return await this.listingRepository.save(listing)
   }
 
@@ -217,7 +218,7 @@ export class ListingsService {
     const result = await qb
       .where("listings.id = :id", { id: listingId })
       .orderBy({
-        "preferences.ordinal": "ASC",
+        "listingPreferences.ordinal": "ASC",
       })
       .getOne()
     if (!result) {

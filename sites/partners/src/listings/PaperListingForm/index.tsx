@@ -22,7 +22,6 @@ import {
 import { useForm, FormProvider } from "react-hook-form"
 import {
   ListingStatus,
-  CSVFormattingType,
   ListingApplicationAddressType,
   Unit,
   Listing,
@@ -35,6 +34,9 @@ import {
   PaperApplicationCreate,
   ListingReviewOrder,
   User,
+  ListingPreference,
+  Program,
+  ListingProgram,
 } from "@bloom-housing/backend-core/types"
 import { YesNoAnswer } from "../../applications/PaperApplicationForm/FormTypes"
 import moment from "moment"
@@ -62,10 +64,11 @@ import RankingsAndResults from "./sections/RankingsAndResults"
 import ApplicationAddress from "./sections/ApplicationAddress"
 import LotteryResults from "./sections/LotteryResults"
 import ApplicationTypes from "./sections/ApplicationTypes"
-import Preferences from "./sections/Preferences"
+import SelectAndOrder from "./sections/SelectAndOrder"
 import CommunityType from "./sections/CommunityType"
 import BuildingSelectionCriteria from "./sections/BuildingSelectionCriteria"
 import { getReadableErrorMessage } from "../PaperListingDetails/sections/helpers"
+import { useJurisdictionalPreferenceList, useJurisdictionalProgramList } from "../../../lib/hooks"
 
 export type FormListing = Omit<Listing, "countyCode"> & {
   applicationDueDateField?: {
@@ -74,6 +77,16 @@ export type FormListing = Omit<Listing, "countyCode"> & {
     year: string
   }
   applicationDueTimeField?: {
+    hours: string
+    minutes: string
+    period: TimeFieldPeriod
+  }
+  postmarkByDateDateField?: {
+    month: string
+    day: string
+    year: string
+  }
+  postmarkByDateTimeField?: {
     hours: string
     minutes: string
     period: TimeFieldPeriod
@@ -133,7 +146,6 @@ const defaults: FormListing = {
   id: undefined,
   createdAt: undefined,
   updatedAt: undefined,
-  applicationAddress: null,
   applicationDueDate: null,
   applicationDueTime: null,
   applicationFee: null,
@@ -153,9 +165,9 @@ const defaults: FormListing = {
   costsNotIncluded: "",
   creditHistory: "",
   criminalBackground: "",
-  CSVFormattingType: CSVFormattingType.basic,
   depositMax: "0",
   depositMin: "0",
+  depositHelperText: "or one month's rent may be higher for lower credit scores",
   disableUnitsAccordion: false,
   displayWaitlistSize: false,
   events: [],
@@ -169,7 +181,8 @@ const defaults: FormListing = {
   name: null,
   postMarkDate: null,
   postmarkedApplicationsReceivedByDate: null,
-  preferences: [],
+  listingPreferences: [],
+  listingPrograms: [],
   programRules: "",
   rentalAssistance:
     "The property is subsidized by the Section 8 Project-Based Voucher Program. As a result, Housing Choice Vouchers, Section 8 and other valid rental assistance programs are not accepted by this property.",
@@ -241,14 +254,26 @@ const formatFormData = (
   data: FormListing,
   units: TempUnit[],
   openHouseEvents: TempEvent[],
-  summaries: TempUnitsSummary[],
-  preferences: Preference[],
+  preferences: ListingPreference[],
+  programs: ListingProgram[],
   saveLatLong: LatitudeLongitude,
   customPinPositionChosen: boolean,
-  profile: User
+  profile: User,
+  summaries: TempUnitsSummary[],
 ) => {
-  const showWaitlistNumber =
-    data.waitlistOpenQuestion === YesNoAnswer.Yes && data.waitlistSizeQuestion === YesNoAnswer.Yes
+  let postmarkByDateTimeFormatted = null
+
+  if (data.arePostmarksConsidered === YesNoAnswer.Yes && data.postmarkByDateDateField) {
+    const postmarkByDateFormatted = createDate(data.postmarkByDateDateField)
+    if (data.postmarkByDateTimeField?.hours) {
+      postmarkByDateTimeFormatted = createTime(
+        postmarkByDateFormatted,
+        data.postmarkByDateTimeField
+      )
+    } else {
+      postmarkByDateTimeFormatted = postmarkByDateFormatted
+    }
+  }
 
   units.forEach((unit) => {
     switch (unit.unitType?.name) {
@@ -369,7 +394,8 @@ const formatFormData = (
     jurisdiction,
     disableUnitsAccordion: stringToBoolean(data.displaySummaryData),
     units: units,
-    preferences: preferences,
+    listingPreferences: preferences,
+    listingPrograms: programs,
     buildingAddress: {
       ...data.buildingAddress,
       latitude: saveLatLong.latitude ?? null,
@@ -384,15 +410,18 @@ const formatFormData = (
         : null,
     yearBuilt: data.yearBuilt ? Number(data.yearBuilt) : null,
     waitlistCurrentSize:
-      data.waitlistCurrentSize && showWaitlistNumber ? Number(data.waitlistCurrentSize) : null,
-    waitlistMaxSize:
-      data.waitlistMaxSize && showWaitlistNumber ? Number(data.waitlistMaxSize) : null,
-    waitlistOpenSpots:
-      data.waitlistOpenSpots && showWaitlistNumber ? Number(data.waitlistOpenSpots) : null,
-    postmarkedApplicationsReceivedByDate:
-      data.postMarkDate && data.arePostmarksConsidered === YesNoAnswer.Yes
-        ? new Date(`${data.postMarkDate.year}-${data.postMarkDate.month}-${data.postMarkDate.day}`)
+      data.waitlistCurrentSize && data.waitlistOpenQuestion === YesNoAnswer.Yes
+        ? Number(data.waitlistCurrentSize)
         : null,
+    waitlistMaxSize:
+      data.waitlistMaxSize && data.waitlistOpenQuestion === YesNoAnswer.Yes
+        ? Number(data.waitlistMaxSize)
+        : null,
+    waitlistOpenSpots:
+      data.waitlistOpenSpots && data.waitlistOpenQuestion === YesNoAnswer.Yes
+        ? Number(data.waitlistOpenSpots)
+        : null,
+    postmarkedApplicationsReceivedByDate: postmarkByDateTimeFormatted,
     applicationDropOffAddressType:
       data.canApplicationsBeDroppedOff === YesNoAnswer.Yes &&
       addressTypes[data.whereApplicationsDroppedOff] !== addressTypes.anotherAddress
@@ -405,7 +434,7 @@ const formatFormData = (
         : null,
     applicationDropOffAddress:
       data.canApplicationsBeDroppedOff === YesNoAnswer.Yes &&
-      data.whereApplicationsPickedUp === addressTypes.anotherAddress
+      data.whereApplicationsDroppedOff === addressTypes.anotherAddress
         ? data.applicationDropOffAddress
         : null,
     applicationPickUpAddress:
@@ -413,10 +442,9 @@ const formatFormData = (
       data.whereApplicationsPickedUp === addressTypes.anotherAddress
         ? data.applicationPickUpAddress
         : null,
-    applicationMailingAddress:
-      data.arePaperAppsMailedToAnotherAddress === YesNoAnswer.Yes
-        ? data.applicationMailingAddress
-        : null,
+    applicationMailingAddress: data.arePaperAppsMailedToAnotherAddress
+      ? data.applicationMailingAddress
+      : null,
     events,
     reservedCommunityType: data.reservedCommunityType.id ? data.reservedCommunityType : null,
     unitsSummary: summaries,
@@ -464,7 +492,17 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
   const [units, setUnits] = useState<TempUnit[]>([])
   const [unitsSummaries, setUnitsSummaries] = useState<TempUnitsSummary[]>([])
   const [openHouseEvents, setOpenHouseEvents] = useState<TempEvent[]>([])
-  const [preferences, setPreferences] = useState<Preference[]>(listing?.preferences ?? [])
+  const [preferences, setPreferences] = useState<Preference[]>(
+    listing?.listingPreferences.map((listingPref) => {
+      return { ...listingPref.preference }
+    }) ?? []
+  )
+  const [programs, setPrograms] = useState<Program[]>(
+    listing?.listingPrograms.map((program) => {
+      return program.program
+    }) ?? []
+  )
+
   const [latLong, setLatLong] = useState<LatitudeLongitude>({
     latitude: listing?.buildingAddress?.latitude ?? null,
     longitude: listing?.buildingAddress?.longitude ?? null,
@@ -493,6 +531,11 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
    * Lottery results drawer
    */
   const [lotteryResultsDrawer, setLotteryResultsDrawer] = useState(false)
+
+  /**
+   * Save already-live modal
+   */
+  const [listingIsAlreadyLiveModal, setListingIsAlreadyLiveModal] = useState(false)
 
   useEffect(() => {
     if (listing?.units) {
@@ -531,12 +574,20 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { getValues, setError, clearErrors, reset } = formMethods
 
-  const triggerSubmitWithStatus = (confirm?: boolean, status?: ListingStatus) => {
-    if (confirm) {
-      setPublishModal(true)
+  const triggerSubmitWithStatus = (
+    confirm?: boolean,
+    status?: ListingStatus,
+    newData?: Partial<FormListing>
+  ) => {
+    if (confirm && status === ListingStatus.active) {
+      if (listing?.status === ListingStatus.active) {
+        setListingIsAlreadyLiveModal(true)
+      } else {
+        setPublishModal(true)
+      }
       return
     }
-    let formData = { ...defaultValues, ...getValues() }
+    let formData = { ...defaultValues, ...getValues(), ...(newData || {}) }
     if (status) {
       formData = { ...formData, status }
     }
@@ -549,8 +600,11 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
         try {
           setLoading(true)
           clearErrors()
-          const orderedPreferences = preferences.map((pref, index) => {
-            return { ...pref, ordinal: index + 1 }
+          const orderedPreferences = preferences.map((preference, index) => {
+            return { preference, ordinal: index + 1 }
+          })
+          const orderedPrograms = programs.map((program, index) => {
+            return { program: { ...program }, ordinal: index + 1 }
           })
           const formattedData = formatFormData(
             formData,
@@ -558,6 +612,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
             openHouseEvents,
             unitsSummaries,
             orderedPreferences,
+            orderedPrograms,
             latLong,
             customMapPositionChosen,
             profile
@@ -614,6 +669,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       listing,
       router,
       preferences,
+      programs,
       latLong,
       customMapPositionChosen,
       clearErrors,
@@ -702,7 +758,32 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                             setSummaries={setUnitsSummaries}
                             disableUnitsAccordion={listing?.disableUnitsAccordion}
                           />
-                          <Preferences preferences={preferences} setPreferences={setPreferences} />
+                          <SelectAndOrder
+                            addText={t("listings.addPreference")}
+                            drawerTitle={t("listings.addPreferences")}
+                            editText={t("listings.editPreferences")}
+                            listingData={preferences}
+                            setListingData={setPreferences}
+                            subtitle={t("listings.sections.housingPreferencesSubtext")}
+                            title={t("listings.sections.housingPreferencesTitle")}
+                            drawerButtonText={t("listings.selectPreferences")}
+                            dataFetcher={useJurisdictionalPreferenceList}
+                            formKey={"preference"}
+                          />
+                          <SelectAndOrder
+                            addText={"Add program"}
+                            drawerTitle={"Add programs"}
+                            editText={"Edit programs"}
+                            listingData={programs}
+                            setListingData={setPrograms}
+                            subtitle={
+                              "Tell us about any additional housing programs related to this listing."
+                            }
+                            title={"Housing Programs"}
+                            drawerButtonText={"Select programs"}
+                            dataFetcher={useJurisdictionalProgramList}
+                            formKey={"program"}
+                          />
                           <AdditionalFees />
                           <BuildingFeatures />
                           <AdditionalEligibility />
@@ -746,8 +827,8 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
 
                       {listing?.status === ListingStatus.closed && (
                         <LotteryResults
-                          submitCallback={() => {
-                            triggerSubmitWithStatus(false, ListingStatus.closed)
+                          submitCallback={(data) => {
+                            triggerSubmitWithStatus(false, ListingStatus.closed, data)
                           }}
                           drawerState={lotteryResultsDrawer}
                           showDrawer={(toggle: boolean) => setLotteryResultsDrawer(toggle)}
@@ -781,8 +862,8 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
             type="button"
             styleType={AppearanceStyleType.secondary}
             onClick={() => {
-              triggerSubmitWithStatus(false, ListingStatus.closed)
               setCloseModal(false)
+              triggerSubmitWithStatus(false, ListingStatus.closed)
             }}
           >
             {t("listings.actions.close")}
@@ -809,12 +890,11 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
         onClose={() => setPublishModal(false)}
         actions={[
           <Button
+            id="publishButtonConfirm"
             type="button"
             styleType={AppearanceStyleType.success}
-            onClick={async () => {
-              // If we don't await here, the scroll block stays in place on modal close
-              /* eslint-disable-next-line @typescript-eslint/await-thenable */
-              await setPublishModal(false)
+            onClick={() => {
+              setPublishModal(false)
               triggerSubmitWithStatus(false, ListingStatus.active)
             }}
           >
@@ -833,6 +913,39 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
         ]}
       >
         {t("listings.publishThisListing")}
+      </Modal>
+
+      <Modal
+        open={listingIsAlreadyLiveModal}
+        title={t("t.areYouSure")}
+        ariaDescription={t("listings.listingIsAlreadyLive")}
+        onClose={() => setListingIsAlreadyLiveModal(false)}
+        actions={[
+          <Button
+            id="saveAlreadyLiveListingButtonConfirm"
+            type="button"
+            styleType={AppearanceStyleType.success}
+            onClick={() => {
+              setListingIsAlreadyLiveModal(false)
+              triggerSubmitWithStatus(false, ListingStatus.active)
+            }}
+            dataTestId={"listingIsAlreadyLiveButton"}
+          >
+            {t("t.save")}
+          </Button>,
+          <Button
+            type="button"
+            styleType={AppearanceStyleType.secondary}
+            border={AppearanceBorderType.borderless}
+            onClick={() => {
+              setListingIsAlreadyLiveModal(false)
+            }}
+          >
+            {t("t.cancel")}
+          </Button>,
+        ]}
+      >
+        {t("listings.listingIsAlreadyLive")}
       </Modal>
     </>
   )

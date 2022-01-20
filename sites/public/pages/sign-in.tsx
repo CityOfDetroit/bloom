@@ -53,7 +53,7 @@ const SignIn = () => {
       <FormCard>
         <div className="form-card__lead text-center border-b mx-0">
           <Icon size="2xl" symbol="profile" />
-          <h2 className="form-card__title">Sign In</h2>
+          <h2 className="form-card__title">{t("nav.signIn")}</h2>
         </div>
         {requestError && (
           <AlertBox className="" onClose={() => setRequestError(undefined)} type="alert">
@@ -66,11 +66,12 @@ const SignIn = () => {
             <Field
               caps={true}
               name="email"
-              label="Email"
+              label={t("t.email")}
               validation={{ required: true }}
               error={errors.email}
               errorMessage="Please enter your login email"
               register={register}
+              dataTestId="sign-in-email-field"
             />
 
             <aside className="float-right text-tiny font-semibold">
@@ -82,23 +83,26 @@ const SignIn = () => {
             <Field
               caps={true}
               name="password"
-              label="Password"
+              label={t("authentication.createAccount.password")}
               validation={{ required: true }}
               error={errors.password}
               errorMessage="Please enter your login password"
               register={register}
               type="password"
+              dataTestId="sign-in-password-field"
             />
 
             <div className="text-center mt-6">
-              <Button styleType={AppearanceStyleType.primary}>Sign In</Button>
+              <Button styleType={AppearanceStyleType.primary} data-test-id="sign-in-button">
+                {t("nav.signIn")}
+              </Button>
             </div>
           </Form>
         </div>
         <div className="form-card__group text-center">
-          <h2 className="mb-6">Don't have an account?</h2>
+          <h2 className="mb-6">{t("authentication.createAccount.noAccount")}</h2>
 
-          <LinkButton href="/create-account">Create Account</LinkButton>
+          <LinkButton href="/create-account">{t("account.createAccount")}</LinkButton>
         </div>
       </FormCard>
     </FormsLayout>

@@ -1,8 +1,12 @@
-import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
+import {
+  AssetDtoSeedType,
+  ListingSeedType,
+  PropertySeedType,
+} from "../../seeder/seeds/listings/listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
 import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
-import { ListingDefaultSeed } from "./listing-default-seed"
+import { ListingDefaultSeed } from "../../seeder/seeds/listings/listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
 import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
@@ -27,6 +31,7 @@ const nccProperty: PropertySeedType = {
 }
 
 const nccListing: ListingSeedType = {
+  jurisdictionName: "Detroit",
   applicationDropOffAddress: null,
   applicationFee: "25",
   applicationMailingAddress: null,
@@ -95,7 +100,6 @@ export class Listing10157Seed extends ListingDefaultSeed {
       assets: JSON.parse(JSON.stringify(assets)),
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

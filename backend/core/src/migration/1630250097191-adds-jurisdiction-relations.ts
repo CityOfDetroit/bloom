@@ -96,7 +96,7 @@ export class addsJurisdictionRelations1630250097191 implements MigrationInterfac
       `ALTER TABLE "jurisdictions" DROP CONSTRAINT "UQ_60b3294568b273d896687dea59f"`
     )
     await queryRunner.query(
-      `ALTER TABLE "listings" ADD "county_code" character varying NOT NULL DEFAULT 'Alameda'`
+      `ALTER TABLE "listings" ADD "county_code" character varying NOT NULL DEFAULT 'Detroit'`
     )
     await queryRunner.query(`DROP INDEX "IDX_fe359f4430f9e0e7b278e03f0f"`)
     await queryRunner.query(`DROP INDEX "IDX_e51e812700e143101aeaabbccc"`)

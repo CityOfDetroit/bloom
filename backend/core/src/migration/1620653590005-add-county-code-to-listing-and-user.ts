@@ -6,12 +6,10 @@ export class addCountyCodeToListingAndUser1620653590005 implements MigrationInte
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "listings" ADD "county_code" character varying NOT NULL DEFAULT 'Alameda'`
+      `ALTER TABLE "listings" ADD "county_code" character varying NOT NULL DEFAULT 'Detriot'`
     )
     const mappings = {
-      Alameda: CountyCode.alameda,
-      "San Mateo": CountyCode.san_mateo,
-      "San Jose": CountyCode.san_jose,
+      Detriot: CountyCode.detroit,
     }
     for (const [dbBuildingAddressCountyValue, countyCode] of Object.entries(mappings)) {
       await queryRunner.query(

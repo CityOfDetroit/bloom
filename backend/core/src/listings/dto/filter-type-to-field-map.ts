@@ -1,5 +1,5 @@
 // Using a record lets us enforce that all types are handled in addFilter
-import { ListingFilterKeys } from "../../.."
+import { ListingFilterKeys } from "../types/listing-filter-keys-enum"
 
 /**
  * Fields for the Availability and AMI filters are determined based on the value
@@ -54,4 +54,5 @@ export const filterTypeToFieldMap: Record<keysWithMappedField, string> = {
   heatingInUnit: "listing_features.heatingInUnit",
   acInUnit: "listing_features.acInUnit",
   neighborhood: "property.neighborhood",
+  jurisdiction: "jurisdiction.id",
 }

@@ -1,8 +1,12 @@
-import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
+import {
+  AssetDtoSeedType,
+  ListingSeedType,
+  PropertySeedType,
+} from "../../seeder/seeds/listings/listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
 import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
-import { ListingDefaultSeed } from "./listing-default-seed"
+import { ListingDefaultSeed } from "../../seeder/seeds/listings/listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
 import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
@@ -21,6 +25,7 @@ const propertySeed: PropertySeedType = {
 }
 
 const listingSeed: ListingSeedType = {
+  jurisdictionName: "Detroit",
   amiPercentageMax: 60,
   amiPercentageMin: 30,
   applicationDropOffAddress: null,
@@ -90,7 +95,6 @@ export class Listing10151Seed extends ListingDefaultSeed {
       assets: assets,
       events: [],
       property: property,
-      preferences: [],
       reservedCommunityType: reservedType,
       // If a reservedCommunityType is specified, a reservedCommunityDescription MUST also be specified
       reservedCommunityDescription: "",

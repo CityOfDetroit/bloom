@@ -4,7 +4,6 @@ import { getRepositoryToken } from "@nestjs/typeorm"
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { Listing } from "./entities/listing.entity"
 import { Compare } from "../shared/dto/filter.dto"
-import { TranslationsService } from "../translations/translations.service"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
 import { OrderByFieldsEnum } from "./types/listing-orderby-enum"
 import { AvailabilityFilterEnum } from "./types/listing-filter-keys-enum"
@@ -14,6 +13,7 @@ import { ListingsQueryParams } from "./dto/listings-query-params"
 import { getQueueToken } from "@nestjs/bull"
 import { ListingCreateDto } from "./dto/listing-create.dto"
 import { ListingUpdateType } from "./listings-notifications"
+import { TranslationsService } from "../translations/services/translations.service"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -462,6 +462,7 @@ describe("ListingsService", () => {
       const expectedOrderByArgument = {
         "listings.applicationDueDate": "ASC",
         "listings.applicationOpenDate": "DESC",
+        "listings.id": "ASC",
       }
 
       // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)

@@ -2,6 +2,7 @@ import { MigrationInterface, QueryRunner } from "typeorm"
 
 export class addNullJurisdictionTranslation1631110073158 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+    return
     const [{ language, translations }] = await queryRunner.query(
       `SELECT language, translations from translations WHERE language = 'en' LIMIT 1`
     )
@@ -17,6 +18,7 @@ export class addNullJurisdictionTranslation1631110073158 implements MigrationInt
     await queryRunner.query(`INSERT INTO translations (language, translations) VALUES ($1, $2)`, [
       language,
       translations,
+      
     ])
   }
 
