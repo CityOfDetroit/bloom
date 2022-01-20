@@ -75,7 +75,6 @@ const views: Views = {
       { join: "units.unitType", alias: "unitType" },
       { join: "units.amiChartOverride", alias: "amiChartOverride" },
       { join: "listings.reservedCommunityType", alias: "reservedCommunityType" },
-      { join: "listings.preferences", alias: "preferences" },
       { join: "listings.unitsSummary", alias: "unitsSummary" },
       { join: "unitsSummary.unitType", alias: "summaryUnitType" },
       { join: "unitsSummary.priorityType", alias: "priorityType" },
