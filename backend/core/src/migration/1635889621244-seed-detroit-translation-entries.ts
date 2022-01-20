@@ -3,7 +3,7 @@ import { Language } from "../shared/types/language-enum"
 
 export class seedDetroitTranslationEntries1635889621244 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-
+    return
     const defaultTranslation = {
       confirmation: {
         yourConfirmationNumber: "Here is your confirmation number:",
