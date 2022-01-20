@@ -247,7 +247,7 @@ export class ListingFilterParams extends BaseFilter {
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.neighborhood]?: string
+  [ListingFilterKeys.neighborhood]?: string;
 
   @Expose()
   @ApiProperty({
