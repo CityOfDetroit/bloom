@@ -18,7 +18,6 @@ export class addNullJurisdictionTranslation1631110073158 implements MigrationInt
     await queryRunner.query(`INSERT INTO translations (language, translations) VALUES ($1, $2)`, [
       language,
       translations,
-      
     ])
   }
 

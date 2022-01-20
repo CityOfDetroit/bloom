@@ -259,7 +259,7 @@ const formatFormData = (
   saveLatLong: LatitudeLongitude,
   customPinPositionChosen: boolean,
   profile: User,
-  summaries: TempUnitsSummary[],
+  summaries: TempUnitsSummary[]
 ) => {
   let postmarkByDateTimeFormatted = null
 
