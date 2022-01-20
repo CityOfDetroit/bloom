@@ -1,3 +1,4 @@
+import React from "react"
 import qs from "qs"
 import Head from "next/head"
 import axios from "axios"
@@ -79,7 +80,6 @@ export async function getStaticProps(context: { params: Record<string, string>; 
   const response = await axios.get(`${process.env.backendApiBase}/listings/${context.params.id}`, {
     headers: { language: context.locale },
   })
-
   return {
     props: {
       listing: response.data,

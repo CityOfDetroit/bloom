@@ -7,17 +7,15 @@ import {
   UnauthorizedException,
 } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
-import { FindConditions, Repository } from "typeorm"
+import { DeepPartial, FindConditions, Repository } from "typeorm"
 import { paginate, Pagination } from "nestjs-typeorm-paginate"
 import { decode, encode } from "jwt-simple"
 import moment from "moment"
 import crypto from "crypto"
 import { User } from "../entities/user.entity"
-import { assignDefined } from "../../shared/assign-defined"
 import { ConfirmDto } from "../dto/confirm.dto"
 import { USER_ERRORS } from "../user-errors"
 import { UpdatePasswordDto } from "../dto/update-password.dto"
-import { EmailService } from "../../shared/email/email.service"
 import { AuthService } from "./auth.service"
 import { AuthzService } from "./authz.service"
 import { ForgotPasswordDto } from "../dto/forgot-password.dto"
@@ -31,15 +29,16 @@ import { UserUpdateDto } from "../dto/user-update.dto"
 import { UserListQueryParams } from "../dto/user-list-query-params"
 import { UserInviteDto } from "../dto/user-invite.dto"
 import { ConfigService } from "@nestjs/config"
-import { JurisdictionDto } from "../../jurisdictions/dto/jurisdiction.dto"
 import { authzActions } from "../enum/authz-actions.enum"
-import { addFilters } from "../../shared/filter"
-import { UserFilterParams } from "../dto/user-filter-params"
 import { userFilterTypeToFieldMap } from "../dto/user-filter-type-to-field-map"
 import { Application } from "../../applications/entities/application.entity"
 import { Listing } from "../../listings/entities/listing.entity"
 import { UserRoles } from "../entities/user-roles.entity"
 import { UserPreferences } from "../../../src/user-preferences/entities/user-preferences.entity"
+import { Jurisdiction } from "../../jurisdictions/entities/jurisdiction.entity"
+import { UserQueryFilter } from "../filters/user-query-filter"
+import { assignDefined } from "../../shared/utils/assign-defined"
+import { EmailService } from "../../email/email.service"
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {
@@ -68,6 +67,14 @@ export class UserService {
     })
   }
 
+  public async findOneOrFail(options: FindConditions<User>) {
+    const user = await this.find(options)
+    if (!user) {
+      throw new NotFoundException()
+    }
+    return user
+  }
+
   public async list(
     params: UserListQueryParams,
     authContext: AuthContext
@@ -80,11 +87,8 @@ export class UserService {
     const qb = this._getQb()
 
     if (params.filter) {
-      addFilters<Array<UserFilterParams>, typeof userFilterTypeToFieldMap>(
-        params.filter,
-        userFilterTypeToFieldMap,
-        qb
-      )
+      const filter = new UserQueryFilter()
+      filter.addFilters(params.filter, userFilterTypeToFieldMap, qb)
     }
 
     const result = await paginate<User>(qb, options)
@@ -245,7 +249,7 @@ export class UserService {
     await this.applicationsRepository.save(applications)
   }
 
-  public async _createUser(dto: Partial<User>, authContext: AuthContext) {
+  public async _createUser(dto: DeepPartial<User>, authContext: AuthContext) {
     if (dto.confirmedAt) {
       await this.authzService.canOrThrow(authContext.user, "user", authzActions.confirm, {
         ...dto,
@@ -279,7 +283,7 @@ export class UserService {
         ...dto,
         passwordHash: await this.passwordService.passwordToHash(dto.password),
         jurisdictions: dto.jurisdictions
-          ? (dto.jurisdictions as JurisdictionDto[])
+          ? (dto.jurisdictions as Jurisdiction[])
           : [await this.jurisdictionResolverService.getJurisdiction()],
         preferences: (dto.preferences as unknown) as UserPreferences,
       },
@@ -341,7 +345,7 @@ export class UserService {
         leasingAgentInListings: dto.leasingAgentInListings as Listing[],
         roles: dto.roles as UserRoles,
         jurisdictions: dto.jurisdictions
-          ? (dto.jurisdictions as JurisdictionDto[])
+          ? (dto.jurisdictions as Jurisdiction[])
           : [await this.jurisdictionResolverService.getJurisdiction()],
         preferences: (dto.preferences as unknown) as UserPreferences,
       },
@@ -354,5 +358,13 @@ export class UserService {
       UserService.getPartnersConfirmationUrl(this.configService.get("PARTNERS_PORTAL_URL"), user)
     )
     return user
+  }
+
+  async delete(userId: string) {
+    const user = await this.userRepository.findOne({ id: userId })
+    if (!user) {
+      throw new NotFoundException()
+    }
+    await this.userRepository.remove(user)
   }
 }

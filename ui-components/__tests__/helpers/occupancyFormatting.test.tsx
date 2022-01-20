@@ -145,7 +145,7 @@ describe("occupancy formatting helper", () => {
       },
       {
         occupancy: "1 person",
-        unitType: <strong>Single Room Occupancy</strong>,
+        unitType: <strong>SRO</strong>,
       },
     ])
   })

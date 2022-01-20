@@ -134,7 +134,6 @@ const ApplicationsList = () => {
     try {
       const content = await applicationsService.listAsCsv({
         listingId,
-        includeHeaders: true,
       })
 
       const now = new Date()
@@ -148,8 +147,7 @@ const ApplicationsList = () => {
       fileLink.click()
     } catch (err) {
       setCsvExportError(true)
-      setSiteAlertMessage(t("errors.alert.timeoutPleaseTryAgain"), "alert")
-      console.error(err)
+      setSiteAlertMessage(err.response.data.error, "alert")
     }
 
     setCsvExportLoading(false)
@@ -160,14 +158,15 @@ const ApplicationsList = () => {
     linkWithId: HTMLSpanElement
 
     init(params) {
+      const applicationId = params.data.id
+
       this.linkWithId = document.createElement("button")
       this.linkWithId.classList.add("text-blue-700")
-
       this.linkWithId.innerText = params.value
 
       this.linkWithId.addEventListener("click", function () {
         void saveColumnState(params.columnApi)
-        void router.push(lRoute(`/application/${params.value}`))
+        void router.push(lRoute(`/application/${applicationId}`))
       })
     }
 

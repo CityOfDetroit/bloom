@@ -16,7 +16,7 @@ export class seedTranslationEntries1620660845209 implements MigrationInterface {
           FCFS:
             "Applicants will be contacted by the property agent on a first come first serve basis until vacancies are filled.",
           lottery:
-            "The lottery will be held on %{lotteryDate}. Applicants will be contacted by the agent in lottery rank order until vacancies are filled.",
+            "Applicants will be contacted by the agent in lottery rank order until vacancies are filled.",
           noLottery:
             "Applicants will be contacted by the agent in waitlist order until vacancies are filled.",
         },
@@ -26,7 +26,7 @@ export class seedTranslationEntries1620660845209 implements MigrationInterface {
         callToActionUrl:
           "https://docs.google.com/forms/d/e/1FAIpQLScr7JuVwiNW8q-ifFUWTFSWqEyV5ndA08jAhJQSlQ4ETrnl9w/viewform",
         feedback: "feedback",
-        footer: "Alameda County - Housing and Community Development (HCD) Department",
+        footer: "City of Detroit – Detroit Home Connect",
         thankYou: "Thank you",
       },
       forgotPassword: {
@@ -58,7 +58,7 @@ export class seedTranslationEntries1620660845209 implements MigrationInterface {
     }
     await queryRunner.query(
       `INSERT into "translations" (county_code, language, translations) VALUES ($1, $2, $3)`,
-      [CountyCode.alameda, Language.en, defaultTranslation]
+      [CountyCode.detroit, Language.en, defaultTranslation]
     )
   }
 

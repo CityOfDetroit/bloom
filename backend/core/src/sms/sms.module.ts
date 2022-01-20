@@ -8,7 +8,7 @@ import { SmsController } from "./controllers/sms.controller"
 import { TwilioService } from "./services/twilio.service"
 import { Application } from "../applications/entities/application.entity"
 import { SharedModule } from "../shared/shared.module"
-import { EmailModule } from "../shared/email/email.module"
+import { EmailModule } from "../email/email.module"
 import { JurisdictionsModule } from "../jurisdictions/jurisdictions.module"
 
 @Module({

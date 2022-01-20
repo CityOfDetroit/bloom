@@ -9,6 +9,7 @@ import {
   ListingApplicationAddressType,
   ApplicationMethod,
   ApplicationMethodType,
+  ListingStatus,
 } from "@bloom-housing/backend-core/types"
 import {
   AdditionalFees,
@@ -197,19 +198,12 @@ export const ListingView = (props: ListingProps) => {
 
   const applySidebar = () => (
     <>
-      <Waitlist
-        isWaitlistOpen={listing.isWaitlistOpen}
-        waitlistMaxSize={listing.waitlistMaxSize}
-        waitlistCurrentSize={listing.waitlistCurrentSize}
-        waitlistOpenSpots={listing.waitlistOpenSpots}
-        unitsAvailable={listing.unitsAvailable}
-      />
       <GetApplication
         onlineApplicationURL={getOnlineApplicationURL()}
         applicationsDueDate={moment(listing.applicationDueDate).format(
           `MMM. DD, YYYY [${t("t.at")}] h A`
         )}
-        applicationsOpen={!appOpenInFuture}
+        applicationsOpen={!appOpenInFuture && listing.status !== ListingStatus.closed}
         applicationsOpenDate={moment(listing.applicationOpenDate).format("MMMM D, YYYY")}
         paperApplications={getPaperApplications()}
         paperMethod={!!getMethod(listing.applicationMethods, ApplicationMethodType.FileDownload)}
@@ -280,7 +274,9 @@ export const ListingView = (props: ListingProps) => {
         {listing.reservedCommunityType && (
           <Message warning={true}>
             {t("listings.reservedFor", {
-              type: t(`listings.reservedCommunityTypes.${listing.reservedCommunityType.name}`),
+              type: t(
+                `listings.reservedCommunityTypeDescriptions.${listing.reservedCommunityType.name}`
+              ),
             })}
           </Message>
         )}
@@ -312,6 +308,14 @@ export const ListingView = (props: ListingProps) => {
             <div className="hidden md:block">
               <ListingUpdated listingUpdated={listing.updatedAt} />
               {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
+              {!applicationsClosed && (
+                <Waitlist
+                  isWaitlistOpen={listing.isWaitlistOpen}
+                  waitlistMaxSize={listing.waitlistMaxSize}
+                  waitlistCurrentSize={listing.waitlistCurrentSize}
+                  waitlistOpenSpots={listing.waitlistOpenSpots}
+                />
+              )}
               {hasNonReferralMethods && !applicationsClosed && applySidebar()}
               {listing?.referralApplication && (
                 <ReferralApplication

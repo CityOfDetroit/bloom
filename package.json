@@ -1,6 +1,7 @@
 {
   "name": "bloom-housing",
-  "version": "1.0.5",
+  "version": "2.0.0-pre-tailwind",
+  "author": "Sean Albert <sean.albert@exygy.com>",
   "description": "Bloom is a system to manage processes for affordable housing",
   "workspaces": {
     "packages": [
@@ -17,6 +18,10 @@
   "repository": "https://github.com/CityOfDetroit/bloom.git",
   "license": "Apache-2.0",
   "private": true,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "dev:app:public": "wait-on \"http-get://localhost:${PORT:-3100}/listings\" && cd sites/public && yarn dev",
     "test:app:public": "cd sites/public && yarn test",
@@ -67,7 +72,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^4.3.0",
     "jest": "^26.5.3",
-    "lerna": "^3.22.1",
+    "lerna": "^4.0.0",
     "lint-staged": "^10.4.0",
     "prettier": "^2.1.0",
     "react": "^17.0.2",

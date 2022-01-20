@@ -9,7 +9,7 @@ export class addJurisdictionNotificationSetting1630105131436 implements Migratio
 
     await queryRunner.query(
       `UPDATE "jurisdictions" SET notifications_sign_up_url = 'https://public.govdelivery.com/accounts/CAALAME/signup/29386' WHERE name = ($1)`,
-      [CountyCode.alameda]
+      [CountyCode.detroit]
     )
   }
 

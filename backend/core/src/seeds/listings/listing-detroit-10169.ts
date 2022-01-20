@@ -1,12 +1,16 @@
-import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
+import {
+  AssetDtoSeedType,
+  ListingSeedType,
+  PropertySeedType,
+} from "../../seeder/seeds/listings/listings"
 import { ListingStatus } from "../../listings/types/listing-status-enum"
 import { CountyCode } from "../../shared/types/county-code"
 import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
-import { ListingDefaultSeed } from "./listing-default-seed"
+import { ListingDefaultSeed } from "../../seeder/seeds/listings/listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
 import { Listing } from "../../listings/entities/listing.entity"
 import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
-import { getDate } from "./shared"
+import { getDate } from "../../seeder/seeds/listings/shared"
 
 const grandRivProperty: PropertySeedType = {
   // See http://rentlinx.kmgprestige.com/640-Delaware-Street-Detroit-MI-48202
@@ -28,6 +32,7 @@ const grandRivProperty: PropertySeedType = {
 }
 
 const grandRivListing: ListingSeedType = {
+  jurisdictionName: "Detroit",
   applicationDropOffAddress: null,
   applicationOpenDate: getDate(1000),
   applicationDueDate: getDate(1500),
@@ -99,7 +104,6 @@ export class Listing10157Seed extends ListingDefaultSeed {
       assets: JSON.parse(JSON.stringify(assets)),
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

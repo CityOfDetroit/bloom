@@ -1,4 +1,4 @@
-import { ListingDefaultSeed } from "./listing-default-seed"
+import { ListingDefaultSeed } from "../../seeder/seeds/listings/listing-default-seed"
 import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
 
 export class ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed extends ListingDefaultSeed {
