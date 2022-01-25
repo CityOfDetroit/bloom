@@ -17,6 +17,16 @@ export const basic = () => (
   />
 )
 
+export const withNotice = () => (
+  <SiteHeader
+    homeURL={"/"}
+    logoSrc="/images/logo_glyph.svg"
+    notice="This is a preview of our new website. We're just getting started. We'd love to get your feedback."
+    title="Alameda County Housing Portal"
+    menuLinks={[]}
+  />
+)
+
 export const withLanguage = () => (
   <SiteHeader
     homeURL={"/"}
@@ -347,18 +357,6 @@ export const DAHLIAToggleSet = () => (
     logoSrc="https://bit.ly/3me4iUC"
     dropdownItemClassName={"text-xs"}
     menuLinks={[
-      {
-        title: "Some longer links",
-        href: "/",
-      },
-      {
-        title: "Some longer links",
-        href: "/",
-      },
-      {
-        title: "Some longer links",
-        href: "/",
-      },
       {
         title: "My Account",
         subMenuLinks: [
