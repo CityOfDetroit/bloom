@@ -8,8 +8,7 @@ import { t } from "../helpers/translator"
 import "./SiteHeader.scss"
 import { NavigationContext } from "../config/NavigationContext"
 
-type LogoWidth = "slim" | "base" | "medium" | "wide"
-type SiteHeaderWidth = "base" | "wide"
+type LogoWidth = "slim" | "medium" | "wide"
 
 export interface MenuLink {
   href?: string
@@ -36,7 +35,6 @@ export interface SiteHeaderProps {
   flattenSubMenus?: boolean
   notice?: string | React.ReactNode
   noticeMobile?: boolean
-  siteHeaderWidth?: SiteHeaderWidth
   title?: string
   subtitle?: string
   desktopMinWidth?: number
@@ -72,10 +70,9 @@ const SiteHeader = (props: SiteHeaderProps) => {
   }, [])
 
   const getLogoWidthClass = () => {
-    if (props.logoWidth === "slim") return "navbar-logo-width-slim"
-    if (!props.logoWidth || props.logoWidth === "base") return "navbar-logo-width-base"
-    if (props.logoWidth === "medium") return "navbar-logo-width-med"
-    if (props.logoWidth === "wide") return "navbar-logo-width-wide"
+    if (props.logoWidth === "slim") return "navbar-width-slim"
+    if (props.logoWidth === "medium") return "navbar-width-med"
+    if (props.logoWidth === "wide") return "navbar-width-wide"
     return ""
   }
 
@@ -417,9 +414,9 @@ const SiteHeader = (props: SiteHeaderProps) => {
     }
 
     return (
-      <div className={`navbar-logo ${getLogoWidthClass()}`}>
+      <div className={`navbar-logo`}>
         <LinkComponent
-          className={`logo ${props.logoClass && props.logoClass} ${
+          className={`logo ${props.logoClass && props.logoClass} ${getLogoWidthClass()} ${
             props.logoWidth && "navbar-custom-width"
           }`}
           href={props.homeURL}
@@ -447,11 +444,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
       </div>
 
       <nav className="navbar-container" role="navigation" aria-label="main navigation">
-        <div
-          className={`navbar ${
-            props.siteHeaderWidth === "wide" ? "navbar-width-wide" : "navbar-width-base"
-          }`}
-        >
+        <div className="navbar">
           {getLogo()}
           <div className="navbar-menu">{isDesktop ? getDesktopHeader() : getMobileHeader()}</div>
         </div>
