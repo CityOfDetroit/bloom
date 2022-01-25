@@ -144,6 +144,7 @@ type AlertErrorType = "api" | "form"
 
 const defaults: FormListing = {
   id: undefined,
+  CSVFormattingType: undefined,
   createdAt: undefined,
   updatedAt: undefined,
   applicationDueDate: null,
@@ -254,8 +255,6 @@ const formatFormData = (
   data: FormListing,
   units: TempUnit[],
   openHouseEvents: TempEvent[],
-  preferences: ListingPreference[],
-  programs: ListingProgram[],
   saveLatLong: LatitudeLongitude,
   customPinPositionChosen: boolean,
   profile: User,
@@ -394,8 +393,6 @@ const formatFormData = (
     jurisdiction,
     disableUnitsAccordion: stringToBoolean(data.displaySummaryData),
     units: units,
-    listingPreferences: preferences,
-    listingPrograms: programs,
     buildingAddress: {
       ...data.buildingAddress,
       latitude: saveLatLong.latitude ?? null,
@@ -600,22 +597,15 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
         try {
           setLoading(true)
           clearErrors()
-          const orderedPreferences = preferences.map((preference, index) => {
-            return { preference, ordinal: index + 1 }
-          })
-          const orderedPrograms = programs.map((program, index) => {
-            return { program: { ...program }, ordinal: index + 1 }
-          })
+
           const formattedData = formatFormData(
             formData,
             units,
             openHouseEvents,
-            unitsSummaries,
-            orderedPreferences,
-            orderedPrograms,
             latLong,
             customMapPositionChosen,
-            profile
+            profile,
+            unitsSummaries
           )
           removeEmptyObjects(formattedData)
           const result = editMode
@@ -668,8 +658,6 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       listingsService,
       listing,
       router,
-      preferences,
-      programs,
       latLong,
       customMapPositionChosen,
       clearErrors,
@@ -757,32 +745,6 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                             unitsSummaries={unitsSummaries}
                             setSummaries={setUnitsSummaries}
                             disableUnitsAccordion={listing?.disableUnitsAccordion}
-                          />
-                          <SelectAndOrder
-                            addText={t("listings.addPreference")}
-                            drawerTitle={t("listings.addPreferences")}
-                            editText={t("listings.editPreferences")}
-                            listingData={preferences}
-                            setListingData={setPreferences}
-                            subtitle={t("listings.sections.housingPreferencesSubtext")}
-                            title={t("listings.sections.housingPreferencesTitle")}
-                            drawerButtonText={t("listings.selectPreferences")}
-                            dataFetcher={useJurisdictionalPreferenceList}
-                            formKey={"preference"}
-                          />
-                          <SelectAndOrder
-                            addText={"Add program"}
-                            drawerTitle={"Add programs"}
-                            editText={"Edit programs"}
-                            listingData={programs}
-                            setListingData={setPrograms}
-                            subtitle={
-                              "Tell us about any additional housing programs related to this listing."
-                            }
-                            title={"Housing Programs"}
-                            drawerButtonText={"Select programs"}
-                            dataFetcher={useJurisdictionalProgramList}
-                            formKey={"program"}
                           />
                           <AdditionalFees />
                           <BuildingFeatures />
