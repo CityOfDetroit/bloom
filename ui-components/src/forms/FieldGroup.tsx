@@ -32,7 +32,6 @@ interface FieldGroupProps {
   validation?: Record<string, unknown>
   fieldGroupClassName?: string
   fieldClassName?: string
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => unknown
   fieldLabelClassName?: string
   dataTestId?: string
 }
@@ -49,7 +48,6 @@ const FieldGroup = ({
   register,
   fieldGroupClassName,
   fieldClassName,
-  onChange,
   fieldLabelClassName,
   groupSubNote,
   dataTestId,
@@ -87,7 +85,7 @@ const FieldGroup = ({
           defaultChecked={item.defaultChecked || false}
           ref={register(validation)}
           {...item.inputProps}
-          data-test-id={dataTestId}
+          data-testid={dataTestId}
         />
         <label htmlFor={item.id} className={`font-semibold ${fieldLabelClassName}`}>
           {item.label}
@@ -148,22 +146,14 @@ const FieldGroup = ({
       <div className={`field ${error && "error"} ${fieldGroupClassName || ""} mb-0`}>
         {fields?.map((item) => (
           <div className={`field ${fieldClassName || ""} mb-1`} key={item.id}>
-            <input
-              aria-describedby={`${name}-error`}
-              aria-invalid={!!error || false}
-              type={type}
-              id={item.id}
-              defaultValue={item.value || item.id}
-              name={name}
-              defaultChecked={item.defaultChecked || false}
-              ref={register(validation)}
-              onChange={onChange}
-              {...item.inputProps}
-            />
-            <label htmlFor={item.id} className={`font-semibold ${fieldLabelClassName}`}>
-              {item.label}
-            </label>
-            {item.note && <span className={"field-note font-normal"}>{item.note}</span>}
+            {getInputSet(item)}
+            {item.subFields && checkedInputs.indexOf(item.label) >= 0 && (
+              <div className={"ml-8"} key={`${item.value}-subfields`}>
+                {item.subFields?.map((subItem) => {
+                  return getInputSet(subItem)
+                })}
+              </div>
+            )}
           </div>
         ))}
       </div>

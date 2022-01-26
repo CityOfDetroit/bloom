@@ -487,7 +487,6 @@ describe("ListingsService", () => {
       const expectedOrderByArgument = {
         "listings.applicationDueDate": "ASC",
         "listings.applicationOpenDate": "DESC",
-        "listings.id": "ASC",
       }
 
       // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)

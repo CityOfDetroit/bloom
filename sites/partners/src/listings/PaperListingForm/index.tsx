@@ -28,15 +28,11 @@ import {
   ListingEvent,
   ListingEventType,
   ListingEventCreate,
-  Preference,
   UnitsSummary,
   PaperApplication,
   PaperApplicationCreate,
   ListingReviewOrder,
   User,
-  ListingPreference,
-  Program,
-  ListingProgram,
 } from "@bloom-housing/backend-core/types"
 import { YesNoAnswer } from "../../applications/PaperApplicationForm/FormTypes"
 import moment from "moment"
@@ -169,7 +165,7 @@ const defaults: FormListing = {
   depositMax: "0",
   depositMin: "0",
   depositHelperText: "or one month's rent may be higher for lower credit scores",
-  disableUnitsAccordion: false,
+  disableUnitsAccordion: true,
   displayWaitlistSize: false,
   events: [],
   image: null,
@@ -253,7 +249,6 @@ export type PaperApplicationHybrid = PaperApplication | PaperApplicationCreate
 
 const formatFormData = (
   data: FormListing,
-  units: TempUnit[],
   openHouseEvents: TempEvent[],
   saveLatLong: LatitudeLongitude,
   customPinPositionChosen: boolean,
@@ -274,55 +269,6 @@ const formatFormData = (
     }
   }
 
-  units.forEach((unit) => {
-    switch (unit.unitType?.name) {
-      case "fourBdrm":
-        unit.numBedrooms = 4
-        break
-      case "threeBdrm":
-        unit.numBedrooms = 3
-        break
-      case "twoBdrm":
-        unit.numBedrooms = 2
-        break
-      case "oneBdrm":
-        unit.numBedrooms = 1
-        break
-      default:
-        unit.numBedrooms = null
-    }
-
-    Object.keys(unit).forEach((key) => {
-      if (key.indexOf("maxIncomeHouseholdSize") >= 0) {
-        if (parseInt(unit[key])) {
-          if (!unit.amiChartOverride) {
-            unit.amiChartOverride = {
-              id: undefined,
-              createdAt: undefined,
-              updatedAt: undefined,
-              items: [],
-            }
-          }
-          unit.amiChartOverride.items.push({
-            percentOfAmi: parseInt(unit.amiPercentage),
-            householdSize: parseInt(key[key.length - 1]),
-            income: parseInt(unit[key]),
-          })
-        }
-      }
-    })
-
-    unit.floor = stringToNumberOrOne(unit.floor)
-    unit.maxOccupancy = stringToNumberOrOne(unit.maxOccupancy)
-    unit.minOccupancy = stringToNumberOrOne(unit.minOccupancy)
-    unit.numBathrooms = stringToNumberOrOne(unit.numBathrooms)
-
-    if (!unit.sqFeet) {
-      delete unit.sqFeet
-    }
-
-    delete unit.tempId
-  })
   summaries.forEach((summary) => {
     summary.minOccupancy = toNumberOrNull(summary.minOccupancy)
     summary.maxOccupancy = toNumberOrNull(summary.maxOccupancy)
@@ -392,7 +338,6 @@ const formatFormData = (
     ...data,
     jurisdiction,
     disableUnitsAccordion: stringToBoolean(data.displaySummaryData),
-    units: units,
     buildingAddress: {
       ...data.buildingAddress,
       latitude: saveLatLong.latitude ?? null,
@@ -486,19 +431,8 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
   const [tabIndex, setTabIndex] = useState(0)
   const [alert, setAlert] = useState<AlertErrorType | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const [units, setUnits] = useState<TempUnit[]>([])
   const [unitsSummaries, setUnitsSummaries] = useState<TempUnitsSummary[]>([])
   const [openHouseEvents, setOpenHouseEvents] = useState<TempEvent[]>([])
-  const [preferences, setPreferences] = useState<Preference[]>(
-    listing?.listingPreferences.map((listingPref) => {
-      return { ...listingPref.preference }
-    }) ?? []
-  )
-  const [programs, setPrograms] = useState<Program[]>(
-    listing?.listingPrograms.map((program) => {
-      return program.program
-    }) ?? []
-  )
 
   const [latLong, setLatLong] = useState<LatitudeLongitude>({
     latitude: listing?.buildingAddress?.latitude ?? null,
@@ -535,14 +469,6 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
   const [listingIsAlreadyLiveModal, setListingIsAlreadyLiveModal] = useState(false)
 
   useEffect(() => {
-    if (listing?.units) {
-      const tempUnits = listing.units.map((unit, i) => ({
-        ...unit,
-        tempId: i + 1,
-      }))
-      setUnits(tempUnits)
-    }
-
     if (listing?.events) {
       const events = listing.events
         .filter((event) => event.type === ListingEventType.openHouse)
@@ -566,7 +492,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       }))
       setUnitsSummaries(tempSummaries)
     }
-  }, [listing, setUnits, setOpenHouseEvents])
+  }, [listing?.events, listing?.unitsSummary, setOpenHouseEvents])
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { getValues, setError, clearErrors, reset } = formMethods
@@ -600,7 +526,6 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
 
           const formattedData = formatFormData(
             formData,
-            units,
             openHouseEvents,
             latLong,
             customMapPositionChosen,
@@ -651,7 +576,6 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       }
     },
     [
-      units,
       unitsSummaries,
       openHouseEvents,
       editMode,
@@ -739,13 +663,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                             setCustomMapPositionChosen={setCustomMapPositionChosen}
                           />
                           <CommunityType listing={listing} />
-                          <Units
-                            units={units}
-                            setUnits={setUnits}
-                            unitsSummaries={unitsSummaries}
-                            setSummaries={setUnitsSummaries}
-                            disableUnitsAccordion={listing?.disableUnitsAccordion}
-                          />
+                          <Units unitsSummaries={unitsSummaries} setSummaries={setUnitsSummaries} />
                           <AdditionalFees />
                           <BuildingFeatures />
                           <AdditionalEligibility />

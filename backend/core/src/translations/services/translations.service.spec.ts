@@ -93,6 +93,7 @@ const getMockListing = () => {
     get showWaitlist(): boolean {
       return false
     },
+    CSVFormattingType: undefined,
   }
   return JSON.parse(JSON.stringify(mockListingTemplate))
 }
