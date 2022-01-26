@@ -25,7 +25,7 @@ const mockListing: Listing = {
   unitsSummarized: null,
   unitsSummary: null,
   applicationMethods: [],
-  preferences: [],
+  listingPreferences: [],
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   events: [],
