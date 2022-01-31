@@ -10,7 +10,7 @@ export function getDefaultAmiChart() {
 }
 
 export const defaultAmiChart: Omit<AmiChartCreateDto, "jurisdiction"> = {
-  name: "AlamedaCountyTCAC2021",
+  name: "CountyTCAC2021",
   items: [
     {
       percentOfAmi: 80,

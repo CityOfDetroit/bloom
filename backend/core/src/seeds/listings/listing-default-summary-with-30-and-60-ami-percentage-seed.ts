@@ -1,3 +1,4 @@
+import { getDate } from "../../seeder/seeds/listings/shared"
 import { ListingDefaultSeed } from "../../seeder/seeds/listings/listing-default-seed"
 import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
 
@@ -7,6 +8,8 @@ export class ListingDefaultSummaryWith30And60AmiPercentageSeed extends ListingDe
 
     const newListing = await this.listingRepository.save({
       ...listing,
+      applicationDueDate: getDate(5),
+      applicationOpenDate: getDate(-10),
       name: "Test: Default, Summary With 30 and 60 Ami Percentage",
     })
 

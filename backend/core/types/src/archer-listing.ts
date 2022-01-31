@@ -15,7 +15,7 @@ const amiChart: AmiChart = {
     id: "jurisdictiion_id",
     createdAt: new Date(),
     updatedAt: new Date(),
-    name: "Alameda",
+    name: "Detroit",
     programs: [],
     languages: [EnumJurisdictionLanguages.en],
     preferences: [],
@@ -594,7 +594,7 @@ export const ArcherListing: Listing = {
   disableUnitsAccordion: false,
   jurisdiction: {
     id: "id",
-    name: "Alameda",
+    name: "Detroit",
   },
   events: [],
   urlSlug: "listing-slug-abcdef",

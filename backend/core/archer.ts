@@ -19,7 +19,7 @@ export const SanMateoHUD2019: AmiChart = {
     id: "jurisdictiion_id",
     createdAt: new Date(),
     updatedAt: new Date(),
-    name: "Alameda",
+    name: "Detroit",
     programs: [],
     languages: [EnumJurisdictionLanguages.en],
     preferences: [],

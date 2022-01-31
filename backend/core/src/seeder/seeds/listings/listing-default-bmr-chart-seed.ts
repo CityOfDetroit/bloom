@@ -13,12 +13,12 @@ export class ListingDefaultBmrChartSeed extends ListingDefaultSeed {
     const unitTypeOneBdrm = await this.unitTypeRepository.findOneOrFail({ name: "oneBdrm" })
     const unitTypeTwoBdrm = await this.unitTypeRepository.findOneOrFail({ name: "twoBdrm" })
 
-    const alamedaJurisdiction = await this.jurisdictionRepository.findOneOrFail({
-      name: CountyCode.alameda,
+    const detroitJurisdiction = await this.jurisdictionRepository.findOneOrFail({
+      name: CountyCode.detroit,
     })
     const amiChart = await this.amiChartRepository.findOneOrFail({
       name: defaultAmiChart.name,
-      jurisdiction: alamedaJurisdiction,
+      jurisdiction: detroitJurisdiction,
     })
 
     const property = await this.propertyRepository.save({

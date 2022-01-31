@@ -141,12 +141,12 @@ export class ListingColiseumSeed extends ListingDefaultSeed {
     const unitTypeTwoBdrm = await this.unitTypeRepository.findOneOrFail({ name: "twoBdrm" })
     const unitTypeThreeBdrm = await this.unitTypeRepository.findOneOrFail({ name: "threeBdrm" })
 
-    const alamedaJurisdiction = await this.jurisdictionRepository.findOneOrFail({
+    const detroitJurisdiction = await this.jurisdictionRepository.findOneOrFail({
       name: CountyCode.alameda,
     })
     const amiChart = await this.amiChartRepository.findOneOrFail({
-      name: "AlamedaCountyTCAC2021",
-      jurisdiction: alamedaJurisdiction,
+      name: "CountyTCAC2021",
+      jurisdiction: detroitJurisdiction,
     })
 
     const property = await this.propertyRepository.save({
@@ -1033,19 +1033,19 @@ export class ListingColiseumSeed extends ListingDefaultSeed {
       listingPreferences: [
         {
           preference: await this.preferencesRepository.findOneOrFail({
-            title: getLiveWorkPreference(alamedaJurisdiction.name).title,
+            title: getLiveWorkPreference(detroitJurisdiction.name).title,
           }),
           ordinal: 1,
         },
         {
           preference: await this.preferencesRepository.findOneOrFail({
-            title: getPbvPreference(alamedaJurisdiction.name).title,
+            title: getPbvPreference(detroitJurisdiction.name).title,
           }),
           ordinal: 2,
         },
         {
           preference: await this.preferencesRepository.findOneOrFail({
-            title: getHopwaPreference(alamedaJurisdiction.name).title,
+            title: getHopwaPreference(detroitJurisdiction.name).title,
           }),
           ordinal: 3,
         },

@@ -216,7 +216,7 @@ describe("Users", () => {
     await getUserAccessToken(app, userCreateDto.email, userCreateDto.password)
   })
 
-  it("should not allow user to create an account without matching confirmation", async () => {
+  it.only("should not allow user to create an account without matching confirmation", async () => {
     const userCreateDto: UserCreateDto = {
       password: "Abcdef1!",
       passwordConfirmation: "abcdef2",
@@ -258,7 +258,7 @@ describe("Users", () => {
     expect(res.body).toHaveProperty("id")
     await supertest(app.getHttpServer())
       .post(`/user/`)
-      .set("jurisdictionName", "Alameda")
+      .set("jurisdictionName", "Detroit")
       .send(userCreateDto)
     expect(res.body).toHaveProperty("id")
   })
@@ -426,7 +426,7 @@ describe("Users", () => {
 
     const userCreateResponse = await supertest(app.getHttpServer())
       .post(`/user/`)
-      .set("jurisdictionName", "Alameda")
+      .set("jurisdictionName", "Detroit")
       .send(userCreateDto)
       .expect(201)
 
@@ -472,7 +472,7 @@ describe("Users", () => {
     const createAndConfirmUser = async (createDto: UserCreateDto) => {
       const userCreateResponse = await supertest(app.getHttpServer())
         .post(`/user/`)
-        .set("jurisdictionName", "Alameda")
+        .set("jurisdictionName", "Detroit")
         .send(createDto)
         .expect(201)
 
@@ -662,7 +662,7 @@ describe("Users", () => {
     }
     const res = await supertest(app.getHttpServer())
       .post(`/user`)
-      .set("jurisdictionName", "Alameda")
+      .set("jurisdictionName", "Detroit")
       .send(userCreateDto)
     expect(res.body).toHaveProperty("id")
     expect(res.body).not.toHaveProperty("passwordHash")
@@ -700,7 +700,7 @@ describe("Users", () => {
 
     const res = await supertest(app.getHttpServer())
       .post(`/user/`)
-      .set("jurisdictionName", "Alameda")
+      .set("jurisdictionName", "Detroit")
       .send(userCreateDto)
       .expect(201)
 
