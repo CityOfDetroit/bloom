@@ -556,13 +556,13 @@ export const itemInfo = [
 
 export class AmiDefaultTriton extends AmiChartDefaultSeed {
   async seed() {
-    const alamedaJurisdiction = await this.jurisdictionRepository.findOneOrFail({
-      name: CountyCode.alameda,
+    const detroitJurisdiction = await this.jurisdictionRepository.findOneOrFail({
+      name: CountyCode.detroit,
     })
     return await this.amiChartRepository.save({
       name: "San Jose TCAC 2019",
       items: itemInfo,
-      jurisdiction: alamedaJurisdiction,
+      jurisdiction: detroitJurisdiction,
     })
   }
 }

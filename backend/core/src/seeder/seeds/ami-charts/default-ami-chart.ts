@@ -304,12 +304,12 @@ export class AmiChartDefaultSeed {
   ) {}
 
   async seed() {
-    const alamedaJurisdiction = await this.jurisdictionRepository.findOneOrFail({
-      name: CountyCode.alameda,
+    const detroitJurisdiction = await this.jurisdictionRepository.findOneOrFail({
+      name: CountyCode.detroit,
     })
     return await this.amiChartRepository.save({
       ...getDefaultAmiChart(),
-      jurisdiction: alamedaJurisdiction,
+      jurisdiction: detroitJurisdiction,
     })
   }
 }
