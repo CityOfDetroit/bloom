@@ -201,7 +201,7 @@ const applicationCreateDtoTemplate: Omit<
                 city: "City",
                 state: "state",
                 zipCode: "100200",
-                county: "Alameda",
+                county: "Detroit",
                 latitude: null,
                 longitude: null,
               },

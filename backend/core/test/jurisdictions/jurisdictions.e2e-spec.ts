@@ -25,8 +25,6 @@ jest.setTimeout(30000)
 describe("Jurisdictions", () => {
   let app: INestApplication
   let adminAccesstoken: string
-  let preferencesRepository: Repository<Preference>
-  let programsRepository: Repository<Program>
 
   beforeAll(async () => {
     /* eslint-disable @typescript-eslint/no-empty-function */
@@ -47,8 +45,6 @@ describe("Jurisdictions", () => {
     app = applicationSetup(app)
     await app.init()
     adminAccesstoken = await getUserAccessToken(app, "admin@example.com", "abcdef")
-    preferencesRepository = app.get<Repository<Preference>>(getRepositoryToken(Preference))
-    programsRepository = app.get<Repository<Program>>(getRepositoryToken(Program))
   })
 
   it(`should return jurisdictions`, async () => {
@@ -60,26 +56,12 @@ describe("Jurisdictions", () => {
   })
 
   it(`should create and return a new jurisdiction with a preference`, async () => {
-    const newPreference = await preferencesRepository.save({
-      title: "TestTitle",
-      subtitle: "TestSubtitle",
-      description: "TestDescription",
-      links: [],
-    })
-    const newProgram = await programsRepository.save({
-      question: "TestQuestion",
-      subtitle: "TestSubtitle",
-      description: "TestDescription",
-      subdescription: "TestDescription",
-    })
     const res = await supertest(app.getHttpServer())
       .post(`/jurisdictions`)
       .set(...setAuthorization(adminAccesstoken))
       .send({
         name: "test",
         languages: [Language.en],
-        preferences: [newPreference],
-        programs: [newProgram],
       })
       .expect(201)
     expect(res.body).toHaveProperty("id")
@@ -88,20 +70,11 @@ describe("Jurisdictions", () => {
     expect(res.body).toHaveProperty("name")
     expect(res.body).toHaveProperty("preferences")
     expect(res.body.name).toBe("test")
-    expect(Array.isArray(res.body.preferences)).toBe(true)
-    expect(res.body.preferences.length).toBe(1)
-    expect(res.body.preferences[0].id).toBe(newPreference.id)
-    expect(res.body).toHaveProperty("programs")
-    expect(Array.isArray(res.body.programs)).toBe(true)
-    expect(res.body.programs.length).toBe(1)
-    expect(res.body.programs[0].id).toBe(newProgram.id)
 
     const getById = await supertest(app.getHttpServer())
       .get(`/jurisdictions/${res.body.id}`)
       .expect(200)
     expect(getById.body.name).toBe("test")
-    expect(getById.body.preferences[0].id).toBe(newPreference.id)
-    expect(getById.body.programs[0].id).toBe(newProgram.id)
   })
 
   it(`should create and return a new jurisdiction by name`, async () => {

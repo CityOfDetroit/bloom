@@ -1,7 +1,7 @@
 {
   "name": "Minimal Listing",
   "status": "active",
-  "countyCode": "Alameda",
+  "countyCode": "Detroit",
   "listingPreferences": [],
   "buildingAddress": {
     "city": "Oakland",
@@ -21,7 +21,7 @@
   "applicationMethods": [],
   "events": [],
   "displayWaitlistSize": false,
-  "jurisdictionName": "Alameda",
+  "jurisdictionName": "Detroit",
   "depositMin": "min",
   "depositMax": "max",
   "developer": "developer",

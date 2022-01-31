@@ -10,16 +10,16 @@ export class ListingDefaultMultipleAMI extends ListingDefaultSeed {
 
     const unitTypeOneBdrm = await this.unitTypeRepository.findOneOrFail({ name: "oneBdrm" })
 
-    const alamedaJurisdiction = await this.jurisdictionRepository.findOneOrFail({
-      name: CountyCode.alameda,
+    const detroitJurisdiction = await this.jurisdictionRepository.findOneOrFail({
+      name: CountyCode.detroit,
     })
     const amiChartOne = await this.amiChartRepository.findOneOrFail({
       name: "San Jose TCAC 2019",
-      jurisdiction: alamedaJurisdiction,
+      jurisdiction: detroitJurisdiction,
     })
     const amiChartTwo = await this.amiChartRepository.findOneOrFail({
-      name: "AlamedaCountyTCAC2021",
-      jurisdiction: alamedaJurisdiction,
+      name: "CountyTCAC2021",
+      jurisdiction: detroitJurisdiction,
     })
 
     const property = await this.propertyRepository.save({

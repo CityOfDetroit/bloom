@@ -10,7 +10,6 @@ import { ApplicationsModule } from "../applications/applications.module"
 import { ListingsModule } from "../listings/listings.module"
 import { AmiChartsModule } from "../ami-charts/ami-charts.module"
 import { ListingDefaultSeed } from "../seeder/seeds/listings/listing-default-seed"
-import { ListingDefaultSanJoseSeed } from "../seeder/seeds/listings/listing-default-sanjose-seed"
 import { Listing } from "../listings/entities/listing.entity"
 import { UnitAccessibilityPriorityType } from "../unit-accessbility-priority-types/entities/unit-accessibility-priority-type.entity"
 import { ReservedCommunityType } from "../reserved-community-type/entities/reserved-community-type.entity"
@@ -21,16 +20,12 @@ import { Property } from "../property/entities/property.entity"
 import { Unit } from "../units/entities/unit.entity"
 import { User } from "../auth/entities/user.entity"
 import { UserRoles } from "../auth/entities/user-roles.entity"
-import { ListingColiseumSeed } from "../seeder/seeds/listings/listing-coliseum-seed"
 import { ListingDefaultOnePreferenceSeed } from "../seeder/seeds/listings/listing-default-one-preference-seed"
 import { ListingDefaultNoPreferenceSeed } from "../seeder/seeds/listings/listing-default-no-preference-seed"
 import { Preference } from "../preferences/entities/preference.entity"
 import { ListingDefaultFCFSSeed } from "../seeder/seeds/listings/listing-default-fcfs-seed"
 import { ListingDefaultOpenSoonSeed } from "../seeder/seeds/listings/listing-default-open-soon"
-import {
-  ListingTritonSeed,
-  ListingTritonSeedDetroit,
-} from "../seeder/seeds/listings/listing-triton-seed"
+import { ListingTritonSeedDetroit } from "../seeder/seeds/listings/listing-triton-seed"
 import { ListingDefaultBmrChartSeed } from "../seeder/seeds/listings/listing-default-bmr-chart-seed"
 import { ApplicationMethod } from "../application-methods/entities/application-method.entity"
 import { PaperApplication } from "../paper-applications/entities/paper-application.entity"
@@ -66,8 +61,6 @@ import { AmiChartDefaultSeed } from "../seeder/seeds/ami-charts/default-ami-char
 import { AmiDefaultMissingAMI } from "../seeder/seeds/ami-charts/missing-household-ami-levels"
 import { AmiDefaultTriton } from "../seeder/seeds/ami-charts/triton-ami-chart"
 import { AmiDefaultTritonDetroit } from "../seeder/seeds/ami-charts/triton-ami-chart-detroit"
-import { AmiDefaultSanJose } from "../seeder/seeds/ami-charts/default-ami-chart-san-jose"
-import { AmiDefaultSanMateo } from "../seeder/seeds/ami-charts/default-ami-chart-san-mateo"
 
 @Module({})
 export class SeederModule {
@@ -114,13 +107,11 @@ export class SeederModule {
       ],
       providers: [
         ListingDefaultSeed,
-        ListingColiseumSeed,
         ListingDefaultOnePreferenceSeed,
         ListingDefaultNoPreferenceSeed,
         ListingDefaultFCFSSeed,
         ListingDefaultOpenSoonSeed,
         ListingDefaultBmrChartSeed,
-        ListingTritonSeed,
         ListingDefaultReservedSeed,
         ListingDefaultFCFSSeed,
         Listing10136Seed,
@@ -143,14 +134,11 @@ export class SeederModule {
         ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed,
         ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed,
         ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed,
-        ListingDefaultSanJoseSeed,
         ListingTritonSeedDetroit,
         AmiChartDefaultSeed,
         AmiDefaultMissingAMI,
         AmiDefaultTriton,
         AmiDefaultTritonDetroit,
-        AmiDefaultSanJose,
-        AmiDefaultSanMateo,
       ],
     }
   }

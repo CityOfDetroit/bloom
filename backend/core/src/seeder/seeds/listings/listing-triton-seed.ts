@@ -36,13 +36,13 @@ const tritonProperty: PropertySeedType = {
 }
 
 const tritonListing: ListingSeedType = {
-  jurisdictionName: "Alameda",
+  jurisdictionName: "Detroit",
   CSVFormattingType: CSVFormattingType.basic,
   digitalApplication: false,
   commonDigitalApplication: false,
   paperApplication: false,
   referralOpportunity: false,
-  countyCode: CountyCode.alameda,
+  countyCode: CountyCode.detroit,
   applicationDropOffAddress: null,
   applicationDropOffAddressOfficeHours: null,
   applicationMailingAddress: null,
@@ -105,18 +105,18 @@ const tritonListing: ListingSeedType = {
   whatToExpect: null,
 }
 
-export class ListingTritonSeed extends ListingDefaultSeed {
+/* export class ListingTritonSeed extends ListingDefaultSeed {
   async seed() {
     const unitTypeOneBdrm = await this.unitTypeRepository.findOneOrFail({ name: "oneBdrm" })
     const unitTypeTwoBdrm = await this.unitTypeRepository.findOneOrFail({ name: "twoBdrm" })
 
-    const alamedaJurisdiction = await this.jurisdictionRepository.findOneOrFail({
+    const detroitJurisdiction = await this.jurisdictionRepository.findOneOrFail({
       name: CountyCode.alameda,
     })
 
     const amiChart = await this.amiChartRepository.findOneOrFail({
       name: "San Jose TCAC 2019",
-      jurisdiction: alamedaJurisdiction,
+      jurisdiction: detroitJurisdiction,
     })
 
     const property = await this.propertyRepository.save({
@@ -246,7 +246,7 @@ export class ListingTritonSeed extends ListingDefaultSeed {
       listingPreferences: [
         {
           preference: await this.preferencesRepository.findOneOrFail({
-            title: getLiveWorkPreference(alamedaJurisdiction.name).title,
+            title: getLiveWorkPreference(detroitJurisdiction.name).title,
           }),
           ordinal: 2,
         },
@@ -256,7 +256,7 @@ export class ListingTritonSeed extends ListingDefaultSeed {
 
     return await this.listingRepository.save(listingCreateDto)
   }
-}
+} */
 
 export class ListingTritonSeedDetroit extends ListingDefaultSeed {
   async seed() {
@@ -271,10 +271,8 @@ export class ListingTritonSeedDetroit extends ListingDefaultSeed {
       jurisdiction: detroitJurisdiction,
     })
 
-    const property = await this.propertyRepository.findOneOrFail({
-      developer: "Thompson Dorfman, LLC",
-      neighborhood: "Foster City",
-      smokingPolicy: "Non-Smoking",
+    const property = await this.propertyRepository.save({
+      ...tritonProperty,
     })
 
     const tritonUnits: Array<UnitSeedType> = [

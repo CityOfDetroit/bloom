@@ -5,7 +5,6 @@ import { Repository } from "typeorm"
 import { getRepositoryToken } from "@nestjs/typeorm"
 import { INestApplicationContext } from "@nestjs/common"
 import { ListingDefaultSeed } from "./seeds/listings/listing-default-seed"
-import { ListingColiseumSeed } from "./seeds/listings/listing-coliseum-seed"
 import { ListingDefaultOpenSoonSeed } from "./seeds/listings/listing-default-open-soon"
 import { ListingDefaultOnePreferenceSeed } from "./seeds/listings/listing-default-one-preference-seed"
 import { ListingDefaultNoPreferenceSeed } from "./seeds/listings/listing-default-no-preference-seed"
@@ -22,12 +21,11 @@ import { ListingTreymoreSeed } from "../seeds/listings/listing-detroit-treymore"
 import { AmiChart } from "../ami-charts/entities/ami-chart.entity"
 import { WayneCountyMSHDA2021 } from "../seeds/ami-charts"
 import { ListingDefaultBmrChartSeed } from "./seeds/listings/listing-default-bmr-chart-seed"
-import { ListingTritonSeed, ListingTritonSeedDetroit } from "./seeds/listings/listing-triton-seed"
+import { ListingTritonSeedDetroit } from "./seeds/listings/listing-triton-seed"
 import { ListingDefaultReservedSeed } from "./seeds/listings/listing-default-reserved-seed"
 import { ListingDefaultMultipleAMI } from "./seeds/listings/listing-default-multiple-ami"
 import { ListingDefaultMultipleAMIAndPercentages } from "./seeds/listings/listing-default-multiple-ami-and-percentages"
 import { ListingDefaultMissingAMI } from "./seeds/listings/listing-default-missing-ami"
-import { ListingDefaultSanJoseSeed } from "./seeds/listings/listing-default-sanjose-seed"
 import { AmiChartDefaultSeed } from "./seeds/ami-charts/default-ami-chart"
 import {
   defaultLeasingAgents,
@@ -41,14 +39,12 @@ import {
   getTayProgram,
 } from "./seeds/listings/shared"
 import { UserCreateDto } from "../auth/dto/user-create.dto"
-import { AmiDefaultSanJose } from "./seeds/ami-charts/default-ami-chart-san-jose"
 import { AuthContext } from "../auth/types/auth-context"
 import { createJurisdictions } from "./seeds/jurisdictions"
 import { AmiDefaultMissingAMI } from "./seeds/ami-charts/missing-household-ami-levels"
 import { SeederModule } from "./seeder.module"
 import { AmiDefaultTriton } from "./seeds/ami-charts/triton-ami-chart"
 import { AmiDefaultTritonDetroit } from "./seeds/ami-charts/triton-ami-chart-detroit"
-import { AmiDefaultSanMateo } from "./seeds/ami-charts/default-ami-chart-san-mateo"
 import { makeNewApplication } from "./seeds/applications"
 import { UserRoles } from "../auth/entities/user-roles.entity"
 import { Jurisdiction } from "../jurisdictions/entities/jurisdiction.entity"
@@ -70,12 +66,10 @@ const argv = yargs.scriptName("seed").options({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const listingSeeds: any[] = [
   ListingDefaultSeed,
-  ListingColiseumSeed,
   ListingDefaultOpenSoonSeed,
   ListingDefaultOnePreferenceSeed,
   ListingDefaultNoPreferenceSeed,
   ListingDefaultBmrChartSeed,
-  ListingTritonSeed,
   ListingDefaultReservedSeed,
   ListingDefaultSummaryWith30And60AmiPercentageSeed,
   ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed,
@@ -89,7 +83,6 @@ const listingSeeds: any[] = [
   ListingDefaultMultipleAMI,
   ListingDefaultMultipleAMIAndPercentages,
   ListingDefaultMissingAMI,
-  ListingDefaultSanJoseSeed,
   ListingTritonSeedDetroit,
 ]
 
@@ -98,8 +91,6 @@ const amiSeeds: any[] = [
   AmiDefaultMissingAMI,
   AmiDefaultTriton,
   AmiDefaultTritonDetroit,
-  AmiDefaultSanJose,
-  AmiDefaultSanMateo,
 ]
 
 export function getSeedListingsCount() {
