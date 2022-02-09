@@ -75,6 +75,7 @@ const views: Views = {
       { join: "listings.unitsSummary", alias: "unitsSummary" },
       { join: "unitsSummary.unitType", alias: "summaryUnitType" },
       { join: "unitsSummary.priorityType", alias: "priorityType" },
+      { join: "listings.features", alias: "features" },
     ],
   },
 }
@@ -130,6 +131,7 @@ views.detail = {
     "listings.isWaitlistOpen",
     "listings.waitlistOpenSpots",
     "listings.customMapPin",
+    "listings.features",
     "buildingSelectionCriteriaFile.id",
     "buildingSelectionCriteriaFile.fileId",
     "buildingSelectionCriteriaFile.label",
@@ -222,7 +224,7 @@ views.full = {
     ["listings.unitsSummary", "unitsSummary"],
     ["unitsSummary.unitType", "summaryUnitType"],
     ["unitsSummary.priorityType", "summaryPriorityType"],
-    ["listings.features", "listing_features"],
+    ["listings.features", "features"],
   ],
 }
 

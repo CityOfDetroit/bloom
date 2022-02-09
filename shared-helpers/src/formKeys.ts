@@ -157,6 +157,57 @@ export const howDidYouHear = [
   },
 ]
 
+export const listingFeatures = [
+  {
+    id: "elevator",
+    name: "Elevator",
+  },
+  {
+    id: "wheelchairRamp",
+    name: "Wheelchair Ramp",
+  },
+  {
+    id: "serviceAnimalsAllowed",
+    name: "Service Animals Allowed",
+  },
+  {
+    id: "accessibleParking",
+    name: "Accessible Parking",
+  },
+  {
+    id: "parkingOnSite",
+    name: "Parking on Site",
+  },
+  {
+    id: "inUnitWasherDryer",
+    name: "In Unit Washer Dryer",
+  },
+  {
+    id: "laundryInBuilding",
+    name: "Laundry in Building",
+  },
+  {
+    id: "barrierFreeEntrance",
+    name: "Barrier Free Entrance",
+  },
+  {
+    id: "rollInShower",
+    name: "Laundry in Building",
+  },
+  {
+    id: "grabBars",
+    name: "Grab Bars",
+  },
+  {
+    id: "heatingInUnit",
+    name: "Heating in Unit",
+  },
+  {
+    id: "acInUnit",
+    name: "AC in Unit",
+  },
+]
+
 export const phoneNumberKeys = ["work", "home", "cell"]
 
 export const preferredUnit = [

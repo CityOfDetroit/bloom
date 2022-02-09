@@ -58,6 +58,7 @@ const Layout = (props) => {
           title={t("nav.siteTitlePartners")}
           logoWidth={"wide"}
           menuLinks={menuLinks}
+          logoClass={"md:h-36 md:mt-0"}
           homeURL={"/"}
           languages={languages.map((lang) => {
             return {
