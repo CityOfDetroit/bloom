@@ -53,6 +53,7 @@ const EditListing = () => {
                 <p className="font-sans text-base mt-1">{listingDto.id}</p>
               </>
             }
+            className={"pt-16"}
           />
 
           <PaperListingForm listing={listingDto} editMode />

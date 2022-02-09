@@ -78,7 +78,7 @@ export default function ApplicationsList() {
             </Head>
 
             <PageHeader
-              className="relative"
+              className={"pt-16 relative"}
               title={
                 <>
                   <p className="font-sans font-semibold uppercase text-3xl">{listingDto.name}</p>

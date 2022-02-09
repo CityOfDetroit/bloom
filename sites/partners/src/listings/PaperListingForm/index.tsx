@@ -35,6 +35,7 @@ import {
   PaperApplicationCreate,
   ListingReviewOrder,
   User,
+  ListingFeatures,
 } from "@bloom-housing/backend-core/types"
 import { YesNoAnswer } from "../../applications/PaperApplicationForm/FormTypes"
 import moment from "moment"
@@ -84,6 +85,7 @@ export type FormListing = Omit<Listing, "countyCode"> & {
   canPaperApplicationsBePickedUp?: YesNoAnswer
   digitalApplicationChoice?: YesNoAnswer
   displaySummaryData?: string
+  listingFeatures?: string[]
   commonDigitalApplicationChoice?: YesNoAnswer
   paperApplicationChoice?: YesNoAnswer
   referralOpportunityChoice?: YesNoAnswer
@@ -159,6 +161,8 @@ const defaults: FormListing = {
   disableUnitsAccordion: false,
   displayWaitlistSize: false,
   events: [],
+  listingFeatures: [],
+  features: {},
   image: null,
   leasingAgentAddress: null,
   leasingAgentEmail: null,
@@ -364,6 +368,13 @@ const formatFormData = (
       ? profile.jurisdictions[0]
       : data.jurisdiction
 
+  const features: ListingFeatures = data.listingFeatures?.reduce((acc, current) => {
+    return {
+      ...acc,
+      [current]: true,
+    }
+  }, {})
+
   return {
     ...data,
     jurisdiction,
@@ -443,6 +454,7 @@ const formatFormData = (
         : data.referralOpportunityChoice === YesNoAnswer.No
         ? false
         : null,
+    features: features,
   }
 }
 
@@ -704,7 +716,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                           />
                           <Preferences preferences={preferences} setPreferences={setPreferences} />
                           <AdditionalFees />
-                          <BuildingFeatures />
+                          <BuildingFeatures existingFeatures={listing?.features} />
                           <AdditionalEligibility />
                           <BuildingSelectionCriteria />
                           <AdditionalDetails />
