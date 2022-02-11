@@ -32,7 +32,7 @@ const NewApplication = () => {
               <p className="font-sans text-base mt-1">{application.id}</p>
             </>
           }
-          className={"pt-16"}
+          className={"md:pt-16"}
         />
 
         <PaperApplicationForm
