@@ -1,9 +1,5 @@
-import React, { useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import Head from "next/head"
-import { AlertBox, Hero, t, SiteAlert } from "@bloom-housing/ui-components"
-import Layout from "../layouts/application"
-import { ConfirmationModal } from "../src/ConfirmationModal"
-import { MetaTags } from "../src/MetaTags"
 import { HorizontalScrollSection } from "../lib/HorizontalScrollSection"
 import axios from "axios"
 import styles from "./index.module.scss"
@@ -16,12 +12,39 @@ import {
 } from "@bloom-housing/ui-components/src/helpers/regionNeighborhoodMap"
 
 export default function Home({ latestListings }) {
+import { Jurisdiction } from "@bloom-housing/backend-core/types"
+import {
+  AuthContext,
+  AlertBox,
+  Hero,
+  t,
+  SiteAlert,
+} from "@bloom-housing/ui-components"
+import { PageView, pushGtmEvent } from "@bloom-housing/shared-helpers"
+import { UserStatus } from "../lib/constants"
+import Layout from "../layouts/application"
+import { ConfirmationModal } from "../src/ConfirmationModal"
+import { MetaTags } from "../src/MetaTags"
+
+interface IndexProps {
+  jurisdiction: Jurisdiction
+}
+
+export default function Home(props: IndexProps) {
   const blankAlertInfo = {
     alertMessage: null,
     alertType: null,
   }
-
+  const { profile } = useContext(AuthContext)
   const [alertInfo, setAlertInfo] = useState(blankAlertInfo)
+
+  useEffect(() => {
+    pushGtmEvent<PageView>({
+      event: "pageView",
+      pageTitle: "Housing Portal",
+      status: profile ? UserStatus.LoggedIn : UserStatus.NotLoggedIn,
+    })
+  }, [profile])
 
   const heroTitle = <>{t("welcome.title")}</>
 

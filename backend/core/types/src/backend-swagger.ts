@@ -97,6 +97,8 @@ export class AmiChartsService {
     params: {
       /**  */
       jurisdictionName?: string
+      /**  */
+      jurisdictionId?: string
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<AmiChart[]> {
@@ -104,7 +106,10 @@ export class AmiChartsService {
       let url = basePath + "/amiCharts"
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
-      configs.params = { jurisdictionName: params["jurisdictionName"] }
+      configs.params = {
+        jurisdictionName: params["jurisdictionName"],
+        jurisdictionId: params["jurisdictionId"],
+      }
       let data = null
 
       configs.data = data
@@ -454,8 +459,6 @@ export class ApplicationsService {
       /**  */
       limit?: number
       /**  */
-      listingId?: string
-      /**  */
       search?: string
       /**  */
       userId?: string
@@ -466,7 +469,7 @@ export class ApplicationsService {
       /**  */
       markedAsDuplicate?: boolean
       /**  */
-      includeHeaders?: boolean
+      listingId: string
       /**  */
       includeDemographics?: boolean
     } = {} as any,
@@ -479,13 +482,12 @@ export class ApplicationsService {
       configs.params = {
         page: params["page"],
         limit: params["limit"],
-        listingId: params["listingId"],
         search: params["search"],
         userId: params["userId"],
         orderBy: params["orderBy"],
         order: params["order"],
         markedAsDuplicate: params["markedAsDuplicate"],
-        includeHeaders: params["includeHeaders"],
+        listingId: params["listingId"],
         includeDemographics: params["includeDemographics"],
       }
       let data = null
@@ -500,13 +502,13 @@ export class ApplicationsService {
   retrieve(
     params: {
       /**  */
-      applicationId: string
+      id: string
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<Application> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/applications/{applicationId}"
-      url = url.replace("{applicationId}", params["applicationId"] + "")
+      let url = basePath + "/applications/{id}"
+      url = url.replace("{id}", params["id"] + "")
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
 
@@ -522,15 +524,15 @@ export class ApplicationsService {
   update(
     params: {
       /**  */
-      applicationId: string
+      id: string
       /** requestBody */
       body?: ApplicationUpdate
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<Application> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/applications/{applicationId}"
-      url = url.replace("{applicationId}", params["applicationId"] + "")
+      let url = basePath + "/applications/{id}"
+      url = url.replace("{id}", params["id"] + "")
 
       const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
 
@@ -546,13 +548,13 @@ export class ApplicationsService {
   delete(
     params: {
       /**  */
-      applicationId: string
+      id: string
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/applications/{applicationId}"
-      url = url.replace("{applicationId}", params["applicationId"] + "")
+      let url = basePath + "/applications/{id}"
+      url = url.replace("{id}", params["id"] + "")
 
       const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
 
@@ -859,6 +861,50 @@ export class UserService {
     })
   }
   /**
+   * Get user by id
+   */
+  retrieve(
+    params: {
+      /**  */
+      id: string
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<User> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user/{id}"
+      url = url.replace("{id}", params["id"] + "")
+
+      const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Delete user by id
+   */
+  delete(
+    params: {
+      /**  */
+      id: string
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user/{id}"
+      url = url.replace("{id}", params["id"] + "")
+
+      const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * List users
    */
   list(
@@ -1072,8 +1118,6 @@ export class ListingsService {
       view?: string
       /**  */
       orderBy?: OrderByFieldsEnum
-      /**  */
-      jsonpath?: string
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<PaginatedListing> {
@@ -1087,7 +1131,6 @@ export class ListingsService {
         filter: params["filter"],
         view: params["view"],
         orderBy: params["orderBy"],
-        jsonpath: params["jsonpath"],
       }
       let data = null
 
@@ -1122,15 +1165,15 @@ export class ListingsService {
   retrieve(
     params: {
       /**  */
-      listingId: string
+      id: string
       /**  */
       view?: string
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<Listing> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/listings/{listingId}"
-      url = url.replace("{listingId}", params["listingId"] + "")
+      let url = basePath + "/listings/{id}"
+      url = url.replace("{id}", params["id"] + "")
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
       configs.params = { view: params["view"] }
@@ -1146,15 +1189,15 @@ export class ListingsService {
   update(
     params: {
       /**  */
-      listingId: string
+      id: string
       /** requestBody */
       body?: ListingUpdate
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<Listing> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/listings/{listingId}"
-      url = url.replace("{listingId}", params["listingId"] + "")
+      let url = basePath + "/listings/{id}"
+      url = url.replace("{id}", params["id"] + "")
 
       const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
 
@@ -1170,13 +1213,13 @@ export class ListingsService {
   delete(
     params: {
       /**  */
-      listingId: string
+      id: string
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/listings/{listingId}"
-      url = url.replace("{listingId}", params["listingId"] + "")
+      let url = basePath + "/listings/{id}"
+      url = url.replace("{id}", params["id"] + "")
 
       const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
 
@@ -1296,12 +1339,18 @@ export class PreferencesService {
   /**
    * List preferences
    */
-  list(options: IRequestOptions = {}): Promise<Preference[]> {
+  list(
+    params: {
+      /**  */
+      filter?: PreferencesFilterParams[]
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Preference[]> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/preferences"
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
-
+      configs.params = { filter: params["filter"] }
       let data = null
 
       configs.data = data
@@ -1385,6 +1434,116 @@ export class PreferencesService {
     return new Promise((resolve, reject) => {
       let url = basePath + "/preferences/{preferenceId}"
       url = url.replace("{preferenceId}", params["preferenceId"] + "")
+
+      const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+}
+
+export class ProgramsService {
+  /**
+   * List programs
+   */
+  list(
+    params: {
+      /**  */
+      filter?: ProgramsFilterParams[]
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Program[]> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/programs"
+
+      const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
+      configs.params = { filter: params["filter"] }
+      let data = null
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Create program
+   */
+  create(
+    params: {
+      /** requestBody */
+      body?: ProgramCreate
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Program> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/programs"
+
+      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Update program
+   */
+  update(
+    params: {
+      /** requestBody */
+      body?: ProgramUpdate
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Program> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/programs/{programId}"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Get program by id
+   */
+  retrieve(
+    params: {
+      /**  */
+      programId: string
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Program> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/programs/{programId}"
+      url = url.replace("{programId}", params["programId"] + "")
+
+      const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Delete program by id
+   */
+  delete(
+    params: {
+      /**  */
+      programId: string
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/programs/{programId}"
+      url = url.replace("{programId}", params["programId"] + "")
 
       const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
 
@@ -2275,7 +2434,18 @@ export interface AmiChartItem {
   income: number
 }
 
+export interface Id {
+  /**  */
+  id: string
+}
+
 export interface Jurisdiction {
+  /**  */
+  programs: Id[]
+
+  /**  */
+  preferences: Id[]
+
   /**  */
   id: string
 
@@ -2290,6 +2460,15 @@ export interface Jurisdiction {
 
   /**  */
   notificationsSignUpURL?: string
+
+  /**  */
+  languages: EnumJurisdictionLanguages[]
+
+  /**  */
+  partnerTerms?: string
+
+  /**  */
+  publicUrl: string
 }
 
 export interface AmiChart {
@@ -2310,11 +2489,6 @@ export interface AmiChart {
 
   /**  */
   name: string
-}
-
-export interface Id {
-  /**  */
-  id: string
 }
 
 export interface AmiChartCreate {
@@ -2517,7 +2691,7 @@ export interface Demographics {
   howDidYouHear: string[]
 
   /**  */
-  race?: string
+  race?: string[]
 }
 
 export interface HouseholdMember {
@@ -2621,6 +2795,28 @@ export interface ApplicationPreference {
   options: ApplicationPreferenceOption[]
 }
 
+export interface ApplicationProgramOption {
+  /**  */
+  key: string
+
+  /**  */
+  checked: boolean
+
+  /**  */
+  extraData?: AllExtraDataTypes[]
+}
+
+export interface ApplicationProgram {
+  /**  */
+  key: string
+
+  /**  */
+  claimed: boolean
+
+  /**  */
+  options: ApplicationProgramOption[]
+}
+
 export interface Application {
   /**  */
   incomePeriod?: IncomePeriod
@@ -2701,6 +2897,12 @@ export interface Application {
   sendMailToMailingAddress?: boolean
 
   /**  */
+  householdExpectingChanges?: boolean
+
+  /**  */
+  householdStudent?: boolean
+
+  /**  */
   incomeVouchers?: boolean
 
   /**  */
@@ -2708,6 +2910,9 @@ export interface Application {
 
   /**  */
   preferences: ApplicationPreference[]
+
+  /**  */
+  programs?: ApplicationProgram[]
 
   /**  */
   acceptedTerms?: boolean
@@ -3151,7 +3356,7 @@ export interface DemographicsCreate {
   howDidYouHear: string[]
 
   /**  */
-  race?: string
+  race?: string[]
 }
 
 export interface HouseholdMemberCreate {
@@ -3272,6 +3477,12 @@ export interface ApplicationCreate {
   sendMailToMailingAddress?: boolean
 
   /**  */
+  householdExpectingChanges?: boolean
+
+  /**  */
+  householdStudent?: boolean
+
+  /**  */
   incomeVouchers?: boolean
 
   /**  */
@@ -3279,6 +3490,9 @@ export interface ApplicationCreate {
 
   /**  */
   preferences: ApplicationPreference[]
+
+  /**  */
+  programs?: ApplicationProgram[]
 
   /**  */
   acceptedTerms?: boolean
@@ -3456,7 +3670,7 @@ export interface DemographicsUpdate {
   howDidYouHear: string[]
 
   /**  */
-  race?: string
+  race?: string[]
 }
 
 export interface HouseholdMemberUpdate {
@@ -3598,6 +3812,12 @@ export interface ApplicationUpdate {
   sendMailToMailingAddress?: boolean
 
   /**  */
+  householdExpectingChanges?: boolean
+
+  /**  */
+  householdStudent?: boolean
+
+  /**  */
   incomeVouchers?: boolean
 
   /**  */
@@ -3605,6 +3825,9 @@ export interface ApplicationUpdate {
 
   /**  */
   preferences: ApplicationPreference[]
+
+  /**  */
+  programs?: ApplicationProgram[]
 
   /**  */
   acceptedTerms?: boolean
@@ -3941,6 +4164,12 @@ export interface ReservedCommunityType {
   jurisdiction: Jurisdiction
 
   /**  */
+  newEmail?: string
+
+  /**  */
+  appUrl?: string
+
+  /**  */
   id: string
 
   /**  */
@@ -3971,6 +4200,27 @@ export interface UnitRentType {
 }
 
 export interface UnitAccessibilityPriorityType {
+
+  /**  */
+  notificationsSignUpURL?: string
+
+  /**  */
+  languages: EnumJurisdictionCreateLanguages[]
+
+  /**  */
+  partnerTerms?: string
+
+  /**  */
+  publicUrl: string
+
+  /**  */
+  programs: Id[]
+
+  /**  */
+  preferences: Id[]
+}
+
+export interface JurisdictionUpdate {
   /**  */
   id: string
 
@@ -4013,7 +4263,25 @@ export interface Unit {
 
   /**  */
   priorityType?: UnitAccessibilityPriorityType
+  notificationsSignUpURL?: string
 
+  /**  */
+  languages: EnumJurisdictionUpdateLanguages[]
+
+  /**  */
+  partnerTerms?: string
+
+  /**  */
+  publicUrl: string
+
+  /**  */
+  programs: Id[]
+
+  /**  */
+  preferences: Id[]
+}
+
+export interface ListingFilterParams {
   /**  */
   amiChartOverride?: UnitAmiChartOverride
 
@@ -4037,6 +4305,29 @@ export interface Unit {
 
   /**  */
   floor?: number
+  $comparison: EnumListingFilterParamsComparison
+
+  /**  */
+  name?: string
+
+  /**  */
+  status?: EnumListingFilterParamsStatus
+
+  /**  */
+  neighborhood?: string
+
+  /**  */
+  bedrooms?: number
+
+  /**  */
+  zipcode?: string
+
+  /**  */
+  leasingAgents?: string
+
+  /**  */
+  jurisdiction?: string
+}
 
   /**  */
   annualIncomeMax?: string
@@ -4149,15 +4440,55 @@ export interface ListingFeatures {
 
   /**  */
   rollInShower?: boolean
+}
+
+export interface Asset {
+  /**  */
+  fileId: string
 
   /**  */
-  grabBars?: boolean
+  label: string
 
   /**  */
-  heatingInUnit?: boolean
+  id: string
 
   /**  */
-  acInUnit?: boolean
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+}
+
+export interface ListingEvent {
+  /**  */
+  type: ListingEventType
+
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
+  /**  */
+  startTime?: Date
+
+  /**  */
+  endTime?: Date
+
+  /**  */
+  url?: string
+
+  /**  */
+  note?: string
+
+  /**  */
+  label?: string
+
+  /**  */
+  file?: Asset
 }
 
 export interface Listing {
@@ -4190,7 +4521,9 @@ export interface Listing {
 
   /**  */
   preferences: Preference[]
+}
 
+export interface Program {
   /**  */
   applicationAddress?: CombinedApplicationAddressTypes
 
@@ -4201,10 +4534,7 @@ export interface Listing {
   applicationDropOffAddress: CombinedApplicationDropOffAddressTypes
 
   /**  */
-  applicationMailingAddress: CombinedApplicationMailingAddressTypes
-
-  /**  */
-  buildingSelectionCriteriaFile?: CombinedBuildingSelectionCriteriaFileTypes
+  title?: string
 
   /**  */
   events: ListingEvent[]
@@ -4213,16 +4543,28 @@ export interface Listing {
   image?: CombinedImageTypes
 
   /**  */
-  leasingAgentAddress?: CombinedLeasingAgentAddressTypes
+  formMetadata?: FormMetadata
+}
+
+export interface ListingProgram {
+  /**  */
+  program: Program
 
   /**  */
-  leasingAgents?: UserBasic[]
+  ordinal?: number
+}
+
+export interface PreferenceLink {
+  /**  */
+  title: string
 
   /**  */
-  jurisdiction: IdName
+  url: string
+}
 
+export interface Preference {
   /**  */
-  reservedCommunityType?: ReservedCommunityType
+  links?: PreferenceLink[]
 
   /**  */
   result?: CombinedResultTypes
@@ -4231,220 +4573,38 @@ export interface Listing {
   units: Unit[]
 
   /**  */
-  accessibility?: string
-
-  /**  */
-  amenities?: string
-
-  /**  */
-  buildingAddress: Address
-
-  /**  */
-  buildingTotalUnits?: number
-
-  /**  */
-  developer?: string
-
-  /**  */
-  householdSizeMax?: number
-
-  /**  */
-  householdSizeMin?: number
-
-  /**  */
-  neighborhood?: string
-
-  /**  */
-  petPolicy?: string
-
-  /**  */
-  smokingPolicy?: string
-
-  /**  */
-  unitsAvailable?: number
-
-  /**  */
-  unitAmenities?: string
-
-  /**  */
-  servicesOffered?: string
-
-  /**  */
-  yearBuilt?: number
-
-  /**  */
-  urlSlug: string
-
-  /**  */
-  unitsSummary?: UnitsSummary[]
-
-  /**  */
-  countyCode?: string
-
-  /**  */
-  features?: ListingFeatures
-
-  /**  */
-  id: string
-
-  /**  */
-  createdAt: Date
-
-  /**  */
   updatedAt: Date
 
   /**  */
-  hrdId?: string
+  title?: string
 
   /**  */
-  additionalApplicationSubmissionNotes?: string
+  subtitle?: string
 
   /**  */
-  digitalApplication?: boolean
+  description?: string
 
   /**  */
-  commonDigitalApplication?: boolean
+  formMetadata?: FormMetadata
+}
+
+export interface ListingPreference {
+  /**  */
+  preference: Preference
 
   /**  */
-  paperApplication?: boolean
+  ordinal?: number
+}
 
+export interface JurisdictionSlim {
   /**  */
-  referralOpportunity?: boolean
-
-  /**  */
-  assets: AssetCreate[]
-
-  /**  */
-  applicationDueDate?: Date
-
-  /**  */
-  applicationDueTime?: Date
-
-  /**  */
-  applicationOpenDate?: Date
-
-  /**  */
-  applicationFee?: string
-
-  /**  */
-  applicationOrganization?: string
-
-  /**  */
-  applicationPickUpAddressOfficeHours?: string
-
-  /**  */
-  applicationDropOffAddressOfficeHours?: string
-
-  /**  */
-  buildingSelectionCriteria?: string
-
-  /**  */
-  costsNotIncluded?: string
-
-  /**  */
-  creditHistory?: string
-
-  /**  */
-  criminalBackground?: string
-
-  /**  */
-  depositMin?: string
-
-  /**  */
-  depositMax?: string
-
-  /**  */
-  disableUnitsAccordion?: boolean
-
-  /**  */
-  leasingAgentEmail?: string
-
-  /**  */
-  leasingAgentName?: string
-
-  /**  */
-  leasingAgentOfficeHours?: string
-
-  /**  */
-  leasingAgentPhone?: string
-
-  /**  */
-  leasingAgentTitle?: string
+  id: string
 
   /**  */
   name: string
 
   /**  */
-  postmarkedApplicationsReceivedByDate?: Date
-
-  /**  */
-  programRules?: string
-
-  /**  */
-  rentalAssistance?: string
-
-  /**  */
-  rentalHistory?: string
-
-  /**  */
-  requiredDocuments?: string
-
-  /**  */
-  specialNotes?: string
-
-  /**  */
-  waitlistCurrentSize?: number
-
-  /**  */
-  waitlistMaxSize?: number
-
-  /**  */
-  whatToExpect?: string
-
-  /**  */
-  applicationConfig?: object
-
-  /**  */
-  displayWaitlistSize: boolean
-
-  /**  */
-  reservedCommunityDescription?: string
-
-  /**  */
-  reservedCommunityMinAge?: number
-
-  /**  */
-  resultLink?: string
-
-  /**  */
-  isWaitlistOpen?: boolean
-
-  /**  */
-  waitlistOpenSpots?: number
-
-  /**  */
-  ownerCompany?: string
-
-  /**  */
-  managementCompany?: string
-
-  /**  */
-  managementWebsite?: string
-
-  /**  */
-  amiPercentageMin?: number
-
-  /**  */
-  amiPercentageMax?: number
-
-  /**  */
-  customMapPin?: boolean
-
-  /**  */
-  phoneNumber?: string
-
-  /**  */
-  region?: string
+  publicUrl: string
 }
 
 export interface UserPreferences {
@@ -4653,6 +4813,13 @@ export interface UserUpdate {
 export interface UserFilterParams {
   /**  */
   $comparison: EnumUserFilterParamsComparison
+  listingPrograms?: ListingProgram[]
+
+  /**  */
+  listingPreferences: ListingPreference[]
+
+  /**  */
+  jurisdiction: JurisdictionSlim
 
   /**  */
   $include_nulls?: boolean
@@ -4875,29 +5042,6 @@ export interface PaginatedListing {
   meta: PaginationMeta
 }
 
-export interface PreferenceCreate {
-  /**  */
-  links?: PreferenceLink[]
-
-  /**  */
-  ordinal?: number
-
-  /**  */
-  title?: string
-
-  /**  */
-  subtitle?: string
-
-  /**  */
-  description?: string
-
-  /**  */
-  formMetadata?: FormMetadata
-
-  /**  */
-  page?: number
-}
-
 export interface ListingEventCreate {
   /**  */
   type: ListingEventType
@@ -5038,6 +5182,22 @@ export interface UnitsSummaryCreate {
   unitType: UnitType
 }
 
+export interface ListingPreferenceUpdate {
+  /**  */
+  preference: Id
+
+  /**  */
+  ordinal?: number
+}
+
+export interface ListingProgramUpdate {
+  /**  */
+  program: Id
+
+  /**  */
+  ordinal?: number
+}
+
 export interface ListingCreate {
   /**  */
   applicationPickUpAddressType?: ListingApplicationAddressType
@@ -5046,22 +5206,16 @@ export interface ListingCreate {
   applicationDropOffAddressType?: ListingApplicationAddressType
 
   /**  */
+  applicationMailingAddressType?: ListingApplicationAddressType
+
+  /**  */
   status: ListingStatus
 
   /**  */
   reviewOrderType?: ListingReviewOrder
 
   /**  */
-  CSVFormattingType: CSVFormattingType
-
-  /**  */
   applicationMethods: ApplicationMethodCreate[]
-
-  /**  */
-  preferences: PreferenceCreate[]
-
-  /**  */
-  applicationAddress?: CombinedApplicationAddressTypes
 
   /**  */
   applicationPickUpAddress?: CombinedApplicationPickUpAddressTypes
@@ -5146,6 +5300,10 @@ export interface ListingCreate {
 
   /**  */
   hrdId?: string
+  listingPreferences: ListingPreferenceUpdate[]
+
+  /**  */
+  listingPrograms?: ListingProgramUpdate[]
 
   /**  */
   additionalApplicationSubmissionNotes?: string
@@ -5167,9 +5325,6 @@ export interface ListingCreate {
 
   /**  */
   applicationDueDate?: Date
-
-  /**  */
-  applicationDueTime?: Date
 
   /**  */
   applicationOpenDate?: Date
@@ -5203,6 +5358,9 @@ export interface ListingCreate {
 
   /**  */
   depositMax?: string
+
+  /**  */
+  depositHelperText?: string
 
   /**  */
   disableUnitsAccordion?: boolean
@@ -5302,32 +5460,6 @@ export interface ListingCreate {
 
   /**  */
   features?: ListingFeatures
-}
-
-export interface PreferenceUpdate {
-  /**  */
-  links?: PreferenceLink[]
-
-  /**  */
-  ordinal?: number
-
-  /**  */
-  title?: string
-
-  /**  */
-  subtitle?: string
-
-  /**  */
-  description?: string
-
-  /**  */
-  formMetadata?: FormMetadata
-
-  /**  */
-  page?: number
-
-  /**  */
-  id: string
 }
 
 export interface ListingEventUpdate {
@@ -5508,13 +5640,13 @@ export interface ListingUpdate {
   applicationDropOffAddressType?: ListingApplicationAddressType
 
   /**  */
+  applicationMailingAddressType?: ListingApplicationAddressType
+
+  /**  */
   status: ListingStatus
 
   /**  */
   reviewOrderType?: ListingReviewOrder
-
-  /**  */
-  CSVFormattingType: CSVFormattingType
 
   /**  */
   id?: string
@@ -5527,12 +5659,6 @@ export interface ListingUpdate {
 
   /**  */
   applicationMethods: ApplicationMethodUpdate[]
-
-  /**  */
-  preferences: PreferenceUpdate[]
-
-  /**  */
-  applicationAddress?: CombinedApplicationAddressTypes
 
   /**  */
   applicationPickUpAddress?: CombinedApplicationPickUpAddressTypes
@@ -5614,6 +5740,10 @@ export interface ListingUpdate {
 
   /**  */
   hrdId?: string
+  listingPreferences: ListingPreferenceUpdate[]
+
+  /**  */
+  listingPrograms?: ListingProgramUpdate[]
 
   /**  */
   additionalApplicationSubmissionNotes?: string
@@ -5635,9 +5765,6 @@ export interface ListingUpdate {
 
   /**  */
   applicationDueDate?: Date
-
-  /**  */
-  applicationDueTime?: Date
 
   /**  */
   applicationOpenDate?: Date
@@ -5671,6 +5798,9 @@ export interface ListingUpdate {
 
   /**  */
   depositMax?: string
+
+  /**  */
+  depositHelperText?: string
 
   /**  */
   disableUnitsAccordion?: boolean
@@ -5773,6 +5903,90 @@ export interface ListingUpdate {
 
   /**  */
   features?: ListingFeatures
+}
+
+export interface PreferencesFilterParams {
+  /**  */
+  $comparison: EnumPreferencesFilterParamsComparison
+
+  /**  */
+  jurisdiction?: string
+}
+
+export interface PreferenceCreate {
+  /**  */
+  links?: PreferenceLink[]
+
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+}
+
+export interface PreferenceUpdate {
+  /**  */
+  links?: PreferenceLink[]
+
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+
+  /**  */
+  id: string
+}
+
+export interface ProgramsFilterParams {
+  /**  */
+  $comparison: EnumProgramsFilterParamsComparison
+
+  /**  */
+  jurisdiction?: string
+}
+
+export interface ProgramCreate {
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+}
+
+export interface ProgramUpdate {
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+
+  /**  */
+  id: string
 }
 
 export interface Property {
@@ -6098,7 +6312,13 @@ export interface UnitAccessibilityPriorityTypeUpdate {
   /**  */
   id: string
 }
-
+export enum EnumJurisdictionLanguages {
+  "en" = "en",
+  "es" = "es",
+  "vi" = "vi",
+  "zh" = "zh",
+  "tl" = "tl",
+}
 export enum IncomePeriod {
   "perMonth" = "perMonth",
   "perYear" = "perYear",
@@ -6115,6 +6335,7 @@ export enum Language {
   "es" = "es",
   "vi" = "vi",
   "zh" = "zh",
+  "tl" = "tl",
 }
 
 export enum ApplicationSubmissionType {
@@ -6152,9 +6373,47 @@ export enum EnumApplicationsApiExtraModelOrder {
   "ASC" = "ASC",
   "DESC" = "DESC",
 }
+
+export enum EnumUserFilterParamsComparison {
+  "=" = "=",
+  "<>" = "<>",
+  "IN" = "IN",
+  ">=" = ">=",
+  "NA" = "NA",
+}
+export enum EnumJurisdictionCreateLanguages {
+  "en" = "en",
+  "es" = "es",
+  "vi" = "vi",
+  "zh" = "zh",
+  "tl" = "tl",
+}
+export enum EnumJurisdictionUpdateLanguages {
+  "en" = "en",
+  "es" = "es",
+  "vi" = "vi",
+  "zh" = "zh",
+  "tl" = "tl",
+}
+export enum EnumListingFilterParamsComparison {
+  "=" = "=",
+  "<>" = "<>",
+  "IN" = "IN",
+  ">=" = ">=",
+  "NA" = "NA",
+}
+export enum EnumListingFilterParamsStatus {
+  "active" = "active",
+  "pending" = "pending",
+  "closed" = "closed",
+}
+export enum OrderByFieldsEnum {
+  "mostRecentlyUpdated" = "mostRecentlyUpdated",
+  "applicationDates" = "applicationDates",
+}
+
 export enum ListingApplicationAddressType {
   "leasingAgent" = "leasingAgent",
-  "mailingAddress" = "mailingAddress",
 }
 
 export enum ListingStatus {
@@ -6168,19 +6427,17 @@ export enum ListingReviewOrder {
   "firstComeFirstServe" = "firstComeFirstServe",
 }
 
-export enum CSVFormattingType {
-  "basic" = "basic",
-  "withDisplaceeNameAndAddress" = "withDisplaceeNameAndAddress",
-  "ohaFormat" = "ohaFormat",
-  "bhaFormat" = "bhaFormat",
-}
-
 export enum ListingEventType {
   "openHouse" = "openHouse",
   "publicLottery" = "publicLottery",
   "lotteryResults" = "lotteryResults",
 }
-export type CombinedPreferencesTypes = UserPreferences
+
+export enum FormMetaDataType {
+  "radio" = "radio",
+  "checkbox" = "checkbox",
+}
+
 export enum UnitStatus {
   "unknown" = "unknown",
   "available" = "available",
@@ -6188,7 +6445,6 @@ export enum UnitStatus {
   "unavailable" = "unavailable",
 }
 export type CombinedPriorityTypeTypes = UnitAccessibilityPriorityType
-export type CombinedApplicationAddressTypes = AddressUpdate
 export type CombinedApplicationPickUpAddressTypes = AddressUpdate
 export type CombinedApplicationDropOffAddressTypes = AddressUpdate
 export type CombinedApplicationMailingAddressTypes = AddressUpdate
@@ -6197,7 +6453,8 @@ export type CombinedImageTypes = AssetUpdate
 export type CombinedLeasingAgentAddressTypes = AddressUpdate
 export type CombinedResultTypes = AssetCreate
 export type CombinedRolesTypes = UserRolesCreate
-export enum EnumUserFilterParamsComparison {
+
+export enum EnumPreferencesFilterParamsComparison {
   "=" = "=",
   "<>" = "<>",
   "IN" = "IN",
