@@ -3,7 +3,6 @@ import { Language } from "../shared/types/language-enum"
 
 export class addJurisdictionalEmailSignatures1635546032998 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-
     const detroitTranslation = {
       footer: {
         footer: "City of Detroit - Housing Connect",
