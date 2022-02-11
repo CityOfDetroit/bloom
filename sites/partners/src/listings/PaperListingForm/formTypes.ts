@@ -10,6 +10,7 @@ import {
   ListingEvent,
   PaperApplication,
   PaperApplicationCreate,
+  UnitsSummary,
 } from "@bloom-housing/backend-core/types"
 import { YesNoAnswer } from "../../applications/PaperApplicationForm/FormTypes"
 
@@ -179,6 +180,10 @@ export type TempUnit = Unit & {
   maxIncomeHouseholdSize6?: string
   maxIncomeHouseholdSize7?: string
   maxIncomeHouseholdSize8?: string
+}
+
+export type TempUnitsSummary = UnitsSummary & {
+  tempId?: number
 }
 
 export type TempEvent = ListingEvent & {

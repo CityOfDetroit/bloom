@@ -93,6 +93,7 @@ const listingSeeds: any[] = [
   ListingDefaultMissingAMI,
   ListingDefaultSanJoseSeed,
   ListingTritonSeedDetroit,
+  ListingDefaultFCFSSeed,
 ]
 
 const amiSeeds: any[] = [
