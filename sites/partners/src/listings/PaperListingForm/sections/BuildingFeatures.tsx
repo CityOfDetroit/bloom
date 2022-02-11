@@ -15,10 +15,10 @@ const BuildingFeatures = (props: BuildingFeaturesProps) => {
   const { register } = formMethods
 
   const featureOptions = useMemo(() => {
-    return listingFeatures?.map((item) => ({
-      id: item.id,
-      label: item.name,
-      defaultChecked: props.existingFeatures ? props.existingFeatures[item.id] : false,
+    return Object.keys(listingFeatures).map((item) => ({
+      id: item,
+      label: listingFeatures[item],
+      defaultChecked: props.existingFeatures ? props.existingFeatures[item] : false,
       register,
     }))
   }, [register])

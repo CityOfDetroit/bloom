@@ -83,7 +83,7 @@ export default function ApplicationsList() {
         </Head>
 
         <PageHeader
-          className={"relative pt-16"}
+          className={"relative md:pt-16"}
           title={
             <>
               <p className="font-sans font-semibold uppercase text-3xl">

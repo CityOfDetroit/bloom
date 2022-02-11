@@ -52,7 +52,11 @@ const ApplicationSecondaryNav = ({
   }, [currentPath, tabNavElements])
 
   return (
-    <PageHeader title={title} tabNav={process.env.showDuplicates ? tabs : null} className={"pt-16"}>
+    <PageHeader
+      title={title}
+      tabNav={process.env.showDuplicates ? tabs : null}
+      className={"md:pt-16"}
+    >
       {children}
     </PageHeader>
   )

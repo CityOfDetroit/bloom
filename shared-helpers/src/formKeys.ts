@@ -157,56 +157,20 @@ export const howDidYouHear = [
   },
 ]
 
-export const listingFeatures = [
-  {
-    id: "elevator",
-    name: "Elevator",
-  },
-  {
-    id: "wheelchairRamp",
-    name: "Wheelchair Ramp",
-  },
-  {
-    id: "serviceAnimalsAllowed",
-    name: "Service Animals Allowed",
-  },
-  {
-    id: "accessibleParking",
-    name: "Accessible Parking",
-  },
-  {
-    id: "parkingOnSite",
-    name: "Parking on Site",
-  },
-  {
-    id: "inUnitWasherDryer",
-    name: "In Unit Washer Dryer",
-  },
-  {
-    id: "laundryInBuilding",
-    name: "Laundry in Building",
-  },
-  {
-    id: "barrierFreeEntrance",
-    name: "Barrier Free Entrance",
-  },
-  {
-    id: "rollInShower",
-    name: "Laundry in Building",
-  },
-  {
-    id: "grabBars",
-    name: "Grab Bars",
-  },
-  {
-    id: "heatingInUnit",
-    name: "Heating in Unit",
-  },
-  {
-    id: "acInUnit",
-    name: "AC in Unit",
-  },
-]
+export const listingFeatures = {
+  elevator: "Elevator",
+  wheelchairRamp: "Wheelchair Ramp",
+  serviceAnimalsAllowed: "Service Animals Allowed",
+  accessibleParking: "Accessible Parking",
+  parkingOnSite: "Parking on Site",
+  inUnitWasherDryer: "In Unit Washer Dryer",
+  laundryInBuilding: "Laundry in Building",
+  barrierFreeEntrance: "Barrier Free Entrance",
+  rollInShower: "Laundry in Building",
+  grabBars: "Grab Bars",
+  heatingInUnit: "Heating in Unit",
+  acInUnit: "AC in Unit",
+}
 
 export const phoneNumberKeys = ["work", "home", "cell"]
 

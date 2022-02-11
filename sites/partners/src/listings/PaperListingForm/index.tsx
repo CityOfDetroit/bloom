@@ -37,6 +37,7 @@ import {
   User,
   ListingFeatures,
 } from "@bloom-housing/backend-core/types"
+import { listingFeatures } from "@bloom-housing/shared-helpers"
 import { YesNoAnswer } from "../../applications/PaperApplicationForm/FormTypes"
 import moment from "moment"
 import { nanoid } from "nanoid"
@@ -368,10 +369,10 @@ const formatFormData = (
       ? profile.jurisdictions[0]
       : data.jurisdiction
 
-  const features: ListingFeatures = data.listingFeatures?.reduce((acc, current) => {
+  const features: ListingFeatures = Object.keys(listingFeatures).reduce((acc, current) => {
     return {
       ...acc,
-      [current]: true,
+      [current]: data.listingFeatures && data.listingFeatures.indexOf(current) >= 0,
     }
   }, {})
 
