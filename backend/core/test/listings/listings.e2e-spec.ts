@@ -9,12 +9,7 @@ import { setAuthorization } from "../utils/set-authorization-helper"
 import { AssetCreateDto } from "../../src/assets/dto/asset.dto"
 import { ApplicationMethodCreateDto } from "../../src/application-methods/dto/application-method.dto"
 import { ApplicationMethodType } from "../../src/application-methods/types/application-method-type-enum"
-import {
-  Language,
-  ListingReviewOrder,
-  ListingStatus,
-  UnitStatus,
-} from "../../types"
+import { Language, ListingReviewOrder, ListingStatus, UnitStatus } from "../../types"
 import { AssetsModule } from "../../src/assets/assets.module"
 import { ApplicationMethodsModule } from "../../src/application-methods/applications-methods.module"
 import { PaperApplicationsModule } from "../../src/paper-applications/paper-applications.module"

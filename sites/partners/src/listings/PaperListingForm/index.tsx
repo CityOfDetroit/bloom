@@ -32,7 +32,14 @@ import {
   User,
   Program,
 } from "@bloom-housing/backend-core/types"
-import { AlertErrorType, FormListing, TempEvent, TempUnit, formDefaults, TempUnitsSummary } from "./formTypes"
+import {
+  AlertErrorType,
+  FormListing,
+  TempEvent,
+  TempUnit,
+  formDefaults,
+  TempUnitsSummary,
+} from "./formTypes"
 import ListingDataPipeline from "./ListingDataPipeline"
 
 import Aside from "../Aside"
@@ -155,7 +162,14 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       }))
       setUnitsSummaries(tempSummaries)
     }
-  }, [listing?.units, listing?.events, listing?.unitsSummary, setUnits, setUnitsSummaries, setOpenHouseEvents])
+  }, [
+    listing?.units,
+    listing?.events,
+    listing?.unitsSummary,
+    setUnits,
+    setUnitsSummaries,
+    setOpenHouseEvents,
+  ])
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { getValues, setError, clearErrors, reset } = formMethods
