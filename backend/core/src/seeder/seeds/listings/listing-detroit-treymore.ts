@@ -1,11 +1,10 @@
 import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
-import { ListingStatus } from "../../listings/types/listing-status-enum"
-import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
+import { ListingStatus } from "../../../listings/types/listing-status-enum"
+import { CountyCode } from "../../../shared/types/county-code"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
-import { Listing } from "../../listings/entities/listing.entity"
-import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
+import { Listing } from "../../../listings/entities/listing.entity"
+import { UnitsSummaryCreateDto } from "../../../units-summary/dto/units-summary.dto"
 
 const treymoreProperty: PropertySeedType = {
   // See http://rentlinx.kmgprestige.com/457-Brainard-Street-Detroit-MI-48201
@@ -27,17 +26,10 @@ const treymoreProperty: PropertySeedType = {
 }
 
 const treymoreListing: ListingSeedType = {
-  applicationAddress: {
-    city: "Detroit",
-    state: "MI",
-    street: "2140 Martin Luther King Jr Blvd",
-    zipCode: "48208",
-  },
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
   costsNotIncluded: "Water Included Resident Pays Electricity Resident Pays Gas Resident Pays Heat",
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   isWaitlistOpen: false,
@@ -70,6 +62,8 @@ const treymoreListing: ListingSeedType = {
     heatingInUnit: true,
     acInUnit: true,
   },
+  listingPreferences: [],
+  jurisdictionName: "Detroit",
 }
 
 export class ListingTreymoreSeed extends ListingDefaultSeed {
@@ -97,7 +91,6 @@ export class ListingTreymoreSeed extends ListingDefaultSeed {
       assets: JSON.parse(JSON.stringify(assets)),
       events: [],
       property: property,
-      preferences: [],
     }
 
     const listing = await this.listingRepository.save(listingCreateDto)

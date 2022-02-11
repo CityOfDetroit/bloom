@@ -13,6 +13,15 @@ import {
 } from "./custom_filters"
 import { UserFilterKeys } from "../../auth/types/user-filter-keys"
 
+export interface IBaseQueryFilter {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  addFilters<FilterParams extends any[], FilterFieldMap>(
+    filters: FilterParams,
+    filterTypeToFieldMap: FilterFieldMap,
+    qb: WhereExpression
+  )
+}
+
 /**
  *
  * @param filterParams

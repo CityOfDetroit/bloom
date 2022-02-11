@@ -1,7 +1,17 @@
 // Using a record lets us enforce that all types are handled in addFilter
 import { ListingFilterKeys } from "../../.."
 
-export const filterTypeToFieldMap: Record<keyof typeof ListingFilterKeys, string> = {
+/**
+ * Fields for the Availability and AMI filters are determined based on the value
+ * of the filter or by checking multiple columns. Since we can't specify a single
+ * field the filters correspond to, we remove them from the filterTypeToFieldMap.
+ */
+type keysWithMappedField = Exclude<
+  keyof typeof ListingFilterKeys,
+  "minAmiPercentage" | "availability"
+>
+
+export const filterTypeToFieldMap: Record<keysWithMappedField, string> = {
   status: "listings.status",
   name: "listings.name",
   bedrooms: "summaryUnitType.num_bedrooms",

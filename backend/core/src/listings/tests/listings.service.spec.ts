@@ -107,7 +107,6 @@ const mockListingsRepo = {
 }
 const mockListingsCreateDto: ListingCreateDto = {
   applicationMethods: [],
-  preferences: [],
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   events: [],
@@ -118,8 +117,8 @@ const mockListingsCreateDto: ListingCreateDto = {
   name: null,
   status: null,
   displayWaitlistSize: false,
-  CSVFormattingType: null,
   hasId: null,
+  listingPreferences: [],
   save: jest.fn(),
   remove: jest.fn(),
   softRemove: jest.fn(),
@@ -128,7 +127,6 @@ const mockListingsCreateDto: ListingCreateDto = {
 }
 const mockListingsUpdateDto: ListingUpdateDto = {
   applicationMethods: [],
-  preferences: [],
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   events: [],
@@ -140,8 +138,8 @@ const mockListingsUpdateDto: ListingUpdateDto = {
   name: null,
   status: ListingStatus.pending,
   displayWaitlistSize: false,
-  CSVFormattingType: null,
   hasId: null,
+  listingPreferences: [],
   save: jest.fn(),
   remove: jest.fn(),
   softRemove: jest.fn(),
@@ -247,7 +245,7 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0)",
+        "(LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0))",
         {
           neighborhood_0: expectedNeighborhoodArray,
         }
@@ -488,7 +486,6 @@ describe("ListingsService", () => {
       const expectedOrderByArgument = {
         "listings.applicationDueDate": "ASC",
         "listings.applicationOpenDate": "DESC",
-        "listings.id": "ASC",
       }
 
       // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)

@@ -3984,85 +3984,6 @@ export interface UnitsSummarized {
   hmi: HMI
 }
 
-export interface PreferenceLink {
-  /**  */
-  title: string
-
-  /**  */
-  url: string
-}
-
-export interface FormMetadataExtraData {
-  /**  */
-  type: InputType
-
-  /**  */
-  key: string
-}
-
-export interface FormMetadataOptions {
-  /**  */
-  key: string
-
-  /**  */
-  extraData?: FormMetadataExtraData[]
-
-  /**  */
-  description: boolean
-
-  /**  */
-  exclusive: boolean
-}
-
-export interface FormMetadata {
-  /**  */
-  key: string
-
-  /**  */
-  options: FormMetadataOptions[]
-
-  /**  */
-  hideGenericDecline: boolean
-
-  /**  */
-  customSelectText: string
-
-  /**  */
-  hideFromListing: boolean
-}
-
-export interface Preference {
-  /**  */
-  links?: PreferenceLink[]
-
-  /**  */
-  id: string
-
-  /**  */
-  createdAt: Date
-
-  /**  */
-  updatedAt: Date
-
-  /**  */
-  ordinal?: number
-
-  /**  */
-  title?: string
-
-  /**  */
-  subtitle?: string
-
-  /**  */
-  description?: string
-
-  /**  */
-  formMetadata?: FormMetadata
-
-  /**  */
-  page?: number
-}
-
 export interface Asset {
   /**  */
   fileId: string
@@ -4132,6 +4053,12 @@ export interface UserBasic {
   id: string
 
   /**  */
+  passwordUpdatedAt: Date
+
+  /**  */
+  passwordValidForDays: number
+
+  /**  */
   confirmedAt?: Date
 
   /**  */
@@ -4157,17 +4084,143 @@ export interface UserBasic {
 
   /**  */
   updatedAt: Date
+
+  /**  */
+  lastLoginAt?: Date
+
+  /**  */
+  failedLoginAttemptsCount?: number
+}
+
+export interface FormMetadataExtraData {
+  /**  */
+  type: InputType
+
+  /**  */
+  key: string
+}
+
+export interface FormMetadataOptions {
+  /**  */
+  key: string
+
+  /**  */
+  extraData?: FormMetadataExtraData[]
+
+  /**  */
+  description: boolean
+
+  /**  */
+  exclusive: boolean
+}
+
+export interface FormMetadata {
+  /**  */
+  key: string
+
+  /**  */
+  options: FormMetadataOptions[]
+
+  /**  */
+  hideGenericDecline: boolean
+
+  /**  */
+  customSelectText: string
+
+  /**  */
+  hideFromListing: boolean
+
+  /**  */
+  type: FormMetaDataType
+}
+
+export interface Program {
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+}
+
+export interface ListingProgram {
+  /**  */
+  program: Program
+
+  /**  */
+  ordinal?: number
+}
+
+export interface PreferenceLink {
+  /**  */
+  title: string
+
+  /**  */
+  url: string
+}
+
+export interface Preference {
+  /**  */
+  links?: PreferenceLink[]
+
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+}
+
+export interface ListingPreference {
+  /**  */
+  preference: Preference
+
+  /**  */
+  ordinal?: number
+}
+
+export interface JurisdictionSlim {
+  /**  */
+  id: string
+
+  /**  */
+  name: string
+
+  /**  */
+  publicUrl: string
 }
 
 export interface ReservedCommunityType {
   /**  */
   jurisdiction: Jurisdiction
-
-  /**  */
-  newEmail?: string
-
-  /**  */
-  appUrl?: string
 
   /**  */
   id: string
@@ -4200,27 +4253,6 @@ export interface UnitRentType {
 }
 
 export interface UnitAccessibilityPriorityType {
-
-  /**  */
-  notificationsSignUpURL?: string
-
-  /**  */
-  languages: EnumJurisdictionCreateLanguages[]
-
-  /**  */
-  partnerTerms?: string
-
-  /**  */
-  publicUrl: string
-
-  /**  */
-  programs: Id[]
-
-  /**  */
-  preferences: Id[]
-}
-
-export interface JurisdictionUpdate {
   /**  */
   id: string
 
@@ -4263,25 +4295,7 @@ export interface Unit {
 
   /**  */
   priorityType?: UnitAccessibilityPriorityType
-  notificationsSignUpURL?: string
 
-  /**  */
-  languages: EnumJurisdictionUpdateLanguages[]
-
-  /**  */
-  partnerTerms?: string
-
-  /**  */
-  publicUrl: string
-
-  /**  */
-  programs: Id[]
-
-  /**  */
-  preferences: Id[]
-}
-
-export interface ListingFilterParams {
   /**  */
   amiChartOverride?: UnitAmiChartOverride
 
@@ -4305,29 +4319,6 @@ export interface ListingFilterParams {
 
   /**  */
   floor?: number
-  $comparison: EnumListingFilterParamsComparison
-
-  /**  */
-  name?: string
-
-  /**  */
-  status?: EnumListingFilterParamsStatus
-
-  /**  */
-  neighborhood?: string
-
-  /**  */
-  bedrooms?: number
-
-  /**  */
-  zipcode?: string
-
-  /**  */
-  leasingAgents?: string
-
-  /**  */
-  jurisdiction?: string
-}
 
   /**  */
   annualIncomeMax?: string
@@ -4440,55 +4431,15 @@ export interface ListingFeatures {
 
   /**  */
   rollInShower?: boolean
-}
-
-export interface Asset {
-  /**  */
-  fileId: string
 
   /**  */
-  label: string
+  grabBars?: boolean
 
   /**  */
-  id: string
+  heatingInUnit?: boolean
 
   /**  */
-  createdAt: Date
-
-  /**  */
-  updatedAt: Date
-}
-
-export interface ListingEvent {
-  /**  */
-  type: ListingEventType
-
-  /**  */
-  id: string
-
-  /**  */
-  createdAt: Date
-
-  /**  */
-  updatedAt: Date
-
-  /**  */
-  startTime?: Date
-
-  /**  */
-  endTime?: Date
-
-  /**  */
-  url?: string
-
-  /**  */
-  note?: string
-
-  /**  */
-  label?: string
-
-  /**  */
-  file?: Asset
+  acInUnit?: boolean
 }
 
 export interface Listing {
@@ -4502,13 +4453,13 @@ export interface Listing {
   applicationDropOffAddressType?: ListingApplicationAddressType
 
   /**  */
+  applicationMailingAddressType?: ListingApplicationAddressType
+
+  /**  */
   status: ListingStatus
 
   /**  */
   reviewOrderType?: ListingReviewOrder
-
-  /**  */
-  CSVFormattingType: CSVFormattingType
 
   /**  */
   showWaitlist: boolean
@@ -4520,21 +4471,16 @@ export interface Listing {
   applicationMethods: ApplicationMethod[]
 
   /**  */
-  preferences: Preference[]
-}
-
-export interface Program {
-  /**  */
-  applicationAddress?: CombinedApplicationAddressTypes
-
-  /**  */
   applicationPickUpAddress?: CombinedApplicationPickUpAddressTypes
 
   /**  */
   applicationDropOffAddress: CombinedApplicationDropOffAddressTypes
 
   /**  */
-  title?: string
+  applicationMailingAddress: CombinedApplicationMailingAddressTypes
+
+  /**  */
+  buildingSelectionCriteriaFile?: CombinedBuildingSelectionCriteriaFileTypes
 
   /**  */
   events: ListingEvent[]
@@ -4543,28 +4489,22 @@ export interface Program {
   image?: CombinedImageTypes
 
   /**  */
-  formMetadata?: FormMetadata
-}
-
-export interface ListingProgram {
-  /**  */
-  program: Program
+  leasingAgentAddress?: CombinedLeasingAgentAddressTypes
 
   /**  */
-  ordinal?: number
-}
-
-export interface PreferenceLink {
-  /**  */
-  title: string
+  leasingAgents?: UserBasic[]
 
   /**  */
-  url: string
-}
+  listingPrograms?: ListingProgram[]
 
-export interface Preference {
   /**  */
-  links?: PreferenceLink[]
+  listingPreferences: ListingPreference[]
+
+  /**  */
+  jurisdiction: JurisdictionSlim
+
+  /**  */
+  reservedCommunityType?: ReservedCommunityType
 
   /**  */
   result?: CombinedResultTypes
@@ -4573,38 +4513,220 @@ export interface Preference {
   units: Unit[]
 
   /**  */
+  accessibility?: string
+
+  /**  */
+  amenities?: string
+
+  /**  */
+  buildingAddress: Address
+
+  /**  */
+  buildingTotalUnits?: number
+
+  /**  */
+  developer?: string
+
+  /**  */
+  householdSizeMax?: number
+
+  /**  */
+  householdSizeMin?: number
+
+  /**  */
+  neighborhood?: string
+
+  /**  */
+  petPolicy?: string
+
+  /**  */
+  smokingPolicy?: string
+
+  /**  */
+  unitsAvailable?: number
+
+  /**  */
+  unitAmenities?: string
+
+  /**  */
+  servicesOffered?: string
+
+  /**  */
+  yearBuilt?: number
+
+  /**  */
+  urlSlug: string
+
+  /**  */
+  unitsSummary?: UnitsSummary[]
+
+  /**  */
+  countyCode?: string
+
+  /**  */
+  features?: ListingFeatures
+
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
   updatedAt: Date
 
   /**  */
-  title?: string
+  hrdId?: string
 
   /**  */
-  subtitle?: string
+  additionalApplicationSubmissionNotes?: string
 
   /**  */
-  description?: string
+  digitalApplication?: boolean
 
   /**  */
-  formMetadata?: FormMetadata
-}
-
-export interface ListingPreference {
-  /**  */
-  preference: Preference
+  commonDigitalApplication?: boolean
 
   /**  */
-  ordinal?: number
-}
+  paperApplication?: boolean
 
-export interface JurisdictionSlim {
   /**  */
-  id: string
+  referralOpportunity?: boolean
+
+  /**  */
+  assets: AssetCreate[]
+
+  /**  */
+  applicationDueDate?: Date
+
+  /**  */
+  applicationOpenDate?: Date
+
+  /**  */
+  applicationFee?: string
+
+  /**  */
+  applicationOrganization?: string
+
+  /**  */
+  applicationPickUpAddressOfficeHours?: string
+
+  /**  */
+  applicationDropOffAddressOfficeHours?: string
+
+  /**  */
+  buildingSelectionCriteria?: string
+
+  /**  */
+  costsNotIncluded?: string
+
+  /**  */
+  creditHistory?: string
+
+  /**  */
+  criminalBackground?: string
+
+  /**  */
+  depositMin?: string
+
+  /**  */
+  depositMax?: string
+
+  /**  */
+  depositHelperText?: string
+
+  /**  */
+  disableUnitsAccordion?: boolean
+
+  /**  */
+  leasingAgentEmail?: string
+
+  /**  */
+  leasingAgentName?: string
+
+  /**  */
+  leasingAgentOfficeHours?: string
+
+  /**  */
+  leasingAgentPhone?: string
+
+  /**  */
+  leasingAgentTitle?: string
 
   /**  */
   name: string
 
   /**  */
-  publicUrl: string
+  postmarkedApplicationsReceivedByDate?: Date
+
+  /**  */
+  programRules?: string
+
+  /**  */
+  rentalAssistance?: string
+
+  /**  */
+  rentalHistory?: string
+
+  /**  */
+  requiredDocuments?: string
+
+  /**  */
+  specialNotes?: string
+
+  /**  */
+  waitlistCurrentSize?: number
+
+  /**  */
+  waitlistMaxSize?: number
+
+  /**  */
+  whatToExpect?: string
+
+  /**  */
+  applicationConfig?: object
+
+  /**  */
+  displayWaitlistSize: boolean
+
+  /**  */
+  reservedCommunityDescription?: string
+
+  /**  */
+  reservedCommunityMinAge?: number
+
+  /**  */
+  resultLink?: string
+
+  /**  */
+  isWaitlistOpen?: boolean
+
+  /**  */
+  waitlistOpenSpots?: number
+
+  /**  */
+  ownerCompany?: string
+
+  /**  */
+  managementCompany?: string
+
+  /**  */
+  managementWebsite?: string
+
+  /**  */
+  amiPercentageMin?: number
+
+  /**  */
+  amiPercentageMax?: number
+
+  /**  */
+  customMapPin?: boolean
+
+  /**  */
+  phoneNumber?: string
+
+  /**  */
+  region?: string
 }
 
 export interface UserPreferences {
@@ -4638,6 +4760,12 @@ export interface User {
   id: string
 
   /**  */
+  passwordUpdatedAt: Date
+
+  /**  */
+  passwordValidForDays: number
+
+  /**  */
   confirmedAt?: Date
 
   /**  */
@@ -4663,6 +4791,12 @@ export interface User {
 
   /**  */
   updatedAt: Date
+
+  /**  */
+  lastLoginAt?: Date
+
+  /**  */
+  failedLoginAttemptsCount?: number
 }
 
 export interface UserCreate {
@@ -4813,19 +4947,12 @@ export interface UserUpdate {
 export interface UserFilterParams {
   /**  */
   $comparison: EnumUserFilterParamsComparison
-  listingPrograms?: ListingProgram[]
-
-  /**  */
-  listingPreferences: ListingPreference[]
-
-  /**  */
-  jurisdiction: JurisdictionSlim
-
-  /**  */
-  $include_nulls?: boolean
 
   /**  */
   isPartner?: boolean
+
+  /**  */
+  isPortalUser?: boolean
 }
 
 export interface PaginatedUserList {
@@ -4935,6 +5062,21 @@ export interface JurisdictionCreate {
 
   /**  */
   notificationsSignUpURL?: string
+
+  /**  */
+  languages: EnumJurisdictionCreateLanguages[]
+
+  /**  */
+  partnerTerms?: string
+
+  /**  */
+  publicUrl: string
+
+  /**  */
+  programs: Id[]
+
+  /**  */
+  preferences: Id[]
 }
 
 export interface JurisdictionUpdate {
@@ -4952,14 +5094,26 @@ export interface JurisdictionUpdate {
 
   /**  */
   notificationsSignUpURL?: string
+
+  /**  */
+  languages: EnumJurisdictionUpdateLanguages[]
+
+  /**  */
+  partnerTerms?: string
+
+  /**  */
+  publicUrl: string
+
+  /**  */
+  programs: Id[]
+
+  /**  */
+  preferences: Id[]
 }
 
 export interface ListingFilterParams {
   /**  */
   $comparison: EnumListingFilterParamsComparison
-
-  /**  */
-  $include_nulls?: boolean
 
   /**  */
   name?: string
@@ -5032,6 +5186,9 @@ export interface ListingFilterParams {
 
   /**  */
   neighborhood?: string
+
+  /**  */
+  jurisdiction?: string
 }
 
 export interface PaginatedListing {
@@ -5299,11 +5456,13 @@ export interface ListingCreate {
   unitsSummary?: UnitsSummaryCreate[]
 
   /**  */
-  hrdId?: string
   listingPreferences: ListingPreferenceUpdate[]
 
   /**  */
   listingPrograms?: ListingProgramUpdate[]
+
+  /**  */
+  hrdId?: string
 
   /**  */
   additionalApplicationSubmissionNotes?: string
@@ -5739,11 +5898,13 @@ export interface ListingUpdate {
   unitsSummary?: UnitsSummaryUpdate[]
 
   /**  */
-  hrdId?: string
   listingPreferences: ListingPreferenceUpdate[]
 
   /**  */
   listingPrograms?: ListingProgramUpdate[]
+
+  /**  */
+  hrdId?: string
 
   /**  */
   additionalApplicationSubmissionNotes?: string
@@ -5894,9 +6055,6 @@ export interface ListingUpdate {
 
   /**  */
   region?: string
-
-  /**  */
-  buildingSelectionCriteriaFile?: CombinedBuildingSelectionCriteriaFileTypes
 
   /**  */
   countyCode?: string
@@ -6373,7 +6531,47 @@ export enum EnumApplicationsApiExtraModelOrder {
   "ASC" = "ASC",
   "DESC" = "DESC",
 }
+export enum ListingApplicationAddressType {
+  "leasingAgent" = "leasingAgent",
+}
 
+export enum ListingStatus {
+  "active" = "active",
+  "pending" = "pending",
+  "closed" = "closed",
+}
+
+export enum ListingReviewOrder {
+  "lottery" = "lottery",
+  "firstComeFirstServe" = "firstComeFirstServe",
+}
+
+export enum ListingEventType {
+  "openHouse" = "openHouse",
+  "publicLottery" = "publicLottery",
+  "lotteryResults" = "lotteryResults",
+}
+export type CombinedPreferencesTypes = UserPreferences
+export enum FormMetaDataType {
+  "radio" = "radio",
+  "checkbox" = "checkbox",
+}
+
+export enum UnitStatus {
+  "unknown" = "unknown",
+  "available" = "available",
+  "occupied" = "occupied",
+  "unavailable" = "unavailable",
+}
+export type CombinedPriorityTypeTypes = UnitAccessibilityPriorityType
+export type CombinedApplicationPickUpAddressTypes = AddressUpdate
+export type CombinedApplicationDropOffAddressTypes = AddressUpdate
+export type CombinedApplicationMailingAddressTypes = AddressUpdate
+export type CombinedBuildingSelectionCriteriaFileTypes = AssetCreate
+export type CombinedImageTypes = AssetUpdate
+export type CombinedLeasingAgentAddressTypes = AddressUpdate
+export type CombinedResultTypes = AssetCreate
+export type CombinedRolesTypes = UserRolesCreate
 export enum EnumUserFilterParamsComparison {
   "=" = "=",
   "<>" = "<>",
@@ -6407,74 +6605,6 @@ export enum EnumListingFilterParamsStatus {
   "pending" = "pending",
   "closed" = "closed",
 }
-export enum OrderByFieldsEnum {
-  "mostRecentlyUpdated" = "mostRecentlyUpdated",
-  "applicationDates" = "applicationDates",
-}
-
-export enum ListingApplicationAddressType {
-  "leasingAgent" = "leasingAgent",
-}
-
-export enum ListingStatus {
-  "active" = "active",
-  "pending" = "pending",
-  "closed" = "closed",
-}
-
-export enum ListingReviewOrder {
-  "lottery" = "lottery",
-  "firstComeFirstServe" = "firstComeFirstServe",
-}
-
-export enum ListingEventType {
-  "openHouse" = "openHouse",
-  "publicLottery" = "publicLottery",
-  "lotteryResults" = "lotteryResults",
-}
-
-export enum FormMetaDataType {
-  "radio" = "radio",
-  "checkbox" = "checkbox",
-}
-
-export enum UnitStatus {
-  "unknown" = "unknown",
-  "available" = "available",
-  "occupied" = "occupied",
-  "unavailable" = "unavailable",
-}
-export type CombinedPriorityTypeTypes = UnitAccessibilityPriorityType
-export type CombinedApplicationPickUpAddressTypes = AddressUpdate
-export type CombinedApplicationDropOffAddressTypes = AddressUpdate
-export type CombinedApplicationMailingAddressTypes = AddressUpdate
-export type CombinedBuildingSelectionCriteriaFileTypes = Asset
-export type CombinedImageTypes = AssetUpdate
-export type CombinedLeasingAgentAddressTypes = AddressUpdate
-export type CombinedResultTypes = AssetCreate
-export type CombinedRolesTypes = UserRolesCreate
-
-export enum EnumPreferencesFilterParamsComparison {
-  "=" = "=",
-  "<>" = "<>",
-  "IN" = "IN",
-  ">=" = ">=",
-  "<=" = "<=",
-  "NA" = "NA",
-}
-export enum EnumListingFilterParamsComparison {
-  "=" = "=",
-  "<>" = "<>",
-  "IN" = "IN",
-  ">=" = ">=",
-  "<=" = "<=",
-  "NA" = "NA",
-}
-export enum EnumListingFilterParamsStatus {
-  "active" = "active",
-  "pending" = "pending",
-  "closed" = "closed",
-}
 export enum EnumListingFilterParamsAvailability {
   "hasAvailability" = "hasAvailability",
   "noAvailability" = "noAvailability",
@@ -6483,4 +6613,18 @@ export enum EnumListingFilterParamsAvailability {
 export enum OrderByFieldsEnum {
   "mostRecentlyUpdated" = "mostRecentlyUpdated",
   "applicationDates" = "applicationDates",
+}
+export enum EnumPreferencesFilterParamsComparison {
+  "=" = "=",
+  "<>" = "<>",
+  "IN" = "IN",
+  ">=" = ">=",
+  "NA" = "NA",
+}
+export enum EnumProgramsFilterParamsComparison {
+  "=" = "=",
+  "<>" = "<>",
+  "IN" = "IN",
+  ">=" = ">=",
+  "NA" = "NA",
 }

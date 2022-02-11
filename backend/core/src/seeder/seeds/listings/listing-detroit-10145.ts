@@ -1,11 +1,10 @@
 import { AssetDtoSeedType, ListingSeedType, PropertySeedType } from "./listings"
-import { ListingStatus } from "../../listings/types/listing-status-enum"
-import { CountyCode } from "../../shared/types/county-code"
-import { CSVFormattingType } from "../../csv/types/csv-formatting-type-enum"
+import { ListingStatus } from "../../../listings/types/listing-status-enum"
+import { CountyCode } from "../../../shared/types/county-code"
 import { ListingDefaultSeed } from "./listing-default-seed"
 import { BaseEntity, DeepPartial } from "typeorm"
-import { Listing } from "../../listings/entities/listing.entity"
-import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
+import { Listing } from "../../../listings/entities/listing.entity"
+import { UnitsSummaryCreateDto } from "../../../units-summary/dto/units-summary.dto"
 
 const mcvProperty: PropertySeedType = {
   buildingAddress: {
@@ -26,7 +25,6 @@ const mcvListing: ListingSeedType = {
   applicationDropOffAddress: null,
   applicationMailingAddress: null,
   countyCode: CountyCode.detroit,
-  CSVFormattingType: CSVFormattingType.basic,
   disableUnitsAccordion: true,
   displayWaitlistSize: false,
   hrdId: "HRD10145",
@@ -60,6 +58,8 @@ const mcvListing: ListingSeedType = {
     heatingInUnit: false,
     acInUnit: true,
   },
+  listingPreferences: [],
+  jurisdictionName: "Detroit",
 }
 
 export class Listing10145Seed extends ListingDefaultSeed {
@@ -91,7 +91,6 @@ export class Listing10145Seed extends ListingDefaultSeed {
       assets: assets,
       events: [],
       property: property,
-      preferences: [],
       reservedCommunityType: reservedType,
       // If a reservedCommunityType is specified, a reservedCommunityDescription MUST also be specified
       reservedCommunityDescription: "",

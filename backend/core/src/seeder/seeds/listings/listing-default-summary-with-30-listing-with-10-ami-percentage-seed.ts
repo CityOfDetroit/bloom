@@ -1,5 +1,5 @@
 import { ListingDefaultSeed } from "./listing-default-seed"
-import { UnitsSummaryCreateDto } from "../../units-summary/dto/units-summary.dto"
+import { UnitsSummaryCreateDto } from "../../../units-summary/dto/units-summary.dto"
 
 export class ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed extends ListingDefaultSeed {
   async seed() {

@@ -10,7 +10,6 @@ import { ApplicationsModule } from "../applications/applications.module"
 import { ListingsModule } from "../listings/listings.module"
 import { AmiChartsModule } from "../ami-charts/ami-charts.module"
 import { ListingDefaultSeed } from "../seeder/seeds/listings/listing-default-seed"
-import { ListingDefaultSanJoseSeed } from "../seeder/seeds/listings/listing-default-sanjose-seed"
 import { Listing } from "../listings/entities/listing.entity"
 import { UnitAccessibilityPriorityType } from "../unit-accessbility-priority-types/entities/unit-accessibility-priority-type.entity"
 import { ReservedCommunityType } from "../reserved-community-type/entities/reserved-community-type.entity"
@@ -143,7 +142,6 @@ export class SeederModule {
         ListingDefaultSummaryWithoutAndListingWith20AmiPercentageSeed,
         ListingDefaultSummaryWith30ListingWith10AmiPercentageSeed,
         ListingDefaultSummaryWith10ListingWith30AmiPercentageSeed,
-        ListingDefaultSanJoseSeed,
         ListingTritonSeedDetroit,
         AmiChartDefaultSeed,
         AmiDefaultMissingAMI,

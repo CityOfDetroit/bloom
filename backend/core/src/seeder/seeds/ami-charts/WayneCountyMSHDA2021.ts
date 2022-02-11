@@ -1,4 +1,4 @@
-import { AmiChartCreateDto } from "../../ami-charts/dto/ami-chart.dto"
+import { AmiChartCreateDto } from "../../../ami-charts/dto/ami-chart.dto"
 import { BaseEntity } from "typeorm"
 
 // THIS FILE WAS AUTOMATICALLY GENERATED FROM WayneCountyMSHDA2021.txt.

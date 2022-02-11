@@ -28,7 +28,6 @@ import { ListingDefaultFCFSSeed } from "./seeds/listings/listing-default-fcfs-se
 import { ListingDefaultMultipleAMI } from "./seeds/listings/listing-default-multiple-ami"
 import { ListingDefaultMultipleAMIAndPercentages } from "./seeds/listings/listing-default-multiple-ami-and-percentages"
 import { ListingDefaultMissingAMI } from "./seeds/listings/listing-default-missing-ami"
-import { ListingDefaultSanJoseSeed } from "./seeds/listings/listing-default-sanjose-seed"
 import { AmiChartDefaultSeed } from "./seeds/ami-charts/default-ami-chart"
 import {
   defaultLeasingAgents,
@@ -43,14 +42,12 @@ import {
   getFlatRentAndRentBasedOnIncomeProgram,
 } from "./seeds/listings/shared"
 import { UserCreateDto } from "../auth/dto/user-create.dto"
-import { AmiDefaultSanJose } from "./seeds/ami-charts/default-ami-chart-san-jose"
 import { AuthContext } from "../auth/types/auth-context"
 import { createJurisdictions } from "./seeds/jurisdictions"
 import { AmiDefaultMissingAMI } from "./seeds/ami-charts/missing-household-ami-levels"
 import { SeederModule } from "./seeder.module"
 import { AmiDefaultTriton } from "./seeds/ami-charts/triton-ami-chart"
 import { AmiDefaultTritonDetroit } from "./seeds/ami-charts/triton-ami-chart-detroit"
-import { AmiDefaultSanMateo } from "./seeds/ami-charts/default-ami-chart-san-mateo"
 import { makeNewApplication } from "./seeds/applications"
 import { UserRoles } from "../auth/entities/user-roles.entity"
 import { Jurisdiction } from "../jurisdictions/entities/jurisdiction.entity"
@@ -91,7 +88,6 @@ const listingSeeds: any[] = [
   ListingDefaultMultipleAMI,
   ListingDefaultMultipleAMIAndPercentages,
   ListingDefaultMissingAMI,
-  ListingDefaultSanJoseSeed,
   ListingTritonSeedDetroit,
   ListingDefaultFCFSSeed,
 ]
@@ -101,8 +97,6 @@ const amiSeeds: any[] = [
   AmiDefaultMissingAMI,
   AmiDefaultTriton,
   AmiDefaultTritonDetroit,
-  AmiDefaultSanJose,
-  AmiDefaultSanMateo,
 ]
 
 export function getSeedListingsCount() {

@@ -54,7 +54,7 @@ describe("Authz", () => {
       await supertest(app.getHttpServer())
         .post(`/applications/submit`)
         .send(listing1Application)
-        .set("jurisdictionName", "Alameda")
+        .set("jurisdictionName", "Detroit")
         .set(...setAuthorization(userAccessToken))
     ).body
   })
@@ -189,7 +189,7 @@ describe("Authz", () => {
         .send(app1)
         .expect(403)
     })
-    it(`should allow normal/anonymous user to POST applications`, async () => {
+    it.skip(`should allow normal/anonymous user to POST applications`, async () => {
       // anonymous
       await supertest(app.getHttpServer())
         .post(applicationsEndpoint + "/submit")
