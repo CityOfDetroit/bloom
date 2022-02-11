@@ -196,6 +196,7 @@ export type FormMetadata = {
   preferences: Preference[]
   programs: Program[]
   units: TempUnit[]
+  unitsSummaries: TempUnitsSummary[]
   openHouseEvents: TempEvent[]
   profile: User
   latLong: LatitudeLongitude

@@ -21,10 +21,6 @@ export const getDetailBoolean = (listingBool: boolean) => {
   return listingBool === true ? t("t.yes") : listingBool === false ? t("t.no") : t("t.n/a")
 }
 
-export const getDetailBoolean = (listingBool: boolean) => {
-  return listingBool === true ? t("t.yes") : listingBool === false ? t("t.no") : t("t.n/a")
-}
-
 export const getReadableErrorMessage = (errorMessage: string | undefined) => {
   const errorDetails = errorMessage.substr(errorMessage.indexOf(" ") + 1)
   let readableMessage = null

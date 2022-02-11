@@ -1,5 +1,6 @@
 import React from "react"
 import { useRouter } from "next/router"
+import { OnClientSide } from "@bloom-housing/shared-helpers"
 import "./ProgressNav.scss"
 import { t } from "../helpers/translator"
 
@@ -9,12 +10,11 @@ const ProgressNavItem = (props: {
   completedSections: number
   label: string
   route: string | null
-  mounted: boolean
 }) => {
   const router = useRouter()
 
   let bgColor = "is-disabled"
-  if (props.mounted) {
+  if (OnClientSide()) {
     if (props.section === props.currentPageSection) {
       bgColor = "is-active"
     } else if (props.completedSections >= props.section) {
@@ -54,12 +54,11 @@ const ProgressNav = (props: {
   completedSections: number
   labels: string[]
   routes?: string[]
-  mounted: boolean
 }) => {
   return (
     <div>
       <h2 className="sr-only">{t("progressNav.srHeading")}</h2>
-      <ul className={!props.mounted ? "invisible" : "progress-nav"}>
+      <ul className={!OnClientSide() ? "invisible" : "progress-nav"}>
         {props.labels.map((label, i) => (
           <ProgressNavItem
             key={label}
@@ -69,7 +68,6 @@ const ProgressNav = (props: {
             completedSections={props.completedSections}
             label={label}
             route={props.routes ? props.routes[i] : null}
-            mounted={props.mounted}
           />
         ))}
       </ul>

@@ -28,6 +28,17 @@ type UnitProps = {
   disableUnitsAccordion: boolean
 }
 
+function isDefined(item: number | string) {
+  return item !== null && item !== undefined && item !== ""
+}
+
+function formatRange(min: string | number, max: string | number, prefix: string) {
+  if (!isDefined(min) && !isDefined(max)) return ""
+  if (min == max || !isDefined(max)) return `${prefix}${min}`
+  if (!isDefined(min)) return `${prefix}${max}`
+  return `${prefix}${min} - ${prefix}${max}`
+}
+
 const FormUnits = ({
   units,
   setUnits,
