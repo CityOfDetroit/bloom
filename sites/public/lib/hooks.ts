@@ -137,6 +137,7 @@ export async function fetchBaseListingData() {
   let listings = []
   try {
     const { id: jurisdictionId } = await fetchJurisdictionByName()
+    console.log("jurisdictionId = ", jurisdictionId)
     const response = await axios.get(process.env.listingServiceUrl, {
       params: {
         view: "base",
@@ -159,7 +160,7 @@ export async function fetchBaseListingData() {
       },
     })
 
-    listings = response.data?.items
+    listings = response.data ?? []
   } catch (e) {
     console.log("fetchBaseListingData error: ", e)
   }

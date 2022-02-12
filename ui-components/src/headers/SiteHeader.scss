@@ -83,32 +83,28 @@
     @apply w-full;
     align-items: center;
     justify-content: center;
-
-    .navbar-width-base {
-      width: 1025px;
-    }
-
-    .navbar-width-wide {
-      width: 1230px;
-    }
+    @apply border-b;
+    @apply border-gray-450;
 
     .navbar {
+      width: 1025px;
       height: 75px;
       max-height: 75px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       z-index: 10;
-      max-width: 100%;
+      margin-bottom: -1px;
 
       .navbar-logo {
         @apply flex;
         @apply items-center;
+
+        width: 100%;
         justify-content: center;
-        flex-grow: 1;
         @screen md {
-          flex-shrink: 0;
-          flex-grow: initial;
+          width: auto;
+          justify-content: start;
         }
 
         .logo {
@@ -149,6 +145,7 @@
           }
 
           @screen md {
+            max-width: 60%;
             height: 120px;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
             margin-bottom: -0.75rem;
@@ -199,6 +196,24 @@
           }
         }
 
+        .navbar-width-slim {
+          @screen md {
+            width: 200px;
+          }
+        }
+
+        .navbar-width-med {
+          @screen md {
+            width: 450px;
+          }
+        }
+
+        .navbar-width-wide {
+          @screen md {
+            width: 600px;
+          }
+        }
+
         .navbar-custom-width {
           @screen md {
             @apply flex;
@@ -237,27 +252,14 @@
           @apply mx-2;
         }
 
-        .navbar-dropdown-title {
-          flex-shrink: 0;
-        }
-
         .navbar-link {
+          @apply pr-5;
           text-transform: uppercase;
           @apply text-sm;
-          @apply pr-3;
-          @apply pl-3;
+          @apply pl-5;
           @apply text-gray-750;
           @apply h-full;
-          @apply pb-4;
-          @apply pt-1;
-          @apply flex;
-          @apply items-end;
-          border-bottom: 3px solid transparent;
-
-          @media (min-width: 840px) {
-            @apply pr-4;
-            @apply pl-4;
-          }
+          @apply pt-10;
 
           &:focus {
             box-shadow: 0 0 3px 4px $tailwind-accent-cool;
@@ -269,26 +271,21 @@
             @apply border-primary;
             @apply cursor-pointer;
           }
-
-          div {
-            text-align: center;
-          }
         }
 
         .desktop-header-button {
           @apply pt-7;
-          border-bottom: 3px solid transparent;
+          border-bottom: 4px solid transparent;
         }
 
         .navbar-dropdown-container {
           background-color: white;
           position: absolute;
-          margin-left: -127px;
-          margin-top: 38.5px;
+          margin-left: -124px;
+          margin-top: 35px;
           @apply border-gray-450;
           @apply border;
-          border-top: none;
-          width: 143px;
+          width: 144px;
           .navbar-dropdown {
             display: flex;
             flex-direction: column;
@@ -307,7 +304,6 @@
               @apply normal-case;
               font-size: 14px;
               text-align: left;
-              @apply w-full;
               &:hover,
               &:focus {
                 @apply bg-gray-400;
@@ -322,10 +318,7 @@
   .navbar-notice {
     @apply w-full;
     @apply bg-primary;
-    @screen md {
-      @apply text-right;
-    }
-    @apply text-left;
+    @apply text-right;
     @apply text-white;
     @apply block;
   }
@@ -340,10 +333,11 @@
 
   .navbar-notice__text {
     @apply max-w-5xl;
+    @apply m-auto;
     @apply text-sm;
-    @apply py-2;
-    @apply px-3;
-    margin: auto;
+    @apply pt-2;
+    @apply pb-2;
+    @apply pr-3;
 
     a,
     a:hover {
@@ -368,28 +362,4 @@
 .drawer-transition-exit-active {
   transform: translateX(100%);
   transition: all 500ms;
-}
-
-.navbar-logo-width-slim {
-  @screen md {
-    width: 100px;
-  }
-}
-
-.navbar-logo-width-base {
-  @screen md {
-    width: 200px;
-  }
-}
-
-.navbar-logo-width-med {
-  @screen md {
-    width: 255px;
-  }
-}
-
-.navbar-logo-width-wide {
-  @screen md {
-    width: 350px;
-  }
 }

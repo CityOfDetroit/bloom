@@ -1094,7 +1094,8 @@
     "zh": "中文",
     "vi": "Tiếng Việt",
     "ar": "عربى",
-    "bn": "বাংলা"
+    "bn": "বাংলা",
+    "tl": "Filipino"
   },
   "leasingAgent": {
     "contact": "Contact Leasing Agent",
@@ -1162,7 +1163,11 @@
       "pickUpAnApplication": "Pick up an application",
       "sendByUsMail": "Send Application by US Mail",
       "submitAPaperApplication": "Submit a Paper Application",
-      "contactManagment": "Contact Management Company"
+      "contactManagment": "Contact Management Company",
+      "submitPaperDueDateNoPostMark": "Applications must be received by the deadline. If sending by U.S. Mail, the application must be postmarked by %{applicationDueDate}. %{developer} is not responsible for lost or delayed mail.",     
+      "submitPaperDueDatePostMark": "Applications must be received by the deadline. If sending by U.S. Mail, the application must be postmarked by %{applicationDueDate} and received by mail no later than %{postmarkReceivedByDate}. Applications received after %{postmarkReceivedByDate} via mail will not be accepted even if they are postmarked by %{applicationDueDate}. %{developer} is not responsible for lost or delayed mail.",
+      "submitPaperNoDueDateNoPostMark": "%{developer} is not responsible for lost or delayed mail.",
+      "submitPaperNoDueDatePostMark": "Applications must be received by the deadline. If sending by U.S. Mail, the application must be received by mail no later than %{postmarkReceivedByDate}. Applications received after %{postmarkReceivedByDate} via mail will not be accepted. %{developer} is not responsible for lost or delayed mail."
     },
     "atAnotherAddress": "At another address",
     "atLeasingAgentAddress": "At the leasing agent address",
@@ -1285,7 +1290,15 @@
       "senior55": "Seniors 55+",
       "senior62": "Seniors 62+",
       "partiallySenior": "Partially Seniors",
-      "specialNeeds": "Accessible"
+      "specialNeeds": "Accessible",
+      "developmentalDisability": "Developmental Disability"
+    },
+    "reservedCommunityTypeDescriptions": {
+      "senior": "Seniors",
+      "senior55": "Seniors 55+",
+      "senior62": "Seniors 62+",
+      "specialNeeds": "Special Needs",
+      "developmentalDisability": "People with Developmental Disabilities"
     },
     "reservedFor": "Reserved for %{type}",
     "reservedCommunityType": "Reserved Community Type",

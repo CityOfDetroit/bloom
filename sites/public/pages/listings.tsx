@@ -44,10 +44,10 @@ const ListingsPage = ({ initialListings }) => {
       event: "pageView",
       pageTitle: "Rent Affordable Housing - Housing Portal",
       status: profile ? UserStatus.LoggedIn : UserStatus.NotLoggedIn,
-      numberOfListings: initialListings.length,
-      listingIds: initialListings.map((listing) => listing.id),
+      numberOfListings: initialListings?.meta?.totalItems,
+      listingIds: initialListings?.items.map((listing) => listing.id),
     })
-  }, [profile, initialListings])
+  }, [profile, initialListings?.meta?.totalItems, initialListings?.items])
 
   return (
     <Layout>
@@ -111,6 +111,7 @@ const ListingsPage = ({ initialListings }) => {
 
 export async function getStaticProps() {
   const initialListings = await fetchBaseListingData()
+  console.log("initialListings = ", initialListings)
   return { props: { initialListings }, revalidate: process.env.cacheRevalidate }
 }
 
