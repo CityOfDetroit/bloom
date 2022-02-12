@@ -61,6 +61,7 @@ export class ListingsService {
           }
         default:
           throw new HttpException(
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             `OrderBy parameter (${params.orderBy}) not recognized or not yet implemented.`,
             HttpStatus.NOT_IMPLEMENTED
           )
