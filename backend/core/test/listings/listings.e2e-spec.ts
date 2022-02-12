@@ -699,7 +699,6 @@ describe("Listings", () => {
         .set(...setAuthorization(adminAccessToken))
         .expect(200)
       const jurisdictionId = jurisdictionRes.body[0].id
-      console.log("jurisdictionRes = ", jurisdictionRes)
       // TODO(#781): Use minimal-listing.json here. Future devs: if this test breaks,
       // please update minimal-listing.json until this TODO is resolved.
       const listing: ListingPublishedCreateDto = {
