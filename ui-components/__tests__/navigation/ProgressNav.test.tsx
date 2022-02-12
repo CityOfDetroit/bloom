@@ -1,3 +1,4 @@
+
 import React from "react"
 import { render, cleanup } from "@testing-library/react"
 import { ProgressNav } from "../../src/navigation/ProgressNav"
@@ -11,7 +12,6 @@ describe("<ProgressNav>", () => {
         currentPageSection={2}
         completedSections={1}
         labels={["You", "Household", "Income", "Preferences", "Review"]}
-        mounted={true}
       />
     )
     expect(getByText("You")).toBeTruthy()
