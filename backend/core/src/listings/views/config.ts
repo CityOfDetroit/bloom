@@ -14,6 +14,8 @@ const views: Views = {
       "image.id",
       "image.fileId",
       "image.label",
+      "jurisdiction.id",
+      "jurisdiction.name",
       "reservedCommunityType.id",
       "reservedCommunityType.name",
       "property.id",
@@ -37,6 +39,7 @@ const views: Views = {
       "unitsSummary.totalAvailable",
     ],
     leftJoins: [
+      { join: "listings.jurisdiction", alias: "jurisdiction" },
       { join: "listings.image", alias: "image" },
       { join: "listings.property", alias: "property" },
       { join: "property.buildingAddress", alias: "buildingAddress" },

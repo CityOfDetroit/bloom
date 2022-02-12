@@ -16,7 +16,6 @@ import {
   ListingReviewOrder,
   OrderByFieldsEnum,
   ListingStatus,
-  Jurisdiction,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
 import { AppSubmissionContext } from "./AppSubmissionContext"
