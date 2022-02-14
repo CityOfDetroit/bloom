@@ -1379,7 +1379,8 @@
     "website": "Website",
     "year": "Year",
     "yes": "Yes",
-    "you": "You"
+    "you": "You",
+    "favorite": "Favorite"
   },
   "welcome": {
     "allApplicationClosed": "All applications are currently closed, but you can view closed listings.",

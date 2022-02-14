@@ -7,7 +7,7 @@ import { t } from "../../helpers/translator"
 import "./ListingCard.scss"
 import { StandardTable, StandardTableProps } from "../../tables/StandardTable"
 
-import { AppearanceSizeType, AuthContext, Button, Icon } from "@bloom-housing/ui-components"
+import { AuthContext, FavoriteButton } from "@bloom-housing/ui-components"
 import { useContext, useEffect, useState } from "react"
 import { UserPreferences } from "@bloom-housing/backend-core/types/src/backend-swagger"
 
@@ -37,30 +37,26 @@ const ListingCard = (props: ListingCardProps) => {
     sendSmsNotifications: false,
     favoriteIDs: [],
   }
-  const [favoriteState, updateFavoriteState] = useState(
+
+  const [listingFavorited, setListingFavorited] = useState(
     preferences.favoriteIDs?.includes(props.listingID)
   )
 
   useEffect(() => {
-    if (preferences.favoriteIDs?.includes(props.listingID)) {
-      updateFavoriteState(true)
-    } else {
-      updateFavoriteState(false)
-    }
+    setListingFavorited(preferences.favoriteIDs?.includes(props.listingID))
   }, [preferences.favoriteIDs, props.listingID])
 
   const addToFavorite = async () => {
-    if (!profile || preferences.favoriteIDs?.includes(props.listingID)) {
+    if (!profile || listingFavorited) {
       return
-    } else {
-      preferences.favoriteIDs?.push(props.listingID)
     }
+    preferences.favoriteIDs?.push(props.listingID)
 
     try {
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
-      updateFavoriteState(true)
+      setListingFavorited(true)
     } catch (err) {
       console.warn(err)
     }
@@ -78,7 +74,7 @@ const ListingCard = (props: ListingCardProps) => {
       await userProfileService?.update({
         body: { ...profile, preferences },
       })
-      updateFavoriteState(false)
+      setListingFavorited(false)
     } catch (err) {
       console.warn(err)
     }
@@ -124,27 +120,13 @@ const ListingCard = (props: ListingCardProps) => {
             {t("t.seeDetails")}
           </LinkButton>
         )}
-        <>
-          {profile &&
-            (favoriteState ? (
-              //TODO: Update Button UI to match mocks
-              <Button
-                className="mx-2 mt-6"
-                size={AppearanceSizeType.small}
-                onClick={() => removeFavorite()}
-              >
-                <Icon symbol={"likeFill"} size={"large"} />
-              </Button>
-            ) : (
-              <Button
-                className="mx-2 mt-6"
-                size={AppearanceSizeType.small}
-                onClick={() => addToFavorite()}
-              >
-                <Icon symbol={"like"} size={"large"} />
-              </Button>
-            ))}
-        </>
+        {profile && (
+          <FavoriteButton
+            removeFavorite={removeFavorite}
+            addToFavorite={addToFavorite}
+            currentlyFavorited={!!listingFavorited}
+          />
+        )}
       </div>
     </article>
   )
