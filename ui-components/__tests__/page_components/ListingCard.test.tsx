@@ -5,7 +5,7 @@ import { ListingCard } from "../../src/page_components/listing/ListingCard"
 afterEach(cleanup)
 
 describe("<ListingCard>", () => {
-  it("renders without error", () => {
+  it("renders full props without error", () => {
     const { getByText, getAllByText } = render(
       <ListingCard
         imageCardProps={{
@@ -31,11 +31,13 @@ describe("<ListingCard>", () => {
           tableHeader: "optional table header",
           tableSubHeader: "optional table subheader",
         }}
-        listingID="cc11dc18-12d4-4982-ad66-acf815521495"
-      />
+      >
+        <div>Child content</div>
+      </ListingCard>
     )
     expect(getByText("subtitle")).toBeTruthy()
     expect(getByText("title")).toBeTruthy()
+    expect(getByText("Child content")).toBeTruthy()
     expect(getAllByText("reserved community tag")).toBeTruthy()
     expect(getAllByText("status content")).toBeTruthy()
     expect(getAllByText("Unit Type")).toBeTruthy()
@@ -46,5 +48,19 @@ describe("<ListingCard>", () => {
     expect(getAllByText("cellC")).toBeTruthy()
     expect(getAllByText("optional table header")).toBeTruthy()
     expect(getAllByText("optional table subheader")).toBeTruthy()
+  })
+  it("renders minimal props without error", () => {
+    const { getByText } = render(
+      <ListingCard
+        imageCardProps={{
+          imageUrl: "imageURL",
+          subtitle: "subtitle",
+          title: "title",
+          href: "listing-link",
+        }}
+      />
+    )
+    expect(getByText("subtitle")).toBeTruthy()
+    expect(getByText("title")).toBeTruthy()
   })
 })

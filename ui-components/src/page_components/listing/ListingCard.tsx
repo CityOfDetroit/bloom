@@ -22,15 +22,16 @@ export interface ListingCardHeaderProps {
 }
 export interface ListingCardProps {
   imageCardProps: ImageCardProps
+  children?: React.ReactElement
   seeDetailsLink?: string
   tableHeaderProps?: ListingCardHeaderProps
-  tableProps: ListingCardTableProps
+  tableProps?: ListingCardTableProps
   detailsLinkClass?: string
   listingID: string
 }
 
 const ListingCard = (props: ListingCardProps) => {
-  const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps } = props
+  const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps, children } = props
   const { profile, userProfileService } = useContext(AuthContext)
   const preferences: UserPreferences = profile?.preferences || {
     sendEmailNotifications: false,
@@ -80,32 +81,41 @@ const ListingCard = (props: ListingCardProps) => {
     }
   }
 
+  const tableHeader = () => {
+    return (
+      <h3
+        className={`listings-row_title ${
+          tableHeaderProps?.tableHeaderClass && tableHeaderProps?.tableHeaderClass
+        }`}
+      >
+        {tableHeaderProps?.tableHeader}
+      </h3>
+    )
+  }
+
+  const tableSubHeader = () => {
+    return (
+      <h4
+        className={`listings-row_subtitle ${
+          tableHeaderProps?.tableSubHeaderClass && tableHeaderProps?.tableSubHeaderClass
+        }`}
+      >
+        {tableHeaderProps?.tableSubHeader}
+      </h4>
+    )
+  }
+
   return (
-    <article className="listings-row">
+    <article className="listings-row" data-test-id={"listing-card-component"}>
       <div className="listings-row_figure">
         <ImageCard {...imageCardProps} />
       </div>
       <div className="listings-row_content">
-        {tableHeaderProps?.tableHeader && (
-          <h3
-            className={`listings-row_title ${
-              tableHeaderProps.tableHeaderClass && tableHeaderProps.tableHeaderClass
-            }`}
-          >
-            {tableHeaderProps?.tableHeader}
-          </h3>
-        )}
-        {tableHeaderProps?.tableSubHeader && (
-          <h4
-            className={`listings-row_subtitle ${
-              tableHeaderProps.tableSubHeaderClass && tableHeaderProps.tableSubHeaderClass
-            }`}
-          >
-            {tableHeaderProps?.tableSubHeader}
-          </h4>
-        )}
+        {tableHeaderProps?.tableHeader && tableHeader()}
+        {tableHeaderProps?.tableSubHeader && tableSubHeader()}
         <div className="listings-row_table">
-          {(tableProps.data || tableProps.stackedData) && (
+          {children && children}
+          {tableProps && (tableProps.data || tableProps.stackedData) && (
             <>
               {tableHeaderProps?.stackedTable ? (
                 <StackedTable {...(tableProps as StackedTableProps)} />
