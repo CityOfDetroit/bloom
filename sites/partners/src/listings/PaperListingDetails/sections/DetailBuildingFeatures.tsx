@@ -12,7 +12,9 @@ const DetailBuildingFeatures = () => {
     const features = Object.keys(listing?.features ?? {}).map((feature) => {
       if (listing?.features[feature]) {
         featuresExist = true
-        return <li className={"list-disc mx-5 mb-1 w-1/3 grow"}>{listingFeatures[feature]}</li>
+        return (
+          <li className={"list-disc mx-5 mb-1 md:w-1/3 w-full grow"}>{listingFeatures[feature]}</li>
+        )
       }
     })
     return featuresExist ? features : <>None</>
