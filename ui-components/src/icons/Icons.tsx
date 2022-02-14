@@ -2,6 +2,7 @@ import * as React from "react"
 
 export interface IconProps {
   fill?: string
+  className?: string
 }
 
 export const Accessible = (props: IconProps) => {
@@ -459,7 +460,11 @@ export const Like = (props: IconProps) => {
 
 export const LikeFill = (props: IconProps) => {
   return (
-    <svg viewBox={"0 0 32 32"} fill={props.fill ?? "currentColor"}>
+    <svg
+      viewBox={"0 0 32 32"}
+      fill={props.fill ?? "currentColor"}
+      className={props.className ?? ""}
+    >
       <path d="M15.867 30.933c-0.267 0-0.267-0.133-0.533-0.133-0.133 0-0.133-0.133-0.267-0.133 0-0.133-0.4-0.4-0.933-1.067l-0.667-0.8c-3.2-3.733-9.733-11.6-12-15.2-0.667-1.333-1.067-2.667-1.067-4 0.133-4.533 3.867-8.267 8.267-8.267 2.933 0 5.467 1.467 6.933 4l0.4 0.533 0.4-0.533c1.6-2.533 4.133-4 6.933-4 4.4 0 8.133 3.733 8.133 8.133 0 1.333-0.4 2.8-1.067 4.133-2.8 4.533-13.067 16.533-13.6 17.067-0.4 0.267-0.533 0.267-0.933 0.267z"></path>
     </svg>
   )

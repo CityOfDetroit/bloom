@@ -138,6 +138,7 @@ export interface IconProps {
   className?: string
   fill?: string
   ariaHidden?: boolean
+  iconClass?: string
 }
 
 const Icon = (props: IconProps) => {
@@ -150,7 +151,10 @@ const Icon = (props: IconProps) => {
 
   return (
     <span className={wrapperClasses.join(" ")} aria-hidden={props.ariaHidden}>
-      <SpecificIcon fill={props.fill ? props.fill : undefined} />
+      <SpecificIcon
+        fill={props.fill ? props.fill : undefined}
+        className={props.iconClass ?? undefined}
+      />
     </span>
   )
 }
