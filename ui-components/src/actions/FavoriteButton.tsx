@@ -1,20 +1,87 @@
 import * as React from "react"
-import { AppearanceSizeType, Button, Icon, IconFillColors } from "@bloom-housing/ui-components"
+import {
+  AppearanceSizeType,
+  AuthContext,
+  Button,
+  Icon,
+  IconFillColors,
+} from "@bloom-housing/ui-components"
 import { t } from "../helpers/translator"
+import { useContext, useEffect, useState } from "react"
 
 export interface FavoriteButtonProps {
-  removeFavorite: () => void
-  addToFavorite: () => void
-  currentlyFavorited: boolean
+  removeFavoriteOnSuccess?: () => void
+  addFavoriteOnSuccess?: () => void
+  id: string
+  allowFavoriting?: boolean
 }
 
-const FavoriteButton = (props: FavoriteButtonProps) => {
-  return props.currentlyFavorited ? (
+const FavoriteButton = ({
+  removeFavoriteOnSuccess,
+  addFavoriteOnSuccess,
+  id,
+  allowFavoriting,
+}: FavoriteButtonProps) => {
+  const { profile, userProfileService } = useContext(AuthContext)
+  const preferences = profile?.preferences || {
+    sendEmailNotifications: false,
+    sendSmsNotifications: false,
+    favoriteIDs: [],
+  }
+
+  const [listingFavorited, setListingFavorited] = useState(preferences.favoriteIDs?.includes(id))
+
+  useEffect(() => {
+    setListingFavorited(preferences.favoriteIDs?.includes(id))
+  }, [preferences.favoriteIDs, id])
+
+  if (!allowFavoriting || !profile) {
+    return null
+  }
+
+  const addFavorite = async () => {
+    if (!profile || listingFavorited) {
+      return
+    }
+    preferences.favoriteIDs?.push(id)
+
+    try {
+      await userProfileService?.update({
+        body: { ...profile, preferences },
+      })
+      setListingFavorited(true)
+      addFavoriteOnSuccess && addFavoriteOnSuccess()
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  const removeFavorite = async () => {
+    if (!profile || !preferences.favoriteIDs || preferences?.favoriteIDs?.length === 0) {
+      return
+    }
+
+    const index: number = preferences.favoriteIDs?.indexOf(id)
+    preferences?.favoriteIDs?.splice(index, 1)
+
+    try {
+      await userProfileService?.update({
+        body: { ...profile, preferences },
+      })
+      setListingFavorited(false)
+      removeFavoriteOnSuccess && removeFavoriteOnSuccess()
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  return listingFavorited ? (
     <>
       <Button
         className="mx-2 mt-6 p-3 rounded-full bg-primary-dark border-none"
         size={AppearanceSizeType.small}
-        onClick={() => props.removeFavorite()}
+        onClick={() => removeFavorite()}
+        ariaLabel={t("t.favorite")}
       >
         <Icon
           symbol={"likeFill"}
@@ -23,7 +90,7 @@ const FavoriteButton = (props: FavoriteButtonProps) => {
           iconClass={"favorited-fill"}
         />
       </Button>
-      <a onClick={props.removeFavorite} className={"cursor-pointer"}>
+      <a onClick={removeFavorite} className={"cursor-pointer font-bold"}>
         {t("t.favorite")}
       </a>
     </>
@@ -32,12 +99,12 @@ const FavoriteButton = (props: FavoriteButtonProps) => {
       <Button
         className="mx-2 mt-6 p-3 rounded-full"
         size={AppearanceSizeType.small}
-        onClick={() => props.addToFavorite()}
+        onClick={() => addFavorite()}
         ariaLabel={t("t.favorite")}
       >
         <Icon symbol={"like"} size={"large"} />
       </Button>
-      <a onClick={props.addToFavorite} className={"cursor-pointer"}>
+      <a onClick={addFavorite} className={"cursor-pointer font-bold"}>
         {t("t.favorite")}
       </a>
     </>

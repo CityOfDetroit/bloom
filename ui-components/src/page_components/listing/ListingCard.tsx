@@ -7,9 +7,7 @@ import { t } from "../../helpers/translator"
 import "./ListingCard.scss"
 import { StandardTable, StandardTableProps } from "../../tables/StandardTable"
 
-import { AuthContext, FavoriteButton } from "@bloom-housing/ui-components"
-import { useContext, useEffect, useState } from "react"
-import { UserPreferences } from "@bloom-housing/backend-core/types/src/backend-swagger"
+import { FavoriteButton } from "@bloom-housing/ui-components"
 
 interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
 
@@ -28,58 +26,11 @@ export interface ListingCardProps {
   tableProps?: ListingCardTableProps
   detailsLinkClass?: string
   listingID: string
+  allowFavoriting?: boolean
 }
 
 const ListingCard = (props: ListingCardProps) => {
   const { imageCardProps, tableProps, detailsLinkClass, tableHeaderProps, children } = props
-  const { profile, userProfileService } = useContext(AuthContext)
-  const preferences: UserPreferences = profile?.preferences || {
-    sendEmailNotifications: false,
-    sendSmsNotifications: false,
-    favoriteIDs: [],
-  }
-
-  const [listingFavorited, setListingFavorited] = useState(
-    preferences.favoriteIDs?.includes(props.listingID)
-  )
-
-  useEffect(() => {
-    setListingFavorited(preferences.favoriteIDs?.includes(props.listingID))
-  }, [preferences.favoriteIDs, props.listingID])
-
-  const addToFavorite = async () => {
-    if (!profile || listingFavorited) {
-      return
-    }
-    preferences.favoriteIDs?.push(props.listingID)
-
-    try {
-      await userProfileService?.update({
-        body: { ...profile, preferences },
-      })
-      setListingFavorited(true)
-    } catch (err) {
-      console.warn(err)
-    }
-  }
-
-  const removeFavorite = async () => {
-    if (!profile || !preferences.favoriteIDs || preferences?.favoriteIDs?.length === 0) {
-      return
-    }
-
-    const index: number = preferences.favoriteIDs?.indexOf(props.listingID)
-    preferences?.favoriteIDs?.splice(index, 1)
-
-    try {
-      await userProfileService?.update({
-        body: { ...profile, preferences },
-      })
-      setListingFavorited(false)
-    } catch (err) {
-      console.warn(err)
-    }
-  }
 
   const tableHeader = () => {
     return (
@@ -130,13 +81,7 @@ const ListingCard = (props: ListingCardProps) => {
             {t("t.seeDetails")}
           </LinkButton>
         )}
-        {profile && (
-          <FavoriteButton
-            removeFavorite={removeFavorite}
-            addToFavorite={addToFavorite}
-            currentlyFavorited={!!listingFavorited}
-          />
-        )}
+        <FavoriteButton id={props.listingID} allowFavoriting={props.allowFavoriting} />
       </div>
     </article>
   )
