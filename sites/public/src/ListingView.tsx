@@ -31,6 +31,7 @@ import {
   ListingUpdated,
   Message,
   t,
+  FavoriteButton,
 } from "@bloom-housing/ui-components"
 import { cloudinaryPdfFromId, imageUrlFromListing } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
@@ -45,6 +46,7 @@ import {
 interface ListingProps {
   listing: Listing
   preview?: boolean
+  allowFavoriting?: boolean
 }
 
 export const ListingView = (props: ListingProps) => {
@@ -270,6 +272,9 @@ export const ListingView = (props: ListingProps) => {
               {t("t.viewOnMap")}
             </a>
           </p>
+          <div className="text-right">
+            <FavoriteButton id={listing.id} allowFavoriting={props.allowFavoriting} />
+          </div>
         </div>
       </header>
 
