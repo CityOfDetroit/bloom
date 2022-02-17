@@ -32,7 +32,11 @@ import {
   Message,
   t,
 } from "@bloom-housing/ui-components"
-import { cloudinaryPdfFromId, imageUrlFromListing } from "@bloom-housing/shared-helpers"
+import {
+  cloudinaryPdfFromId,
+  imageUrlFromListing,
+  listingFeatures,
+} from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { ErrorPage } from "../pages/_error"
 import {
@@ -251,6 +255,21 @@ export const ListingView = (props: ListingProps) => {
         .join("\n")
     : listing.unitAmenities
 
+  const getAccessibilityFeatures = () => {
+    let featuresExist = false
+    const features = Object.keys(listing?.features ?? {}).map((feature) => {
+      if (listing?.features[feature]) {
+        featuresExist = true
+        return (
+          <li className={"list-disc mx-5 mb-1 md:w-1/3 w-full grow"}>{listingFeatures[feature]}</li>
+        )
+      }
+    })
+    return featuresExist ? <ul className={"flex flex-wrap"}>{features}</ul> : null
+  }
+
+  const accessibilityFeatures = getAccessibilityFeatures()
+
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
       <header className="image-card--leader">
@@ -396,16 +415,21 @@ export const ListingView = (props: ListingProps) => {
                     markdown={useMarkdownForUnitAmenities}
                   />
                 )}
+                <Description
+                  term={"Accessibility"}
+                  description={
+                    accessibilityFeatures
+                      ? accessibilityFeatures
+                      : listing.accessibility ?? t("t.contactPropertyManagement")
+                  }
+                  markdown={useMarkdownForUnitAmenities}
+                />
                 {listing.servicesOffered && (
                   <Description
                     term={t("t.servicesOffered")}
                     description={listing.servicesOffered}
                   />
                 )}
-                <Description
-                  term={t("t.accessibility")}
-                  description={listing.accessibility || t("t.contactPropertyManagement")}
-                />
                 <Description
                   term={t("t.unitFeatures")}
                   description={
