@@ -239,6 +239,17 @@ export const ListingView = (props: ListingProps) => {
     </>
   )
 
+  const additionalInformationCard = (cardTitle: string, cardData: string) => {
+    return (
+      <div className="info-card">
+        <h3 className="text-serif-lg">{cardTitle}</h3>
+        <p className="text-sm text-gray-700 break-words">
+          <Markdown children={cardData} options={{ disableParsingRawHTML: true }} />
+        </p>
+      </div>
+    )
+  }
+
   const applicationsClosed = moment() > moment(listing.applicationDueDate)
   const useMarkdownForPropertyAmenities = listing.amenities?.includes(",")
   const useMarkdownForUnitAmenities = listing.unitAmenities?.includes(",")
@@ -257,15 +268,13 @@ export const ListingView = (props: ListingProps) => {
 
   const getAccessibilityFeatures = () => {
     let featuresExist = false
-    const features = Object.keys(listing?.features ?? {}).map((feature) => {
+    const features = Object.keys(listing?.features ?? {}).map((feature, index) => {
       if (listing?.features[feature]) {
         featuresExist = true
-        return (
-          <li className={"list-disc mx-5 mb-1 md:w-1/3 w-full grow"}>{listingFeatures[feature]}</li>
-        )
+        return <li key={index}>{listingFeatures[feature]}</li>
       }
     })
-    return featuresExist ? <ul className={"flex flex-wrap"}>{features}</ul> : null
+    return featuresExist ? <ul>{features}</ul> : null
   }
 
   const accessibilityFeatures = getAccessibilityFeatures()
@@ -422,7 +431,6 @@ export const ListingView = (props: ListingProps) => {
                       ? accessibilityFeatures
                       : listing.accessibility ?? t("t.contactPropertyManagement")
                   }
-                  markdown={useMarkdownForUnitAmenities}
                 />
                 {listing.servicesOffered && (
                   <Description
@@ -474,39 +482,18 @@ export const ListingView = (props: ListingProps) => {
             desktopClass="bg-primary-lighter"
           >
             <div className="listing-detail-panel">
-              {listing.requiredDocuments && (
-                <div className="info-card">
-                  <h3 className="text-serif-lg">{t("listings.requiredDocuments")}</h3>
-                  <p className="text-sm text-gray-700">
-                    <Markdown
-                      children={listing.requiredDocuments}
-                      options={{ disableParsingRawHTML: true }}
-                    />
-                  </p>
-                </div>
-              )}
-              {listing.programRules && (
-                <div className="info-card">
-                  <h3 className="text-serif-lg">{t("listings.importantProgramRules")}</h3>
-                  <p className="text-sm text-gray-700">
-                    <Markdown
-                      children={listing.programRules}
-                      options={{ disableParsingRawHTML: true }}
-                    />
-                  </p>
-                </div>
-              )}
-              {listing.specialNotes && (
-                <div className="info-card">
-                  <h3 className="text-serif-lg">{t("listings.specialNotes")}</h3>
-                  <p className="text-sm text-gray-700">
-                    <Markdown
-                      children={listing.specialNotes}
-                      options={{ disableParsingRawHTML: true }}
-                    />
-                  </p>
-                </div>
-              )}
+              {listing.requiredDocuments &&
+                additionalInformationCard(
+                  t("listings.requiredDocuments"),
+                  listing.requiredDocuments
+                )}
+              {listing.programRules &&
+                additionalInformationCard(
+                  t("listings.importantProgramRules"),
+                  listing.programRules
+                )}
+              {listing.specialNotes &&
+                additionalInformationCard(t("listings.specialNotes"), listing.specialNotes)}
             </div>
           </ListingDetailItem>
         )}

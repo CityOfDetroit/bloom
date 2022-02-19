@@ -10,7 +10,7 @@ export interface DescriptionProps {
 
 export const Description = (props: DescriptionProps) => {
   return (
-    <>
+    <div className={"description__container"}>
       <dd className="description__title">{props.term}</dd>
       {props.markdown ? (
         <dt className="description__body">
@@ -22,6 +22,6 @@ export const Description = (props: DescriptionProps) => {
       ) : (
         <dt className="description__body">{props.description}</dt>
       )}
-    </>
+    </div>
   )
 }
