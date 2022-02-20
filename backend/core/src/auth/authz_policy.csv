@@ -87,6 +87,10 @@ p, anonymous, applicationMethod, true, read
 p, admin, paperApplication, true, .*
 p, anonymous, paperApplication, true, read
 
+p, admin, userPreference, true, .*
+p, anonymous, userPreference, true, read
+p, anonymous, userPreference, true, .*
+
 g, admin, partner
 g, partner, user
 g, user, anonymous

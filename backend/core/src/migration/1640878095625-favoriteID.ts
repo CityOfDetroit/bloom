@@ -5,7 +5,7 @@ export class favoriteID1640878095625 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "user_preferences" ADD "favorite_i_ds" jsonb NOT NULL DEFAULT '[]'`
+      `ALTER TABLE "user_preferences" ADD "favorite_i_ds" text array NOT NULL`
     )
   }
 
