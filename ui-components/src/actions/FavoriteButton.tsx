@@ -22,7 +22,7 @@ const FavoriteButton = ({
   id,
   allowFavoriting,
 }: FavoriteButtonProps) => {
-  const { profile, userProfileService } = useContext(AuthContext)
+  const { profile, userPreferencesService } = useContext(AuthContext)
   const preferences = profile?.preferences || {
     sendEmailNotifications: false,
     sendSmsNotifications: false,
@@ -46,8 +46,8 @@ const FavoriteButton = ({
     preferences.favoriteIDs?.push(id)
 
     try {
-      await userProfileService?.update({
-        body: { ...profile, preferences },
+      await userPreferencesService?.update({
+        body: preferences,
       })
       setListingFavorited(true)
       addFavoriteOnSuccess && addFavoriteOnSuccess()
@@ -65,8 +65,8 @@ const FavoriteButton = ({
     preferences?.favoriteIDs?.splice(index, 1)
 
     try {
-      await userProfileService?.update({
-        body: { ...profile, preferences },
+      await userPreferencesService?.update({
+        body: preferences,
       })
       setListingFavorited(false)
       removeFavoriteOnSuccess && removeFavoriteOnSuccess()
