@@ -7,7 +7,7 @@ import { mapTo } from "../shared/mapTo"
 import { UserPreferencesService } from "./user-preferences.services"
 import { UserPreferencesDto } from "./dto/user-preferences.dto"
 import { defaultValidationPipeOptions } from "../shared/default-validation-pipe-options"
-import { AuthContext } from "src/auth/types/auth-context"
+import { AuthContext } from "../auth/types/auth-context"
 import { User } from "../auth/entities/user.entity"
 import { Request as ExpressRequest } from "express"
 
