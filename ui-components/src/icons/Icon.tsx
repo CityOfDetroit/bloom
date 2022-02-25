@@ -132,7 +132,16 @@ export const IconFillColors = {
   primary: "#0077DA",
 }
 
-export type IconSize = "tiny" | "small" | "base" | "medium" | "large" | "xlarge" | "2xl" | "3xl"
+export type IconSize =
+  | "tiny"
+  | "small"
+  | "base"
+  | "medium"
+  | "large"
+  | "xlarge"
+  | "2xl"
+  | "3xl"
+  | "extra-medium"
 
 export interface IconProps {
   size: IconSize

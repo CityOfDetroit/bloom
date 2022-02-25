@@ -26,14 +26,14 @@ const FavoriteButton = ({
   const preferences = profile?.preferences || {
     sendEmailNotifications: false,
     sendSmsNotifications: false,
-    favoriteIDs: [],
+    favoriteIds: [],
   }
 
-  const [listingFavorited, setListingFavorited] = useState(preferences.favoriteIDs?.includes(id))
+  const [listingFavorited, setListingFavorited] = useState(preferences.favoriteIds?.includes(id))
 
   useEffect(() => {
-    setListingFavorited(preferences.favoriteIDs?.includes(id))
-  }, [preferences.favoriteIDs, id])
+    setListingFavorited(preferences.favoriteIds?.includes(id))
+  }, [preferences.favoriteIds, id])
 
   if (!allowFavoriting || !profile) {
     return null
@@ -43,7 +43,7 @@ const FavoriteButton = ({
     if (!profile || listingFavorited) {
       return
     }
-    preferences.favoriteIDs?.push(id)
+    preferences.favoriteIds?.push(id)
 
     try {
       await userPreferencesService?.update({
@@ -57,12 +57,12 @@ const FavoriteButton = ({
   }
 
   const removeFavorite = async () => {
-    if (!profile || !preferences.favoriteIDs || preferences?.favoriteIDs?.length === 0) {
+    if (!profile || !preferences.favoriteIds || preferences?.favoriteIds?.length === 0) {
       return
     }
 
-    const index: number = preferences.favoriteIDs?.indexOf(id)
-    preferences?.favoriteIDs?.splice(index, 1)
+    const index: number = preferences.favoriteIds?.indexOf(id)
+    preferences?.favoriteIds?.splice(index, 1)
 
     try {
       await userPreferencesService?.update({
@@ -78,33 +78,33 @@ const FavoriteButton = ({
   return listingFavorited ? (
     <>
       <Button
-        className="mx-2 mt-6 p-3 rounded-full bg-primary-dark border-none"
+        className="mx-2 p-3 rounded-full bg-primary-dark border-none"
         size={AppearanceSizeType.small}
         onClick={() => removeFavorite()}
         ariaLabel={t("t.favorite")}
       >
         <Icon
           symbol={"likeFill"}
-          size={"large"}
+          size={"extra-medium"}
           fill={IconFillColors.white}
-          iconClass={"favorited-fill"}
+          iconClass={"favorited-fill mt-0"}
         />
       </Button>
-      <a onClick={removeFavorite} className={"cursor-pointer font-bold"}>
+      <a onClick={removeFavorite} className={"cursor-pointer font-bold align-middle"}>
         {t("t.favorite")}
       </a>
     </>
   ) : (
     <>
       <Button
-        className="mx-2 mt-6 p-3 rounded-full"
+        className="mx-2 p-3 rounded-full"
         size={AppearanceSizeType.small}
         onClick={() => addFavorite()}
         ariaLabel={t("t.favorite")}
       >
-        <Icon symbol={"like"} size={"large"} />
+        <Icon symbol={"like"} size={"extra-medium"} iconClass={"mt-0"} />
       </Button>
-      <a onClick={addFavorite} className={"cursor-pointer font-bold"}>
+      <a onClick={addFavorite} className={"cursor-pointer font-bold align-middle"}>
         {t("t.favorite")}
       </a>
     </>
