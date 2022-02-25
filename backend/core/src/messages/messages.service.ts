@@ -1,26 +1,17 @@
 import { Injectable, Logger, Scope } from "@nestjs/common"
 import axios from "axios"
-import merge from "lodash/merge"
 import Polyglot from "node-polyglot"
 import { ConfigService } from "@nestjs/config"
-import { TranslationsService } from "../translations/services/translations.service"
-import { JurisdictionResolverService } from "../jurisdictions/services/jurisdiction-resolver.service"
 import { User } from "../auth/entities/user.entity"
 import { Listing } from "../listings/entities/listing.entity"
 import { Application } from "../applications/entities/application.entity"
 import { ListingReviewOrder } from "../listings/types/listing-review-order-enum"
-import { Jurisdiction } from "../jurisdictions/entities/jurisdiction.entity"
-import { Language } from "../shared/types/language-enum"
 
 @Injectable({ scope: Scope.REQUEST })
 export class MessagesService {
   polyglot: Polyglot
 
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly translationService: TranslationsService,
-    private readonly jurisdictionResolverService: JurisdictionResolverService
-  ) {
+  constructor(private readonly configService: ConfigService) {
     this.polyglot = new Polyglot({
       phrases: {},
     })
@@ -28,7 +19,6 @@ export class MessagesService {
 
   // ACCOUNT MESSAGES
   public async welcomeMessage(user: User, appUrl: string, confirmationUrl: string) {
-    await this.loadTranslationsForUser(user)
     if (this.configService.get<string>("NODE_ENV") === "production") {
       Logger.log(
         `Preparing to send a welcome email to ${user.email} from ${this.configService.get<string>(
@@ -55,7 +45,6 @@ export class MessagesService {
     confirmationUrl: string,
     newEmail: string
   ) {
-    await this.loadTranslationsForUser(user)
     const recipient = {
       email: newEmail,
       macros: {
@@ -72,8 +61,6 @@ export class MessagesService {
     application: Application,
     appUrl: string
   ) {
-    const jurisdiction = await this.jurisdictionResolverService.getJurisdiction()
-    void (await this.loadTranslations(jurisdiction, application.language || Language.en))
     let whatToExpectText
     const listingUrl = `${appUrl}/listing/${listing.id}`
 
@@ -86,15 +73,16 @@ export class MessagesService {
     }
 
     if (listing.applicationDueDate) {
-      if (listing.reviewOrderType === ListingReviewOrder.lottery) {
-        whatToExpectText = this.polyglot.t("confirmation.whatToExpect.lottery", {
+      whatToExpectText = this.polyglot.t(
+        `${
+          listing.reviewOrderType === ListingReviewOrder.lottery
+            ? "confirmation.whatToExpect.lottery"
+            : "confirmation.whatToExpect.noLottery"
+        }`,
+        {
           lotteryDate: listing.applicationDueDate,
-        })
-      } else {
-        whatToExpectText = this.polyglot.t("confirmation.whatToExpect.noLottery", {
-          lotteryDate: listing.applicationDueDate,
-        })
-      }
+        }
+      )
     } else {
       whatToExpectText = this.polyglot.t("confirmation.whatToExpect.FCFS")
     }
@@ -124,8 +112,6 @@ export class MessagesService {
   }
 
   public async resetPasswordMessage(user: User, appUrl: string) {
-    const jurisdiction = await this.jurisdictionResolverService.getJurisdiction()
-    void (await this.loadTranslations(jurisdiction, user.language))
     const resetUrl = `${appUrl}/reset-password?token=${user.resetToken}`
 
     if (this.configService.get<string>("NODE_ENV") == "production") {
@@ -149,11 +135,6 @@ export class MessagesService {
   }
 
   public async partnersInviteMessage(user: User, appUrl: string, confirmationUrl: string) {
-    void (await this.loadTranslations(
-      user.jurisdictions?.length === 1 ? user.jurisdictions[0] : null,
-      user.language || Language.en
-    ))
-
     const recipient = {
       email: user.email,
       macros: {
@@ -201,11 +182,6 @@ export class MessagesService {
     }
   }
 
-  // It's not clear how this API allows you to take an existing bulletin and add in dynamic content
-  // If a notification has any sort of divergence from a generic template we may need to send all
-  // the content each time and pre-customize it here
-  // The auth also suggests sending the API key as a file instead:
-  // https://developer.govdelivery.com/api/comm_cloud_v1/Content/API/Script%20Service/API_ScriptService_Authentication.htm
   public async listingOpenMessage(listing: Listing) {
     try {
       //TODO: Toggle URL on staging vs production
@@ -248,31 +224,6 @@ export class MessagesService {
         void this.sendEmail(recipients, templateId, retry - 1)
       }
     }
-  }
-
-  private async loadTranslations(jurisdiction: Jurisdiction | null, language: Language) {
-    const jurisdictionalTranslations = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
-      language,
-      jurisdiction ? jurisdiction.id : null
-    )
-    const genericTranslations = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
-      language,
-      null
-    )
-
-    // Deep merge
-    const translations = merge(
-      genericTranslations.translations,
-      jurisdictionalTranslations.translations
-    )
-
-    this.polyglot.replace(translations)
-  }
-
-  private async loadTranslationsForUser(user: User) {
-    const language = user.language || Language.en
-    const jurisdiction = await this.jurisdictionResolverService.getJurisdiction()
-    void (await this.loadTranslations(jurisdiction, language))
   }
 
   private async getUserName(user: User) {
