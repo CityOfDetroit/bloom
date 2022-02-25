@@ -177,7 +177,9 @@ export class MessagesService {
     try {
       const response = await axios.request({
         method: "post",
-        url: `/api/v2/accounts/${this.configService.get<string>("GOVDELIVERY_ACCOUNT_ID")}/signup`,
+        url: `https://api.govdelivery.com/api/v2/accounts/${this.configService.get<string>(
+          "GOVDELIVERY_ACCOUNT_ID"
+        )}/signup`,
         data: {
           signup: {
             email,
@@ -189,6 +191,30 @@ export class MessagesService {
             },
           },
         },
+        headers: {
+          "X-AUTH-TOKEN": this.configService.get<string>("GOVDELIVERY_API_KEY"),
+        },
+      })
+      console.log(response)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  // It's not clear how this API allows you to take an existing bulletin and add in dynamic content
+  // If a notification has any sort of divergence from a generic template we may need to send all
+  // the content each time and pre-customize it here
+  // The auth also suggests sending the API key as a file instead:
+  // https://developer.govdelivery.com/api/comm_cloud_v1/Content/API/Script%20Service/API_ScriptService_Authentication.htm
+  public async listingOpenMessage(listing: Listing) {
+    try {
+      //TODO: Toggle URL on staging vs production
+      const BULLETIN_ID = "1234"
+      const response = await axios.request({
+        method: "post",
+        url: `https://stage-tms.govdelivery.com/api/account/${this.configService.get<string>(
+          "GOVDELIVERY_ACCOUNT_ID"
+        )}/bulletins/${BULLETIN_ID}send_now`,
         headers: {
           "X-AUTH-TOKEN": this.configService.get<string>("GOVDELIVERY_API_KEY"),
         },
