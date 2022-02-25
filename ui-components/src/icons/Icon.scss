@@ -62,6 +62,11 @@
   @apply h-16;
 }
 
+.ui-extra-medium svg {
+  @apply w-6;
+  @apply h-6;
+}
+
 .ui-white svg use {
   fill: #fff !important;
 }

@@ -23,5 +23,5 @@ export class UserPreferences {
   @Column("text", { array: true })
   @IsString({ groups: [ValidationsGroupsEnum.default], each: true })
   @Expose()
-  favoriteIDs?: string[]
+  favoriteIds?: string[]
 }

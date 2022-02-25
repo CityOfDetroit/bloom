@@ -3918,7 +3918,7 @@ export interface UserPreferences {
   sendSmsNotifications?: boolean
 
   /**  */
-  favoriteIDs?: string[]
+  favoriteIds?: string[]
 }
 
 export interface User {
