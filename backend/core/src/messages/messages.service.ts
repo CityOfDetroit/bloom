@@ -26,31 +26,7 @@ export class MessagesService {
     })
   }
 
-  private async loadTranslations(jurisdiction: Jurisdiction | null, language: Language) {
-    const jurisdictionalTranslations = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
-      language,
-      jurisdiction ? jurisdiction.id : null
-    )
-    const genericTranslations = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
-      language,
-      null
-    )
-
-    // Deep merge
-    const translations = merge(
-      genericTranslations.translations,
-      jurisdictionalTranslations.translations
-    )
-
-    this.polyglot.replace(translations)
-  }
-
-  private async loadTranslationsForUser(user: User) {
-    const language = user.language || Language.en
-    const jurisdiction = await this.jurisdictionResolverService.getJurisdiction()
-    void (await this.loadTranslations(jurisdiction, language))
-  }
-
+  // ACCOUNT MESSAGES
   public async welcomeMessage(user: User, appUrl: string, confirmationUrl: string) {
     await this.loadTranslationsForUser(user)
     if (this.configService.get<string>("NODE_ENV") === "production") {
@@ -190,6 +166,39 @@ export class MessagesService {
     this.sendEmail([recipient], "partners-invite-message")
   }
 
+  // NOTIFICATION MESSAGES
+  public async updateNotificationsUser(
+    privacyConsent: boolean,
+    sendNotifications: boolean,
+    email?: string,
+    phone?: string,
+    topicIds?: string[]
+  ) {
+    try {
+      const response = await axios.request({
+        method: "post",
+        url: `/api/v2/accounts/${this.configService.get<string>("GOVDELIVERY_ACCOUNT_ID")}/signup`,
+        data: {
+          signup: {
+            email,
+            phone,
+            privacy_consent: privacyConsent,
+            send_notifications: sendNotifications,
+            subscribe: {
+              topic_ids: topicIds,
+            },
+          },
+        },
+        headers: {
+          "X-AUTH-TOKEN": this.configService.get<string>("GOVDELIVERY_API_KEY"),
+        },
+      })
+      console.log(response)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   // TODO: Type recipients
   private async sendEmail(recipients: any[], templateId: string, retry = 3) {
     try {
@@ -213,6 +222,31 @@ export class MessagesService {
         void this.sendEmail(recipients, templateId, retry - 1)
       }
     }
+  }
+
+  private async loadTranslations(jurisdiction: Jurisdiction | null, language: Language) {
+    const jurisdictionalTranslations = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
+      language,
+      jurisdiction ? jurisdiction.id : null
+    )
+    const genericTranslations = await this.translationService.getTranslationByLanguageAndJurisdictionOrDefaultEn(
+      language,
+      null
+    )
+
+    // Deep merge
+    const translations = merge(
+      genericTranslations.translations,
+      jurisdictionalTranslations.translations
+    )
+
+    this.polyglot.replace(translations)
+  }
+
+  private async loadTranslationsForUser(user: User) {
+    const language = user.language || Language.en
+    const jurisdiction = await this.jurisdictionResolverService.getJurisdiction()
+    void (await this.loadTranslations(jurisdiction, language))
   }
 
   private async getUserName(user: User) {

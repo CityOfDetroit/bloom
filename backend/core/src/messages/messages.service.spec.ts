@@ -22,7 +22,7 @@ jest.setTimeout(30000)
 const user = new User()
 user.firstName = "Test"
 user.lastName = "User"
-user.email = "emily.jablonski@exygy.com"
+user.email = "emily.jablonski@exygy.com" //TODO: update to generic test email
 
 let sendMock
 
