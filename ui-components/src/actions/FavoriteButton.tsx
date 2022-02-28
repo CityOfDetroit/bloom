@@ -10,18 +10,10 @@ import { t } from "../helpers/translator"
 import { useContext, useEffect, useState } from "react"
 
 export interface FavoriteButtonProps {
-  removeFavoriteOnSuccess?: () => void
-  addFavoriteOnSuccess?: () => void
   id: string
-  allowFavoriting?: boolean
 }
 
-const FavoriteButton = ({
-  removeFavoriteOnSuccess,
-  addFavoriteOnSuccess,
-  id,
-  allowFavoriting,
-}: FavoriteButtonProps) => {
+const FavoriteButton = ({ id }: FavoriteButtonProps) => {
   const { profile, userPreferencesService } = useContext(AuthContext)
   const preferences = profile?.preferences || {
     sendEmailNotifications: false,
@@ -35,7 +27,7 @@ const FavoriteButton = ({
     setListingFavorited(preferences.favoriteIds?.includes(id))
   }, [preferences.favoriteIds, id])
 
-  if (!allowFavoriting || !profile) {
+  if (!profile) {
     return null
   }
 
@@ -50,7 +42,6 @@ const FavoriteButton = ({
         body: preferences,
       })
       setListingFavorited(true)
-      addFavoriteOnSuccess && addFavoriteOnSuccess()
     } catch (err) {
       console.warn(err)
     }
@@ -69,7 +60,6 @@ const FavoriteButton = ({
         body: preferences,
       })
       setListingFavorited(false)
-      removeFavoriteOnSuccess && removeFavoriteOnSuccess()
     } catch (err) {
       console.warn(err)
     }
@@ -81,7 +71,7 @@ const FavoriteButton = ({
         className="mx-2 p-3 rounded-full bg-primary-dark border-none"
         size={AppearanceSizeType.small}
         onClick={() => removeFavorite()}
-        ariaLabel={t("t.favorite")}
+        ariaLabel={t("t.unfavorite")}
       >
         <Icon
           symbol={"likeFill"}
@@ -90,12 +80,16 @@ const FavoriteButton = ({
           iconClass={"favorited-fill mt-0"}
         />
       </Button>
-      <a onClick={removeFavorite} className={"cursor-pointer font-bold align-middle"}>
+      <a
+        aria-label={t("t.unfavorite")}
+        onClick={removeFavorite}
+        className={"cursor-pointer font-bold align-middle"}
+      >
         {t("t.favorite")}
       </a>
     </>
   ) : (
-    <>
+    <span>
       <Button
         className="mx-2 p-3 rounded-full"
         size={AppearanceSizeType.small}
@@ -104,10 +98,14 @@ const FavoriteButton = ({
       >
         <Icon symbol={"like"} size={"extra-medium"} iconClass={"mt-0"} />
       </Button>
-      <a onClick={addFavorite} className={"cursor-pointer font-bold align-middle"}>
+      <a
+        aria-label={t("t.favorite")}
+        onClick={addFavorite}
+        className={"cursor-pointer font-bold align-middle"}
+      >
         {t("t.favorite")}
       </a>
-    </>
+    </span>
   )
 }
 

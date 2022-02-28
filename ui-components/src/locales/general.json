@@ -1758,7 +1758,8 @@
     "year": "Year",
     "yes": "Yes",
     "you": "You",
-    "favorite": "Favorite"
+    "favorite": "Favorite",
+    "unfavorite": "unfavorite"
   },
   "welcome": {
     "allApplicationClosed": "All applications are currently closed, but you can view closed listings.",
