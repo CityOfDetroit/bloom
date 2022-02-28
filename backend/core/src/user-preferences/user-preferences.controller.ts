@@ -20,8 +20,9 @@ import { Request as ExpressRequest } from "express"
 export class UserPreferencesController {
   constructor(private readonly userPreferencesService: UserPreferencesService) {}
 
-  @Put(`:Id`)
+  @Put(`:id`)
   @ApiOperation({ summary: "Update user preferences", operationId: "update" })
+  @UsePipes(new ValidationPipe(defaultValidationPipeOptions))
   async update(
     @Request() req: ExpressRequest,
     @Body() userPrefence: UserPreferencesDto

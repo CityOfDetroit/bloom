@@ -25,7 +25,7 @@ export interface ListingCardProps {
   tableHeaderProps?: ListingCardHeaderProps
   tableProps?: ListingCardTableProps
   detailsLinkClass?: string
-  listingID: string
+  listingId: string
   allowFavoriting?: boolean
 }
 
@@ -76,12 +76,16 @@ const ListingCard = (props: ListingCardProps) => {
             </>
           )}
         </div>
-        {props.seeDetailsLink && (
-          <LinkButton className={detailsLinkClass} href={props.seeDetailsLink}>
-            {t("t.seeDetails")}
-          </LinkButton>
-        )}
-        <FavoriteButton id={props.listingID} allowFavoriting={props.allowFavoriting} />
+        <div className="flex justify-between items-center">
+          {props.allowFavoriting && <FavoriteButton id={props.listingId} />}
+          {props.seeDetailsLink && (
+            <span>
+              <LinkButton className={detailsLinkClass} href={props.seeDetailsLink}>
+                {t("t.seeDetails")}
+              </LinkButton>
+            </span>
+          )}
+        </div>
       </div>
     </article>
   )

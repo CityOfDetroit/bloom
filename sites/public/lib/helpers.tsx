@@ -107,7 +107,7 @@ export const getListings = (listings) => {
         tableHeaderProps={{
           tableHeader: listing.showWaitlist ? t("listings.waitlist.open") : null,
         }}
-        listingID={listing.id}
+        listingId={listing.id}
         allowFavoriting={true}
       />
     )
