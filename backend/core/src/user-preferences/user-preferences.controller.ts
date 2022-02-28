@@ -22,7 +22,6 @@ export class UserPreferencesController {
 
   @Put(`:id`)
   @ApiOperation({ summary: "Update user preferences", operationId: "update" })
-  @UsePipes(new ValidationPipe(defaultValidationPipeOptions))
   async update(
     @Request() req: ExpressRequest,
     @Body() userPrefence: UserPreferencesDto
