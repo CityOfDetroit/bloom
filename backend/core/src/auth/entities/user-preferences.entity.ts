@@ -1,8 +1,8 @@
-import { User } from "../../../src/auth/entities/user.entity"
+import { User } from "./user.entity"
 import { Column, Entity, JoinColumn, OneToOne } from "typeorm"
 import { Expose } from "class-transformer"
 import { IsString } from "class-validator"
-import { ValidationsGroupsEnum } from "../../../src/shared/types/validations-groups-enum"
+import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 
 @Entity({ name: "user_preferences" })
 export class UserPreferences {
@@ -20,7 +20,7 @@ export class UserPreferences {
   @Expose()
   sendSmsNotifications?: boolean
 
-  @Column("text", { array: true })
+  @Column("text", { array: true, default: [] })
   @IsString({ groups: [ValidationsGroupsEnum.default], each: true })
   @Expose()
   favoriteIds?: string[]

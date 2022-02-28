@@ -965,7 +965,31 @@ export class UserProfileService {
   ): Promise<User> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/userProfile/{id}"
-  
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+}
+
+export class UserPreferencesService {
+  /**
+   * Update user preferences
+   */
+  update(
+    params: {
+      /** requestBody */
+      body?: UserPreferences
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<UserPreferences> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/userPreferences/{id}"
+
       const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
 
       let data = params.body
@@ -2416,30 +2440,6 @@ export class UnitAccessibilityPriorityTypesService {
       const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
 
       let data = null
-
-      configs.data = data
-      axios(configs, resolve, reject)
-    })
-  }
-}
-
-export class UserPreferencesService {
-  /**
-   * Update user preferences
-   */
-  update(
-    params: {
-      /** requestBody */
-      body?: UserPreferences
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<UserPreferences> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + "/userPreferences/{id}"
-
-      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
-
-      let data = params.body
 
       configs.data = data
       axios(configs, resolve, reject)
