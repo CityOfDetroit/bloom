@@ -66,7 +66,7 @@ const FavoriteButton = ({ id }: FavoriteButtonProps) => {
   }
 
   return listingFavorited ? (
-    <>
+    <span>
       <Button
         className="mx-2 p-3 rounded-full bg-primary-dark border-none"
         size={AppearanceSizeType.small}
@@ -87,7 +87,7 @@ const FavoriteButton = ({ id }: FavoriteButtonProps) => {
       >
         {t("t.favorite")}
       </a>
-    </>
+    </span>
   ) : (
     <span>
       <Button

@@ -1,8 +1,8 @@
-import { UserPreferences } from "./entities/user-preferences.entity"
-import { UserPreferencesDto } from "./dto/user-preferences.dto"
+import { UserPreferences } from "../entities/user-preferences.entity"
+import { UserPreferencesDto } from "../dto/user-preferences.dto"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
-import { AuthContext } from "../auth/types/auth-context"
+import { AuthContext } from "../types/auth-context"
 
 export class UserPreferencesService {
   constructor(

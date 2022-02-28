@@ -45,7 +45,6 @@ import { ProgramsModule } from "./program/programs.module"
 import { ActivityLogModule } from "./activity-log/activity-log.module"
 import { logger } from "./shared/middlewares/logger.middleware"
 import { CatchAllFilter } from "./shared/filters/catch-all-filter"
-import { UserPreferencesModule } from "./user-preferences/user-preferences.module"
 
 export function applicationSetup(app: INestApplication) {
   const { httpAdapter } = app.get(HttpAdapterHost)
@@ -129,7 +128,6 @@ export class AppModule {
         UnitTypesModule,
         UnitRentTypesModule,
         UnitAccessibilityPriorityTypesModule,
-        UserPreferencesModule,
       ],
     }
   }
