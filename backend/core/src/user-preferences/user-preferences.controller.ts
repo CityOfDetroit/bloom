@@ -10,12 +10,14 @@ import { defaultValidationPipeOptions } from "../shared/default-validation-pipe-
 import { AuthContext } from "../auth/types/auth-context"
 import { User } from "../auth/entities/user.entity"
 import { Request as ExpressRequest } from "express"
+import { OptionalAuthGuard } from "../auth/guards/optional-auth.guard"
+import { UserPreferencesAuthzGuard } from "../auth/guards/user-preferences-authz.guard"
 
 @Controller("/userPreferences")
 @ApiTags("userPreferences")
 @ApiBearerAuth()
 @ResourceType("userPreference")
-@UseGuards(DefaultAuthGuard, AuthzGuard)
+@UseGuards(OptionalAuthGuard, UserPreferencesAuthzGuard)
 @UsePipes(new ValidationPipe(defaultValidationPipeOptions))
 export class UserPreferencesController {
   constructor(private readonly userPreferencesService: UserPreferencesService) {}

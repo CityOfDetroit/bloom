@@ -965,7 +965,7 @@ export class UserProfileService {
   ): Promise<User> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/userProfile/{id}"
-
+  
       const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
 
       let data = params.body
@@ -2435,7 +2435,7 @@ export class UserPreferencesService {
     options: IRequestOptions = {}
   ): Promise<UserPreferences> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/userPreferences/{Id}"
+      let url = basePath + "/userPreferences/{id}"
 
       const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
 
