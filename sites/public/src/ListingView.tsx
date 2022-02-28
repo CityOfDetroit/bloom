@@ -273,7 +273,7 @@ export const ListingView = (props: ListingProps) => {
             </a>
           </p>
           <div className="text-right">
-            <FavoriteButton id={listing.id} allowFavoriting={props.allowFavoriting} />
+            <FavoriteButton id={listing.id} />
           </div>
         </div>
       </header>
