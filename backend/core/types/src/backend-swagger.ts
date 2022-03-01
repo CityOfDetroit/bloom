@@ -982,6 +982,8 @@ export class UserPreferencesService {
    */
   update(
     params: {
+      /**  */
+      id: string
       /** requestBody */
       body?: UserPreferences
     } = {} as any,
@@ -989,6 +991,7 @@ export class UserPreferencesService {
   ): Promise<UserPreferences> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/userPreferences/{id}"
+      url = url.replace("{id}", params["id"] + "")
 
       const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
 
