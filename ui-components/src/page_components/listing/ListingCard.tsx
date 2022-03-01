@@ -6,8 +6,7 @@ import { StackedTable, StackedTableProps } from "../../tables/StackedTable"
 import { t } from "../../helpers/translator"
 import "./ListingCard.scss"
 import { StandardTable, StandardTableProps } from "../../tables/StandardTable"
-
-import { FavoriteButton } from "@bloom-housing/ui-components"
+import { FavoriteButton } from "../../actions/FavoriteButton"
 
 interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
 
@@ -27,6 +26,8 @@ export interface ListingCardProps {
   detailsLinkClass?: string
   listingId: string
   allowFavoriting?: boolean
+  setFavoriteToastIsOpen: (toSet: boolean) => void
+  setListingWasFavorited: (toSet: boolean) => void
 }
 
 const ListingCard = (props: ListingCardProps) => {
@@ -77,7 +78,15 @@ const ListingCard = (props: ListingCardProps) => {
           )}
         </div>
         <div className="flex justify-between items-center">
-          {props.allowFavoriting ? <FavoriteButton id={props.listingId} /> : <span />}
+          {props.allowFavoriting ? (
+            <FavoriteButton
+              id={props.listingId}
+              setFavoriteToastIsOpen={props.setFavoriteToastIsOpen}
+              setListingWasFavorited={props.setListingWasFavorited}
+            />
+          ) : (
+            <span />
+          )}
           {props.seeDetailsLink && (
             <span>
               <LinkButton className={detailsLinkClass} href={props.seeDetailsLink}>

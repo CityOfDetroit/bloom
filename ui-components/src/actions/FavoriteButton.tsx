@@ -11,9 +11,15 @@ import { useContext, useEffect, useState } from "react"
 
 export interface FavoriteButtonProps {
   id: string
+  setFavoriteToastIsOpen: (toSet: boolean) => void
+  setListingWasFavorited: (toSet: boolean) => void
 }
 
-const FavoriteButton = ({ id }: FavoriteButtonProps) => {
+const FavoriteButton = ({
+  id,
+  setFavoriteToastIsOpen,
+  setListingWasFavorited,
+}: FavoriteButtonProps) => {
   const { profile, userPreferencesService } = useContext(AuthContext)
   const preferences = profile?.preferences || {
     sendEmailNotifications: false,
@@ -43,6 +49,8 @@ const FavoriteButton = ({ id }: FavoriteButtonProps) => {
         body: preferences,
       })
       setListingFavorited(true)
+      setListingWasFavorited(true)
+      setFavoriteToastIsOpen(true)
     } catch (err) {
       console.warn(err)
     }
@@ -62,6 +70,8 @@ const FavoriteButton = ({ id }: FavoriteButtonProps) => {
         body: preferences,
       })
       setListingFavorited(false)
+      setListingWasFavorited(false)
+      setFavoriteToastIsOpen(true)
     } catch (err) {
       console.warn(err)
     }

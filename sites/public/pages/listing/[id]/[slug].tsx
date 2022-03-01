@@ -1,8 +1,8 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useState } from "react"
 import Head from "next/head"
 import axios from "axios"
 import { Listing } from "@bloom-housing/backend-core/types"
-import { AuthContext, t } from "@bloom-housing/ui-components"
+import { AlertBox, AuthContext, t } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, ListingDetail, pushGtmEvent } from "@bloom-housing/shared-helpers"
 import { UserStatus } from "../../../lib/constants"
 import Layout from "../../../layouts/application"
@@ -19,7 +19,8 @@ export default function ListingPage(props: ListingProps) {
 
   const pageTitle = `${listing.name} - ${t("nav.siteTitle")}`
   const { profile } = useContext(AuthContext)
-
+  const [favoriteToastIsOpen, setFavoriteToastIsOpen] = useState(false)
+  const [listingWasFavorited, setListingWasFavorited] = useState(false)
   useEffect(() => {
     if (!listing.id) return
     pushGtmEvent<ListingDetail>({
@@ -58,7 +59,23 @@ export default function ListingPage(props: ListingProps) {
         <title>{pageTitle}</title>
       </Head>
       <MetaTags title={listing.name} image={metaImage} description={metaDescription} />
-      <ListingView listing={listing} allowFavoriting={true} />
+      {favoriteToastIsOpen && (
+        <AlertBox
+          type={"success"}
+          narrow={true}
+          className={"ml-4 fixed top-28 right-20 z-50"}
+          closeable={true}
+          onClose={() => setFavoriteToastIsOpen(false)}
+        >
+          {listingWasFavorited ? t("t.addFavorite") : t("t.removeFavorite")}
+        </AlertBox>
+      )}
+      <ListingView
+        listing={listing}
+        allowFavoriting={true}
+        setFavoriteToastIsOpen={setFavoriteToastIsOpen}
+        setListingWasFavorited={setListingWasFavorited}
+      />
     </Layout>
   )
 }
