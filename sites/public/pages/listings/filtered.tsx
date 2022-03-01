@@ -12,6 +12,7 @@ import {
   LoadingOverlay,
   ListingFilterState,
   FrontendListingFilterStateKeys,
+  AlertBox,
 } from "@bloom-housing/ui-components"
 import Layout from "../../layouts/application"
 import { MetaTags } from "../../src/MetaTags"
@@ -33,6 +34,9 @@ const FilteredListingsPage = () => {
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
+
+  const [favoriteToastIsOpen, setFavoriteToastIsOpen] = useState(false)
+  const [listingWasFavorited, setListingWasFavorited] = useState(false)
 
   function setQueryString(page: number, filters = filterState) {
     void router.push(
@@ -162,7 +166,19 @@ const FilteredListingsPage = () => {
           )}
           {!listingsLoading && (
             <div>
-              {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
+              {favoriteToastIsOpen && (
+                <AlertBox
+                  type={"success"}
+                  narrow={true}
+                  className={"ml-4 fixed top-28 right-20 z-50"}
+                  closeable={true}
+                  onClose={() => setFavoriteToastIsOpen(false)}
+                >
+                  {listingWasFavorited ? t("t.addFavorite") : t("t.removeFavorite")}
+                </AlertBox>
+              )}
+              {listingsData?.meta.totalItems > 0 &&
+                getListings(listingsData?.items, setFavoriteToastIsOpen, setListingWasFavorited)}
               <AgPagination
                 totalItems={listingsData?.meta.totalItems}
                 totalPages={listingsData?.meta.totalPages}
