@@ -77,7 +77,7 @@ const ListingCard = (props: ListingCardProps) => {
           )}
         </div>
         <div className="flex justify-between items-center">
-          {props.allowFavoriting && <FavoriteButton id={props.listingId} />}
+          {props.allowFavoriting ? <FavoriteButton id={props.listingId} /> : <span />}
           {props.seeDetailsLink && (
             <span>
               <LinkButton className={detailsLinkClass} href={props.seeDetailsLink}>

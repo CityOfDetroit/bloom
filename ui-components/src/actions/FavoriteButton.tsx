@@ -28,7 +28,7 @@ const FavoriteButton = ({ id }: FavoriteButtonProps) => {
   }, [preferences.favoriteIds, id])
 
   if (!profile) {
-    return null
+    return <span />
   }
 
   const addFavorite = async () => {
