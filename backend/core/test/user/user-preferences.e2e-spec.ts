@@ -145,18 +145,12 @@ describe("Users", () => {
       .put(`/userPreferences/${user1Id}`)
       .send(user2ProfileUpdateDto)
       .set(...setAuthorization(user2AccessToken))
-      .expect(200)
+      .expect(403)
 
     // verify the listing was not added as a favorite user 1
     user = await userService.findByEmail(user1CreateDto.email)
     expect(user.preferences.sendEmailNotifications === false)
     expect(user.preferences.sendSmsNotifications === false)
     expect(user.preferences.favoriteIds).toEqual(["example listing id"])
-
-    // verify the listing was added as a favorite user 2
-    user = await userService.findByEmail(user2CreateDto.email)
-    expect(user.preferences.sendEmailNotifications === true)
-    expect(user.preferences.sendSmsNotifications === true)
-    expect(user.preferences.favoriteIds).toEqual(["example of second listing id"])
   })
 })

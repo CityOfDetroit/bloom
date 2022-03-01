@@ -13,6 +13,9 @@ export class UserPreferencesAuthzGuard implements CanActivate {
     const action =
       this.reflector.get<string>("authz_action", context.getHandler()) ||
       httpMethodsToAction[req.method]
-    return this.authzService.can(authUser, "userPreference", action, { id: authUser.id })
+
+    return await this.authzService.can(authUser, "userPreference", action, {
+      id: req.params.id,
+    })
   }
 }

@@ -1,7 +1,14 @@
-import { Body, Controller, Put, UseGuards, UsePipes, ValidationPipe, Request } from "@nestjs/common"
+import {
+  Body,
+  Controller,
+  Put,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+  Request,
+  Param,
+} from "@nestjs/common"
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger"
-import { DefaultAuthGuard } from "../guards/default.guard"
-import { AuthzGuard } from "../guards/authz.guard"
 import { ResourceType } from "../decorators/resource-type.decorator"
 import { mapTo } from "../../shared/mapTo"
 import { UserPreferencesService } from "../services/user-preferences.services"
@@ -26,6 +33,7 @@ export class UserPreferencesController {
   @ApiOperation({ summary: "Update user preferences", operationId: "update" })
   async update(
     @Request() req: ExpressRequest,
+    @Param("id") userId: string,
     @Body() userPrefence: UserPreferencesDto
   ): Promise<UserPreferencesDto> {
     return mapTo(

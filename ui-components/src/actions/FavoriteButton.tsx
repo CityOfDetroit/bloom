@@ -39,6 +39,7 @@ const FavoriteButton = ({ id }: FavoriteButtonProps) => {
 
     try {
       await userPreferencesService?.update({
+        id: profile.id,
         body: preferences,
       })
       setListingFavorited(true)
@@ -57,6 +58,7 @@ const FavoriteButton = ({ id }: FavoriteButtonProps) => {
 
     try {
       await userPreferencesService?.update({
+        id: profile.id,
         body: preferences,
       })
       setListingFavorited(false)
