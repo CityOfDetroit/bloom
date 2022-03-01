@@ -70,7 +70,7 @@ const FavoriteButton = ({ id }: FavoriteButtonProps) => {
   return listingFavorited ? (
     <span>
       <Button
-        className="mx-2 p-3 rounded-full bg-primary-dark border-none"
+        className="mx-2 p-3 rounded-full bg-primary-dark border-primary-dark"
         size={AppearanceSizeType.small}
         onClick={() => removeFavorite()}
         ariaLabel={t("t.unfavorite")}
