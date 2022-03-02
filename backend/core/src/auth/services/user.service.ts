@@ -116,7 +116,7 @@ export class UserService {
       )
     }
     const distinctIDResult = await paginate<User>(distinctIDQB, options)
-    console.log("distinctIDResult  ", distinctIDResult)
+
     qb.andWhere("user.id IN (:...distinctIDs)", {
       distinctIDs: distinctIDResult.items.map((elem) => elem.id),
     })
