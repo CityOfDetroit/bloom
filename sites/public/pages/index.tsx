@@ -98,8 +98,12 @@ export default function Home({ latestListings }) {
         >
           {getListings(
             latestListings.items,
-            (toSet: boolean) => {},
-            (toSet: boolean) => {}
+            (toSet: boolean) => {
+              /* favoriting is not available here */
+            },
+            (toSet: boolean) => {
+              /* favoriting is not available here */
+            }
           )}
         </HorizontalScrollSection>
       )}
