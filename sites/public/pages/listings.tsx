@@ -98,7 +98,6 @@ const ListingsPage = ({ initialListings }) => {
           {favoriteToastIsOpen && (
             <AlertBox
               type={"success"}
-              narrow={true}
               className={"ml-4 fixed top-28 right-20 z-50"}
               closeable={true}
               onClose={() => setFavoriteToastIsOpen(false)}
