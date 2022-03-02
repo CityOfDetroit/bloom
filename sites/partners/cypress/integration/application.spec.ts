@@ -1,4 +1,4 @@
-describe("Application Management Tests", () => {
+describe.skip("Application Management Tests", () => {
   before(() => {
     cy.login()
   })
@@ -7,7 +7,7 @@ describe("Application Management Tests", () => {
     cy.signOut()
   })
 
-  it("Application grid should display correct number of results", () => {
+  it.skip("Application grid should display correct number of results", () => {
     cy.visit("/")
     cy.get(`[col-id="status"]`).eq(1).contains("Accepting Applications").click()
     cy.getByID("lbTotalPages").contains("20")
