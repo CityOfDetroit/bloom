@@ -96,15 +96,7 @@ export default function Home({ latestListings }) {
           icon="clock"
           className={`${styles["latest-listings"]} latest-listings`}
         >
-          {getListings(
-            latestListings.items,
-            (toSet: boolean) => {
-              /* favoriting is not available here */
-            },
-            (toSet: boolean) => {
-              /* favoriting is not available here */
-            }
-          )}
+          {getListings(latestListings.items)}
         </HorizontalScrollSection>
       )}
       <HorizontalScrollSection
