@@ -77,7 +77,7 @@ const getListingTableData = (listing: Listing) => {
   return []
 }
 
-export const getListings = (listings, setFavoriteToastIsOpen, setListingWasFavorited) => {
+export const getListings = (listings) => {
   const unitSummariesHeaders = {
     unitType: t("t.unitType"),
     rent: t("t.rent"),
@@ -109,8 +109,6 @@ export const getListings = (listings, setFavoriteToastIsOpen, setListingWasFavor
         }}
         listingId={listing.id}
         allowFavoriting={true}
-        setFavoriteToastIsOpen={setFavoriteToastIsOpen}
-        setListingWasFavorited={setListingWasFavorited}
       />
     )
   })

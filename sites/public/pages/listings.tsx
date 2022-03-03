@@ -28,8 +28,6 @@ const ListingsPage = ({ initialListings }) => {
 
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
-  const [favoriteToastIsOpen, setFavoriteToastIsOpen] = useState(false)
-  const [listingWasFavorited, setListingWasFavorited] = useState(false)
   const { profile } = useContext(AuthContext)
   const pageTitle = `${t("pageTitle.rent")} - ${t("nav.siteTitle")}`
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
@@ -95,18 +93,7 @@ const ListingsPage = ({ initialListings }) => {
       )}
       {initialListings?.meta?.totalItems > 0 && (
         <div>
-          {favoriteToastIsOpen && (
-            <AlertBox
-              type={"success"}
-              className={"ml-4 fixed top-28 right-20 z-50"}
-              closeable={true}
-              onClose={() => setFavoriteToastIsOpen(false)}
-            >
-              {listingWasFavorited ? t("t.addFavorite") : t("t.removeFavorite")}
-            </AlertBox>
-          )}
-          {initialListings?.meta?.totalItems > 0 &&
-            getListings(initialListings?.items, setFavoriteToastIsOpen, setListingWasFavorited)}
+          {initialListings?.meta?.totalItems > 0 && getListings(initialListings?.items)}
           <AgPagination
             totalItems={initialListings?.meta.totalItems}
             totalPages={initialListings?.meta.totalPages}
