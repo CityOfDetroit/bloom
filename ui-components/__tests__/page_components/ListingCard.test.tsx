@@ -32,8 +32,6 @@ describe("<ListingCard>", () => {
           tableSubHeader: "optional table subheader",
         }}
         listingId={""}
-        setFavoriteToastIsOpen={(toSet: boolean) => {}}
-        setListingWasFavorited={(toSet: boolean) => {}}
       >
         <div>Child content</div>
       </ListingCard>
@@ -62,8 +60,6 @@ describe("<ListingCard>", () => {
           href: "listing-link",
         }}
         listingId={""}
-        setFavoriteToastIsOpen={(toSet: boolean) => {}}
-        setListingWasFavorited={(toSet: boolean) => {}}
       />
     )
     expect(getByText("subtitle")).toBeTruthy()

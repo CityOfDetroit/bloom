@@ -35,9 +35,6 @@ const FilteredListingsPage = () => {
   // Filter state
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
-  const [favoriteToastIsOpen, setFavoriteToastIsOpen] = useState(false)
-  const [listingWasFavorited, setListingWasFavorited] = useState(false)
-
   function setQueryString(page: number, filters = filterState) {
     void router.push(
       `/listings/filtered?page=${page}${encodeToFrontendFilterString(filters)}`,
@@ -166,18 +163,7 @@ const FilteredListingsPage = () => {
           )}
           {!listingsLoading && (
             <div>
-              {favoriteToastIsOpen && (
-                <AlertBox
-                  type={"success"}
-                  className={"ml-4 fixed top-28 right-20 z-50"}
-                  closeable={true}
-                  onClose={() => setFavoriteToastIsOpen(false)}
-                >
-                  {listingWasFavorited ? t("t.addFavorite") : t("t.removeFavorite")}
-                </AlertBox>
-              )}
-              {listingsData?.meta.totalItems > 0 &&
-                getListings(listingsData?.items, setFavoriteToastIsOpen, setListingWasFavorited)}
+              {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
               <AgPagination
                 totalItems={listingsData?.meta.totalItems}
                 totalPages={listingsData?.meta.totalPages}

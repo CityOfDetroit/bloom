@@ -26,8 +26,6 @@ export interface ListingCardProps {
   detailsLinkClass?: string
   listingId: string
   allowFavoriting?: boolean
-  setFavoriteToastIsOpen: (toSet: boolean) => void
-  setListingWasFavorited: (toSet: boolean) => void
 }
 
 const ListingCard = (props: ListingCardProps) => {
@@ -79,11 +77,7 @@ const ListingCard = (props: ListingCardProps) => {
         </div>
         <div className="flex justify-between items-center">
           {props.allowFavoriting ? (
-            <FavoriteButton
-              id={props.listingId}
-              setFavoriteToastIsOpen={props.setFavoriteToastIsOpen}
-              setListingWasFavorited={props.setListingWasFavorited}
-            />
+            <FavoriteButton name={imageCardProps.title} id={props.listingId} />
           ) : (
             <span />
           )}

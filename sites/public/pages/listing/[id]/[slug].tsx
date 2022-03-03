@@ -19,8 +19,6 @@ export default function ListingPage(props: ListingProps) {
 
   const pageTitle = `${listing.name} - ${t("nav.siteTitle")}`
   const { profile } = useContext(AuthContext)
-  const [favoriteToastIsOpen, setFavoriteToastIsOpen] = useState(false)
-  const [listingWasFavorited, setListingWasFavorited] = useState(false)
   useEffect(() => {
     if (!listing.id) return
     pushGtmEvent<ListingDetail>({
@@ -59,22 +57,7 @@ export default function ListingPage(props: ListingProps) {
         <title>{pageTitle}</title>
       </Head>
       <MetaTags title={listing.name} image={metaImage} description={metaDescription} />
-      {favoriteToastIsOpen && (
-        <AlertBox
-          type={"success"}
-          className={"ml-4 fixed top-28 right-20 z-50"}
-          closeable={true}
-          onClose={() => setFavoriteToastIsOpen(false)}
-        >
-          {listingWasFavorited ? t("t.addFavorite") : t("t.removeFavorite")}
-        </AlertBox>
-      )}
-      <ListingView
-        listing={listing}
-        allowFavoriting={true}
-        setFavoriteToastIsOpen={setFavoriteToastIsOpen}
-        setListingWasFavorited={setListingWasFavorited}
-      />
+      <ListingView listing={listing} allowFavoriting={true} />
     </Layout>
   )
 }

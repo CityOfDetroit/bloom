@@ -11,15 +11,10 @@ import { useContext, useEffect, useState } from "react"
 
 export interface FavoriteButtonProps {
   id: string
-  setFavoriteToastIsOpen: (toSet: boolean) => void
-  setListingWasFavorited: (toSet: boolean) => void
+  name: string
 }
 
-const FavoriteButton = ({
-  id,
-  setFavoriteToastIsOpen,
-  setListingWasFavorited,
-}: FavoriteButtonProps) => {
+const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
   const { profile, userPreferencesService } = useContext(AuthContext)
   const preferences = profile?.preferences || {
     sendEmailNotifications: false,
@@ -49,8 +44,6 @@ const FavoriteButton = ({
         body: preferences,
       })
       setListingFavorited(true)
-      setListingWasFavorited(true)
-      setFavoriteToastIsOpen(true)
     } catch (err) {
       console.warn(err)
     }
@@ -70,53 +63,64 @@ const FavoriteButton = ({
         body: preferences,
       })
       setListingFavorited(false)
-      setListingWasFavorited(false)
-      setFavoriteToastIsOpen(true)
     } catch (err) {
       console.warn(err)
     }
   }
 
-  return listingFavorited ? (
+  return (
     <span>
-      <Button
-        className="mx-2 p-3 rounded-full bg-primary-dark border-primary-dark"
-        size={AppearanceSizeType.small}
-        onClick={() => removeFavorite()}
-        ariaLabel={t("t.unfavorite")}
+      {listingFavorited ? (
+        <span>
+          <Button
+            className="mx-2 p-3 rounded-full bg-primary-dark border-primary-dark"
+            size={AppearanceSizeType.small}
+            onClick={() => removeFavorite()}
+            ariaLabel={t("t.unfavorite")}
+          >
+            <Icon
+              symbol={"likeFill"}
+              size={"extra-medium"}
+              fill={IconFillColors.white}
+              iconClass={"favorited-fill mt-0"}
+            />
+          </Button>
+          <a
+            role="button"
+            aria-label={t("t.unfavorite")}
+            onClick={removeFavorite}
+            className={"cursor-pointer font-bold align-middle"}
+          >
+            {t("t.favorite")}
+          </a>
+        </span>
+      ) : (
+        <span>
+          <Button
+            className="mx-2 p-3 rounded-full"
+            size={AppearanceSizeType.small}
+            onClick={() => addFavorite()}
+            ariaLabel={t("t.favorite")}
+          >
+            <Icon symbol={"like"} size={"extra-medium"} iconClass={"mt-0"} />
+          </Button>
+          <a
+            role="button"
+            aria-label={t("t.favorite")}
+            onClick={addFavorite}
+            className={"cursor-pointer font-bold align-middle"}
+          >
+            {t("t.favorite")}
+          </a>
+        </span>
+      )}
+      {/* Below uses aria-live which announces changes to a screen reader. The element must be "visible" to the screen reader, hence the classes on there. */}
+      <span
+        className="text-white text-xs max-h-px max-w-0 inline-block overflow-hidden"
+        aria-live="assertive"
       >
-        <Icon
-          symbol={"likeFill"}
-          size={"extra-medium"}
-          fill={IconFillColors.white}
-          iconClass={"favorited-fill mt-0"}
-        />
-      </Button>
-      <a
-        aria-label={t("t.unfavorite")}
-        onClick={removeFavorite}
-        className={"cursor-pointer font-bold align-middle"}
-      >
-        {t("t.favorite")}
-      </a>
-    </span>
-  ) : (
-    <span>
-      <Button
-        className="mx-2 p-3 rounded-full"
-        size={AppearanceSizeType.small}
-        onClick={() => addFavorite()}
-        ariaLabel={t("t.favorite")}
-      >
-        <Icon symbol={"like"} size={"extra-medium"} iconClass={"mt-0"} />
-      </Button>
-      <a
-        aria-label={t("t.favorite")}
-        onClick={addFavorite}
-        className={"cursor-pointer font-bold align-middle"}
-      >
-        {t("t.favorite")}
-      </a>
+        {listingFavorited ? `${t("t.favorite")} ${name}` : `${t("t.unfavorite")} ${name}`}
+      </span>
     </span>
   )
 }

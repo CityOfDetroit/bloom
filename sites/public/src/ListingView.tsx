@@ -47,8 +47,6 @@ interface ListingProps {
   listing: Listing
   preview?: boolean
   allowFavoriting?: boolean
-  setFavoriteToastIsOpen?: (toSet: boolean) => void
-  setListingWasFavorited?: (toSet: boolean) => void
 }
 
 export const ListingView = (props: ListingProps) => {
@@ -275,11 +273,7 @@ export const ListingView = (props: ListingProps) => {
             </a>
           </p>
           <div className="text-right">
-            <FavoriteButton
-              id={listing.id}
-              setFavoriteToastIsOpen={props.setFavoriteToastIsOpen}
-              setListingWasFavorited={props.setListingWasFavorited}
-            />
+            <FavoriteButton name={listing.name} id={listing.id} />
           </div>
         </div>
       </header>
