@@ -8,7 +8,6 @@ const DetailPrograms = () => {
   const programsTableHeaders = {
     order: "t.order",
     name: "t.name",
-    description: "t.descriptionTitle",
   }
 
   const programsTableData = useMemo(
@@ -18,7 +17,6 @@ const DetailPrograms = () => {
         .map((program, index) => ({
           order: index + 1,
           name: program.program.title,
-          description: program.program.description,
         })),
     [listing]
   )
