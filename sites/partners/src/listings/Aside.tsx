@@ -11,6 +11,7 @@ import {
   LocalizedLink,
   LinkButton,
   Icon,
+  AuthContext,
 } from "@bloom-housing/ui-components"
 import { pdfUrlFromListingEvents } from "@bloom-housing/shared-helpers"
 import { ListingContext } from "./ListingContext"
@@ -32,6 +33,8 @@ const Aside = ({
   submitFormWithStatus,
 }: AsideProps) => {
   const listing = useContext(ListingContext)
+  const { profile } = useContext(AuthContext)
+  console.log("profile = ", profile)
 
   const listingId = listing?.id
 
@@ -79,20 +82,24 @@ const Aside = ({
     }
 
     if (type === "add") {
+      if (profile?.roles?.isAdmin) {
+        elements.push(
+          <GridCell key="btn-publish">
+            <Button
+              id="publishButton"
+              styleType={AppearanceStyleType.success}
+              type="button"
+              fullWidth
+              onClick={() => {
+                submitFormWithStatus(true, ListingStatus.active)
+              }}
+            >
+              {t("listings.actions.publish")}
+            </Button>
+          </GridCell>
+        )
+      }
       elements.push(
-        <GridCell key="btn-publish">
-          <Button
-            id="publishButton"
-            styleType={AppearanceStyleType.success}
-            type="button"
-            fullWidth
-            onClick={() => {
-              submitFormWithStatus(true, ListingStatus.active)
-            }}
-          >
-            {t("listings.actions.publish")}
-          </Button>
-        </GridCell>,
         <GridCell key="btn-draft">
           <Button
             type="button"
@@ -120,7 +127,10 @@ const Aside = ({
         </GridCell>
       )
 
-      if (listing.status === ListingStatus.pending || listing.status === ListingStatus.closed) {
+      if (
+        profile?.roles?.isAdmin &&
+        (listing.status === ListingStatus.pending || listing.status === ListingStatus.closed)
+      ) {
         elements.push(
           <GridCell key="btn-publish">
             <Button
@@ -141,14 +151,14 @@ const Aside = ({
       if (listing.status === ListingStatus.active) {
         elements.push(
           <div className="grid gap-2" key="btn-close-unpublish">
-            <Button
+            {/* <Button
               type="button"
               styleType={AppearanceStyleType.secondary}
               fullWidth
               onClick={() => showCloseListingModal && showCloseListingModal()}
             >
               {t("listings.actions.close")}
-            </Button>
+            </Button> */}
 
             <Button
               styleType={AppearanceStyleType.alert}
