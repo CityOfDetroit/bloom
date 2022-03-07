@@ -4919,7 +4919,7 @@ export interface UserUpdate {
   currentPassword?: string
 
   /**  */
-  roles?: UserRolesUpdate
+  roles?: CombinedRolesTypes
 
   /**  */
   jurisdictions: Id[]

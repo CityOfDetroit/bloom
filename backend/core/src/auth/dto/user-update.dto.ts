@@ -71,9 +71,10 @@ export class UserUpdateDto extends OmitType(UserDto, [
   currentPassword?: string
 
   @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => UserRolesUpdateDto)
-  roles?: UserRolesUpdateDto
+  roles?: UserRolesUpdateDto | null
 
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })

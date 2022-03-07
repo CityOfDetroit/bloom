@@ -167,7 +167,7 @@ export class UserService {
     /**
      * only admin users can update roles
      */
-    if (!authContext.user.roles.isAdmin) {
+    if (!authContext.user?.roles?.isAdmin) {
       delete dto.roles
     }
 
