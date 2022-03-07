@@ -11,7 +11,6 @@ import {
   ListingFilterState,
   FrontendListingFilterStateKeys,
   AuthContext,
-  AlertBox,
 } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"

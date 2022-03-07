@@ -119,7 +119,7 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
         className="text-white text-xs max-h-px max-w-0 inline-block overflow-hidden"
         aria-live="assertive"
       >
-        {listingFavorited ? `${t("t.favorite")} ${name}` : `${t("t.unfavorite")} ${name}`}
+        {listingFavorited ? `${t("t.favorited")} ${name}` : `${t("t.unfavorited")} ${name}`}
       </span>
     </span>
   )
