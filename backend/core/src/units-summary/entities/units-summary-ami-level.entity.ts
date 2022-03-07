@@ -42,10 +42,4 @@ export class UnitsSummaryAmiLevel {
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   flatRentValue?: number | null
-
-  @Column({ nullable: true, type: "integer" })
-  @Expose()
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  @IsString({ groups: [ValidationsGroupsEnum.default] })
-  percentageOfIncomeValue?: number | null
 }
