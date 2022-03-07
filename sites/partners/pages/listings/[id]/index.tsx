@@ -120,7 +120,6 @@ export default function ApplicationsList() {
                     <DetailListingIntro />
                     <DetailListingPhoto />
                     <DetailBuildingDetails />
-                    <DetailCommunityType />
                     <DetailUnits setUnitDrawer={setUnitDrawer} />
                     <DetailPrograms />
                     <DetailAdditionalFees />

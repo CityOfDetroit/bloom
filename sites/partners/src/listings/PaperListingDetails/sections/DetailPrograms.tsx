@@ -24,7 +24,7 @@ const DetailPrograms = () => {
   return (
     <GridSection
       className="bg-primary-lighter"
-      title={"Housing Programs"}
+      title={"Community Programs"}
       grid={false}
       tinted
       inset
