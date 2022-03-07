@@ -288,10 +288,7 @@ export class ListingsService {
       canUpdate = true
     } else if (previousListingStatus !== ListingStatus.pending) {
       canUpdate = true
-    } else if (
-      previousListingStatus === ListingStatus.pending &&
-      listing.status === ListingStatus.pending
-    ) {
+    } else if (listing.status === ListingStatus.pending) {
       canUpdate = true
     }
 

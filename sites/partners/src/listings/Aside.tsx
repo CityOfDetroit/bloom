@@ -26,15 +26,9 @@ type AsideProps = {
 
 type AsideType = "add" | "edit" | "details"
 
-const Aside = ({
-  type,
-  showCloseListingModal,
-  showLotteryResultsDrawer,
-  submitFormWithStatus,
-}: AsideProps) => {
+const Aside = ({ type, showLotteryResultsDrawer, submitFormWithStatus }: AsideProps) => {
   const listing = useContext(ListingContext)
   const { profile } = useContext(AuthContext)
-  console.log("profile = ", profile)
 
   const listingId = listing?.id
 
@@ -151,15 +145,6 @@ const Aside = ({
       if (listing.status === ListingStatus.active) {
         elements.push(
           <div className="grid gap-2" key="btn-close-unpublish">
-            {/* <Button
-              type="button"
-              styleType={AppearanceStyleType.secondary}
-              fullWidth
-              onClick={() => showCloseListingModal && showCloseListingModal()}
-            >
-              {t("listings.actions.close")}
-            </Button> */}
-
             <Button
               styleType={AppearanceStyleType.alert}
               fullWidth
@@ -247,9 +232,11 @@ const Aside = ({
 
     return elements
   }, [
-    listing,
+    listing?.events,
+    listing?.jurisdiction?.publicUrl,
+    listing?.status,
     listingId,
-    showCloseListingModal,
+    profile?.roles?.isAdmin,
     showLotteryResultsDrawer,
     submitFormWithStatus,
     type,
