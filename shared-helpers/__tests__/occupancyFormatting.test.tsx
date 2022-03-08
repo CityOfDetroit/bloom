@@ -105,7 +105,7 @@ describe("occupancy formatting helpers", () => {
 
   describe("getOccupancyDescription", () => {
     it("description for no SRO", () => {
-      expect(getOccupancyDescription(testListing)).toBe(t("listings.occupancyDescriptionSomeSro"))
+      expect(getOccupancyDescription(testListing)).toBe(t("listings.occupancyDescriptionNoSro"))
     })
     it("description for some SRO", () => {
       const testListing2 = testListing
@@ -121,7 +121,7 @@ describe("occupancy formatting helpers", () => {
           maxOccupancy: 1,
         },
       ] as UnitGroup[]
-      expect(getOccupancyDescription(testListing2)).toBe(t("listings.occupancyDescriptionNoSro"))
+      expect(getOccupancyDescription(testListing2)).toBe(t("listings.occupancyDescriptionSomeSro"))
     })
     it("description for all SRO", () => {
       const testListing3 = testListing
