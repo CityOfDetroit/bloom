@@ -3916,6 +3916,9 @@ export interface UnitGroupSummary {
   amiPercentageRange: MinMax
 
   /**  */
+  openWaitlist: boolean
+
+  /**  */
   unitVacancies: number
 }
 

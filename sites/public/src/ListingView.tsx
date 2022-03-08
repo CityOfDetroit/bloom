@@ -14,8 +14,6 @@ import {
   AdditionalFees,
   Description,
   GroupedTable,
-  getSummariesTableFromUnitSummary,
-  getSummariesTableFromUnitsSummary,
   ImageCard,
   GetApplication,
   LeasingAgent,
@@ -74,13 +72,103 @@ export const ListingView = (props: ListingProps) => {
     unitType: t("t.unitType"),
     rent: t("t.rent"),
     availability: t("t.availability"),
+    ami: t("listings.unit.ami"),
   }
 
   let groupedUnits: Record<string, React.ReactNode>[] = null
-  if (listing.unitsSummary !== undefined && listing.unitsSummary.length > 0) {
-    groupedUnits = getSummariesTableFromUnitsSummary(listing.unitsSummary)
-  } else if (listing.unitsSummarized !== undefined) {
-    groupedUnits = getSummariesTableFromUnitSummary(listing.unitsSummarized.byUnitTypeAndRent)
+  if (listing.unitGroups !== undefined && listing.unitGroups.length > 0) {
+    groupedUnits = listing.unitSummaries.unitGroupSummary.map((group) => {
+      let rentRange = null
+      let rentAsPercentIncomeRange = null
+      if (group.rentRange && group.rentRange.min === group.rentRange.max) {
+        rentRange = group.rentRange.min
+      } else if (group.rentRange) {
+        rentRange = `${group.rentRange.min} - ${group.rentRange.max}`
+      }
+
+      if (rentRange) {
+        rentRange = (
+          <span>
+            <strong>{rentRange}</strong> {t("t.perMonth")}
+          </span>
+        )
+      }
+
+      if (
+        group.rentAsPercentIncomeRange &&
+        group.rentAsPercentIncomeRange.min === group.rentAsPercentIncomeRange.max
+      ) {
+        rentAsPercentIncomeRange = group.rentAsPercentIncomeRange.min
+      } else if (rentAsPercentIncomeRange) {
+        rentAsPercentIncomeRange = `${group.rentAsPercentIncomeRange.min} - ${group.rentAsPercentIncomeRange.max}`
+      }
+
+      if (rentAsPercentIncomeRange) {
+        rentAsPercentIncomeRange = (
+          <span>
+            <strong>{rentAsPercentIncomeRange}%</strong> {t("t.income")}
+          </span>
+        )
+      }
+
+      let availability = null
+
+      if (group.unitVacancies > 0) {
+        availability = (
+          <div>
+            <strong>{group.unitVacancies} </strong>
+            {group.unitVacancies === 1 ? t("lisitngs.vacantUnit") : t("listings.vacantUnits")}
+            {" &"}
+          </div>
+        )
+      }
+
+      availability = (
+        <>
+          {availability}
+          <strong>
+            {group.openWaitlist ? t("listings.waitlist.open") : t("listings.waitlist.closed")}
+          </strong>
+        </>
+      )
+
+      let ami = null
+
+      if (
+        group.amiPercentageRange &&
+        group.amiPercentageRange.min === group.amiPercentageRange.max
+      ) {
+        ami = `${group.amiPercentageRange.min}%`
+      } else {
+        ami = `${group.amiPercentageRange.min} - ${group.amiPercentageRange.max}%`
+      }
+
+      return {
+        unitType: (
+          <>
+            {group.unitTypes
+              .map<React.ReactNode>((type) => <strong>{t(`listings.unitTypes.${type}`)}</strong>)
+              .reduce((acc, curr) => [acc, ", ", curr])}
+          </>
+        ),
+        rent:
+          rentRange || rentAsPercentIncomeRange ? (
+            <>
+              {rentRange && rentAsPercentIncomeRange ? (
+                <>
+                  {rentRange}, {rentAsPercentIncomeRange}
+                </>
+              ) : rentRange ? (
+                rentRange
+              ) : (
+                rentAsPercentIncomeRange
+              )}
+            </>
+          ) : null,
+        availability,
+        ami: <strong>{ami}</strong>,
+      }
+    })
   }
 
   let openHouseEvents: ListingEvent[] | null = null
@@ -110,23 +198,13 @@ export const ListingView = (props: ListingProps) => {
       listing.accessibility ||
       // props for UnitTables
       (listing.units && listing.units.length > 0) ||
-      listing.unitsSummarized ||
+      listing.unitSummaries ||
       // props for AdditionalFees
       listing.depositMin ||
       listing.depositMax ||
       listing.applicationFee ||
       listing.costsNotIncluded
     )
-  }
-
-  const getReservedTitle = () => {
-    if (
-      listing.reservedCommunityType.name === "senior55" ||
-      listing.reservedCommunityType.name === "senior62" ||
-      listing.reservedCommunityType.name === "senior"
-    ) {
-      return t("listings.reservedCommunitySeniorTitle")
-    } else return t("listings.reservedCommunityTitleDefault")
   }
 
   // TODO: Move the below methods into our shared helper library when setup
@@ -291,11 +369,17 @@ export const ListingView = (props: ListingProps) => {
         )}
 
         {groupedUnits?.length > 0 && (
-          <GroupedTable
-            headers={unitSummariesHeaders}
-            data={[{ data: groupedUnits }]}
-            responsiveCollapse={true}
-          />
+          <>
+            <GroupedTable
+              headers={unitSummariesHeaders}
+              data={[{ data: groupedUnits }]}
+              responsiveCollapse={true}
+            />
+            <div className="text-sm leading-5 mt-4">
+              {t("listings.unitSummaryGroupMessage")}{" "}
+              <a className="underline" href="#">{t("listings.unitSummaryGroupLinkText")}</a>
+            </div>
+          </>
         )}
       </div>
       <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
@@ -438,7 +522,7 @@ export const ListingView = (props: ListingProps) => {
                   description={
                     <UnitTables
                       units={listing.units}
-                      unitSummaries={listing?.unitsSummarized?.byUnitType}
+                      unitSummaries={listing?.unitSummaries?.unitTypeSummary}
                       disableAccordion={listing.disableUnitsAccordion}
                     />
                   }

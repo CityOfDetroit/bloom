@@ -1,17 +1,16 @@
 import { Expose, Type } from "class-transformer"
 import { IsDefined, IsNumber, IsString, ValidateNested, IsBoolean } from "class-validator"
+import { ApiProperty } from "@nestjs/swagger"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { MinMaxCurrency } from "./min-max-currency"
 import { MinMax } from "./min-max"
-import { ApiProperty } from "@nestjs/swagger"
-import { UnitTypeDto } from "../../unit-types/dto/unit-type.dto"
 
 export class UnitGroupSummary {
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   @ApiProperty()
-  unitTypes?: UnitTypeDto[] | null
+  unitTypes?: string[] | null
 
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
@@ -35,6 +34,7 @@ export class UnitGroupSummary {
 
   @Expose()
   @IsBoolean({ groups: [ValidationsGroupsEnum.default] })
+  @ApiProperty()
   openWaitlist: boolean
 
   @Expose()

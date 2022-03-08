@@ -22,6 +22,7 @@ import { InjectQueue } from "@nestjs/bull"
 import { ListingNotificationInfo, ListingUpdateType } from "./listings-notifications"
 import { ListingStatus } from "./types/listing-status-enum"
 import { TranslationsService } from "../translations/services/translations.service"
+import { UnitGroup } from "../units-summary/entities/unit-group.entity"
 
 @Injectable()
 export class ListingsService {
@@ -243,9 +244,17 @@ export class ListingsService {
   }
 
   private async addUnitSummaries(listing: Listing) {
-    if (Array.isArray(listing.property.units) && listing.property.units.length > 0) {
+    if (Array.isArray(listing.unitGroups) && listing.unitGroups.length > 0) {
+      const amiChartIds = listing.unitGroups.reduce((acc: string[], curr: UnitGroup) => {
+        curr.amiLevels.forEach((level) => {
+          if (acc.includes(level.amiChartId) === false) {
+            acc.push(level.amiChartId)
+          }
+        })
+        return acc
+      }, [])
       const amiCharts = await this.amiChartsRepository.find({
-        where: { id: In(listing.property.units.map((unit) => unit.amiChartId)) },
+        where: { id: In(amiChartIds) },
       })
       listing.unitSummaries = summarizeUnits(listing.unitGroups, amiCharts)
     }
