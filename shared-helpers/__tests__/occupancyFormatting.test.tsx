@@ -1,15 +1,13 @@
 import React from "react"
 import { cleanup } from "@testing-library/react"
-import { occupancyTable, getOccupancyDescription } from "../src/occupancyFormatting"
-import { t } from "@bloom-housing/ui-components"
+import { occupancyTable } from "../src/occupancyFormatting"
 import { Listing, UnitType, UnitGroup } from "@bloom-housing/backend-core/types"
 
-const unitTypeSRO = { name: "SRO", numBedrooms: 0 } as UnitType
 const unitTypeStudio = { name: "studio", numBedrooms: 0 } as UnitType
 const unitTypeOneBdrm = { name: "oneBdrm", numBedrooms: 1 } as UnitType
-const unitTypeTwoBdrm = { name: "twoBdrm", numBedrooms: 1 } as UnitType
-const unitTypeThreeBdrm = { name: "threeBdrm", numBedrooms: 1 } as UnitType
-const unitTypeFourBdrm = { name: "fourBdrm", numBedrooms: 1 } as UnitType
+const unitTypeTwoBdrm = { name: "twoBdrm", numBedrooms: 2 } as UnitType
+const unitTypeThreeBdrm = { name: "threeBdrm", numBedrooms: 3 } as UnitType
+const unitTypeFourBdrm = { name: "fourBdrm", numBedrooms: 4 } as UnitType
 
 const unitGroups: Omit<UnitGroup, "id" | "listing" | "openWaitlist" | "amiLevels">[] = [
   {
@@ -77,7 +75,7 @@ describe("occupancy formatting helpers", () => {
         },
         {
           occupancy: "1-7 people",
-          unitType: <strong>1BR, 2BR</strong>,
+          unitType: <strong>1 BR, 2 BR</strong>,
         },
         {
           occupancy: "2-6 people",
@@ -88,11 +86,11 @@ describe("occupancy formatting helpers", () => {
           unitType: <strong>2 BR</strong>,
         },
         {
-          occupancy: "1 person",
+          occupancy: "at most 2 people",
           unitType: <strong>2 BR</strong>,
         },
         {
-          occupancy: "at most 2 people",
+          occupancy: "1 person",
           unitType: <strong>2 BR</strong>,
         },
         {
@@ -100,44 +98,6 @@ describe("occupancy formatting helpers", () => {
           unitType: <strong>3 BR</strong>,
         },
       ])
-    })
-  })
-
-  describe("getOccupancyDescription", () => {
-    it("description for no SRO", () => {
-      expect(getOccupancyDescription(testListing)).toBe(t("listings.occupancyDescriptionNoSro"))
-    })
-    it("description for some SRO", () => {
-      const testListing2 = testListing
-      testListing2.unitGroups = [
-        {
-          unitType: [unitTypeSRO, unitTypeOneBdrm],
-          minOccupancy: undefined,
-          maxOccupancy: 2,
-        },
-        {
-          unitType: [unitTypeTwoBdrm],
-          minOccupancy: 1,
-          maxOccupancy: 1,
-        },
-      ] as UnitGroup[]
-      expect(getOccupancyDescription(testListing2)).toBe(t("listings.occupancyDescriptionSomeSro"))
-    })
-    it("description for all SRO", () => {
-      const testListing3 = testListing
-      testListing3.unitGroups = [
-        {
-          unitType: [unitTypeSRO],
-          minOccupancy: undefined,
-          maxOccupancy: 1,
-        },
-        {
-          unitType: [unitTypeSRO],
-          minOccupancy: 1,
-          maxOccupancy: 1,
-        },
-      ] as UnitGroup[]
-      expect(getOccupancyDescription(testListing3)).toBe(t("listings.occupancyDescriptionAllSro"))
     })
   })
 })

@@ -42,26 +42,3 @@ export const occupancyTable = (listing: Listing) => {
     return null
   })
 }
-
-export const getOccupancyDescription = (listing: Listing) => {
-  const allListingUnitTypes: UnitType[] = []
-
-  listing.unitGroups?.forEach((unitGroup) => {
-    unitGroup.unitType.forEach((unitType) => {
-      if (
-        allListingUnitTypes.filter((existingUnitType) => existingUnitType.name === unitType.name)
-          .length === 0
-      ) {
-        allListingUnitTypes.push(unitType)
-      }
-    })
-  })
-
-  if (allListingUnitTypes.filter((unitType) => unitType.name.includes("SRO")).length) {
-    return allListingUnitTypes.length === 1
-      ? t("listings.occupancyDescriptionAllSro")
-      : t("listings.occupancyDescriptionSomeSro")
-  } else {
-    return t("listings.occupancyDescriptionNoSro")
-  }
-}
