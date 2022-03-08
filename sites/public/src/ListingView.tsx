@@ -361,14 +361,14 @@ export const ListingView = (props: ListingProps) => {
           </aside>
         </ListingDetailItem>
 
-        <ListingDetails>
-          <ListingDetailItem
-            imageAlt={t("listings.eligibilityNotebook")}
-            imageSrc="/images/listing-eligibility.svg"
-            title={t("listings.sections.eligibilityTitle")}
-            subtitle={t("listings.sections.eligibilitySubtitle")}
-            desktopClass="bg-primary-lighter"
-          >
+        <ListingDetailItem
+          imageAlt={t("listings.eligibilityNotebook")}
+          imageSrc="/images/listing-eligibility.svg"
+          title={t("listings.sections.eligibilityTitle")}
+          subtitle={t("listings.sections.eligibilitySubtitle")}
+          desktopClass="bg-primary-lighter"
+        >
+          <ul>
             <ListSection
               title={t("t.occupancy")}
               subtitle={t("listings.occupancyDescriptionNoSro")}
@@ -382,8 +382,8 @@ export const ListingView = (props: ListingProps) => {
                 responsiveCollapse={false}
               />
             </ListSection>
-          </ListingDetailItem>
-        </ListingDetails>
+          </ul>
+        </ListingDetailItem>
 
         <ListingDetailItem
           imageAlt={t("listings.featuresCards")}
