@@ -7,7 +7,7 @@ export const occupancyTable = (listing: Listing) => {
     if (!max && min) return min === 1 ? t("t.minPerson") : t("t.minPeople", { num: min })
     if (!min && max) return max === 1 ? t("t.maxPerson") : t("t.maxPeople", { num: max })
     if (min === max) return max === 1 ? t("t.onePerson") : t("t.numPeople", { num: max })
-    return `${min}-${max} ${max === 1 ? t("t.person") : t("t.people")}`
+    return t("t.peopleRange", { min, max })
   }
 
   const getUnitTypeNameString = (unitType: UnitType) => {
