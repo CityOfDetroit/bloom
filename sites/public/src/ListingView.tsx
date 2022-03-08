@@ -36,6 +36,7 @@ import {
 } from "@bloom-housing/ui-components"
 import {
   cloudinaryPdfFromId,
+  getOccupancyDescription,
   imageUrlFromListing,
   occupancyTable,
 } from "@bloom-housing/shared-helpers"
@@ -369,7 +370,7 @@ export const ListingView = (props: ListingProps) => {
             subtitle={t("listings.sections.eligibilitySubtitle")}
             desktopClass="bg-primary-lighter"
           >
-            <ListSection title={t("t.occupancy")} subtitle={"Occupancy description"}>
+            <ListSection title={t("t.occupancy")} subtitle={getOccupancyDescription(listing)}>
               <StandardTable
                 headers={{
                   unitType: "t.unitType",
