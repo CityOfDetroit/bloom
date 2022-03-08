@@ -3,6 +3,7 @@ import { cleanup } from "@testing-library/react"
 import { occupancyTable } from "../src/occupancyFormatting"
 import { Listing, UnitType, UnitGroup } from "@bloom-housing/backend-core/types"
 
+const unitTypeSRO = { name: "SRO", numBedrooms: 0 } as UnitType
 const unitTypeStudio = { name: "studio", numBedrooms: 0 } as UnitType
 const unitTypeOneBdrm = { name: "oneBdrm", numBedrooms: 1 } as UnitType
 const unitTypeTwoBdrm = { name: "twoBdrm", numBedrooms: 2 } as UnitType
@@ -34,6 +35,16 @@ const unitGroups: Omit<UnitGroup, "id" | "listing" | "openWaitlist" | "amiLevels
     unitType: [unitTypeTwoBdrm],
     minOccupancy: undefined,
     maxOccupancy: 2,
+  },
+  {
+    unitType: [unitTypeFourBdrm],
+    minOccupancy: 1,
+    maxOccupancy: undefined,
+  },
+  {
+    unitType: [unitTypeSRO],
+    minOccupancy: undefined,
+    maxOccupancy: 1,
   },
   {
     unitType: [unitTypeTwoBdrm],
@@ -70,6 +81,10 @@ describe("occupancy formatting helpers", () => {
           unitType: <strong>Studio, 1 BR</strong>,
         },
         {
+          occupancy: "at most 1 person",
+          unitType: <strong>SRO</strong>,
+        },
+        {
           occupancy: "1-3 people",
           unitType: <strong>1 BR</strong>,
         },
@@ -96,6 +111,10 @@ describe("occupancy formatting helpers", () => {
         {
           occupancy: "3 people",
           unitType: <strong>3 BR</strong>,
+        },
+        {
+          occupancy: "at least 1 person",
+          unitType: <strong>4 BR</strong>,
         },
       ])
     })
