@@ -27,10 +27,10 @@ import {
   UnitTables,
   Waitlist,
   ListingUpdated,
-  Message,
   ListSection,
   StandardTable,
   t,
+  TableHeaders,
 } from "@bloom-housing/ui-components"
 import {
   cloudinaryPdfFromId,
@@ -76,7 +76,10 @@ export const ListingView = (props: ListingProps) => {
   }
 
   let groupedUnits: Record<string, React.ReactNode>[] = null
+  let hmiHeaders: TableHeaders
+  let hmiData: Record<string, React.ReactNode>[] = null
   if (listing.unitGroups !== undefined && listing.unitGroups.length > 0) {
+    // unit group summary
     groupedUnits = listing.unitSummaries.unitGroupSummary.map((group) => {
       let rentRange = null
       let rentAsPercentIncomeRange = null
@@ -147,7 +150,9 @@ export const ListingView = (props: ListingProps) => {
         unitType: (
           <>
             {group.unitTypes
-              .map<React.ReactNode>((type) => <strong>{t(`listings.unitTypes.${type}`)}</strong>)
+              .map<React.ReactNode>((type) => (
+                <strong key={type}>{t(`listings.unitTypes.${type}`)}</strong>
+              ))
               .reduce((acc, curr) => [acc, ", ", curr])}
           </>
         ),
@@ -168,6 +173,43 @@ export const ListingView = (props: ListingProps) => {
         availability,
         ami: <strong>{ami}</strong>,
       }
+    })
+
+    // hmi summary
+    const { columns, rows } = listing.unitSummaries.householdMaxIncomeSummary
+    // hmiHeaders
+    for (const key in columns) {
+      if (hmiHeaders === undefined) {
+        hmiHeaders = {}
+      }
+
+      if (key === "householdSize") {
+        hmiHeaders[key] = t(`listings.householdSize`)
+      } else {
+        hmiHeaders[key] = t("listings.percentAMIUnit", { percent: key.replace("percentage", "") })
+      }
+    }
+    // hmiData
+    hmiData = rows.map((row) => {
+      const obj = {}
+
+      for (const key in row) {
+        if (key === "householdSize") {
+          obj[key] = (
+            <>
+              <strong>{row[key]}</strong> {row[key] === "1" ? t("t.person") : t("t.people")}
+            </>
+          )
+        } else {
+          obj[key] = (
+            <>
+              <strong>${row[key].toLocaleString("en")}</strong> {t("t.perYear")}
+            </>
+          )
+        }
+      }
+
+      return obj
     })
   }
 
@@ -358,16 +400,6 @@ export const ListingView = (props: ListingProps) => {
       </header>
 
       <div className="w-full md:w-2/3 md:mt-6 md:mb-6 md:px-3 md:pr-8">
-        {listing.reservedCommunityType && (
-          <Message warning={true}>
-            {t("listings.reservedFor", {
-              type: t(
-                `listings.reservedCommunityTypeDescriptions.${listing.reservedCommunityType.name}`
-              ),
-            })}
-          </Message>
-        )}
-
         {groupedUnits?.length > 0 && (
           <>
             <GroupedTable
@@ -377,16 +409,12 @@ export const ListingView = (props: ListingProps) => {
             />
             <div className="text-sm leading-5 mt-4">
               {t("listings.unitSummaryGroupMessage")}{" "}
-              <a className="underline" href="#">{t("listings.unitSummaryGroupLinkText")}</a>
+              <a className="underline" href="#household_maximum_income_summary">
+                {t("listings.unitSummaryGroupLinkText")}
+              </a>
             </div>
           </>
         )}
-      </div>
-      <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
-        <ListingUpdated listingUpdated={listing.updatedAt} />
-        <div className="mx-4">
-          {hasNonReferralMethods && !applicationsClosed ? <>{applySidebar()}</> : <></>}
-        </div>
       </div>
       <ListingDetails>
         <ListingDetailItem
@@ -445,14 +473,21 @@ export const ListingView = (props: ListingProps) => {
           </aside>
         </ListingDetailItem>
 
-        <ListingDetails>
-          <ListingDetailItem
-            imageAlt={t("listings.eligibilityNotebook")}
-            imageSrc="/images/listing-eligibility.svg"
-            title={t("listings.sections.eligibilityTitle")}
-            subtitle={t("listings.sections.eligibilitySubtitle")}
-            desktopClass="bg-primary-lighter"
-          >
+        <ListingDetailItem
+          imageAlt={t("listings.eligibilityNotebook")}
+          imageSrc="/images/listing-eligibility.svg"
+          title={t("listings.sections.eligibilityTitle")}
+          subtitle={t("listings.sections.eligibilitySubtitle")}
+          desktopClass="bg-primary-lighter"
+        >
+          <ul>
+            <ListSection
+              id="household_maximum_income_summary"
+              title={t("listings.householdMaximumIncome")}
+              subtitle={t("listings.forIncomeCalculations")}
+            >
+              <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
+            </ListSection>
             <ListSection title={t("t.occupancy")} subtitle={"Occupancy description"}>
               <StandardTable
                 headers={{
@@ -463,8 +498,8 @@ export const ListingView = (props: ListingProps) => {
                 responsiveCollapse={false}
               />
             </ListSection>
-          </ListingDetailItem>
-        </ListingDetails>
+          </ul>
+        </ListingDetailItem>
 
         <ListingDetailItem
           imageAlt={t("listings.featuresCards")}

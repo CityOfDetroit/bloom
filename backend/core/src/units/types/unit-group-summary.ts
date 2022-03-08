@@ -9,21 +9,21 @@ export class UnitGroupSummary {
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
-  @ApiProperty()
+  @ApiProperty({ required: false })
   unitTypes?: string[] | null
 
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => MinMax)
-  @ApiProperty()
+  @ApiProperty({ required: false })
   rentAsPercentIncomeRange?: MinMax
 
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => MinMaxCurrency)
-  @ApiProperty()
+  @ApiProperty({ required: false })
   rentRange?: MinMaxCurrency
 
   @Expose()

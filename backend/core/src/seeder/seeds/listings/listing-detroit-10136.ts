@@ -176,6 +176,7 @@ export class Listing10136Seed extends ListingDefaultSeed {
       ...savedUnitGroups[0],
       amiLevels: [
         {
+          amiChart: MSHDA,
           amiChartId: MSHDA.id,
           amiPercentage: 30,
           monthlyRentDeterminationType: MonthlyRentDeterminationType.flatRent,
@@ -183,6 +184,7 @@ export class Listing10136Seed extends ListingDefaultSeed {
           unitGroup: savedUnitGroups[0],
         },
         {
+          amiChart: HUD,
           amiChartId: HUD.id,
           amiPercentage: 40,
           monthlyRentDeterminationType: MonthlyRentDeterminationType.percentageOfIncome,
@@ -196,6 +198,7 @@ export class Listing10136Seed extends ListingDefaultSeed {
       ...savedUnitGroups[1],
       amiLevels: [
         {
+          amiChart: MSHDA,
           amiChartId: MSHDA.id,
           amiPercentage: 30,
           monthlyRentDeterminationType: MonthlyRentDeterminationType.flatRent,
@@ -203,6 +206,7 @@ export class Listing10136Seed extends ListingDefaultSeed {
           unitGroup: savedUnitGroups[1],
         },
         {
+          amiChart: MSHDA,
           amiChartId: MSHDA.id,
           amiPercentage: 40,
           monthlyRentDeterminationType: MonthlyRentDeterminationType.percentageOfIncome,
@@ -216,6 +220,7 @@ export class Listing10136Seed extends ListingDefaultSeed {
       ...savedUnitGroups[2],
       amiLevels: [
         {
+          amiChart: MSHDA,
           amiChartId: MSHDA.id,
           amiPercentage: 55,
           monthlyRentDeterminationType: MonthlyRentDeterminationType.flatRent,
@@ -229,6 +234,7 @@ export class Listing10136Seed extends ListingDefaultSeed {
       ...savedUnitGroups[3],
       amiLevels: [
         {
+          amiChart: MSHDA,
           amiChartId: MSHDA.id,
           amiPercentage: 55,
           monthlyRentDeterminationType: MonthlyRentDeterminationType.percentageOfIncome,
