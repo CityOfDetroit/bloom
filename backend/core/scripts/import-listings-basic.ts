@@ -20,8 +20,6 @@ export class HeaderConstants {
   public static readonly TemporaryId: string = "ID"
   public static readonly Name: string = "Building Name"
   public static readonly Developer: string = "Developer"
-  // TODO owner company has disappeared?
-  // public static readonly OwnerCompany: string = "Owner Company"
   public static readonly BuildingAddressStreet: string = "Building Street Address"
   public static readonly BuildingAddressCity: string = "City"
   public static readonly BuildingAddressState: string = "State"
