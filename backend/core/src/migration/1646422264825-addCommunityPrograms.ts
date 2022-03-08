@@ -10,14 +10,14 @@ export class addCommunityPrograms1646422264825 implements MigrationInterface {
                 VALUES
                     ('Seniors 55+'),
                     ('Seniors 62+'),
-                    ('Residents with disabilities'),
+                    ('Residents with Disabilities'),
                     ('Families'),
-                    ('Homelessness System Supportive Housing'),
+                    ('Supportive Housing for the Homeless'),
                     ('Veterans')
             `
         )
         
-        const res = await queryRunner.query(`SELECT id from programs WHERE title in ('Seniors 55+', 'Seniors 62+', 'Residents with disabilities', 'Families', 'Homelessness System Supportive Housing', 'Veterans')`)
+        const res = await queryRunner.query(`SELECT id from programs WHERE title in ('Seniors 55+', 'Seniors 62+', 'Residents with Disabilities', 'Families', 'Supportive Housing for the Homeless', 'Veterans')`)
 
         for (const program of res) {
             await queryRunner.query(
