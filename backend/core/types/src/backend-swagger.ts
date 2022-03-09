@@ -4943,6 +4943,14 @@ export interface UpdatePassword {
   token: string
 }
 
+export interface UserRolesUpdate {
+  /**  */
+  isAdmin?: boolean
+
+  /**  */
+  isPartner?: boolean
+}
+
 export interface UserUpdate {
   /**  */
   language?: Language
@@ -4964,6 +4972,9 @@ export interface UserUpdate {
 
   /**  */
   currentPassword?: string
+
+  /**  */
+  roles?: CombinedRolesTypes
 
   /**  */
   jurisdictions: Id[]

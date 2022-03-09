@@ -142,7 +142,7 @@ export const ListingView = (props: ListingProps) => {
         group.amiPercentageRange.min === group.amiPercentageRange.max
       ) {
         ami = `${group.amiPercentageRange.min}%`
-      } else {
+      } else if (group.amiPercentageRange) {
         ami = `${group.amiPercentageRange.min} - ${group.amiPercentageRange.max}%`
       }
 
@@ -488,7 +488,10 @@ export const ListingView = (props: ListingProps) => {
             >
               <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
             </ListSection>
-            <ListSection title={t("t.occupancy")} subtitle={"Occupancy description"}>
+            <ListSection
+              title={t("t.occupancy")}
+              subtitle={t("listings.occupancyDescriptionNoSro")}
+            >
               <StandardTable
                 headers={{
                   unitType: "t.unitType",
