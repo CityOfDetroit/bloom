@@ -74,6 +74,8 @@ export const ListingView = (props: ListingProps) => {
 
   const { headers: hmiHeaders, data: hmiData } = getHmiSummary(listing)
 
+  const occpancyData = occupancyTable(listing)
+
   let openHouseEvents: ListingEvent[] | null = null
   if (Array.isArray(listing.events)) {
     listing.events.forEach((event) => {
@@ -364,38 +366,42 @@ export const ListingView = (props: ListingProps) => {
           </aside>
         </ListingDetailItem>
 
-        <ListingDetailItem
-          imageAlt={t("listings.eligibilityNotebook")}
-          imageSrc="/images/listing-eligibility.svg"
-          title={t("listings.sections.eligibilityTitle")}
-          subtitle={t("listings.sections.eligibilitySubtitle")}
-          desktopClass="bg-primary-lighter"
-        >
-          <ul>
-            {hmiData?.length > 0 && (
-              <ListSection
-                id="household_maximum_income_summary"
-                title={t("listings.householdMaximumIncome")}
-                subtitle={t("listings.forIncomeCalculations")}
-              >
-                <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
-              </ListSection>
-            )}
-            <ListSection
-              title={t("t.occupancy")}
-              subtitle={t("listings.occupancyDescriptionNoSro")}
-            >
-              <StandardTable
-                headers={{
-                  unitType: "t.unitType",
-                  occupancy: "t.occupancy",
-                }}
-                data={occupancyTable(listing)}
-                responsiveCollapse={false}
-              />
-            </ListSection>
-          </ul>
-        </ListingDetailItem>
+        {hmiData?.length || occpancyData?.length ? (
+          <ListingDetailItem
+            imageAlt={t("listings.eligibilityNotebook")}
+            imageSrc="/images/listing-eligibility.svg"
+            title={t("listings.sections.eligibilityTitle")}
+            subtitle={t("listings.sections.eligibilitySubtitle")}
+            desktopClass="bg-primary-lighter"
+          >
+            <ul>
+              {hmiData?.length > 0 && (
+                <ListSection
+                  id="household_maximum_income_summary"
+                  title={t("listings.householdMaximumIncome")}
+                  subtitle={t("listings.forIncomeCalculations")}
+                >
+                  <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
+                </ListSection>
+              )}
+              {occpancyData?.length && (
+                <ListSection
+                  title={t("t.occupancy")}
+                  subtitle={t("listings.occupancyDescriptionNoSro")}
+                >
+                  <StandardTable
+                    headers={{
+                      unitType: "t.unitType",
+                      occupancy: "t.occupancy",
+                    }}
+                    data={occupancyTable(listing)}
+                    responsiveCollapse={false}
+                  />
+                </ListSection>
+              )}
+            </ul>
+          </ListingDetailItem>
+        ) : null}
 
         <ListingDetailItem
           imageAlt={t("listings.featuresCards")}
