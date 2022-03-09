@@ -30,7 +30,6 @@ import {
   ListSection,
   StandardTable,
   t,
-  TableHeaders,
   InfoCard,
 } from "@bloom-housing/ui-components"
 import {
@@ -42,8 +41,10 @@ import dayjs from "dayjs"
 import { ErrorPage } from "../pages/_error"
 import {
   getGenericAddress,
+  getHmiSummary,
   getImageTagIconFromListing,
   getImageTagLabelFromListing,
+  getUnitGroupSummary,
   openInFuture,
 } from "../lib/helpers"
 
@@ -69,150 +70,9 @@ export const ListingView = (props: ListingProps) => {
   const googleMapsHref =
     "https://www.google.com/maps/place/" + ReactDOMServer.renderToStaticMarkup(oneLineAddress)
 
-  const unitSummariesHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
-    ami: t("listings.unit.ami"),
-  }
+  const { headers: groupedUnitHeaders, data: groupedUnitData } = getUnitGroupSummary(listing)
 
-  let groupedUnits: Record<string, React.ReactNode>[] = null
-  let hmiHeaders: TableHeaders
-  let hmiData: Record<string, React.ReactNode>[] = null
-  if (listing.unitGroups !== undefined && listing.unitGroups.length > 0) {
-    // unit group summary
-    groupedUnits = listing.unitSummaries.unitGroupSummary.map((group) => {
-      let rentRange = null
-      let rentAsPercentIncomeRange = null
-      if (group.rentRange && group.rentRange.min === group.rentRange.max) {
-        rentRange = group.rentRange.min
-      } else if (group.rentRange) {
-        rentRange = `${group.rentRange.min} - ${group.rentRange.max}`
-      }
-
-      if (rentRange) {
-        rentRange = (
-          <span>
-            <strong>{rentRange}</strong> {t("t.perMonth")}
-          </span>
-        )
-      }
-
-      if (
-        group.rentAsPercentIncomeRange &&
-        group.rentAsPercentIncomeRange.min === group.rentAsPercentIncomeRange.max
-      ) {
-        rentAsPercentIncomeRange = group.rentAsPercentIncomeRange.min
-      } else if (rentAsPercentIncomeRange) {
-        rentAsPercentIncomeRange = `${group.rentAsPercentIncomeRange.min} - ${group.rentAsPercentIncomeRange.max}`
-      }
-
-      if (rentAsPercentIncomeRange) {
-        rentAsPercentIncomeRange = (
-          <span>
-            <strong>{rentAsPercentIncomeRange}%</strong> {t("t.income")}
-          </span>
-        )
-      }
-
-      let availability = null
-
-      if (group.unitVacancies > 0) {
-        availability = (
-          <div>
-            <strong>{group.unitVacancies} </strong>
-            {group.unitVacancies === 1 ? t("lisitngs.vacantUnit") : t("listings.vacantUnits")}
-            {" &"}
-          </div>
-        )
-      }
-
-      availability = (
-        <>
-          {availability}
-          <strong>
-            {group.openWaitlist ? t("listings.waitlist.open") : t("listings.waitlist.closed")}
-          </strong>
-        </>
-      )
-
-      let ami = null
-
-      if (
-        group.amiPercentageRange &&
-        group.amiPercentageRange.min === group.amiPercentageRange.max
-      ) {
-        ami = `${group.amiPercentageRange.min}%`
-      } else if (group.amiPercentageRange) {
-        ami = `${group.amiPercentageRange.min} - ${group.amiPercentageRange.max}%`
-      }
-
-      return {
-        unitType: (
-          <>
-            {group.unitTypes
-              .map<React.ReactNode>((type) => (
-                <strong key={type}>{t(`listings.unitTypes.${type}`)}</strong>
-              ))
-              .reduce((acc, curr) => [acc, ", ", curr])}
-          </>
-        ),
-        rent:
-          rentRange || rentAsPercentIncomeRange ? (
-            <>
-              {rentRange && rentAsPercentIncomeRange ? (
-                <>
-                  {rentRange}, {rentAsPercentIncomeRange}
-                </>
-              ) : rentRange ? (
-                rentRange
-              ) : (
-                rentAsPercentIncomeRange
-              )}
-            </>
-          ) : null,
-        availability,
-        ami: <strong>{ami}</strong>,
-      }
-    })
-
-    // hmi summary
-    const { columns, rows } = listing.unitSummaries.householdMaxIncomeSummary
-    // hmiHeaders
-    for (const key in columns) {
-      if (hmiHeaders === undefined) {
-        hmiHeaders = {}
-      }
-
-      if (key === "householdSize") {
-        hmiHeaders[key] = t(`listings.householdSize`)
-      } else {
-        hmiHeaders[key] = t("listings.percentAMIUnit", { percent: key.replace("percentage", "") })
-      }
-    }
-    // hmiData
-    hmiData = rows.map((row) => {
-      const obj = {}
-
-      for (const key in row) {
-        if (key === "householdSize") {
-          obj[key] = (
-            <>
-              <strong>{row[key]}</strong> {row[key] === "1" ? t("t.person") : t("t.people")}
-            </>
-          )
-        } else {
-          obj[key] = (
-            <>
-              <strong>${row[key].toLocaleString("en")}</strong> {t("t.perYear")}
-            </>
-          )
-        }
-      }
-
-      return obj
-    })
-  }
+  const { headers: hmiHeaders, data: hmiData } = getHmiSummary(listing)
 
   let openHouseEvents: ListingEvent[] | null = null
   if (Array.isArray(listing.events)) {
@@ -401,11 +261,11 @@ export const ListingView = (props: ListingProps) => {
       </header>
 
       <div className="w-full md:w-2/3 md:mt-6 md:mb-6 md:px-3 md:pr-8">
-        {groupedUnits?.length > 0 && (
+        {groupedUnitData?.length > 0 && (
           <>
             <GroupedTable
-              headers={unitSummariesHeaders}
-              data={[{ data: groupedUnits }]}
+              headers={groupedUnitHeaders}
+              data={[{ data: groupedUnitData }]}
               responsiveCollapse={true}
             />
             <div className="text-sm leading-5 mt-4">
@@ -512,13 +372,15 @@ export const ListingView = (props: ListingProps) => {
           desktopClass="bg-primary-lighter"
         >
           <ul>
-            <ListSection
-              id="household_maximum_income_summary"
-              title={t("listings.householdMaximumIncome")}
-              subtitle={t("listings.forIncomeCalculations")}
-            >
-              <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
-            </ListSection>
+            {hmiData?.length > 0 && (
+              <ListSection
+                id="household_maximum_income_summary"
+                title={t("listings.householdMaximumIncome")}
+                subtitle={t("listings.forIncomeCalculations")}
+              >
+                <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
+              </ListSection>
+            )}
             <ListSection
               title={t("t.occupancy")}
               subtitle={t("listings.occupancyDescriptionNoSro")}

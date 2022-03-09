@@ -38,7 +38,9 @@ export const getUnitGroupSummary = (unitGroups: UnitGroup[]): UnitGroupSummary[]
       amiPercentageRange = setMinMax(amiPercentageRange, level.amiPercentage)
     })
     const groupSummary: UnitGroupSummary = {
-      unitTypes: group.unitType.map((type) => type.name),
+      unitTypes: group.unitType
+        .sort((a, b) => (a.numBedrooms < b.numBedrooms ? -1 : 1))
+        .map((type) => type.name),
       rentAsPercentIncomeRange,
       rentRange: rentRange && {
         min: `$${rentRange.min}`,
