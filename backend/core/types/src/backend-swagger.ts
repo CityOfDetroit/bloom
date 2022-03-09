@@ -3902,6 +3902,14 @@ export interface MinMaxCurrency {
   max: string
 }
 
+export interface MinMaxString {
+  /**  */
+  min: string
+
+  /**  */
+  max: string
+}
+
 export interface UnitGroupSummary {
   /**  */
   unitTypes?: string[]
@@ -3920,6 +3928,15 @@ export interface UnitGroupSummary {
 
   /**  */
   unitVacancies: number
+
+  /**  */
+  floorRange?: MinMax
+
+  /**  */
+  sqFeetRange?: MinMaxString
+
+  /**  */
+  bathroomRange?: MinMax
 }
 
 export interface UnitTypeSummary {
