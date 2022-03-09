@@ -55,7 +55,6 @@ export const accessibilityFeaturesExist = (listing: Listing) => {
 }
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
-  console.log({ listing })
   return accessibilityFeaturesExist(listing)
     ? t(`listings.reservedCommunityTypes.specialNeeds`)
     : undefined

@@ -425,7 +425,7 @@ export const ListingView = (props: ListingProps) => {
                   />
                 )}
                 <Description
-                  term={"Accessibility"}
+                  term={t("t.accessibility")}
                   description={
                     accessibilityFeatures
                       ? accessibilityFeatures
