@@ -1,9 +1,9 @@
 import * as fs from "fs"
 import CsvReadableStream from "csv-reader"
 import { Connection, DeepPartial } from "typeorm"
-import Listing from "../src/listings/entities/listing.entity"
-import { UnitsSummary } from "../src/units-summary/entities/units-summary.entity"
-import { UnitsSummaryAmiLevel } from "../src/units-summary/entities/units-summary-ami-level.entity"
+import { Listing } from "../src/listings/entities/listing.entity"
+import { UnitGroup } from "../src/units-summary/entities/unit-group.entity"
+import { UnitGroupAmiLevel } from "../src/units-summary/entities/unit-group-ami-level.entity"
 import { UnitType } from "../src/unit-types/entities/unit-type.entity"
 import { AmiChart } from "../src/ami-charts/entities/ami-chart.entity"
 import { HUD2021 } from "../src/seeder/seeds/ami-charts/HUD2021"
@@ -39,22 +39,25 @@ export class HeaderConstants {
   public static readonly AmiChartPercentage: string = "Percent AMIs"
 }
 
-function generateAmiChartLevels(amiChartsColumns: string, amiPercentagesColumn: string | number): Array<TAmiChartLevel> {
+function generateAmiChartLevels(
+  amiChartsColumns: string,
+  amiPercentagesColumn: string | number
+): Array<TAmiChartLevel> {
   const amiChartLevels = []
 
   for (const amiChartName of amiChartsColumns.split("/")) {
     // TODO remove && amiPercentagesColumn when empty AMI percentage column problem is solved
     if (typeof amiPercentagesColumn === "string" && amiPercentagesColumn) {
-      for (const amiPercentage of amiPercentagesColumn.split(",").map(s => s.trim())) {
+      for (const amiPercentage of amiPercentagesColumn.split(",").map((s) => s.trim())) {
         amiChartLevels.push({
           amiChartName,
-          amiPercentage: Number.parseInt(amiPercentage)
+          amiPercentage: Number.parseInt(amiPercentage),
         })
       }
     } else if (typeof amiPercentagesColumn === "number") {
       amiChartLevels.push({
         amiChartName,
-        amiPercentage: amiPercentagesColumn
+        amiPercentage: amiPercentagesColumn,
       })
     }
   }
@@ -62,30 +65,45 @@ function generateAmiChartLevels(amiChartsColumns: string, amiPercentagesColumn: 
   return amiChartLevels
 }
 
-function findAmiChartByName(amiCharts: Array<AmiChart>, spreadSheetAmiChartName: AmiChartNameType): AmiChart {
+function findAmiChartByName(
+  amiCharts: Array<AmiChart>,
+  spreadSheetAmiChartName: AmiChartNameType
+): AmiChart {
   const SpreadSheetAmiChartNameToDbChartNameMapping: Record<AmiChartNameType, string> = {
-    "MSHDA": MSHDA2021.name,
-    "HUD": HUD2021.name
+    MSHDA: MSHDA2021.name,
+    HUD: HUD2021.name,
   }
-  return amiCharts.find(amiChart => amiChart.name === SpreadSheetAmiChartNameToDbChartNameMapping[spreadSheetAmiChartName])
+  return amiCharts.find(
+    (amiChart) =>
+      amiChart.name === SpreadSheetAmiChartNameToDbChartNameMapping[spreadSheetAmiChartName]
+  )
 }
 
 function getFlatRentValueForAmiChart(amiChart: AmiChart, amiPercentage: number) {
-  return amiChart.items.find(item => item.percentOfAmi === amiPercentage).percentOfAmi
+  return amiChart.items.find((item) => item.percentOfAmi === amiPercentage).percentOfAmi
 }
 
-function generateUnitsSummaryAmiLevels(amiCharts: Array<AmiChart>, inputAmiChartLevels: Array<TAmiChartLevel>) {
-  const amiChartLevels: Array<DeepPartial<UnitsSummaryAmiLevel>> = []
+function generateUnitsSummaryAmiLevels(
+  amiCharts: Array<AmiChart>,
+  inputAmiChartLevels: Array<TAmiChartLevel>
+) {
+  const amiChartLevels: Array<DeepPartial<UnitGroupAmiLevel>> = []
 
   for (const inputAmiChartLevel of inputAmiChartLevels) {
     const amiChart = findAmiChartByName(amiCharts, inputAmiChartLevel.amiChartName)
-    const monthlyRentDeterminationType = inputAmiChartLevel.amiChartName === "MSHDA" ? MonthlyRentDeterminationType.flatRent : MonthlyRentDeterminationType.percentageOfIncome
+    const monthlyRentDeterminationType =
+      inputAmiChartLevel.amiChartName === "MSHDA"
+        ? MonthlyRentDeterminationType.flatRent
+        : MonthlyRentDeterminationType.percentageOfIncome
 
     amiChartLevels.push({
       amiChart: amiChart,
       amiPercentage: inputAmiChartLevel.amiPercentage,
       monthlyRentDeterminationType,
-      flatRentValue: monthlyRentDeterminationType === MonthlyRentDeterminationType.flatRent ? getFlatRentValueForAmiChart(amiChart, inputAmiChartLevel.amiPercentage) : null
+      flatRentValue:
+        monthlyRentDeterminationType === MonthlyRentDeterminationType.flatRent
+          ? getFlatRentValueForAmiChart(amiChart, inputAmiChartLevel.amiPercentage)
+          : null,
     })
   }
 
@@ -116,21 +134,24 @@ async function main() {
 
   const amiCharts = await amiChartsRepository.find()
 
-  let inputStream = fs.createReadStream(filePath, "utf8")
+  const inputStream = fs.createReadStream(filePath, "utf8")
   inputStream
-    .pipe(new CsvReadableStream({ parseNumbers: true, parseBooleans: true, trim: true, asObject: true }))
+    .pipe(
+      new CsvReadableStream({ parseNumbers: true, parseBooleans: true, trim: true, asObject: true })
+    )
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     .on("data", async (row) => {
       try {
         const listing: DeepPartial<Listing> = await listingsRepository.findOne({
           where: {
-            temporaryListingId: row[HeaderConstants.TemporaryListingId]
-          }
+            temporaryListingId: row[HeaderConstants.TemporaryListingId],
+          },
         })
         if (!listing) {
           throw new Error(`Listing with ID: ${row[HeaderConstants.TemporaryListingId]} not found.`)
         }
 
-        let unitTypes = []
+        const unitTypes = []
         if (row[HeaderConstants.UnitTypeName]) {
           const spreadsheetUnitTypeNameToDbUnitTypeName = {
             "1BR": "oneBdrm",
@@ -138,30 +159,40 @@ async function main() {
             "3BR": "threeBdrm",
             "4+BR": "fourBdrm",
             "4BR": "fourBdrm",
-            "Studio": "studio"
+            Studio: "studio",
           }
 
           const unitType = await unitTypesRepository.findOneOrFail({
-            where: { name: spreadsheetUnitTypeNameToDbUnitTypeName[row[HeaderConstants.UnitTypeName]] }
+            where: {
+              name: spreadsheetUnitTypeNameToDbUnitTypeName[row[HeaderConstants.UnitTypeName]],
+            },
           })
           unitTypes.push(unitType)
         }
 
-        const inputAmiChartLevels = generateAmiChartLevels(row[HeaderConstants.AMIChart], row[HeaderConstants.AmiChartPercentage])
+        const inputAmiChartLevels = generateAmiChartLevels(
+          row[HeaderConstants.AMIChart],
+          row[HeaderConstants.AmiChartPercentage]
+        )
 
-        const newUnitsSummary: DeepPartial<UnitsSummary> = {
-          minOccupancy: row[HeaderConstants.MinOccupancy] ? row[HeaderConstants.MinOccupancy] : null,
-          maxOccupancy: row[HeaderConstants.MaxOccupancy] ? row[HeaderConstants.MinOccupancy] : null,
+        const newUnitsSummary: DeepPartial<UnitGroup> = {
+          minOccupancy: row[HeaderConstants.MinOccupancy]
+            ? row[HeaderConstants.MinOccupancy]
+            : null,
+          maxOccupancy: row[HeaderConstants.MaxOccupancy]
+            ? row[HeaderConstants.MinOccupancy]
+            : null,
           totalCount: row[HeaderConstants.TotalCount] ? row[HeaderConstants.TotalCount] : null,
-          totalAvailable: row[HeaderConstants.TotalAvailable] ? row[HeaderConstants.TotalAvailable] : null,
+          totalAvailable: row[HeaderConstants.TotalAvailable]
+            ? row[HeaderConstants.TotalAvailable]
+            : null,
           openWaitlist: getOpenWaitlistValue(row),
           unitType: unitTypes,
-          amiLevels: generateUnitsSummaryAmiLevels(amiCharts, inputAmiChartLevels)
+          amiLevels: generateUnitsSummaryAmiLevels(amiCharts, inputAmiChartLevels),
         }
-        listing.unitsSummary.push(newUnitsSummary)
+        listing.unitGroups.push(newUnitsSummary)
 
         await listingsRepository.save(listing)
-
       } catch (e) {
         console.error(row)
         console.error(e)
