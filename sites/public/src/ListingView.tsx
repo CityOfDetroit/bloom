@@ -14,8 +14,6 @@ import {
   AdditionalFees,
   Description,
   GroupedTable,
-  getSummariesTableFromUnitSummary,
-  getSummariesTableFromUnitsSummary,
   ImageCard,
   GetApplication,
   LeasingAgent,
@@ -30,11 +28,17 @@ import {
   Waitlist,
   ListingUpdated,
   Message,
+  ListSection,
+  StandardTable,
   t,
   ListSection,
   InfoCard,
 } from "@bloom-housing/ui-components"
-import { cloudinaryPdfFromId, imageUrlFromListing } from "@bloom-housing/shared-helpers"
+import {
+  cloudinaryPdfFromId,
+  imageUrlFromListing,
+  occupancyTable,
+} from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { ErrorPage } from "../pages/_error"
 import {
@@ -72,12 +76,7 @@ export const ListingView = (props: ListingProps) => {
     availability: t("t.availability"),
   }
 
-  let groupedUnits: Record<string, React.ReactNode>[] = null
-  if (listing.unitsSummary !== undefined && listing.unitsSummary.length > 0) {
-    groupedUnits = getSummariesTableFromUnitsSummary(listing.unitsSummary)
-  } else if (listing.unitsSummarized !== undefined) {
-    groupedUnits = getSummariesTableFromUnitSummary(listing.unitsSummarized.byUnitTypeAndRent)
-  }
+  const groupedUnits: Record<string, React.ReactNode>[] = null
 
   let openHouseEvents: ListingEvent[] | null = null
   if (Array.isArray(listing.events)) {
@@ -106,7 +105,7 @@ export const ListingView = (props: ListingProps) => {
       listing.accessibility ||
       // props for UnitTables
       (listing.units && listing.units.length > 0) ||
-      listing.unitsSummarized ||
+      listing.unitSummaries ||
       // props for AdditionalFees
       listing.depositMin ||
       listing.depositMax ||
@@ -378,6 +377,30 @@ export const ListingView = (props: ListingProps) => {
         </ListingDetailItem>
 
         <ListingDetailItem
+          imageAlt={t("listings.eligibilityNotebook")}
+          imageSrc="/images/listing-eligibility.svg"
+          title={t("listings.sections.eligibilityTitle")}
+          subtitle={t("listings.sections.eligibilitySubtitle")}
+          desktopClass="bg-primary-lighter"
+        >
+          <ul>
+            <ListSection
+              title={t("t.occupancy")}
+              subtitle={t("listings.occupancyDescriptionNoSro")}
+            >
+              <StandardTable
+                headers={{
+                  unitType: "t.unitType",
+                  occupancy: "t.occupancy",
+                }}
+                data={occupancyTable(listing)}
+                responsiveCollapse={false}
+              />
+            </ListSection>
+          </ul>
+        </ListingDetailItem>
+
+        <ListingDetailItem
           imageAlt={t("listings.featuresCards")}
           imageSrc="/images/listing-features.svg"
           title={t("listings.sections.featuresTitle")}
@@ -433,7 +456,7 @@ export const ListingView = (props: ListingProps) => {
                   description={
                     <UnitTables
                       units={listing.units}
-                      unitSummaries={listing?.unitsSummarized?.byUnitType}
+                      unitSummaries={listing?.unitSummaries?.unitTypeSummary}
                       disableAccordion={listing.disableUnitsAccordion}
                     />
                   }

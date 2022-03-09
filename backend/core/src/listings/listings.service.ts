@@ -85,8 +85,8 @@ export class ListingsService {
       .leftJoin("listings.property", "property")
       .leftJoin("listings.leasingAgents", "leasingAgents")
       .leftJoin("property.buildingAddress", "buildingAddress")
-      .leftJoin("listings.unitsSummary", "unitsSummary")
-      .leftJoin("unitsSummary.unitType", "summaryUnitType")
+      .leftJoin("listings.unitGroups", "unitGroups")
+      .leftJoin("unitGroups.unitType", "summaryUnitType")
       .leftJoin("listings.reservedCommunityType", "reservedCommunityType")
       .leftJoin("listings.features", "listing_features")
       .groupBy("listings.id")
@@ -196,7 +196,7 @@ export class ListingsService {
         availableUnits++
       }
     })
-    listingDto.unitsSummary.forEach((summary) => {
+    listingDto.unitGroups.forEach((summary) => {
       if (!summary.id) {
         delete summary.id
       }
@@ -251,16 +251,16 @@ export class ListingsService {
       await this.translationService.translateListing(result, lang)
     }
 
-    await this.addUnitsSummarized(result)
+    await this.addUnitSummaries(result)
     return result
   }
 
-  private async addUnitsSummarized(listing: Listing) {
+  private async addUnitSummaries(listing: Listing) {
     if (Array.isArray(listing.property.units) && listing.property.units.length > 0) {
       const amiCharts = await this.amiChartsRepository.find({
         where: { id: In(listing.property.units.map((unit) => unit.amiChartId)) },
       })
-      listing.unitsSummarized = summarizeUnits(listing.property.units, amiCharts)
+      listing.unitSummaries = summarizeUnits(listing.unitGroups, amiCharts)
     }
     return listing
   }

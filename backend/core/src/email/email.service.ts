@@ -200,11 +200,9 @@ export class EmailService {
 
   // function to calculate rent - min of all mins and max of all maxs
   private getRentRange(listing: Listing) {
-    const rentsArrays: Array<Array<number | null>> = [
-      [],
-    ] /* listing.unitsSummary.map((a) =>
+    const rentsArrays: Array<Array<number | null>> = listing.unitGroups.map((a) =>
       a.amiLevels.map((amiLevel) => amiLevel.flatRentValue)
-    ) */
+    )
     const flattenedRentsArray: Array<number> = []
       .concat(...rentsArrays)
       .filter((flatRentValue) => flatRentValue)
