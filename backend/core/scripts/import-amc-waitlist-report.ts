@@ -96,7 +96,7 @@ async function main(): Promise<void> {
   console.log(
     `Updating "${listing.name}" listing with new waitlist size ${listing.waitlistCurrentSize} (out of ${listing.waitlistMaxSize})`
   )
-  await listingsService.update({ id: args.listingId, body: listing })
+  // await listingsService.update({ id: args.listingId, body: listing })
 }
 
 void main()

@@ -1,7 +1,7 @@
 import * as fs from "fs"
 import CsvReadableStream from "csv-reader"
 import { Connection, DeepPartial } from "typeorm"
-import Listing from "../src/listings/entities/listing.entity"
+import { Listing } from "../src/listings/entities/listing.entity"
 import { Jurisdiction } from "../src/jurisdictions/entities/jurisdiction.entity"
 import dbOptions = require("../ormconfig")
 import { Program } from "../src/program/entities/program.entity"
@@ -63,23 +63,29 @@ export class HeaderConstants {
 
 async function fetchDetroitJurisdiction(connection: Connection): Promise<Jurisdiction> {
   const jurisdictionsRepository = connection.getRepository(Jurisdiction)
-  return await jurisdictionsRepository.findOneOrFail({where: {
+  return await jurisdictionsRepository.findOneOrFail({
+    where: {
       name: "Detroit",
-    }
+    },
   })
 }
 
-async function fetchProgramsOrFail(connection: Connection, programsString: string): Promise<Program[]> {
+async function fetchProgramsOrFail(
+  connection: Connection,
+  programsString: string
+): Promise<Program[]> {
   if (!programsString) {
     return []
   }
 
   const programsRepository = connection.getRepository<Program>(Program)
-  const programTitles = programsString.split(',').map(p => p.trim())
+  const programTitles = programsString.split(",").map((p) => p.trim())
 
-  return Promise.all(programTitles.map(programTitle => {
-    return programsRepository.findOneOrFail({where: {title: programTitle}})
-  }))
+  return Promise.all(
+    programTitles.map((programTitle) => {
+      return programsRepository.findOneOrFail({ where: { title: programTitle } })
+    })
+  )
 }
 
 function destructureYearBuilt(yearBuilt: string): number {
@@ -87,12 +93,12 @@ function destructureYearBuilt(yearBuilt: string): number {
     return null
   }
 
-  if(typeof yearBuilt === 'number') {
+  if (typeof yearBuilt === "number") {
     return yearBuilt
   }
 
-  if (yearBuilt.includes('/')) {
-    const [year1, _] = yearBuilt.split('/')
+  if (yearBuilt.includes("/")) {
+    const [year1, _] = yearBuilt.split("/")
     return Number.parseInt(year1)
   }
 
@@ -105,22 +111,22 @@ function destructureAddressString(addressString: string): AddressCreateDto {
       street: undefined,
       city: undefined,
       state: undefined,
-      zipCode: undefined
+      zipCode: undefined,
     }
   }
 
-  const tokens = addressString.split(',').map(addressString => addressString.trim())
+  const tokens = addressString.split(",").map((addressString) => addressString.trim())
 
   if (tokens.length === 1) {
     return {
       street: tokens[0],
       city: undefined,
       state: undefined,
-      zipCode: undefined
+      zipCode: undefined,
     }
   }
 
-  const [state, zipCode] = tokens[2].split(' ')
+  const [state, zipCode] = tokens[2].split(" ")
 
   return {
     street: tokens[0],
@@ -142,7 +148,7 @@ async function main() {
 
   let rowsCount = 0
   let failedRowsCounts = 0
-  let failedRowsIDs = []
+  const failedRowsIDs = []
 
   inputStream
     .pipe(
@@ -177,7 +183,7 @@ async function main() {
             yearBuilt: destructureYearBuilt(row[HeaderConstants.YearBuilt]),
           },
           jurisdiction: detroitJurisdiction,
-          listingPrograms: communityTypePrograms.map(program => {
+          listingPrograms: communityTypePrograms.map((program) => {
             return {
               program: program,
               ordinal: null,
@@ -212,17 +218,18 @@ async function main() {
           rentalAssistance: row[HeaderConstants.RentalAssistance],
         }
         await listingsRepository.save(newListing)
-      } catch(e) {
+      } catch (e) {
         console.error(`skipping row: ${row[HeaderConstants.TemporaryId]}`)
         console.error(e)
         failedRowsCounts += 1
         failedRowsIDs.push(row[HeaderConstants.TemporaryId])
       }
-    }).on('end', () => {
-    console.log(`${failedRowsCounts}/${rowsCount} rows failed`)
-    console.log("IDs:")
-    console.log(failedRowsIDs)
-  })
+    })
+    .on("end", () => {
+      console.log(`${failedRowsCounts}/${rowsCount} rows failed`)
+      console.log("IDs:")
+      console.log(failedRowsIDs)
+    })
 }
 
 void main()

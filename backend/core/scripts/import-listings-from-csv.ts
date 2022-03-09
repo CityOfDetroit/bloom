@@ -106,7 +106,7 @@ async function main() {
     }
 
     // Add data about unitsSummaries
-    const unitsSummaries: UnitsSummaryImport[] = []
+    /* const unitsSummaries: UnitsSummaryImport[] = []
     if (listingFields["Number 0BR"]) {
       unitsSummaries.push({
         unitType: "studio",
@@ -139,7 +139,7 @@ async function main() {
         unitType: "fourBdrm",
         totalCount: numberFourBdrm + numberFiveBdrm,
       })
-    }
+    } */
 
     // Listing affordability details
     let amiPercentageMin, amiPercentageMax
@@ -182,7 +182,7 @@ async function main() {
       amiPercentageMin: amiPercentageMin,
       amiPercentageMax: amiPercentageMax,
       status: ListingStatus.active,
-      unitsSummary: unitsSummaries,
+      // unitsSummary: unitsSummaries,
       jurisdictionName: "Detroit",
       reservedCommunityTypeName: reservedCommunityTypeName,
       neighborhood: listingFields["Neighborhood"],
