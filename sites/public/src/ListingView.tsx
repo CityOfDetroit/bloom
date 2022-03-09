@@ -31,6 +31,7 @@ import {
   StandardTable,
   t,
   TableHeaders,
+  InfoCard,
 } from "@bloom-housing/ui-components"
 import {
   cloudinaryPdfFromId,
@@ -417,6 +418,36 @@ export const ListingView = (props: ListingProps) => {
         )}
       </div>
       <ListingDetails>
+        {/* TODO: update when other items go in this section */}
+        {listing.listingPrograms?.length ? (
+          <ListingDetailItem
+            imageAlt={t("listings.eligibilityNotebook")}
+            imageSrc="/images/listing-eligibility.svg"
+            title={t("listings.sections.eligibilityTitle")}
+            subtitle={t("listings.sections.eligibilitySubtitle")}
+            desktopClass="bg-primary-lighter"
+          >
+            <ul>
+              {listing.listingPrograms?.length && (
+                <ListSection
+                  title={t("listings.communityPrograms")}
+                  subtitle={t("listings.communityProgramsDescription")}
+                >
+                  {listing.listingPrograms
+                    .sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
+                    .map((program) => (
+                      <InfoCard className="" title={program.program.title}>
+                        {program.program.description}
+                      </InfoCard>
+                    ))}
+                  <p className="text-gray-700 text-tiny">
+                    {t("listings.sections.publicProgramNote")}
+                  </p>
+                </ListSection>
+              )}
+            </ul>
+          </ListingDetailItem>
+        ) : null}
         <ListingDetailItem
           imageAlt={t("listings.processInfo")}
           imageSrc="/images/listing-process.svg"
