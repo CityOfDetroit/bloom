@@ -309,8 +309,13 @@ export const ListingView = (props: ListingProps) => {
                   {listing.listingPrograms
                     .sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
                     .map((program) => (
-                      <InfoCard title="">{program.program.title}</InfoCard>
+                      <InfoCard className="" title={program.program.title}>
+                        {program.program.description}
+                      </InfoCard>
                     ))}
+                  <p className="text-gray-700 text-tiny">
+                    {t("listings.sections.publicProgramNote")}
+                  </p>
                 </ListSection>
               )}
             </ul>

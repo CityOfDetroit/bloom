@@ -354,7 +354,6 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                             customMapPositionChosen={customMapPositionChosen}
                             setCustomMapPositionChosen={setCustomMapPositionChosen}
                           />
-                          <CommunityType listing={listing} />
                           <Units
                             units={units}
                             setUnits={setUnits}
@@ -375,6 +374,9 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                             drawerButtonText={"Select programs"}
                             dataFetcher={useJurisdictionalProgramList}
                             formKey={"program"}
+                            subNote={
+                              "Please choose the populations your building serves, based on your building's financing and regulatory agreements."
+                            }
                           />
                           <AdditionalFees />
                           <BuildingFeatures existingFeatures={listing?.features} />
