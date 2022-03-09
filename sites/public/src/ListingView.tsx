@@ -27,7 +27,6 @@ import {
   UnitTables,
   Waitlist,
   ListingUpdated,
-  Message,
   ListSection,
   StandardTable,
   t,
@@ -42,8 +41,10 @@ import dayjs from "dayjs"
 import { ErrorPage } from "../pages/_error"
 import {
   getGenericAddress,
+  getHmiSummary,
   getImageTagIconFromListing,
   getImageTagLabelFromListing,
+  getUnitGroupSummary,
   openInFuture,
 } from "../lib/helpers"
 
@@ -69,13 +70,11 @@ export const ListingView = (props: ListingProps) => {
   const googleMapsHref =
     "https://www.google.com/maps/place/" + ReactDOMServer.renderToStaticMarkup(oneLineAddress)
 
-  const unitSummariesHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
-  }
+  const { headers: groupedUnitHeaders, data: groupedUnitData } = getUnitGroupSummary(listing)
 
-  const groupedUnits: Record<string, React.ReactNode>[] = null
+  const { headers: hmiHeaders, data: hmiData } = getHmiSummary(listing)
+
+  const occpancyData = occupancyTable(listing)
 
   let openHouseEvents: ListingEvent[] | null = null
   if (Array.isArray(listing.events)) {
@@ -264,29 +263,21 @@ export const ListingView = (props: ListingProps) => {
       </header>
 
       <div className="w-full md:w-2/3 md:mt-6 md:mb-6 md:px-3 md:pr-8">
-        {listing.reservedCommunityType && (
-          <Message warning={true}>
-            {t("listings.reservedFor", {
-              type: t(
-                `listings.reservedCommunityTypeDescriptions.${listing.reservedCommunityType.name}`
-              ),
-            })}
-          </Message>
+        {groupedUnitData?.length > 0 && (
+          <>
+            <GroupedTable
+              headers={groupedUnitHeaders}
+              data={[{ data: groupedUnitData }]}
+              responsiveCollapse={true}
+            />
+            <div className="text-sm leading-5 mt-4">
+              {t("listings.unitSummaryGroupMessage")}{" "}
+              <a className="underline" href="#household_maximum_income_summary">
+                {t("listings.unitSummaryGroupLinkText")}
+              </a>
+            </div>
+          </>
         )}
-
-        {groupedUnits?.length > 0 && (
-          <GroupedTable
-            headers={unitSummariesHeaders}
-            data={[{ data: groupedUnits }]}
-            responsiveCollapse={true}
-          />
-        )}
-      </div>
-      <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
-        <ListingUpdated listingUpdated={listing.updatedAt} />
-        <div className="mx-4">
-          {hasNonReferralMethods && !applicationsClosed ? <>{applySidebar()}</> : <></>}
-        </div>
       </div>
       <ListingDetails>
         {/* TODO: update when other items go in this section */}
@@ -375,29 +366,42 @@ export const ListingView = (props: ListingProps) => {
           </aside>
         </ListingDetailItem>
 
-        <ListingDetailItem
-          imageAlt={t("listings.eligibilityNotebook")}
-          imageSrc="/images/listing-eligibility.svg"
-          title={t("listings.sections.eligibilityTitle")}
-          subtitle={t("listings.sections.eligibilitySubtitle")}
-          desktopClass="bg-primary-lighter"
-        >
-          <ul>
-            <ListSection
-              title={t("t.occupancy")}
-              subtitle={t("listings.occupancyDescriptionNoSro")}
-            >
-              <StandardTable
-                headers={{
-                  unitType: "t.unitType",
-                  occupancy: "t.occupancy",
-                }}
-                data={occupancyTable(listing)}
-                responsiveCollapse={false}
-              />
-            </ListSection>
-          </ul>
-        </ListingDetailItem>
+        {hmiData?.length || occpancyData?.length ? (
+          <ListingDetailItem
+            imageAlt={t("listings.eligibilityNotebook")}
+            imageSrc="/images/listing-eligibility.svg"
+            title={t("listings.sections.eligibilityTitle")}
+            subtitle={t("listings.sections.eligibilitySubtitle")}
+            desktopClass="bg-primary-lighter"
+          >
+            <ul>
+              {hmiData?.length > 0 && (
+                <ListSection
+                  id="household_maximum_income_summary"
+                  title={t("listings.householdMaximumIncome")}
+                  subtitle={t("listings.forIncomeCalculations")}
+                >
+                  <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
+                </ListSection>
+              )}
+              {occpancyData?.length && (
+                <ListSection
+                  title={t("t.occupancy")}
+                  subtitle={t("listings.occupancyDescriptionNoSro")}
+                >
+                  <StandardTable
+                    headers={{
+                      unitType: "t.unitType",
+                      occupancy: "t.occupancy",
+                    }}
+                    data={occupancyTable(listing)}
+                    responsiveCollapse={false}
+                  />
+                </ListSection>
+              )}
+            </ul>
+          </ListingDetailItem>
+        ) : null}
 
         <ListingDetailItem
           imageAlt={t("listings.featuresCards")}
