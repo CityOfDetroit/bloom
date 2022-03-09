@@ -1,9 +1,20 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common"
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  NotFoundException,
+  Scope,
+} from "@nestjs/common"
+import { REQUEST } from "@nestjs/core"
+import { Request as ExpressRequest } from "express"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Pagination } from "nestjs-typeorm-paginate"
 import { In, OrderByCondition, Repository } from "typeorm"
 import { plainToClass } from "class-transformer"
 import { Interval } from "@nestjs/schedule"
+import { Queue } from "bull"
+import { InjectQueue } from "@nestjs/bull"
 import { Listing } from "./entities/listing.entity"
 import { PropertyCreateDto, PropertyUpdateDto } from "../property/dto/property.dto"
 import { addFilters } from "../shared/query-filter"
@@ -17,15 +28,15 @@ import { ListingUpdateDto } from "./dto/listing-update.dto"
 import { ListingFilterParams } from "./dto/listing-filter-params"
 import { ListingsQueryParams } from "./dto/listings-query-params"
 import { filterTypeToFieldMap } from "./dto/filter-type-to-field-map"
-import { Queue } from "bull"
-import { InjectQueue } from "@nestjs/bull"
 import { ListingNotificationInfo, ListingUpdateType } from "./listings-notifications"
 import { ListingStatus } from "./types/listing-status-enum"
 import { TranslationsService } from "../translations/services/translations.service"
+import { UnitGroup } from "../units-summary/entities/unit-group.entity"
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class ListingsService {
   constructor(
+    @Inject(REQUEST) private req: ExpressRequest,
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     private readonly translationService: TranslationsService,
@@ -75,8 +86,9 @@ export class ListingsService {
       .leftJoin("listings.property", "property")
       .leftJoin("listings.leasingAgents", "leasingAgents")
       .leftJoin("property.buildingAddress", "buildingAddress")
-      .leftJoin("listings.unitsSummary", "unitsSummary")
-      .leftJoin("unitsSummary.unitType", "summaryUnitType")
+      .leftJoin("listings.unitGroups", "unitGroups")
+      .leftJoin("unitGroups.amiLevels", "unitGroupsAmiLevels")
+      .leftJoin("unitGroups.unitType", "summaryUnitType")
       .leftJoin("listings.reservedCommunityType", "reservedCommunityType")
       .leftJoin("listings.features", "listing_features")
       .groupBy("listings.id")
@@ -174,6 +186,9 @@ export class ListingsService {
     if (!listing) {
       throw new NotFoundException()
     }
+
+    this.userCanUpdateOrThrow(this.req.user, listingDto, previousListingStatus)
+
     let availableUnits = 0
     listingDto.units.forEach((unit) => {
       if (!unit.id) {
@@ -183,7 +198,7 @@ export class ListingsService {
         availableUnits++
       }
     })
-    listingDto.unitsSummary.forEach((summary) => {
+    listingDto.unitGroups.forEach((summary) => {
       if (!summary.id) {
         delete summary.id
       }
@@ -238,18 +253,60 @@ export class ListingsService {
       await this.translationService.translateListing(result, lang)
     }
 
-    await this.addUnitsSummarized(result)
+    await this.addUnitSummaries(result)
     return result
   }
 
-  private async addUnitsSummarized(listing: Listing) {
-    if (Array.isArray(listing.property.units) && listing.property.units.length > 0) {
+  private async addUnitSummaries(listing: Listing) {
+    if (Array.isArray(listing.unitGroups) && listing.unitGroups.length > 0) {
+      const amiChartIds = listing.unitGroups.reduce((acc: string[], curr: UnitGroup) => {
+        curr.amiLevels.forEach((level) => {
+          if (acc.includes(level.amiChartId) === false) {
+            acc.push(level.amiChartId)
+          }
+        })
+        return acc
+      }, [])
       const amiCharts = await this.amiChartsRepository.find({
-        where: { id: In(listing.property.units.map((unit) => unit.amiChartId)) },
+        where: { id: In(amiChartIds) },
       })
-      listing.unitsSummarized = summarizeUnits(listing.property.units, amiCharts)
+      listing.unitSummaries = summarizeUnits(listing.unitGroups, amiCharts)
     }
     return listing
+  }
+
+  /**
+   *
+   * @param user
+   * @param listing
+   * @param action
+   *
+   * authz gaurd should already be used at this point,
+   * so we know the user has general permissions to do this action.
+   * We also have to check what the previous status was.
+   * A partner can save a listing as any status as long as the previous status was active. Otherwise they can only save as pending
+   */
+  private userCanUpdateOrThrow(
+    user,
+    listing: ListingUpdateDto,
+    previousListingStatus: ListingStatus
+  ): boolean {
+    const { isAdmin } = user.roles
+    let canUpdate = false
+
+    if (isAdmin) {
+      canUpdate = true
+    } else if (previousListingStatus !== ListingStatus.pending) {
+      canUpdate = true
+    } else if (listing.status === ListingStatus.pending) {
+      canUpdate = true
+    }
+
+    if (!canUpdate) {
+      throw new HttpException("Forbidden", HttpStatus.FORBIDDEN)
+    }
+
+    return canUpdate
   }
 
   @Interval(1000 * 60 * 60)
