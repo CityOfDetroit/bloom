@@ -4,6 +4,7 @@ import { ApiProperty } from "@nestjs/swagger"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { MinMaxCurrency } from "./min-max-currency"
 import { MinMax } from "./min-max"
+import { MinMaxString } from "./min-max-string"
 
 export class UnitGroupSummary {
   @Expose()
@@ -42,4 +43,25 @@ export class UnitGroupSummary {
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   @ApiProperty()
   unitVacancies: number
+
+  @Expose()
+  @IsDefined({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
+  @Type(() => MinMax)
+  @ApiProperty({ required: false })
+  floorRange?: MinMax
+
+  @Expose()
+  @IsDefined({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
+  @Type(() => MinMaxString)
+  @ApiProperty({ required: false })
+  sqFeetRange?: MinMaxString
+
+  @Expose()
+  @IsDefined({ groups: [ValidationsGroupsEnum.default] })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
+  @Type(() => MinMax)
+  @ApiProperty({ required: false })
+  bathroomRange?: MinMax
 }

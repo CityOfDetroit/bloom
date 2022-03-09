@@ -4380,6 +4380,9 @@ export interface Unit {
 
 export interface UnitGroupAmiLevel {
   /**  */
+  amiChart?: Id
+
+  /**  */
   id: string
 
   /**  */
@@ -4495,6 +4498,15 @@ export interface ListingFeatures {
 
   /**  */
   acInUnit?: boolean
+
+  /**  */
+  hearing?: boolean
+
+  /**  */
+  visual?: boolean
+
+  /**  */
+  mobility?: boolean
 }
 
 export interface Listing {
@@ -4782,6 +4794,9 @@ export interface Listing {
 
   /**  */
   region?: string
+
+  /**  */
+  temporaryListingId?: number
 }
 
 export interface UserPreferences {
@@ -5363,6 +5378,9 @@ export interface UnitCreate {
 
 export interface UnitGroupAmiLevelCreate {
   /**  */
+  amiChart?: Id
+
+  /**  */
   amiChartId?: string
 
   /**  */
@@ -5698,6 +5716,9 @@ export interface ListingCreate {
   region?: string
 
   /**  */
+  temporaryListingId?: number
+
+  /**  */
   countyCode?: string
 
   /**  */
@@ -5824,6 +5845,9 @@ export interface UnitUpdate {
 export interface UnitGroupAmiLevelUpdate {
   /**  */
   id?: string
+
+  /**  */
+  amiChart?: Id
 
   /**  */
   amiChartId?: string
@@ -6152,6 +6176,9 @@ export interface ListingUpdate {
 
   /**  */
   region?: string
+
+  /**  */
+  temporaryListingId?: number
 
   /**  */
   countyCode?: string

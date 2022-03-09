@@ -20,7 +20,7 @@ export const getUnitTypeSummary = (unitGroups: UnitGroup[]): UnitTypeSummary[] =
 
 // One row for every unit group, with rent and ami ranges across all ami levels
 // Used to display the main pricing table
-export const getUnitGroupSummary = (unitGroups: UnitGroup[]): UnitGroupSummary[] => {
+export const getUnitGroupSummary = (unitGroups: UnitGroup[] = []): UnitGroupSummary[] => {
   const summary = []
 
   unitGroups.forEach((group) => {
@@ -49,6 +49,18 @@ export const getUnitGroupSummary = (unitGroups: UnitGroup[]): UnitGroupSummary[]
       amiPercentageRange,
       openWaitlist: group.openWaitlist,
       unitVacancies: group.totalAvailable,
+      bathroomRange: {
+        min: group.bathroomMin,
+        max: group.bathroomMax,
+      },
+      floorRange: {
+        min: group.floorMin,
+        max: group.floorMax,
+      },
+      sqFeetRange: {
+        min: group.sqFeetMin,
+        max: group.sqFeetMax,
+      },
     }
     summary.push(groupSummary)
   })
@@ -59,7 +71,7 @@ export const getUnitGroupSummary = (unitGroups: UnitGroup[]): UnitGroupSummary[]
 // One row for every household size, with max income ranged pulled from all ami charts
 // Used to display the maximum income table
 export const getHouseholdMaxIncomeSummary = (
-  unitGroups: UnitGroup[],
+  unitGroups: UnitGroup[] = [],
   amiCharts: AmiChart[]
 ): HouseholdMaxIncomeSummary => {
   const columns = {

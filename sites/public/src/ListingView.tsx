@@ -89,7 +89,6 @@ export const ListingView = (props: ListingProps) => {
       }
     })
   }
-
   const shouldShowFeaturesDetail = () => {
     return (
       listing.neighborhood ||
@@ -454,16 +453,16 @@ export const ListingView = (props: ListingProps) => {
                   term={t("t.accessibility")}
                   description={listing.accessibility || t("t.contactPropertyManagement")}
                 />
-                <Description
+                {/* <Description
                   term={t("t.unitFeatures")}
                   description={
                     <UnitTables
                       units={listing.units}
-                      unitSummaries={listing?.unitSummaries?.unitTypeSummary}
+                      unitSummaries={listing?.unitSummaries?.unitGroupSummary}
                       disableAccordion={listing.disableUnitsAccordion}
                     />
                   }
-                />
+                /> */}
               </dl>
               <AdditionalFees
                 depositMin={listing.depositMin}
