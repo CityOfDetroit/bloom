@@ -103,11 +103,11 @@ function getAmiValueFromColumn(row, amiPercentage: number, type: "percentage" | 
 
   if (value) {
     // This is case where $ is added by google spreadsheet because it's a single non % value
-    if (type === "flat" && value.includes('$')) {
+    if (type === "flat" && value.toString().includes('$')) {
       return Number.parseInt(value.replace(/\$/, "").replace(/,/, ""))
     }
 
-    const splitValues = value.split(",")
+    const splitValues = value.toString().split("/")
 
     if (splitValues.length === 1) {
       return Number.parseInt(value)
