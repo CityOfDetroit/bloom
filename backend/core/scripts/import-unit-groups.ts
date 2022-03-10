@@ -69,8 +69,6 @@ function parseAmiStringValue(value: string | number) {
   } else if (typeof value === "string") {
     const retval = Number.parseInt(value.replace(/\$/, "").replace(/,/, ""))
     if (!retval) {
-      console.log("dollar value")
-      console.log(value)
       throw new Error("Failed to parse $ (dolar) value")
     }
     return retval
@@ -101,7 +99,7 @@ function getAmiValueFromColumn(row, amiPercentage: number, type: "percentage" | 
   const value = row[mapAmiPercentageToColumnName[amiPercentage]]
 
   if (value) {
-    const splitValues = value.split("/")
+    const splitValues = value.toString().split("/")
 
     if (splitValues.length === 1) {
       return parseAmiStringValue(value)
@@ -130,7 +128,7 @@ function generateUnitsSummaryAmiLevels(
       .map((s) => s.trim())
       .map((s) => Number.parseInt(s))
   } else if (amiChartPercentagesString && typeof amiChartPercentagesString === "number") {
-    amiPercentages = [amiChartPercentagesString]
+    amiPercentages = [Number(amiChartPercentagesString)]
   }
 
   const amiChartLevels: Array<DeepPartial<UnitGroupAmiLevel>> = []
@@ -145,7 +143,8 @@ function generateUnitsSummaryAmiLevels(
     for (const amiPercentage of amiPercentages) {
       amiChartLevels.push({
         amiChart: amiChartEntity,
-        amiPercentage:
+        amiPercentage: amiPercentage,
+        percentageOfIncomeValue:
           monthlyRentDeterminationType === MonthlyRentDeterminationType.percentageOfIncome
             ? getAmiValueFromColumn(row, amiPercentage, "percentage")
             : null,
