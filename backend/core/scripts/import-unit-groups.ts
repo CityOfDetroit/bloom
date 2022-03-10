@@ -13,7 +13,6 @@ import dbOptions = require("../ormconfig")
 
 type AmiChartNameType = "MSHDA" | "HUD"
 
-
 const args = process.argv.slice(2)
 
 const filePath = args[0]
@@ -39,8 +38,15 @@ export class HeaderConstants {
   public static readonly Value40: string = "40% (Value)"
   public static readonly Value45: string = "45% (Value)"
   public static readonly Value50: string = "50% (Value)"
+  public static readonly Value55: string = "55% (Value)"
   public static readonly Value60: string = "60% (Value)"
+  public static readonly Value70: string = "70% (Value)"
   public static readonly Value80: string = "80% (Value)"
+  public static readonly Value100: string = "100% (Value)"
+  public static readonly Value120: string = "120% (Value)"
+  public static readonly Value125: string = "125% (Value)"
+  public static readonly Value140: string = "140% (Value)"
+  public static readonly Value150: string = "150% (Value)"
 }
 
 function findAmiChartByName(
@@ -49,7 +55,7 @@ function findAmiChartByName(
 ): AmiChart {
   const SpreadSheetAmiChartNameToDbChartNameMapping: Record<AmiChartNameType, string> = {
     MSHDA: MSHDA2021.name,
-    HUD: HUD2021.name
+    HUD: HUD2021.name,
   }
   return amiCharts.find(
     (amiChart) =>
@@ -58,10 +64,10 @@ function findAmiChartByName(
 }
 
 function parseAmiStringValue(value: string | number) {
-  if (typeof value === 'number')  {
+  if (typeof value === "number") {
     return value
-  } else if (typeof value === 'string') {
-    const retval = Number.parseInt(value.replace(/\$/, '').replace(/,/, ''))
+  } else if (typeof value === "string") {
+    const retval = Number.parseInt(value.replace(/\$/, "").replace(/,/, ""))
     if (!retval) {
       console.log("dollar value")
       console.log(value)
@@ -82,20 +88,31 @@ function getAmiValueFromColumn(row, amiPercentage: number, type: "percentage" | 
     40: HeaderConstants.Value40,
     45: HeaderConstants.Value45,
     50: HeaderConstants.Value50,
+    55: HeaderConstants.Value55,
     60: HeaderConstants.Value60,
-    80: HeaderConstants.Value80
+    70: HeaderConstants.Value70,
+    80: HeaderConstants.Value80,
+    100: HeaderConstants.Value100,
+    120: HeaderConstants.Value120,
+    125: HeaderConstants.Value125,
+    140: HeaderConstants.Value140,
+    150: HeaderConstants.Value150,
   }
   const value = row[mapAmiPercentageToColumnName[amiPercentage]]
 
-  const splitValues = value.split("/")
+  if (value) {
+    const splitValues = value.split("/")
 
-  if (splitValues.length === 1) {
-    return parseAmiStringValue(value)
-  } else if (splitValues.length === 2) {
-    return type === "flat" ? parseAmiStringValue(splitValues[0]) : parseAmiStringValue(splitValues[1])
+    if (splitValues.length === 1) {
+      return parseAmiStringValue(value)
+    } else if (splitValues.length === 2) {
+      return type === "flat"
+        ? parseAmiStringValue(splitValues[0])
+        : parseAmiStringValue(splitValues[1])
+    }
+
+    throw new Error("This part should not be reached")
   }
-
-  throw new Error("This part should not be reached")
 }
 
 function generateUnitsSummaryAmiLevels(
@@ -104,12 +121,14 @@ function generateUnitsSummaryAmiLevels(
   amiChartString: string,
   amiChartPercentagesString: string
 ) {
-
-  let amiCharts = amiChartString.split("/")
+  const amiCharts = amiChartString.split("/")
 
   let amiPercentages: Array<number> = []
   if (amiChartPercentagesString && typeof amiChartPercentagesString === "string") {
-    amiPercentages = amiChartPercentagesString.split(",").map(s => s.trim()).map(s => Number.parseInt(s))
+    amiPercentages = amiChartPercentagesString
+      .split(",")
+      .map((s) => s.trim())
+      .map((s) => Number.parseInt(s))
   } else if (amiChartPercentagesString && typeof amiChartPercentagesString === "number") {
     amiPercentages = [amiChartPercentagesString]
   }
@@ -117,7 +136,6 @@ function generateUnitsSummaryAmiLevels(
   const amiChartLevels: Array<DeepPartial<UnitGroupAmiLevel>> = []
 
   for (const amiChartName of amiCharts) {
-
     const amiChartEntity = findAmiChartByName(amiChartEntities, amiChartName as AmiChartNameType)
     const monthlyRentDeterminationType =
       amiChartName === "MSHDA"
@@ -127,14 +145,18 @@ function generateUnitsSummaryAmiLevels(
     for (const amiPercentage of amiPercentages) {
       amiChartLevels.push({
         amiChart: amiChartEntity,
-        amiPercentage: monthlyRentDeterminationType === MonthlyRentDeterminationType.percentageOfIncome ? getAmiValueFromColumn(row, amiPercentage, "percentage") : null,
+        amiPercentage:
+          monthlyRentDeterminationType === MonthlyRentDeterminationType.percentageOfIncome
+            ? getAmiValueFromColumn(row, amiPercentage, "percentage")
+            : null,
         monthlyRentDeterminationType,
-        flatRentValue: monthlyRentDeterminationType === MonthlyRentDeterminationType.flatRent ? getAmiValueFromColumn(row, amiPercentage, "flat") : null
+        flatRentValue:
+          monthlyRentDeterminationType === MonthlyRentDeterminationType.flatRent
+            ? getAmiValueFromColumn(row, amiPercentage, "flat")
+            : null,
       })
     }
-
   }
-
 
   return amiChartLevels
 }
@@ -173,8 +195,8 @@ async function main() {
       try {
         const listing: DeepPartial<Listing> = await listingsRepository.findOne({
           where: {
-            temporaryListingId: row[HeaderConstants.TemporaryListingId]
-          }
+            temporaryListingId: row[HeaderConstants.TemporaryListingId],
+          },
         })
         if (!listing) {
           throw new Error(`Listing with ID: ${row[HeaderConstants.TemporaryListingId]} not found.`)
@@ -188,13 +210,13 @@ async function main() {
             "3BR": "threeBdrm",
             "4+BR": "fourBdrm",
             "4BR": "fourBdrm",
-            Studio: "studio"
+            Studio: "studio",
           }
 
           const unitType = await unitTypesRepository.findOneOrFail({
             where: {
-              name: spreadsheetUnitTypeNameToDbUnitTypeName[row[HeaderConstants.UnitTypeName]]
-            }
+              name: spreadsheetUnitTypeNameToDbUnitTypeName[row[HeaderConstants.UnitTypeName]],
+            },
           })
           unitTypes.push(unitType)
         }
@@ -212,7 +234,12 @@ async function main() {
             : null,
           openWaitlist: getOpenWaitlistValue(row),
           unitType: unitTypes,
-          amiLevels: generateUnitsSummaryAmiLevels(row, amiCharts, row[HeaderConstants.AMIChart], row[HeaderConstants.AmiChartPercentage])
+          amiLevels: generateUnitsSummaryAmiLevels(
+            row,
+            amiCharts,
+            row[HeaderConstants.AMIChart],
+            row[HeaderConstants.AmiChartPercentage]
+          ),
         }
         listing.unitGroups.push(newUnitsSummary)
 

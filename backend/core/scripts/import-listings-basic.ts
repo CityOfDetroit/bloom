@@ -122,7 +122,7 @@ async function destructureAddressString(addressString: string): Promise<AddressC
   let longitude
 
   const res = await client.geocodeForward(addressString)
-  if (res.entity.features.length) {
+  if (res.entity?.features?.length) {
     latitude = res.entity.features[0].center[0]
     longitude = res.entity.features[0].center[1]
   }
