@@ -295,9 +295,13 @@ export const ListingView = (props: ListingProps) => {
             />
             <div className="text-sm leading-5 mt-4 invisible md:visible">
               {t("listings.unitSummaryGroupMessage")}{" "}
-              <a className="underline" href="#household_maximum_income_summary">
-                {t("listings.unitSummaryGroupLinkText")}
-              </a>
+              {hmiData ? (
+                <a className="underline" href="#household_maximum_income_summary">
+                  {t("listings.unitSummaryGroupLinkText")}
+                </a>
+              ) : (
+                t("listings.unitSummaryGroupLinkText")
+              )}
             </div>
           </>
         )}
