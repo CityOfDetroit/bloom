@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import * as fs from "fs"
 import CsvReadableStream from "csv-reader"
 import { Connection, DeepPartial } from "typeorm"
@@ -134,7 +135,7 @@ async function destructureAddressString(addressString: string): Promise<AddressC
       state: undefined,
       zipCode: undefined,
       latitude,
-      longitude
+      longitude,
     }
   }
 
@@ -206,7 +207,9 @@ async function main() {
           leasingAgentEmail: row[HeaderConstants.LeasingAgentEmail],
           leasingAgentPhone: row[HeaderConstants.LeasingAgentPhone],
           managementWebsite: row[HeaderConstants.ManagementWebsite],
-          leasingAgentAddress: await destructureAddressString(row[HeaderConstants.LeasingAgentAddress]),
+          leasingAgentAddress: await destructureAddressString(
+            row[HeaderConstants.LeasingAgentAddress]
+          ),
           applicationFee: row[HeaderConstants.ApplicationFee],
           depositMin: row[HeaderConstants.DepositMin],
           depositMax: row[HeaderConstants.DepositMax],
