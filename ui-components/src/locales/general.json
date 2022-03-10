@@ -1400,6 +1400,7 @@
     },
     "usingCommonDigitalApplication": "Are you using the common digital application?",
     "usingCommonPaperApplication": "Are you using the common paper application?",
+    "verified": "Verified listing",
     "waitlist": {
       "closed": "Closed waitlist",
       "currentSizeQuestion": "How many people are on the current list?",
