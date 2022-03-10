@@ -485,6 +485,7 @@ export const ListingView = (props: ListingProps) => {
                 depositMax={listing.depositMax}
                 applicationFee={listing.applicationFee}
                 costsNotIncluded={listing.costsNotIncluded}
+                containerClass={"mt-4"}
               />
             </div>
           )}
