@@ -392,7 +392,7 @@ export const ListingView = (props: ListingProps) => {
                   />
                 </ListSection>
               )}
-              {listing.listingPrograms?.length && (
+              {listing.listingPrograms?.length > 0 && (
                 <ListSection
                   title={t("listings.communityPrograms")}
                   subtitle={t("listings.communityProgramsDescription")}
