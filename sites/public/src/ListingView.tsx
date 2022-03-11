@@ -24,7 +24,6 @@ import {
   OpenHouseEvent,
   ReferralApplication,
   SubmitApplication,
-  UnitTables,
   Waitlist,
   ListingUpdated,
   ListSection,
@@ -75,7 +74,7 @@ export const ListingView = (props: ListingProps) => {
 
   const { headers: hmiHeaders, data: hmiData } = getHmiSummary(listing)
 
-  const occpancyData = occupancyTable(listing)
+  const occupancyData = occupancyTable(listing)
 
   let openHouseEvents: ListingEvent[] | null = null
   if (Array.isArray(listing.events)) {
@@ -294,7 +293,7 @@ export const ListingView = (props: ListingProps) => {
               data={[{ data: groupedUnitData }]}
               responsiveCollapse={true}
             />
-            <div className="text-sm leading-5 mt-4">
+            <div className="text-sm leading-5 mt-4 invisible md:visible">
               {t("listings.unitSummaryGroupMessage")}{" "}
               <a className="underline" href="#household_maximum_income_summary">
                 {t("listings.unitSummaryGroupLinkText")}
@@ -304,36 +303,6 @@ export const ListingView = (props: ListingProps) => {
         )}
       </div>
       <ListingDetails>
-        {/* TODO: update when other items go in this section */}
-        {listing.listingPrograms?.length ? (
-          <ListingDetailItem
-            imageAlt={t("listings.eligibilityNotebook")}
-            imageSrc="/images/listing-eligibility.svg"
-            title={t("listings.sections.eligibilityTitle")}
-            subtitle={t("listings.sections.eligibilitySubtitle")}
-            desktopClass="bg-primary-lighter"
-          >
-            <ul>
-              {listing.listingPrograms?.length && (
-                <ListSection
-                  title={t("listings.communityPrograms")}
-                  subtitle={t("listings.communityProgramsDescription")}
-                >
-                  {listing.listingPrograms
-                    .sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
-                    .map((program) => (
-                      <InfoCard className="" title={program.program.title}>
-                        {program.program.description}
-                      </InfoCard>
-                    ))}
-                  <p className="text-gray-700 text-tiny">
-                    {t("listings.sections.publicProgramNote")}
-                  </p>
-                </ListSection>
-              )}
-            </ul>
-          </ListingDetailItem>
-        ) : null}
         <ListingDetailItem
           imageAlt={t("listings.processInfo")}
           imageSrc="/images/listing-process.svg"
@@ -390,7 +359,7 @@ export const ListingView = (props: ListingProps) => {
           </aside>
         </ListingDetailItem>
 
-        {hmiData?.length || occpancyData?.length ? (
+        {hmiData?.length || occupancyData?.length || listing.listingPrograms?.length ? (
           <ListingDetailItem
             imageAlt={t("listings.eligibilityNotebook")}
             imageSrc="/images/listing-eligibility.svg"
@@ -408,7 +377,7 @@ export const ListingView = (props: ListingProps) => {
                   <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
                 </ListSection>
               )}
-              {occpancyData?.length && (
+              {occupancyData.length > 0 && (
                 <ListSection
                   title={t("t.occupancy")}
                   subtitle={t("listings.occupancyDescriptionNoSro")}
@@ -418,9 +387,26 @@ export const ListingView = (props: ListingProps) => {
                       unitType: "t.unitType",
                       occupancy: "t.occupancy",
                     }}
-                    data={occupancyTable(listing)}
+                    data={occupancyData}
                     responsiveCollapse={false}
                   />
+                </ListSection>
+              )}
+              {listing.listingPrograms?.length && (
+                <ListSection
+                  title={t("listings.communityPrograms")}
+                  subtitle={t("listings.communityProgramsDescription")}
+                >
+                  {listing.listingPrograms
+                    .sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
+                    .map((program) => (
+                      <InfoCard className="" title={program.program.title}>
+                        {program.program.description}
+                      </InfoCard>
+                    ))}
+                  <p className="text-gray-700 text-tiny">
+                    {t("listings.sections.publicProgramNote")}
+                  </p>
                 </ListSection>
               )}
             </ul>
@@ -468,24 +454,21 @@ export const ListingView = (props: ListingProps) => {
                     markdown={useMarkdownForUnitAmenities}
                   />
                 )}
-                <Description
-                  term={t("t.accessibility")}
-                  description={
-                    accessibilityFeatures
-                      ? accessibilityFeatures
-                      : listing.accessibility ?? t("t.contactPropertyManagement")
-                  }
-                />
                 {listing.servicesOffered && (
                   <Description
                     term={t("t.servicesOffered")}
                     description={listing.servicesOffered}
                   />
                 )}
-                <Description
-                  term={t("t.accessibility")}
-                  description={listing.accessibility || t("t.contactPropertyManagement")}
-                />
+                {accessibilityFeatures && (
+                  <Description term={t("t.accessibility")} description={accessibilityFeatures} />
+                )}
+                {listing.accessibility && (
+                  <Description
+                    term={t("t.additionalAccessibility")}
+                    description={listing.accessibility}
+                  />
+                )}
                 {/* <Description
                   term={t("t.unitFeatures")}
                   description={

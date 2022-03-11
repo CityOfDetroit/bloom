@@ -47,7 +47,7 @@ import ApplicationAddress from "./sections/ApplicationAddress"
 import LotteryResults from "./sections/LotteryResults"
 import ApplicationTypes from "./sections/ApplicationTypes"
 import SelectAndOrder from "./sections/SelectAndOrder"
-import CommunityType from "./sections/CommunityType"
+import Verification from "./sections/Verification"
 import BuildingSelectionCriteria from "./sections/BuildingSelectionCriteria"
 import { getReadableErrorMessage } from "../PaperListingDetails/sections/helpers"
 import { useJurisdictionalProgramList } from "../../../lib/hooks"
@@ -75,6 +75,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
   const [units, setUnits] = useState<TempUnit[]>([])
   const [unitsSummaries, setUnitsSummaries] = useState<TempUnitsSummary[]>([])
   const [openHouseEvents, setOpenHouseEvents] = useState<TempEvent[]>([])
+  const [verifyAlert, setVerifyAlert] = useState<boolean>(false)
 
   const [programs, setPrograms] = useState<Program[]>(
     listing?.listingPrograms.map((program) => {
@@ -117,14 +118,6 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
   const [listingIsAlreadyLiveModal, setListingIsAlreadyLiveModal] = useState(false)
 
   useEffect(() => {
-    if (listing?.units) {
-      const tempUnits = listing.units.map((unit, i) => ({
-        ...unit,
-        tempId: i + 1,
-      }))
-      setUnits(tempUnits)
-    }
-
     if (listing?.events) {
       setOpenHouseEvents(
         listing.events
@@ -140,22 +133,21 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       )
     }
 
-    // Use a temp id to track each summary within the form table (prior to submission).
-    if (listing?.unitsSummary) {
-      const tempSummaries = listing.unitsSummary.map((summary, i) => ({
+    if (listing?.isVerified === false) {
+      setVerifyAlert(true)
+    }
+  }, [listing?.events, listing?.isVerified])
+
+  useEffect(() => {
+    if (listing?.unitGroups && !unitsSummaries.length) {
+      const tempSummaries = listing.unitGroups.map((summary, i) => ({
         ...summary,
         tempId: i + 1,
+        amiLevels: summary?.amiLevels?.map((elem, index) => ({ ...elem, tempId: index + 1 })),
       }))
       setUnitsSummaries(tempSummaries)
     }
-  }, [
-    listing?.units,
-    listing?.events,
-    listing?.unitsSummary,
-    setUnits,
-    setUnitsSummaries,
-    setOpenHouseEvents,
-  ])
+  }, [])
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { getValues, setError, clearErrors, reset } = formMethods
@@ -173,7 +165,11 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       }
       return
     }
-    let formData = { ...defaultValues, ...getValues(), ...(newData || {}) }
+    let formData = {
+      ...defaultValues,
+      ...getValues(),
+      ...(newData || {}),
+    }
     if (status) {
       formData = { ...formData, status }
     }
@@ -189,7 +185,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
 
           const dataPipeline = new ListingDataPipeline(formData, {
             units,
-            unitsSummaries,
+            unitGroups: unitsSummaries,
             openHouseEvents,
             profile,
             latLong,
@@ -323,6 +319,30 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                     {alert === "form" ? t("listings.fieldError") : t("errors.alert.badRequest")}
                   </AlertBox>
                 )}
+                {verifyAlert && (
+                  <AlertBox
+                    className="mb-5 bg-blue-300"
+                    onClose={() => setVerifyAlert(false)}
+                    closeable
+                    type="alert"
+                  >
+                    <span className="text-sm font-normal">
+                      Let us know that the listing data is accurate and up to date.{" "}
+                      <a
+                        className="decoration-blue-700 underline"
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          document
+                            .getElementById("isVerifiedContainer")
+                            .scrollIntoView({ behavior: "smooth" })
+                        }}
+                      >
+                        Verify your listing data.
+                      </a>
+                    </span>
+                  </AlertBox>
+                )}
 
                 <Form id="listing-form">
                   <div className="flex flex-row flex-wrap">
@@ -383,6 +403,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                           <AdditionalEligibility />
                           <BuildingSelectionCriteria />
                           <AdditionalDetails />
+                          <Verification setAlert={setVerifyAlert} />
 
                           <div className="text-right -mr-8 -mt-8 relative" style={{ top: "7rem" }}>
                             <Button

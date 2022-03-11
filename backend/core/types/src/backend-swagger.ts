@@ -3902,14 +3902,6 @@ export interface MinMaxCurrency {
   max: string
 }
 
-export interface MinMaxString {
-  /**  */
-  min: string
-
-  /**  */
-  max: string
-}
-
 export interface UnitGroupSummary {
   /**  */
   unitTypes?: string[]
@@ -3933,7 +3925,7 @@ export interface UnitGroupSummary {
   floorRange?: MinMax
 
   /**  */
-  sqFeetRange?: MinMaxString
+  sqFeetRange?: MinMax
 
   /**  */
   bathroomRange?: MinMax
@@ -4397,6 +4389,9 @@ export interface Unit {
 
 export interface UnitGroupAmiLevel {
   /**  */
+  monthlyRentDeterminationType: MonthlyRentDeterminationType
+
+  /**  */
   amiChart?: Id
 
   /**  */
@@ -4407,9 +4402,6 @@ export interface UnitGroupAmiLevel {
 
   /**  */
   amiPercentage: number
-
-  /**  */
-  monthlyRentDeterminationType: EnumUnitGroupAmiLevelMonthlyRentDeterminationType
 
   /**  */
   flatRentValue?: number
@@ -4455,10 +4447,10 @@ export interface UnitGroup {
   floorMax?: number
 
   /**  */
-  sqFeetMin?: string
+  sqFeetMin?: number
 
   /**  */
-  sqFeetMax?: string
+  sqFeetMax?: number
 
   /**  */
   priorityType?: CombinedPriorityTypeTypes
@@ -4811,6 +4803,9 @@ export interface Listing {
 
   /**  */
   region?: string
+
+  /**  */
+  isVerified?: boolean
 
   /**  */
   temporaryListingId?: number
@@ -5395,6 +5390,9 @@ export interface UnitCreate {
 
 export interface UnitGroupAmiLevelCreate {
   /**  */
+  monthlyRentDeterminationType: MonthlyRentDeterminationType
+
+  /**  */
   amiChart?: Id
 
   /**  */
@@ -5402,9 +5400,6 @@ export interface UnitGroupAmiLevelCreate {
 
   /**  */
   amiPercentage: number
-
-  /**  */
-  monthlyRentDeterminationType: EnumUnitGroupAmiLevelCreateMonthlyRentDeterminationType
 
   /**  */
   flatRentValue?: number
@@ -5433,10 +5428,10 @@ export interface UnitGroupCreate {
   floorMax?: number
 
   /**  */
-  sqFeetMin?: string
+  sqFeetMin?: number
 
   /**  */
-  sqFeetMax?: string
+  sqFeetMax?: number
 
   /**  */
   priorityType?: CombinedPriorityTypeTypes
@@ -5733,6 +5728,9 @@ export interface ListingCreate {
   region?: string
 
   /**  */
+  isVerified?: boolean
+
+  /**  */
   temporaryListingId?: number
 
   /**  */
@@ -5861,6 +5859,9 @@ export interface UnitUpdate {
 
 export interface UnitGroupAmiLevelUpdate {
   /**  */
+  monthlyRentDeterminationType: MonthlyRentDeterminationType
+
+  /**  */
   id?: string
 
   /**  */
@@ -5871,9 +5872,6 @@ export interface UnitGroupAmiLevelUpdate {
 
   /**  */
   amiPercentage: number
-
-  /**  */
-  monthlyRentDeterminationType: EnumUnitGroupAmiLevelUpdateMonthlyRentDeterminationType
 
   /**  */
   flatRentValue?: number
@@ -5902,10 +5900,10 @@ export interface UnitGroupUpdate {
   floorMax?: number
 
   /**  */
-  sqFeetMin?: string
+  sqFeetMin?: number
 
   /**  */
-  sqFeetMax?: string
+  sqFeetMax?: number
 
   /**  */
   priorityType?: CombinedPriorityTypeTypes
@@ -6193,6 +6191,9 @@ export interface ListingUpdate {
 
   /**  */
   region?: string
+
+  /**  */
+  isVerified?: boolean
 
   /**  */
   temporaryListingId?: number
@@ -6710,7 +6711,8 @@ export enum UnitStatus {
   "occupied" = "occupied",
   "unavailable" = "unavailable",
 }
-export enum EnumUnitGroupAmiLevelMonthlyRentDeterminationType {
+
+export enum MonthlyRentDeterminationType {
   "flatRent" = "flatRent",
   "percentageOfIncome" = "percentageOfIncome",
 }
@@ -6766,14 +6768,6 @@ export enum EnumListingFilterParamsAvailability {
 export enum OrderByFieldsEnum {
   "mostRecentlyUpdated" = "mostRecentlyUpdated",
   "applicationDates" = "applicationDates",
-}
-export enum EnumUnitGroupAmiLevelCreateMonthlyRentDeterminationType {
-  "flatRent" = "flatRent",
-  "percentageOfIncome" = "percentageOfIncome",
-}
-export enum EnumUnitGroupAmiLevelUpdateMonthlyRentDeterminationType {
-  "flatRent" = "flatRent",
-  "percentageOfIncome" = "percentageOfIncome",
 }
 export enum EnumPreferencesFilterParamsComparison {
   "=" = "=",

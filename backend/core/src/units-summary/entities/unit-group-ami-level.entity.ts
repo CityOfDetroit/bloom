@@ -5,6 +5,7 @@ import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enu
 import { MonthlyRentDeterminationType } from "../types/monthly-rent-determination.enum"
 import { AmiChart } from "../../ami-charts/entities/ami-chart.entity"
 import { UnitGroup } from "./unit-group.entity"
+import { ApiProperty } from "@nestjs/swagger"
 
 @Entity({ name: "unit_group_ami_levels" })
 export class UnitGroupAmiLevel {
@@ -21,31 +22,34 @@ export class UnitGroupAmiLevel {
     (unitsSummaryAmiLevelEntity: UnitGroupAmiLevel) => unitsSummaryAmiLevelEntity.amiChart
   )
   @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsUUID(4, { groups: [ValidationsGroupsEnum.default] })
   amiChartId?: string | null
 
   @ManyToOne(() => UnitGroup, (unitGroup: UnitGroup) => unitGroup.amiLevels)
   unitGroup: UnitGroup
 
-  @Column({ type: "integer", nullable: false })
+  @Column({ type: "integer", nullable: true })
   @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
-  amiPercentage: number
+  amiPercentage: number | null
 
   @Column({ type: "enum", enum: MonthlyRentDeterminationType, nullable: false })
   @Expose()
   @IsEnum(MonthlyRentDeterminationType, { groups: [ValidationsGroupsEnum.default] })
+  @ApiProperty({ enum: MonthlyRentDeterminationType, enumName: "MonthlyRentDeterminationType" })
   monthlyRentDeterminationType: MonthlyRentDeterminationType
 
-  @Column({ nullable: true, type: "numeric", precision: 8, scale: 2 })
+  @Column({ type: "integer", nullable: true })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   flatRentValue?: number | null
 
-  @Column({ nullable: true, type: "integer" })
+  @Column({ type: "integer", nullable: true })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   percentageOfIncomeValue?: number | null
 }
