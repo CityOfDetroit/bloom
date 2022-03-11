@@ -86,9 +86,6 @@ export class ListingsService {
       .leftJoin("listings.property", "property")
       .leftJoin("listings.leasingAgents", "leasingAgents")
       .leftJoin("property.buildingAddress", "buildingAddress")
-      .leftJoin("listings.unitGroups", "unitGroups")
-      .leftJoin("unitGroups.amiLevels", "unitGroupsAmiLevels")
-      .leftJoin("unitGroups.unitType", "summaryUnitType")
       .leftJoin("listings.reservedCommunityType", "reservedCommunityType")
       .leftJoin("listings.features", "listing_features")
       .groupBy("listings.id")
@@ -115,7 +112,7 @@ export class ListingsService {
     }
     const view = getView(this.listingRepository.createQueryBuilder("listings"), params.view)
 
-    let listings = await view
+    const listings = await view
       .getViewQb()
       .andWhere("listings.id IN (" + innerFilteredQuery.getQuery() + ")")
       // Set the inner WHERE params on the outer query, as noted in the TypeORM docs.
@@ -124,42 +121,6 @@ export class ListingsService {
       .setParameters(innerFilteredQuery.getParameters())
       .orderBy(getOrderByCondition(params))
       .getMany()
-
-    const unitGroupInfoViewQB = await this.listingRepository.createQueryBuilder("listings")
-    unitGroupInfoViewQB.select([
-      "listings.id",
-      "unitGroups.id",
-      "unitGroupsAmiLevels.flatRentValue",
-      "unitGroups.maxOccupancy",
-      "unitGroups.minOccupancy",
-      "unitGroups.floorMin",
-      "unitGroups.floorMax",
-      "unitGroups.sqFeetMin",
-      "unitGroups.sqFeetMax",
-      "unitGroups.totalCount",
-      "unitGroups.totalAvailable",
-      "summaryUnitType.name",
-      "priorityType.id",
-    ])
-    unitGroupInfoViewQB.leftJoin("listings.unitGroups", "unitGroups")
-    unitGroupInfoViewQB.leftJoin("unitGroups.amiLevels", "unitGroupsAmiLevels")
-    unitGroupInfoViewQB.leftJoin("unitGroups.unitType", "summaryUnitType")
-    unitGroupInfoViewQB
-      .leftJoin("unitGroups.priorityType", "priorityType")
-      .addOrderBy("listings.id", "ASC")
-      // Order by unitSummary.unitType.numBedrooms and units.maxOccupancy so that, for a
-      // given listing, its unitSummaries or units are sorted from lowest to highest
-      // bedroom count.
-      .addOrderBy("summaryUnitType.num_bedrooms", "ASC", "NULLS LAST")
-      .andWhere("listings.id IN (:...listingIds)", {
-        listingIds: listings.map((listing) => listing.id),
-      })
-
-    const unitGroupInfo = await unitGroupInfoViewQB.getMany()
-
-    listings.forEach((listing) => {
-      listing.unitGroups = unitGroupInfo.find((group) => group.id === listing.id).unitGroups
-    })
 
     // Set pagination info
     const itemsPerPage = paginate ? (params.limit as number) : listings.length
