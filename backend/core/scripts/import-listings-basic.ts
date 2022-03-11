@@ -66,15 +66,14 @@ export class HeaderConstants {
   public static readonly RequiredDocuments: string = "Required Documents"
   public static readonly ImportantProgramRules: string = "Important Program Rules"
   public static readonly SpecialNotes: string = "Special Notes"
-
 }
 
 async function fetchDetroitJurisdiction(connection: Connection): Promise<Jurisdiction> {
   const jurisdictionsRepository = connection.getRepository(Jurisdiction)
   return await jurisdictionsRepository.findOneOrFail({
     where: {
-      name: "Detroit"
-    }
+      name: "Detroit",
+    },
   })
 }
 
@@ -113,7 +112,9 @@ function destructureYearBuilt(yearBuilt: string): number {
   return Number.parseInt(yearBuilt)
 }
 
-async function getLatitudeAndLongitude(address: string): Promise<{ latitude: number, longitude: number }> {
+async function getLatitudeAndLongitude(
+  address: string
+): Promise<{ latitude: number; longitude: number }> {
   const res = await client.geocodeForward(address)
   let latitude
   let longitude
@@ -140,7 +141,7 @@ async function destructureAddressString(addressString: string): Promise<AddressC
       state: undefined,
       zipCode: undefined,
       latitude,
-      longitude
+      longitude,
     }
   }
 
@@ -152,7 +153,7 @@ async function destructureAddressString(addressString: string): Promise<AddressC
     state,
     zipCode,
     latitude,
-    longitude
+    longitude,
   }
 }
 
@@ -169,14 +170,15 @@ async function main() {
   const failedRowsIDs = []
 
   const inputRows = await getStream.array(
-    fs.createReadStream(filePath, "utf8")
-      .pipe(new CsvReadableStream({
-          parseNumbers: true,
-          parseBooleans: true,
-          trim: true,
-          asObject: true
-        })
-      ))
+    fs.createReadStream(filePath, "utf8").pipe(
+      new CsvReadableStream({
+        parseNumbers: true,
+        parseBooleans: true,
+        trim: true,
+        asObject: true,
+      })
+    )
+  )
 
   for (const row of inputRows) {
     rowsCount += 1
@@ -200,29 +202,32 @@ async function main() {
             city: row[HeaderConstants.BuildingAddressCity],
             state: row[HeaderConstants.BuildingAddressState],
             zipCode: row[HeaderConstants.BuildingAddressZipCode],
-            ...(await getLatitudeAndLongitude([
+            ...(await getLatitudeAndLongitude(
+              [
                 row[HeaderConstants.BuildingAddressStreet],
                 row[HeaderConstants.BuildingAddressCity],
                 row[HeaderConstants.BuildingAddressState],
-                row[HeaderConstants.BuildingAddressZipCode]
+                row[HeaderConstants.BuildingAddressZipCode],
               ].join(" ")
-            ))
+            )),
           },
           neighborhood: row[HeaderConstants.Neighborhood],
-          yearBuilt: destructureYearBuilt(row[HeaderConstants.YearBuilt])
+          yearBuilt: destructureYearBuilt(row[HeaderConstants.YearBuilt]),
         },
         jurisdiction: detroitJurisdiction,
         listingPrograms: communityTypePrograms.map((program) => {
           return {
             program: program,
-            ordinal: null
+            ordinal: null,
           }
         }),
         leasingAgentName: row[HeaderConstants.LeasingAgentName],
         leasingAgentEmail: row[HeaderConstants.LeasingAgentEmail],
         leasingAgentPhone: row[HeaderConstants.LeasingAgentPhone],
         managementWebsite: row[HeaderConstants.ManagementWebsite],
-        leasingAgentAddress: await destructureAddressString(row[HeaderConstants.LeasingAgentAddress]),
+        leasingAgentAddress: await destructureAddressString(
+          row[HeaderConstants.LeasingAgentAddress]
+        ),
         applicationFee: row[HeaderConstants.ApplicationFee],
         depositMin: row[HeaderConstants.DepositMin],
         depositMax: row[HeaderConstants.DepositMax],
@@ -239,12 +244,12 @@ async function main() {
           accessibleParking: row[HeaderConstants.AccessibleParking] === "Yes",
           inUnitWasherDryer: row[HeaderConstants.InUnitWasherDryer] === "Yes",
           barrierFreeEntrance: row[HeaderConstants.BarrierFreeEntrance] === "Yes",
-          grabBars: row[HeaderConstants.GrabBars] === "Yes"
+          grabBars: row[HeaderConstants.GrabBars] === "Yes",
         },
         requiredDocuments: row[HeaderConstants.RequiredDocuments],
         programRules: row[HeaderConstants.ImportantProgramRules],
         specialNotes: row[HeaderConstants.SpecialNotes],
-        rentalAssistance: row[HeaderConstants.RentalAssistance]
+        rentalAssistance: row[HeaderConstants.RentalAssistance],
       }
       await listingsRepository.save(newListing)
     } catch (e) {

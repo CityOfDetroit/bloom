@@ -571,10 +571,11 @@ describe("Listings", () => {
 
   it.only("sorts results within a page, and across sequential pages", async () => {
     // Get the first page of 5 results.
-    const firstPage = await supertest(app.getHttpServer())
-      .get(`/listings?orderBy=mostRecentlyUpdated&limit=5&page=1`)
-      //.expect(200)
-      console.log("firstPage = ", firstPage)
+    const firstPage = await supertest(app.getHttpServer()).get(
+      `/listings?orderBy=mostRecentlyUpdated&limit=5&page=1`
+    )
+    //.expect(200)
+    console.log("firstPage = ", firstPage)
 
     // Verify that listings on the first page are ordered from most to least recently updated.
     for (let i = 0; i < 4; ++i) {
