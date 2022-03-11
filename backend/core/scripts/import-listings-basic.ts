@@ -7,9 +7,11 @@ import dbOptions = require("../ormconfig")
 import { Program } from "../src/program/entities/program.entity"
 import { AddressCreateDto } from "../src/shared/dto/address.dto"
 
-const getStream = require("get-stream")
+import getStream from "get-stream"
 
-var MapboxClient = require("mapbox")
+// eslint-disable-next-line no-var
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const MapboxClient = require("mapbox")
 
 if (!process.env["MAPBOX_TOKEN"]) {
   throw new Error("environment variable MAPBOX_TOKEN is undefined")
@@ -132,7 +134,7 @@ async function destructureAddressString(addressString: string): Promise<AddressC
 
   const tokens = addressString.split(",").map((addressString) => addressString.trim())
 
-  let { latitude, longitude } = await getLatitudeAndLongitude(addressString)
+  const { latitude, longitude } = await getLatitudeAndLongitude(addressString)
 
   if (tokens.length === 1) {
     return {
