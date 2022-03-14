@@ -777,6 +777,27 @@ export class UserService {
     })
   }
   /**
+   * Verifies token is valid
+   */
+  isUserConfirmationTokenValid(
+    params: {
+      /** requestBody */
+      body?: Confirm
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user/is-confirmation-token-valid"
+
+      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * Resend confirmation
    */
   resendConfirmation(

@@ -298,6 +298,15 @@ export class UserService {
     }
   }
 
+  public async isUserConfirmationTokenValid(dto: ConfirmDto) {
+    try {
+      decode(dto.token, process.env.APP_SECRET)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
   private static getPublicConfirmationUrl(appUrl: string, user: User) {
     return `${appUrl}?token=${user.confirmationToken}`
   }

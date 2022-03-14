@@ -88,6 +88,17 @@ export class UserController {
     return mapTo(StatusDto, { status: "ok" })
   }
 
+  @Post("is-confirmation-token-valid")
+  @UseGuards(OptionalAuthGuard, AuthzGuard)
+  @ApiOperation({
+    summary: "Verifies token is valid",
+    operationId: "isUserConfirmationTokenValid",
+  })
+  async isUserConfirmationTokenValid(@Body() dto: ConfirmDto): Promise<boolean> {
+    const res = await this.userService.isUserConfirmationTokenValid(dto)
+    return res
+  }
+
   @Post("resend-confirmation")
   @UseGuards(OptionalAuthGuard, AuthzGuard)
   @ApiOperation({ summary: "Resend confirmation", operationId: "resendConfirmation" })

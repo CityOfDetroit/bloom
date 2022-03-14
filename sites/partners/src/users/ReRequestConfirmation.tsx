@@ -54,7 +54,7 @@ const ReRequestConfirmation = ({
         <p className="mt-4 field-note">{t("users.requestResendExplanation")}</p>
       </div>
 
-      <Form id="update-password" onSubmit={handleSubmit(onSubmit)}>
+      <Form id="re-request-confirmation" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-card__group is-borderless">
           <fieldset>
             <div className="mt-5">

@@ -18,6 +18,7 @@ import {
 import { useForm } from "react-hook-form"
 import { LoginResponse } from "@bloom-housing/backend-core/types"
 import { ReRequestConfirmation } from "./ReRequestConfirmation"
+import { useEffect } from "react"
 
 type FormUserConfirmFields = {
   password: string
@@ -44,6 +45,25 @@ const FormUserConfirm = () => {
   const [isLoginLoading, setLoginLoading] = useState(false)
   const [rerequestModalOpen, setRerequestModalOpen] = useState(false)
   const [newConfirmationRequested, setNewConfirmationRequested] = useState(false)
+
+  useEffect(() => {
+    const asyncEffect = async () => {
+      const body = {
+        token,
+      }
+      try {
+        const res = await userService.isUserConfirmationTokenValid({ body })
+        if (!res) {
+          setRerequestModalOpen(true)
+        }
+      } catch (e) {
+        setRerequestModalOpen(true)
+      }
+    }
+    if (token) {
+      asyncEffect()
+    }
+  }, [token, userService, setRerequestModalOpen])
 
   const onSubmit = async (data: FormUserConfirmFields) => {
     resetMutation()
