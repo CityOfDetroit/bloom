@@ -34,6 +34,8 @@ const views: Views = {
       "features.heatingInUnit",
       "features.acInUnit",
       "features.laundryInBuilding",
+      "listingsProgramsProgram.id",
+      "listingsProgramsProgram.title",
     ],
     leftJoins: [
       { join: "listings.jurisdiction", alias: "jurisdiction" },
@@ -42,6 +44,8 @@ const views: Views = {
       { join: "property.buildingAddress", alias: "buildingAddress" },
       { join: "listings.reservedCommunityType", alias: "reservedCommunityType" },
       { join: "listings.features", alias: "features" },
+      { join: "listings.listingPrograms", alias: "listingPrograms" },
+      { join: "listingPrograms.program", alias: "listingsProgramsProgram" },
     ],
   },
 }

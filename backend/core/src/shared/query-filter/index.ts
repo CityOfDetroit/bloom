@@ -6,10 +6,8 @@ import {
   ListingFilterKeys,
 } from "../../listings/types/listing-filter-keys-enum"
 import {
-  addSeniorHousingQuery,
   addAvailabilityQuery,
   addMinAmiPercentageFilter,
-  addIndependentLivingHousingQuery,
 } from "./custom_filters"
 import { UserFilterKeys } from "../../auth/types/user-filter-keys"
 import { addIsPortalUserQuery } from "../../auth/filters/user-query-filter"
@@ -62,12 +60,6 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
       // Handle custom filters here, before dropping into generic filter handler
       switch (filterKey) {
         // custom listing filters
-        case ListingFilterKeys.seniorHousing:
-          addSeniorHousingQuery(qb, filterValue)
-          continue
-        case ListingFilterKeys.independentLivingHousing:
-          addIndependentLivingHousingQuery(qb, filterValue)
-          continue
         case ListingFilterKeys.availability:
           addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum, includeNulls)
           continue
