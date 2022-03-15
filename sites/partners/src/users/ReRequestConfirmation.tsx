@@ -10,6 +10,7 @@ import {
   t,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
+import { useRouter } from "next/router"
 
 type FormFields = {
   email: string
@@ -28,6 +29,7 @@ const ReRequestConfirmation = ({
 }: ReRequestConfirmationProps) => {
   const { register, errors, handleSubmit, clearErrors } = useForm<FormFields>()
   const { userService } = useContext(AuthContext)
+  const router = useRouter()
 
   const onSubmit = async (data: FormFields) => {
     const body = {
@@ -43,6 +45,7 @@ const ReRequestConfirmation = ({
       clearExistingErrors()
       setAlert(true)
       onClose(false)
+      router.push("/sign-in")
     } catch (err) {
       console.error(err)
     }
