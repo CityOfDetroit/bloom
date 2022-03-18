@@ -74,6 +74,13 @@ export class UserService {
     })
   }
 
+  public async findAll(options: FindConditions<User>) {
+    return await this.userRepository.find({
+      where: options,
+      relations: ["leasingAgentInListings"],
+    })
+  }
+
   public static isPasswordOutdated(user: User) {
     return (
       new Date(user.passwordUpdatedAt.getTime() + user.passwordValidForDays * 24 * 60 * 60 * 1000) <
@@ -246,11 +253,15 @@ export class UserService {
     }
   }
 
-  private static createConfirmationToken(userId: string, email: string) {
+  private static createConfirmationToken(
+    userId: string,
+    email: string,
+    hoursUntilExpiry: number = 24
+  ) {
     const payload = {
       id: userId,
       email,
-      exp: Number.parseInt(dayjs().add(24, "hours").format("X")),
+      exp: Number.parseInt(dayjs().add(hoursUntilExpiry, "hours").format("X")),
     }
     return encode(payload, process.env.APP_SECRET)
   }
@@ -298,6 +309,29 @@ export class UserService {
         throw new HttpException(USER_ERRORS.ERROR_SAVING.message, USER_ERRORS.ERROR_SAVING.status)
       }
     }
+  }
+
+  public async recreatePartnerUnconfirmedUserTokens(appUrl: string) {
+    const users = await this.findAll({ confirmedAt: null })
+    const userTokens: { email: string; confirmationUrl: string }[] = []
+
+    const recreateToken = async (user: User) => {
+      user.confirmationToken = UserService.createConfirmationToken(user.id, user.email)
+      try {
+        await this.userRepository.save(user)
+        const confirmationUrl = UserService.getPartnersConfirmationUrl(appUrl, user)
+        userTokens.push({ email: user.email, confirmationUrl })
+        return user
+      } catch (err) {
+        throw new HttpException(USER_ERRORS.ERROR_SAVING.message, USER_ERRORS.ERROR_SAVING.status)
+      }
+    }
+
+    users.forEach(async (user) => {
+      await recreateToken(user)
+    })
+
+    console.log(userTokens)
   }
 
   public isUserConfirmationTokenValid(dto: ConfirmDto) {
