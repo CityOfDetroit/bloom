@@ -124,7 +124,7 @@ export class UserService {
     qb.andWhere("user.id IN (:...distinctIDs)", {
       distinctIDs: distinctIDResult.items.map((elem) => elem.id),
     })
-    qb.orderBy("user.id")
+
     const result = await qb.getMany()
     /**
      * admin are the only ones that can access all users
