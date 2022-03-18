@@ -27,6 +27,7 @@ import { EmailDto } from "../dto/email.dto"
 import { UserCreateDto } from "../dto/user-create.dto"
 import { UserUpdateDto } from "../dto/user-update.dto"
 import { UserListQueryParams } from "../dto/user-list-query-params"
+import { ConfirmationListQueryParams } from "../dto/confirmation-list-query-dto"
 import { UserInviteDto } from "../dto/user-invite.dto"
 import { ConfigService } from "@nestjs/config"
 import { authzActions } from "../enum/authz-actions.enum"
@@ -311,7 +312,7 @@ export class UserService {
     }
   }
 
-  public async recreatePartnerUnconfirmedUserTokens(appUrl: string, sendEmail: boolean = false) {
+  public async recreatePartnerUnconfirmedUserTokens(params: ConfirmationListQueryParams) {
     const users = await this.findAll({ confirmedAt: null })
     const userTokens: { email: string; confirmationUrl: string }[] = []
 
@@ -319,10 +320,10 @@ export class UserService {
       user.confirmationToken = UserService.createConfirmationToken(user.id, user.email)
       try {
         await this.userRepository.save(user)
-        const confirmationUrl = UserService.getPartnersConfirmationUrl(appUrl, user)
+        const confirmationUrl = UserService.getPartnersConfirmationUrl(params.appUrl, user)
         userTokens.push({ email: user.email, confirmationUrl })
-        if (sendEmail) {
-          await this.emailService.invite(user, appUrl, confirmationUrl)
+        if (params.sendEmail) {
+          await this.emailService.invite(user, params.appUrl, confirmationUrl)
         }
         return user
       } catch (err) {
@@ -330,16 +331,22 @@ export class UserService {
       }
     }
 
-    users.forEach(async (user) => {
+    for (const user of users) {
       await recreateToken(user)
-    })
+    }
 
-    console.log(userTokens)
+    userTokens.forEach((token) => {
+      console.log(`${token.email}: ${token.confirmationUrl}`)
+    })
   }
 
-  public isUserConfirmationTokenValid(dto: ConfirmDto) {
+  public async isUserConfirmationTokenValid(dto: ConfirmDto) {
     try {
-      decode(dto.token, process.env.APP_SECRET)
+      const token = decode(dto.token, process.env.APP_SECRET)
+      const user = await this.find({ id: token.id })
+      if (user?.confirmationToken !== dto.token) {
+        return false
+      }
       return true
     } catch (e) {
       return false
