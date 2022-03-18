@@ -88,6 +88,17 @@ export class UserController {
     return mapTo(StatusDto, { status: "ok" })
   }
 
+  @Post("recreate-partner-unconfirmed-user-tokens")
+  @UseGuards(OptionalAuthGuard, AuthzGuard)
+  @ApiOperation({
+    summary: "Recreate partner unconfirmed user tokens",
+    operationId: "recreatePartnerUnconfirmedUserTokens",
+  })
+  async recreatePartnerUnconfirmedUserTokens(@Body() appUrl: string): Promise<StatusDto> {
+    await this.userService.recreatePartnerUnconfirmedUserTokens(appUrl)
+    return mapTo(StatusDto, { status: "ok" })
+  }
+
   @Post("is-confirmation-token-valid")
   @UseGuards(OptionalAuthGuard, AuthzGuard)
   @ApiOperation({
