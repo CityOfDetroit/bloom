@@ -36,6 +36,7 @@ const views: Views = {
       "features.laundryInBuilding",
       "listingsProgramsProgram.id",
       "listingsProgramsProgram.title",
+      "summaryUnitType.numBedrooms",
     ],
     leftJoins: [
       { join: "listings.jurisdiction", alias: "jurisdiction" },
@@ -46,6 +47,8 @@ const views: Views = {
       { join: "listings.features", alias: "features" },
       { join: "listings.listingPrograms", alias: "listingPrograms" },
       { join: "listingPrograms.program", alias: "listingsProgramsProgram" },
+      { join: "listings.unitGroups", alias: "unitGroups" },
+      { join: "unitGroups.unitType", alias: "summaryUnitType" },
     ],
   },
 }

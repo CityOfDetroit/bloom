@@ -6,8 +6,8 @@ import {
   ListingFilterKeys,
 } from "../../listings/types/listing-filter-keys-enum"
 import {
-  addAvailabilityQuery,
-  addMinAmiPercentageFilter,
+  addAvailabilityQuery, addBedroomsQuery,
+  addMinAmiPercentageFilter
 } from "./custom_filters"
 import { UserFilterKeys } from "../../auth/types/user-filter-keys"
 import { addIsPortalUserQuery } from "../../auth/filters/user-query-filter"
@@ -62,6 +62,9 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
         // custom listing filters
         case ListingFilterKeys.availability:
           addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum, includeNulls)
+          continue
+        case ListingFilterKeys.bedrooms:
+          addBedroomsQuery(qb, filterValue)
           continue
         case ListingFilterKeys.minAmiPercentage:
           addMinAmiPercentageFilter(qb, parseInt(filterValue), includeNulls)
