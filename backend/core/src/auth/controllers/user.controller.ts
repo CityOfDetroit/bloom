@@ -40,6 +40,7 @@ import { ForgotPasswordResponseDto } from "../dto/forgot-password-response.dto"
 import { LoginResponseDto } from "../dto/login-response.dto"
 import { authzActions } from "../enum/authz-actions.enum"
 import { UserCreateQueryParams } from "../dto/user-create-query-params"
+import { ConfirmationListQueryParams } from "../dto/confirmation-list-query-dto"
 import { UserFilterParams } from "../dto/user-filter-params"
 import { DefaultAuthGuard } from "../guards/default.guard"
 import { UserProfileAuthzGuard } from "../guards/user-profile-authz.guard"
@@ -94,8 +95,10 @@ export class UserController {
     summary: "Recreate partner unconfirmed user tokens",
     operationId: "recreatePartnerUnconfirmedUserTokens",
   })
-  async recreatePartnerUnconfirmedUserTokens(@Body() appUrl: string): Promise<StatusDto> {
-    await this.userService.recreatePartnerUnconfirmedUserTokens(appUrl)
+  async recreatePartnerUnconfirmedUserTokens(
+    @Query() queryParams: ConfirmationListQueryParams
+  ): Promise<StatusDto> {
+    await this.userService.recreatePartnerUnconfirmedUserTokens(queryParams)
     return mapTo(StatusDto, { status: "ok" })
   }
 
@@ -105,8 +108,8 @@ export class UserController {
     summary: "Verifies token is valid",
     operationId: "isUserConfirmationTokenValid",
   })
-  isUserConfirmationTokenValid(@Body() dto: ConfirmDto): boolean {
-    return this.userService.isUserConfirmationTokenValid(dto)
+  async isUserConfirmationTokenValid(@Body() dto: ConfirmDto): Promise<boolean> {
+    return await this.userService.isUserConfirmationTokenValid(dto)
   }
 
   @Post("resend-confirmation")

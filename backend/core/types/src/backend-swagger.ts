@@ -777,6 +777,29 @@ export class UserService {
     })
   }
   /**
+   * Recreate partner unconfirmed user tokens
+   */
+  recreatePartnerUnconfirmedUserTokens(
+    params: {
+      /**  */
+      appUrl: string
+      /**  */
+      sendEmail?: boolean
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Status> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user/recreate-partner-unconfirmed-user-tokens"
+
+      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
+      configs.params = { appUrl: params["appUrl"], sendEmail: params["sendEmail"] }
+      let data = null
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * Verifies token is valid
    */
   isUserConfirmationTokenValid(
