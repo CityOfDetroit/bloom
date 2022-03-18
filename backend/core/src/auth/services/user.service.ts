@@ -311,7 +311,7 @@ export class UserService {
     }
   }
 
-  public async recreatePartnerUnconfirmedUserTokens(appUrl: string) {
+  public async recreatePartnerUnconfirmedUserTokens(appUrl: string, sendEmail: boolean = false) {
     const users = await this.findAll({ confirmedAt: null })
     const userTokens: { email: string; confirmationUrl: string }[] = []
 
@@ -321,6 +321,9 @@ export class UserService {
         await this.userRepository.save(user)
         const confirmationUrl = UserService.getPartnersConfirmationUrl(appUrl, user)
         userTokens.push({ email: user.email, confirmationUrl })
+        if (sendEmail) {
+          await this.emailService.invite(user, appUrl, confirmationUrl)
+        }
         return user
       } catch (err) {
         throw new HttpException(USER_ERRORS.ERROR_SAVING.message, USER_ERRORS.ERROR_SAVING.status)
