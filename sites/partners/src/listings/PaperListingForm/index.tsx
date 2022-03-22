@@ -331,8 +331,9 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                       <a
                         className="decoration-blue-700 underline"
                         href="#"
-                        onClick={(e) => {
+                        onClick={async (e) => {
                           e.preventDefault()
+                          await setTabIndex(0)
                           document
                             .getElementById("isVerifiedContainer")
                             .scrollIntoView({ behavior: "smooth" })
