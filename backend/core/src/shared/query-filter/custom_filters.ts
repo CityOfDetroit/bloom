@@ -1,9 +1,5 @@
 import { getMetadataArgsStorage, WhereExpression } from "typeorm"
-import {
-  AvailabilityFilterEnum,
-  ListingFilterKeys,
-} from "../../listings/types/listing-filter-keys-enum"
-import { filterTypeToFieldMap } from "../../listings/dto/filter-type-to-field-map"
+import { AvailabilityFilterEnum } from "../../listings/types/listing-filter-keys-enum"
 import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
 import { UnitType } from "../../unit-types/entities/unit-type.entity"
 
@@ -51,20 +47,18 @@ export function addAvailabilityQuery(
 
 export function addBedroomsQuery(
   qb: WhereExpression,
-  filterValue: number,
+  filterValue: number[],
 ) {
   const typeOrmMetadata = getMetadataArgsStorage()
   const unitGroupEntityMetadata = typeOrmMetadata.tables.find(table => table.target === UnitGroup)
   const unitTypeEntityMetadata = typeOrmMetadata.tables.find(table => table.target === UnitType)
-  const m = typeOrmMetadata.tables.filter(t => t.target === UnitGroup)
-
   const whereParameterName = "unitGroups_numBedrooms"
 
   const unitGroupUnitTypeJoinTableName = `${unitGroupEntityMetadata.name}_unit_type_${unitTypeEntityMetadata.name}`
   qb.andWhere(
     `
       (
-        SELECT bool_or(num_bedrooms = :${whereParameterName}) FROM ${unitGroupEntityMetadata.name}
+        SELECT bool_or(num_bedrooms  IN (:...${whereParameterName})) FROM ${unitGroupEntityMetadata.name}
         LEFT JOIN ${unitGroupUnitTypeJoinTableName} ON ${unitGroupUnitTypeJoinTableName}.unit_group_id = ${unitGroupEntityMetadata.name}.id
         LEFT JOIN ${unitTypeEntityMetadata.name}  ON ${unitTypeEntityMetadata.name}.id = ${unitGroupUnitTypeJoinTableName}.unit_types_id
         WHERE ${unitGroupEntityMetadata.name}.listing_id = listings.id

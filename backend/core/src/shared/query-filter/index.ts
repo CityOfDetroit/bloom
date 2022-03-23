@@ -64,7 +64,12 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
           addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum, includeNulls)
           continue
         case ListingFilterKeys.bedrooms:
-          addBedroomsQuery(qb, filterValue)
+          addBedroomsQuery(
+            qb,
+            typeof filterValue === "string"
+              ? filterValue.split(",").map((val) => Number(val))
+              : [filterValue]
+          )
           continue
         case ListingFilterKeys.minAmiPercentage:
           addMinAmiPercentageFilter(qb, parseInt(filterValue), includeNulls)
