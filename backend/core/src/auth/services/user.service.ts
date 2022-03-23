@@ -314,16 +314,16 @@ export class UserService {
 
   public async recreatePartnerUnconfirmedUserTokens(params: ConfirmationListQueryParams) {
     const users = await this.findAll({ confirmedAt: null })
-    const userTokens: { email: string; confirmationUrl: string }[] = []
 
     const recreateToken = async (user: User) => {
       user.confirmationToken = UserService.createConfirmationToken(user.id, user.email)
       try {
-        await this.userRepository.save(user)
-        const confirmationUrl = UserService.getPartnersConfirmationUrl(params.appUrl, user)
-        userTokens.push({ email: user.email, confirmationUrl })
+        const outcome = await this.userRepository.save(user)
+        const confirmationUrl = UserService.getPartnersConfirmationUrl(params.appUrl, outcome)
         if (params.sendEmail) {
-          await this.emailService.invite(user, params.appUrl, confirmationUrl)
+          await this.emailService.invite(outcome, params.appUrl, confirmationUrl)
+        } else {
+          console.log(`${outcome.email}: ${confirmationUrl}`)
         }
         return user
       } catch (err) {
@@ -334,10 +334,6 @@ export class UserService {
     for (const user of users) {
       await recreateToken(user)
     }
-
-    userTokens.forEach((token) => {
-      console.log(`${token.email}: ${token.confirmationUrl}`)
-    })
   }
 
   public async isUserConfirmationTokenValid(dto: ConfirmDto) {
