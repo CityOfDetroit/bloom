@@ -61,13 +61,22 @@ const LeasingAgent = () => {
           />
         </GridSection>
         <GridSection columns={2}>
-          <Field
-            label={t("leasingAgent.title")}
-            name={"leasingAgentTitle"}
-            id={"leasingAgentTitle"}
-            placeholder={t("leasingAgent.title")}
-            register={register}
-          />
+          <GridSection columns={1}>
+            <Field
+              label={t("leasingAgent.title")}
+              name={"leasingAgentTitle"}
+              id={"leasingAgentTitle"}
+              placeholder={t("leasingAgent.title")}
+              register={register}
+            />
+            <Field
+              label={t("leasingAgent.managementWebsite")}
+              name={"managementWebsite"}
+              id={"managementWebsite"}
+              placeholder={t("leasingAgent.managementWebsite")}
+              register={register}
+            />
+          </GridSection>
           <Textarea
             label={t("leasingAgent.officeHours")}
             name={"leasingAgentOfficeHours"}
