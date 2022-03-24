@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  RelationId,
 } from "typeorm"
 import {
   IsBoolean,
@@ -41,6 +42,12 @@ export class UnitGroup {
 
   @ManyToOne(() => Listing, (listing) => listing.unitGroups, {})
   listing: Listing
+
+  @RelationId((unitGroupEntity: UnitGroup) => unitGroupEntity.listing)
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsUUID(4, { groups: [ValidationsGroupsEnum.default] })
+  listingId?: string | null
 
   @OneToMany(() => UnitGroupAmiLevel, (UnitGroupAmiLevel) => UnitGroupAmiLevel.unitGroup, {
     eager: true,
