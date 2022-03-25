@@ -36,9 +36,13 @@ const DetailLeasingAgent = () => {
             {getDetailFieldString(listing.leasingAgentTitle)}
           </ViewItem>
           <ViewItem id="managementWebsite" label={t("leasingAgent.managementWebsite")}>
-            <a target="_blank" href={listing.managementWebsite}>
-              {getDetailFieldString(listing.managementWebsite)}
-            </a>
+            {listing.managementWebsite ? (
+              <a target="_blank" href={listing.managementWebsite}>
+                {getDetailFieldString(listing.managementWebsite)}
+              </a>
+            ) : (
+              getDetailFieldString(listing.managementWebsite)
+            )}
           </ViewItem>
         </GridCell>
         <GridCell>
