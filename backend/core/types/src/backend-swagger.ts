@@ -4457,7 +4457,7 @@ export interface UnitGroup {
   id: string
 
   /**  */
-  listingId?: string
+  listingId: string
 
   /**  */
   maxOccupancy?: number
@@ -5441,9 +5441,6 @@ export interface UnitGroupCreate {
   amiLevels: UnitGroupAmiLevelCreate[]
 
   /**  */
-  listingId?: string
-
-  /**  */
   maxOccupancy?: number
 
   /**  */
@@ -5914,9 +5911,6 @@ export interface UnitGroupUpdate {
 
   /**  */
   amiLevels: UnitGroupAmiLevelUpdate[]
-
-  /**  */
-  listingId?: string
 
   /**  */
   maxOccupancy?: number

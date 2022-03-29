@@ -15,7 +15,6 @@ import { setMinMax } from "./unit-transformation-helpers"
 // One row for every unit group, with rent and ami ranges across all ami levels
 // Used to display the main pricing table
 export const getUnitGroupSummary = (unitGroups: UnitGroup[] = []): UnitGroupSummary[] => {
-  console.log("unitGroups = ", unitGroups)
   const summary: UnitGroupSummary[] = []
 
   const sortedUnitGroups = unitGroups?.sort(

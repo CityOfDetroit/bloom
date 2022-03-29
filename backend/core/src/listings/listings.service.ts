@@ -39,7 +39,7 @@ export class ListingsService {
     @Inject(REQUEST) private req: ExpressRequest,
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
-    @InjectRepository(UnitGroup) private readonly unitGrouopRepository: Repository<UnitGroup>,
+    @InjectRepository(UnitGroup) private readonly unitGroupRepository: Repository<UnitGroup>,
     private readonly translationService: TranslationsService,
     @InjectQueue("listings-notifications")
     private listingsNotificationsQueue: Queue<ListingNotificationInfo>
@@ -157,7 +157,7 @@ export class ListingsService {
   }
 
   private async addUnitSummariesToListings(listings: Listing[]) {
-    const res = await this.unitGrouopRepository.find({
+    const res = await this.unitGroupRepository.find({
       cache: true,
       where: {
         listing: {
@@ -166,15 +166,21 @@ export class ListingsService {
       },
     })
 
-    const unitGroupMap = res.reduce((obj, current) => {
-      if (obj[current.listingId] !== undefined) {
-        obj[current.listingId].push(current)
-      } else {
-        obj[current.listingId] = [current]
-      }
+    const unitGroupMap = res.reduce(
+      (
+        obj: Record<string, Array<UnitGroup>>,
+        current: UnitGroup
+      ): Record<string, Array<UnitGroup>> => {
+        if (obj[current.listingId] !== undefined) {
+          obj[current.listingId].push(current)
+        } else {
+          obj[current.listingId] = [current]
+        }
 
-      return obj
-    }, {})
+        return obj
+      },
+      {}
+    )
 
     // using map with {...listing, unitSummaries} throws a type error
     listings.forEach((listing) => {

@@ -45,9 +45,8 @@ export class UnitGroup {
 
   @RelationId((unitGroupEntity: UnitGroup) => unitGroupEntity.listing)
   @Expose()
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsUUID(4, { groups: [ValidationsGroupsEnum.default] })
-  listingId?: string | null
+  listingId: string
 
   @OneToMany(() => UnitGroupAmiLevel, (UnitGroupAmiLevel) => UnitGroupAmiLevel.unitGroup, {
     eager: true,
