@@ -36,11 +36,14 @@ import { Listing } from "../../listings/entities/listing.entity"
 import { UserRoles } from "../entities/user-roles.entity"
 import { UserPreferences } from "../entities/user-preferences.entity"
 import { Jurisdiction } from "../../jurisdictions/entities/jurisdiction.entity"
-import { UserQueryFilter } from "../filters/user-query-filter"
 import { assignDefined } from "../../shared/utils/assign-defined"
 import { EmailService } from "../../email/email.service"
+import { addFilters } from "../../shared/query-filter"
+import { UserFilterParams } from "../dto/user-filter-params"
 
 import advancedFormat from "dayjs/plugin/advancedFormat"
+import { JurisdictionsService } from "../../jurisdictions/services/jurisdictions.service"
+
 dayjs.extend(advancedFormat)
 
 @Injectable({ scope: Scope.REQUEST })
@@ -53,7 +56,8 @@ export class UserService {
     private readonly authService: AuthService,
     private readonly authzService: AuthzService,
     private readonly passwordService: PasswordService,
-    private readonly jurisdictionResolverService: JurisdictionResolverService
+    private readonly jurisdictionResolverService: JurisdictionResolverService,
+    private readonly jurisdictionService: JurisdictionsService
   ) {}
 
   public async findByEmail(email: string) {
@@ -98,20 +102,29 @@ export class UserService {
     }
     // https://www.npmjs.com/package/nestjs-typeorm-paginate
     const distinctIDQB = this._getQb(false)
-    distinctIDQB.addSelect("user.id")
+    distinctIDQB.select("user.id")
     distinctIDQB.groupBy("user.id")
+    distinctIDQB.orderBy("user.id")
     const qb = this._getQb()
 
     if (params.filter) {
-      const filter = new UserQueryFilter()
-      filter.addFilters(params.filter, userFilterTypeToFieldMap, distinctIDQB)
-      filter.addFilters(params.filter, userFilterTypeToFieldMap, qb)
+      addFilters<Array<UserFilterParams>, typeof userFilterTypeToFieldMap>(
+        params.filter,
+        userFilterTypeToFieldMap,
+        distinctIDQB
+      )
+      addFilters<Array<UserFilterParams>, typeof userFilterTypeToFieldMap>(
+        params.filter,
+        userFilterTypeToFieldMap,
+        qb
+      )
     }
     const distinctIDResult = await paginate<User>(distinctIDQB, options)
 
     qb.andWhere("user.id IN (:...distinctIDs)", {
       distinctIDs: distinctIDResult.items.map((elem) => elem.id),
     })
+
     const result = await qb.getMany()
     /**
      * admin are the only ones that can access all users
@@ -140,7 +153,6 @@ export class UserService {
     if (!user) {
       throw new NotFoundException()
     }
-
     let passwordHash
     let passwordUpdatedAt
     if (dto.password) {
@@ -155,6 +167,13 @@ export class UserService {
       passwordHash = await this.passwordService.passwordToHash(dto.password)
       passwordUpdatedAt = new Date()
       delete dto.password
+    }
+
+    /**
+     * only admin users can update roles
+     */
+    if (!authContext.user?.roles?.isAdmin) {
+      delete dto.roles
     }
 
     /**
@@ -190,7 +209,12 @@ export class UserService {
   }
 
   public async confirm(dto: ConfirmDto) {
-    const token = decode(dto.token, process.env.APP_SECRET)
+    let token: Record<string, string> = {}
+    try {
+      token = decode(dto.token, process.env.APP_SECRET)
+    } catch (e) {
+      throw new HttpException(USER_ERRORS.TOKEN_EXPIRED.message, USER_ERRORS.TOKEN_EXPIRED.status)
+    }
 
     const user = await this.find({ id: token.id })
     if (!user) {
@@ -251,6 +275,37 @@ export class UserService {
       } catch (err) {
         throw new HttpException(USER_ERRORS.ERROR_SAVING.message, USER_ERRORS.ERROR_SAVING.status)
       }
+    }
+  }
+
+  public async resendPartnerConfirmation(dto: EmailDto) {
+    const user = await this.findByEmail(dto.email)
+    if (!user) {
+      throw new HttpException(USER_ERRORS.NOT_FOUND.message, USER_ERRORS.NOT_FOUND.status)
+    }
+    if (user.confirmedAt) {
+      // if the user is already confirmed, we do nothing
+      // this is so on the front end people can't cheat to find out who has an email in the system
+      return {}
+    } else {
+      user.confirmationToken = UserService.createConfirmationToken(user.id, user.email)
+      try {
+        await this.userRepository.save(user)
+        const confirmationUrl = UserService.getPartnersConfirmationUrl(dto.appUrl, user)
+        await this.emailService.invite(user, dto.appUrl, confirmationUrl)
+        return user
+      } catch (err) {
+        throw new HttpException(USER_ERRORS.ERROR_SAVING.message, USER_ERRORS.ERROR_SAVING.status)
+      }
+    }
+  }
+
+  public isUserConfirmationTokenValid(dto: ConfirmDto) {
+    try {
+      decode(dto.token, process.env.APP_SECRET)
+      return true
+    } catch (e) {
+      return false
     }
   }
 
@@ -380,7 +435,7 @@ export class UserService {
         roles: dto.roles as UserRoles,
         jurisdictions: dto.jurisdictions
           ? (dto.jurisdictions as Jurisdiction[])
-          : [await this.jurisdictionResolverService.getJurisdiction()],
+          : [await this.jurisdictionService.findOne({ where: { name: "Detroit" } })],
         preferences: (dto.preferences as unknown) as UserPreferences,
       },
       authContext
