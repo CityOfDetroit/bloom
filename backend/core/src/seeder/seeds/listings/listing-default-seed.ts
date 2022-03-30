@@ -23,7 +23,7 @@ import { ReservedCommunityType } from "../../../reserved-community-type/entities
 import { AmiChart } from "../../../ami-charts/entities/ami-chart.entity"
 import { Property } from "../../../property/entities/property.entity"
 import { Unit } from "../../../units/entities/unit.entity"
-import { UnitsSummary } from "../../../units-summary/entities/units-summary.entity"
+import { UnitGroup } from "../../../units-summary/entities/unit-group.entity"
 import { User } from "../../../auth/entities/user.entity"
 import { ApplicationMethod } from "../../../application-methods/entities/application-method.entity"
 import { Jurisdiction } from "../../../jurisdictions/entities/jurisdiction.entity"
@@ -31,6 +31,7 @@ import { Preference } from "../../../preferences/entities/preference.entity"
 import { Program } from "../../../program/entities/program.entity"
 import { CountyCode } from "../../../shared/types/county-code"
 import { UnitCreateDto } from "../../../units/dto/unit-create.dto"
+import { UnitGroupAmiLevel } from "../../../units-summary/entities/unit-group-ami-level.entity"
 
 export class ListingDefaultSeed {
   constructor(
@@ -45,8 +46,10 @@ export class ListingDefaultSeed {
     @InjectRepository(AmiChart) protected readonly amiChartRepository: Repository<AmiChart>,
     @InjectRepository(Property) protected readonly propertyRepository: Repository<Property>,
     @InjectRepository(Unit) protected readonly unitsRepository: Repository<Unit>,
-    @InjectRepository(UnitsSummary)
-    protected readonly unitsSummaryRepository: Repository<UnitsSummary>,
+    @InjectRepository(UnitGroup)
+    protected readonly unitGroupRepository: Repository<UnitGroup>,
+    @InjectRepository(UnitGroup)
+    protected readonly unitGroupAmiLevelRepository: Repository<UnitGroupAmiLevel>,
     @InjectRepository(User) protected readonly userRepository: Repository<User>,
     @InjectRepository(ApplicationMethod)
     protected readonly applicationMethodRepository: Repository<ApplicationMethod>,
@@ -131,38 +134,7 @@ export class ListingDefaultSeed {
         },
       ],
       events: getDefaultListingEvents(),
-      listingPrograms: [
-        {
-          program: await this.programsRepository.findOneOrFail({
-            title: getServedInMilitaryProgram().title,
-          }),
-          ordinal: 1,
-        },
-        {
-          program: await this.programsRepository.findOneOrFail({
-            title: getTayProgram().title,
-          }),
-          ordinal: 2,
-        },
-        {
-          program: await this.programsRepository.findOneOrFail({
-            title: getDisabilityOrMentalIllnessProgram().title,
-          }),
-          ordinal: 3,
-        },
-        {
-          program: await this.programsRepository.findOneOrFail({
-            title: getHousingSituationProgram().title,
-          }),
-          ordinal: 4,
-        },
-        {
-          program: await this.programsRepository.findOneOrFail({
-            title: getFlatRentAndRentBasedOnIncomeProgram().title,
-          }),
-          ordinal: 5,
-        },
-      ],
+      listingPrograms: [],
       jurisdictionName: "Alameda",
       jurisdiction: alamedaJurisdiction,
     }

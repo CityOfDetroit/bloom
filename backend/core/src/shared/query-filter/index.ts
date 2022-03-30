@@ -6,12 +6,11 @@ import {
   ListingFilterKeys,
 } from "../../listings/types/listing-filter-keys-enum"
 import {
-  addSeniorHousingQuery,
-  addAvailabilityQuery,
-  addMinAmiPercentageFilter,
-  addIndependentLivingHousingQuery,
+  addAvailabilityQuery, addBedroomsQuery,
+  addMinAmiPercentageFilter
 } from "./custom_filters"
 import { UserFilterKeys } from "../../auth/types/user-filter-keys"
+import { addIsPortalUserQuery } from "../../auth/filters/user-query-filter"
 
 export interface IBaseQueryFilter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,17 +59,24 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
       const filterValue = filter[filterKey]
       // Handle custom filters here, before dropping into generic filter handler
       switch (filterKey) {
-        case ListingFilterKeys.seniorHousing:
-          addSeniorHousingQuery(qb, filterValue)
-          continue
-        case ListingFilterKeys.independentLivingHousing:
-          addIndependentLivingHousingQuery(qb, filterValue)
-          continue
+        // custom listing filters
         case ListingFilterKeys.availability:
           addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum, includeNulls)
           continue
+        case ListingFilterKeys.bedrooms:
+          addBedroomsQuery(
+            qb,
+            typeof filterValue === "string"
+              ? filterValue.split(",").map((val) => Number(val))
+              : [filterValue]
+          )
+          continue
         case ListingFilterKeys.minAmiPercentage:
           addMinAmiPercentageFilter(qb, parseInt(filterValue), includeNulls)
+          continue
+        // custom user filters
+        case UserFilterKeys.isPortalUser:
+          addIsPortalUserQuery(qb, filterValue)
           continue
       }
 

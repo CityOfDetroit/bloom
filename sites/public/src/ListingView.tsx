@@ -14,8 +14,6 @@ import {
   AdditionalFees,
   Description,
   GroupedTable,
-  getSummariesTableFromUnitSummary,
-  getSummariesTableFromUnitsSummary,
   ImageCard,
   GetApplication,
   LeasingAgent,
@@ -26,20 +24,28 @@ import {
   OpenHouseEvent,
   ReferralApplication,
   SubmitApplication,
-  UnitTables,
   Waitlist,
   ListingUpdated,
-  Message,
+  ListSection,
+  StandardTable,
   t,
   FavoriteButton,
+  InfoCard,
 } from "@bloom-housing/ui-components"
-import { cloudinaryPdfFromId, imageUrlFromListing } from "@bloom-housing/shared-helpers"
+import {
+  cloudinaryPdfFromId,
+  imageUrlFromListing,
+  occupancyTable,
+  listingFeatures,
+} from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { ErrorPage } from "../pages/_error"
 import {
   getGenericAddress,
+  getHmiSummary,
   getImageTagIconFromListing,
   getImageTagLabelFromListing,
+  getUnitGroupSummary,
   openInFuture,
 } from "../lib/helpers"
 
@@ -66,18 +72,11 @@ export const ListingView = (props: ListingProps) => {
   const googleMapsHref =
     "https://www.google.com/maps/place/" + ReactDOMServer.renderToStaticMarkup(oneLineAddress)
 
-  const unitSummariesHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
-  }
+  const { headers: groupedUnitHeaders, data: groupedUnitData } = getUnitGroupSummary(listing)
 
-  let groupedUnits: Record<string, React.ReactNode>[] = null
-  if (listing.unitsSummary !== undefined && listing.unitsSummary.length > 0) {
-    groupedUnits = getSummariesTableFromUnitsSummary(listing.unitsSummary)
-  } else if (listing.unitsSummarized !== undefined) {
-    groupedUnits = getSummariesTableFromUnitSummary(listing.unitsSummarized.byUnitTypeAndRent)
-  }
+  const { headers: hmiHeaders, data: hmiData } = getHmiSummary(listing)
+
+  const occupancyData = occupancyTable(listing)
 
   let openHouseEvents: ListingEvent[] | null = null
   if (Array.isArray(listing.events)) {
@@ -92,7 +91,6 @@ export const ListingView = (props: ListingProps) => {
       }
     })
   }
-
   const shouldShowFeaturesDetail = () => {
     return (
       listing.neighborhood ||
@@ -106,23 +104,13 @@ export const ListingView = (props: ListingProps) => {
       listing.accessibility ||
       // props for UnitTables
       (listing.units && listing.units.length > 0) ||
-      listing.unitsSummarized ||
+      listing.unitSummaries ||
       // props for AdditionalFees
       listing.depositMin ||
       listing.depositMax ||
       listing.applicationFee ||
       listing.costsNotIncluded
     )
-  }
-
-  const getReservedTitle = () => {
-    if (
-      listing.reservedCommunityType.name === "senior55" ||
-      listing.reservedCommunityType.name === "senior62" ||
-      listing.reservedCommunityType.name === "senior"
-    ) {
-      return t("listings.reservedCommunitySeniorTitle")
-    } else return t("listings.reservedCommunityTitleDefault")
   }
 
   // TODO: Move the below methods into our shared helper library when setup
@@ -237,6 +225,17 @@ export const ListingView = (props: ListingProps) => {
     </>
   )
 
+  const additionalInformationCard = (cardTitle: string, cardData: string) => {
+    return (
+      <div className="info-card">
+        <h3 className="text-serif-lg">{cardTitle}</h3>
+        <p className="text-sm text-gray-700 break-words">
+          <Markdown children={cardData} options={{ disableParsingRawHTML: true }} />
+        </p>
+      </div>
+    )
+  }
+
   const applicationsClosed = moment() > moment(listing.applicationDueDate)
   const useMarkdownForPropertyAmenities = listing.amenities?.includes(",")
   const useMarkdownForUnitAmenities = listing.unitAmenities?.includes(",")
@@ -252,6 +251,19 @@ export const ListingView = (props: ListingProps) => {
         .map((a) => `* ${a.trim()}`)
         .join("\n")
     : listing.unitAmenities
+
+  const getAccessibilityFeatures = () => {
+    let featuresExist = false
+    const features = Object.keys(listing?.features ?? {}).map((feature, index) => {
+      if (listing?.features[feature]) {
+        featuresExist = true
+        return <li key={index}>{listingFeatures[feature]}</li>
+      }
+    })
+    return featuresExist ? <ul>{features}</ul> : null
+  }
+
+  const accessibilityFeatures = getAccessibilityFeatures()
 
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
@@ -279,29 +291,23 @@ export const ListingView = (props: ListingProps) => {
       </header>
 
       <div className="w-full md:w-2/3 md:mt-6 md:mb-6 md:px-3 md:pr-8">
-        {listing.reservedCommunityType && (
-          <Message warning={true}>
-            {t("listings.reservedFor", {
-              type: t(
-                `listings.reservedCommunityTypeDescriptions.${listing.reservedCommunityType.name}`
-              ),
-            })}
-          </Message>
+        {groupedUnitData?.length > 0 && (
+          <>
+            <GroupedTable
+              headers={groupedUnitHeaders}
+              data={[{ data: groupedUnitData }]}
+              responsiveCollapse={true}
+            />
+            {hmiData.length > 0 && (
+              <div className="text-sm leading-5 mt-4 invisible md:visible">
+                {t("listings.unitSummaryGroupMessage")}{" "}
+                <a className="underline" href="#household_maximum_income_summary">
+                  {t("listings.unitSummaryGroupLinkText")}
+                </a>
+              </div>
+            )}
+          </>
         )}
-
-        {groupedUnits?.length > 0 && (
-          <GroupedTable
-            headers={unitSummariesHeaders}
-            data={[{ data: groupedUnits }]}
-            responsiveCollapse={true}
-          />
-        )}
-      </div>
-      <div className="w-full md:w-2/3 md:mt-3 md:hidden md:mx-3 border-gray-400 border-b">
-        <ListingUpdated listingUpdated={listing.updatedAt} />
-        <div className="mx-4">
-          {hasNonReferralMethods && !applicationsClosed ? <>{applySidebar()}</> : <></>}
-        </div>
       </div>
       <ListingDetails>
         <ListingDetailItem
@@ -360,6 +366,60 @@ export const ListingView = (props: ListingProps) => {
           </aside>
         </ListingDetailItem>
 
+        {hmiData?.length || occupancyData?.length || listing.listingPrograms?.length ? (
+          <ListingDetailItem
+            imageAlt={t("listings.eligibilityNotebook")}
+            imageSrc="/images/listing-eligibility.svg"
+            title={t("listings.sections.eligibilityTitle")}
+            subtitle={t("listings.sections.eligibilitySubtitle")}
+            desktopClass="bg-primary-lighter"
+          >
+            <ul>
+              {hmiData?.length > 0 && (
+                <ListSection
+                  id="household_maximum_income_summary"
+                  title={t("listings.householdMaximumIncome")}
+                  subtitle={t("listings.forIncomeCalculations")}
+                >
+                  <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
+                </ListSection>
+              )}
+              {occupancyData.length > 0 && (
+                <ListSection
+                  title={t("t.occupancy")}
+                  subtitle={t("listings.occupancyDescriptionNoSro")}
+                >
+                  <StandardTable
+                    headers={{
+                      unitType: "t.unitType",
+                      occupancy: "t.occupancy",
+                    }}
+                    data={occupancyData}
+                    responsiveCollapse={false}
+                  />
+                </ListSection>
+              )}
+              {listing.listingPrograms?.length > 0 && (
+                <ListSection
+                  title={t("listings.communityPrograms")}
+                  subtitle={t("listings.communityProgramsDescription")}
+                >
+                  {listing.listingPrograms
+                    .sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
+                    .map((program) => (
+                      <InfoCard className="" title={program.program.title}>
+                        {program.program.description}
+                      </InfoCard>
+                    ))}
+                  <p className="text-gray-700 text-tiny">
+                    {t("listings.sections.publicProgramNote")}
+                  </p>
+                </ListSection>
+              )}
+            </ul>
+          </ListingDetailItem>
+        ) : null}
+
         <ListingDetailItem
           imageAlt={t("listings.featuresCards")}
           imageSrc="/images/listing-features.svg"
@@ -407,26 +467,32 @@ export const ListingView = (props: ListingProps) => {
                     description={listing.servicesOffered}
                   />
                 )}
-                <Description
-                  term={t("t.accessibility")}
-                  description={listing.accessibility || t("t.contactPropertyManagement")}
-                />
-                <Description
+                {accessibilityFeatures && (
+                  <Description term={t("t.accessibility")} description={accessibilityFeatures} />
+                )}
+                {listing.accessibility && (
+                  <Description
+                    term={t("t.additionalAccessibility")}
+                    description={listing.accessibility}
+                  />
+                )}
+                {/* <Description
                   term={t("t.unitFeatures")}
                   description={
                     <UnitTables
                       units={listing.units}
-                      unitSummaries={listing?.unitsSummarized?.byUnitType}
+                      unitSummaries={listing?.unitSummaries?.unitGroupSummary}
                       disableAccordion={listing.disableUnitsAccordion}
                     />
                   }
-                />
+                /> */}
               </dl>
               <AdditionalFees
                 depositMin={listing.depositMin}
                 depositMax={listing.depositMax}
                 applicationFee={listing.applicationFee}
                 costsNotIncluded={listing.costsNotIncluded}
+                containerClass={"mt-4"}
               />
             </div>
           )}
@@ -455,39 +521,18 @@ export const ListingView = (props: ListingProps) => {
             desktopClass="bg-primary-lighter"
           >
             <div className="listing-detail-panel">
-              {listing.requiredDocuments && (
-                <div className="info-card">
-                  <h3 className="text-serif-lg">{t("listings.requiredDocuments")}</h3>
-                  <p className="text-sm text-gray-700">
-                    <Markdown
-                      children={listing.requiredDocuments}
-                      options={{ disableParsingRawHTML: true }}
-                    />
-                  </p>
-                </div>
-              )}
-              {listing.programRules && (
-                <div className="info-card">
-                  <h3 className="text-serif-lg">{t("listings.importantProgramRules")}</h3>
-                  <p className="text-sm text-gray-700">
-                    <Markdown
-                      children={listing.programRules}
-                      options={{ disableParsingRawHTML: true }}
-                    />
-                  </p>
-                </div>
-              )}
-              {listing.specialNotes && (
-                <div className="info-card">
-                  <h3 className="text-serif-lg">{t("listings.specialNotes")}</h3>
-                  <p className="text-sm text-gray-700">
-                    <Markdown
-                      children={listing.specialNotes}
-                      options={{ disableParsingRawHTML: true }}
-                    />
-                  </p>
-                </div>
-              )}
+              {listing.requiredDocuments &&
+                additionalInformationCard(
+                  t("listings.requiredDocuments"),
+                  listing.requiredDocuments
+                )}
+              {listing.programRules &&
+                additionalInformationCard(
+                  t("listings.importantProgramRules"),
+                  listing.programRules
+                )}
+              {listing.specialNotes &&
+                additionalInformationCard(t("listings.specialNotes"), listing.specialNotes)}
             </div>
           </ListingDetailItem>
         )}

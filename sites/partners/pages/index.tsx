@@ -9,14 +9,13 @@ import {
   AgPagination,
   AG_PER_PAGE_OPTIONS,
 } from "@bloom-housing/ui-components"
-import dayjs from "dayjs"
 import { AgGridReact } from "ag-grid-react"
 import { GridOptions } from "ag-grid-community"
 
 import { useListingsData } from "../lib/hooks"
 import Layout from "../layouts"
 import { MetaTags } from "../src/MetaTags"
-
+import { ListingStatus } from "@bloom-housing/backend-core/types"
 class formatLinkCell {
   link: HTMLAnchorElement
 
@@ -93,38 +92,42 @@ export default function ListingsList() {
         cellRenderer: "ListingsLink",
       },
       {
-        headerName: t("listings.listingStatusText"),
-        field: "status",
+        headerName: t("listings.buildingAddress"),
+        field: "buildingAddress.street",
         sortable: false,
         filter: false,
         resizable: true,
         flex: 1,
-        valueFormatter: ({ value }) => t(`listings.${value}`),
-        cellRenderer: "ApplicationsLink",
+        valueFormatter: ({ value }) => (value ? value : t("t.none")),
       },
       {
-        headerName: t("listings.buildingAddress"),
-        field: "buildingAddress.street",
+        headerName: t("listings.listingStatusText"),
+        field: "status",
         sortable: true,
         filter: false,
         resizable: true,
         flex: 1,
-        valueFormatter: ({ value }) => (value ? dayjs(value).format("MM/DD/YYYY") : t("t.none")),
+        valueFormatter: ({ value }) => {
+          switch (value) {
+            case ListingStatus.active:
+              return t("t.public")
+            case ListingStatus.pending:
+              return t("t.draft")
+            case ListingStatus.closed:
+              return t("t.closed")
+            default:
+              return ""
+          }
+        },
+        cellRenderer: "ApplicationsLink",
       },
       {
-        headerName: t("listings.availableUnits"),
-        field: "unitsAvailable",
-        sortable: false,
+        headerName: t("listings.verified"),
+        field: "isVerified",
+        sortable: true,
         filter: false,
         resizable: true,
-      },
-      {
-        headerName: t("listings.waitlist.open"),
-        field: "waitlistCurrentSize",
-        sortable: false,
-        filter: false,
-        resizable: true,
-        cellRenderer: "formatWaitlistStatus",
+        valueFormatter: ({ value }) => (value ? t("t.yes") : t("t.no")),
       },
     ]
     return columns
