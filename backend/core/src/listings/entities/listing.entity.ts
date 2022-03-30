@@ -24,6 +24,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUrl,
   IsUUID,
   MaxLength,
   ValidateNested,
@@ -523,6 +524,7 @@ class Listing extends BaseEntity {
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @IsUrl({}, { groups: [ValidationsGroupsEnum.default] })
   managementWebsite?: string | null
 
   // In the absence of AMI percentage information at the unit level, amiPercentageMin and

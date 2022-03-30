@@ -2,12 +2,13 @@ import React, { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
 import { t, GridSection, Textarea, Field, PhoneField } from "@bloom-housing/ui-components"
 import { fieldMessage, fieldHasError } from "../../../../lib/helpers"
+import { isURL } from "class-validator"
 
 const LeasingAgent = () => {
   const formMethods = useFormContext()
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, control, errors, clearErrors, watch } = formMethods
+  const { register, control, errors, clearErrors, watch, trigger } = formMethods
 
   const leasingAgentPhoneField: string = watch("leasingAgentPhone")
 
@@ -75,6 +76,13 @@ const LeasingAgent = () => {
               id={"managementWebsite"}
               placeholder={t("leasingAgent.managementWebsite")}
               register={register}
+              validation={{
+                validate: (value) => isURL(value) || t("errors.urlError"),
+              }}
+              error={fieldHasError(errors?.managementWebsite)}
+              errorMessage={t("errors.urlError")}
+              type="url"
+              onChange={(e) => trigger("managementWebsite")}
             />
           </GridSection>
           <Textarea
