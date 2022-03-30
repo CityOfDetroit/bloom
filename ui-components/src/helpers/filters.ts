@@ -4,7 +4,7 @@ import {
   ListingFilterKeys,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
-import { Neighborhoods, Region, regionNeighborhoodMap } from "./regionNeighborhoodMap"
+import { Region, regionNeighborhoodMap } from "./regionNeighborhoodMap"
 
 // TODO(#629): Refactor filter state storage strategy
 // Currently, the knowledge of "what a filter is" is spread across multiple
@@ -45,12 +45,12 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.zipcode:
     case ListingFilterKeys.neighborhood:
       return EnumListingFilterParamsComparison["IN"]
-    case ListingFilterKeys.seniorHousing:
-    case ListingFilterKeys.independentLivingHousing:
+    // case ListingFilterKeys.seniorHousing:
+    // case ListingFilterKeys.independentLivingHousing:
     case ListingFilterKeys.availability:
       return EnumListingFilterParamsComparison["NA"]
     default: {
-      const _exhaustiveCheck: never = filterKey
+      const _exhaustiveCheck: any = filterKey
       return _exhaustiveCheck
     }
   }
@@ -85,8 +85,8 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.zipcode]?: string
   [FrontendListingFilterStateKeys.minRent]?: string | number
   [FrontendListingFilterStateKeys.maxRent]?: string | number
-  [FrontendListingFilterStateKeys.seniorHousing]?: string | boolean
-  [FrontendListingFilterStateKeys.independentLivingHousing]?: string | boolean
+  // [FrontendListingFilterStateKeys.seniorHousing]?: string | boolean
+  // [FrontendListingFilterStateKeys.independentLivingHousing]?: string | boolean
   [FrontendListingFilterStateKeys.includeNulls]?: boolean
   [FrontendListingFilterStateKeys.minAmiPercentage]?: string | number
   [FrontendListingFilterStateKeys.studio]?: string | boolean
@@ -111,6 +111,7 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.midtownNewCenter]?: string | boolean
   [FrontendListingFilterStateKeys.southwest]?: string | boolean
   [FrontendListingFilterStateKeys.westside]?: string | boolean
+  [FrontendListingFilterStateKeys.status]?: string
 }
 
 // Since it'd be tricky to OR a separate ">=" comparison with an "IN"
