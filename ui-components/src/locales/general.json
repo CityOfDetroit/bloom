@@ -1590,8 +1590,7 @@
     "welcomeVietnamese": "Tiếng Việt",
     "about": "About",
     "feedback": "Share website feedback",
-    "resources": "Resources",
-    "favorites": "My Favorites"
+    "resources": "Resources"
   },
   "pageDescription": {
     "welcome": "Search and apply for affordable housing on %{regionName}'s Housing Portal",
