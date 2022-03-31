@@ -159,7 +159,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       scrollToVerify()
       setJumpToVerify(false)
     }
-  }, [tabIndex])
+  }, [tabIndex, jumpToVerify])
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { getValues, setError, clearErrors, reset } = formMethods
@@ -343,7 +343,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                       <a
                         className="decoration-blue-700 underline"
                         href="#"
-                        onClick={async (e) => {
+                        onClick={(e) => {
                           e.preventDefault()
                           if (tabIndex === 1) {
                             setJumpToVerify(true)
