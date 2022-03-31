@@ -26,6 +26,7 @@ export enum ListingFilterKeys {
   neighborhood = "neighborhood",
   jurisdiction = "jurisdiction",
   favorited = "favorited",
+  marketingType = "marketingType",
 }
 
 export enum AvailabilityFilterEnum {

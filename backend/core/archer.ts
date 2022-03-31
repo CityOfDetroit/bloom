@@ -2,6 +2,7 @@ import {
   AmiChart,
   EnumJurisdictionLanguages,
   Listing,
+  ListingMarketingTypeEnum,
   ListingReviewOrder,
   ListingStatus,
   UnitStatus,
@@ -1528,6 +1529,5 @@ export const ArcherListing: Listing = {
       monthlyRentAsPercentOfIncome: null,
     },
   ],
-  // TODO confirm not used anywhere
-  // totalUnits: 2,
+  marketingType: ListingMarketingTypeEnum.marketing,
 }
