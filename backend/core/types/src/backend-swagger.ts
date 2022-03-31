@@ -4491,6 +4491,12 @@ export interface ListingFilterParams {
 
   /**  */
   jurisdiction?: string
+
+  /**  */
+  marketingType?: EnumListingFilterParamsMarketingType
+
+  /**  */
+  favorited?: string
 }
 
 export interface MinMax {
@@ -5092,6 +5098,9 @@ export interface Listing {
   unitSummaries: UnitSummaries
 
   /**  */
+  marketingType: ListingMarketingTypeEnum
+
+  /**  */
   applicationMethods: ApplicationMethod[]
 
   /**  */
@@ -5357,6 +5366,9 @@ export interface Listing {
 
   /**  */
   temporaryListingId?: number
+
+  /**  */
+  marketingDate?: Date
 }
 
 export interface PaginatedListing {
@@ -5552,6 +5564,9 @@ export interface ListingCreate {
 
   /**  */
   reviewOrderType?: ListingReviewOrder
+
+  /**  */
+  marketingType: ListingMarketingTypeEnum
 
   /**  */
   applicationMethods: ApplicationMethodCreate[]
@@ -5803,6 +5818,9 @@ export interface ListingCreate {
   temporaryListingId?: number
 
   /**  */
+  marketingDate?: Date
+
+  /**  */
   countyCode?: string
 
   /**  */
@@ -6011,6 +6029,9 @@ export interface ListingUpdate {
 
   /**  */
   reviewOrderType?: ListingReviewOrder
+
+  /**  */
+  marketingType: ListingMarketingTypeEnum
 
   /**  */
   id?: string
@@ -6266,6 +6287,9 @@ export interface ListingUpdate {
 
   /**  */
   temporaryListingId?: number
+
+  /**  */
+  marketingDate?: Date
 
   /**  */
   countyCode?: string
@@ -6790,6 +6814,10 @@ export enum EnumListingFilterParamsAvailability {
   "noAvailability" = "noAvailability",
   "waitlist" = "waitlist",
 }
+export enum EnumListingFilterParamsMarketingType {
+  "Marketing" = "Marketing",
+  "ComingSoon" = "ComingSoon",
+}
 export enum OrderByFieldsEnum {
   "mostRecentlyUpdated" = "mostRecentlyUpdated",
   "applicationDates" = "applicationDates",
@@ -6808,6 +6836,11 @@ export enum ListingStatus {
 export enum ListingReviewOrder {
   "lottery" = "lottery",
   "firstComeFirstServe" = "firstComeFirstServe",
+}
+
+export enum ListingMarketingTypeEnum {
+  "marketing" = "marketing",
+  "comingSoon" = "comingSoon",
 }
 
 export enum ListingEventType {
