@@ -4527,6 +4527,10 @@ export interface UnitGroupSummary {
 
   /**  */
   amiPercentageRange: MinMax
+  marketingType: ListingMarketingTypeEnum
+
+  /**  */
+  applicationMethods: ApplicationMethod[]
 
   /**  */
   openWaitlist: boolean
@@ -4831,6 +4835,10 @@ export interface ReservedCommunityType {
 export interface UnitRentType {
   /**  */
   id: string
+  temporaryListingId?: number
+
+  /**  */
+  marketingDate?: Date
 
   /**  */
   createdAt: Date

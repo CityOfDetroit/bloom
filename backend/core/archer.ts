@@ -5,7 +5,7 @@ import {
   ListingMarketingTypeEnum,
   ListingReviewOrder,
   ListingStatus,
-  UnitStatus,
+  UnitStatus
 } from "./types"
 
 import { CountyCode } from "./src/shared/types/county-code"
