@@ -1,4 +1,3 @@
-import Head from "next/head"
 import {
   PageHeader,
   AgPagination,
@@ -9,7 +8,6 @@ import {
   AuthContext,
 } from "@bloom-housing/ui-components"
 import Layout from "../../layouts/application"
-import { MetaTags } from "../../src/MetaTags"
 import React, { useEffect, useState, useContext, useMemo } from "react"
 import { useRouter } from "next/router"
 import { useListingsData } from "../../lib/hooks"
@@ -55,18 +53,9 @@ const FavoritedListingsPage = () => {
     OrderByFieldsEnum.mostRecentlyUpdated
   )
 
-  const pageTitle = `${t("pageTitle.favorites")} - ${t("nav.siteTitle")}`
-  const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
-  const metaImage = "" // TODO: replace with hero image
-
   return (
     <Layout>
-      <Head>
-        <title>{pageTitle}</title>
-      </Head>
-
-      <MetaTags title={t("nav.siteTitle")} image={metaImage} description={metaDescription} />
-      <PageHeader className="listings-title" title={t("pageTitle.favorites")} inverse={true} />
+      <PageHeader className="listings-title" title={t("account.myFavorites")} inverse={true} />
       {!filterState.favorited ? (
         <h3 className="max-w-5xl container mx-auto text-4xl text-primary-darker font-bold px-4 py-8">
           {t("errors.noFavorites")}
