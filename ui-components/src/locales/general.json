@@ -9,6 +9,7 @@
     "accountSettings": "Account Settings",
     "errorFetchingApplications": "Error fetching applications",
     "noApplications": "It looks like you haven't applied to any listings yet.",
+    "noFavorites": "It looks like you haven't favorited any listings yet.",
     "accountSettingsSubtitle": "Account Settings, email and password",
     "myFavorites": "My Favorites",
     "myFavoritesSubtitle": "Save listings and check back for updates",
@@ -1072,8 +1073,7 @@
     "rateLimitExceeded": "Rate limit exceeded, try again later.",
     "requiredFieldError": "This field is required.",
     "requiredFieldsError": "These fields are required",
-    "noData": "No data available.",
-    "noFavorites": "You have not favorited any listings"
+    "noData": "No data available."
   },
   "footer": {
     "srHeading": "Footer",
