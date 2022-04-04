@@ -6,6 +6,7 @@ import {
   LoadingOverlay,
   ListingFilterState,
   AuthContext,
+  LinkButton,
 } from "@bloom-housing/ui-components"
 import Layout from "../../layouts/application"
 import React, { useEffect, useState, useContext, useMemo } from "react"
@@ -56,10 +57,11 @@ const FavoritedListingsPage = () => {
   return (
     <Layout>
       <PageHeader className="listings-title" title={t("account.myFavorites")} inverse={true} />
-      {!filterState.favorited ? (
-        <h3 className="max-w-5xl container mx-auto text-4xl text-primary-darker font-bold px-4 py-8">
-          {t("errors.noFavorites")}
-        </h3>
+      {!listingsLoading && !filterState.favorited ? (
+        <div className="p-8">
+          <h2 className="pb-4">{t("account.noFavorites")}</h2>
+          <LinkButton href="/listings">{t("listings.browseListings")}</LinkButton>
+        </div>
       ) : (
         <LoadingOverlay isLoading={listingsLoading}>
           <>
