@@ -77,12 +77,17 @@ const LeasingAgent = () => {
               placeholder={t("leasingAgent.managementWebsite")}
               register={register}
               validation={{
-                validate: (value) => isURL(value) || t("errors.urlError"),
+                validate: (value) =>
+                  isURL(value, { require_protocol: true }) || t("errors.urlError"),
               }}
               error={fieldHasError(errors?.managementWebsite)}
               errorMessage={t("errors.urlError")}
               type="url"
-              onChange={(e) => trigger("managementWebsite")}
+              onChange={(e) =>
+                e.currentTarget.value
+                  ? trigger("managementWebsite")
+                  : clearErrors("managementWebsite")
+              }
             />
           </GridSection>
           <Textarea
