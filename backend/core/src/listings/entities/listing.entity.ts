@@ -24,6 +24,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUrl,
   IsUUID,
   MaxLength,
   ValidateNested,
@@ -523,6 +524,7 @@ class Listing extends BaseEntity {
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @IsUrl({ require_protocol: true }, { groups: [ValidationsGroupsEnum.default] })
   managementWebsite?: string | null
 
   // In the absence of AMI percentage information at the unit level, amiPercentageMin and
@@ -606,7 +608,11 @@ class Listing extends BaseEntity {
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   temporaryListingId?: number | null
 
-  @Column({ type: "enum", enum: ListingMarketingTypeEnum, default: ListingMarketingTypeEnum.Marketing })
+  @Column({
+    type: "enum",
+    enum: ListingMarketingTypeEnum,
+    default: ListingMarketingTypeEnum.Marketing,
+  })
   @Expose()
   @IsEnum(ListingMarketingTypeEnum, { groups: [ValidationsGroupsEnum.default] })
   @ApiProperty({
