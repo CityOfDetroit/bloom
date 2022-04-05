@@ -87,7 +87,7 @@ const FieldGroup = ({
           defaultChecked={item.defaultChecked || false}
           ref={register(validation)}
           {...item.inputProps}
-          data-test-id={`${dataTestId}_${item.label}`}
+          data-test-id={dataTestId}
         />
         <label htmlFor={item.id} className={`font-semibold ${fieldLabelClassName}`}>
           {item.label}
