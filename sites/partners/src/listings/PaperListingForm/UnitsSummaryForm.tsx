@@ -294,6 +294,7 @@ const UnitsSummaryForm = ({
                   errorMessage={t("errors.requiredFieldError")}
                   validation={{ required: true }}
                   fieldGroupClassName="grid grid-cols-2 mt-4"
+                  dataTestId="unitTypeCheckBox"
                 />
               </ViewItem>
             </GridCell>
@@ -312,6 +313,7 @@ const UnitsSummaryForm = ({
                     type="number"
                     error={errors?.totalCount !== undefined}
                     errorMessage={t("errors.requiredFieldError")}
+                    dataTestId="totalCount"
                   />
                 </ViewItem>
               </GridCell>
@@ -327,6 +329,7 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(8, 1, true)}
+                    dataTestId="minOccupancy"
                   />
                 </ViewItem>
               </GridCell>
@@ -340,6 +343,7 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(8, 1, true)}
+                    dataTestId="maxOccupancy"
                   />
                 </ViewItem>
               </GridCell>
@@ -355,6 +359,7 @@ const UnitsSummaryForm = ({
                     register={register}
                     readerOnly
                     type="number"
+                    dataTestId="sqFeetMin"
                   />
                 </ViewItem>
               </GridCell>
@@ -368,6 +373,7 @@ const UnitsSummaryForm = ({
                     register={register}
                     readerOnly
                     type="number"
+                    dataTestId="sqFeetMax"
                   />
                 </ViewItem>
               </GridCell>
@@ -383,6 +389,7 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    dataTestId="floorMin"
                   />
                 </ViewItem>
               </GridCell>
@@ -396,6 +403,7 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    dataTestId="floorMax"
                   />
                 </ViewItem>
               </GridCell>
@@ -411,6 +419,7 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    dataTestId="bathroomMin"
                   />
                 </ViewItem>
               </GridCell>
@@ -424,6 +433,7 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    dataTestId="bathroomMax"
                   />
                 </ViewItem>
               </GridCell>
@@ -442,6 +452,7 @@ const UnitsSummaryForm = ({
                   type="number"
                   error={errors?.totalAvailable !== undefined}
                   errorMessage={t("errors.requiredFieldError")}
+                  dataTestId="totalAvailable"
                 />
               </ViewItem>
             </GridCell>
@@ -456,6 +467,7 @@ const UnitsSummaryForm = ({
                   fieldGroupClassName="flex h-12 items-center"
                   error={errors?.openWaitlist !== undefined}
                   errorMessage={t("errors.requiredFieldError")}
+                  dataTestId="openWaitListQuestion"
                 />
               </ViewItem>
             </GridCell>
@@ -479,6 +491,7 @@ const UnitsSummaryForm = ({
                   onClick={() => {
                     editAmi((current?.amiLevels?.length || 0) + 1)
                   }}
+                  dataTestId="openAmiDrawer"
                 >
                   {t("listings.unitsSummary.addAmi")}
                 </Button>
@@ -496,6 +509,7 @@ const UnitsSummaryForm = ({
                   register={register}
                   controlClassName="control"
                   options={options.unitPriorities}
+                  dataTestId="priorityType.id"
                 />
               </ViewItem>
             </GridCell>
@@ -506,6 +520,7 @@ const UnitsSummaryForm = ({
             type="button"
             onClick={() => onFormSubmit()}
             styleType={AppearanceStyleType.primary}
+            dataTestId="saveUnit"
           >
             {t("t.saveExit")}
           </Button>
