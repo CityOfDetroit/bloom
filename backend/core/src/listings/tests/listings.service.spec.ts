@@ -17,6 +17,7 @@ import { ListingFilterParams } from "../dto/listing-filter-params"
 import { OrderByFieldsEnum } from "../types/listing-orderby-enum"
 import { ContextIdFactory } from "@nestjs/core"
 import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
+import { ListingMarketingTypeEnum } from "../types/listing-marketing-type-enum"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -120,6 +121,7 @@ const mockListingsCreateDto: ListingCreateDto = {
   status: null,
   displayWaitlistSize: false,
   hasId: null,
+  marketingType: ListingMarketingTypeEnum.Marketing,
   listingPreferences: [],
   save: jest.fn(),
   remove: jest.fn(),
@@ -141,6 +143,7 @@ const mockListingsUpdateDto: ListingUpdateDto = {
   status: ListingStatus.pending,
   displayWaitlistSize: false,
   hasId: null,
+  marketingType: ListingMarketingTypeEnum.Marketing,
   listingPreferences: [],
   save: jest.fn(),
   remove: jest.fn(),

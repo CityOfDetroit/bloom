@@ -24,6 +24,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUrl,
   IsUUID,
   MaxLength,
   ValidateNested,
@@ -50,6 +51,7 @@ import { UserPreferences } from "../../../src/user-preferences/entities/user-pre
 import { ListingProgram } from "../../program/entities/listing-program.entity"
 import { EnforceLowerCase } from "../../shared/decorators/enforceLowerCase.decorator"
 import { ListingPreference } from "../../preferences/entities/listing-preference.entity"
+import { ListingMarketingTypeEnum } from "../types/listing-marketing-type-enum"
 
 @Entity({ name: "listings" })
 @Index(["jurisdiction"])
@@ -523,6 +525,7 @@ class Listing extends BaseEntity {
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @IsUrl({ require_protocol: true }, { groups: [ValidationsGroupsEnum.default] })
   managementWebsite?: string | null
 
   // In the absence of AMI percentage information at the unit level, amiPercentageMin and
@@ -610,6 +613,26 @@ class Listing extends BaseEntity {
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   temporaryListingId?: number | null
+
+  @Column({
+    type: "enum",
+    enum: ListingMarketingTypeEnum,
+    default: ListingMarketingTypeEnum.Marketing,
+  })
+  @Expose()
+  @IsEnum(ListingMarketingTypeEnum, { groups: [ValidationsGroupsEnum.default] })
+  @ApiProperty({
+    enum: ListingMarketingTypeEnum,
+    enumName: "ListingMarketingTypeEnum",
+  })
+  marketingType: ListingMarketingTypeEnum
+
+  @Column({ type: "timestamptz", nullable: true })
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsDate({ groups: [ValidationsGroupsEnum.default] })
+  @Type(() => Date)
+  marketingDate?: Date | null
 }
 
 export { Listing as default, Listing }

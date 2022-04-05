@@ -1108,7 +1108,8 @@
     "namePlaceholder": "Full Name",
     "title": "Leasing Agent Title",
     "officeHours": "Office Hours",
-    "officeHoursPlaceholder": "ex: 9:00am - 5:00pm, Monday to Friday"
+    "officeHoursPlaceholder": "ex: 9:00am - 5:00pm, Monday to Friday",
+    "managementWebsite": "Company Website"
   },
   "listings": {
     "error": "There was an issue submitting the form.",
@@ -1404,7 +1405,7 @@
     },
     "usingCommonDigitalApplication": "Are you using the common digital application?",
     "usingCommonPaperApplication": "Are you using the common paper application?",
-    "verifiedListing": "Verified listing",
+    "verifiedListing": "Confirmed by property",
     "verified": "Verified",
     "waitlist": {
       "closed": "Closed waitlist",
