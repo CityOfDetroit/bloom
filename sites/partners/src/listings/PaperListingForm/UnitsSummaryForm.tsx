@@ -420,7 +420,6 @@ const UnitsSummaryForm = ({
             <GridSection columns={3}>
               <GridCell span={1}>
                 <ViewItem label={t("listings.unitsSummary.bathroomsMin")}>
-                  {console.log(numberOptions(10, 1, true))}
                   <Select
                     id="bathroomMin"
                     name="bathroomMin"
@@ -428,7 +427,6 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    // options={numberOptions(10, 1, true)}
                     options={bathroomOptions}
                   />
                 </ViewItem>
@@ -442,7 +440,6 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    // options={numberOptions(10, 1, true)}
                     options={bathroomOptions}
                   />
                 </ViewItem>
