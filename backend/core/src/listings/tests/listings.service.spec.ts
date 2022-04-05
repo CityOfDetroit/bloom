@@ -16,6 +16,7 @@ import { Compare } from "../../shared/dto/filter.dto"
 import { ListingFilterParams } from "../dto/listing-filter-params"
 import { OrderByFieldsEnum } from "../types/listing-orderby-enum"
 import { ContextIdFactory } from "@nestjs/core"
+import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -164,6 +165,14 @@ describe("ListingsService", () => {
         {
           provide: getRepositoryToken(AmiChart),
           useValue: jest.fn(),
+        },
+        {
+          provide: getRepositoryToken(UnitGroup),
+          useValue: {
+            find: jest.fn(() => {
+              return []
+            }),
+          },
         },
         {
           provide: TranslationsService,
