@@ -1073,7 +1073,8 @@
     "rateLimitExceeded": "Rate limit exceeded, try again later.",
     "requiredFieldError": "This field is required.",
     "requiredFieldsError": "These fields are required",
-    "noData": "No data available."
+    "noData": "No data available.",
+    "noFavorites": "You have not favorited any listings"
   },
   "footer": {
     "srHeading": "Footer",
@@ -1111,7 +1112,8 @@
     "namePlaceholder": "Full Name",
     "title": "Leasing Agent Title",
     "officeHours": "Office Hours",
-    "officeHoursPlaceholder": "ex: 9:00am - 5:00pm, Monday to Friday"
+    "officeHoursPlaceholder": "ex: 9:00am - 5:00pm, Monday to Friday",
+    "managementWebsite": "Company Website"
   },
   "listings": {
     "error": "There was an issue submitting the form.",
@@ -1590,7 +1592,8 @@
     "welcomeVietnamese": "Tiếng Việt",
     "about": "About",
     "feedback": "Share website feedback",
-    "resources": "Resources"
+    "resources": "Resources",
+    "favorites": "My Favorites"
   },
   "pageDescription": {
     "welcome": "Search and apply for affordable housing on %{regionName}'s Housing Portal",
