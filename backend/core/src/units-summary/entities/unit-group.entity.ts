@@ -76,13 +76,13 @@ export class UnitGroup {
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   floorMax?: number | null
 
-  @Column({ nullable: true, type: "integer" })
+  @Column({ nullable: true, type: "numeric" })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   sqFeetMin?: number | null
 
-  @Column({ nullable: true, type: "integer" })
+  @Column({ nullable: true, type: "numeric" })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
@@ -107,13 +107,13 @@ export class UnitGroup {
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   totalAvailable?: number | null
 
-  @Column({ nullable: true, type: "integer" })
+  @Column({ nullable: true, type: "numeric" })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   bathroomMin?: number | null
 
-  @Column({ nullable: true, type: "integer" })
+  @Column({ nullable: true, type: "numeric" })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
