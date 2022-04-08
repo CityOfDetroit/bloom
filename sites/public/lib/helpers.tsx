@@ -216,9 +216,9 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
             .reduce((acc, curr) => [acc, ", ", curr])}
         </>
       ),
-      rent,
-      availability,
-      ami: <strong>{ami}</strong>,
+      rent: rent ?? t("listings.unitsSummary.notAvailable"),
+      availability: availability ?? t("listings.unitsSummary.notAvailable"),
+      ami: ami ?? t("listings.unitsSummary.notAvailable"),
     }
   })
 
