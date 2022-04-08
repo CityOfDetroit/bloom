@@ -505,14 +505,6 @@ describe("ListingsService", () => {
       // The full query must be ordered so that the ordering is applied within a page (if pagination is requested)
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
-
-      // The full query is additionally ordered by the number of bedrooms (or max_occupancy) at the unit level.
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(1)
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
-        "units.max_occupancy",
-        "ASC",
-        "NULLS LAST"
-      )
     })
 
     it("orders by the orderBy param (when set)", async () => {
@@ -529,15 +521,6 @@ describe("ListingsService", () => {
 
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
-
-      // Verify that the full query is still also ordered by the number of bedrooms
-      // (or max_occupancy) at the unit level.
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(1)
-      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
-        "units.max_occupancy",
-        "ASC",
-        "NULLS LAST"
-      )
     })
   })
 })
