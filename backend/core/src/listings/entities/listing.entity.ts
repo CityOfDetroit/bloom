@@ -24,6 +24,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUrl,
   IsUUID,
   MaxLength,
   ValidateNested,
@@ -46,7 +47,6 @@ import { ListingReviewOrder } from "../types/listing-review-order-enum"
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
 import { ApplicationMethodType } from "../../application-methods/types/application-method-type-enum"
 import { ListingFeatures } from "./listing-features.entity"
-import { UserPreferences } from "../../../src/user-preferences/entities/user-preferences.entity"
 import { ListingProgram } from "../../program/entities/listing-program.entity"
 import { EnforceLowerCase } from "../../shared/decorators/enforceLowerCase.decorator"
 import { ListingPreference } from "../../preferences/entities/listing-preference.entity"
@@ -524,6 +524,7 @@ class Listing extends BaseEntity {
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @IsUrl({ require_protocol: true }, { groups: [ValidationsGroupsEnum.default] })
   managementWebsite?: string | null
 
   // In the absence of AMI percentage information at the unit level, amiPercentageMin and
@@ -595,11 +596,6 @@ class Listing extends BaseEntity {
   @Type(() => ListingFeatures)
   features?: ListingFeatures
 
-  @ManyToMany(() => UserPreferences, (userPreference) => userPreference.favorites, {
-    nullable: true,
-  })
-  favoritedPreferences?: UserPreferences[] | null
-
   @Column({ type: "boolean", default: false, nullable: true })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
@@ -612,7 +608,11 @@ class Listing extends BaseEntity {
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
   temporaryListingId?: number | null
 
-  @Column({ type: "enum", enum: ListingMarketingTypeEnum, default: ListingMarketingTypeEnum.Marketing })
+  @Column({
+    type: "enum",
+    enum: ListingMarketingTypeEnum,
+    default: ListingMarketingTypeEnum.Marketing,
+  })
   @Expose()
   @IsEnum(ListingMarketingTypeEnum, { groups: [ValidationsGroupsEnum.default] })
   @ApiProperty({
