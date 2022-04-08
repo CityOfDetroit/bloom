@@ -3,11 +3,7 @@
         "routePrefix": "ar"
     },
     "about": {
-        "body1": "نحن نعلم أن العثور على منزل يلبي احتياجاتك قد يكون أمرًا صعبًا ومحبطًا. Detroit Home Connect هي يدك المساعدة في العثور على مكان جديد للاتصال بالمنزل.",
-        "body2": "",
-        "moreInfoContact": "",
-        "thankYouPartners": "",
-        "partnersList": ""
+        "body1": "نحن نعلم أن العثور على منزل يلبي احتياجاتك قد يكون أمرًا صعبًا ومحبطًا. Detroit Home Connect هي يدك المساعدة في العثور على مكان جديد للاتصال بالمنزل."
     },
     "account": {
         "accountSettings": "إعدادت الحساب",
