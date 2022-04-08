@@ -9,7 +9,6 @@ export interface HeroProps {
   buttonLink?: string
   buttonTitle?: string
   centered?: boolean
-  heroInset?: React.ReactNode
   children?: React.ReactNode
   extraLargeTitle?: boolean
   secondaryButtonLink?: string
@@ -44,8 +43,7 @@ const Hero = (props: HeroProps) => {
       </h1>
       {subHeader}
 
-      {props.heroInset}
-      {!props.heroInset && props.buttonTitle && props.buttonLink && (
+      {props.buttonTitle && props.buttonLink && (
         <>
           {props.secondaryButtonTitle && props.secondaryButtonLink ? (
             <div className="hero__buttons">

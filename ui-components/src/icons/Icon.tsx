@@ -1,14 +1,12 @@
 import * as React from "react"
 import "./Icon.scss"
 import {
-  Accessible,
   Application,
   ArrowBack,
   ArrowDown,
   ArrowForward,
   Assistance,
   Asterisk,
-  BadgeCheck,
   Bed,
   Browse,
   Building,
@@ -19,6 +17,7 @@ import {
   CloseRound,
   CloseSmall,
   Cross,
+  Document,
   DoubleHouse,
   Down,
   Download,
@@ -28,10 +27,11 @@ import {
   Eye,
   Favorite,
   File,
-  Filter,
   Forward,
+  FrontDoor,
   Globe,
   Hamburger,
+  House,
   Info,
   Left,
   Lightbulb,
@@ -45,6 +45,7 @@ import {
   Map,
   MapThin,
   Menu,
+  Messages,
   Oval,
   Phone,
   Plus,
@@ -59,19 +60,16 @@ import {
   Star,
   Ticket,
   Trash,
-  UniversalAccess,
   Warning,
 } from "./Icons"
 
 const IconMap = {
-  accessible: Accessible,
   application: Application,
   arrowBack: ArrowBack,
   arrowForward: ArrowForward,
   arrowDown: ArrowDown,
   assistance: Assistance,
   asterisk: Asterisk,
-  badgeCheck: BadgeCheck,
   bed: Bed,
   browse: Browse,
   building: Building,
@@ -82,6 +80,7 @@ const IconMap = {
   closeRound: CloseRound,
   closeSmall: CloseSmall,
   cross: Cross,
+  document: Document,
   doubleHouse: DoubleHouse,
   down: Down,
   download: Download,
@@ -91,10 +90,11 @@ const IconMap = {
   eye: Eye,
   favorite: Favorite,
   file: File,
-  filter: Filter,
   forward: Forward,
+  frontDoor: FrontDoor,
   globe: Globe,
   hamburger: Hamburger,
+  house: House,
   info: Info,
   left: Left,
   lightbulb: Lightbulb,
@@ -108,6 +108,7 @@ const IconMap = {
   map: Map,
   mapThin: MapThin,
   menu: Menu,
+  messages: Messages,
   oval: Oval,
   phone: Phone,
   plus: Plus,
@@ -122,7 +123,6 @@ const IconMap = {
   star: Star,
   ticket: Ticket,
   trash: Trash,
-  universalAccess: UniversalAccess,
   warning: Warning,
 }
 
@@ -136,16 +136,7 @@ export const IconFillColors = {
   primary: "#0077DA",
 }
 
-export type IconSize =
-  | "tiny"
-  | "small"
-  | "base"
-  | "medium"
-  | "large"
-  | "xlarge"
-  | "2xl"
-  | "3xl"
-  | "extra-medium"
+export type IconSize = "tiny" | "small" | "base" | "medium" | "large" | "xlarge" | "2xl" | "3xl"
 
 export interface IconProps {
   size: IconSize
@@ -153,7 +144,7 @@ export interface IconProps {
   className?: string
   fill?: string
   ariaHidden?: boolean
-  iconClass?: string
+  dataTestId?: string
 }
 
 const Icon = (props: IconProps) => {
@@ -165,11 +156,12 @@ const Icon = (props: IconProps) => {
   const SpecificIcon = IconMap[props.symbol]
 
   return (
-    <span className={wrapperClasses.join(" ")} aria-hidden={props.ariaHidden}>
-      <SpecificIcon
-        fill={props.fill ? props.fill : undefined}
-        className={props.iconClass ?? undefined}
-      />
+    <span
+      className={wrapperClasses.join(" ")}
+      aria-hidden={props.ariaHidden}
+      data-test-id={props.dataTestId ?? null}
+    >
+      <SpecificIcon fill={props.fill ? props.fill : undefined} />
     </span>
   )
 }

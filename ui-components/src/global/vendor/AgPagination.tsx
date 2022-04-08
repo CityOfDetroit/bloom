@@ -6,31 +6,25 @@ type AgPaginationProps = {
   totalPages: number
   currentPage: number
   itemsPerPage: number
-  sticky?: boolean
-  quantityLabel: string
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>> | ((page: number) => void)
-  setItemsPerPage?: React.Dispatch<React.SetStateAction<number>>
+  quantityLabel?: string
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  setItemsPerPage: React.Dispatch<React.SetStateAction<number>>
   onPageChange?: (page: number) => void
   onPerPageChange?: (size: number) => void
-  includeBorder?: boolean
-  matchListingCardWidth?: boolean
 }
 
-const AG_PER_PAGE_OPTIONS = [8, 25, 50]
+const AG_PER_PAGE_OPTIONS = [8, 100, 500, 1000]
 
 const AgPagination = ({
   totalItems,
   totalPages,
   currentPage,
-  sticky,
-  quantityLabel,
   itemsPerPage,
+  quantityLabel,
   setCurrentPage,
   setItemsPerPage,
   onPageChange,
   onPerPageChange,
-  includeBorder,
-  matchListingCardWidth,
 }: AgPaginationProps) => {
   const onNextClick = () => {
     setCurrentPage(currentPage + 1)
@@ -38,62 +32,36 @@ const AgPagination = ({
   }
 
   const onPrevClick = () => {
-    let pageNumber = currentPage - 1
-    if (pageNumber > totalPages) {
-      // Go to the last page if we've gotten to a nonexistant page and click back.
-      pageNumber = totalPages
-    }
-    setCurrentPage(pageNumber)
+    setCurrentPage(currentPage - 1)
     onPageChange && onPageChange(currentPage)
   }
 
   const onRowLimitChange = (size: string) => {
-    setItemsPerPage?.(parseInt(size))
+    setItemsPerPage(parseInt(size))
     onPerPageChange && onPerPageChange(itemsPerPage)
   }
 
-  const dataPagerContainerClassName = ["data-pager-container"]
-  if (sticky) {
-    dataPagerContainerClassName.push("sticky")
-  }
-  if (includeBorder) {
-    dataPagerContainerClassName.push("include-border")
-  }
-
-  const dataPagerClassName = ["data-pager"]
-  if (matchListingCardWidth) {
-    dataPagerClassName.push("match-listing-card-width")
-  }
-
   return (
-    <div className={dataPagerContainerClassName.join(" ")}>
-      <div className={dataPagerClassName.join(" ")}>
-        <div className="hidden md:block">
-          <Button
-            className="data-pager__previous data-pager__control"
-            onClick={onPrevClick}
-            disabled={currentPage === 1}
-          >
-            {t("t.previous")}
-          </Button>
+    <div className="data-pager flex flex-col md:flex-row">
+      <div className="hidden md:block">
+        <Button
+          className="data-pager__previous data-pager__control"
+          onClick={onPrevClick}
+          disabled={currentPage === 1}
+        >
+          {t("t.previous")}
+        </Button>
+      </div>
+
+      <div className="data-pager__control-group ml-0 md:ml-auto w-full md:w-auto md:flex md:items-center">
+        <div className="data-pager__control">
+          <span className="field-label" id="lbTotalPages">
+            {totalItems}
+          </span>
+          {quantityLabel && <span className="field-label">{quantityLabel}</span>}
         </div>
 
-        <div className="data-pager__control-group ml-0 md:ml-auto w-full md:w-auto md:flex md:items-center">
-          <div className="data-pager__control">
-            {totalItems > 0 && (
-              <>
-                <span className="field-label">
-                  <strong>
-                    Page {currentPage} of {totalPages}
-                  </strong>
-                </span>
-                <span className="field-label">
-                  ({totalItems} {quantityLabel})
-                </span>
-              </>
-            )}
-          </div>
-
+        <div className="flex mt-5 md:mt-0 md:items-center">
           <div className="field data-pager__control md:mb-0">
             <label className="field-label font-sans" htmlFor="page-size">
               {t("t.show")}
@@ -111,27 +79,52 @@ const AgPagination = ({
               ))}
             </select>
           </div>
-        </div>
 
-        <div className="w-full md:w-auto flex justify-between mt-5 md:mt-0 ">
-          <div className="md:hidden">
-            <Button
-              className="data-pager__previous data-pager__control"
-              onClick={onPrevClick}
-              disabled={currentPage === 1}
+          <div className="field data-pager__control">
+            <label className="field-label font-sans" htmlFor="page-jump">
+              {t("t.jumpTo")}
+            </label>
+            <select
+              name="page-jump"
+              id="page-jump"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setCurrentPage(parseInt(e.target.value))
+              }
+              value={currentPage}
             >
-              {t("t.previous")}
-            </Button>
+              {Array(totalPages)
+                .fill(totalPages)
+                .map((_, i) => {
+                  const value = i + 1
+                  return (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  )
+                })}
+            </select>
           </div>
+        </div>
+      </div>
 
+      <div className="w-full md:w-auto flex justify-between mt-5 md:mt-0 ">
+        <div className="md:hidden">
           <Button
-            className="data-pager__next data-pager__control"
-            onClick={onNextClick}
-            disabled={totalPages <= currentPage || totalPages === 0}
+            className="data-pager__previous data-pager__control"
+            onClick={onPrevClick}
+            disabled={currentPage === 1}
           >
-            {t("t.next")}
+            {t("t.previous")}
           </Button>
         </div>
+
+        <Button
+          className="data-pager__next data-pager__control"
+          onClick={onNextClick}
+          disabled={totalPages === currentPage || totalPages === 0}
+        >
+          {t("t.next")}
+        </Button>
       </div>
     </div>
   )

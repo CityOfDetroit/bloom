@@ -8,7 +8,8 @@ import { t } from "../helpers/translator"
 import "./SiteHeader.scss"
 import { NavigationContext } from "../config/NavigationContext"
 
-type LogoWidth = "slim" | "medium" | "wide"
+type LogoWidth = "slim" | "base" | "medium" | "wide"
+type SiteHeaderWidth = "base" | "wide"
 
 export interface MenuLink {
   href?: string
@@ -16,7 +17,6 @@ export interface MenuLink {
   iconSrc?: string
   onClick?: () => void
   subMenuLinks?: MenuLink[]
-  class?: string
   title: string
 }
 
@@ -35,9 +35,8 @@ export interface SiteHeaderProps {
   flattenSubMenus?: boolean
   notice?: string | React.ReactNode
   noticeMobile?: boolean
+  siteHeaderWidth?: SiteHeaderWidth
   title?: string
-  subtitle?: string
-  desktopMinWidth?: number
 }
 
 const SiteHeader = (props: SiteHeaderProps) => {
@@ -49,7 +48,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
 
   const { LinkComponent } = useContext(NavigationContext)
 
-  const DESKTOP_MIN_WIDTH = props.desktopMinWidth || 767
+  const DESKTOP_MIN_WIDTH = 767 // @screen md
   // Enables toggling off navbar links when entering mobile
   useEffect(() => {
     if (window.innerWidth > DESKTOP_MIN_WIDTH) {
@@ -70,9 +69,10 @@ const SiteHeader = (props: SiteHeaderProps) => {
   }, [])
 
   const getLogoWidthClass = () => {
-    if (props.logoWidth === "slim") return "navbar-width-slim"
-    if (props.logoWidth === "medium") return "navbar-width-med"
-    if (props.logoWidth === "wide") return "navbar-width-wide"
+    if (props.logoWidth === "slim") return "navbar-logo-width-slim"
+    if (!props.logoWidth || props.logoWidth === "base") return "navbar-logo-width-base"
+    if (props.logoWidth === "medium") return "navbar-logo-width-med"
+    if (props.logoWidth === "wide") return "navbar-logo-width-wide"
     return ""
   }
 
@@ -116,7 +116,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
 
     return options.map((option, index) => {
       return (
-        <div className="navbar-dropdown-item-container" key={index}>
+        <div key={index}>
           {option.href ? (
             <LinkComponent
               className={dropdownOptionClassname}
@@ -292,9 +292,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
             if (menuLink.href) {
               return (
                 <LinkComponent
-                  className={`navbar-link ${props.menuItemClassName && props.menuItemClassName} ${
-                    menuLink.class && menuLink.class
-                  }`}
+                  className={`navbar-link ${props.menuItemClassName && props.menuItemClassName}`}
                   href={menuLink.href}
                   key={`${menuLink.title}-${index}`}
                 >
@@ -401,22 +399,10 @@ const SiteHeader = (props: SiteHeaderProps) => {
   }
 
   const getLogo = () => {
-    let titleHtml
-    if (props.title && props.subtitle) {
-      titleHtml = (
-        <div className="logo__title">
-          {props.title}
-          <div className="logo__subtitle">{props.subtitle}</div>
-        </div>
-      )
-    } else if (props.title) {
-      titleHtml = <div className="logo__title">{props.title}</div>
-    }
-
     return (
-      <div className={`navbar-logo`}>
+      <div className={`navbar-logo ${getLogoWidthClass()}`}>
         <LinkComponent
-          className={`logo ${props.logoClass && props.logoClass} ${getLogoWidthClass()} ${
+          className={`logo ${props.logoClass && props.logoClass} ${
             props.logoWidth && "navbar-custom-width"
           }`}
           href={props.homeURL}
@@ -428,7 +414,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
               src={props.logoSrc}
               alt={"Site logo"}
             />
-            {titleHtml}
+            {props.title && <div className="logo__title">{props.title}</div>}
           </div>
         </LinkComponent>
       </div>
@@ -444,7 +430,11 @@ const SiteHeader = (props: SiteHeaderProps) => {
       </div>
 
       <nav className="navbar-container" role="navigation" aria-label="main navigation">
-        <div className="navbar m-h-24 h-24">
+        <div
+          className={`navbar ${
+            props.siteHeaderWidth === "wide" ? "navbar-width-wide" : "navbar-width-base"
+          }`}
+        >
           {getLogo()}
           <div className="navbar-menu">{isDesktop ? getDesktopHeader() : getMobileHeader()}</div>
         </div>
