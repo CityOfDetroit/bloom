@@ -11,7 +11,7 @@ export interface PageHeaderProps {
 }
 
 const PageHeader = (props: PageHeaderProps) => {
-  const classNames = ["page-header"]
+  const classNames = ["page-header", "md:pt-16"]
   if (props.className) {
     classNames.push(...props.className.split(" "))
   }

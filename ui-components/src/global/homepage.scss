@@ -24,4 +24,9 @@
       }
     }
   }
+
+  h2 {
+    @apply text-base;
+    @apply mb-4;
+  }
 }

@@ -177,11 +177,13 @@
             @apply mt-1;
             @apply mb-1;
             max-height: 1.5rem;
+            @apply hidden;
 
             @screen md {
               @apply mt-3;
               @apply mb-2;
               max-height: 2rem;
+              @apply inline-block;
             }
           }
 

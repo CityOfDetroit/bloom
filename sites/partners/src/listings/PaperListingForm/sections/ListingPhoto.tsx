@@ -178,7 +178,6 @@ const ListingPhoto = () => {
           </GridCell>
         </GridSection>
       </GridSection>
-      <p className="field-sub-note">{t("listings.requiredToPublish")}</p>
       {fieldHasError(errors?.images) && (
         <span className={"text-sm text-alert"}>{errors?.images?.nested?.message}</span>
       )}

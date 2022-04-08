@@ -243,7 +243,6 @@ const BuildingDetails = ({
             }}
             register={register}
           />
-          <p className="field-sub-note">{t("listings.requiredToPublish")}</p>
         </GridCell>
         <ViewItem
           label={t("application.contact.state")}
