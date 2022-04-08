@@ -1,12 +1,14 @@
 import * as React from "react"
 import "./Icon.scss"
 import {
+  Accessible,
   Application,
   ArrowBack,
   ArrowDown,
   ArrowForward,
   Assistance,
   Asterisk,
+  BadgeCheck,
   Bed,
   Browse,
   Building,
@@ -27,6 +29,7 @@ import {
   Eye,
   Favorite,
   File,
+  Filter,
   Forward,
   FrontDoor,
   Globe,
@@ -60,16 +63,19 @@ import {
   Star,
   Ticket,
   Trash,
+  UniversalAccess,
   Warning,
 } from "./Icons"
 
 const IconMap = {
+  accessible: Accessible,
   application: Application,
   arrowBack: ArrowBack,
   arrowForward: ArrowForward,
   arrowDown: ArrowDown,
   assistance: Assistance,
   asterisk: Asterisk,
+  badgeCheck: BadgeCheck,
   bed: Bed,
   browse: Browse,
   building: Building,
@@ -90,6 +96,7 @@ const IconMap = {
   eye: Eye,
   favorite: Favorite,
   file: File,
+  filter: Filter,
   forward: Forward,
   frontDoor: FrontDoor,
   globe: Globe,
@@ -123,6 +130,7 @@ const IconMap = {
   star: Star,
   ticket: Ticket,
   trash: Trash,
+  universalAccess: UniversalAccess,
   warning: Warning,
 }
 
@@ -136,7 +144,16 @@ export const IconFillColors = {
   primary: "#0077DA",
 }
 
-export type IconSize = "tiny" | "small" | "base" | "medium" | "large" | "xlarge" | "2xl" | "3xl"
+export type IconSize =
+  | "tiny"
+  | "small"
+  | "base"
+  | "medium"
+  | "large"
+  | "xlarge"
+  | "2xl"
+  | "3xl"
+  | "extra-medium"
 
 export interface IconProps {
   size: IconSize
@@ -144,6 +161,7 @@ export interface IconProps {
   className?: string
   fill?: string
   ariaHidden?: boolean
+  iconClass?: string
   dataTestId?: string
 }
 
@@ -161,7 +179,10 @@ const Icon = (props: IconProps) => {
       aria-hidden={props.ariaHidden}
       data-test-id={props.dataTestId ?? null}
     >
-      <SpecificIcon fill={props.fill ? props.fill : undefined} />
+      <SpecificIcon
+        fill={props.fill ? props.fill : undefined}
+        className={props.iconClass ?? undefined}
+      />
     </span>
   )
 }

@@ -1,4 +1,4 @@
-import * as React from "react"
+/* import * as React from "react"
 import { t } from "./translator"
 import { UnitSummary } from "@bloom-housing/backend-core/types"
 
@@ -72,3 +72,6 @@ export const getSummariesTable = (summaries: UnitSummary[]) => {
   }
   return unitSummaries
 }
+ */
+
+export {}

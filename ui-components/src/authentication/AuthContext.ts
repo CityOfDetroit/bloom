@@ -17,6 +17,7 @@ import {
   PreferencesService,
   JurisdictionsService,
   ProgramsService,
+  UserPreferencesService,
   RequestMfaCodeResponse,
   EnumRequestMfaCodeMfaType,
   EnumLoginMfaType,
@@ -72,6 +73,7 @@ type ContextProps = {
   initialStateLoaded: boolean
   loading: boolean
   profile?: User
+  userPreferencesService: UserPreferencesService
   requestMfaCode: (
     email: string,
     password: string,
@@ -254,6 +256,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
     accessToken: state.accessToken,
     initialStateLoaded: state.initialStateLoaded,
     profile: state.profile,
+    userPreferencesService: new UserPreferencesService(),
     login: async (
       email,
       password,
