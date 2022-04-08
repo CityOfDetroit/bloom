@@ -8,10 +8,9 @@ import { Address, Listing } from "@bloom-housing/backend-core/types"
 import {
   t,
   ListingCard,
-  IconTypes,
-  IconSize,
-  IconProps,
   TableHeaders,
+  FavoriteButton,
+  LinkButton,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -57,37 +56,20 @@ export const getImageTagLabelFromListing = (listing: Listing) => {
   return listing?.isVerified ? t("listings.verifiedListing") : undefined
 }
 
-export const getImageTagIconFromListing = (listing: Listing): IconProps | null => {
-  if (listing?.isVerified) {
-    const tagIconSymbol: IconTypes = "badgeCheck"
-    const tagIconSize: IconSize = "medium"
-    const tagIconFill = "#193154"
-    return {
-      symbol: tagIconSymbol,
-      size: tagIconSize,
-      fill: tagIconFill,
-    }
-  }
-  return null
-}
-
 export const getListings = (listings) => {
   const unitSummariesHeaders = {
     unitType: t("t.unitType"),
     rent: t("t.rent"),
     availability: t("t.availability"),
   }
+
   return listings.map((listing: Listing, index) => (
     <ListingCard
       key={index}
       imageCardProps={{
         imageUrl:
           imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")) || "",
-        // subtitle: getListingCardSubtitle(listing.buildingAddress),
-        // title: listing.name,
         href: `/listing/${listing.id}/${listing.urlSlug}`,
-        // tagLabel: getImageTagLabelFromListing(listing),
-        // tagIcon: getImageTagIconFromListing(listing),
       }}
       tableProps={{
         headers: unitSummariesHeaders,
@@ -95,13 +77,30 @@ export const getListings = (listings) => {
         responsiveCollapse: true,
         cellClassName: "px-5 py-3",
       }}
-      // seeDetailsLink={`/listing/${listing.id}/${listing.urlSlug}`}
-      // detailsLinkClass="float-right"
-      /* tableHeaderProps={{
-        tableHeader: listing.showWaitlist ? t("listings.waitlist.open") : null,
-      }} */
-      // listingId={listing.id}
-      // allowFavoriting={true}
+      cardTags={
+        getImageTagLabelFromListing(listing)
+          ? [
+              {
+                text: getImageTagLabelFromListing(listing),
+                iconType: listing?.isVerified ? "badgeCheck" : null,
+                iconColor: "#193154",
+              },
+            ]
+          : []
+      }
+      contentProps={{
+        contentHeader: { text: listing.name },
+        contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
+        tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
+      }}
+      footerContent={
+        <div className={"flex justify-between items-center"}>
+          <FavoriteButton name={listing.name} id={listing.id} />
+          <LinkButton href={`/listing/${listing.id}/${listing.urlSlug}`} key={index}>
+            {t("t.seeDetails")}
+          </LinkButton>
+        </div>
+      }
     />
   ))
 }
