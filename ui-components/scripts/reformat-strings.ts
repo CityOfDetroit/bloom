@@ -4,9 +4,8 @@
 
 const englishTranslations = require("../src/locales/general.json")
 const spanishTranslations = require("../src/locales/es.json")
-const chineseTranslations = require("../src/locales/zh.json")
-const vietnameseTranslations = require("../src/locales/vi.json")
-const tagalogTranslations = require("../src/locales/tl.json")
+const arTranslations = require("../src/locales/ar.json")
+const bnTranslations = require("../src/locales/bn.json")
 
 function main() {
   type TranslationsType = {
@@ -16,9 +15,8 @@ function main() {
   const allTranslations = [
     { translationKeys: englishTranslations, language: "English" },
     { translationKeys: spanishTranslations, language: "Spanish" },
-    { translationKeys: chineseTranslations, language: "Chinese" },
-    { translationKeys: vietnameseTranslations, language: "Vietnamese" },
-    { translationKeys: tagalogTranslations, language: "Tagalog" },
+    { translationKeys: arTranslations, language: "Arabic" },
+    { translationKeys: bnTranslations, language: "Bengali" },
   ]
 
   const addEntry = (
