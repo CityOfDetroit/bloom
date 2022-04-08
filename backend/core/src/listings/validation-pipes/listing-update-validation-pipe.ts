@@ -1,12 +1,13 @@
 import { ArgumentMetadata, ValidationPipe } from "@nestjs/common"
 import { ListingStatus } from "../types/listing-status-enum"
 import { ListingUpdateDto } from "../dto/listing-update.dto"
+import { ListingPublishedUpdateDto } from "../dto/listing-published-update.dto"
 
 export class ListingUpdateValidationPipe extends ValidationPipe {
   statusToListingValidationModelMap: Record<ListingStatus, typeof ListingUpdateDto> = {
     [ListingStatus.closed]: ListingUpdateDto,
     [ListingStatus.pending]: ListingUpdateDto,
-    [ListingStatus.active]: ListingUpdateDto,
+    [ListingStatus.active]: ListingPublishedUpdateDto,
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

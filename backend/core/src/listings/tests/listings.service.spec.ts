@@ -1,11 +1,9 @@
 import { Test, TestingModule } from "@nestjs/testing"
 import { getRepositoryToken } from "@nestjs/typeorm"
-import { getQueueToken } from "@nestjs/bull"
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { AvailabilityFilterEnum } from "../types/listing-filter-keys-enum"
 import { ListingStatus } from "../types/listing-status-enum"
 import { ListingCreateDto } from "../dto/listing-create.dto"
-import { ListingUpdateType } from "../listings-notifications"
 import { ListingUpdateDto } from "../dto/listing-update.dto"
 import { ListingsService } from "../listings.service"
 import { Listing } from "../entities/listing.entity"
@@ -180,10 +178,6 @@ describe("ListingsService", () => {
         {
           provide: TranslationsService,
           useValue: { translateListing: jest.fn() },
-        },
-        {
-          provide: getQueueToken("listings-notifications"),
-          useValue: mockListingsNotificationsQueue,
         },
       ],
     }).compile()
@@ -511,6 +505,14 @@ describe("ListingsService", () => {
       // The full query must be ordered so that the ordering is applied within a page (if pagination is requested)
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
+
+      // The full query is additionally ordered by the number of bedrooms (or max_occupancy) at the unit level.
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(1)
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
+        "units.max_occupancy",
+        "ASC",
+        "NULLS LAST"
+      )
     })
 
     it("orders by the orderBy param (when set)", async () => {
@@ -527,77 +529,15 @@ describe("ListingsService", () => {
 
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
-    })
-  })
 
-  describe("listing notifications", () => {
-    it("should trigger a notification upon new listing creation", async () => {
-      const mockSavedListing = { id: "some fake ID" }
-      const mockCreatedListing = { save: jest.fn().mockReturnValue(mockSavedListing) }
-      mockListingsRepo.create.mockReturnValueOnce(mockCreatedListing)
-
-      await service.create(mockListingsCreateDto)
-
-      expect(mockListingsNotificationsQueue.add).toHaveBeenCalledTimes(1)
-      expect(mockListingsNotificationsQueue.add).toHaveBeenLastCalledWith({
-        listing: mockSavedListing,
-        updateType: ListingUpdateType.CREATE,
-      })
-    })
-
-    it.skip("should trigger a notification when a listing is updated from 'pending' to 'active'", async () => {
-      // Simulate the DB lookup retrieving the already-existing listing, with status 'pending'.
-      mockQueryBuilder.getOne.mockReturnValueOnce({
-        id: "mock-listing-id",
-        property: { id: "mock-property-id" },
-        status: ListingStatus.pending,
-      })
-
-      // Simulate the new saved listing having status 'active'.
-      const mockSavedListing = { id: "mock-listing-id", status: ListingStatus.active }
-      mockListingsRepo.save.mockReturnValueOnce(mockSavedListing)
-
-      await service.update(mockListingsUpdateDto)
-
-      expect(mockListingsNotificationsQueue.add).toHaveBeenCalledTimes(1)
-      expect(mockListingsNotificationsQueue.add).toHaveBeenLastCalledWith({
-        listing: mockSavedListing,
-        updateType: ListingUpdateType.MODIFY,
-      })
-    })
-
-    it.skip("should not trigger a notification when a listing is updated but the status is 'active' before and after", async () => {
-      // Simulate the DB lookup retrieving the already-existing listing, with status 'active'.
-      mockQueryBuilder.getOne.mockReturnValueOnce({
-        id: "mock-listing-id",
-        property: { id: "mock-property-id" },
-        status: ListingStatus.active,
-      })
-
-      // Simulate the new saved listing having status 'active'.
-      const mockSavedListing = { id: "mock-listing-id", status: ListingStatus.active }
-      mockListingsRepo.save.mockReturnValueOnce(mockSavedListing)
-
-      await service.update(mockListingsUpdateDto)
-
-      expect(mockListingsNotificationsQueue.add).toHaveBeenCalledTimes(0)
-    })
-
-    it.skip("should not trigger a notification when a listing is updated from 'closed' to 'pending'", async () => {
-      // Simulate the DB lookup retrieving the already-existing listing, with status 'closed'.
-      mockQueryBuilder.getOne.mockReturnValueOnce({
-        id: "mock-listing-id",
-        property: { id: "mock-property-id" },
-        status: ListingStatus.closed,
-      })
-
-      // Simulate the new saved listing having status 'pending'.
-      const mockSavedListing = { id: "mock-listing-id", status: ListingStatus.pending }
-      mockListingsRepo.save.mockReturnValueOnce(mockSavedListing)
-
-      await service.update(mockListingsUpdateDto)
-
-      expect(mockListingsNotificationsQueue.add).toHaveBeenCalledTimes(0)
+      // Verify that the full query is still also ordered by the number of bedrooms
+      // (or max_occupancy) at the unit level.
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledTimes(1)
+      expect(mockQueryBuilder.addOrderBy).toHaveBeenCalledWith(
+        "units.max_occupancy",
+        "ASC",
+        "NULLS LAST"
+      )
     })
   })
 })

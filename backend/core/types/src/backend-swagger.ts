@@ -714,6 +714,48 @@ export class AuthService {
       axios(configs, resolve, reject)
     })
   }
+  /**
+   * Request mfa code
+   */
+  requestMfaCode(
+    params: {
+      /** requestBody */
+      body?: RequestMfaCode
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<RequestMfaCodeResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/auth/request-mfa-code"
+
+      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Get mfa info
+   */
+  getMfaInfo(
+    params: {
+      /** requestBody */
+      body?: GetMfaInfo
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<GetMfaInfoResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/auth/mfa-info"
+
+      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
 }
 
 export class UserService {
@@ -756,27 +798,6 @@ export class UserService {
     })
   }
   /**
-   * Resend partner confirmation
-   */
-  resendPartnerConfirmation(
-    params: {
-      /** requestBody */
-      body?: Email
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<Status> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + "/user/resend-partner-confirmation"
-
-      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
-
-      let data = params.body
-
-      configs.data = data
-      axios(configs, resolve, reject)
-    })
-  }
-  /**
    * Verifies token is valid
    */
   isUserConfirmationTokenValid(
@@ -809,6 +830,27 @@ export class UserService {
   ): Promise<Status> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/user/resend-confirmation"
+
+      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Resend confirmation
+   */
+  resendPartnerConfirmation(
+    params: {
+      /** requestBody */
+      body?: Email
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Status> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user/resend-partner-confirmation"
 
       const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
 
@@ -2538,6 +2580,9 @@ export interface Jurisdiction {
 
   /**  */
   publicUrl: string
+
+  /**  */
+  emailFromAddress: string
 }
 
 export interface AmiChart {
@@ -3923,7 +3968,56 @@ export interface PaginatedAssets {
   meta: PaginationMeta
 }
 
+export interface UserErrorExtraModel {
+  /**  */
+  userErrorMessages: EnumUserErrorExtraModelUserErrorMessages
+}
+
 export interface Login {
+  /**  */
+  email: string
+
+  /**  */
+  password: string
+
+  /**  */
+  mfaCode?: string
+
+  /**  */
+  mfaType?: EnumLoginMfaType
+}
+
+export interface LoginResponse {
+  /**  */
+  accessToken: string
+}
+
+export interface RequestMfaCode {
+  /**  */
+  email: string
+
+  /**  */
+  password: string
+
+  /**  */
+  mfaType: EnumRequestMfaCodeMfaType
+
+  /**  */
+  phoneNumber?: string
+}
+
+export interface RequestMfaCodeResponse {
+  /**  */
+  phoneNumber?: string
+
+  /**  */
+  email?: string
+
+  /**  */
+  phoneNumberVerified?: boolean
+}
+
+export interface GetMfaInfo {
   /**  */
   email: string
 
@@ -3931,9 +4025,18 @@ export interface Login {
   password: string
 }
 
-export interface LoginResponse {
+export interface GetMfaInfoResponse {
   /**  */
-  accessToken: string
+  phoneNumber?: string
+
+  /**  */
+  email?: string
+
+  /**  */
+  isMfaEnabled: boolean
+
+  /**  */
+  mfaUsedInThePast: boolean
 }
 
 export interface IdName {
@@ -4019,10 +4122,19 @@ export interface User {
   updatedAt: Date
 
   /**  */
+  mfaEnabled?: boolean
+
+  /**  */
   lastLoginAt?: Date
 
   /**  */
   failedLoginAttemptsCount?: number
+
+  /**  */
+  phoneNumberVerified?: boolean
+
+  /**  */
+  hitConfirmationURL?: Date
 }
 
 export interface UserCreate {
@@ -4064,6 +4176,12 @@ export interface UserCreate {
 
   /**  */
   phoneNumber?: string
+
+  /**  */
+  phoneNumberVerified?: boolean
+
+  /**  */
+  hitConfirmationURL?: Date
 
   /**  */
   preferences?: CombinedPreferencesTypes
@@ -4122,10 +4240,27 @@ export interface UserBasic {
   updatedAt: Date
 
   /**  */
+  mfaEnabled?: boolean
+
+  /**  */
   lastLoginAt?: Date
 
   /**  */
   failedLoginAttemptsCount?: number
+
+  /**  */
+  phoneNumberVerified?: boolean
+
+  /**  */
+  hitConfirmationURL?: Date
+}
+
+export interface Confirm {
+  /**  */
+  token: string
+
+  /**  */
+  password?: string
 }
 
 export interface Email {
@@ -4139,14 +4274,6 @@ export interface Email {
 export interface Status {
   /**  */
   status: string
-}
-
-export interface Confirm {
-  /**  */
-  token: string
-
-  /**  */
-  password?: string
 }
 
 export interface ForgotPassword {
@@ -4237,6 +4364,12 @@ export interface UserUpdate {
   phoneNumber?: string
 
   /**  */
+  phoneNumberVerified?: boolean
+
+  /**  */
+  hitConfirmationURL?: Date
+
+  /**  */
   preferences?: CombinedPreferencesTypes
 }
 
@@ -4303,6 +4436,12 @@ export interface UserInvite {
 
   /**  */
   phoneNumber?: string
+
+  /**  */
+  phoneNumberVerified?: boolean
+
+  /**  */
+  hitConfirmationURL?: Date
 
   /**  */
   preferences?: CombinedPreferencesTypes
@@ -4372,6 +4511,9 @@ export interface JurisdictionCreate {
   publicUrl: string
 
   /**  */
+  emailFromAddress: string
+
+  /**  */
   programs: Id[]
 
   /**  */
@@ -4402,6 +4544,9 @@ export interface JurisdictionUpdate {
 
   /**  */
   publicUrl: string
+
+  /**  */
+  emailFromAddress: string
 
   /**  */
   programs: Id[]
@@ -4660,6 +4805,14 @@ export interface ListingEvent {
 
   /**  */
   file?: Asset
+}
+
+export interface ListingImage {
+  /**  */
+  image: AssetUpdate
+
+  /**  */
+  ordinal?: number
 }
 
 export interface FormMetadataExtraData {
@@ -5102,7 +5255,7 @@ export interface Listing {
   events: ListingEvent[]
 
   /**  */
-  image?: CombinedImageTypes
+  images?: ListingImage[]
 
   /**  */
   leasingAgentAddress?: CombinedLeasingAgentAddressTypes
@@ -5345,6 +5498,12 @@ export interface Listing {
   region?: string
 
   /**  */
+  publishedAt?: Date
+
+  /**  */
+  closedAt?: Date
+
+  /**  */
   isVerified?: boolean
 
   /**  */
@@ -5383,6 +5542,14 @@ export interface ListingEventCreate {
 
   /**  */
   label?: string
+}
+
+export interface ListingImageUpdate {
+  /**  */
+  image: AssetUpdate
+
+  /**  */
+  ordinal?: number
 }
 
 export interface UnitAmiChartOverrideCreate {
@@ -5570,7 +5737,7 @@ export interface ListingCreate {
   events: ListingEventCreate[]
 
   /**  */
-  image?: CombinedImageTypes
+  images?: ListingImageUpdate[]
 
   /**  */
   leasingAgentAddress?: CombinedLeasingAgentAddressTypes
@@ -5588,7 +5755,7 @@ export interface ListingCreate {
   amenities?: string
 
   /**  */
-  buildingAddress: AddressCreate
+  buildingAddress?: CombinedBuildingAddressTypes
 
   /**  */
   buildingTotalUnits?: number
@@ -6038,10 +6205,13 @@ export interface ListingUpdate {
   applicationMailingAddress: CombinedApplicationMailingAddressTypes
 
   /**  */
+  buildingSelectionCriteriaFile?: CombinedBuildingSelectionCriteriaFileTypes
+
+  /**  */
   events: ListingEventUpdate[]
 
   /**  */
-  image?: CombinedImageTypes
+  images?: ListingImageUpdate[]
 
   /**  */
   leasingAgentAddress?: CombinedLeasingAgentAddressTypes
@@ -6059,7 +6229,7 @@ export interface ListingUpdate {
   amenities?: string
 
   /**  */
-  buildingAddress: AddressUpdate
+  buildingAddress?: CombinedBuildingAddressTypes
 
   /**  */
   buildingTotalUnits?: number
@@ -6755,6 +6925,24 @@ export enum EnumApplicationsApiExtraModelOrder {
   "ASC" = "ASC",
   "DESC" = "DESC",
 }
+export enum EnumUserErrorExtraModelUserErrorMessages {
+  "accountConfirmed" = "accountConfirmed",
+  "accountNotConfirmed" = "accountNotConfirmed",
+  "errorSaving" = "errorSaving",
+  "emailNotFound" = "emailNotFound",
+  "tokenExpired" = "tokenExpired",
+  "tokenMissing" = "tokenMissing",
+  "emailInUse" = "emailInUse",
+  "passwordOutdated" = "passwordOutdated",
+}
+export enum EnumLoginMfaType {
+  "sms" = "sms",
+  "email" = "email",
+}
+export enum EnumRequestMfaCodeMfaType {
+  "sms" = "sms",
+  "email" = "email",
+}
 export type CombinedRolesTypes = UserRolesCreate
 export type CombinedPreferencesTypes = UserPreferences
 export enum EnumUserFilterParamsComparison {
@@ -6804,6 +6992,7 @@ export enum EnumListingFilterParamsMarketingType {
 export enum OrderByFieldsEnum {
   "mostRecentlyUpdated" = "mostRecentlyUpdated",
   "applicationDates" = "applicationDates",
+  "mostRecentlyClosed" = "mostRecentlyClosed",
 }
 
 export enum ListingApplicationAddressType {
@@ -6852,10 +7041,10 @@ export type CombinedPriorityTypeTypes = UnitAccessibilityPriorityType
 export type CombinedApplicationPickUpAddressTypes = AddressUpdate
 export type CombinedApplicationDropOffAddressTypes = AddressUpdate
 export type CombinedApplicationMailingAddressTypes = AddressUpdate
-export type CombinedBuildingSelectionCriteriaFileTypes = AssetCreate
-export type CombinedImageTypes = AssetUpdate
+export type CombinedBuildingSelectionCriteriaFileTypes = AssetUpdate
 export type CombinedLeasingAgentAddressTypes = AddressUpdate
 export type CombinedResultTypes = AssetCreate
+export type CombinedBuildingAddressTypes = AddressUpdate
 export enum EnumPreferencesFilterParamsComparison {
   "=" = "=",
   "<>" = "<>",
