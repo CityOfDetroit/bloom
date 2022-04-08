@@ -1,5 +1,6 @@
 import { LatitudeLongitude, TimeFieldPeriod } from "@bloom-housing/ui-components"
 import {
+  Preference,
   Program,
   ListingStatus,
   ListingApplicationAddressType,
@@ -117,9 +118,9 @@ export const formDefaults: FormListing = {
   disableUnitsAccordion: false,
   displayWaitlistSize: false,
   events: [],
+  images: [],
   listingFeatures: [],
   features: {},
-  image: null,
   leasingAgentAddress: null,
   leasingAgentEmail: null,
   leasingAgentName: null,
@@ -199,6 +200,7 @@ export type TempEvent = ListingEvent & {
 export type PaperApplicationHybrid = PaperApplication | PaperApplicationCreate
 
 export type FormMetadata = {
+  programs: Program[]
   units: TempUnit[]
   unitsSummaries?: TempUnitsSummary[]
   openHouseEvents: TempEvent[]
@@ -206,5 +208,4 @@ export type FormMetadata = {
   latLong: LatitudeLongitude
   customMapPositionChosen: boolean
   unitGroups: UnitGroupType[]
-  programs: Program[]
 }
