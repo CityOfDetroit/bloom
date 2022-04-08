@@ -81,6 +81,7 @@ const ApplicationDates = ({ listing }: ApplicationDatesProps) => {
                     }
                   },
                 }}
+                className={"w-20"}
               />
             </div>
           </div>
