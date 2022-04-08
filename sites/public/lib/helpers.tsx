@@ -4,7 +4,7 @@ import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
 import dayjs from "dayjs"
-import { Address, Listing } from "@bloom-housing/backend-core/types"
+import { Address, Listing, ListingMarketingTypeEnum } from "@bloom-housing/backend-core/types"
 import {
   t,
   ListingCard,
@@ -54,7 +54,11 @@ export const accessibilityFeaturesExist = (listing: Listing) => {
 }
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
-  return listing?.isVerified ? t("listings.verifiedListing") : undefined
+  return listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+    ? t("listings.comingSoon")
+    : listing?.isVerified
+    ? t("listings.verifiedListing")
+    : undefined
 }
 
 export const getImageTagIconFromListing = (listing: Listing): IconProps | null => {
@@ -73,9 +77,9 @@ export const getImageTagIconFromListing = (listing: Listing): IconProps | null =
 
 export const getListings = (listings) => {
   const unitSummariesHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
+    unitType: "t.unitType",
+    rent: "t.rent",
+    availability: "t.availability",
   }
   return listings.map((listing: Listing, index) => (
     <ListingCard
