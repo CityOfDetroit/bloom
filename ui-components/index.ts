@@ -126,6 +126,7 @@ export * from "./src/page_components/sign-in/FormSignInMFACode"
 export * from "./src/page_components/sign-in/FormSignInAddPhone"
 export * from "./src/page_components/sign-in/FormSignInErrorBox"
 export * from "./src/page_components/forgot-password/FormForgotPassword"
+export * from "./src/page_components/listing/listing_sidebar/events/OpenHouseEvent"
 
 /* Responsive Wrappers */
 export * from "./src/sections/ResponsiveWrappers"

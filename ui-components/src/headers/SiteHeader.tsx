@@ -17,6 +17,7 @@ export interface MenuLink {
   iconSrc?: string
   onClick?: () => void
   subMenuLinks?: MenuLink[]
+  class?: string
   title: string
 }
 
@@ -37,6 +38,8 @@ export interface SiteHeaderProps {
   noticeMobile?: boolean
   siteHeaderWidth?: SiteHeaderWidth
   title?: string
+  subtitle?: string
+  desktopMinWidth?: number
 }
 
 const SiteHeader = (props: SiteHeaderProps) => {
@@ -48,7 +51,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
 
   const { LinkComponent } = useContext(NavigationContext)
 
-  const DESKTOP_MIN_WIDTH = 767 // @screen md
+  const DESKTOP_MIN_WIDTH = props.desktopMinWidth || 767 // @screen md
   // Enables toggling off navbar links when entering mobile
   useEffect(() => {
     if (window.innerWidth > DESKTOP_MIN_WIDTH) {
@@ -292,7 +295,9 @@ const SiteHeader = (props: SiteHeaderProps) => {
             if (menuLink.href) {
               return (
                 <LinkComponent
-                  className={`navbar-link ${props.menuItemClassName && props.menuItemClassName}`}
+                  className={`navbar-link ${props.menuItemClassName && props.menuItemClassName} ${
+                    menuLink.class && menuLink.class
+                  }`}
                   href={menuLink.href}
                   key={`${menuLink.title}-${index}`}
                 >
@@ -399,6 +404,18 @@ const SiteHeader = (props: SiteHeaderProps) => {
   }
 
   const getLogo = () => {
+    let titleHtml
+    if (props.title && props.subtitle) {
+      titleHtml = (
+        <div className="logo__title">
+          {props.title}
+          <div className="logo__subtitle">{props.subtitle}</div>
+        </div>
+      )
+    } else if (props.title) {
+      titleHtml = <div className="logo__title">{props.title}</div>
+    }
+
     return (
       <div className={`navbar-logo ${getLogoWidthClass()}`}>
         <LinkComponent
@@ -414,7 +431,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
               src={props.logoSrc}
               alt={"Site logo"}
             />
-            {props.title && <div className="logo__title">{props.title}</div>}
+            {props.title && <div className="logo__title">{titleHtml}</div>}
           </div>
         </LinkComponent>
       </div>

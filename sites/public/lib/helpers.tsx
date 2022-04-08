@@ -89,11 +89,11 @@ export const getListings = (listings) => {
         imageCardProps={{
           imageUrl:
             imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")) || "",
-          subtitle: getListingCardSubtitle(listing.buildingAddress),
-          title: listing.name,
+          // subtitle: getListingCardSubtitle(listing.buildingAddress),
+          // title: listing.name,
           href: `/listing/${listing.id}/${listing.urlSlug}`,
-          tagLabel: getImageTagLabelFromListing(listing),
-          tagIcon: getImageTagIconFromListing(listing),
+          // tagLabel: getImageTagLabelFromListing(listing),
+          // tagIcon: getImageTagIconFromListing(listing),
         }}
         tableProps={{
           headers: unitSummariesHeaders,
@@ -101,13 +101,13 @@ export const getListings = (listings) => {
           responsiveCollapse: true,
           cellClassName: "px-5 py-3",
         }}
-        seeDetailsLink={`/listing/${listing.id}/${listing.urlSlug}`}
-        detailsLinkClass="float-right"
-        tableHeaderProps={{
+        // seeDetailsLink={`/listing/${listing.id}/${listing.urlSlug}`}
+        // detailsLinkClass="float-right"
+        /* tableHeaderProps={{
           tableHeader: listing.showWaitlist ? t("listings.waitlist.open") : null,
-        }}
-        listingId={listing.id}
-        allowFavoriting={true}
+        }} */
+        // listingId={listing.id}
+        // allowFavoriting={true}
       />
     )
   })

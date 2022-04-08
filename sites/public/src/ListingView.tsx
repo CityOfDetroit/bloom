@@ -269,10 +269,10 @@ export const ListingView = (props: ListingProps) => {
     <article className="flex flex-wrap relative max-w-5xl m-auto">
       <header className="image-card--leader">
         <ImageCard
-          title={listing.name}
+          // title={listing.name}
           imageUrl={imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize))}
-          tagLabel={getImageTagLabelFromListing(listing)}
-          tagIcon={getImageTagIconFromListing(listing)}
+          // tagLabel={getImageTagLabelFromListing(listing)}
+          // tagIcon={getImageTagIconFromListing(listing)}
         />
         <div className="p-3">
           <p className="font-alt-sans uppercase tracking-widest text-sm font-semibold">

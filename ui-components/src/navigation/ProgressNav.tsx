@@ -1,4 +1,5 @@
 import React from "react"
+import { useRouter } from "next/router"
 import "./ProgressNav.scss"
 import { t } from "../helpers/translator"
 
@@ -8,7 +9,10 @@ const ProgressNavItem = (props: {
   completedSections: number
   label: string
   mounted: boolean
+  route: string | null
 }) => {
+  const router = useRouter()
+
   let bgColor = "is-disabled"
   if (props.mounted) {
     if (props.section === props.currentPageSection) {
@@ -27,7 +31,17 @@ const ProgressNavItem = (props: {
 
   return (
     <li className={`progress-nav__item ${bgColor}`}>
-      <a aria-disabled={bgColor === "is-disabled"} href={"#"}>
+      <a
+        aria-disabled={bgColor === "is-disabled"}
+        href={"#"}
+        onClick={(e) => {
+          // Prevent default event behavior, which would route using href and not onClick.
+          e.preventDefault()
+          if (props.route) {
+            void router.push(props.route)
+          }
+        }}
+      >
         {srText}
         {props.label}
       </a>
@@ -40,6 +54,7 @@ const ProgressNav = (props: {
   completedSections: number
   labels: string[]
   mounted: boolean
+  routes?: string[]
 }) => {
   return (
     <div>
@@ -54,6 +69,7 @@ const ProgressNav = (props: {
             completedSections={props.completedSections}
             label={label}
             mounted={props.mounted}
+            route={props.routes ? props.routes[i] : null}
           />
         ))}
       </ul>
