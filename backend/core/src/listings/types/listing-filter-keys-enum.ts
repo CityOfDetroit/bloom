@@ -39,6 +39,7 @@ export enum ListingFilterKeys {
   Seniors62 = "Seniors62+",
   SupportiveHousingfortheHomeless = "SupportiveHousingfortheHomeless",
   Veterans = "Veterans",
+  region = "region",
 }
 
 export enum AvailabilityFilterEnum {
