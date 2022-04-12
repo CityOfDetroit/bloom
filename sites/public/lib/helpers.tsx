@@ -77,7 +77,11 @@ export const getListings = (listings) => {
           ? [
               {
                 text: getImageTagLabelFromListing(listing),
-                iconType: listing?.isVerified ? "badgeCheck" : null,
+                iconType:
+                  listing?.isVerified &&
+                  listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+                    ? "badgeCheck"
+                    : null,
                 iconColor: "#193154",
               },
             ]
