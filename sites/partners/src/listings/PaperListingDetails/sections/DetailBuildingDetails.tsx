@@ -34,13 +34,14 @@ const DetailBuildingDetails = () => {
           {listing.buildingAddress?.zipCode}
         </ViewItem>
 
-        <GridCell span={2}>
-          <ViewItem id="yearBuilt" label={t("listings.yearBuilt")}>
-            {listing.yearBuilt}
-          </ViewItem>
-        </GridCell>
+        <ViewItem id="region" label={t("t.region")}>
+          {listing.region}
+        </ViewItem>
       </GridSection>
       <GridSection columns={3}>
+        <ViewItem id="yearBuilt" label={t("listings.yearBuilt")}>
+          {listing.yearBuilt}
+        </ViewItem>
         <ViewItem id="longitude" label={t("listings.longitude")}>
           {listing.buildingAddress?.longitude && listing.buildingAddress.longitude.toString()}
         </ViewItem>
