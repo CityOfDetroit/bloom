@@ -5087,6 +5087,9 @@ export interface Listing {
   marketingType: ListingMarketingTypeEnum
 
   /**  */
+  region?: Region
+
+  /**  */
   applicationMethods: ApplicationMethod[]
 
   /**  */
@@ -5345,9 +5348,6 @@ export interface Listing {
   phoneNumber?: string
 
   /**  */
-  region?: string
-
-  /**  */
   isVerified?: boolean
 
   /**  */
@@ -5553,6 +5553,9 @@ export interface ListingCreate {
 
   /**  */
   marketingType: ListingMarketingTypeEnum
+
+  /**  */
+  region?: Region
 
   /**  */
   applicationMethods: ApplicationMethodCreate[]
@@ -5795,9 +5798,6 @@ export interface ListingCreate {
   phoneNumber?: string
 
   /**  */
-  region?: string
-
-  /**  */
   isVerified?: boolean
 
   /**  */
@@ -6018,6 +6018,9 @@ export interface ListingUpdate {
 
   /**  */
   marketingType: ListingMarketingTypeEnum
+
+  /**  */
+  region?: Region
 
   /**  */
   id?: string
@@ -6264,9 +6267,6 @@ export interface ListingUpdate {
 
   /**  */
   phoneNumber?: string
-
-  /**  */
-  region?: string
 
   /**  */
   isVerified?: boolean
@@ -6845,6 +6845,14 @@ export enum ListingMarketingTypeEnum {
   "comingSoon" = "comingSoon",
 }
 
+export enum Region {
+  "Downtown" = "Downtown",
+  "Eastside" = "Eastside",
+  "Midtown - New Center" = "Midtown - New Center",
+  "Southwest" = "Southwest",
+  "Westside" = "Westside",
+}
+
 export enum ListingEventType {
   "openHouse" = "openHouse",
   "publicLottery" = "publicLottery",
@@ -6890,11 +6898,4 @@ export enum EnumProgramsFilterParamsComparison {
   ">=" = ">=",
   "<=" = "<=",
   "NA" = "NA",
-}
-export enum Region {
-  "Downtown" = "Downtown",
-  "Eastside" = "Eastside",
-  "Midtown - New Center" = "Midtown - New Center",
-  "Southwest" = "Southwest",
-  "Westside" = "Westside",
 }
