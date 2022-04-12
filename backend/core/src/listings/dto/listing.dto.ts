@@ -317,12 +317,6 @@ export class ListingDto extends OmitType(Listing, [
     enum: Region,
     enumName: "Region",
   })
-  @Transform(
-    (value, obj: Listing) => {
-      return obj.property?.yearBuilt
-    },
-    { toClassOnly: true }
-  )
   region?: Region | null
 
   @Expose()
