@@ -27,6 +27,18 @@ export enum ListingFilterKeys {
   jurisdiction = "jurisdiction",
   favorited = "favorited",
   marketingType = "marketingType",
+  hearing = "hearing",
+  mobility = "mobility",
+  visual = "visual",
+  vacantUnits = "vacantUnits",
+  openWaitlist = "openWaitlist",
+  closedWaitlist = "closedWaitlist",
+  Families = "Families",
+  ResidentswithDisabilities = "ResidentswithDisabilities",
+  Seniors55 = "Seniors55+",
+  Seniors62 = "Seniors62+",
+  SupportiveHousingfortheHomeless = "SupportiveHousingfortheHomeless",
+  Veterans = "Veterans",
 }
 
 export enum AvailabilityFilterEnum {

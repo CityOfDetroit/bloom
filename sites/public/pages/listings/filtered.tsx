@@ -4,7 +4,6 @@ import {
   AgPagination,
   Button,
   AppearanceSizeType,
-  Modal,
   AppearanceStyleType,
   t,
   encodeToFrontendFilterString,
@@ -12,6 +11,7 @@ import {
   LoadingOverlay,
   ListingFilterState,
   FrontendListingFilterStateKeys,
+  Drawer,
 } from "@bloom-housing/ui-components"
 import Layout from "../../layouts/application"
 import { MetaTags } from "../../src/MetaTags"
@@ -113,13 +113,13 @@ const FilteredListingsPage = () => {
         inverse={true}
         tabNav={<FindRentalsForMeLink title={t("welcome.findRentalsForMe")} />}
       />
-      <Modal
+      <Drawer
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
       >
-        <FilterForm onSubmit={onSubmit} filterState={filterState} />
-      </Modal>
+        <FilterForm onSubmit={onSubmit} filterState={filterState} onClose={setFilterModalVisible} />
+      </Drawer>
       <h3 className="max-w-5xl container mx-auto text-4xl text-primary-darker font-bold px-4 py-8">
         {rentalsFoundTitle}
       </h3>

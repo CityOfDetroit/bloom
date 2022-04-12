@@ -32,6 +32,7 @@ import { ListingUpdateDto } from "./dto/listing-update.dto"
 import { ListingFilterParams } from "./dto/listing-filter-params"
 import { ListingsQueryParams } from "./dto/listings-query-params"
 import { ListingsRetrieveQueryParams } from "./dto/listings-retrieve-query-params"
+import { ListingMetadataDto } from "./dto/listings-metadata.dto"
 import { ListingCreateValidationPipe } from "./validation-pipes/listing-create-validation-pipe"
 import { ListingUpdateValidationPipe } from "./validation-pipes/listing-update-validation-pipe"
 import { ActivityLogInterceptor } from "../activity-log/interceptors/activity-log.interceptor"
@@ -51,6 +52,14 @@ export class ListingsController {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly listingsService: ListingsService
   ) {}
+
+  @Get("meta")
+  @ApiOperation({ summary: "Returns Listing Metadata", operationId: "metadata" })
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(new ValidationPipe(defaultValidationPipeOptions))
+  public async getListingMetaData(): Promise<ListingMetadataDto> {
+    return mapTo(ListingMetadataDto, await this.listingsService.getMetadata())
+  }
 
   // TODO: Limit requests to defined fields
   @Get()

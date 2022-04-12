@@ -1298,6 +1298,21 @@ export class ListingsService {
       axios(configs, resolve, reject)
     })
   }
+  /**
+   * Returns Listing Metadata
+   */
+  metadata(options: IRequestOptions = {}): Promise<ListingMetadata> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/listings/meta"
+
+      const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
 }
 
 export class PaperApplicationsService {
@@ -6279,6 +6294,14 @@ export interface ListingUpdate {
 
   /**  */
   features?: ListingFeatures
+}
+
+export interface ListingMetadata {
+  /**  */
+  programs?: Program[]
+
+  /**  */
+  unitTypes?: UnitType[]
 }
 
 export interface PreferencesFilterParams {

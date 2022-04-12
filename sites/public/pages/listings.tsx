@@ -5,12 +5,12 @@ import {
   AgPagination,
   Button,
   AppearanceSizeType,
-  Modal,
   t,
   encodeToFrontendFilterString,
   ListingFilterState,
   FrontendListingFilterStateKeys,
   AuthContext,
+  Drawer,
 } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { MetaTags } from "../src/MetaTags"
@@ -62,13 +62,13 @@ const ListingsPage = ({ initialListings }) => {
         inverse={true}
         tabNav={<FindRentalsForMeLink title={t("welcome.findRentalsForMe")} />}
       />
-      <Modal
+      <Drawer
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
       >
-        <FilterForm onSubmit={(data) => onSubmit(/*page=*/ 1, data)} />
-      </Modal>
+        <FilterForm onSubmit={(data) => onSubmit(1, data)} onClose={setFilterModalVisible} />
+      </Drawer>
       <div className="flex container content-center max-w-5xl px-4 pt-8 mx-auto">
         <h3 className="text-3xl text-primary-darker font-bold">All rentals</h3>
         <Button

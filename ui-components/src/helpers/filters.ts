@@ -37,6 +37,19 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.minAmiPercentage:
     case ListingFilterKeys.jurisdiction:
     case ListingFilterKeys.favorited:
+    case ListingFilterKeys.isVerified:
+    case ListingFilterKeys.hearing:
+    case ListingFilterKeys.mobility:
+    case ListingFilterKeys.visual:
+    case ListingFilterKeys.vacantUnits:
+    case ListingFilterKeys.openWaitlist:
+    case ListingFilterKeys.closedWaitlist:
+    case ListingFilterKeys.Families:
+    case ListingFilterKeys.ResidentswithDisabilities:
+    case ListingFilterKeys.Seniors55:
+    case ListingFilterKeys.Seniors62:
+    case ListingFilterKeys.SupportiveHousingfortheHomeless:
+    case ListingFilterKeys.Veterans:
       return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.minRent:
       return EnumListingFilterParamsComparison[">="]
@@ -46,8 +59,6 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.zipcode:
     case ListingFilterKeys.neighborhood:
       return EnumListingFilterParamsComparison["IN"]
-    // case ListingFilterKeys.seniorHousing:
-    // case ListingFilterKeys.independentLivingHousing:
     case ListingFilterKeys.availability:
       return EnumListingFilterParamsComparison["NA"]
     default: {
@@ -67,7 +78,8 @@ enum BedroomFields {
   oneBdrm = "oneBdrm",
   twoBdrm = "twoBdrm",
   threeBdrm = "threeBdrm",
-  fourPlusBdrm = "fourPlusBdrm",
+  fourBdrm = "fourBdrm",
+  SRO = "SRO",
 }
 export const FrontendListingFilterStateKeys = {
   ...IncludedBackendKeys,
@@ -83,19 +95,35 @@ export const FrontendListingFilterStateKeys = {
 // TODO: Update `decodeFiltersFromFrontendUrl` to parse each filter into its
 // correct type, so we can remove the `string` type from these fields.
 export interface ListingFilterState {
-  [FrontendListingFilterStateKeys.availability]?: string | AvailabilityFilterEnum
-  [FrontendListingFilterStateKeys.zipcode]?: string
-  [FrontendListingFilterStateKeys.minRent]?: string | number
-  [FrontendListingFilterStateKeys.maxRent]?: string | number
-  // [FrontendListingFilterStateKeys.seniorHousing]?: string | boolean
-  // [FrontendListingFilterStateKeys.independentLivingHousing]?: string | boolean
-  [FrontendListingFilterStateKeys.includeNulls]?: boolean
-  [FrontendListingFilterStateKeys.minAmiPercentage]?: string | number
+  // confirmedListings
+  [FrontendListingFilterStateKeys.status]?: string
+  [FrontendListingFilterStateKeys.isVerified]?: string | boolean
+  // availability
+  [FrontendListingFilterStateKeys.vacantUnits]?: string | boolean
+  [FrontendListingFilterStateKeys.openWaitlist]?: string | boolean
+  [FrontendListingFilterStateKeys.closedWaitlist]?: string | boolean
+  // bedRoomSize
   [FrontendListingFilterStateKeys.studio]?: string | boolean
+  [FrontendListingFilterStateKeys.SRO]?: string | boolean
   [FrontendListingFilterStateKeys.oneBdrm]?: string | boolean
   [FrontendListingFilterStateKeys.twoBdrm]?: string | boolean
   [FrontendListingFilterStateKeys.threeBdrm]?: string | boolean
-  [FrontendListingFilterStateKeys.fourPlusBdrm]?: string | boolean
+  [FrontendListingFilterStateKeys.fourBdrm]?: string | boolean
+  // rentRange
+  [FrontendListingFilterStateKeys.minRent]?: string | number
+  [FrontendListingFilterStateKeys.maxRent]?: string | number
+  // communityPrograms
+  [FrontendListingFilterStateKeys.ResidentswithDisabilities]?: string | number
+  [FrontendListingFilterStateKeys.Seniors55]?: string | number
+  [FrontendListingFilterStateKeys.Seniors62]?: string | number
+  [FrontendListingFilterStateKeys.SupportiveHousingfortheHomeless]?: string | number
+  // region
+  [FrontendListingFilterStateKeys.downtown]?: string | boolean
+  [FrontendListingFilterStateKeys.eastside]?: string | boolean
+  [FrontendListingFilterStateKeys.midtownNewCenter]?: string | boolean
+  [FrontendListingFilterStateKeys.southwest]?: string | boolean
+  [FrontendListingFilterStateKeys.westside]?: string | boolean
+  // accessibility
   [FrontendListingFilterStateKeys.elevator]?: string | boolean
   [FrontendListingFilterStateKeys.wheelchairRamp]?: string | boolean
   [FrontendListingFilterStateKeys.serviceAnimalsAllowed]?: string | boolean
@@ -108,13 +136,16 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.grabBars]?: string | boolean
   [FrontendListingFilterStateKeys.heatingInUnit]?: string | boolean
   [FrontendListingFilterStateKeys.acInUnit]?: string | boolean
-  [FrontendListingFilterStateKeys.downtown]?: string | boolean
-  [FrontendListingFilterStateKeys.eastside]?: string | boolean
-  [FrontendListingFilterStateKeys.midtownNewCenter]?: string | boolean
-  [FrontendListingFilterStateKeys.southwest]?: string | boolean
-  [FrontendListingFilterStateKeys.westside]?: string | boolean
-  [FrontendListingFilterStateKeys.status]?: string
+  [FrontendListingFilterStateKeys.hearing]?: string | boolean
+  [FrontendListingFilterStateKeys.mobility]?: string | boolean
+  [FrontendListingFilterStateKeys.visual]?: string | boolean
+  // favorites
   [FrontendListingFilterStateKeys.favorited]?: string | boolean
+
+  [FrontendListingFilterStateKeys.availability]?: string | AvailabilityFilterEnum
+  [FrontendListingFilterStateKeys.zipcode]?: string
+  [FrontendListingFilterStateKeys.includeNulls]?: boolean
+  [FrontendListingFilterStateKeys.minAmiPercentage]?: string | number
 }
 
 // Since it'd be tricky to OR a separate ">=" comparison with an "IN"
@@ -122,10 +153,11 @@ export interface ListingFilterState {
 // ever have units with > 10 bedrooms, we'll need to update this.
 const BedroomValues = {
   [BedroomFields.studio]: 0,
+  [BedroomFields.SRO]: 0,
   [BedroomFields.oneBdrm]: 1,
   [BedroomFields.twoBdrm]: 2,
   [BedroomFields.threeBdrm]: 3,
-  [BedroomFields.fourPlusBdrm]: "4,5,6,7,8,9,10",
+  [BedroomFields.fourBdrm]: "4,5,6,7,8,9,10",
 }
 
 export function encodeToBackendFilterArray(filterState: ListingFilterState) {

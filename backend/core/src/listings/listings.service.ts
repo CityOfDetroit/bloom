@@ -12,7 +12,6 @@ import { InjectRepository } from "@nestjs/typeorm"
 import { Pagination } from "nestjs-typeorm-paginate"
 import { In, OrderByCondition, Repository } from "typeorm"
 import { plainToClass } from "class-transformer"
-import { Interval } from "@nestjs/schedule"
 import { Queue } from "bull"
 import { InjectQueue } from "@nestjs/bull"
 import { Listing } from "./entities/listing.entity"
@@ -32,6 +31,9 @@ import { ListingNotificationInfo, ListingUpdateType } from "./listings-notificat
 import { ListingStatus } from "./types/listing-status-enum"
 import { TranslationsService } from "../translations/services/translations.service"
 import { UnitGroup } from "../units-summary/entities/unit-group.entity"
+import { ListingMetadataDto } from "./dto/listings-metadata.dto"
+import { UnitType } from "../unit-types/entities/unit-type.entity"
+import { Program } from "../program/entities/program.entity"
 
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsService {
@@ -40,6 +42,8 @@ export class ListingsService {
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     @InjectRepository(UnitGroup) private readonly unitGroupRepository: Repository<UnitGroup>,
+    @InjectRepository(UnitType) private readonly unitTypeRepository: Repository<UnitType>,
+    @InjectRepository(Program) private readonly programRepository: Repository<Program>,
     private readonly translationService: TranslationsService,
     @InjectQueue("listings-notifications")
     private listingsNotificationsQueue: Queue<ListingNotificationInfo>
@@ -337,5 +341,24 @@ export class ListingsService {
     }
 
     return canUpdate
+  }
+
+  public async getMetadata(): Promise<ListingMetadataDto> {
+    const unitTypes = await this.unitTypeRepository
+      .createQueryBuilder("unitTypes")
+      .select("unitTypes.id")
+      .addSelect("unitTypes.name")
+      .addSelect("unitTypes.numBedrooms")
+      .orderBy("unitTypes.numBedrooms")
+      .getMany()
+
+    const programs = await this.programRepository
+      .createQueryBuilder("programs")
+      .select("programs.id")
+      .addSelect("programs.title")
+      .orderBy("programs.title")
+      .getMany()
+
+    return { programs, unitTypes }
   }
 }
