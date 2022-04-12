@@ -47,6 +47,11 @@
   }
 }
 
+.listings-row_footer_container {
+  @apply flex;
+  @apply flex-col;
+}
+
 .listings-row_table {
   @apply mb-4;
 }

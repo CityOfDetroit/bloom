@@ -296,7 +296,7 @@ export const ListingView = (props: ListingProps) => {
             </a>
           </p>
         </div>
-        <div className="text-right">
+        <div className="text-right px-2">
           <FavoriteButton name={listing.name} id={listing.id} />
         </div>
       </header>
