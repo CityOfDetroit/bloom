@@ -171,7 +171,7 @@ describe("EmailService", () => {
       expect(sendMock.mock.calls[0][0].html).toContain(
         "Alameda County - Housing and Community Development (HCD) Department"
       )
-      expect(sendMock.mock.calls[0][0].html).toContain("<h1>Hello Test \n User</h1>,")
+      expect(sendMock.mock.calls[0][0].html).toContain("<h1>Hello Test \n User,</h1>")
     })
   })
 
