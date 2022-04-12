@@ -69,15 +69,7 @@ export const getListings = (listings) => {
       imageCardProps={{
         imageUrl: imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")),
         href: `/listing/${listing.id}/${listing.urlSlug}`,
-      }}
-      tableProps={{
-        headers: unitSummariesHeaders,
-        data: getUnitGroupSummary(listing).data,
-        responsiveCollapse: true,
-        cellClassName: "px-5 py-3",
-      }}
-      cardTags={
-        getImageTagLabelFromListing(listing)
+        tags: getImageTagLabelFromListing(listing)
           ? [
               {
                 text: getImageTagLabelFromListing(listing),
@@ -85,8 +77,14 @@ export const getListings = (listings) => {
                 iconColor: "#193154",
               },
             ]
-          : []
-      }
+          : [],
+      }}
+      tableProps={{
+        headers: unitSummariesHeaders,
+        data: getUnitGroupSummary(listing).data,
+        responsiveCollapse: true,
+        cellClassName: "px-5 py-3",
+      }}
       contentProps={{
         contentHeader: { text: listing.name },
         contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
