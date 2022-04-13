@@ -53,7 +53,7 @@ export class EmailService {
     await this.send(
       user.email,
       jurisdiction.emailFromAddress,
-      this.polyglot.t("register.welcome"),
+      "Welcome to Detroit Home Connect",
       this.template("register-email")({
         user: user,
         confirmationUrl: confirmationUrl,

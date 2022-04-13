@@ -53,6 +53,7 @@ import Verification from "./sections/Verification"
 import BuildingSelectionCriteria from "./sections/BuildingSelectionCriteria"
 import { getReadableErrorMessage } from "../PaperListingDetails/sections/helpers"
 import { useJurisdictionalProgramList } from "../../../lib/hooks"
+import ApplicationDates from "./sections/ApplicationDates"
 
 type ListingFormProps = {
   listing?: FormListing
@@ -443,6 +444,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                         </TabPanel>
                         <TabPanel>
                           <RankingsAndResults listing={listing} />
+                          <ApplicationDates listing={listing} />
                           <LeasingAgent />
                           <ApplicationTypes listing={listing} />
                           <ApplicationAddress listing={listing} />

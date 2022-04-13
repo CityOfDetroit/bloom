@@ -4635,6 +4635,9 @@ export interface ListingFilterParams {
   neighborhood?: string
 
   /**  */
+  region?: EnumListingFilterParamsRegion
+
+  /**  */
   jurisdiction?: string
 
   /**  */
@@ -5237,6 +5240,9 @@ export interface Listing {
   marketingType: ListingMarketingTypeEnum
 
   /**  */
+  marketingSeason?: ListingSeasonEnum
+
+  /**  */
   applicationMethods: ApplicationMethod[]
 
   /**  */
@@ -5719,6 +5725,9 @@ export interface ListingCreate {
   marketingType: ListingMarketingTypeEnum
 
   /**  */
+  marketingSeason?: ListingSeasonEnum
+
+  /**  */
   applicationMethods: ApplicationMethodCreate[]
 
   /**  */
@@ -6184,6 +6193,9 @@ export interface ListingUpdate {
   marketingType: ListingMarketingTypeEnum
 
   /**  */
+  marketingSeason?: ListingSeasonEnum
+
+  /**  */
   id?: string
 
   /**  */
@@ -6543,6 +6555,9 @@ export interface ProgramUpdate {
 
 export interface Property {
   /**  */
+  region?: Region
+
+  /**  */
   units: Unit[]
 
   /**  */
@@ -6599,6 +6614,9 @@ export interface Property {
 
 export interface PropertyCreate {
   /**  */
+  region?: Region
+
+  /**  */
   buildingAddress: AddressUpdate
 
   /**  */
@@ -6645,6 +6663,9 @@ export interface PropertyCreate {
 }
 
 export interface PropertyUpdate {
+  /**  */
+  region?: Region
+
   /**  */
   id?: string
 
@@ -6985,6 +7006,13 @@ export enum EnumListingFilterParamsAvailability {
   "noAvailability" = "noAvailability",
   "waitlist" = "waitlist",
 }
+export enum EnumListingFilterParamsRegion {
+  "Downtown" = "Downtown",
+  "Eastside" = "Eastside",
+  "MidtownNewCenter" = "MidtownNewCenter",
+  "Southwest" = "Southwest",
+  "Westside" = "Westside",
+}
 export enum EnumListingFilterParamsMarketingType {
   "Marketing" = "Marketing",
   "ComingSoon" = "ComingSoon",
@@ -7013,6 +7041,13 @@ export enum ListingReviewOrder {
 export enum ListingMarketingTypeEnum {
   "marketing" = "marketing",
   "comingSoon" = "comingSoon",
+}
+
+export enum ListingSeasonEnum {
+  "spring" = "spring",
+  "summer" = "summer",
+  "fall" = "fall",
+  "winter" = "winter",
 }
 
 export enum ListingEventType {
@@ -7060,4 +7095,11 @@ export enum EnumProgramsFilterParamsComparison {
   ">=" = ">=",
   "<=" = "<=",
   "NA" = "NA",
+}
+export enum Region {
+  "Downtown" = "Downtown",
+  "Eastside" = "Eastside",
+  "Midtown - New Center" = "Midtown - New Center",
+  "Southwest" = "Southwest",
+  "Westside" = "Westside",
 }
