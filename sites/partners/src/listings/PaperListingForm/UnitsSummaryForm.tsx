@@ -274,7 +274,7 @@ const UnitsSummaryForm = ({
 
   const bathroomOptions = [
     { label: "", value: "" },
-    { label: ".5", value: ".5" },
+    { label: ".5", value: "0.5" },
     { label: "1", value: "1" },
     { label: "1.5", value: "1.5" },
     { label: "2", value: "2" },
