@@ -80,6 +80,8 @@ const UnitsSummaryForm = ({
   })
 
   const unitType = formWatch("unitType")
+  const minOccupancy = formWatch("minOccupancy")
+  const maxOccupancy = formWatch("maxOccupancy")
 
   /**
    * fetch form options
@@ -327,6 +329,9 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(8, 1, true)}
+                    error={errors?.minOccupancy !== undefined}
+                    errorMessage={t("errors.minLargerThanMaxOccupancyError")}
+                    validation={maxOccupancy && { max: maxOccupancy }}
                   />
                 </ViewItem>
               </GridCell>
@@ -340,6 +345,9 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(8, 1, true)}
+                    error={errors?.maxOccupancy !== undefined}
+                    errorMessage={t("errors.maxLargerThanMinOccupancyError")}
+                    validation={{ min: minOccupancy }}
                   />
                 </ViewItem>
               </GridCell>
