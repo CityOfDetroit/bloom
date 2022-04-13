@@ -10,6 +10,8 @@ import {
   GridSection,
   GridCell,
   AppearanceBorderType,
+  ViewItem,
+  FieldGroup,
 } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import { Region } from "@bloom-housing/ui-components/src/helpers/regionNeighborhoodMap"
@@ -76,11 +78,10 @@ const FilterForm = (props: FilterFormProps) => {
           }
 
           if (response.data.programs) {
-            const regex = new RegExp(/ |\+/, "g")
             setCommunityProgramOptions(
               response.data.programs.map((elem) => ({
                 label: elem.title,
-                value: elem.title.replaceAll(regex, ""),
+                value: elem.id,
               }))
             )
           }
@@ -135,40 +136,46 @@ const FilterForm = (props: FilterFormProps) => {
         </GridCell>
       </GridSection>
       <GridSection columns={3} title={t("t.availability")} separator={true}>
-        {availabilityOptions.map((elem, index) => (
-          <GridCell span={1} key={`availability${index}`}>
-            <Field
-              id={elem.value}
-              name={elem.value}
-              type="checkbox"
-              label={elem.label}
-              register={register}
-              inputProps={{
-                defaultChecked: Boolean(
-                  props.filterState ? props.filterState[elem.value] : undefined
-                ),
-              }}
-            />
-          </GridCell>
-        ))}
+        <GridCell span={3}>
+          <FieldGroup
+            name="availability"
+            type="checkbox"
+            register={register}
+            fields={availabilityOptions.map((elem) => ({
+              id: elem.value,
+              label: elem.label,
+              value: elem.value,
+              inputProps: {
+                defaultChecked: Boolean(props.filterState?.availability?.includes(elem.value)),
+              },
+            }))}
+            fieldClassName="m-0"
+            fieldGroupClassName="flex h-12 items-center"
+          />
+        </GridCell>
       </GridSection>
       <GridSection columns={3} title={t("publicFilter.bedRoomSize")} separator={true}>
-        {bedroomOptions.map((option) => (
-          <GridCell span={1}>
-            <Field
-              id={option.label}
-              name={FrontendListingFilterStateKeys[option.label]}
-              type="checkbox"
-              label={t(`listingFilters.bedroomsOptions.${option.translation}`)}
-              register={register}
-              inputProps={{
+        <GridCell span={3}>
+          <FieldGroup
+            name="bedRoomSize"
+            type="checkbox"
+            register={register}
+            fields={bedroomOptions.map((elem) => ({
+              id: FrontendListingFilterStateKeys[elem.label],
+              label: t(`listingFilters.bedroomsOptions.${elem.translation}`),
+              value: FrontendListingFilterStateKeys[elem.label],
+              inputProps: {
                 defaultChecked: Boolean(
-                  props.filterState ? props.filterState[option.label] : undefined
+                  props.filterState?.bedRoomSize?.includes(
+                    FrontendListingFilterStateKeys[elem.label]
+                  )
                 ),
-              }}
-            />
-          </GridCell>
-        ))}
+              },
+            }))}
+            fieldClassName="m-0"
+            fieldGroupClassName="flex h-12 items-center"
+          />
+        </GridCell>
       </GridSection>
       <GridSection columns={3} title={t("publicFilter.rentRange")} separator={true}>
         <GridCell span={1}>
@@ -193,58 +200,61 @@ const FilterForm = (props: FilterFormProps) => {
         </GridCell>
       </GridSection>
       <GridSection columns={3} title={t("publicFilter.communityPrograms")} separator={true}>
-        {communityProgramOptions.map((elem, index) => (
-          <GridCell span={1} key={`communityPrograms_${index}`}>
-            <Field
-              id={elem.value}
-              name={elem.value}
-              type="checkbox"
-              label={elem.label}
-              register={register}
-              inputProps={{
-                defaultChecked: Boolean(
-                  props.filterState ? props.filterState[elem.value] : undefined
-                ),
-              }}
-            />
-          </GridCell>
-        ))}
+        <GridCell span={3}>
+          <FieldGroup
+            name="communityPrograms"
+            type="checkbox"
+            register={register}
+            fields={communityProgramOptions.map((elem) => ({
+              id: elem.value,
+              label: elem.label,
+              value: elem.value,
+              inputProps: {
+                defaultChecked: Boolean(props.filterState?.communityPrograms?.includes(elem.value)),
+              },
+            }))}
+            fieldClassName="m-0"
+            fieldGroupClassName="flex h-12 items-center"
+          />
+        </GridCell>
       </GridSection>
       <GridSection columns={3} title={t("t.region")} separator={true}>
-        {regionOptions.map((elem, index) => (
-          <GridCell span={1} key={`region_${index}`}>
-            <Field
-              id={elem.value}
-              name={elem.value}
-              type="checkbox"
-              label={elem.label}
-              register={register}
-              inputProps={{
-                defaultChecked: Boolean(
-                  props.filterState ? props.filterState[elem.value] : undefined
-                ),
-              }}
-            />
-          </GridCell>
-        ))}
+        <GridCell span={3}>
+          <FieldGroup
+            name="region"
+            type="checkbox"
+            register={register}
+            fields={regionOptions.map((elem) => ({
+              id: elem.value,
+              label: elem.label,
+              value: elem.value,
+              inputProps: {
+                defaultChecked: Boolean(props.filterState?.region?.includes(elem.value)),
+              },
+            }))}
+            fieldClassName="m-0"
+            fieldGroupClassName="flex h-12 items-center"
+          />
+        </GridCell>
       </GridSection>
       <GridSection columns={3} title={t("eligibility.accessibility.title")} separator={true}>
-        {accessibilityFeatureOptions.map((elem, index) => (
-          <GridCell span={1} key={`accessibility_${index}`}>
-            <Field
-              id={elem.value}
-              name={elem.value}
-              type="checkbox"
-              label={elem.label}
-              register={register}
-              inputProps={{
-                defaultChecked: Boolean(
-                  props.filterState ? props.filterState[elem.value] : undefined
-                ),
-              }}
-            />
-          </GridCell>
-        ))}
+        <GridCell span={3}>
+          <FieldGroup
+            name="accessibility"
+            type="checkbox"
+            register={register}
+            fields={accessibilityFeatureOptions.map((elem) => ({
+              id: elem.value,
+              label: elem.label,
+              value: elem.value,
+              inputProps: {
+                defaultChecked: Boolean(props.filterState?.accessibility?.includes(elem.value)),
+              },
+            }))}
+            fieldClassName="m-0"
+            fieldGroupClassName="flex h-12 items-center"
+          />
+        </GridCell>
       </GridSection>
       <div className="text-left mt-8 mb-5 bg-white border-t border-gray-450 pt-8">
         <Button

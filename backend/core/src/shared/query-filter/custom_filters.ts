@@ -3,46 +3,29 @@ import { AvailabilityFilterEnum } from "../../listings/types/listing-filter-keys
 import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
 import { UnitType } from "../../unit-types/entities/unit-type.entity"
 
-export function addAvailabilityQuery(
-  qb: WhereExpression,
-  filterValue: AvailabilityFilterEnum,
-  includeNulls?: boolean
-) {
-  const whereParameterName = "availability"
-  switch (filterValue) {
-    case AvailabilityFilterEnum.hasAvailability:
-      qb.andWhere(
-        `(unitGroups.total_available >= :${whereParameterName}${
-          includeNulls ? ` OR unitGroups.total_available IS NULL` : ""
-        })`,
-        {
-          [whereParameterName]: 1,
-        }
-      )
-      return
-    case AvailabilityFilterEnum.noAvailability:
-      qb.andWhere(
-        `(unitGroups.total_available = :${whereParameterName}${
-          includeNulls ? ` OR unitGroups.total_available IS NULL` : ""
-        })`,
-        {
-          [whereParameterName]: 0,
-        }
-      )
-      return
-    case AvailabilityFilterEnum.waitlist:
-      qb.andWhere(
-        `(listings.is_waitlist_open = :${whereParameterName}${
-          includeNulls ? ` OR listings.is_waitlist_open is NULL` : ""
-        })`,
-        {
-          [whereParameterName]: true,
-        }
-      )
-      return
-    default:
-      return
-  }
+export function addAvailabilityQuery(qb: WhereExpression, filterValue: string) {
+  const val = filterValue?.split(",")
+  val.forEach((option) => {
+    switch (option) {
+      case "vacantUnits":
+        qb.andWhere("(unitGroups.total_available >= :vacantUnits)", {
+          vacantUnits: 1,
+        })
+        return
+      case "openWaitlist":
+        qb.andWhere("(coalesce(is_waitlist_open, false) = :openWaitlist)", {
+          openWaitlist: true,
+        })
+        return
+      case "closedWaitlist":
+        qb.andWhere("(coalesce(is_waitlist_open, false) = :closedWaitlist)", {
+          closedWaitlist: false,
+        })
+        return
+      default:
+        return
+    }
+  })
 }
 
 export function addBedroomsQuery(qb: WhereExpression, filterValue: number[]) {
@@ -100,5 +83,23 @@ export function addFavoritedFilter(qb: WhereExpression, filterValue: string) {
       favoritedListings: val,
     })
   }
+  return
+}
+
+export function addProgramFilter(qb: WhereExpression, filterValue: string) {
+  const val = filterValue.split(",").filter((elem) => !!elem)
+  if (val.length) {
+    qb.andWhere("programs.id IN (:...communityPrograms) ", {
+      communityPrograms: val,
+    })
+  }
+  return
+}
+
+export function addAccessibilityFilter(qb: WhereExpression, filterValue: string) {
+  const val = filterValue.split(",").filter((elem) => !!elem)
+  val.forEach((key) => {
+    qb.andWhere(`listing_features.${key} = true`)
+  })
   return
 }

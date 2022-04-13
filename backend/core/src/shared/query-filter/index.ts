@@ -10,6 +10,8 @@ import {
   addBedroomsQuery,
   addMinAmiPercentageFilter,
   addFavoritedFilter,
+  addProgramFilter,
+  addAccessibilityFilter,
 } from "./custom_filters"
 import { UserFilterKeys } from "../../auth/types/user-filter-keys"
 import { addIsPortalUserQuery } from "../../auth/filters/user-query-filter"
@@ -63,9 +65,10 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
       switch (filterKey) {
         // custom listing filters
         case ListingFilterKeys.availability:
-          addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum, includeNulls)
+          addAvailabilityQuery(qb, filterValue as AvailabilityFilterEnum)
           continue
         case ListingFilterKeys.bedrooms:
+        case ListingFilterKeys.bedRoomSize:
           addBedroomsQuery(
             qb,
             typeof filterValue === "string"
@@ -78,6 +81,12 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
           continue
         case ListingFilterKeys.favorited:
           addFavoritedFilter(qb, filterValue)
+          continue
+        case ListingFilterKeys.communityPrograms:
+          addProgramFilter(qb, filterValue)
+          continue
+        case ListingFilterKeys.accessibility:
+          addAccessibilityFilter(qb, filterValue)
           continue
         // custom user filters
         case UserFilterKeys.isPortalUser:

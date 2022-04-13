@@ -93,6 +93,10 @@ export class ListingsService {
       .leftJoin("property.buildingAddress", "buildingAddress")
       .leftJoin("listings.reservedCommunityType", "reservedCommunityType")
       .leftJoin("listings.features", "listing_features")
+      .leftJoin("listings.listingPrograms", "listing_programs")
+      .leftJoin("listing_programs.program", "programs")
+      .leftJoin("listings.unitGroups", "unitgroups")
+      .leftJoin("unitgroups.amiLevels", "amilevels")
       .groupBy("listings.id")
       .orderBy(getOrderByCondition(params))
 

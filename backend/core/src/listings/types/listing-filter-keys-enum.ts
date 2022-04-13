@@ -35,11 +35,14 @@ export enum ListingFilterKeys {
   closedWaitlist = "closedWaitlist",
   Families = "Families",
   ResidentswithDisabilities = "ResidentswithDisabilities",
-  Seniors55 = "Seniors55+",
-  Seniors62 = "Seniors62+",
+  Seniors55 = "Seniors55",
+  Seniors62 = "Seniors62",
   SupportiveHousingfortheHomeless = "SupportiveHousingfortheHomeless",
   Veterans = "Veterans",
   region = "region",
+  bedRoomSize = "bedRoomSize",
+  communityPrograms = "communityPrograms",
+  accessibility = "accessibility",
 }
 
 export enum AvailabilityFilterEnum {

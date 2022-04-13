@@ -1,6 +1,5 @@
 import {
   EnumListingFilterParamsComparison,
-  AvailabilityFilterEnum,
   ListingFilterKeys,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
@@ -34,7 +33,6 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.grabBars:
     case ListingFilterKeys.heatingInUnit:
     case ListingFilterKeys.acInUnit:
-    case ListingFilterKeys.minAmiPercentage:
     case ListingFilterKeys.jurisdiction:
     case ListingFilterKeys.favorited:
     case ListingFilterKeys.isVerified:
@@ -56,11 +54,13 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.maxRent:
       return EnumListingFilterParamsComparison["<="]
     case ListingFilterKeys.bedrooms:
-    case ListingFilterKeys.zipcode:
     case ListingFilterKeys.neighborhood:
-      return EnumListingFilterParamsComparison["IN"]
+    case ListingFilterKeys.bedRoomSize:
+    case ListingFilterKeys.communityPrograms:
+    case ListingFilterKeys.region:
+    case ListingFilterKeys.accessibility:
     case ListingFilterKeys.availability:
-      return EnumListingFilterParamsComparison["NA"]
+      return EnumListingFilterParamsComparison["IN"]
     default: {
       const _exhaustiveCheck: any = filterKey
       return _exhaustiveCheck
@@ -85,8 +85,11 @@ export const FrontendListingFilterStateKeys = {
   ...IncludedBackendKeys,
   ...BedroomFields,
   ...Region,
-  includeNulls: "includeNulls" as const,
   favorited: "favorited" as const,
+  bedRoomSize: "bedRoomSize" as const,
+  communityPrograms: "communityPrograms" as const,
+  region: "region" as const,
+  accessibility: "accessibility" as const,
 }
 
 // The types in this interface are `string | ...` because we don't currently parse
@@ -95,14 +98,16 @@ export const FrontendListingFilterStateKeys = {
 // TODO: Update `decodeFiltersFromFrontendUrl` to parse each filter into its
 // correct type, so we can remove the `string` type from these fields.
 export interface ListingFilterState {
-  // confirmedListings
+  // confirmedListings & listing status
   [FrontendListingFilterStateKeys.status]?: string
   [FrontendListingFilterStateKeys.isVerified]?: string | boolean
   // availability
   [FrontendListingFilterStateKeys.vacantUnits]?: string | boolean
   [FrontendListingFilterStateKeys.openWaitlist]?: string | boolean
   [FrontendListingFilterStateKeys.closedWaitlist]?: string | boolean
+  [FrontendListingFilterStateKeys.availability]?: string
   // bedRoomSize
+  [FrontendListingFilterStateKeys.bedRoomSize]?: string
   [FrontendListingFilterStateKeys.studio]?: string | boolean
   [FrontendListingFilterStateKeys.SRO]?: string | boolean
   [FrontendListingFilterStateKeys.oneBdrm]?: string | boolean
@@ -113,17 +118,20 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.minRent]?: string | number
   [FrontendListingFilterStateKeys.maxRent]?: string | number
   // communityPrograms
+  [FrontendListingFilterStateKeys.communityPrograms]?: string
   [FrontendListingFilterStateKeys.ResidentswithDisabilities]?: string | number
   [FrontendListingFilterStateKeys.Seniors55]?: string | number
   [FrontendListingFilterStateKeys.Seniors62]?: string | number
   [FrontendListingFilterStateKeys.SupportiveHousingfortheHomeless]?: string | number
   // region
+  [FrontendListingFilterStateKeys.region]?: string
   [FrontendListingFilterStateKeys.downtown]?: string | boolean
   [FrontendListingFilterStateKeys.eastside]?: string | boolean
   [FrontendListingFilterStateKeys.midtownNewCenter]?: string | boolean
   [FrontendListingFilterStateKeys.southwest]?: string | boolean
   [FrontendListingFilterStateKeys.westside]?: string | boolean
   // accessibility
+  [FrontendListingFilterStateKeys.accessibility]?: string
   [FrontendListingFilterStateKeys.elevator]?: string | boolean
   [FrontendListingFilterStateKeys.wheelchairRamp]?: string | boolean
   [FrontendListingFilterStateKeys.serviceAnimalsAllowed]?: string | boolean
@@ -141,11 +149,6 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.visual]?: string | boolean
   // favorites
   [FrontendListingFilterStateKeys.favorited]?: string | boolean
-
-  [FrontendListingFilterStateKeys.availability]?: string | AvailabilityFilterEnum
-  [FrontendListingFilterStateKeys.zipcode]?: string
-  [FrontendListingFilterStateKeys.includeNulls]?: boolean
-  [FrontendListingFilterStateKeys.minAmiPercentage]?: string | number
 }
 
 // Since it'd be tricky to OR a separate ">=" comparison with an "IN"
@@ -164,17 +167,11 @@ export function encodeToBackendFilterArray(filterState: ListingFilterState) {
   const filterArray: {
     [x: string]: any
     $comparison: EnumListingFilterParamsComparison
-    $include_nulls?: boolean | undefined
     bedrooms?: string
   }[] = []
   if (filterState === undefined) {
     return filterArray
   }
-  const includeNulls =
-    FrontendListingFilterStateKeys.includeNulls in filterState &&
-    filterState[FrontendListingFilterStateKeys.includeNulls]
-      ? true
-      : undefined
   // Only include things that are a backend filter type. The keys of
   // ListingFilterState are a superset of ListingFilterKeys that may include
   // keys not recognized by the backend, so we check against ListingFilterKeys
@@ -185,15 +182,15 @@ export function encodeToBackendFilterArray(filterState: ListingFilterState) {
       filterArray.push({
         $comparison: comparison,
         [filterType]: filterState[filterType],
-        ...(includeNulls && { $include_nulls: includeNulls }),
       })
     }
   }
 
   // Special-case the bedroom filters, since they get combined from separate fields.
   const bedrooms = []
+  const bedroomSize = filterState?.bedRoomSize?.split(",")
   for (const bedroomFilterType in BedroomFields) {
-    if (bedroomFilterType in filterState) {
+    if (bedroomSize && bedroomSize.includes(bedroomFilterType)) {
       bedrooms.push(BedroomValues[bedroomFilterType])
     }
   }
@@ -201,14 +198,17 @@ export function encodeToBackendFilterArray(filterState: ListingFilterState) {
     filterArray.push({
       $comparison: getComparisonForFilter(ListingFilterKeys.bedrooms),
       [ListingFilterKeys.bedrooms]: bedrooms.join(),
-      ...(includeNulls && { $include_nulls: includeNulls }),
     })
   }
 
   // Special-case the region filters, since they are mapped to neighborhoods.
   const neighborhoods = []
+  const regions = filterState?.region?.split(",")
   for (const region in Region) {
     if (filterState[region]) {
+      neighborhoods.push(regionNeighborhoodMap.get(Region[region])?.map((n) => n.name))
+    }
+    if (regions && regions.includes(region)) {
       neighborhoods.push(regionNeighborhoodMap.get(Region[region])?.map((n) => n.name))
     }
   }
@@ -216,7 +216,6 @@ export function encodeToBackendFilterArray(filterState: ListingFilterState) {
     filterArray.push({
       $comparison: getComparisonForFilter(ListingFilterKeys.neighborhood),
       [ListingFilterKeys.neighborhood]: neighborhoods.join(),
-      ...(includeNulls && { $include_nulls: includeNulls }),
     })
   }
 
