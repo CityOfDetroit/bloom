@@ -29,13 +29,11 @@ export interface GridSectionProps {
   reverse?: boolean
   children: React.ReactNode
   separator?: boolean
-  sectionClasses?: string
 }
 
 const GridSection = (props: GridSectionProps) => {
   const sectionClasses = ["grid-section"]
   if (props.separator) sectionClasses.push("has-separator")
-  if (props.sectionClasses) sectionClasses.push(props.sectionClasses)
 
   const gridClasses = ["grid-section__inner"]
   const grid = typeof props.grid != "undefined" ? props.grid : true

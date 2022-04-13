@@ -82,9 +82,6 @@ const FilteredListingsPage = () => {
   /* Form Handler */
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const onSubmit = (data: ListingFilterState) => {
-    if (data?.[FrontendListingFilterStateKeys.includeNulls] === false) {
-      delete data[FrontendListingFilterStateKeys.includeNulls]
-    }
     // hide status filter
     delete data[FrontendListingFilterStateKeys.status]
     setFilterModalVisible(false)

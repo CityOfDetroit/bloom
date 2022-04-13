@@ -33,9 +33,6 @@ const ListingsPage = ({ initialListings }) => {
   const metaImage = "" // TODO: replace with hero image
 
   const onSubmit = (page: number, data: ListingFilterState) => {
-    if (data[FrontendListingFilterStateKeys.includeNulls] === false) {
-      delete data[FrontendListingFilterStateKeys.includeNulls]
-    }
     setFilterModalVisible(false)
     void router.push(`/listings/filtered?page=${page}${encodeToFrontendFilterString(data)}`)
   }

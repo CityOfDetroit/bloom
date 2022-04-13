@@ -1875,12 +1875,12 @@
     "neighborhood": "Neighborhood",
     "bedrooms": "Bedrooms",
     "bedroomsOptions": {
-      "studioPlus": "0 (Studio)",
-      "SROPlus": "0 (SRO)",
-      "onePlus": "1",
-      "twoPlus": "2",
-      "threePlus": "3",
-      "fourPlus": "4 or more"
+      "studioPlus": "Studio",
+      "SROPlus": "SRO",
+      "onePlus": "1 Bedroom",
+      "twoPlus": "2 Bedroom",
+      "threePlus": "3 Bedroom",
+      "fourPlus": "4 plus Bedroom"
     },
     "zipCode": "Zip code",
     "zipCodeDescription": "Enter zip code",

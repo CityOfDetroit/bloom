@@ -110,7 +110,7 @@ const FilterForm = (props: FilterFormProps) => {
   // This is causing a linting issue with unbound-method, see issue:
   // https://github.com/react-hook-form/react-hook-form/issues/2887
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register } = useForm()
+  const { handleSubmit, register, reset } = useForm()
 
   return (
     <Form onSubmit={handleSubmit(props.onSubmit)}>
@@ -150,7 +150,7 @@ const FilterForm = (props: FilterFormProps) => {
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flex h-12 items-center"
+            fieldGroupClassName="flex items-center"
           />
         </GridCell>
       </GridSection>
@@ -173,7 +173,7 @@ const FilterForm = (props: FilterFormProps) => {
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flex h-12 items-center"
+            fieldGroupClassName="flex items-center grid grid-cols-3"
           />
         </GridCell>
       </GridSection>
@@ -214,7 +214,7 @@ const FilterForm = (props: FilterFormProps) => {
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flex h-12 items-center"
+            fieldGroupClassName="flex items-center grid grid-cols-3"
           />
         </GridCell>
       </GridSection>
@@ -233,7 +233,7 @@ const FilterForm = (props: FilterFormProps) => {
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flex h-12 items-center"
+            fieldGroupClassName="flex items-center grid grid-cols-3"
           />
         </GridCell>
       </GridSection>
@@ -252,7 +252,7 @@ const FilterForm = (props: FilterFormProps) => {
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flex h-12 items-center"
+            fieldGroupClassName="flexitems-center grid grid-cols-3"
           />
         </GridCell>
       </GridSection>
@@ -269,7 +269,7 @@ const FilterForm = (props: FilterFormProps) => {
           styleType={AppearanceStyleType.secondary}
           border={AppearanceBorderType.borderless}
           onClick={() => {
-            props.onClose(false)
+            reset()
           }}
         >
           {t("listingFilters.clear")}
