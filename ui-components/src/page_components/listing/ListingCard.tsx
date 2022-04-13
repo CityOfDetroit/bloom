@@ -135,7 +135,7 @@ const ListingCard = (props: ListingCardProps) => {
             </>
           )}
         </div>
-        <div className={"flex flex-col"}>
+        <div className={"listings-row_footer_container"}>
           {footerContent && footerContent}
           {footerButtons && footerButtons?.length > 0 && (
             <div className={footerContainerClass ?? "listings-row_footer"}>

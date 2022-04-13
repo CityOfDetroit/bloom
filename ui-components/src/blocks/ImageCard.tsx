@@ -66,7 +66,7 @@ const ImageCard = (props: ImageCardProps) => {
         {props.tags?.map((tag, index) => {
           return (
             <React.Fragment key={index}>
-              <Tag styleType={AppearanceStyleType.warning} className={"mt-3 mr-2 ml-2"}>
+              <Tag styleType={AppearanceStyleType.accentLight} className={"mt-3 mr-2 ml-2"}>
                 {tag.iconType && (
                   <Icon
                     size={"medium"}

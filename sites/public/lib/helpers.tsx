@@ -58,27 +58,18 @@ export const getImageTagLabelFromListing = (listing: Listing) => {
 
 export const getListings = (listings) => {
   const unitSummariesHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
+    unitType: "t.unitType",
+    rent: "t.rent",
+    availability: "t.availability",
   }
 
   return listings.map((listing: Listing, index) => (
     <ListingCard
       key={index}
       imageCardProps={{
-        imageUrl:
-          imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")) || "",
+        imageUrl: imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")),
         href: `/listing/${listing.id}/${listing.urlSlug}`,
-      }}
-      tableProps={{
-        headers: unitSummariesHeaders,
-        data: getUnitGroupSummary(listing).data,
-        responsiveCollapse: true,
-        cellClassName: "px-5 py-3",
-      }}
-      cardTags={
-        getImageTagLabelFromListing(listing)
+        tags: getImageTagLabelFromListing(listing)
           ? [
               {
                 text: getImageTagLabelFromListing(listing),
@@ -86,8 +77,14 @@ export const getListings = (listings) => {
                 iconColor: "#193154",
               },
             ]
-          : []
-      }
+          : [],
+      }}
+      tableProps={{
+        headers: unitSummariesHeaders,
+        data: getUnitGroupSummary(listing).data,
+        responsiveCollapse: true,
+        cellClassName: "px-5 py-3",
+      }}
       contentProps={{
         contentHeader: { text: listing.name },
         contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
@@ -120,10 +117,10 @@ interface UnitSummaryTable {
 
 export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
   const groupedUnitHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
-    ami: t("listings.unit.ami"),
+    unitType: "t.unitType",
+    rent: "t.rent",
+    availability: "t.availability",
+    ami: "listings.unit.ami",
   }
   let groupedUnitData: Record<string, React.ReactNode>[] = null
 

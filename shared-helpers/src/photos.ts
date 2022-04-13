@@ -16,5 +16,8 @@ export const imageUrlFromListing = (listing: Listing, size = 400) => {
   )?.fileId
   if (cloudinaryBuilding) return cloudinaryUrlFromId(cloudinaryBuilding, size)
 
-  return imageAssets?.find((asset: Asset) => asset.label == "building")?.fileId
+  return (
+    imageAssets?.find((asset: Asset) => asset.label == "building")?.fileId ||
+    "/images/detroitDefault.png"
+  )
 }
