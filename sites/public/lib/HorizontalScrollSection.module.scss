@@ -89,7 +89,7 @@ $icon-large: 40px;
   overflow-x: scroll;
   padding-top: 34px;
   scroll-behavior: smooth;
-  scroll-padding-inline-start: 0.5rem;
+  scroll-padding-inline-start: 1rem;
   scroll-snap-type: x proximity;
   scrollbar-width: none; /* Firefox */
 
@@ -104,10 +104,10 @@ $icon-large: 40px;
 }
 
 .content > *:first-child {
-  margin-inline-start: $small-padding;
+  margin-inline-start: 0.5rem;
 
   @screen sm {
-    margin-inline-start: $large-padding;
+    margin-inline-start: 1rem;
   }
 }
 
