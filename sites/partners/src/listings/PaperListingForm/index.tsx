@@ -48,12 +48,10 @@ import ApplicationDates from "./sections/ApplicationDates"
 import LotteryResults from "./sections/LotteryResults"
 import ApplicationTypes from "./sections/ApplicationTypes"
 import SelectAndOrder from "./sections/SelectAndOrder"
-import CommunityType from "./sections/CommunityType"
 import Verification from "./sections/Verification"
 import BuildingSelectionCriteria from "./sections/BuildingSelectionCriteria"
 import { getReadableErrorMessage } from "../PaperListingDetails/sections/helpers"
 import { useJurisdictionalProgramList } from "../../../lib/hooks"
-import ApplicationDates from "./sections/ApplicationDates"
 
 type ListingFormProps = {
   listing?: FormListing

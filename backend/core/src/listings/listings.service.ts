@@ -204,7 +204,7 @@ export class ListingsService {
     })
     listingDto.unitsAvailable = availableUnits
     Object.assign(listing, {
-      ...plainToClass(Listing, listingDto, { excludeExtraneousValues: true }),
+      ...plainToClass(Listing, listingDto, { excludeExtraneousValues: false }),
       publishedAt:
         listing.status !== ListingStatus.active && listingDto.status === ListingStatus.active
           ? new Date()
