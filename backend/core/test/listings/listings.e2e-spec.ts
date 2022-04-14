@@ -149,7 +149,9 @@ describe("Listings", () => {
   })
 
   it("should add/overwrite image in existing listing", async () => {
-    const res = await supertest(app.getHttpServer()).get("/listings").expect(200)
+    const res = await supertest(app.getHttpServer())
+      .get("/listings?orderBy=applicationDates")
+      .expect(200)
 
     const listing: ListingUpdateDto = { ...res.body.items[0] }
 
@@ -218,7 +220,9 @@ describe("Listings", () => {
   })
 
   it("should add/overwrite listing events in existing listing", async () => {
-    const res = await supertest(app.getHttpServer()).get("/listings").expect(200)
+    const res = await supertest(app.getHttpServer())
+      .get("/listings?orderBy=applicationDates")
+      .expect(200)
 
     const listing: ListingUpdateDto = { ...res.body.items[0] }
 
@@ -254,7 +258,9 @@ describe("Listings", () => {
   })
 
   it("should add/overwrite and remove listing programs in existing listing", async () => {
-    const res = await supertest(app.getHttpServer()).get("/listings").expect(200)
+    const res = await supertest(app.getHttpServer())
+      .get("/listings?orderBy=applicationDates")
+      .expect(200)
     const listing: ListingUpdateDto = { ...res.body.items[0] }
     const newProgram = await programsRepository.save({
       title: "TestTitle",
@@ -559,45 +565,6 @@ describe("Listings", () => {
         secondPageListingUpdateTimestamp.getTime()
       )
     }
-  })
-
-  it("should add/overwrite and remove listing programs in existing listing", async () => {
-    const res = await supertest(app.getHttpServer()).get("/listings").expect(200)
-    const listing: ListingUpdateDto = { ...res.body.items[0] }
-    const newProgram = await programsRepository.save({
-      title: "TestTitle",
-      subtitle: "TestSubtitle",
-      description: "TestDescription",
-    })
-    listing.listingPrograms = [{ program: newProgram, ordinal: 1 }]
-
-    const putResponse = await supertest(app.getHttpServer())
-      .put(`/listings/${listing.id}`)
-      .send(listing)
-      .set(...setAuthorization(adminAccessToken))
-      .expect(200)
-
-    const listingResponse = await supertest(app.getHttpServer())
-      .get(`/listings/${putResponse.body.id}`)
-      .expect(200)
-
-    expect(listingResponse.body.listingPrograms[0].program.id).toBe(newProgram.id)
-    expect(listingResponse.body.listingPrograms[0].program.title).toBe(newProgram.title)
-    expect(listingResponse.body.listingPrograms[0].ordinal).toBe(1)
-
-    await supertest(app.getHttpServer())
-      .put(`/listings/${listing.id}`)
-      .send({
-        ...putResponse.body,
-        listingPrograms: [],
-      })
-      .set(...setAuthorization(adminAccessToken))
-      .expect(200)
-
-    const listingResponse2 = await supertest(app.getHttpServer())
-      .get(`/listings/${putResponse.body.id}`)
-      .expect(200)
-    expect(listingResponse2.body.listingPrograms.length).toBe(0)
   })
 
   afterEach(() => {
