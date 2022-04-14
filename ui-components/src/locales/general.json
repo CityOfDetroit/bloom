@@ -1082,6 +1082,8 @@
     "maxLessThanMinFloorError": "Max must be greater than or equal to Min Floor",
     "minGreaterThanMaxBathroomError": "Min must be less than or equal to Max Number of Bathrooms",
     "maxLessThanMinBathroomError": "Max must be greater than or equal to Min Number of Bathrooms",
+    "totalCountLessThanTotalAvailableError": "Group Quantity must be greater than or equal to Vacancies.",
+    "totalAvailableGreaterThanTotalCountError": "Vacancies must be less than or equal to Group Quantity",
     "noData": "No data available.",
     "noFavorites": "You have not favorited any listings"
   },

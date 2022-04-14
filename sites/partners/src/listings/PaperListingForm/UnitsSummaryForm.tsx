@@ -91,6 +91,7 @@ const UnitsSummaryForm = ({
   const bathroomMin = formWatch("bathroomMin")
   const bathroomMax = formWatch("bathroomMax")
   const totalCount = formWatch("totalCount")
+  const totalAvailable = formWatch("totalAvailable")
 
   /**
    * fetch form options
@@ -322,7 +323,8 @@ const UnitsSummaryForm = ({
                     readerOnly
                     type="number"
                     error={errors?.totalCount !== undefined}
-                    errorMessage={t("errors.requiredFieldError")}
+                    errorMessage={t("errors.totalCountLessThanTotalAvailableError")}
+                    validation={{ min: totalAvailable }}
                   />
                 </ViewItem>
               </GridCell>
@@ -476,7 +478,8 @@ const UnitsSummaryForm = ({
                   readerOnly
                   type="number"
                   error={errors?.totalAvailable !== undefined}
-                  errorMessage={t("errors.requiredFieldError")}
+                  errorMessage={t("errors.totalAvailableGreaterThanTotalCountError")}
+                  validation={totalCount && { max: totalCount }}
                 />
               </ViewItem>
             </GridCell>
