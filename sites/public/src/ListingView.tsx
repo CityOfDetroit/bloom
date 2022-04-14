@@ -32,6 +32,10 @@ import {
   FavoriteButton,
   InfoCard,
   Heading,
+  Tag,
+  AppearanceStyleType,
+  Icon,
+  IconFillColors,
 } from "@bloom-housing/ui-components"
 import {
   cloudinaryPdfFromId,
@@ -45,6 +49,7 @@ import {
   getGenericAddress,
   getHmiSummary,
   getImageTagLabelFromListing,
+  getListingTags,
   getUnitGroupSummary,
   openInFuture,
 } from "../lib/helpers"
@@ -295,6 +300,27 @@ export const ListingView = (props: ListingProps) => {
               {t("t.viewOnMap")}
             </a>
           </p>
+        </div>
+        <div className={"flex flex-wrap mx-2"}>
+          {getListingTags(listing)?.map((cardTag, index) => {
+            return (
+              <Tag
+                styleType={AppearanceStyleType.accentLight}
+                className={"mr-2 mb-2 font-bold px-3 py-2"}
+                key={index}
+              >
+                {cardTag.iconType && (
+                  <Icon
+                    size={"medium"}
+                    symbol={cardTag.iconType}
+                    fill={cardTag.iconColor ?? IconFillColors.primary}
+                    className={"mr-2"}
+                  />
+                )}
+                {cardTag.text}
+              </Tag>
+            )
+          })}
         </div>
         <div className="text-right px-2">
           <FavoriteButton name={listing.name} id={listing.id} />

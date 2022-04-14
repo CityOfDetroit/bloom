@@ -11,6 +11,8 @@ import {
   TableHeaders,
   FavoriteButton,
   LinkButton,
+  ImageTag,
+  AppearanceStyleType,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -60,6 +62,20 @@ export const getImageTagLabelFromListing = (listing: Listing) => {
     : undefined
 }
 
+export const getListingTags = (listing: Listing) => {
+  const tags: ImageTag[] = listing?.listingPrograms?.map((program) => {
+    return { text: program.program.title }
+  })
+  if (accessibilityFeaturesExist(listing)) {
+    tags.push({
+      text: t("listings.reservedCommunityTypes.specialNeeds"),
+      iconType: "universalAccess",
+      iconColor: AppearanceStyleType.primary,
+    })
+  }
+  return tags
+}
+
 export const getListings = (listings) => {
   const unitSummariesHeaders = {
     unitType: "t.unitType",
@@ -98,6 +114,7 @@ export const getListings = (listings) => {
         contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
         tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
       }}
+      cardTags={getListingTags(listing)}
       footerContent={
         <div className={"flex justify-between items-center"}>
           <FavoriteButton name={listing.name} id={listing.id} />
@@ -125,10 +142,10 @@ interface UnitSummaryTable {
 
 export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
   const groupedUnitHeaders = {
-    unitType: "t.unitType",
-    rent: "t.rent",
-    availability: "t.availability",
-    ami: "listings.unit.ami",
+    unitType: t("t.unitType"),
+    rent: t("t.rent"),
+    availability: t("t.availability"),
+    ami: t("listings.unit.ami"),
   }
   let groupedUnitData: Record<string, React.ReactNode>[] = null
 
