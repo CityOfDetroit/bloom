@@ -1,4 +1,3 @@
-import Head from "next/head"
 import {
   PageHeader,
   AgPagination,
@@ -67,31 +66,19 @@ const FavoritedListingsPage = () => {
       )
     }
     return (
-      <>
-        {!listingsError && listingsData?.meta.totalItems === 0 && (
-          <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
-            <header>
-              <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
-              <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
-            </header>
-          </div>
-        )}
-        {
-          <div>
-            {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
-            <AgPagination
-              totalItems={listingsData?.meta.totalItems}
-              totalPages={listingsData?.meta.totalPages}
-              currentPage={currentPage}
-              itemsPerPage={itemsPerPage}
-              quantityLabel={t("listings.totalListings")}
-              setCurrentPage={setQueryString}
-              includeBorder={false}
-              matchListingCardWidth={true}
-            />
-          </div>
-        }
-      </>
+      <div>
+        {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
+        <AgPagination
+          totalItems={listingsData?.meta.totalItems}
+          totalPages={listingsData?.meta.totalPages}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          quantityLabel={t("listings.totalListings")}
+          setCurrentPage={setQueryString}
+          includeBorder={false}
+          matchListingCardWidth={true}
+        />
+      </div>
     )
   }, [profile, listingsLoading, filterState, listingsData, listingsError])
 
