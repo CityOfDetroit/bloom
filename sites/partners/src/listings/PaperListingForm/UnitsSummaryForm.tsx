@@ -69,6 +69,8 @@ const UnitsSummaryForm = ({
       floorMax: current?.floorMax,
       sqFeetMin: current?.sqFeetMin,
       sqFeetMax: current?.sqFeetMax,
+      bathroomMin: current?.bathroomMin,
+      bathroomMax: current?.bathroomMax,
       minOccupancy: current?.minOccupancy,
       maxOccupancy: current?.maxOccupancy,
       totalCount: current?.totalCount,
@@ -80,6 +82,16 @@ const UnitsSummaryForm = ({
   })
 
   const unitType = formWatch("unitType")
+  const minOccupancy = formWatch("minOccupancy")
+  const maxOccupancy = formWatch("maxOccupancy")
+  const sqFeetMin = formWatch("sqFeetMin")
+  const sqFeetMax = formWatch("sqFeetMax")
+  const floorMin = formWatch("floorMin")
+  const floorMax = formWatch("floorMax")
+  const bathroomMin = formWatch("bathroomMin")
+  const bathroomMax = formWatch("bathroomMax")
+  const totalCount = formWatch("totalCount")
+  const totalAvailable = formWatch("totalAvailable")
 
   /**
    * fetch form options
@@ -311,7 +323,8 @@ const UnitsSummaryForm = ({
                     readerOnly
                     type="number"
                     error={errors?.totalCount !== undefined}
-                    errorMessage={t("errors.requiredFieldError")}
+                    errorMessage={t("errors.totalCountLessThanTotalAvailableError")}
+                    validation={{ min: totalAvailable }}
                   />
                 </ViewItem>
               </GridCell>
@@ -327,6 +340,9 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(8, 1, true)}
+                    error={errors?.minOccupancy !== undefined}
+                    errorMessage={t("errors.minGreaterThanMaxOccupancyError")}
+                    validation={maxOccupancy && { max: maxOccupancy }}
                   />
                 </ViewItem>
               </GridCell>
@@ -340,6 +356,9 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(8, 1, true)}
+                    error={errors?.maxOccupancy !== undefined}
+                    errorMessage={t("errors.maxLessThanMinOccupancyError")}
+                    validation={{ min: minOccupancy }}
                   />
                 </ViewItem>
               </GridCell>
@@ -355,6 +374,9 @@ const UnitsSummaryForm = ({
                     register={register}
                     readerOnly
                     type="number"
+                    error={errors?.sqFeetMin !== undefined}
+                    errorMessage={t("errors.minGreaterThanMaxSqFeetError")}
+                    validation={sqFeetMax && { max: sqFeetMax }}
                   />
                 </ViewItem>
               </GridCell>
@@ -368,6 +390,9 @@ const UnitsSummaryForm = ({
                     register={register}
                     readerOnly
                     type="number"
+                    error={errors?.sqFeetMax !== undefined}
+                    errorMessage={t("errors.maxLessThanMinSqFeetError")}
+                    validation={{ min: sqFeetMin }}
                   />
                 </ViewItem>
               </GridCell>
@@ -383,6 +408,9 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    error={errors?.floorMin !== undefined}
+                    errorMessage={t("errors.minGreaterThanMaxFloorError")}
+                    validation={floorMax && { max: floorMax }}
                   />
                 </ViewItem>
               </GridCell>
@@ -396,34 +424,43 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    error={errors?.floorMax !== undefined}
+                    errorMessage={t("errors.maxLessThanMinFloorError")}
+                    validation={{ min: floorMin }}
                   />
                 </ViewItem>
               </GridCell>
             </GridSection>
             <GridSection columns={3}>
               <GridCell span={1}>
-                <ViewItem label={t("listings.unitsSummary.bathroomsMin")}>
+                <ViewItem label={t("listings.unitsSummary.bathroomMin")}>
                   <Select
                     id="bathroomMin"
                     name="bathroomMin"
-                    label={t("listings.unitsSummary.bathroomsMin")}
+                    label={t("listings.unitsSummary.bathroomMin")}
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    error={errors?.bathroomMin !== undefined}
+                    errorMessage={t("errors.minGreaterThanMaxBathroomError")}
+                    validation={bathroomMax && { max: bathroomMax }}
                   />
                 </ViewItem>
               </GridCell>
               <GridCell span={1}>
-                <ViewItem label={t("listings.unitsSummary.bathroomsMax")}>
+                <ViewItem label={t("listings.unitsSummary.bathroomMax")}>
                   <Select
                     id="bathroomMax"
                     name="bathroomMax"
-                    label={t("listings.unitsSummary.bathroomsMax")}
+                    label={t("listings.unitsSummary.bathroomMax")}
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    error={errors?.bathroomMax !== undefined}
+                    errorMessage={t("errors.maxLessThanMinBathroomError")}
+                    validation={{ min: bathroomMin }}
                   />
                 </ViewItem>
               </GridCell>
@@ -441,7 +478,8 @@ const UnitsSummaryForm = ({
                   readerOnly
                   type="number"
                   error={errors?.totalAvailable !== undefined}
-                  errorMessage={t("errors.requiredFieldError")}
+                  errorMessage={t("errors.totalAvailableGreaterThanTotalCountError")}
+                  validation={totalCount && { max: totalCount }}
                 />
               </ViewItem>
             </GridCell>
