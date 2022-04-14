@@ -4,7 +4,9 @@ export class addWhatToExpectAdditionalText1649893064530 implements MigrationInte
   name = "addWhatToExpectAdditionalText1649893064530"
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const detroitJurisdiction = await queryRunner.query(
+    await queryRunner.query(`ALTER TABLE "listings" ADD "what_to_expect_additional_text" text`)
+
+    const [{ id: detroitJurisdiction }] = await queryRunner.query(
       `SELECT id FROM jurisdictions WHERE name = 'Detroit'`
     )
 
@@ -19,11 +21,11 @@ export class addWhatToExpectAdditionalText1649893064530 implements MigrationInte
     for (const listing of detroitListings) {
       await queryRunner.query(`UPDATE listings SET what_to_expect = ($1) WHERE id = ($2)`, [
         defaultWhatToExpect,
-        listing.id,
+        listing["id"],
       ])
       await queryRunner.query(
         `UPDATE listings SET what_to_expect_additional_text = ($1) WHERE id = ($2)`,
-        [defaultWhatToExpectAdditionalText, listing.id]
+        [defaultWhatToExpectAdditionalText, listing["id"]]
       )
     }
   }
