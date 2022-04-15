@@ -11,111 +11,153 @@ describe("Listing Management Tests", () => {
     cy.visit("/")
     cy.get("a > .button").contains("Add Listing").click()
     cy.contains("New Listing")
+
+    const fieldsToType = [
+      { fieldID: "name" },
+      { fieldID: "developer" },
+      { fieldID: "buildingAddress.street" },
+      { fieldID: "buildingAddress.city" },
+      { fieldID: "buildingAddress.zipCode" },
+      { fieldID: "yearBuilt" },
+      { fieldID: "applicationFee" },
+      { fieldID: "depositMin" },
+      { fieldID: "depositMax" },
+      { fieldID: "costsNotIncluded" },
+      { fieldID: "applicationFee" },
+      { fieldID: "depositMin" },
+      { fieldID: "depositMax" },
+      { fieldID: "costsNotIncluded" },
+      { fieldID: "amenities" },
+      { fieldID: "accessibility" },
+      { fieldID: "unitAmenities" },
+      { fieldID: "smokingPolicy" },
+      { fieldID: "petPolicy" },
+      { fieldID: "servicesOffered" },
+      { fieldID: "creditHistory" },
+      { fieldID: "rentalHistory" },
+      { fieldID: "criminalBackground" },
+      { fieldID: "requiredDocuments" },
+      { fieldID: "programRules" },
+      { fieldID: "specialNotes" },
+    ]
+
+    const fieldsToSelect = [
+      { fieldID: "jurisdiction.id" },
+      { fieldID: "neighborhood" },
+      { fieldID: "buildingAddress.state" },
+    ]
+
+    const fieldsToTypeUnits = [
+      { fieldID: "totalCount", byTestID: true },
+      { fieldID: "sqFeetMin", byTestID: true },
+      { fieldID: "sqFeetMax", byTestID: true },
+      { fieldID: "totalAvailable", byTestID: true },
+    ]
+
+    const fieldsToSelectUnits = [
+      { fieldID: "minOccupancy", byTestID: true },
+      { fieldID: "maxOccupancy", byTestID: true },
+      { fieldID: "floorMin", byTestID: true },
+      { fieldID: "floorMax", byTestID: true },
+      { fieldID: "bathroomMin", byTestID: true },
+      { fieldID: "bathroomMax", byTestID: true },
+      { fieldID: "priorityType.id", byTestID: true },
+    ]
+
+    const fieldsToTypeAMI = [{ fieldID: "flatRentValue", byTestID: true }]
+
+    const fieldsToSelectAMI = [
+      { fieldID: "amiChartId", byTestID: true },
+      { fieldID: "amiPercentage", byTestID: true },
+    ]
+
+    const fieldsToTypePart2 = [
+      { fieldID: "leasingAgentName" },
+      { fieldID: "leasingAgentEmail" },
+      { fieldID: "leasingAgentPhone" },
+      { fieldID: "leasingAgentTitle" },
+      { fieldID: "leasingAgentOfficeHours" },
+      { fieldID: "leasingAgentAddress.street" },
+      { fieldID: "leasingAgentAddress.street2" },
+      { fieldID: "leasingAgentAddress.city" },
+      { fieldID: "leasingAgentAddress.zipCode" },
+      {
+        fieldID: "mailing-address-street",
+        byTestID: true,
+        fixtureID: "leasingAgentAddress.street",
+      },
+      {
+        fieldID: "mailing-address-street2",
+        byTestID: true,
+        fixtureID: "leasingAgentAddress.street2",
+      },
+      { fieldID: "mailing-address-city", byTestID: true, fixtureID: "leasingAgentAddress.city" },
+      { fieldID: "mailing-address-zip", byTestID: true, fixtureID: "leasingAgentAddress.zipCode" },
+      { fieldID: "additionalApplicationSubmissionNotes" },
+    ]
+
+    const fieldsToSelectPart2 = [
+      { fieldID: "leasingAgentAddress.state" },
+      { fieldID: "mailing-address-state", byTestID: true, fixtureID: "leasingAgentAddress.state" },
+    ]
+
+    // start of part 1
+    cy.getByID("addPhotoButton").contains("Add Photo").click()
+    cy.get(`[data-test-id="dropzone-input"]`).attachFile(
+      "cypress-automated-image-upload-071e2ab9-5a52-4f34-85f0-e41f696f4b96.jpeg",
+      {
+        subjectType: "drag-n-drop",
+      }
+    )
+    cy.get(`[data-test-id="listing-photo-uploaded"]`).contains("Save").click()
+    cy.fillFormFields("listing", fieldsToType, fieldsToSelect)
+
+    // start of unit group
+    cy.getByTestId("addUnitsButton").contains("Add unit group").click()
+    cy.getByTestId("unitTypeCheckBox").first().click()
+    cy.getByTestId("openWaitListQuestion").last().click()
+    cy.fillFormFields("listing", fieldsToTypeUnits, fieldsToSelectUnits)
+
+    // start of ami
+    cy.getByTestId("openAmiDrawer").contains("Add AMI level").click()
+    cy.fillFormFields("listing", fieldsToTypeAMI, fieldsToSelectAMI)
+    cy.getByTestId("saveAmi").click()
+    cy.getByTestId("saveUnit").click()
+
     cy.fixture("listing").then((listing) => {
-      cy.getByID("jurisdiction.id").select(listing["jurisdiction.id"])
-      cy.get("#name").type(listing["name"])
-      cy.get("#developer").type(listing["developer"])
-      cy.getByID("addPhotoButton").contains("Add Photo").click()
-      cy.get(`[data-test-id="dropzone-input"]`).attachFile(
-        "cypress-automated-image-upload-071e2ab9-5a52-4f34-85f0-e41f696f4b96.jpeg",
-        {
-          subjectType: "drag-n-drop",
-        }
-      )
-      cy.get(`[data-test-id="listing-photo-uploaded"]`).contains("Save").click()
-      cy.getByID("buildingAddress.street").type(listing["buildingAddress.street"])
-      cy.getByID("neighborhood").select(listing["neighborhood"])
-      cy.getByID("buildingAddress.city").type(listing["buildingAddress.city"])
-      cy.getByID("buildingAddress.state").select(listing["buildingAddress.state"])
-      cy.getByID("buildingAddress.zipCode").type(listing["buildingAddress.zipCode"])
-      cy.getByID("yearBuilt").type(listing["yearBuilt"])
       cy.get(".addressPopup").contains(listing["buildingAddress.street"])
-      cy.getByTestId("addUnitsButton").contains("Add unit group").click()
-      cy.getByTestId("unitTypeCheckBox").first().click()
-      cy.getByTestId("totalCount").type(listing["totalCount"])
-      cy.getByTestId("minOccupancy").select(listing["minOccupancy"])
-      cy.getByTestId("maxOccupancy").select(listing["maxOccupancy"])
-      cy.getByTestId("sqFeetMin").type(listing["sqFeetMin"])
-      cy.getByTestId("sqFeetMax").type(listing["sqFeetMax"])
-      cy.getByTestId("floorMin").select(listing["floorMin"])
-      cy.getByTestId("floorMax").select(listing["floorMax"])
-      cy.getByTestId("bathroomMin").select(listing["bathroomMin"])
-      cy.getByTestId("bathroomMax").select(listing["bathroomMax"])
-      cy.getByTestId("totalAvailable").type(listing["totalAvailable"])
-      cy.getByTestId("openWaitListQuestion").last().click()
-      cy.getByTestId("priorityType.id").select(listing["priorityType.id"])
-      cy.getByTestId("openAmiDrawer").contains("Add AMI level").click()
-      cy.getByTestId("amiChartId").select(listing["amiChartId"])
-      cy.getByTestId("amiPercentage").select(listing["amiPercentage"])
-      cy.getByTestId("flatRentValue").type(listing["flatRentValue"])
-      cy.getByTestId("saveAmi").click()
-      cy.getByTestId("saveUnit").click()
-      cy.getByID("applicationFee").type(listing["applicationFee"])
-      cy.getByID("depositMin").type(listing["depositMin"])
-      cy.getByID("depositMax").type(listing["depositMax"])
-      cy.getByID("costsNotIncluded").type(listing["costsNotIncluded"])
-      cy.getByID("applicationFee").type(listing["applicationFee"])
-      cy.getByID("depositMin").type(listing["depositMin"])
-      cy.getByID("depositMax").type(listing["depositMax"])
-      cy.getByID("costsNotIncluded").type(listing["costsNotIncluded"])
-      cy.getByID("amenities").type(listing["amenities"])
-      cy.getByID("accessibility").type(listing["accessibility"])
-      cy.getByID("unitAmenities").type(listing["unitAmenities"])
-      cy.getByID("smokingPolicy").type(listing["smokingPolicy"])
-      cy.getByID("petPolicy").type(listing["petPolicy"])
-      cy.getByID("servicesOffered").type(listing["servicesOffered"])
-      cy.getByID("creditHistory").type(listing["creditHistory"])
-      cy.getByID("rentalHistory").type(listing["rentalHistory"])
-      cy.getByID("criminalBackground").type(listing["criminalBackground"])
+      // start of building selection
       cy.get("#addBuildingSelectionCriteriaButton")
         .contains("Add Building Selection Criteria")
         .click()
       cy.get("#criteriaAttachTypeURL").check()
       cy.getByID("buildingSelectionCriteriaURL").type(listing["buildingSelectionCriteriaURL"])
       cy.get(".p-4 > .is-primary").contains("Save").click()
-      cy.getByID("requiredDocuments").type(listing["requiredDocuments"])
-      cy.getByID("programRules").type(listing["programRules"])
-      cy.getByID("specialNotes").type(listing["specialNotes"])
-      cy.get(".text-right > .button").contains("Application Process").click()
-      cy.get("#waitlistOpenNo").check()
-      cy.getByID("leasingAgentName").type(listing["leasingAgentName"])
-      cy.getByID("leasingAgentEmail").type(listing["leasingAgentEmail"])
-      cy.getByID("leasingAgentPhone").type(listing["leasingAgentPhone"])
-      cy.getByID("leasingAgentTitle").type(listing["leasingAgentTitle"])
-      cy.getByID("leasingAgentOfficeHours").type(listing["leasingAgentOfficeHours"])
-      cy.get("#digitalApplicationChoiceYes").check()
-      cy.get("#commonDigitalApplicationChoiceYes").check()
-      cy.get("#paperApplicationNo").check()
+    })
 
-      cy.getByID("leasingAgentAddress.street").type(listing["leasingAgentAddress.street"])
-      cy.getByID("leasingAgentAddress.street2").type(listing["leasingAgentAddress.street2"])
-      cy.getByID("leasingAgentAddress.city").type(listing["leasingAgentAddress.city"])
-      cy.getByID("leasingAgentAddress.zipCode").type(listing["leasingAgentAddress.zipCode"])
-      cy.getByID("leasingAgentAddress.state").select(listing["leasingAgentAddress.state"])
+    // start of part 2
+    cy.get(".text-right > .button").contains("Application Process").click()
+    cy.get("#waitlistOpenNo").check()
+    cy.get("#digitalApplicationChoiceYes").check()
+    cy.get("#commonDigitalApplicationChoiceYes").check()
+    cy.get("#paperApplicationNo").check()
+    cy.get("#applicationsMailedInYes").check()
+    cy.get("#mailInAnotherAddress").check()
+    cy.get("#applicationsPickedUpNo").check()
+    cy.get("#applicationsDroppedOffNo").check()
+    cy.get("#postmarksConsideredYes").check()
+    cy.getByTestId("postmark-date-field-month").type("12")
+    cy.getByTestId("postmark-date-field-day").type("17")
+    cy.getByTestId("postmark-date-field-year").type("2022")
+    cy.getByTestId("postmark-time-field-hours").type("5")
+    cy.getByTestId("postmark-time-field-minutes").type("45")
+    cy.getByTestId("postmark-time-field-period").select("PM")
+    cy.fillFormFields("listing", fieldsToTypePart2, fieldsToSelectPart2)
 
-      cy.get("#applicationsMailedInYes").check()
-      cy.get("#mailInAnotherAddress").check()
-      cy.getByTestId("mailing-address-street").type(listing["leasingAgentAddress.street"])
-      cy.getByTestId("mailing-address-street2").type(listing["leasingAgentAddress.street2"])
-      cy.getByTestId("mailing-address-city").type(listing["leasingAgentAddress.city"])
-      cy.getByTestId("mailing-address-zip").type(listing["leasingAgentAddress.zipCode"])
-      cy.getByTestId("mailing-address-state").select(listing["leasingAgentAddress.state"])
-
-      cy.get("#applicationsPickedUpNo").check()
-      cy.get("#applicationsDroppedOffNo").check()
-      cy.get("#postmarksConsideredYes").check()
-      cy.getByTestId("postmark-date-field-month").type("12")
-      cy.getByTestId("postmark-date-field-day").type("17")
-      cy.getByTestId("postmark-date-field-year").type("2022")
-      cy.getByTestId("postmark-time-field-hours").type("5")
-      cy.getByTestId("postmark-time-field-minutes").type("45")
-      cy.getByTestId("postmark-time-field-period").select("PM")
-      cy.getByID("additionalApplicationSubmissionNotes").type(
-        listing["additionalApplicationSubmissionNotes"]
-      )
-      cy.get("#publishButton").contains("Publish").click()
-
-      cy.get("#publishButtonConfirm").contains("Publish").click()
+    // start publishing
+    cy.get("#publishButton").contains("Publish").click()
+    cy.get("#publishButtonConfirm").contains("Publish").click()
+    cy.fixture("listing").then((listing) => {
       cy.get(".page-header__title > .font-semibold").contains(listing["name"])
     })
   })
