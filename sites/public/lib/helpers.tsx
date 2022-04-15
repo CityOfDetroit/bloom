@@ -18,9 +18,9 @@ import {
   FavoriteButton,
   LinkButton,
   ImageTag,
-  AppearanceStyleType,
   Tag,
   Icon,
+  AppearanceStyleType,
   IconFillColors,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
@@ -64,11 +64,17 @@ export const accessibilityFeaturesExist = (features: ListingFeatures) => {
 }
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
-  return listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-    ? t("listings.comingSoon")
-    : listing?.isVerified
-    ? t("listings.verifiedListing")
-    : undefined
+  if (listing?.marketingType === ListingMarketingTypeEnum.comingSoon) {
+    let label = t("listings.comingSoon")
+    if (listing?.marketingSeason) {
+      label = label.concat(` ${t(`seasons.${listing.marketingSeason}`)}`)
+    }
+    if (listing?.marketingDate) {
+      label = label.concat(` ${dayjs(listing.marketingDate).year()}`)
+    }
+    return label
+  }
+  return listing?.isVerified ? t("listings.verifiedListing") : undefined
 }
 
 export const getListingTags = (
@@ -129,11 +135,17 @@ export const getListings = (listings) => {
               {
                 text: getImageTagLabelFromListing(listing),
                 iconType:
-                  listing?.isVerified &&
                   listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-                    ? "badgeCheck"
-                    : null,
-                iconColor: "#193154",
+                    ? "calendarBlock"
+                    : "badgeCheck",
+                iconColor:
+                  listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+                    ? IconFillColors.white
+                    : "#193154",
+                styleType:
+                  listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+                    ? AppearanceStyleType.closed
+                    : AppearanceStyleType.accentLight,
               },
             ]
           : [],
