@@ -7,6 +7,7 @@ import {
   ListingFilterState,
   AuthContext,
   LinkButton,
+  RequireLogin,
 } from "@bloom-housing/ui-components"
 import Layout from "../../layouts/application"
 import React, { useEffect, useState, useContext, useMemo } from "react"
@@ -54,6 +55,8 @@ const FavoritedListingsPage = () => {
     OrderByFieldsEnum.mostRecentlyUpdated
   )
 
+  console.log("57:", { listingsError })
+
   const content = useMemo(() => {
     if (!profile || listingsLoading) {
       return null
@@ -83,10 +86,12 @@ const FavoritedListingsPage = () => {
   }, [profile, listingsLoading, filterState, listingsData, listingsError])
 
   return (
-    <Layout>
-      <PageHeader className="listings-title" title={t("account.myFavorites")} inverse={true} />
-      <LoadingOverlay isLoading={listingsLoading || !profile}>{content}</LoadingOverlay>
-    </Layout>
+    <RequireLogin signInPath="/sign-in" signInMessage={t("t.loginIsRequired")}>
+      <Layout>
+        <PageHeader className="listings-title" title={t("account.myFavorites")} inverse={true} />
+        <LoadingOverlay isLoading={listingsLoading || !profile}>{content}</LoadingOverlay>
+      </Layout>
+    </RequireLogin>
   )
 }
 
