@@ -36,6 +36,7 @@ class ApplicationsLink extends formatLinkCell {
   init(params) {
     super.init(params)
     this.link.setAttribute("href", `/listings/${params.data.id}/applications`)
+    this.link.setAttribute("data-test-id", "listing-status-cell")
   }
 }
 
@@ -86,8 +87,7 @@ export default function ListingsList() {
       {
         headerName: t("listings.listingName"),
         field: "name",
-        sortable: true,
-        sort: "asc",
+        sortable: false,
         filter: false,
         resizable: true,
         cellRenderer: "ListingsLink",
@@ -120,7 +120,6 @@ export default function ListingsList() {
               return ""
           }
         },
-        cellRenderer: "ApplicationsLink",
       },
       {
         headerName: t("listings.verified"),
@@ -137,7 +136,9 @@ export default function ListingsList() {
   const { listingDtos, listingsLoading } = useListingsData({
     page: currentPage,
     limit: itemsPerPage,
-    userId: !isAdmin ? profile?.id : undefined,
+    listingIds: !isAdmin
+      ? profile?.leasingAgentInListings?.map((listing) => listing.id)
+      : undefined,
   })
 
   return (

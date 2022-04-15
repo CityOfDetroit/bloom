@@ -20,6 +20,7 @@ import { ListingPreferenceDto } from "../../preferences/dto/listing-preference.d
 import { ListingProgramDto } from "../../program/dto/listing-program.dto"
 import { Column } from "typeorm"
 import { Region } from "../../property/types/region-enum"
+import { ListingImageDto } from "./listing-image.dto"
 
 export class ListingDto extends OmitType(Listing, [
   "applicationPickUpAddress",
@@ -29,7 +30,7 @@ export class ListingDto extends OmitType(Listing, [
   "applicationMethods",
   "buildingSelectionCriteriaFile",
   "events",
-  "image",
+  "images",
   "jurisdiction",
   "leasingAgents",
   "leasingAgentAddress",
@@ -79,9 +80,9 @@ export class ListingDto extends OmitType(Listing, [
 
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
-  @Type(() => AssetDto)
-  image?: AssetDto | null
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @Type(() => ListingImageDto)
+  images?: ListingImageDto[] | null
 
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
