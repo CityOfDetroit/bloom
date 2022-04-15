@@ -61,3 +61,48 @@ Cypress.Commands.add("verifyAlertBox", () => {
     "Please resolve any errors before saving or publishing your listing."
   )
 })
+
+const fillFormFieldHelper = (byTestID, fieldKey, fixtureKey, fixture, shouldSelect) => {
+  let elem
+  if (byTestID) {
+    elem = cy.getByTestId(fieldKey)
+  } else {
+    elem = cy.getByID(fieldKey)
+  }
+
+  if (shouldSelect) {
+    elem.select(fixture[fixtureKey])
+  } else {
+    elem.type(fixture[fixtureKey])
+  }
+}
+
+Cypress.Commands.add("fillFormFields", (fixture, fieldsToType, fieldsToSelect) => {
+  cy.fixture(fixture).then((obj) => {
+    fieldsToType.forEach(({ byTestID = false, fieldID, fixtureID = fieldID }) => {
+      fillFormFieldHelper(byTestID, fieldID, fixtureID, obj, false)
+    })
+
+    fieldsToSelect.forEach(({ byTestID = false, fieldID, fixtureID = fieldID }) => {
+      fillFormFieldHelper(byTestID, fieldID, fixtureID, obj, true)
+    })
+  })
+})
+
+const verifyHelper = (byTestID, fieldKey, fixtureKey, fixture) => {
+  let elem
+  if (byTestID) {
+    elem = cy.getByTestId(fieldKey)
+  } else {
+    elem = cy.getByID(fieldKey)
+  }
+  elem.contains(fixture[fixtureKey])
+}
+
+Cypress.Commands.add("verifyFormFields", (fixture, fieldsToVerify) => {
+  cy.fixture(fixture).then((obj) => {
+    fieldsToVerify.forEach(({ byTestID = false, fieldID, fixtureID = fieldID }) => {
+      verifyHelper(byTestID, fieldID, fixtureID, obj)
+    })
+  })
+})

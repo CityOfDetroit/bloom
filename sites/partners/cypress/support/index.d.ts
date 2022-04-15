@@ -3,6 +3,12 @@ type attachFileSubjectArgs = {
   subjectType: string
 }
 
+interface fillFromFieldOption {
+  byTestID?: boolean
+  fieldID: string
+  fixtureID?: string
+}
+
 declare namespace Cypress {
   interface Chainable {
     /**
@@ -15,6 +21,11 @@ declare namespace Cypress {
     attachFile(command: string, optionalProcessingConfig: attachFileSubjectArgs): Chainable
     verifyAlertBox(): Chainable
     signOut(): Chainable
+    fillFormFields(
+      fixture: string,
+      fieldsToType: fillFromFieldOption[],
+      fieldsToSelect: fillFromFieldOption[]
+    ): Chainable
   }
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
