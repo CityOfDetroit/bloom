@@ -83,15 +83,17 @@ const UnitsSummaryForm = ({
 
   const unitType = formWatch("unitType")
   const minOccupancy = formWatch("minOccupancy")
-  const maxOccupancy = formWatch("maxOccupancy")
+  const maxOccupancy = formWatch("maxOccupancy") || minOccupancy
   const sqFeetMin = formWatch("sqFeetMin")
-  const sqFeetMax = formWatch("sqFeetMax")
+  const sqFeetMax = formWatch("sqFeetMax") || sqFeetMin
   const floorMin = formWatch("floorMin")
-  const floorMax = formWatch("floorMax")
+  const floorMax = formWatch("floorMax") || floorMin
   const bathroomMin = formWatch("bathroomMin")
-  const bathroomMax = formWatch("bathroomMax")
-  const totalCount = formWatch("totalCount")
+  const bathroomMax = formWatch("bathroomMax") || bathroomMin
   const totalAvailable = formWatch("totalAvailable")
+  const totalCount = formWatch("totalCount") || totalAvailable
+
+  
 
   /**
    * fetch form options
@@ -283,6 +285,8 @@ const UnitsSummaryForm = ({
     action: "",
   }
 
+  const occupancyNumberOptions = 8
+  const floorNumberOptions = 10
   const bathroomOptions = [
     { label: "", value: "" },
     { label: ".5", value: "0.5" },
@@ -293,6 +297,7 @@ const UnitsSummaryForm = ({
     { label: "4", value: "4" },
     { label: "5", value: "5" },
   ]
+  
 
   useEffect(() => {
     if (unitType?.length && errors?.unitType) {
@@ -353,7 +358,7 @@ const UnitsSummaryForm = ({
                     options={numberOptions(8, 1, true)}
                     error={errors?.minOccupancy !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxOccupancyError")}
-                    validation={maxOccupancy && { max: maxOccupancy }}
+                    validation={{ max: maxOccupancy }}
                   />
                 </ViewItem>
               </GridCell>
@@ -387,7 +392,7 @@ const UnitsSummaryForm = ({
                     type="number"
                     error={errors?.sqFeetMin !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxSqFeetError")}
-                    validation={sqFeetMax && { max: sqFeetMax }}
+                    validation={{ max: sqFeetMax }}
                   />
                 </ViewItem>
               </GridCell>
@@ -421,7 +426,7 @@ const UnitsSummaryForm = ({
                     options={numberOptions(10, 1, true)}
                     error={errors?.floorMin !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxFloorError")}
-                    validation={floorMax && { max: floorMax }}
+                    validation={{ max: floorMax }}
                   />
                 </ViewItem>
               </GridCell>
@@ -455,7 +460,7 @@ const UnitsSummaryForm = ({
                     options={bathroomOptions}
                     error={errors?.bathroomMin !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxBathroomError")}
-                    validation={bathroomMax && { max: bathroomMax }}
+                    validation={{ max: bathroomMax }}
                   />
                 </ViewItem>
               </GridCell>
@@ -491,7 +496,7 @@ const UnitsSummaryForm = ({
                   type="number"
                   error={errors?.totalAvailable !== undefined}
                   errorMessage={t("errors.totalAvailableGreaterThanTotalCountError")}
-                  validation={totalCount && { max: totalCount }}
+                  validation={{ max: totalCount }}
                 />
               </ViewItem>
             </GridCell>
