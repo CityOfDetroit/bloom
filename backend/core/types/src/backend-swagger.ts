@@ -4578,6 +4578,9 @@ export interface ListingFilterParams {
   $include_nulls?: boolean
 
   /**  */
+  id?: string
+
+  /**  */
   name?: string
 
   /**  */
@@ -4650,9 +4653,6 @@ export interface ListingFilterParams {
   neighborhood?: string
 
   /**  */
-  region?: string
-
-  /**  */
   jurisdiction?: string
 
   /**  */
@@ -4660,6 +4660,12 @@ export interface ListingFilterParams {
 
   /**  */
   favorited?: string
+
+  /**  */
+  communityPrograms?: string
+
+  /**  */
+  accessibility?: string
 }
 
 export interface FormMetadataExtraData {
@@ -4904,71 +4910,6 @@ export interface ListingImage {
 
   /**  */
   ordinal?: number
-}
-
-export interface FormMetadataExtraData {
-  /**  */
-  type: InputType
-
-  /**  */
-  key: string
-}
-
-export interface FormMetadataOptions {
-  /**  */
-  key: string
-
-  /**  */
-  extraData?: FormMetadataExtraData[]
-
-  /**  */
-  description: boolean
-
-  /**  */
-  exclusive: boolean
-}
-
-export interface FormMetadata {
-  /**  */
-  key: string
-
-  /**  */
-  options: FormMetadataOptions[]
-
-  /**  */
-  hideGenericDecline: boolean
-
-  /**  */
-  customSelectText: string
-
-  /**  */
-  hideFromListing: boolean
-
-  /**  */
-  type: FormMetaDataType
-}
-
-export interface Program {
-  /**  */
-  id: string
-
-  /**  */
-  createdAt: Date
-
-  /**  */
-  updatedAt: Date
-
-  /**  */
-  title?: string
-
-  /**  */
-  subtitle?: string
-
-  /**  */
-  description?: string
-
-  /**  */
-  formMetadata?: FormMetadata
 }
 
 export interface ListingProgram {

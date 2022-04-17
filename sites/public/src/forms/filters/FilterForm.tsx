@@ -114,7 +114,7 @@ const FilterForm = (props: FilterFormProps) => {
 
   return (
     <Form onSubmit={handleSubmit(props.onSubmit)}>
-      <GridSection columns={1} title={t("publicFilter.confirmedListings")}>
+      <GridSection columns={1}>
         <GridCell span={1}>
           <Field
             id="status"
@@ -122,6 +122,11 @@ const FilterForm = (props: FilterFormProps) => {
             type="hidden"
             register={register}
             defaultValue={EnumListingFilterParamsStatus.active}
+          />
+          <ViewItem
+            className={"font-bold"}
+            label={t("publicFilter.confirmedListings")}
+            labelStyling={"text-gray-750"}
           />
           <Field
             id="isVerified"
