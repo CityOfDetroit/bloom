@@ -4,7 +4,13 @@ import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
 import dayjs from "dayjs"
-import { Address, Listing, ListingMarketingTypeEnum } from "@bloom-housing/backend-core/types"
+import {
+  Address,
+  Listing,
+  ListingFeatures,
+  ListingMarketingTypeEnum,
+  ListingProgram,
+} from "@bloom-housing/backend-core/types"
 import {
   t,
   ListingCard,
@@ -13,6 +19,9 @@ import {
   LinkButton,
   ImageTag,
   AppearanceStyleType,
+  Tag,
+  Icon,
+  IconFillColors,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -43,11 +52,11 @@ const getListingCardSubtitle = (address: Address) => {
   return address ? `${street}, ${city} ${state}, ${zipCode}` : null
 }
 
-export const accessibilityFeaturesExist = (listing: Listing) => {
-  if (!listing.features) return false
+export const accessibilityFeaturesExist = (features: ListingFeatures) => {
+  if (!features) return false
   let featuresExist = false
   Object.keys(listingFeatures).map((feature) => {
-    if (listing.features[feature]) {
+    if (features[feature]) {
       featuresExist = true
     }
   })
@@ -62,12 +71,15 @@ export const getImageTagLabelFromListing = (listing: Listing) => {
     : undefined
 }
 
-export const getListingTags = (listing: Listing) => {
+export const getListingTags = (
+  listingPrograms: ListingProgram[],
+  listingFeatures: ListingFeatures
+) => {
   const tags: ImageTag[] =
-    listing?.listingPrograms?.map((program) => {
+    listingPrograms?.map((program) => {
       return { text: program.program.title }
     }) ?? []
-  if (accessibilityFeaturesExist(listing)) {
+  if (accessibilityFeaturesExist(listingFeatures)) {
     tags.push({
       text: t("listings.reservedCommunityTypes.specialNeeds"),
       iconType: "universalAccess",
@@ -75,6 +87,26 @@ export const getListingTags = (listing: Listing) => {
     })
   }
   return tags
+}
+
+export const getListingTag = (tag: ImageTag) => {
+  return (
+    <Tag
+      styleType={AppearanceStyleType.accentLight}
+      className={"mr-2 mb-2 font-bold px-3 py-2"}
+      key={tag.text}
+    >
+      {tag.iconType && (
+        <Icon
+          size={"medium"}
+          symbol={tag.iconType}
+          fill={tag.iconColor ?? IconFillColors.primary}
+          className={"mr-2"}
+        />
+      )}
+      {tag.text}
+    </Tag>
+  )
 }
 
 export const getListings = (listings) => {
@@ -115,7 +147,7 @@ export const getListings = (listings) => {
         contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
         tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
       }}
-      cardTags={getListingTags(listing)}
+      cardTags={getListingTags(listing.listingPrograms, listing.features)}
       footerContent={
         <div className={"flex justify-between items-center"}>
           <FavoriteButton name={listing.name} id={listing.id} />
