@@ -16,6 +16,8 @@ import { OrderByFieldsEnum } from "../types/listing-orderby-enum"
 import { ContextIdFactory } from "@nestjs/core"
 import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
 import { ListingMarketingTypeEnum } from "../types/listing-marketing-type-enum"
+import { UnitType } from "../../unit-types/entities/unit-type.entity"
+import { Program } from "../../program/entities/program.entity"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -174,6 +176,14 @@ describe("ListingsService", () => {
               return []
             }),
           },
+        },
+        {
+          provide: getRepositoryToken(UnitType),
+          useValue: jest.fn(),
+        },
+        {
+          provide: getRepositoryToken(Program),
+          useValue: jest.fn(),
         },
         {
           provide: TranslationsService,

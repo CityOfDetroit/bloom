@@ -1544,5 +1544,6 @@
   "publicFilter.rentRangeMax": "No Max Rent",
   "publicFilter.communityPrograms": "Community Programs",
   "publicFilter.waitlist.open": "Open Waitlist",
-  "publicFilter.waitlist.closed": "Closed Waitlist"
+  "publicFilter.waitlist.closed": "Closed Waitlist",
+  "account.noFavorites": "It looks like you haven't favorited any listings yet."
 }
