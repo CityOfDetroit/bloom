@@ -89,7 +89,9 @@ const FavoritedListingsPage = () => {
     <RequireLogin signInPath="/sign-in" signInMessage={t("t.loginIsRequired")}>
       <Layout>
         <PageHeader className="listings-title" title={t("account.myFavorites")} inverse={true} />
-        <LoadingOverlay isLoading={listingsLoading || !profile}>{content}</LoadingOverlay>
+        <LoadingOverlay classNames="pt-8 pb-14" isLoading={listingsLoading || !profile}>
+          {content}
+        </LoadingOverlay>
       </Layout>
     </RequireLogin>
   )
