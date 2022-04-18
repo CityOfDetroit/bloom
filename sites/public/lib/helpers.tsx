@@ -17,11 +17,11 @@ import {
   TableHeaders,
   FavoriteButton,
   LinkButton,
-  ImageTag,
   Tag,
   Icon,
   AppearanceStyleType,
   IconFillColors,
+  ImageTag,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -117,6 +117,29 @@ export const getListingTag = (tag: ImageTag) => {
   )
 }
 
+export const getImageCardTag = (listing): ImageTag[] => {
+  const tag = getImageTagLabelFromListing(listing)
+  return tag
+    ? [
+        {
+          text: getImageTagLabelFromListing(listing),
+          iconType:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? "calendarBlock"
+              : "badgeCheck",
+          iconColor:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? IconFillColors.white
+              : "#193154",
+          styleType:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? AppearanceStyleType.closed
+              : AppearanceStyleType.accentLight,
+        },
+      ]
+    : null
+}
+
 export const getListings = (listings) => {
   const unitSummariesHeaders = {
     unitType: "t.unitType",
@@ -130,25 +153,7 @@ export const getListings = (listings) => {
       imageCardProps={{
         imageUrl: imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")),
         href: `/listing/${listing.id}/${listing.urlSlug}`,
-        tags: getImageTagLabelFromListing(listing)
-          ? [
-              {
-                text: getImageTagLabelFromListing(listing),
-                iconType:
-                  listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-                    ? "calendarBlock"
-                    : "badgeCheck",
-                iconColor:
-                  listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-                    ? IconFillColors.white
-                    : "#193154",
-                styleType:
-                  listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-                    ? AppearanceStyleType.closed
-                    : AppearanceStyleType.accentLight,
-              },
-            ]
-          : [],
+        tags: getImageCardTag(listing),
       }}
       tableProps={{
         headers: unitSummariesHeaders,
