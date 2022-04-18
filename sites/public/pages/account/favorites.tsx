@@ -2,12 +2,12 @@ import {
   PageHeader,
   AgPagination,
   t,
-  encodeToFrontendFilterString,
   LoadingOverlay,
   ListingFilterState,
   AuthContext,
   LinkButton,
   RequireLogin,
+  AG_PER_PAGE_OPTIONS,
 } from "@bloom-housing/ui-components"
 import Layout from "../../layouts/application"
 import React, { useEffect, useState, useContext, useMemo } from "react"
@@ -21,6 +21,7 @@ const FavoritedListingsPage = () => {
   const { profile } = useContext(AuthContext)
 
   // Pagination state
+  const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
   const [currentPage, setCurrentPage] = useState<number>(1)
 
   const filterState = useMemo(() => {
@@ -29,17 +30,6 @@ const FavoritedListingsPage = () => {
     }
     return filterState
   }, [profile])
-  const itemsPerPage = 8
-
-  const setQueryString = (page: number, filters = filterState) => {
-    void router.push(
-      `/account/favorites?page=${page}${encodeToFrontendFilterString(filters)}`,
-      undefined,
-      {
-        shallow: true,
-      }
-    )
-  }
 
   // Checks for changes in url params.
   useEffect(() => {
@@ -48,7 +38,7 @@ const FavoritedListingsPage = () => {
     }
   }, [router.query])
 
-  const { listingsData, listingsLoading, listingsError } = useListingsData(
+  const { listingsData, listingsLoading } = useListingsData(
     currentPage,
     itemsPerPage,
     filterState,
@@ -66,6 +56,7 @@ const FavoritedListingsPage = () => {
         </div>
       )
     }
+
     return (
       <div>
         {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
@@ -75,13 +66,24 @@ const FavoritedListingsPage = () => {
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           quantityLabel={t("listings.totalListings")}
-          setCurrentPage={setQueryString}
+          setCurrentPage={setCurrentPage}
+          setItemsPerPage={setItemsPerPage}
+          onPerPageChange={() => setCurrentPage(1)}
           includeBorder={false}
           matchListingCardWidth={true}
         />
       </div>
     )
-  }, [profile, listingsLoading, filterState, listingsData, listingsError])
+  }, [
+    profile,
+    listingsLoading,
+    filterState.favorited,
+    listingsData?.meta.totalItems,
+    listingsData?.meta.totalPages,
+    listingsData?.items,
+    currentPage,
+    itemsPerPage,
+  ])
 
   return (
     <RequireLogin signInPath="/sign-in" signInMessage={t("t.loginIsRequired")}>
