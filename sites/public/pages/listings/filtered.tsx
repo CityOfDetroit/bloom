@@ -114,6 +114,7 @@ const FilteredListingsPage = () => {
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
+        contentAreaClassName={"px-0 pt-0"}
       >
         <FilterForm onSubmit={onSubmit} filterState={filterState} onClose={setFilterModalVisible} />
       </Drawer>

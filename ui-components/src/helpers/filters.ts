@@ -149,6 +149,9 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.visual]?: string | boolean
   // favorites
   [FrontendListingFilterStateKeys.favorited]?: string | boolean
+
+  // misc
+  [FrontendListingFilterStateKeys.zipcode]?: string
 }
 
 // Since it'd be tricky to OR a separate ">=" comparison with an "IN"

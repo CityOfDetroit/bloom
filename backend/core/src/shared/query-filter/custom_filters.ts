@@ -1,5 +1,4 @@
 import { getMetadataArgsStorage, WhereExpression } from "typeorm"
-import { AvailabilityFilterEnum } from "../../listings/types/listing-filter-keys-enum"
 import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
 import { UnitType } from "../../unit-types/entities/unit-type.entity"
 
@@ -13,14 +12,18 @@ export function addAvailabilityQuery(qb: WhereExpression, filterValue: string) {
         })
         return
       case "openWaitlist":
-        qb.andWhere("(coalesce(is_waitlist_open, false) = :openWaitlist)", {
-          openWaitlist: true,
-        })
+        if (!val.includes("closedWaitlist")) {
+          qb.andWhere("(coalesce(is_waitlist_open, false) = :openWaitlist)", {
+            openWaitlist: true,
+          })
+        }
         return
       case "closedWaitlist":
-        qb.andWhere("(coalesce(is_waitlist_open, false) = :closedWaitlist)", {
-          closedWaitlist: false,
-        })
+        if (!val.includes("openWaitlist")) {
+          qb.andWhere("(coalesce(is_waitlist_open, false) = :closedWaitlist)", {
+            closedWaitlist: false,
+          })
+        }
         return
       default:
         return

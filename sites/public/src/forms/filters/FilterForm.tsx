@@ -55,11 +55,12 @@ const FilterForm = (props: FilterFormProps) => {
   const [accessibilityFeatureOptions, setAccessibilityFeatureOptions] = useState<optionInterface[]>(
     []
   )
+  const [localFilterState, setLocalFilterState] = useState<ListingFilterState>({})
 
   const availabilityOptions = [
     { value: "vacantUnits", label: t("listings.vacantUnits") },
-    { value: "openWaitlist", label: t("listings.waitlist.open") },
-    { value: "closedWaitlist", label: t("listings.waitlist.closed") },
+    { value: "openWaitlist", label: t("publicFilter.waitlist.open") },
+    { value: "closedWaitlist", label: t("publicFilter.waitlist.closed") },
   ]
 
   useEffect(() => {
@@ -95,7 +96,7 @@ const FilterForm = (props: FilterFormProps) => {
     setRegionOptions(
       Object.entries(Region).map((elem) => ({
         value: elem[0],
-        label: elem[1],
+        label: elem[0] === "midtownNewCenter" ? "Midtown" : elem[1],
       }))
     )
 
@@ -105,6 +106,10 @@ const FilterForm = (props: FilterFormProps) => {
         label: listingFeatures[elem],
       }))
     )
+
+    setLocalFilterState({
+      ...props.filterState,
+    })
   }, [])
 
   // This is causing a linting issue with unbound-method, see issue:
@@ -114,7 +119,7 @@ const FilterForm = (props: FilterFormProps) => {
 
   return (
     <Form onSubmit={handleSubmit(props.onSubmit)}>
-      <GridSection columns={1}>
+      <GridSection columns={1} className={"px-4"}>
         <GridCell span={1}>
           <Field
             id="status"
@@ -135,13 +140,19 @@ const FilterForm = (props: FilterFormProps) => {
             label={t("publicFilter.confirmedListingsFieldLabel")}
             register={register}
             inputProps={{
-              defaultChecked: Boolean(props.filterState?.isVerified),
+              defaultChecked: Boolean(localFilterState?.isVerified),
             }}
+            labelClassName={"text-gray-750 font-semibold"}
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} title={t("t.availability")} separator={true}>
+      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
         <GridCell span={3}>
+          <ViewItem
+            className={"font-bold"}
+            label={t("t.availability")}
+            labelStyling={"text-gray-750"}
+          />
           <FieldGroup
             name="availability"
             type="checkbox"
@@ -151,16 +162,22 @@ const FilterForm = (props: FilterFormProps) => {
               label: elem.label,
               value: elem.value,
               inputProps: {
-                defaultChecked: Boolean(props.filterState?.availability?.includes(elem.value)),
+                defaultChecked: Boolean(localFilterState?.availability?.includes(elem.value)),
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flex items-center"
+            fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
+            fieldLabelClassName={"text-gray-750"}
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} title={t("publicFilter.bedRoomSize")} separator={true}>
+      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
         <GridCell span={3}>
+          <ViewItem
+            className={"font-bold"}
+            label={t("publicFilter.bedRoomSize")}
+            labelStyling={"text-gray-750"}
+          />
           <FieldGroup
             name="bedRoomSize"
             type="checkbox"
@@ -171,18 +188,26 @@ const FilterForm = (props: FilterFormProps) => {
               value: FrontendListingFilterStateKeys[elem.label],
               inputProps: {
                 defaultChecked: Boolean(
-                  props.filterState?.bedRoomSize?.includes(
+                  localFilterState?.bedRoomSize?.includes(
                     FrontendListingFilterStateKeys[elem.label]
                   )
                 ),
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flex items-center grid grid-cols-3"
+            fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
+            fieldLabelClassName={"text-gray-750"}
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} title={t("publicFilter.rentRange")} separator={true}>
+      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
+        <GridCell span={3}>
+          <ViewItem
+            className={"font-bold"}
+            label={t("publicFilter.rentRange")}
+            labelStyling={"text-gray-750"}
+          />
+        </GridCell>
         <GridCell span={1}>
           <Field
             id={"minRent"}
@@ -190,7 +215,7 @@ const FilterForm = (props: FilterFormProps) => {
             placeholder={t("publicFilter.rentRangeMin")}
             register={register}
             prepend={"$"}
-            defaultValue={props.filterState?.minRent}
+            defaultValue={localFilterState?.minRent}
           />
         </GridCell>
         <GridCell span={1}>
@@ -200,12 +225,17 @@ const FilterForm = (props: FilterFormProps) => {
             placeholder={t("publicFilter.rentRangeMax")}
             register={register}
             prepend={"$"}
-            defaultValue={props.filterState?.maxRent}
+            defaultValue={localFilterState?.maxRent}
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} title={t("publicFilter.communityPrograms")} separator={true}>
+      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-4"}>
         <GridCell span={3}>
+          <ViewItem
+            className={"font-bold"}
+            label={t("publicFilter.communityPrograms")}
+            labelStyling={"text-gray-750"}
+          />
           <FieldGroup
             name="communityPrograms"
             type="checkbox"
@@ -215,16 +245,18 @@ const FilterForm = (props: FilterFormProps) => {
               label: elem.label,
               value: elem.value,
               inputProps: {
-                defaultChecked: Boolean(props.filterState?.communityPrograms?.includes(elem.value)),
+                defaultChecked: Boolean(localFilterState?.communityPrograms?.includes(elem.value)),
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flex items-center grid grid-cols-3"
+            fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
+            fieldLabelClassName={"text-gray-750"}
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} title={t("t.region")} separator={true}>
+      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
         <GridCell span={3}>
+          <ViewItem className={"font-bold"} label={t("t.region")} labelStyling={"text-gray-750"} />
           <FieldGroup
             name="region"
             type="checkbox"
@@ -234,16 +266,22 @@ const FilterForm = (props: FilterFormProps) => {
               label: elem.label,
               value: elem.value,
               inputProps: {
-                defaultChecked: Boolean(props.filterState?.region?.includes(elem.value)),
+                defaultChecked: Boolean(localFilterState?.region?.includes(elem.value)),
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flex items-center grid grid-cols-3"
+            fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
+            fieldLabelClassName={"text-gray-750"}
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} title={t("eligibility.accessibility.title")} separator={true}>
+      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
         <GridCell span={3}>
+          <ViewItem
+            className={"font-bold"}
+            label={t("eligibility.accessibility.title")}
+            labelStyling={"text-gray-750"}
+          />
           <FieldGroup
             name="accessibility"
             type="checkbox"
@@ -253,32 +291,37 @@ const FilterForm = (props: FilterFormProps) => {
               label: elem.label,
               value: elem.value,
               inputProps: {
-                defaultChecked: Boolean(props.filterState?.accessibility?.includes(elem.value)),
+                defaultChecked: Boolean(localFilterState?.accessibility?.includes(elem.value)),
               },
             }))}
             fieldClassName="m-0"
-            fieldGroupClassName="flexitems-center grid grid-cols-3"
+            fieldGroupClassName="flexitems-center grid md:grid-cols-3 sm:grid-cols-1"
+            fieldLabelClassName={"text-gray-750"}
           />
         </GridCell>
       </GridSection>
-      <div className="text-left mt-8 mb-5 bg-white border-t border-gray-450 pt-8">
-        <Button
-          type="submit"
-          styleType={AppearanceStyleType.primary}
-          className={"border-primary-darker bg-primary-darker mr-3"}
-        >
-          {t("t.done")}
-        </Button>
-        <Button
-          type="button"
-          styleType={AppearanceStyleType.secondary}
-          border={AppearanceBorderType.borderless}
-          onClick={() => {
-            reset()
-          }}
-        >
-          {t("listingFilters.clear")}
-        </Button>
+      <div className="text-left mt-8 bg-white border-t border-gray-450 pt-4">
+        <div className={"pb-4 mb-2 px-4"}>
+          <Button
+            type="submit"
+            styleType={AppearanceStyleType.primary}
+            className={"border-primary bg-primary-darker mr-3 hover:text-white"}
+          >
+            {t("t.done")}
+          </Button>
+          <Button
+            type="button"
+            styleType={AppearanceStyleType.secondary}
+            border={AppearanceBorderType.borderless}
+            className={"border-primary text-primary hover:text-white"}
+            onClick={() => {
+              setLocalFilterState({})
+              reset()
+            }}
+          >
+            {t("listingFilters.clear")}
+          </Button>
+        </div>
       </div>
     </Form>
   )
