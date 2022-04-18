@@ -55,8 +55,6 @@ const FavoritedListingsPage = () => {
     OrderByFieldsEnum.mostRecentlyUpdated
   )
 
-  console.log("57:", { listingsError })
-
   const content = useMemo(() => {
     if (!profile || listingsLoading) {
       return null
