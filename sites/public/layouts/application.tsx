@@ -35,7 +35,7 @@ const Layout = (props) => {
     },
     {
       title: t("pageTitle.resources"),
-      href: "/resources",
+      href: "/additional-resources",
     },
   ]
   if (profile) {

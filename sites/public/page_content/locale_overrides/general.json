@@ -31,5 +31,11 @@
   "listings": {
     "communityPrograms": "Community Programs",
     "communityProgramsDescription": "This program includes opportunities for members of specific communities"
+  },
+  "pageTitle": {
+    "additionalResources": "Additional Housing Resources"
+  },
+  "pageDescription": {
+    "additionalResources": "We encourage you to browse additional resoruces in your search for housing."
   }
 }
