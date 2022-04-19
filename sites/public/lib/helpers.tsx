@@ -76,9 +76,11 @@ export const getListingTags = (
   listingFeatures: ListingFeatures
 ) => {
   const tags: ImageTag[] =
-    listingPrograms?.map((program) => {
-      return { text: program.program.title }
-    }) ?? []
+    listingPrograms
+      ?.sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
+      .map((program) => {
+        return { text: program.program.title }
+      }) ?? []
   if (accessibilityFeaturesExist(listingFeatures)) {
     tags.push({
       text: t("listings.reservedCommunityTypes.specialNeeds"),
