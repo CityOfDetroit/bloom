@@ -1,5 +1,6 @@
 import React from "react"
 import "./DashBlocks.scss"
+import Link from "next/link"
 
 interface DashBlockProps {
   href?: string
@@ -24,9 +25,11 @@ const DashBlock = (props: DashBlockProps) => {
   )
   if (href) {
     wrapper = (
-      <a href={href} className="dash-item">
-        {header}
-      </a>
+      <Link href={href}>
+        <a className="dash-item">
+          {header}
+        </a>
+      </Link>
     )
   } else {
     wrapper = (
