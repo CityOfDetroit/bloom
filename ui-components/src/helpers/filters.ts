@@ -60,6 +60,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.region:
     case ListingFilterKeys.accessibility:
     case ListingFilterKeys.availability:
+    case ListingFilterKeys.zipcode:
       return EnumListingFilterParamsComparison["IN"]
     default: {
       const _exhaustiveCheck: any = filterKey

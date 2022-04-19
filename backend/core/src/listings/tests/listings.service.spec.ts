@@ -18,6 +18,9 @@ import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
 import { ListingMarketingTypeEnum } from "../types/listing-marketing-type-enum"
 import { UnitType } from "../../unit-types/entities/unit-type.entity"
 import { Program } from "../../program/entities/program.entity"
+import { ListingsNotificationsConsumer } from "../listings-notifications"
+import { BullModule } from "@nestjs/bull"
+import { truncate } from "fs"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -190,6 +193,7 @@ describe("ListingsService", () => {
           useValue: { translateListing: jest.fn() },
         },
       ],
+      imports: [BullModule.registerQueue({ name: "listings-notifications" })],
     }).compile()
 
     const contextId = ContextIdFactory.create()
@@ -350,16 +354,15 @@ describe("ListingsService", () => {
       )
     })
 
-    it("should include listings with missing data if $include_nulls is true for custom filters", async () => {
+    it("should filter by availability", async () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
       const queryParams: ListingsQueryParams = {
         filter: [
           {
-            $comparison: Compare["NA"],
-            availability: AvailabilityFilterEnum.waitlist,
-            $include_nulls: true,
+            $comparison: Compare["="],
+            availability: "openWaitlist",
           },
         ],
       }
@@ -368,9 +371,9 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "(listings.is_waitlist_open = :availability OR listings.is_waitlist_open is NULL)",
+        "(coalesce(is_waitlist_open, false) = :openWaitlist)",
         {
-          availability: true,
+          openWaitlist: true,
         }
       )
     })
