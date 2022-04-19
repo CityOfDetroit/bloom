@@ -26,10 +26,8 @@ const DashBlock = (props: DashBlockProps) => {
   )
   if (href) {
     wrapper = (
-      <LinkComponent href={href}>
-        <a className="dash-item">
+      <LinkComponent href={href} className="dash-item">
           {header}
-        </a>
       </LinkComponent>
     )
   } else {
