@@ -122,7 +122,7 @@ export const getImageCardTag = (listing): ImageTag[] => {
   return tag
     ? [
         {
-          text: getImageTagLabelFromListing(listing),
+          text: tag,
           iconType:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? "calendarBlock"
