@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useContext } from "react"
 import "./DashBlocks.scss"
-import Link from "next/link"
+import { NavigationContext } from '../config/NavigationContext'
 
 interface DashBlockProps {
   href?: string
@@ -11,6 +11,7 @@ interface DashBlockProps {
   dataTestId?: string
 }
 const DashBlock = (props: DashBlockProps) => {
+  const { LinkComponent } = useContext(NavigationContext)
   const { href, title, subtitle, icon, children } = props
   let content, wrapper
   if (children) {
@@ -25,11 +26,11 @@ const DashBlock = (props: DashBlockProps) => {
   )
   if (href) {
     wrapper = (
-      <Link href={href}>
+      <LinkComponent href={href}>
         <a className="dash-item">
           {header}
         </a>
-      </Link>
+      </LinkComponent>
     )
   } else {
     wrapper = (
