@@ -170,9 +170,11 @@ $header-desktop-min-size: 1024px;
           height: 100%;
           margin: 0;
           max-height: 15rem;
-          max-width: 100%;
-          padding: 0;
+          max-width: 500px;
           width: 100%;
+          &:focus {
+            box-shadow: 0 0 3px 4px $tailwind-accent-cool;
+          }
 
           .logo-content {
             align-items: center;
