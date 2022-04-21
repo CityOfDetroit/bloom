@@ -4,14 +4,24 @@ import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
 import dayjs from "dayjs"
-import { Address, Listing } from "@bloom-housing/backend-core/types"
+import {
+  Address,
+  Listing,
+  ListingFeatures,
+  ListingMarketingTypeEnum,
+  ListingProgram,
+} from "@bloom-housing/backend-core/types"
 import {
   t,
   ListingCard,
-  IconTypes,
-  IconSize,
-  IconProps,
   TableHeaders,
+  FavoriteButton,
+  LinkButton,
+  Tag,
+  Icon,
+  AppearanceStyleType,
+  IconFillColors,
+  ImageTag,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -42,11 +52,11 @@ const getListingCardSubtitle = (address: Address) => {
   return address ? `${street}, ${city} ${state}, ${zipCode}` : null
 }
 
-export const accessibilityFeaturesExist = (listing: Listing) => {
-  if (!listing.features) return false
+export const accessibilityFeaturesExist = (features: ListingFeatures) => {
+  if (!features) return false
   let featuresExist = false
   Object.keys(listingFeatures).map((feature) => {
-    if (listing.features[feature]) {
+    if (features[feature]) {
       featuresExist = true
     }
   })
@@ -54,40 +64,96 @@ export const accessibilityFeaturesExist = (listing: Listing) => {
 }
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
+  if (listing?.marketingType === ListingMarketingTypeEnum.comingSoon) {
+    let label = t("listings.comingSoon")
+    if (listing?.marketingSeason) {
+      label = label.concat(` ${t(`seasons.${listing.marketingSeason}`)}`)
+    }
+    if (listing?.marketingDate) {
+      label = label.concat(` ${dayjs(listing.marketingDate).year()}`)
+    }
+    return label
+  }
   return listing?.isVerified ? t("listings.verifiedListing") : undefined
 }
 
-export const getImageTagIconFromListing = (listing: Listing): IconProps | null => {
-  if (listing?.isVerified) {
-    const tagIconSymbol: IconTypes = "badgeCheck"
-    const tagIconSize: IconSize = "medium"
-    const tagIconFill = "#193154"
-    return {
-      symbol: tagIconSymbol,
-      size: tagIconSize,
-      fill: tagIconFill,
-    }
+export const getListingTags = (
+  listingPrograms: ListingProgram[],
+  listingFeatures: ListingFeatures
+) => {
+  const tags: ImageTag[] =
+    listingPrograms
+      ?.sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
+      .map((program) => {
+        return { text: program.program.title }
+      }) ?? []
+  if (accessibilityFeaturesExist(listingFeatures)) {
+    tags.push({
+      text: t("listings.reservedCommunityTypes.specialNeeds"),
+      iconType: "universalAccess",
+      iconColor: AppearanceStyleType.primary,
+    })
   }
-  return null
+  return tags
+}
+
+export const getListingTag = (tag: ImageTag) => {
+  return (
+    <Tag
+      styleType={AppearanceStyleType.accentLight}
+      className={"mr-2 mb-2 font-bold px-3 py-2"}
+      key={tag.text}
+    >
+      {tag.iconType && (
+        <Icon
+          size={"medium"}
+          symbol={tag.iconType}
+          fill={tag.iconColor ?? IconFillColors.primary}
+          className={"mr-2"}
+        />
+      )}
+      {tag.text}
+    </Tag>
+  )
+}
+
+export const getImageCardTag = (listing): ImageTag[] => {
+  const tag = getImageTagLabelFromListing(listing)
+  return tag
+    ? [
+        {
+          text: tag,
+          iconType:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? "calendarBlock"
+              : "badgeCheck",
+          iconColor:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? IconFillColors.white
+              : "#193154",
+          styleType:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? AppearanceStyleType.closed
+              : AppearanceStyleType.accentLight,
+        },
+      ]
+    : null
 }
 
 export const getListings = (listings) => {
   const unitSummariesHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
+    unitType: "t.unitType",
+    rent: "t.rent",
+    availability: "t.availability",
   }
+
   return listings.map((listing: Listing, index) => (
     <ListingCard
       key={index}
       imageCardProps={{
-        imageUrl:
-          imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")) || "",
-        subtitle: getListingCardSubtitle(listing.buildingAddress),
-        title: listing.name,
+        imageUrl: imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")),
         href: `/listing/${listing.id}/${listing.urlSlug}`,
-        tagLabel: getImageTagLabelFromListing(listing),
-        tagIcon: getImageTagIconFromListing(listing),
+        tags: getImageCardTag(listing),
       }}
       tableProps={{
         headers: unitSummariesHeaders,
@@ -95,13 +161,20 @@ export const getListings = (listings) => {
         responsiveCollapse: true,
         cellClassName: "px-5 py-3",
       }}
-      seeDetailsLink={`/listing/${listing.id}/${listing.urlSlug}`}
-      detailsLinkClass="float-right"
-      tableHeaderProps={{
-        tableHeader: listing.showWaitlist ? t("listings.waitlist.open") : null,
+      contentProps={{
+        contentHeader: { text: listing.name },
+        contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
+        tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
       }}
-      listingId={listing.id}
-      allowFavoriting={true}
+      cardTags={getListingTags(listing.listingPrograms, listing.features)}
+      footerContent={
+        <div className={"flex justify-between items-center"}>
+          <FavoriteButton name={listing.name} id={listing.id} />
+          <LinkButton href={`/listing/${listing.id}/${listing.urlSlug}`} key={index}>
+            {t("t.seeDetails")}
+          </LinkButton>
+        </div>
+      }
     />
   ))
 }
@@ -129,7 +202,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
   let groupedUnitData: Record<string, React.ReactNode>[] = null
 
   // unit group summary
-  groupedUnitData = listing.unitSummaries.unitGroupSummary?.map((group) => {
+  groupedUnitData = listing?.unitSummaries?.unitGroupSummary?.map((group) => {
     let rentRange = null
     let rentAsPercentIncomeRange = null
     if (group.rentRange && group.rentRange.min === group.rentRange.max) {
@@ -165,24 +238,28 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
 
     let availability = null
 
-    if (group.unitVacancies > 0) {
+    if (listing.marketingType && listing.marketingType === ListingMarketingTypeEnum.comingSoon) {
+      availability = <strong>{t("listings.comingSoon")}</strong>
+    } else {
+      if (group.unitVacancies > 0) {
+        availability = (
+          <div>
+            <strong>{group.unitVacancies} </strong>
+            {group.unitVacancies === 1 ? t("listings.vacantUnit") : t("listings.vacantUnits")}
+            {` ${t("t.&")}`}
+          </div>
+        )
+      }
+
       availability = (
-        <div>
-          <strong>{group.unitVacancies} </strong>
-          {group.unitVacancies === 1 ? t("listings.vacantUnit") : t("listings.vacantUnits")}
-          {` ${t("t.&")}`}
-        </div>
+        <>
+          {availability}
+          <strong>
+            {group.openWaitlist ? t("listings.waitlist.open") : t("listings.waitlist.closed")}
+          </strong>
+        </>
       )
     }
-
-    availability = (
-      <>
-        {availability}
-        <strong>
-          {group.openWaitlist ? t("listings.waitlist.open") : t("listings.waitlist.closed")}
-        </strong>
-      </>
-    )
 
     let ami = null
 
@@ -216,9 +293,9 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
             .reduce((acc, curr) => [acc, ", ", curr])}
         </>
       ),
-      rent,
-      availability,
-      ami: <strong>{ami}</strong>,
+      rent: rent ?? t("listings.unitsSummary.notAvailable"),
+      availability: <strong>{availability ?? t("listings.unitsSummary.notAvailable")}</strong>,
+      ami: ami ?? t("listings.unitsSummary.notAvailable"),
     }
   })
 
