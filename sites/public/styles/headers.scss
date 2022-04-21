@@ -294,3 +294,7 @@
     font-size: 1.75rem;
   }
 }
+
+.page-header__lead {
+  @apply mt-4;
+}
