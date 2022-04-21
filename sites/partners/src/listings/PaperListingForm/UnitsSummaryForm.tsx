@@ -337,7 +337,7 @@ const UnitsSummaryForm = ({
                     errorMessage={t("errors.totalCountLessThanTotalAvailableError")}
                     validation={{ min: totalAvailable }}
                     inputProps={{
-                      onChange: () => {
+                      onBlur: () => {
                         trigger("totalCount")
                         trigger("totalAvailable")
                       },
@@ -407,7 +407,7 @@ const UnitsSummaryForm = ({
                     errorMessage={t("errors.minGreaterThanMaxSqFeetError")}
                     validation={{ max: sqFeetMax || sqFeetMin }}
                     inputProps={{
-                      onChange: () => {
+                      onBlur: () => {
                         trigger("sqFeetMin")
                         trigger("sqFeetMax")
                       },
@@ -429,7 +429,7 @@ const UnitsSummaryForm = ({
                     errorMessage={t("errors.maxLessThanMinSqFeetError")}
                     validation={{ min: sqFeetMin }}
                     inputProps={{
-                      onChange: () => {
+                      onBlur: () => {
                         trigger("sqFeetMin")
                         trigger("sqFeetMax")
                       },
@@ -546,7 +546,7 @@ const UnitsSummaryForm = ({
                   errorMessage={t("errors.totalAvailableGreaterThanTotalCountError")}
                   validation={{ max: totalCount || totalAvailable }}
                   inputProps={{
-                    onChange: () => {
+                    onBlur: () => {
                       trigger("totalCount")
                       trigger("totalAvailable")
                     },
