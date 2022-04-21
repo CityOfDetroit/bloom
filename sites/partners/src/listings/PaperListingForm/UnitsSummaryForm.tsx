@@ -83,17 +83,15 @@ const UnitsSummaryForm = ({
 
   const unitType = formWatch("unitType")
   const minOccupancy = formWatch("minOccupancy")
-  const maxOccupancy = formWatch("maxOccupancy") || minOccupancy
+  const maxOccupancy = formWatch("maxOccupancy")
   const sqFeetMin = formWatch("sqFeetMin")
-  const sqFeetMax = formWatch("sqFeetMax") || sqFeetMin
+  const sqFeetMax = formWatch("sqFeetMax")
   const floorMin = formWatch("floorMin")
-  const floorMax = formWatch("floorMax") || floorMin
+  const floorMax = formWatch("floorMax")
   const bathroomMin = formWatch("bathroomMin")
-  const bathroomMax = formWatch("bathroomMax") || bathroomMin
+  const bathroomMax = formWatch("bathroomMax")
   const totalAvailable = formWatch("totalAvailable")
-  const totalCount = formWatch("totalCount") || totalAvailable
-
-  
+  const totalCount = formWatch("totalCount")
 
   /**
    * fetch form options
@@ -297,7 +295,6 @@ const UnitsSummaryForm = ({
     { label: "4", value: "4" },
     { label: "5", value: "5" },
   ]
-  
 
   useEffect(() => {
     if (unitType?.length && errors?.unitType) {
@@ -341,6 +338,12 @@ const UnitsSummaryForm = ({
                     error={errors?.totalCount !== undefined}
                     errorMessage={t("errors.totalCountLessThanTotalAvailableError")}
                     validation={{ min: totalAvailable }}
+                    inputProps={{
+                      onChange: () => {
+                        trigger("totalCount")
+                        trigger("totalAvailable")
+                      },
+                    }}
                   />
                 </ViewItem>
               </GridCell>
@@ -358,7 +361,13 @@ const UnitsSummaryForm = ({
                     options={numberOptions(8, 1, true)}
                     error={errors?.minOccupancy !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxOccupancyError")}
-                    validation={{ max: maxOccupancy }}
+                    validation={{ max: maxOccupancy || minOccupancy }}
+                    inputProps={{
+                      onChange: () => {
+                        trigger("minOccupancy")
+                        trigger("maxOccupancy")
+                      },
+                    }}
                   />
                 </ViewItem>
               </GridCell>
@@ -375,6 +384,12 @@ const UnitsSummaryForm = ({
                     error={errors?.maxOccupancy !== undefined}
                     errorMessage={t("errors.maxLessThanMinOccupancyError")}
                     validation={{ min: minOccupancy }}
+                    inputProps={{
+                      onChange: () => {
+                        trigger("minOccupancy")
+                        trigger("maxOccupancy")
+                      },
+                    }}
                   />
                 </ViewItem>
               </GridCell>
@@ -392,7 +407,13 @@ const UnitsSummaryForm = ({
                     type="number"
                     error={errors?.sqFeetMin !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxSqFeetError")}
-                    validation={{ max: sqFeetMax }}
+                    validation={{ max: sqFeetMax || sqFeetMin }}
+                    inputProps={{
+                      onChange: () => {
+                        trigger("sqFeetMin")
+                        trigger("sqFeetMax")
+                      },
+                    }}
                   />
                 </ViewItem>
               </GridCell>
@@ -409,6 +430,12 @@ const UnitsSummaryForm = ({
                     error={errors?.sqFeetMax !== undefined}
                     errorMessage={t("errors.maxLessThanMinSqFeetError")}
                     validation={{ min: sqFeetMin }}
+                    inputProps={{
+                      onChange: () => {
+                        trigger("sqFeetMin")
+                        trigger("sqFeetMax")
+                      },
+                    }}
                   />
                 </ViewItem>
               </GridCell>
@@ -426,7 +453,13 @@ const UnitsSummaryForm = ({
                     options={numberOptions(10, 1, true)}
                     error={errors?.floorMin !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxFloorError")}
-                    validation={{ max: floorMax }}
+                    validation={{ max: floorMax || floorMin }}
+                    inputProps={{
+                      onChange: () => {
+                        trigger("floorMin")
+                        trigger("floorMax")
+                      },
+                    }}
                   />
                 </ViewItem>
               </GridCell>
@@ -443,6 +476,12 @@ const UnitsSummaryForm = ({
                     error={errors?.floorMax !== undefined}
                     errorMessage={t("errors.maxLessThanMinFloorError")}
                     validation={{ min: floorMin }}
+                    inputProps={{
+                      onChange: () => {
+                        trigger("floorMin")
+                        trigger("floorMax")
+                      },
+                    }}
                   />
                 </ViewItem>
               </GridCell>
@@ -460,7 +499,13 @@ const UnitsSummaryForm = ({
                     options={bathroomOptions}
                     error={errors?.bathroomMin !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxBathroomError")}
-                    validation={{ max: bathroomMax }}
+                    validation={{ max: bathroomMax || bathroomMin }}
+                    inputProps={{
+                      onChange: () => {
+                        trigger("bathroomMin")
+                        trigger("bathroomMax")
+                      },
+                    }}
                   />
                 </ViewItem>
               </GridCell>
@@ -477,7 +522,12 @@ const UnitsSummaryForm = ({
                     error={errors?.bathroomMax !== undefined}
                     errorMessage={t("errors.maxLessThanMinBathroomError")}
                     validation={{ min: bathroomMin }}
-                    
+                    inputProps={{
+                      onChange: () => {
+                        trigger("bathroomMin")
+                        trigger("bathroomMax")
+                      },
+                    }}
                   />
                 </ViewItem>
               </GridCell>
@@ -496,7 +546,13 @@ const UnitsSummaryForm = ({
                   type="number"
                   error={errors?.totalAvailable !== undefined}
                   errorMessage={t("errors.totalAvailableGreaterThanTotalCountError")}
-                  validation={{ max: totalCount }}
+                  validation={{ max: totalCount || totalAvailable }}
+                  inputProps={{
+                    onChange: () => {
+                      trigger("totalCount")
+                      trigger("totalAvailable")
+                    },
+                  }}
                 />
               </ViewItem>
             </GridCell>
