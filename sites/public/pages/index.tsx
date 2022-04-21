@@ -149,8 +149,8 @@ export default function Home({ latestListings }) {
         icon="map"
         className={styles.regions}
       >
-        {Object.entries(Region).map((region) => (
-          <RegionButton region={region} />
+        {Object.entries(Region).map((region, index) => (
+          <RegionButton region={region} key={index} />
         ))}
       </HorizontalScrollSection>
       <ConfirmationModal

@@ -7,6 +7,7 @@ import {
   SiteFooter,
   FooterNav,
   FooterSection,
+  ExygyFooter,
   MenuLink,
   t,
   AuthContext,
@@ -47,8 +48,12 @@ const Layout = (props) => {
           href: "/account/dashboard",
         },
         {
-          title: t("nav.accountSettings"),
+          title: t("account.accountSettings"),
           href: "/account/edit",
+        },
+        {
+          title: t("account.myFavorites"),
+          href: "/account/favorites",
         },
         {
           title: t("nav.signOut"),
@@ -96,7 +101,9 @@ const Layout = (props) => {
           menuLinks={menuLinks}
           desktopMinWidth={1024}
         />
-        <main id="main-content">{props.children}</main>
+        <main id="main-content" className="md:overflow-x-hidden">
+          {props.children}
+        </main>
       </div>
 
       <SiteFooter>
@@ -162,6 +169,9 @@ const Layout = (props) => {
             <a>{t("pageTitle.disclaimer")}</a>
           </Link>
         </FooterNav>
+        <FooterSection className="bg-black" small>
+          <ExygyFooter />
+        </FooterSection>
       </SiteFooter>
     </div>
   )

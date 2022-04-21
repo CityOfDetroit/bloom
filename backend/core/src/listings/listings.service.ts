@@ -1,20 +1,8 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  NotFoundException,
-  Scope,
-} from "@nestjs/common"
-import { REQUEST } from "@nestjs/core"
-import { Request as ExpressRequest } from "express"
+import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Pagination } from "nestjs-typeorm-paginate"
 import { In, OrderByCondition, Repository } from "typeorm"
 import { plainToClass } from "class-transformer"
-import { Interval } from "@nestjs/schedule"
-import { Queue } from "bull"
-import { InjectQueue } from "@nestjs/bull"
 import { Listing } from "./entities/listing.entity"
 import { PropertyCreateDto, PropertyUpdateDto } from "../property/dto/property.dto"
 import { addFilters } from "../shared/query-filter"
@@ -28,21 +16,17 @@ import { ListingUpdateDto } from "./dto/listing-update.dto"
 import { ListingFilterParams } from "./dto/listing-filter-params"
 import { ListingsQueryParams } from "./dto/listings-query-params"
 import { filterTypeToFieldMap } from "./dto/filter-type-to-field-map"
-import { ListingNotificationInfo, ListingUpdateType } from "./listings-notifications"
 import { ListingStatus } from "./types/listing-status-enum"
 import { TranslationsService } from "../translations/services/translations.service"
 import { UnitGroup } from "../units-summary/entities/unit-group.entity"
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class ListingsService {
   constructor(
-    @Inject(REQUEST) private req: ExpressRequest,
     @InjectRepository(Listing) private readonly listingRepository: Repository<Listing>,
     @InjectRepository(AmiChart) private readonly amiChartsRepository: Repository<AmiChart>,
     @InjectRepository(UnitGroup) private readonly unitGroupRepository: Repository<UnitGroup>,
-    private readonly translationService: TranslationsService,
-    @InjectQueue("listings-notifications")
-    private listingsNotificationsQueue: Queue<ListingNotificationInfo>
+    private readonly translationService: TranslationsService
   ) {}
 
   private getFullyJoinedQueryBuilder() {
@@ -51,24 +35,28 @@ export class ListingsService {
 
   public async list(params: ListingsQueryParams): Promise<Pagination<Listing>> {
     const getOrderByCondition = (params: ListingsQueryParams): OrderByCondition => {
-      if (!params.orderBy) {
-        // Default to ordering by applicationDates (i.e. applicationDueDate
-        // and applicationOpenDate) if no orderBy param is specified.
-        return {
-          "listings.applicationDueDate": "ASC",
-          "listings.applicationOpenDate": "DESC",
-        }
-      }
       switch (params.orderBy) {
         case OrderByFieldsEnum.mostRecentlyUpdated:
           return { "listings.updated_at": "DESC" }
+        case OrderByFieldsEnum.mostRecentlyClosed:
+          return {
+            "listings.closedAt": { order: "DESC", nulls: "NULLS LAST" },
+            "listings.publishedAt": { order: "DESC", nulls: "NULLS LAST" },
+          }
         case OrderByFieldsEnum.applicationDates:
+          return {
+            "listings.applicationDueDate": "ASC",
+          }
+        case OrderByFieldsEnum.comingSoon:
+          return {
+            "listings.marketingType": { order: "DESC", nulls: "NULLS LAST" },
+            "listings.updated_at": "DESC",
+          }
         case undefined:
           // Default to ordering by applicationDates (i.e. applicationDueDate
           // and applicationOpenDate) if no orderBy param is specified.
           return {
-            "listings.applicationDueDate": "ASC",
-            "listings.applicationOpenDate": "DESC",
+            "listings.name": "ASC",
           }
         default:
           throw new HttpException(
@@ -79,18 +67,18 @@ export class ListingsService {
       }
     }
 
+    const orderBy = getOrderByCondition(params)
     // Inner query to get the sorted listing ids of the listings to display
-    // TODO(avaleske): Only join the tables we need for the filters that are applied.
+    // TODO(avaleske): Only join the tables we need for the filters that are applied
     const innerFilteredQuery = this.listingRepository
       .createQueryBuilder("listings")
       .select("listings.id", "listings_id")
       .leftJoin("listings.property", "property")
-      .leftJoin("listings.leasingAgents", "leasingAgents")
       .leftJoin("property.buildingAddress", "buildingAddress")
       .leftJoin("listings.reservedCommunityType", "reservedCommunityType")
       .leftJoin("listings.features", "listing_features")
       .groupBy("listings.id")
-      .orderBy(getOrderByCondition(params))
+      .orderBy(orderBy)
 
     if (params.filter) {
       addFilters<Array<ListingFilterParams>, typeof filterTypeToFieldMap>(
@@ -120,11 +108,10 @@ export class ListingsService {
       // (WHERE params are the values passed to andWhere() that TypeORM escapes
       // and substitues for the `:paramName` placeholders in the WHERE clause.)
       .setParameters(innerFilteredQuery.getParameters())
-      .orderBy(getOrderByCondition(params))
+      .orderBy(orderBy)
       .getMany()
 
     listings = await this.addUnitSummariesToListings(listings)
-
     // Set pagination info
     const itemsPerPage = paginate ? (params.limit as number) : listings.length
     const totalItems = paginate ? await innerFilteredQuery.getCount() : listings.length
@@ -193,32 +180,21 @@ export class ListingsService {
   async create(listingDto: ListingCreateDto): Promise<Listing> {
     const listing = this.listingRepository.create({
       ...listingDto,
+      publishedAt: listingDto.status === ListingStatus.active ? new Date() : null,
+      closedAt: listingDto.status === ListingStatus.closed ? new Date() : null,
       property: plainToClass(PropertyCreateDto, listingDto),
     })
-    const saveResult: Listing = await listing.save()
-
-    // Add a job to the listings notification queue, to asynchronously send notifications about
-    // the creation of this new listing.
-    await this.listingsNotificationsQueue.add({
-      listing: saveResult,
-      updateType: ListingUpdateType.CREATE,
-    })
-
-    return saveResult
+    return await listing.save()
   }
 
   async update(listingDto: ListingUpdateDto) {
     const qb = this.getFullyJoinedQueryBuilder()
     qb.where("listings.id = :id", { id: listingDto.id })
     const listing = await qb.getOne()
-    const previousListingStatus: ListingStatus = listing.status
 
     if (!listing) {
       throw new NotFoundException()
     }
-
-    this.userCanUpdateOrThrow(this.req.user, listingDto, previousListingStatus)
-
     let availableUnits = 0
     listingDto.units.forEach((unit) => {
       if (!unit.id) {
@@ -236,6 +212,14 @@ export class ListingsService {
     listingDto.unitsAvailable = availableUnits
     Object.assign(listing, {
       ...plainToClass(Listing, listingDto, { excludeExtraneousValues: false }),
+      publishedAt:
+        listing.status !== ListingStatus.active && listingDto.status === ListingStatus.active
+          ? new Date()
+          : listing.publishedAt,
+      closedAt:
+        listing.status !== ListingStatus.closed && listingDto.status === ListingStatus.closed
+          ? new Date()
+          : listing.closedAt,
       property: plainToClass(
         PropertyUpdateDto,
         {
@@ -249,15 +233,7 @@ export class ListingsService {
       ),
     })
 
-    const saveResult: Listing = await this.listingRepository.save(listing)
-    const newListingStatus: ListingStatus = saveResult.status
-    if (newListingStatus !== previousListingStatus && newListingStatus === ListingStatus.active) {
-      await this.listingsNotificationsQueue.add({
-        listing: saveResult,
-        updateType: ListingUpdateType.MODIFY,
-      })
-    }
-    return saveResult
+    return await this.listingRepository.save(listing)
   }
 
   async delete(listingId: string) {
