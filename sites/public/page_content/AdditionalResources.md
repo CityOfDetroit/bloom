@@ -7,7 +7,7 @@ The Housing and Revitalization Department supports the development, rehabilitati
 
   <InfoCard title="Enforce Property Conditions " externalHref="https://detroitmi.gov/departments/buildings-safety-engineering-and-environmental-department">
 
-If your landlord fails to provide a well-maintained home, you can submit complaints regarding property maintenance code violations directly to the City of Detroit BSEED. Please contact BSEED at 313-628-2451 to discuss complaints.
+If your landlord fails to provide a well-maintained home, you can submit complaints regarding property maintenance code violations directly to the City of Detroit BSEED. Please contact BSEED at [313-628-2451](tel:+1-313-628-2451) to discuss complaints.
 
   </InfoCard>
 
@@ -37,7 +37,7 @@ No-interest home repair loans are available for eligible households. The City of
 
   <InfoCard title="Fair Housing" externalHref="https://www.fairhousingdetroit.org/">
 
-The Fair Housing Center of Metropolitan Detroit works to make sure residents have equal access to housing and are not discriminated against based on their identity. They provide housing assistance and counseling, as well as assistance to those pursuing legal cases related to fair housing issues. For more information, call 313-579-3247. 
+The Fair Housing Center of Metropolitan Detroit works to make sure residents have equal access to housing and are not discriminated against based on their identity. They provide housing assistance and counseling, as well as assistance to those pursuing legal cases related to fair housing issues. For more information, call [313-579-3247](tel:+1-313-579-3247). 
 
   </InfoCard>
 
