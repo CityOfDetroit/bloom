@@ -283,8 +283,6 @@ const UnitsSummaryForm = ({
     action: "",
   }
 
-  const occupancyNumberOptions = 8
-  const floorNumberOptions = 10
   const bathroomOptions = [
     { label: "", value: "" },
     { label: ".5", value: "0.5" },
