@@ -146,7 +146,7 @@ const FilterForm = (props: FilterFormProps) => {
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
+      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
         <GridCell span={3}>
           <ViewItem
             className={"font-bold"}
@@ -171,7 +171,7 @@ const FilterForm = (props: FilterFormProps) => {
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
+      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
         <GridCell span={3}>
           <ViewItem
             className={"font-bold"}
@@ -200,7 +200,7 @@ const FilterForm = (props: FilterFormProps) => {
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
+      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
         <GridCell span={3}>
           <ViewItem
             className={"font-bold"}
@@ -229,7 +229,7 @@ const FilterForm = (props: FilterFormProps) => {
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-4"}>
+      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-4"}>
         <GridCell span={3}>
           <ViewItem
             className={"font-bold"}
@@ -254,7 +254,7 @@ const FilterForm = (props: FilterFormProps) => {
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
+      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
         <GridCell span={3}>
           <ViewItem className={"font-bold"} label={t("t.region")} labelStyling={"text-gray-750"} />
           <FieldGroup
@@ -275,7 +275,7 @@ const FilterForm = (props: FilterFormProps) => {
           />
         </GridCell>
       </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} sectionClassName={"pt-4 mt-2"}>
+      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
         <GridCell span={3}>
           <ViewItem
             className={"font-bold"}

@@ -4,13 +4,24 @@ import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
 import dayjs from "dayjs"
-import { Address, Listing, ListingMarketingTypeEnum } from "@bloom-housing/backend-core/types"
+import {
+  Address,
+  Listing,
+  ListingFeatures,
+  ListingMarketingTypeEnum,
+  ListingProgram,
+} from "@bloom-housing/backend-core/types"
 import {
   t,
   ListingCard,
   TableHeaders,
   FavoriteButton,
   LinkButton,
+  Tag,
+  Icon,
+  AppearanceStyleType,
+  IconFillColors,
+  ImageTag,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -41,11 +52,11 @@ const getListingCardSubtitle = (address: Address) => {
   return address ? `${street}, ${city} ${state}, ${zipCode}` : null
 }
 
-export const accessibilityFeaturesExist = (listing: Listing) => {
-  if (!listing.features) return false
+export const accessibilityFeaturesExist = (features: ListingFeatures) => {
+  if (!features) return false
   let featuresExist = false
   Object.keys(listingFeatures).map((feature) => {
-    if (listing.features[feature]) {
+    if (features[feature]) {
       featuresExist = true
     }
   })
@@ -53,11 +64,80 @@ export const accessibilityFeaturesExist = (listing: Listing) => {
 }
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
-  return listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-    ? t("listings.comingSoon")
-    : listing?.isVerified
-    ? t("listings.verifiedListing")
-    : undefined
+  if (listing?.marketingType === ListingMarketingTypeEnum.comingSoon) {
+    let label = t("listings.comingSoon")
+    if (listing?.marketingSeason) {
+      label = label.concat(` ${t(`seasons.${listing.marketingSeason}`)}`)
+    }
+    if (listing?.marketingDate) {
+      label = label.concat(` ${dayjs(listing.marketingDate).year()}`)
+    }
+    return label
+  }
+  return listing?.isVerified ? t("listings.verifiedListing") : undefined
+}
+
+export const getListingTags = (
+  listingPrograms: ListingProgram[],
+  listingFeatures: ListingFeatures
+) => {
+  const tags: ImageTag[] =
+    listingPrograms
+      ?.sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
+      .map((program) => {
+        return { text: program.program.title }
+      }) ?? []
+  if (accessibilityFeaturesExist(listingFeatures)) {
+    tags.push({
+      text: t("listings.reservedCommunityTypes.specialNeeds"),
+      iconType: "universalAccess",
+      iconColor: AppearanceStyleType.primary,
+    })
+  }
+  return tags
+}
+
+export const getListingTag = (tag: ImageTag) => {
+  return (
+    <Tag
+      styleType={AppearanceStyleType.accentLight}
+      className={"mr-2 mb-2 font-bold px-3 py-2"}
+      key={tag.text}
+    >
+      {tag.iconType && (
+        <Icon
+          size={"medium"}
+          symbol={tag.iconType}
+          fill={tag.iconColor ?? IconFillColors.primary}
+          className={"mr-2"}
+        />
+      )}
+      {tag.text}
+    </Tag>
+  )
+}
+
+export const getImageCardTag = (listing): ImageTag[] => {
+  const tag = getImageTagLabelFromListing(listing)
+  return tag
+    ? [
+        {
+          text: tag,
+          iconType:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? "calendarBlock"
+              : "badgeCheck",
+          iconColor:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? IconFillColors.white
+              : "#193154",
+          styleType:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? AppearanceStyleType.closed
+              : AppearanceStyleType.accentLight,
+        },
+      ]
+    : null
 }
 
 export const getListings = (listings) => {
@@ -73,19 +153,7 @@ export const getListings = (listings) => {
       imageCardProps={{
         imageUrl: imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")),
         href: `/listing/${listing.id}/${listing.urlSlug}`,
-        tags: getImageTagLabelFromListing(listing)
-          ? [
-              {
-                text: getImageTagLabelFromListing(listing),
-                iconType:
-                  listing?.isVerified &&
-                  listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-                    ? "badgeCheck"
-                    : null,
-                iconColor: "#193154",
-              },
-            ]
-          : [],
+        tags: getImageCardTag(listing),
       }}
       tableProps={{
         headers: unitSummariesHeaders,
@@ -98,6 +166,7 @@ export const getListings = (listings) => {
         contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
         tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
       }}
+      cardTags={getListingTags(listing.listingPrograms, listing.features)}
       footerContent={
         <div className={"flex justify-between items-center"}>
           <FavoriteButton name={listing.name} id={listing.id} />
@@ -125,10 +194,10 @@ interface UnitSummaryTable {
 
 export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
   const groupedUnitHeaders = {
-    unitType: "t.unitType",
-    rent: "t.rent",
-    availability: "t.availability",
-    ami: "listings.unit.ami",
+    unitType: t("t.unitType"),
+    rent: t("t.rent"),
+    availability: t("t.availability"),
+    ami: t("listings.unit.ami"),
   }
   let groupedUnitData: Record<string, React.ReactNode>[] = null
 
