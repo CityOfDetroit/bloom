@@ -4563,6 +4563,9 @@ export interface ListingFilterParams {
   $include_nulls?: boolean
 
   /**  */
+  id?: string
+
+  /**  */
   name?: string
 
   /**  */
@@ -5243,6 +5246,9 @@ export interface Listing {
   marketingSeason?: ListingSeasonEnum
 
   /**  */
+  region?: Region
+
+  /**  */
   applicationMethods: ApplicationMethod[]
 
   /**  */
@@ -5501,9 +5507,6 @@ export interface Listing {
   phoneNumber?: string
 
   /**  */
-  region?: string
-
-  /**  */
   publishedAt?: Date
 
   /**  */
@@ -5726,6 +5729,9 @@ export interface ListingCreate {
 
   /**  */
   marketingSeason?: ListingSeasonEnum
+
+  /**  */
+  region?: Region
 
   /**  */
   applicationMethods: ApplicationMethodCreate[]
@@ -5968,9 +5974,6 @@ export interface ListingCreate {
   phoneNumber?: string
 
   /**  */
-  region?: string
-
-  /**  */
   isVerified?: boolean
 
   /**  */
@@ -6194,6 +6197,9 @@ export interface ListingUpdate {
 
   /**  */
   marketingSeason?: ListingSeasonEnum
+
+  /**  */
+  region?: Region
 
   /**  */
   id?: string
@@ -6443,9 +6449,6 @@ export interface ListingUpdate {
 
   /**  */
   phoneNumber?: string
-
-  /**  */
-  region?: string
 
   /**  */
   isVerified?: boolean
@@ -7021,6 +7024,7 @@ export enum OrderByFieldsEnum {
   "mostRecentlyUpdated" = "mostRecentlyUpdated",
   "applicationDates" = "applicationDates",
   "mostRecentlyClosed" = "mostRecentlyClosed",
+  "comingSoon" = "comingSoon",
 }
 
 export enum ListingApplicationAddressType {
@@ -7048,6 +7052,14 @@ export enum ListingSeasonEnum {
   "summer" = "summer",
   "fall" = "fall",
   "winter" = "winter",
+}
+
+export enum Region {
+  "Downtown" = "Downtown",
+  "Eastside" = "Eastside",
+  "Midtown - New Center" = "Midtown - New Center",
+  "Southwest" = "Southwest",
+  "Westside" = "Westside",
 }
 
 export enum ListingEventType {
@@ -7095,11 +7107,4 @@ export enum EnumProgramsFilterParamsComparison {
   ">=" = ">=",
   "<=" = "<=",
   "NA" = "NA",
-}
-export enum Region {
-  "Downtown" = "Downtown",
-  "Eastside" = "Eastside",
-  "Midtown - New Center" = "Midtown - New Center",
-  "Southwest" = "Southwest",
-  "Westside" = "Westside",
 }
