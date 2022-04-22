@@ -7,9 +7,10 @@ import dbOptions = require("../ormconfig")
 import { Program } from "../src/program/entities/program.entity"
 import { AddressCreateDto } from "../src/shared/dto/address.dto"
 
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable-next-line @typescript-eslint/no-var-requires */
 const getStream = require("get-stream")
 
+/* eslint-disable-next-line @typescript-eslint/no-var-requires */
 const MapboxClient = require("mapbox")
 
 if (!process.env["MAPBOX_TOKEN"]) {
