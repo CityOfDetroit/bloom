@@ -80,7 +80,7 @@
   @apply w-full;
 
   @screen md {
-    @apply w-2/3;
+    // @apply w-2/3;
     @apply pr-8;
     @apply pt-8;
   }
@@ -89,4 +89,12 @@
     @apply text-4xl;
     @apply text-center;
   }
+}
+
+.temp-left {
+  width: 67%;
+}
+
+.temp-right {
+  width: 33%;
 }
