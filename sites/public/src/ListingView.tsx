@@ -269,7 +269,7 @@ export const ListingView = (props: ListingProps) => {
 
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
-      <div className="temp-left">
+      <div className="w-full md:w-2/3">
         <header className="image-card--leader">
           <ImageCard
             imageUrl={imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize))}
@@ -309,7 +309,7 @@ export const ListingView = (props: ListingProps) => {
           </div>
         </header>
 
-        <div className="w-full md:w-2/3 md:mt-6 md:mb-6 md:px-3 md:pr-8">
+        <div className="w-full md:mt-6 md:mb-6 md:px-3 md:pr-8">
           {groupedUnitData?.length > 0 && (
             <>
               <GroupedTable
@@ -512,7 +512,7 @@ export const ListingView = (props: ListingProps) => {
           )}
         </ListingDetails>
       </div>
-      <div className="temp-right">
+      <div className="hidden md:block md:w-1/3">
         <aside className="w-full static md:right-0 md:top-0 md:ml-2 md:border border-gray-400 bg-white">
           <div className="hidden md:block">
             <ListingUpdated listingUpdated={listing.updatedAt} />
