@@ -337,7 +337,7 @@ export const ListingView = (props: ListingProps) => {
             hideHeader={true}
             desktopClass="header-hidden"
           >
-            <div></div>
+            <></>
           </ListingDetailItem>
 
           {hmiData?.length || occupancyData?.length || listing.listingPrograms?.length ? (
