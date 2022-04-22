@@ -186,9 +186,7 @@ export const usToIntlPhone = (usPhoneNumber: string | null): string => {
 }
 
 export const intlToUsPhone = (intlPhoneNumber: string | null): string => {
-  return intlPhoneNumber !== "" 
-    ? intlPhoneNumber.replace(/\+1(\d{10})/, "$1") 
-    : null
+  return intlPhoneNumber !== "" ? intlPhoneNumber.replace(/\+1(\d{10})/, "$1") : null
 }
 
 interface UnitSummaryTable {
