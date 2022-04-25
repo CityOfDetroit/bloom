@@ -2,7 +2,7 @@ import * as React from "react"
 import { t } from "../../../helpers/translator"
 
 export interface WaitlistProps {
-  isWaitlistOpen: boolean
+  isWaitlistOpen: boolean | undefined
   waitlistMaxSize?: number | null
   waitlistCurrentSize?: number | null
   waitlistOpenSpots?: number | null
