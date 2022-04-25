@@ -10,6 +10,9 @@ import {
   ListingFeatures,
   ListingMarketingTypeEnum,
   ListingProgram,
+  ListingReviewOrder,
+  UnitsSummarized,
+  ListingStatus,
 } from "@bloom-housing/backend-core/types"
 import {
   t,
@@ -22,6 +25,9 @@ import {
   AppearanceStyleType,
   IconFillColors,
   ImageTag,
+  ApplicationStatusType
+  StatusBarType,
+  getSummariesTable
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -63,12 +69,49 @@ export const accessibilityFeaturesExist = (features: ListingFeatures) => {
   return featuresExist
 }
 
+export const getListingApplicationStatus = (listing: Listing): StatusBarType => {
+  let content = ""
+  let subContent = ""
+  let formattedDate = ""
+  let status = ApplicationStatusType.Open
+
+  if (openInFuture(listing)) {
+    const date = listing.applicationOpenDate
+    const openDate = dayjs(date)
+    formattedDate = openDate.format("MMM D, YYYY")
+    content = t("listings.applicationOpenPeriod")
+  } else {
+    if (listing.status === ListingStatus.closed) {
+      status = ApplicationStatusType.Closed
+      content = t("listings.applicationsClosed")
+    } else if (listing.applicationDueDate) {
+      const dueDate = dayjs(listing.applicationDueDate)
+      formattedDate = dueDate.format("MMM DD, YYYY")
+      formattedDate = formattedDate + ` ${t("t.at")} ` + dueDate.format("h:mmA")
+
+      // if due date is in future, listing is open
+      if (dayjs() < dueDate) {
+        content = t("listings.applicationDeadline")
+      } else {
+        status = ApplicationStatusType.Closed
+        content = t("listings.applicationsClosed")
+      }
+    }
+  }
+return {
+  status,
+  content,
+  subContent,
+}
+}
+
 export const getImageTagLabelFromListing = (listing: Listing) => {
   if (listing?.marketingType === ListingMarketingTypeEnum.comingSoon) {
     let label = t("listings.comingSoon")
     if (listing?.marketingSeason) {
       label = label.concat(` ${t(`seasons.${listing.marketingSeason}`)}`)
-    }
+
+}
     if (listing?.marketingDate) {
       label = label.concat(` ${dayjs(listing.marketingDate).year()}`)
     }
@@ -138,8 +181,8 @@ export const getImageCardTag = (listing): ImageTag[] => {
         },
       ]
     : null
-}
-
+    }
+    
 export const getListings = (listings) => {
   const unitSummariesHeaders = {
     unitType: "t.unitType",

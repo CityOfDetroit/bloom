@@ -39,6 +39,12 @@ const Layout = (props) => {
       href: "/resources",
     },
   ]
+  if (process.env.housingCounselorServiceUrl) {
+    menuLinks.push({
+      title: t("pageTitle.getAssistance"),
+      href: process.env.housingCounselorServiceUrl,
+    })
+  }
   if (profile) {
     menuLinks.push({
       title: t("nav.myAccount"),
@@ -48,12 +54,12 @@ const Layout = (props) => {
           href: "/account/dashboard",
         },
         {
-          title: t("account.accountSettings"),
-          href: "/account/edit",
+          title: t("account.myApplications"),
+          href: "/account/applications",
         },
         {
-          title: t("account.myFavorites"),
-          href: "/account/favorites",
+          title: t("account.accountSettings"),
+          href: "/account/edit",
         },
         {
           title: t("nav.signOut"),

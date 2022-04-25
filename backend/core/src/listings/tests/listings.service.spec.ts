@@ -324,7 +324,7 @@ describe("ListingsService", () => {
           {
             $comparison: Compare["="],
             name: "minRent",
-            $include_nulls: true,
+            // $include_nulls: true,
           },
         ],
       }
@@ -349,7 +349,7 @@ describe("ListingsService", () => {
           {
             $comparison: Compare["NA"],
             availability: AvailabilityFilterEnum.waitlist,
-            $include_nulls: true,
+            // $include_nulls: true,
           },
         ],
       }
@@ -494,7 +494,9 @@ describe("ListingsService", () => {
       await service.list({})
 
       const expectedOrderByArgument = {
-        "listings.name": "ASC",
+        "listings.applicationDueDate": "ASC",
+        "listings.applicationOpenDate": "DESC",
+        "listings.id": "ASC",
       }
 
       // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)

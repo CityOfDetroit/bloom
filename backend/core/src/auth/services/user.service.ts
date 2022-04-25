@@ -45,8 +45,6 @@ import { MfaType } from "../types/mfa-type"
 import { SmsMfaService } from "./sms-mfa.service"
 import { GetMfaInfoDto } from "../dto/get-mfa-info.dto"
 import { GetMfaInfoResponseDto } from "../dto/get-mfa-info-response.dto"
-import { addFilters } from "../../shared/query-filter"
-import { UserFilterParams } from "../dto/user-filter-params"
 
 import advancedFormat from "dayjs/plugin/advancedFormat"
 import { JurisdictionsService } from "../../jurisdictions/services/jurisdictions.service"
@@ -116,16 +114,9 @@ export class UserService {
     const qb = this._getQb()
 
     if (params.filter) {
-      addFilters<Array<UserFilterParams>, typeof userFilterTypeToFieldMap>(
-        params.filter,
-        userFilterTypeToFieldMap,
-        distinctIDQB
-      )
-      addFilters<Array<UserFilterParams>, typeof userFilterTypeToFieldMap>(
-        params.filter,
-        userFilterTypeToFieldMap,
-        qb
-      )
+      const filter = new UserQueryFilter()
+      filter.addFilters(params.filter, userFilterTypeToFieldMap, distinctIDQB)
+      filter.addFilters(params.filter, userFilterTypeToFieldMap, qb)
     }
     const distinctIDResult = await paginate<User>(distinctIDQB, options)
 
