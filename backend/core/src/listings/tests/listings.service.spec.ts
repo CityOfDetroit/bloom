@@ -324,7 +324,7 @@ describe("ListingsService", () => {
           {
             $comparison: Compare["="],
             name: "minRent",
-            // $include_nulls: true,
+            $include_nulls: true,
           },
         ],
       }
@@ -349,7 +349,7 @@ describe("ListingsService", () => {
           {
             $comparison: Compare["NA"],
             availability: AvailabilityFilterEnum.waitlist,
-            // $include_nulls: true,
+            $include_nulls: true,
           },
         ],
       }

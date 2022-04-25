@@ -10,8 +10,6 @@ import {
   ListingFeatures,
   ListingMarketingTypeEnum,
   ListingProgram,
-  ListingReviewOrder,
-  UnitsSummarized,
   ListingStatus,
 } from "@bloom-housing/backend-core/types"
 import {
@@ -25,9 +23,8 @@ import {
   AppearanceStyleType,
   IconFillColors,
   ImageTag,
-  ApplicationStatusType
+  ApplicationStatusType,
   StatusBarType,
-  getSummariesTable
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -98,11 +95,11 @@ export const getListingApplicationStatus = (listing: Listing): StatusBarType => 
       }
     }
   }
-return {
-  status,
-  content,
-  subContent,
-}
+  return {
+    status,
+    content,
+    subContent,
+  }
 }
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
@@ -110,8 +107,7 @@ export const getImageTagLabelFromListing = (listing: Listing) => {
     let label = t("listings.comingSoon")
     if (listing?.marketingSeason) {
       label = label.concat(` ${t(`seasons.${listing.marketingSeason}`)}`)
-
-}
+    }
     if (listing?.marketingDate) {
       label = label.concat(` ${dayjs(listing.marketingDate).year()}`)
     }
@@ -181,8 +177,8 @@ export const getImageCardTag = (listing): ImageTag[] => {
         },
       ]
     : null
-    }
-    
+}
+
 export const getListings = (listings) => {
   const unitSummariesHeaders = {
     unitType: "t.unitType",
