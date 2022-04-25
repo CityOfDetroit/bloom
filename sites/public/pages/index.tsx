@@ -141,6 +141,9 @@ export default function Home({ latestListings }) {
                 href={
                   "https://public.govdelivery.com/accounts/MIDETROIT/subscriber/new?topic_id=MIDETROIT_415"
                 }
+                linkProps={{
+                  target: "_blank",
+                }}
               >
                 {t("welcome.signUpToday")}
               </LinkButton>,
