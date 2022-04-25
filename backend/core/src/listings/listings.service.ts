@@ -303,8 +303,11 @@ export class ListingsService {
         break
       case OrderByFieldsEnum.comingSoon:
         qb.orderBy("listings.marketingType", "DESC", "NULLS LAST")
-        qb.addOrderBy(`to_char(listings.marketingDate, 'YYYY')`, "DESC")
-        qb.addOrderBy(`CASE listings.marketingSeason WHEN '${ListingSeasonEnum.Spring}' THEN 1 WHEN '${ListingSeasonEnum.Summer}' THEN 2  WHEN '${ListingSeasonEnum.Fall}' THEN 3  WHEN '${ListingSeasonEnum.Winter}' THEN 4 END`, "ASC")
+        qb.addOrderBy(`to_char(listings.marketingDate, 'YYYY')`, "ASC")
+        qb.addOrderBy(
+          `CASE listings.marketingSeason WHEN '${ListingSeasonEnum.Spring}' THEN 1 WHEN '${ListingSeasonEnum.Summer}' THEN 2  WHEN '${ListingSeasonEnum.Fall}' THEN 3  WHEN '${ListingSeasonEnum.Winter}' THEN 4 END`,
+          "ASC"
+        )
         qb.addOrderBy("listings.updatedAt", "DESC")
         break
       case undefined:
