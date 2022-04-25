@@ -8,15 +8,22 @@ $tooltip_arrow_height: 9px;
 
 .tooltip__element {
   @apply w-full;
-  @apply absolute left-1/2;
+  @apply fixed;
   @apply bg-primary-dark;
   @apply text-white;
   @apply rounded;
   @apply p-2;
   @apply text-sm font-bold text-center;
-  top: calc(-100% - $tooltip_arrow_height - $tooltip_padding * 2);
-  transform: translateX(-50%);
+  @apply opacity-0;
+  @apply invisible;
+  transform: translateY(calc(-100% - $tooltip_padding * 2));
   max-width: 280px;
+  transition: opacity 0.2s;
+
+  &--visible {
+    @apply opacity-100;
+    @apply visible;
+  }
 
   &::before {
     content: '';
