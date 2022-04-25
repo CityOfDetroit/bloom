@@ -16,16 +16,11 @@ import {
   GroupedTable,
   ImageCard,
   GetApplication,
-  LeasingAgent,
   ListingDetailItem,
   ListingDetails,
   ListingMap,
   OneLineAddress,
-  OpenHouseEvent,
-  ReferralApplication,
   SubmitApplication,
-  Waitlist,
-  ListingUpdated,
   ListSection,
   StandardTable,
   t,
@@ -50,6 +45,8 @@ import {
   openInFuture,
   getListingTag,
 } from "../lib/helpers"
+
+import ListingProcessComponent from "./ListingProcessComponent"
 
 interface ListingProps {
   listing: Listing
@@ -337,7 +334,15 @@ export const ListingView = (props: ListingProps) => {
             hideHeader={true}
             desktopClass="header-hidden"
           >
-            <></>
+            <div className="block md:hidden">
+              <ListingProcessComponent
+                listing={listing}
+                openHouseEvents={openHouseEvents}
+                applicationsClosed={applicationsClosed}
+                hasNonReferralMethods={hasNonReferralMethods}
+                applySidebar={applySidebar}
+              />
+            </div>
           </ListingDetailItem>
 
           {hmiData?.length || occupancyData?.length || listing.listingPrograms?.length ? (
@@ -513,7 +518,14 @@ export const ListingView = (props: ListingProps) => {
         </ListingDetails>
       </div>
       <div className="hidden md:block md:w-1/3">
-        <aside className="w-full static md:right-0 md:top-0 md:ml-2 md:border border-gray-400 bg-white">
+        <ListingProcessComponent
+          listing={listing}
+          openHouseEvents={openHouseEvents}
+          applicationsClosed={applicationsClosed}
+          hasNonReferralMethods={hasNonReferralMethods}
+          applySidebar={applySidebar}
+        />
+        {/* <aside className="w-full static md:right-0 md:top-0 md:ml-2 md:border border-gray-400 bg-white">
           <div className="hidden md:block">
             <ListingUpdated listingUpdated={listing.updatedAt} />
             {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
@@ -558,7 +570,7 @@ export const ListingView = (props: ListingProps) => {
               <p>{listing.neighborhood}</p>
             </section>
           )}
-        </aside>
+        </aside> */}
       </div>
     </article>
   )
