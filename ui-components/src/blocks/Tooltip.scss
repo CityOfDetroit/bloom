@@ -3,6 +3,7 @@ $tooltip_arrow_height: 9px;
 
 .tooltip {
   @apply relative;
+  display: inline-block;
   width: fit-content;
 }
 
