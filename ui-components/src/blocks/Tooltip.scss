@@ -14,9 +14,11 @@ $tooltip_arrow_height: 9px;
   @apply rounded;
   @apply p-2;
   @apply text-sm font-bold text-center;
+  @apply capitalize;
   @apply opacity-0;
   @apply invisible;
-  transform: translateY(calc(-100% - $tooltip_padding * 2));
+  transform: translate(-50%, calc(-100% - $tooltip_padding * 2));
+
   max-width: 280px;
   transition: opacity 0.2s;
 
@@ -36,8 +38,4 @@ $tooltip_arrow_height: 9px;
     border-width: $tooltip_arrow_height 7px 0 7px;
     border-color: theme('colors.primary-dark') transparent transparent transparent;
   }
-}
-
-.tooltip__children {
-  width: fit-content;
 }

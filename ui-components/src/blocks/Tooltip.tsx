@@ -18,10 +18,12 @@ const Tooltip: React.FC<TooltipProps> = ({ className, id, text, children }) => {
   const childrenWrapperRef = useRef<HTMLDivElement>(null)
 
   const show = () => {
-    const { x, y } = childrenWrapperRef.current?.getBoundingClientRect() || {}
+    const { x, y, width, height } = childrenWrapperRef.current?.getBoundingClientRect() || {}
 
-    if (x && y) {
-      setPosition({ top: y, left: x })
+    console.log(x, y)
+
+    if (x && y && width && height) {
+      setPosition({ top: y, left: x + width / 2 })
     }
   }
 
