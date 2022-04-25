@@ -194,18 +194,19 @@ interface UnitSummaryTable {
 }
 
 export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
-  const groupedUnitHeaders = {
+  const groupedUnitHeaders: TableHeaders = {
     unitType: t("t.unitType"),
     rent: t("t.rent"),
     availability: t("t.availability"),
-    ami: (
-      <div className="flex">
-        {t("listings.unit.ami")}
+    ami: {
+      name: "ami",
+      className: "ami-header",
+      icon: (
         <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
           <Icon size="medium" symbol="info" />
         </Tooltip>
-      </div>
-    ),
+      ),
+    },
   }
   let groupedUnitData: Record<string, React.ReactNode>[] = null
 
