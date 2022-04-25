@@ -91,6 +91,21 @@ describe("Listings", () => {
     expect(res.body.items.length).toEqual(1)
   })
 
+  it("should return listings with matching zipcodes", async () => {
+    const queryParams = {
+      limit: "all",
+      filter: [
+        {
+          $comparison: "IN",
+          zipcode: "94621,94404",
+        },
+      ],
+      view: "base",
+    }
+    const query = qs.stringify(queryParams)
+    await supertest(app.getHttpServer()).get(`/listings?${query}`).expect(200)
+  })
+
   it("should return no listings with San Mateo jurisdiction", async () => {
     const jurisdictions = await jurisdictionsRepository.find()
     const sanmateo = jurisdictions.find((jurisdiction) => jurisdiction.name === "San Mateo")

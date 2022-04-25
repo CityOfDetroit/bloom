@@ -21,16 +21,7 @@ import {
   LatitudeLongitude,
 } from "@bloom-housing/ui-components"
 import { useForm, FormProvider } from "react-hook-form"
-import {
-  ListingStatus,
-  ListingEventType,
-  Program,
-  ListingStatus,
-  ListingEventType,
-  Preference,
-  Program,
-} from "@bloom-housing/backend-core/types"
-
+import { ListingStatus, ListingEventType, Program } from "@bloom-housing/backend-core/types"
 import {
   AlertErrorType,
   FormListing,
@@ -58,10 +49,9 @@ import LotteryResults from "./sections/LotteryResults"
 import ApplicationTypes from "./sections/ApplicationTypes"
 import SelectAndOrder from "./sections/SelectAndOrder"
 import Verification from "./sections/Verification"
-import CommunityType from "./sections/CommunityType"
 import BuildingSelectionCriteria from "./sections/BuildingSelectionCriteria"
 import { getReadableErrorMessage } from "../PaperListingDetails/sections/helpers"
-import { useJurisdictionalPreferenceList, useJurisdictionalProgramList } from "../../../lib/hooks"
+import { useJurisdictionalProgramList } from "../../../lib/hooks"
 
 type ListingFormProps = {
   listing?: FormListing

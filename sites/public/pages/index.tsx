@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useState } from "react"
 import Head from "next/head"
 import Link from "next/link"
-import { Jurisdiction } from "@bloom-housing/backend-core/types"
 import {
-  AuthContext,
   AlertBox,
   Hero,
   t,
@@ -12,8 +10,6 @@ import {
   LinkButton,
   Icon,
 } from "@bloom-housing/ui-components"
-import { PageView, pushGtmEvent } from "@bloom-housing/shared-helpers"
-import { UserStatus } from "../lib/constants"
 import Layout from "../layouts/application"
 import { ConfirmationModal } from "../src/ConfirmationModal"
 import { MetaTags } from "../src/MetaTags"
@@ -40,7 +36,6 @@ export default function Home({ latestListings }) {
     alertMessage: null,
     alertType: null,
   }
-  const { profile } = useContext(AuthContext)
   const [alertInfo, setAlertInfo] = useState(blankAlertInfo)
 
   const heroTitle = <>{t("welcome.title")}</>

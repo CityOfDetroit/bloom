@@ -30,7 +30,6 @@ import { ListingDefaultLottery } from "./seeds/listings/listing-default-lottery-
 import { ListingDefaultLotteryPending } from "./seeds/listings/listing-default-lottery-pending"
 import { ListingDefaultMultipleAMIAndPercentages } from "./seeds/listings/listing-default-multiple-ami-and-percentages"
 import { ListingDefaultMissingAMI } from "./seeds/listings/listing-default-missing-ami"
-import { ListingDefaultSanJoseSeed } from "./seeds/listings/listing-default-sanjose-seed"
 import { AmiChartDefaultSeed } from "./seeds/ami-charts/default-ami-chart"
 import {
   defaultLeasingAgents,
