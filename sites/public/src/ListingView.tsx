@@ -22,6 +22,9 @@ import {
   ListingMap,
   OneLineAddress,
   OpenHouseEvent,
+  Message,
+  EventSection,
+  PreferencesList,
   ReferralApplication,
   SubmitApplication,
   Waitlist,
@@ -88,7 +91,7 @@ export const ListingView = (props: ListingProps) => {
           if (!openHouseEvents) {
             openHouseEvents = []
           }
-          openHouseEvents.push(event)
+          openHouseEvents.push(getEvent(event))
           break
       }
     })
@@ -355,7 +358,10 @@ export const ListingView = (props: ListingProps) => {
             </div>
             {openHouseEvents && (
               <div className="mb-2 md:hidden">
-                <OpenHouseEvent events={openHouseEvents} />
+                <EventSection
+                  events={openHouseEvents}
+                  headerText={t("listings.openHouseEvent.header")}
+                />
               </div>
             )}
             <LeasingAgent
@@ -509,7 +515,7 @@ export const ListingView = (props: ListingProps) => {
         <ListingDetailItem
           imageAlt={t("listings.neighborhoodBuildings")}
           imageSrc="/images/listing-neighborhood.svg"
-          title={t("listings.sections.neighborhoodTitle")}
+          title={t("t.neighborhood")}
           subtitle={t("listings.sections.neighborhoodSubtitle")}
         >
           <div className="listing-detail-panel">
@@ -524,7 +530,7 @@ export const ListingView = (props: ListingProps) => {
           <ListingDetailItem
             imageAlt={t("listings.additionalInformationEnvelope")}
             imageSrc="/images/listing-legal.svg"
-            title={t("listings.sections.additionalInformationTitle")}
+            title={t("listings.additionalInformation")}
             subtitle={t("listings.sections.additionalInformationSubtitle")}
             desktopClass="bg-primary-lighter"
           >

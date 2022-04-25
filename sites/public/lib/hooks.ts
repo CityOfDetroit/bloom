@@ -14,14 +14,16 @@ import {
 import {
   Listing,
   ListingReviewOrder,
-  OrderByFieldsEnum,
   ListingStatus,
   EnumListingFilterParamsComparison,
   EnumListingFilterParamsStatus,
+  Jurisdiction,
+  ListingFilterParams,
+  OrderByFieldsEnum,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
 import { AppSubmissionContext } from "./AppSubmissionContext"
-import { openInFuture } from "../lib/helpers"
+import { getListingApplicationStatus } from "../lib/helpers"
 
 export const useRedirectToPrevPage = (defaultPath = "/") => {
   const router = useRouter()
@@ -98,36 +100,8 @@ export const useGetApplicationStatusProps = (listing: Listing): ApplicationStatu
 
   useEffect(() => {
     if (!listing) return
-    let content = ""
-    let subContent = ""
-    let formattedDate = ""
-    if (openInFuture(listing)) {
-      const date = listing.applicationOpenDate
-      const openDate = dayjs(date)
-      formattedDate = openDate.format("MMM D, YYYY")
-      content = t("listings.applicationOpenPeriod")
-    } else {
-      if (listing.applicationDueDate) {
-        const dueDate = dayjs(listing.applicationDueDate)
-        formattedDate = dueDate.format("MMM DD, YYYY")
-        formattedDate = formattedDate + ` ${t("t.at")} ` + dueDate.format("h:mm A")
 
-        // if due date is in future, listing is open
-        if (dayjs() < dueDate) {
-          content = t("listings.applicationDeadline")
-        } else {
-          content = t("listings.applicationsClosed")
-        }
-      }
-      if (listing.status === ListingStatus.closed) {
-        content = t("listings.applicationsClosed")
-      }
-    }
-    content = formattedDate !== "" ? `${content}: ${formattedDate}` : content
-    if (listing.reviewOrderType === ListingReviewOrder.firstComeFirstServe) {
-      subContent = content
-      content = t("listings.applicationFCFS")
-    }
+    const { content, subContent } = getListingApplicationStatus(listing)
 
     setProps({ content, subContent })
   }, [listing])
@@ -151,9 +125,6 @@ export async function fetchBaseListingData() {
           },
         ],
       },
-      paramsSerializer: (params) => {
-        return qs.stringify(params)
-      },
     })
 
     listings = response.data ?? []
@@ -162,4 +133,24 @@ export async function fetchBaseListingData() {
   }
 
   return listings
+}
+
+let jurisdiction: Jurisdiction | null = null
+
+export async function fetchJurisdictionByName() {
+  try {
+    if (jurisdiction) {
+      return jurisdiction
+    }
+
+    const jurisdictionName = process.env.jurisdictionName
+    const jurisdictionRes = await axios.get(
+      `${process.env.backendApiBase}/jurisdictions/byName/${jurisdictionName}`
+    )
+    jurisdiction = jurisdictionRes?.data
+  } catch (error) {
+    console.log("error = ", error)
+  }
+
+  return jurisdiction
 }

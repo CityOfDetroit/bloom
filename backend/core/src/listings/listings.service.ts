@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm"
 import { Pagination } from "nestjs-typeorm-paginate"
 import { In, Repository, SelectQueryBuilder } from "typeorm"
 import { plainToClass } from "class-transformer"
+import { Interval } from "@nestjs/schedule"
 import { Listing } from "./entities/listing.entity"
 import { PropertyCreateDto, PropertyUpdateDto } from "../property/dto/property.dto"
 import { addFilters } from "../shared/query-filter"
@@ -325,5 +326,22 @@ export class ListingsService {
         )
     }
     return qb
+  }
+
+  @Interval(1000 * 60 * 60)
+  public async changeOverdueListingsStatusCron() {
+    const listings = await this.listingRepository
+      .createQueryBuilder("listings")
+      .select(["listings.id", "listings.applicationDueDate", "listings.status"])
+      .where(`listings.status = '${ListingStatus.active}'`)
+      .andWhere(`listings.applicationDueDate IS NOT NULL`)
+      .andWhere(`listings.applicationDueDate < NOW()`)
+      .getMany()
+    for (const listing of listings) {
+      listing.status = ListingStatus.closed
+      listing.closedAt = new Date()
+    }
+
+    await this.listingRepository.save(listings)
   }
 }

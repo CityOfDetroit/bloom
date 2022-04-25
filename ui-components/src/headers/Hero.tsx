@@ -11,9 +11,9 @@ export interface HeroProps {
   centered?: boolean
   children?: React.ReactNode
   className?: string
-  extraLargeTitle?: boolean
   heroInset?: React.ReactNode
   innerClassName?: string
+  extraLargeTitle?: boolean
   secondaryButtonLink?: string
   secondaryButtonTitle?: string
   title: React.ReactNode

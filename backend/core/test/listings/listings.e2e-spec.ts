@@ -91,37 +91,22 @@ describe("Listings", () => {
     expect(res.body.items.length).toEqual(1)
   })
 
-  it("should return listings with matching zipcodes", async () => {
-    const queryParams = {
-      limit: "all",
-      filter: [
-        {
-          $comparison: "IN",
-          zipcode: "94621,94404",
-        },
-      ],
-      view: "base",
-    }
-    const query = qs.stringify(queryParams)
-    await supertest(app.getHttpServer()).get(`/listings?${query}`).expect(200)
-  })
-
-  it("should return listings with matching Alameda jurisdiction", async () => {
+  it("should return no listings with San Mateo jurisdiction", async () => {
     const jurisdictions = await jurisdictionsRepository.find()
-    const alameda = jurisdictions.find((jurisdiction) => jurisdiction.name === "Alameda")
+    const sanmateo = jurisdictions.find((jurisdiction) => jurisdiction.name === "San Mateo")
     const queryParams = {
       limit: "all",
       filter: [
         {
           $comparison: "=",
-          jurisdiction: alameda.id,
+          jurisdiction: sanmateo.id,
         },
       ],
       view: "base",
     }
     const query = qs.stringify(queryParams)
     const res = await supertest(app.getHttpServer()).get(`/listings?${query}`).expect(200)
-    expect(res.body.items.length).toBe(20)
+    expect(res.body.items.length).toBe(0)
   })
 
   it("should modify property related fields of a listing and return a modified value", async () => {
@@ -565,6 +550,45 @@ describe("Listings", () => {
         secondPageListingUpdateTimestamp.getTime()
       )
     }
+  })
+
+  it("should add/overwrite and remove listing programs in existing listing", async () => {
+    const res = await supertest(app.getHttpServer()).get("/listings").expect(200)
+    const listing: ListingUpdateDto = { ...res.body.items[0] }
+    const newProgram = await programsRepository.save({
+      title: "TestTitle",
+      subtitle: "TestSubtitle",
+      description: "TestDescription",
+    })
+    listing.listingPrograms = [{ program: newProgram, ordinal: 1 }]
+
+    const putResponse = await supertest(app.getHttpServer())
+      .put(`/listings/${listing.id}`)
+      .send(listing)
+      .set(...setAuthorization(adminAccessToken))
+      .expect(200)
+
+    const listingResponse = await supertest(app.getHttpServer())
+      .get(`/listings/${putResponse.body.id}`)
+      .expect(200)
+
+    expect(listingResponse.body.listingPrograms[0].program.id).toBe(newProgram.id)
+    expect(listingResponse.body.listingPrograms[0].program.title).toBe(newProgram.title)
+    expect(listingResponse.body.listingPrograms[0].ordinal).toBe(1)
+
+    await supertest(app.getHttpServer())
+      .put(`/listings/${listing.id}`)
+      .send({
+        ...putResponse.body,
+        listingPrograms: [],
+      })
+      .set(...setAuthorization(adminAccessToken))
+      .expect(200)
+
+    const listingResponse2 = await supertest(app.getHttpServer())
+      .get(`/listings/${putResponse.body.id}`)
+      .expect(200)
+    expect(listingResponse2.body.listingPrograms.length).toBe(0)
   })
 
   afterEach(() => {

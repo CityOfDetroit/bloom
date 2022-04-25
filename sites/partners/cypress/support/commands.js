@@ -35,12 +35,24 @@ Cypress.Commands.add("getByTestId", (testId) => {
   return cy.get(`[data-test-id="${testId}"]`)
 })
 
+Cypress.Commands.add("loginAndAcceptTerms", () => {
+  cy.visit("/")
+  cy.fixture("user").then((user) => {
+    cy.get("input#email").type(user.email)
+    cy.get("input#password").type(user.password)
+    cy.get(".button").contains("Sign In").click()
+    cy.getByTestId("agree").check()
+    cy.getByTestId("form-submit").click()
+    cy.contains("Listings")
+  })
+})
+
 Cypress.Commands.add("login", () => {
   cy.visit("/")
   cy.fixture("user").then((user) => {
     cy.get("input#email").type(user.email)
     cy.get("input#password").type(user.password)
-    cy.get(".button").contains("Sign in").click()
+    cy.get(".button").contains("Sign In").click()
     cy.contains("Listings")
   })
 })
@@ -50,7 +62,7 @@ Cypress.Commands.add("loginWithMfa", () => {
   cy.fixture("mfaUser").then((user) => {
     cy.get("input#email").type(user.email)
     cy.get("input#password").type(user.password)
-    cy.get(".button").contains("Sign in").click()
+    cy.get(".button").contains("Sign In").click()
     cy.getByTestId("verify-by-email").click()
     cy.getByTestId("sign-in-mfa-code-field").type(user.mfaCode)
     cy.getByTestId("verify-and-sign-in").click()
@@ -59,7 +71,7 @@ Cypress.Commands.add("loginWithMfa", () => {
 })
 
 Cypress.Commands.add("signOut", () => {
-  cy.get("button").contains("Sign out").click()
+  cy.get("button").contains("Sign Out").click()
   cy.get("input#email")
 })
 

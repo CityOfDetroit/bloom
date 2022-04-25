@@ -21,7 +21,16 @@ import {
   LatitudeLongitude,
 } from "@bloom-housing/ui-components"
 import { useForm, FormProvider } from "react-hook-form"
-import { ListingStatus, ListingEventType, Program } from "@bloom-housing/backend-core/types"
+import {
+  ListingStatus,
+  ListingEventType,
+  Program,
+  ListingStatus,
+  ListingEventType,
+  Preference,
+  Program,
+} from "@bloom-housing/backend-core/types"
+
 import {
   AlertErrorType,
   FormListing,
@@ -49,9 +58,10 @@ import LotteryResults from "./sections/LotteryResults"
 import ApplicationTypes from "./sections/ApplicationTypes"
 import SelectAndOrder from "./sections/SelectAndOrder"
 import Verification from "./sections/Verification"
+import CommunityType from "./sections/CommunityType"
 import BuildingSelectionCriteria from "./sections/BuildingSelectionCriteria"
 import { getReadableErrorMessage } from "../PaperListingDetails/sections/helpers"
-import { useJurisdictionalProgramList } from "../../../lib/hooks"
+import { useJurisdictionalPreferenceList, useJurisdictionalProgramList } from "../../../lib/hooks"
 
 type ListingFormProps = {
   listing?: FormListing
@@ -205,17 +215,11 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
           const formattedData = await dataPipeline.run()
 
           const result = editMode
-            ? await listingsService.update(
-                {
-                  id: listing.id,
-                  body: { id: listing.id, ...formattedData },
-                },
-                { headers: { "x-purge-cache": true } }
-              )
-            : await listingsService.create(
-                { body: formattedData },
-                { headers: { "x-purge-cache": true } }
-              )
+            ? await listingsService.update({
+                id: listing.id,
+                body: { id: listing.id, ...formattedData },
+              })
+            : await listingsService.create({ body: formattedData })
           reset(formData)
 
           if (result) {
@@ -297,6 +301,11 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       unitsSummaries,
       openHouseEvents,
       profile,
+      editMode,
+      listingsService,
+      listing,
+      router,
+      programs,
       latLong,
       customMapPositionChosen,
       editMode,

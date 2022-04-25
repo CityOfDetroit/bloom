@@ -798,6 +798,27 @@ export class UserService {
     })
   }
   /**
+   * Resend confirmation
+   */
+  resendPartnerConfirmation(
+    params: {
+      /** requestBody */
+      body?: Email
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Status> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user/resend-partner-confirmation"
+
+      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * Verifies token is valid
    */
   isUserConfirmationTokenValid(
@@ -830,27 +851,6 @@ export class UserService {
   ): Promise<Status> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/user/resend-confirmation"
-
-      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
-
-      let data = params.body
-
-      configs.data = data
-      axios(configs, resolve, reject)
-    })
-  }
-  /**
-   * Resend confirmation
-   */
-  resendPartnerConfirmation(
-    params: {
-      /** requestBody */
-      body?: Email
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<Status> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + "/user/resend-partner-confirmation"
 
       const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
 
@@ -4134,6 +4134,9 @@ export interface User {
   phoneNumberVerified?: boolean
 
   /**  */
+  agreedToTermsOfService: boolean
+
+  /**  */
   hitConfirmationURL?: Date
 }
 
@@ -4252,15 +4255,10 @@ export interface UserBasic {
   phoneNumberVerified?: boolean
 
   /**  */
+  agreedToTermsOfService: boolean
+
+  /**  */
   hitConfirmationURL?: Date
-}
-
-export interface Confirm {
-  /**  */
-  token: string
-
-  /**  */
-  password?: string
 }
 
 export interface Email {
@@ -4274,6 +4272,14 @@ export interface Email {
 export interface Status {
   /**  */
   status: string
+}
+
+export interface Confirm {
+  /**  */
+  token: string
+
+  /**  */
+  password?: string
 }
 
 export interface ForgotPassword {
@@ -4367,6 +4373,9 @@ export interface UserUpdate {
   phoneNumberVerified?: boolean
 
   /**  */
+  agreedToTermsOfService: boolean
+
+  /**  */
   hitConfirmationURL?: Date
 
   /**  */
@@ -4376,9 +4385,6 @@ export interface UserUpdate {
 export interface UserFilterParams {
   /**  */
   $comparison: EnumUserFilterParamsComparison
-
-  /**  */
-  $include_nulls?: boolean
 
   /**  */
   isPartner?: boolean
@@ -4492,6 +4498,9 @@ export interface UserProfileUpdate {
 
   /**  */
   phoneNumber?: string
+
+  /**  */
+  agreedToTermsOfService: boolean
 }
 
 export interface JurisdictionCreate {
@@ -4558,9 +4567,6 @@ export interface JurisdictionUpdate {
 export interface ListingFilterParams {
   /**  */
   $comparison: EnumListingFilterParamsComparison
-
-  /**  */
-  $include_nulls?: boolean
 
   /**  */
   id?: string
@@ -6471,9 +6477,6 @@ export interface PreferencesFilterParams {
   $comparison: EnumPreferencesFilterParamsComparison
 
   /**  */
-  $include_nulls?: boolean
-
-  /**  */
   jurisdiction?: string
 }
 
@@ -6517,9 +6520,6 @@ export interface PreferenceUpdate {
 export interface ProgramsFilterParams {
   /**  */
   $comparison: EnumProgramsFilterParamsComparison
-
-  /**  */
-  $include_nulls?: boolean
 
   /**  */
   jurisdiction?: string
@@ -6974,7 +6974,6 @@ export enum EnumUserFilterParamsComparison {
   "<>" = "<>",
   "IN" = "IN",
   ">=" = ">=",
-  "<=" = "<=",
   "NA" = "NA",
 }
 export enum EnumJurisdictionCreateLanguages {
@@ -6996,7 +6995,6 @@ export enum EnumListingFilterParamsComparison {
   "<>" = "<>",
   "IN" = "IN",
   ">=" = ">=",
-  "<=" = "<=",
   "NA" = "NA",
 }
 export enum EnumListingFilterParamsStatus {
@@ -7097,7 +7095,6 @@ export enum EnumPreferencesFilterParamsComparison {
   "<>" = "<>",
   "IN" = "IN",
   ">=" = ">=",
-  "<=" = "<=",
   "NA" = "NA",
 }
 export enum EnumProgramsFilterParamsComparison {
@@ -7105,6 +7102,5 @@ export enum EnumProgramsFilterParamsComparison {
   "<>" = "<>",
   "IN" = "IN",
   ">=" = ">=",
-  "<=" = "<=",
   "NA" = "NA",
 }

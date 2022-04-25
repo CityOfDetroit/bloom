@@ -36,6 +36,8 @@ import DetailApplicationAddress from "../../../src/listings/PaperListingDetails/
 import DetailApplicationDates from "../../../src/listings/PaperListingDetails/sections/DetailApplicationDates"
 import DetailPrograms from "../../../src/listings/PaperListingDetails/sections/DetailPrograms"
 import DetailVerification from "../../../src/listings/PaperListingDetails/sections/DetailVerification"
+import DetailPreferences from "../../../src/listings/PaperListingDetails/sections/DetailPreferences"
+import DetailCommunityType from "../../../src/listings/PaperListingDetails/sections/DetailCommunityType"
 
 interface ListingProps {
   listing: Listing

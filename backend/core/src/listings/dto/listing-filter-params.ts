@@ -2,7 +2,7 @@
 import { BaseFilter } from "../../shared/dto/filter.dto"
 import { Expose } from "class-transformer"
 import { ApiProperty } from "@nestjs/swagger"
-import { IsBooleanString, IsEnum, IsNumberString, IsOptional, IsString } from "class-validator"
+import { IsEnum, IsNumberString, IsOptional, IsString, IsBooleanString } from "class-validator"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { AvailabilityFilterEnum, ListingFilterKeys } from "../types/listing-filter-keys-enum"
 import { ListingStatus } from "../types/listing-status-enum"
@@ -299,5 +299,15 @@ export class ListingFilterParams extends BaseFilter {
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.favorited]?: string
+  [ListingFilterKeys.favorited]?: string;
+
+  @Expose()
+  @ApiProperty({
+    type: String,
+    example: "bab6cb4f-7a5a-4ee5-b327-0c2508807780",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.jurisdiction]?: string
 }
