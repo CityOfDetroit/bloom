@@ -279,6 +279,10 @@ export const ListingView = (props: ListingProps) => {
                     text: getImageTagLabelFromListing(listing),
                     iconType: listing?.isVerified ? "badgeCheck" : null,
                     iconColor: "#193154",
+                    tooltip: {
+                      id: "verified",
+                      text: t("listings.managerHasConfirmedInformation"),
+                    },
                   },
                 ]
               : []

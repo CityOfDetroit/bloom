@@ -1131,6 +1131,7 @@
   "listings.unitsDescription": "Select the building units that are available through this listing.",
   "listings.unitTypesOrIndividual": "Do you want to show unit types or individual units?",
   "listings.listingIsAlreadyLive": "This listing is already live. Updates will affect the applicant experience on the housing portal.",
+  "listings.managerHasConfirmedInformation": "A property manager has confirmed the information on this listing",
   "lottery.applicationsThatQualifyForPreference": "Applications that qualify for this preference will be given a higher priority.",
   "lottery.viewPreferenceList": "View Preference List",
   "nav.srHeading": "Navigation Menu",
