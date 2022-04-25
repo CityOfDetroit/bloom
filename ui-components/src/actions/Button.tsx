@@ -22,6 +22,8 @@ export interface ButtonProps extends AppearanceProps {
   ariaLabel?: string
   dataTestId?: string
   "data-test-id"?: string
+  iconClass?: string
+  passToIconClass?: string
 }
 
 export const buttonClassesForProps = (props: Omit<ButtonProps, "onClick">) => {
@@ -44,13 +46,23 @@ export const buttonInner = (props: Omit<ButtonProps, "onClick">) => {
   if (props.icon) {
     return props.inlineIcon == "left" || props.iconPlacement == "left" ? (
       <>
-        <Icon className="button__icon" size={props.iconSize ?? iconSize} symbol={props.icon} />
+        <Icon
+          className={`button__icon ${props.iconClass}`}
+          size={props.iconSize ?? iconSize}
+          symbol={props.icon}
+          iconClass={props.passToIconClass}
+        />
         <span className="button__content">{props.children}</span>
       </>
     ) : (
       <>
         <span className="button__content">{props.children}</span>
-        <Icon className="button__icon" size={props.iconSize ?? iconSize} symbol={props.icon} />
+        <Icon
+          className={`button__icon ${props.iconClass}`}
+          size={props.iconSize ?? iconSize}
+          symbol={props.icon}
+          iconClass={props.passToIconClass}
+        />
       </>
     )
   } else if (props.loading) {

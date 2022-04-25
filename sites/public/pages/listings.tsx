@@ -8,7 +8,6 @@ import {
   t,
   encodeToFrontendFilterString,
   ListingFilterState,
-  FrontendListingFilterStateKeys,
   AuthContext,
   Drawer,
 } from "@bloom-housing/ui-components"
@@ -65,7 +64,7 @@ const ListingsPage = ({ initialListings }) => {
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
-        contentAreaClassName={"px-0 pt-0"}
+        contentAreaClassName={"px-0 pt-0 pb-0"}
       >
         <FilterForm
           onSubmit={(data) => onSubmit(/*page=*/ 1, 8, data)}
@@ -75,12 +74,13 @@ const ListingsPage = ({ initialListings }) => {
       <div className="flex container content-center max-w-5xl px-4 pt-8 mx-auto">
         <h3 className="text-3xl text-primary-darker font-bold">All rentals</h3>
         <Button
-          className="mx-5"
+          className="mx-5 bg-lush border-lush text-black"
           size={AppearanceSizeType.normal}
           icon="filter"
           iconPlacement="left"
           iconSize="base"
           onClick={() => setFilterModalVisible(true)}
+          passToIconClass={"ui-icon__filledBlack"}
         >
           {t("listingFilters.buttonTitle")}
         </Button>

@@ -415,6 +415,7 @@ export const Filter = (props: IconProps) => {
       viewBox="0 0 24 24"
       width="24px"
       fill={props.fill ?? "currentColor"}
+      className={props.className ?? ""}
     >
       <g>
         <path d="M0,0h24 M24,24H0" fill="none" />

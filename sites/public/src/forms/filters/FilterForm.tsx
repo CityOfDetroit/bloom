@@ -106,11 +106,13 @@ const FilterForm = (props: FilterFormProps) => {
         label: listingFeatures[elem],
       }))
     )
+  }, [])
 
+  useEffect(() => {
     setLocalFilterState({
       ...props.filterState,
     })
-  }, [])
+  }, [props.filterState])
 
   // This is causing a linting issue with unbound-method, see issue:
   // https://github.com/react-hook-form/react-hook-form/issues/2887
@@ -140,7 +142,7 @@ const FilterForm = (props: FilterFormProps) => {
             label={t("publicFilter.confirmedListingsFieldLabel")}
             register={register}
             inputProps={{
-              defaultChecked: Boolean(localFilterState?.isVerified),
+              defaultChecked: localFilterState?.isVerified,
             }}
             labelClassName={"text-gray-750 font-semibold"}
           />
@@ -162,7 +164,7 @@ const FilterForm = (props: FilterFormProps) => {
               label: elem.label,
               value: elem.value,
               inputProps: {
-                defaultChecked: Boolean(localFilterState?.availability?.includes(elem.value)),
+                defaultChecked: localFilterState?.availability?.includes(elem.value),
               },
             }))}
             fieldClassName="m-0"
@@ -300,8 +302,8 @@ const FilterForm = (props: FilterFormProps) => {
           />
         </GridCell>
       </GridSection>
-      <div className="text-left mt-8 bg-white border-t border-gray-450 pt-4">
-        <div className={"pb-4 mb-2 px-4"}>
+      <div className="text-left mt-28 bg-white border-t border-gray-450 pt-4">
+        <div className={"p-4 flex gap-4"}>
           <Button
             type="submit"
             styleType={AppearanceStyleType.primary}

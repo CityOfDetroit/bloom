@@ -118,7 +118,7 @@ const FilteredListingsPage = () => {
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
-        contentAreaClassName={"px-0 pt-0"}
+        contentAreaClassName={"px-0 pt-0  pb-0"}
       >
         <FilterForm onSubmit={onSubmit} filterState={filterState} onClose={setFilterModalVisible} />
       </Drawer>
@@ -141,11 +141,11 @@ const FilteredListingsPage = () => {
           <Button
             className="mx-2"
             size={AppearanceSizeType.normal}
-            styleType={AppearanceStyleType.secondary}
             // "Submit" the form with no params to trigger a reset.
             onClick={() => onSubmit({})}
             icon="close"
             iconPlacement="right"
+            iconClass="pl-2"
           >
             {t("listingFilters.resetButton")}
           </Button>
