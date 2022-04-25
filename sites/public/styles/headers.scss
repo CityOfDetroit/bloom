@@ -75,7 +75,10 @@
           font-size: 1.125rem;
           font-weight: 700;
           height: 40px;
-          padding: 1rem;
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+          padding-top: 0.9rem;
+          // padding: 1rem;
           text-transform: none;
         }
 
@@ -115,7 +118,7 @@
 
         .navbar-dropdown-container {
           display: flex;
-          margin-left: -1rem;
+          margin-left: -0.1rem;
           margin-top: 10px;
           width: auto;
           .navbar-dropdown {
