@@ -1,6 +1,5 @@
 import { LatitudeLongitude, TimeFieldPeriod } from "@bloom-housing/ui-components"
 import {
-  Preference,
   Program,
   ListingStatus,
   ListingApplicationAddressType,

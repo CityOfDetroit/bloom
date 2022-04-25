@@ -21,10 +21,7 @@ import {
   ListingDetails,
   ListingMap,
   OneLineAddress,
-  OpenHouseEvent,
-  Message,
   EventSection,
-  PreferencesList,
   ReferralApplication,
   SubmitApplication,
   Waitlist,
@@ -91,7 +88,7 @@ export const ListingView = (props: ListingProps) => {
           if (!openHouseEvents) {
             openHouseEvents = []
           }
-          openHouseEvents.push(getEvent(event))
+          openHouseEvents.push(event)
           break
       }
     })
@@ -332,7 +329,12 @@ export const ListingView = (props: ListingProps) => {
           <aside className="w-full static md:absolute md:right-0 md:w-1/3 md:top-0 sm:w-2/3 md:ml-2 md:border border-gray-400 bg-white">
             <div className="hidden md:block">
               <ListingUpdated listingUpdated={listing.updatedAt} />
-              {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
+              {openHouseEvents && (
+                <EventSection
+                  events={openHouseEvents}
+                  headerText={t("listings.openHouseEvent.header")}
+                />
+              )}
               {!applicationsClosed && (
                 <Waitlist
                   isWaitlistOpen={listing.isWaitlistOpen}
