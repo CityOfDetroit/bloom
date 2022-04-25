@@ -22,6 +22,7 @@ import {
   AppearanceStyleType,
   IconFillColors,
   ImageTag,
+  Tooltip,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -197,7 +198,14 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
     unitType: t("t.unitType"),
     rent: t("t.rent"),
     availability: t("t.availability"),
-    ami: t("listings.unit.ami"),
+    ami: (
+      <div className="flex">
+        {t("listings.unit.ami")}
+        <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
+          <Icon size="medium" symbol="info" />
+        </Tooltip>
+      </div>
+    ),
   }
   let groupedUnitData: Record<string, React.ReactNode>[] = null
 
