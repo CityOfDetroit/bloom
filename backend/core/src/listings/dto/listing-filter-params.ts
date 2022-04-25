@@ -2,7 +2,7 @@
 import { BaseFilter } from "../../shared/dto/filter.dto"
 import { Expose } from "class-transformer"
 import { ApiProperty } from "@nestjs/swagger"
-import { IsEnum, IsNumberString, IsOptional, IsString, IsBooleanString } from "class-validator"
+import { IsBooleanString, IsEnum, IsNumberString, IsOptional, IsString } from "class-validator"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { AvailabilityFilterEnum, ListingFilterKeys } from "../types/listing-filter-keys-enum"
 import { ListingStatus } from "../types/listing-status-enum"

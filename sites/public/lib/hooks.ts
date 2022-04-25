@@ -125,6 +125,9 @@ export async function fetchBaseListingData() {
           },
         ],
       },
+      paramsSerializer: (params) => {
+        return qs.stringify(params)
+      },
     })
 
     listings = response.data ?? []
