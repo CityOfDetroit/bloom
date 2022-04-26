@@ -144,7 +144,7 @@ const FilteredListingsPage = () => {
               onClick={() => onSubmit({})}
               icon="closeSmall"
               iconPlacement="right"
-              iconClass="pl-2 mr-0 fill-sky-800"
+              iconClass="pl-2 mr-0"
             >
               {t("listingFilters.resetButton")}
             </Button>
