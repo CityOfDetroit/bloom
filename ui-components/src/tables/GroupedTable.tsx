@@ -19,12 +19,10 @@ export const GroupedTable = (props: GroupedTableProps) => {
   const headerLabels = Object.values(headers).map((col, index) => {
     const uniqKey = process.env.NODE_ENV === "test" ? `header-${index}` : nanoid()
     return (
-      <>
-        <th key={uniqKey}>
-          {typeof col === "string" ? col : col.name}{" "}
-          {col instanceof Object && col.icon ? col.icon : null}
-        </th>
-      </>
+      <th key={uniqKey}>
+        {typeof col === "string" ? col : col.name}{" "}
+        {col instanceof Object && col.icon ? col.icon : null}
+      </th>
     )
   })
 

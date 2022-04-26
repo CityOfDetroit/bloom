@@ -209,7 +209,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
       className: "ami-header",
       icon: (
         <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
-          <Icon size="medium" symbol="info" />
+          <Icon size="medium" symbol="info" tabIndex={0} />
         </Tooltip>
       ),
     },
