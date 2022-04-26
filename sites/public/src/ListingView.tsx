@@ -74,8 +74,6 @@ export const ListingProcess = (props: ListingProcessProps) => {
     applySidebar,
   } = props
 
-  // TODO: Need help understanding why isWaitlistOpen, name and website are unhappy here
-
   return (
     <aside className="w-full static md:mr-8 md:ml-2 md:border border-gray-400 bg-white">
       <ListingUpdated listingUpdated={listing.updatedAt} />
