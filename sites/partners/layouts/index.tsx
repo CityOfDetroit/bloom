@@ -10,6 +10,7 @@ import {
   AuthContext,
   MenuLink,
   setSiteAlertMessage,
+  LocalizedLink,
 } from "@bloom-housing/ui-components"
 
 const Layout = (props) => {

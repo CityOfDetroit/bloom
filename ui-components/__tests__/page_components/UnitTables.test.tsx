@@ -117,38 +117,38 @@ const summaries: {
       { householdSize: 1, ami30: "$30,750", ami45: "$46,125" },
       { householdSize: 2, ami30: "$35,130", ami45: "$52,695" },
     ],
-  }
+  },
 }
 
 describe.skip("<UnitTables>", () => {
   it("renders with accordion", () => {
-    const { getByRole, getByTestId, getByText } = render(
+    const { getAllByText, getByRole, container } = render(
       <UnitTables units={archer.units} unitSummaries={summaries.byUnitType} />
     )
-    expect(getByText("Studio", { exact: false }))
-    expect(getByText("41 units", { exact: false }))
-    expect(getByText("285 square feet", { exact: false }))
-    expect(getByText("2nd - 3rd floors", { exact: false }))
-    expect(getByTestId("accordion-open")).toBeTruthy()
+    /*
+      * TODO: this had to have been a result of a bad merge, this test doesn't make sense
+      expect(getAllByText(summaries.byUnitType[0].areaRange.min).length).toBe(
+      summaries.byUnitType[0].totalAvailable
+    ) */
+    expect(container.getElementsByClassName("hidden").length).toBe(1)
     fireEvent.click(getByRole("button"))
-    expect(getByTestId("accordion-close")).toBeTruthy()
+    expect(container.getElementsByClassName("hidden").length).toBe(0)
   })
   it("renders without accordion", () => {
-    const { queryByTestId, getByRole, getByText } = render(
+    const { getAllByText, getByRole, container } = render(
       <UnitTables
         units={archer.units}
         unitSummaries={summaries.byUnitType}
         disableAccordion={true}
       />
     )
-    expect(getByText("Studio", { exact: false }))
-    expect(getByText("41 units", { exact: false }))
-    expect(getByText("285 square feet", { exact: false }))
-    expect(getByText("2nd - 3rd floors", { exact: false }))
-    expect(queryByTestId("accordion-open")).toBeFalsy()
-    expect(queryByTestId("accordion-close")).toBeFalsy()
+    /*
+      * TODO: this had to have been a result of a bad merge, this test doesn't make sense
+      expect(getAllByText(summaries.byUnitType[0].areaRange.min).length).toBe(
+      summaries.byUnitType[0].totalAvailable
+    ) */
+    expect(container.getElementsByClassName("hidden").length).toBe(1)
     fireEvent.click(getByRole("button"))
-    expect(queryByTestId("accordion-open")).toBeFalsy()
-    expect(queryByTestId("accordion-close")).toBeFalsy()
+    expect(container.getElementsByClassName("hidden").length).toBe(1)
   })
 })
