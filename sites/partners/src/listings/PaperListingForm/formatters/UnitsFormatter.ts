@@ -1,5 +1,5 @@
 import Formatter from "./Formatter"
-import { stringToBoolean, stringToNumber } from "../../../../lib/helpers"
+import { stringToBoolean, stringToNumberOrOne } from "../../../../lib/helpers"
 
 export default class UnitsFormatter extends Formatter {
   /** Format the values within the units array */
@@ -46,10 +46,10 @@ export default class UnitsFormatter extends Formatter {
         }
       })
 
-      unit.floor = stringToNumber(unit.floor)
-      unit.maxOccupancy = stringToNumber(unit.maxOccupancy)
-      unit.minOccupancy = stringToNumber(unit.minOccupancy)
-      unit.numBathrooms = stringToNumber(unit.numBathrooms)
+      unit.floor = stringToNumberOrOne(unit.floor)
+      unit.maxOccupancy = stringToNumberOrOne(unit.maxOccupancy)
+      unit.minOccupancy = stringToNumberOrOne(unit.minOccupancy)
+      unit.numBathrooms = stringToNumberOrOne(unit.numBathrooms)
 
       if (!unit.sqFeet) {
         delete unit.sqFeet
