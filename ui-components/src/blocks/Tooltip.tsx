@@ -13,7 +13,7 @@ export interface TooltipPosition {
   left: number
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ className, id, text, children }) => {
+const Tooltip = ({ className, id, text, children }: React.PropsWithChildren<TooltipProps>) => {
   const [position, setPosition] = useState<TooltipPosition | null>(null)
   const childrenWrapperRef = useRef<HTMLDivElement>(null)
 
