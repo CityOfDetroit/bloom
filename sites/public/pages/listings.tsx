@@ -64,7 +64,7 @@ const ListingsPage = ({ initialListings }) => {
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
-        contentAreaClassName={"px-0 pt-0 pb-0"}
+        contentAreaClassName={"px-0 pt-0 pb-0 h-full"}
       >
         <FilterForm
           onSubmit={(data) => onSubmit(/*page=*/ 1, 8, data)}

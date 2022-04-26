@@ -13,14 +13,14 @@ export function addAvailabilityQuery(qb: WhereExpression, filterValue: string) {
         return
       case "openWaitlist":
         if (!val.includes("closedWaitlist")) {
-          qb.andWhere("(coalesce(is_waitlist_open, false) = :openWaitlist)", {
+          qb.andWhere("(coalesce(unitGroups.open_waitlist, false) = :openWaitlist)", {
             openWaitlist: true,
           })
         }
         return
       case "closedWaitlist":
         if (!val.includes("openWaitlist")) {
-          qb.andWhere("(coalesce(is_waitlist_open, false) = :closedWaitlist)", {
+          qb.andWhere("(coalesce(unitGroups.open_waitlist, false) = :closedWaitlist)", {
             closedWaitlist: false,
           })
         }

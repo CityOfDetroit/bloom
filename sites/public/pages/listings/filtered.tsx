@@ -165,7 +165,7 @@ const FilteredListingsPage = () => {
               </header>
             </div>
           )}
-          {!listingsLoading && (
+          {!listingsLoading && listingsData?.meta.totalItems > 0 && (
             <div>
               {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
               <AgPagination
