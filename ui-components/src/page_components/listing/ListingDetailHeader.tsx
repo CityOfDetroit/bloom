@@ -19,7 +19,7 @@ const ListingDetailHeader = (props: ListingDetailHeaderProps) => (
         : "detail-header flex justify-start"
     }
   >
-    <span className="w-14 me-2 -ms-2.5">
+    <span className="w-14 me-2 -ms-2.5 md:absolute md:left-0 md:me-0">
       <img alt={props.imageAlt} className="detail-header__image " src={props.imageSrc} />
     </span>
     <div className="flex justify-between w-full">

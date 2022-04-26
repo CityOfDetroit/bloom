@@ -27,8 +27,10 @@
   @apply ps-4;
 
   @screen md {
-    @apply border-s-2;
+    @apply ml-12;
+    @apply border-l-2;
     @apply border-primary;
+    @apply w-full;
   }
 
   .ui-icon {
