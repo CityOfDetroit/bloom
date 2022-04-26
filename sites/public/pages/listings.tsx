@@ -71,22 +71,25 @@ const ListingsPage = ({ initialListings }) => {
           onClose={setFilterModalVisible}
         />
       </Drawer>
-      <div className="flex container content-center max-w-5xl px-4 pt-8 mx-auto">
-        <h3 className="text-3xl text-primary-darker font-bold">All rentals</h3>
-        <Button
-          className="mx-5 bg-lush border-lush text-black"
-          size={AppearanceSizeType.normal}
-          icon="filter"
-          iconPlacement="left"
-          iconSize="base"
-          onClick={() => setFilterModalVisible(true)}
-          passToIconClass={"ui-icon__filledBlack"}
-        >
-          {t("listingFilters.buttonTitle")}
-        </Button>
+
+      <div className={"bg-gray-300"}>
+        <h3 className="max-w-5xl container mx-auto text-3xl text-primary-darker font-bold px-4 py-8">
+          {t("listingFilters.allRentals")}
+          <Button
+            className="mx-5 bg-lush border-lush text-black"
+            size={AppearanceSizeType.normal}
+            icon="filter"
+            iconPlacement="left"
+            iconSize="base"
+            onClick={() => setFilterModalVisible(true)}
+            passToIconClass={"ui-icon__filledBlack"}
+          >
+            {t("listingFilters.buttonTitle")}
+          </Button>
+        </h3>
       </div>
       {initialListings?.meta?.totalItems === 0 && (
-        <div className="container max-w-3xl my-4 px-4 content-start mx-auto">
+        <div className="container max-w-5xl my-4 px-4 content-start mx-auto">
           <header>
             <h2 className="page-header__title">{t("listingFilters.noResults")}</h2>
             <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>

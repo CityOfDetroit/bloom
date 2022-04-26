@@ -120,209 +120,227 @@ const FilterForm = (props: FilterFormProps) => {
   const { handleSubmit, register, reset } = useForm()
 
   return (
-    <Form onSubmit={handleSubmit(props.onSubmit)}>
-      <GridSection columns={1} className={"px-4"}>
-        <GridCell span={1}>
-          <Field
-            id="status"
-            name={FrontendListingFilterStateKeys.status}
-            type="hidden"
-            register={register}
-            defaultValue={EnumListingFilterParamsStatus.active}
-          />
-          <ViewItem
-            className={"font-bold"}
-            label={t("publicFilter.confirmedListings")}
-            labelStyling={"text-gray-750"}
-          />
-          <Field
-            id="isVerified"
-            name={FrontendListingFilterStateKeys.isVerified}
-            type="checkbox"
-            label={t("publicFilter.confirmedListingsFieldLabel")}
-            register={register}
-            inputProps={{
-              defaultChecked: localFilterState?.isVerified,
-            }}
-            labelClassName={"text-gray-750 font-semibold"}
-          />
-        </GridCell>
-      </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
-        <GridCell span={3}>
-          <ViewItem
-            className={"font-bold"}
-            label={t("t.availability")}
-            labelStyling={"text-gray-750"}
-          />
-          <FieldGroup
-            name="availability"
-            type="checkbox"
-            register={register}
-            fields={availabilityOptions.map((elem) => ({
-              id: elem.value,
-              label: elem.label,
-              value: elem.value,
-              inputProps: {
-                defaultChecked: localFilterState?.availability?.includes(elem.value),
-              },
-            }))}
-            fieldClassName="m-0"
-            fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
-            fieldLabelClassName={"text-gray-750"}
-          />
-        </GridCell>
-      </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
-        <GridCell span={3}>
-          <ViewItem
-            className={"font-bold"}
-            label={t("publicFilter.bedRoomSize")}
-            labelStyling={"text-gray-750"}
-          />
-          <FieldGroup
-            name="bedRoomSize"
-            type="checkbox"
-            register={register}
-            fields={bedroomOptions.map((elem) => ({
-              id: FrontendListingFilterStateKeys[elem.label],
-              label: t(`listingFilters.bedroomsOptions.${elem.translation}`),
-              value: FrontendListingFilterStateKeys[elem.label],
-              inputProps: {
-                defaultChecked: Boolean(
-                  localFilterState?.bedRoomSize?.includes(
-                    FrontendListingFilterStateKeys[elem.label]
-                  )
-                ),
-              },
-            }))}
-            fieldClassName="m-0"
-            fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
-            fieldLabelClassName={"text-gray-750"}
-          />
-        </GridCell>
-      </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
-        <GridCell span={3}>
-          <ViewItem
-            className={"font-bold"}
-            label={t("publicFilter.rentRange")}
-            labelStyling={"text-gray-750"}
-          />
-        </GridCell>
-        <GridCell span={1}>
-          <Field
-            id={"minRent"}
-            name={FrontendListingFilterStateKeys.minRent}
-            placeholder={t("publicFilter.rentRangeMin")}
-            register={register}
-            prepend={"$"}
-            defaultValue={localFilterState?.minRent}
-          />
-        </GridCell>
-        <GridCell span={1}>
-          <Field
-            id={"maxRent"}
-            name={FrontendListingFilterStateKeys.maxRent}
-            placeholder={t("publicFilter.rentRangeMax")}
-            register={register}
-            prepend={"$"}
-            defaultValue={localFilterState?.maxRent}
-          />
-        </GridCell>
-      </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-4"}>
-        <GridCell span={3}>
-          <ViewItem
-            className={"font-bold"}
-            label={t("publicFilter.communityPrograms")}
-            labelStyling={"text-gray-750"}
-          />
-          <FieldGroup
-            name="communityPrograms"
-            type="checkbox"
-            register={register}
-            fields={communityProgramOptions.map((elem) => ({
-              id: elem.value,
-              label: elem.label,
-              value: elem.value,
-              inputProps: {
-                defaultChecked: Boolean(localFilterState?.communityPrograms?.includes(elem.value)),
-              },
-            }))}
-            fieldClassName="m-0"
-            fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
-            fieldLabelClassName={"text-gray-750"}
-          />
-        </GridCell>
-      </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
-        <GridCell span={3}>
-          <ViewItem className={"font-bold"} label={t("t.region")} labelStyling={"text-gray-750"} />
-          <FieldGroup
-            name="region"
-            type="checkbox"
-            register={register}
-            fields={regionOptions.map((elem) => ({
-              id: elem.value,
-              label: elem.label,
-              value: elem.value,
-              inputProps: {
-                defaultChecked: Boolean(localFilterState?.region?.includes(elem.value)),
-              },
-            }))}
-            fieldClassName="m-0"
-            fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
-            fieldLabelClassName={"text-gray-750"}
-          />
-        </GridCell>
-      </GridSection>
-      <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
-        <GridCell span={3}>
-          <ViewItem
-            className={"font-bold"}
-            label={t("eligibility.accessibility.title")}
-            labelStyling={"text-gray-750"}
-          />
-          <FieldGroup
-            name="accessibility"
-            type="checkbox"
-            register={register}
-            fields={accessibilityFeatureOptions.map((elem) => ({
-              id: elem.value,
-              label: elem.label,
-              value: elem.value,
-              inputProps: {
-                defaultChecked: Boolean(localFilterState?.accessibility?.includes(elem.value)),
-              },
-            }))}
-            fieldClassName="m-0"
-            fieldGroupClassName="flexitems-center grid md:grid-cols-3 sm:grid-cols-1"
-            fieldLabelClassName={"text-gray-750"}
-          />
-        </GridCell>
-      </GridSection>
-      <div className="text-left mt-28 bg-white border-t border-gray-450 pt-4">
-        <div className={"p-4 flex gap-4"}>
-          <Button
-            type="submit"
-            styleType={AppearanceStyleType.primary}
-            className={"border-primary bg-primary-darker mr-3 hover:text-white"}
-          >
-            {t("t.done")}
-          </Button>
-          <Button
-            type="button"
-            styleType={AppearanceStyleType.secondary}
-            border={AppearanceBorderType.borderless}
-            className={"border-primary text-primary hover:text-white"}
-            onClick={() => {
-              setLocalFilterState({})
-              reset()
-            }}
-          >
-            {t("listingFilters.clear")}
-          </Button>
+    <Form
+      onSubmit={handleSubmit(props.onSubmit)}
+      className={"flex flex-col justify-between h-full"}
+    >
+      <div>
+        <GridSection columns={1} className={"px-4"}>
+          <GridCell span={1}>
+            <Field
+              id="status"
+              name={FrontendListingFilterStateKeys.status}
+              type="hidden"
+              register={register}
+              defaultValue={EnumListingFilterParamsStatus.active}
+            />
+            <ViewItem
+              className={"font-bold"}
+              label={t("publicFilter.confirmedListings")}
+              labelStyling={"text-gray-750"}
+            />
+            <Field
+              id="isVerified"
+              name={FrontendListingFilterStateKeys.isVerified}
+              type="checkbox"
+              label={t("publicFilter.confirmedListingsFieldLabel")}
+              register={register}
+              inputProps={{
+                defaultChecked: localFilterState?.isVerified,
+              }}
+              labelClassName={"text-gray-750 font-semibold"}
+            />
+          </GridCell>
+        </GridSection>
+        <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
+          <GridCell span={3}>
+            <ViewItem
+              className={"font-bold"}
+              label={t("t.availability")}
+              labelStyling={"text-gray-750"}
+            />
+            <FieldGroup
+              name="availability"
+              type="checkbox"
+              register={register}
+              fields={availabilityOptions.map((elem) => ({
+                id: elem.value,
+                label: elem.label,
+                value: elem.value,
+                inputProps: {
+                  defaultChecked: localFilterState?.availability?.includes(elem.value),
+                },
+              }))}
+              fieldClassName="m-0"
+              fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
+              fieldLabelClassName={"text-gray-750"}
+            />
+          </GridCell>
+        </GridSection>
+        <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
+          <GridCell span={3}>
+            <ViewItem
+              className={"font-bold"}
+              label={t("publicFilter.bedRoomSize")}
+              labelStyling={"text-gray-750"}
+            />
+            <FieldGroup
+              name="bedRoomSize"
+              type="checkbox"
+              register={register}
+              fields={bedroomOptions.map((elem) => ({
+                id: FrontendListingFilterStateKeys[elem.label],
+                label: t(`listingFilters.bedroomsOptions.${elem.translation}`),
+                value: FrontendListingFilterStateKeys[elem.label],
+                inputProps: {
+                  defaultChecked: Boolean(
+                    localFilterState?.bedRoomSize?.includes(
+                      FrontendListingFilterStateKeys[elem.label]
+                    )
+                  ),
+                },
+              }))}
+              fieldClassName="m-0"
+              fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
+              fieldLabelClassName={"text-gray-750"}
+            />
+          </GridCell>
+        </GridSection>
+        <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
+          <GridCell span={3}>
+            <ViewItem
+              className={"font-bold"}
+              label={t("publicFilter.rentRange")}
+              labelStyling={"text-gray-750"}
+            />
+          </GridCell>
+          <GridCell span={1}>
+            <Field
+              id={"minRent"}
+              name={FrontendListingFilterStateKeys.minRent}
+              placeholder={t("publicFilter.rentRangeMin")}
+              register={register}
+              prepend={"$"}
+              defaultValue={localFilterState?.minRent}
+            />
+          </GridCell>
+          <GridCell span={1}>
+            <Field
+              id={"maxRent"}
+              name={FrontendListingFilterStateKeys.maxRent}
+              placeholder={t("publicFilter.rentRangeMax")}
+              register={register}
+              prepend={"$"}
+              defaultValue={localFilterState?.maxRent}
+            />
+          </GridCell>
+        </GridSection>
+        <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-4"}>
+          <GridCell span={3}>
+            <ViewItem
+              className={"font-bold"}
+              label={t("publicFilter.communityPrograms")}
+              labelStyling={"text-gray-750"}
+            />
+            <FieldGroup
+              name="communityPrograms"
+              type="checkbox"
+              register={register}
+              fields={communityProgramOptions.map((elem) => ({
+                id: elem.value,
+                label: elem.label,
+                value: elem.value,
+                inputProps: {
+                  defaultChecked: Boolean(
+                    localFilterState?.communityPrograms?.includes(elem.value)
+                  ),
+                },
+              }))}
+              fieldClassName="m-0"
+              fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
+              fieldLabelClassName={"text-gray-750"}
+            />
+          </GridCell>
+        </GridSection>
+        <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
+          <GridCell span={3}>
+            <ViewItem
+              className={"font-bold"}
+              label={t("t.region")}
+              labelStyling={"text-gray-750"}
+            />
+            <FieldGroup
+              name="region"
+              type="checkbox"
+              register={register}
+              fields={regionOptions.map((elem) => ({
+                id: elem.value,
+                label: elem.label,
+                value: elem.value,
+                inputProps: {
+                  defaultChecked: Boolean(localFilterState?.region?.includes(elem.value)),
+                },
+              }))}
+              fieldClassName="m-0"
+              fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
+              fieldLabelClassName={"text-gray-750"}
+            />
+          </GridCell>
+        </GridSection>
+        <GridSection
+          columns={3}
+          separator={true}
+          className={"px-4"}
+          wrapperClassName={"pt-4 mt-2 border-b pb-2 -mb-1"}
+        >
+          <GridCell span={3}>
+            <ViewItem
+              className={"font-bold"}
+              label={t("eligibility.accessibility.title")}
+              labelStyling={"text-gray-750"}
+            />
+            <FieldGroup
+              name="accessibility"
+              type="checkbox"
+              register={register}
+              fields={accessibilityFeatureOptions.map((elem) => ({
+                id: elem.value,
+                label: elem.label,
+                value: elem.value,
+                inputProps: {
+                  defaultChecked: Boolean(localFilterState?.accessibility?.includes(elem.value)),
+                },
+              }))}
+              fieldClassName="m-0"
+              fieldGroupClassName="flexitems-center grid md:grid-cols-3 sm:grid-cols-1"
+              fieldLabelClassName={"text-gray-750"}
+            />
+          </GridCell>
+        </GridSection>
+      </div>
+      <div>
+        <div className="text-left bg-white border-t border-gray-450">
+          <div className={"p-4 flex"}>
+            <Button
+              type="submit"
+              styleType={AppearanceStyleType.primary}
+              className={"border-primary-darker bg-primary-darker mr-3 hover:text-white"}
+            >
+              {t("t.done")}
+            </Button>
+            <Button
+              type="button"
+              styleType={AppearanceStyleType.secondary}
+              border={AppearanceBorderType.borderless}
+              className={"border-primary text-primary hover:text-white"}
+              onClick={() => {
+                setLocalFilterState({})
+                reset()
+              }}
+            >
+              {t("listingFilters.clear")}
+            </Button>
+          </div>
         </div>
       </div>
     </Form>
