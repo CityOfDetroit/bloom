@@ -15,7 +15,7 @@ $tooltip_arrow_height: 9px;
   @apply rounded;
   @apply p-2;
   @apply text-sm font-bold text-center;
-  @apply capitalize;
+  @apply normal-case;
   @apply opacity-0;
   @apply invisible;
   transform: translate(-50%, calc(-100% - $tooltip_padding * 2));
