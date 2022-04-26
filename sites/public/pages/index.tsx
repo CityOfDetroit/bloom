@@ -102,36 +102,12 @@ export default function Home({ latestListings }) {
       )}
       <Hero
         title={heroTitle}
-        backgroundImage={"/images/hero.png"}
+        backgroundImage={"/images/hero-placeholder.jpg"}
         heroInset={heroInset}
         innerClassName="bg-white bg-opacity-90 max-w-2xl mx-auto p-8 rounded-xl"
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
-      <div className="homepage-extra">
-        <div className="action-blocks mt-4 mb-4 w-full">
-          <ActionBlock
-            className="flex-1 has-bold-header"
-            header={t("welcome.signUp")}
-            icon={<Icon size="3xl" symbol="mailThin" />}
-            actions={[
-              <LinkButton key={"sign-up"} href={"#"}>
-                {t("welcome.signUpToday")}
-              </LinkButton>,
-            ]}
-          />
-          <ActionBlock
-            className="flex-1 has-bold-header"
-            header={t("welcome.seeMoreOpportunitiesTruncated")}
-            icon={<Icon size="3xl" symbol="building" />}
-            actions={[
-              <LinkButton href="/additional-resources" key={"additional-resources"}>
-                {t("welcome.viewAdditionalHousingTruncated")}
-              </LinkButton>,
-            ]}
-          />
-        </div>
-      </div>
       {showLatestListings && latestListings?.items && (
         <HorizontalScrollSection
           title={t("welcome.latestListings")}
@@ -153,6 +129,38 @@ export default function Home({ latestListings }) {
           <RegionButton region={region} key={index} />
         ))}
       </HorizontalScrollSection>
+      <section className="homepage-extra">
+        <div className="action-blocks mt-4 mb-4 w-full">
+          <ActionBlock
+            className="flex-1 has-bold-header"
+            header={t("welcome.signUp")}
+            icon={<Icon size="3xl" symbol="mailThin" />}
+            actions={[
+              <LinkButton
+                key={"sign-up"}
+                href={
+                  "https://public.govdelivery.com/accounts/MIDETROIT/subscriber/new?topic_id=MIDETROIT_415"
+                }
+                linkProps={{
+                  target: "_blank",
+                }}
+              >
+                {t("welcome.signUpToday")}
+              </LinkButton>,
+            ]}
+          />
+          <ActionBlock
+            className="flex-1 has-bold-header"
+            header={t("welcome.seeMoreOpportunitiesTruncated")}
+            icon={<Icon size="3xl" symbol="building" />}
+            actions={[
+              <LinkButton href="/additional-resources" key={"additional-resources"}>
+                {t("welcome.viewAdditionalHousingTruncated")}
+              </LinkButton>,
+            ]}
+          />
+        </div>
+      </section>
       <ConfirmationModal
         setSiteAlertMessage={(alertMessage, alertType) => setAlertInfo({ alertMessage, alertType })}
       />
