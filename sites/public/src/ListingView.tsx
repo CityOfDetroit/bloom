@@ -19,7 +19,6 @@ import {
   ListingDetailItem,
   ListingDetails,
   ListingMap,
-  ListingProcess,
   OneLineAddress,
   SubmitApplication,
   ListSection,
@@ -46,6 +45,7 @@ import {
   getListingTag,
   getImageCardTag,
 } from "../lib/helpers"
+import { ListingProcess } from "../lib/ListingProcess"
 
 interface ListingProps {
   listing: Listing

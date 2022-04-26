@@ -6,7 +6,7 @@ import { Listing } from "@bloom-housing/backend-core/types"
 
 interface LeasingAgentProps {
   listing: Listing
-  managementCompany?: { name: string | undefined; website: string | undefined }
+  managementCompany?: { name: string; website: string }
 }
 
 const LeasingAgent = (props: LeasingAgentProps) => {
