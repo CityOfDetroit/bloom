@@ -494,8 +494,6 @@ describe("ListingsService", () => {
       await service.list({})
 
       const expectedOrderByArgument = {
-        "listings.applicationDueDate": "ASC",
-        "listings.applicationOpenDate": "DESC",
         "listings.id": "ASC",
       }
 
