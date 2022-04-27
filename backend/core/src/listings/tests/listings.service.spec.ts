@@ -19,7 +19,7 @@ import { ListingMarketingTypeEnum } from "../types/listing-marketing-type-enum"
 import { UnitType } from "../../unit-types/entities/unit-type.entity"
 import { Program } from "../../program/entities/program.entity"
 import { ListingsNotificationsConsumer } from "../listings-notifications"
-import { BullModule } from "@nestjs/bull"
+import { BullModule, getQueueToken } from "@nestjs/bull"
 import { truncate } from "fs"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
@@ -194,7 +194,10 @@ describe("ListingsService", () => {
         },
       ],
       imports: [BullModule.registerQueue({ name: "listings-notifications" })],
-    }).compile()
+    })
+      .overrideProvider(getQueueToken("listings-notifications"))
+      .useValue(mockListingsNotificationsQueue)
+      .compile()
 
     const contextId = ContextIdFactory.create()
     jest.spyOn(ContextIdFactory, "getByRequest").mockImplementation(() => contextId)
@@ -371,7 +374,7 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "(coalesce(is_waitlist_open, false) = :openWaitlist)",
+        "(coalesce(unitGroups.open_waitlist, false) = :openWaitlist)",
         {
           openWaitlist: true,
         }
