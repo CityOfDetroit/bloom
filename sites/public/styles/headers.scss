@@ -72,12 +72,10 @@
           @apply text-primary;
           align-items: center;
           display: flex;
-          flex-direction: column;
           font-size: 1.125rem;
           font-weight: 700;
           height: 40px;
-          padding-left: 0.5rem;
-          padding-right: 0.5rem;
+          padding: 1rem;
           text-transform: none;
         }
 
@@ -85,6 +83,7 @@
           margin-inline-start: 1rem;
           padding-inline-start: 2rem;
           position: relative;
+          min-width: max-content;
         }
 
         // This is a little hacky to get the divider line to the left of the "sign in" link, but
@@ -101,6 +100,7 @@
         .navbar-link__sign-up {
           border: 2px solid $tailwind-primary;
           border-radius: 44px;
+          min-width: max-content;
         }
 
         .navbar-link.navbar-link__sign-up:hover {
@@ -118,7 +118,8 @@
         .navbar-dropdown-container {
           display: flex;
           margin-left: 0px;
-          margin-top: 8px;
+          border-top: 1px transparent;
+          margin-top: 7px;
           width: auto;
           .navbar-dropdown {
             .navbar-dropdown-item-container {
