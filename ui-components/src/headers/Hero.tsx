@@ -20,7 +20,7 @@ export interface HeroProps {
   isError?: boolean
 }
 
-export const HeroButton = (props: {
+const HeroButton = (props: {
   title: string
   href: string
   className?: string
