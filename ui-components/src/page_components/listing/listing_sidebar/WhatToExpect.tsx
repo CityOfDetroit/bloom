@@ -9,7 +9,7 @@ interface WhatToExpectProps {
 }
 
 const WhatToExpect = ({ content, expandableContent }: WhatToExpectProps) => {
-  if (!content || content === "") return null
+  if (!content) return null
   return (
     <section className="aside-block">
       <h4 className="text-caps-underline">{t("whatToExpect.label")}</h4>
