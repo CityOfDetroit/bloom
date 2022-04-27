@@ -255,15 +255,15 @@ describe("ListingsService", () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
-      const expectedNeighborhoodString = "Fox Creek, , Coliseum," // intentional extra and trailing commas for test
+      const expectedRegionString = "Downtown,Eastside," // intentional extra and trailing commas for test
       // lowercased, trimmed spaces, filtered empty
-      const expectedNeighborhoodArray = ["fox creek", "coliseum"]
+      const expectedRegionArray = ["Downtown", "Eastside"]
 
       const queryParams: ListingsQueryParams = {
         filter: [
           {
             $comparison: Compare["IN"],
-            neighborhood: expectedNeighborhoodString,
+            region: expectedRegionString,
           },
         ],
       }
@@ -272,9 +272,9 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "(LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0))",
+        "property.region IN (:...region) ",
         {
-          neighborhood_0: expectedNeighborhoodArray,
+          region: expectedRegionArray,
         }
       )
     })
@@ -283,15 +283,15 @@ describe("ListingsService", () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
-      const neighborhoodString = "neighborhood 1, , neighborhood 2," // intentional extra and trailing commas for test
+      const neighborhoodString = "Downtown,Eastside," // intentional extra and trailing commas for test
       // lowercased, trimmed spaces, filtered empty
-      const expectedNeighborhoodArray = ["neighborhood 1", "neighborhood 2"]
+      const expectedNeighborhoodArray = ["Downtown", "Eastside"]
 
       const queryParams: ListingsQueryParams = {
         filter: [
           {
             $comparison: Compare["IN"],
-            neighborhood: neighborhoodString,
+            region: neighborhoodString,
           },
         ],
       }
@@ -300,9 +300,9 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "(LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0))",
+        "property.region IN (:...region) ",
         {
-          neighborhood_0: expectedNeighborhoodArray,
+          region: expectedNeighborhoodArray,
         }
       )
     })
