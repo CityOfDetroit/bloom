@@ -3,7 +3,7 @@ import {
   ListingFilterKeys,
 } from "@bloom-housing/backend-core/types"
 import { ParsedUrlQuery } from "querystring"
-import { Region, regionNeighborhoodMap } from "./regionNeighborhoodMap"
+import { Region } from "./regionNeighborhoodMap"
 
 // TODO(#629): Refactor filter state storage strategy
 // Currently, the knowledge of "what a filter is" is spread across multiple
@@ -54,7 +54,6 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.maxRent:
       return EnumListingFilterParamsComparison["<="]
     case ListingFilterKeys.bedrooms:
-    case ListingFilterKeys.neighborhood:
     case ListingFilterKeys.bedRoomSize:
     case ListingFilterKeys.communityPrograms:
     case ListingFilterKeys.region:
@@ -72,8 +71,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
 // Define the keys we expect to see in the frontend URL. These are also used for
 // the filter state object, ListingFilterState.
 // We exclude bedrooms, since that is constructed from studio, oneBdrm, and so on
-// We exclude neighborhood, since we map to neighborhoods from the region filter
-const { bedrooms, neighborhood, ...IncludedBackendKeys } = ListingFilterKeys
+const { bedrooms, ...IncludedBackendKeys } = ListingFilterKeys
 enum BedroomFields {
   studio = "studio",
   oneBdrm = "oneBdrm",
@@ -126,11 +124,11 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.SupportiveHousingfortheHomeless]?: string | number
   // region
   [FrontendListingFilterStateKeys.region]?: string
-  [FrontendListingFilterStateKeys.downtown]?: string | boolean
-  [FrontendListingFilterStateKeys.eastside]?: string | boolean
-  [FrontendListingFilterStateKeys.midtownNewCenter]?: string | boolean
-  [FrontendListingFilterStateKeys.southwest]?: string | boolean
-  [FrontendListingFilterStateKeys.westside]?: string | boolean
+  [FrontendListingFilterStateKeys.Downtown]?: string | boolean
+  [FrontendListingFilterStateKeys.Eastside]?: string | boolean
+  [FrontendListingFilterStateKeys.MidtownNewCenter]?: string | boolean
+  [FrontendListingFilterStateKeys.Southwest]?: string | boolean
+  [FrontendListingFilterStateKeys.Westside]?: string | boolean
   // accessibility
   [FrontendListingFilterStateKeys.accessibility]?: string
   [FrontendListingFilterStateKeys.elevator]?: string | boolean
@@ -202,24 +200,6 @@ export function encodeToBackendFilterArray(filterState: ListingFilterState) {
     filterArray.push({
       $comparison: getComparisonForFilter(ListingFilterKeys.bedrooms),
       [ListingFilterKeys.bedrooms]: bedrooms.join(),
-    })
-  }
-
-  // Special-case the region filters, since they are mapped to neighborhoods.
-  const neighborhoods = []
-  const regions = filterState?.region?.split(",")
-  for (const region in Region) {
-    if (filterState[region]) {
-      neighborhoods.push(regionNeighborhoodMap.get(Region[region])?.map((n) => n.name))
-    }
-    if (regions && regions.includes(region)) {
-      neighborhoods.push(regionNeighborhoodMap.get(Region[region])?.map((n) => n.name))
-    }
-  }
-  if (neighborhoods.length > 0) {
-    filterArray.push({
-      $comparison: getComparisonForFilter(ListingFilterKeys.neighborhood),
-      [ListingFilterKeys.neighborhood]: neighborhoods.join(),
     })
   }
 

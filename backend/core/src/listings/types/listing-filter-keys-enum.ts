@@ -24,7 +24,6 @@ export enum ListingFilterKeys {
   grabBars = "grabBars",
   heatingInUnit = "heatingInUnit",
   acInUnit = "acInUnit",
-  neighborhood = "neighborhood",
   jurisdiction = "jurisdiction",
   favorited = "favorited",
   marketingType = "marketingType",

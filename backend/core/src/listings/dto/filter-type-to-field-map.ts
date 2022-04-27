@@ -54,7 +54,6 @@ export const filterTypeToFieldMap: Record<keysWithMappedField, string> = {
   grabBars: "listing_features.grabBars",
   heatingInUnit: "listing_features.heatingInUnit",
   acInUnit: "listing_features.acInUnit",
-  neighborhood: "property.neighborhood",
   jurisdiction: "jurisdiction.id",
   favorited: "",
   marketingType: "listings.marketingType",

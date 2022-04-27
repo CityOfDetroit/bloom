@@ -12,6 +12,7 @@ import {
   addFavoritedFilter,
   addProgramFilter,
   addAccessibilityFilter,
+  addRegionFilter,
 } from "./custom_filters"
 import { UserFilterKeys } from "../../auth/types/user-filter-keys"
 import { addIsPortalUserQuery } from "../../auth/filters/user-query-filter"
@@ -88,7 +89,10 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
         case ListingFilterKeys.accessibility:
           addAccessibilityFilter(qb, filterValue)
           continue
-        // custom user filters
+        case ListingFilterKeys.region:
+          addRegionFilter(qb, filterValue)
+          continue
+        //custom user filters
         case UserFilterKeys.isPortalUser:
           addIsPortalUserQuery(qb, filterValue)
           continue

@@ -99,6 +99,16 @@ export function addProgramFilter(qb: WhereExpression, filterValue: string) {
   return
 }
 
+export function addRegionFilter(qb: WhereExpression, filterValue: string) {
+  const val = filterValue.split(",").filter((elem) => !!elem)
+  if (val.length) {
+    qb.andWhere("property.region IN (:...region) ", {
+      region: val,
+    })
+  }
+  return
+}
+
 export function addAccessibilityFilter(qb: WhereExpression, filterValue: string) {
   const val = filterValue.split(",").filter((elem) => !!elem)
   val.forEach((key) => {

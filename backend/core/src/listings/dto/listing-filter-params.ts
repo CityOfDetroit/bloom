@@ -254,16 +254,6 @@ export class ListingFilterParams extends BaseFilter {
   @Expose()
   @ApiProperty({
     type: String,
-    example: "Forest Park, Elmwood Park",
-    required: false,
-  })
-  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
-  @IsString({ groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.neighborhood]?: string;
-
-  @Expose()
-  @ApiProperty({
-    type: String,
     example: "bab6cb4f-7a5a-4ee5-b327-0c2508807780",
     required: false,
   })
@@ -309,5 +299,15 @@ export class ListingFilterParams extends BaseFilter {
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.accessibility]?: string
+  [ListingFilterKeys.accessibility]?: string;
+
+  @Expose()
+  @ApiProperty({
+    type: String,
+    example: "downtown,eastside",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.region]?: Region
 }
