@@ -17,9 +17,15 @@ export interface HeroProps {
   secondaryButtonLink?: string
   secondaryButtonTitle?: string
   title: React.ReactNode
+  isError?: boolean
 }
 
-const HeroButton = (props: { title: string; href: string; className?: string }) => (
+export const HeroButton = (props: {
+  title: string
+  href: string
+  className?: string
+  isError?: boolean
+}) => (
   <span className={props.className + " hero__button"}>
     <LinkButton href={props.href}>{props.title}</LinkButton>
   </span>
@@ -37,7 +43,9 @@ const Hero = (props: HeroProps) => {
   if (props.allApplicationsClosed) {
     subHeader = <h2 className="hero__subtitle">{t("welcome.allApplicationClosed")}</h2>
   } else if (props.children) {
-    subHeader = <h2 className="hero__subtitle">{props.children}</h2>
+    subHeader = (
+      <h2 className={`hero__subtitle ${props.isError && "text-white"}`}>{props.children}</h2>
+    )
   }
   if (props.backgroundImage) {
     styles = { backgroundImage: `url(${props.backgroundImage})` }
@@ -46,7 +54,11 @@ const Hero = (props: HeroProps) => {
   return (
     <div className={heroClasses.join(" ")} style={styles} data-test-id="hero-component">
       <div className={innerClasses.join(" ")}>
-        <h1 className={`hero__title ${props.extraLargeTitle ? "lg:text-6.5xl" : ""}`}>
+        <h1
+          className={`hero__title 
+            ${props.extraLargeTitle ? "lg:text-6.5xl" : ""} 
+            ${props.isError && "text-white"}`}
+        >
           {props.title}
         </h1>
         {subHeader}
@@ -60,6 +72,7 @@ const Hero = (props: HeroProps) => {
                   className={"md:col-start-2 with_secondary"}
                   href={props.buttonLink}
                   title={props.buttonTitle}
+                  isError={props.isError}
                 />
                 <HeroButton
                   className={"with_secondary"}
@@ -68,7 +81,7 @@ const Hero = (props: HeroProps) => {
                 />
               </div>
             ) : (
-              <HeroButton className={"px-5"} href={props.buttonLink} title={props.buttonTitle} />
+              <HeroButton className={`px-5`} href={props.buttonLink} title={props.buttonTitle} />
             )}
           </>
         )}

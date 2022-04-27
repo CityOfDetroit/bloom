@@ -259,7 +259,7 @@
 
 .hero__subtitle {
   @apply mb-5;
-  color: white;
+  color: black;
   font-size: unset;
   font-weight: normal;
   text-shadow: none;
@@ -278,6 +278,15 @@
 
   @screen sm {
     margin-top: 0;
+  }
+}
+
+.hero__home-button {
+  background-color: #ffbe42;
+
+  &:hover {
+    @apply bg-primary;
+    color: white;
   }
 }
 
