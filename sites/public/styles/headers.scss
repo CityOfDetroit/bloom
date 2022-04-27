@@ -279,11 +279,6 @@
   @screen sm {
     margin-top: 0;
   }
-
-  &:hover {
-    @apply bg-primary;
-    color: white;
-  }
 }
 
 .page-header__title {
