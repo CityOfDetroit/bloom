@@ -335,7 +335,17 @@ const FilterForm = (props: FilterFormProps) => {
               className={"border-primary text-primary hover:text-white"}
               onClick={() => {
                 setLocalFilterState({})
-                reset()
+                reset({
+                  status: EnumListingFilterParamsStatus.active,
+                  isVerified: "",
+                  availability: "",
+                  bedRoomSize: "",
+                  minRent: "",
+                  maxRent: "",
+                  communityPrograms: "",
+                  region: "",
+                  accessibility: "",
+                })
               }}
             >
               {t("listingFilters.clear")}
