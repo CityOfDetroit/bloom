@@ -17,6 +17,7 @@ export interface HeroProps {
   secondaryButtonLink?: string
   secondaryButtonTitle?: string
   title: React.ReactNode
+  titleClassName?: string
 }
 
 const HeroButton = (props: { title: string; href: string; className?: string }) => (
@@ -49,7 +50,7 @@ const Hero = (props: HeroProps) => {
         <h1
           className={`hero__title 
             ${props.extraLargeTitle ? "lg:text-6.5xl" : ""} 
-            ${props.title === t("errors.notFound.title") && "text-white"}
+            ${props.titleClassName}
             `}
         >
           {props.title}
