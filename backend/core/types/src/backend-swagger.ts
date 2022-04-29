@@ -702,13 +702,19 @@ export class AuthService {
   /**
    * Token
    */
-  token(options: IRequestOptions = {}): Promise<LoginResponse> {
+  token(
+    params: {
+      /** requestBody */
+      body?: Token
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<LoginResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/auth/token"
 
       const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
 
-      let data = null
+      let data = params.body
 
       configs.data = data
       axios(configs, resolve, reject)
@@ -4007,6 +4013,8 @@ export interface LoginResponse {
   accessToken: string
 }
 
+export interface Token {}
+
 export interface RequestMfaCode {
   /**  */
   email: string
@@ -5491,6 +5499,9 @@ export interface Listing {
   whatToExpect?: string
 
   /**  */
+  whatToExpectAdditionalText?: string
+
+  /**  */
   applicationConfig?: object
 
   /**  */
@@ -5956,6 +5967,9 @@ export interface ListingCreate {
 
   /**  */
   whatToExpect?: string
+
+  /**  */
+  whatToExpectAdditionalText?: string
 
   /**  */
   applicationConfig?: object
@@ -6433,6 +6447,9 @@ export interface ListingUpdate {
 
   /**  */
   whatToExpect?: string
+
+  /**  */
+  whatToExpectAdditionalText?: string
 
   /**  */
   applicationConfig?: object
