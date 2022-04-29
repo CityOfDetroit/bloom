@@ -17,6 +17,31 @@ import RenderIf from "../src/RenderIf"
 import pageContent from "../page_content/AdditionalResources.md"
 import sidebarContent from "../page_content/AdditionalResourcesSidebar.md"
 
+interface ResourcesGridProps {
+  title: string
+  subtitle?: string
+  children: React.ReactNode
+}
+
+interface ResourceProps {
+  title: string
+  subtitle?: string
+  externalHref?: string
+  children: React.ReactNode
+}
+
+const ResourcesGrid = ({ title, subtitle, children }: ResourcesGridProps) => (
+  <InfoCardGrid title={title} subtitle={subtitle}>
+    {children}
+  </InfoCardGrid>
+)
+
+const Resource = ({ title, subtitle, externalHref, children }: ResourceProps) => (
+  <InfoCard title={title} subtitle={subtitle} externalHref={externalHref}>
+    {children}
+  </InfoCard>
+)
+
 const AdditionalResources = () => {
   const pageTitle = t("pageTitle.additionalResources")
   const subTitle = t("pageDescription.additionalResources")
@@ -48,8 +73,8 @@ const AdditionalResources = () => {
               <Markdown
                 options={{
                   overrides: {
-                    InfoCard,
-                    InfoCardGrid,
+                    Resource,
+                    ResourcesGrid,
                     RenderIf,
                   },
                 }}

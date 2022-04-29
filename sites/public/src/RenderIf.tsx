@@ -3,15 +3,14 @@ import { useRouter } from "next/router"
 const RenderIf = (props: { language: string; children: JSX.Element }) => {
   const router = useRouter()
 
-  if (props.language == "all") {
+  if (
+    props.language == "all" ||
+    props.language == router.locale ||
+    (router.locale == "en" && props.language == "default")
+  ) {
     return props.children
-  } else if (props.language == router.locale) {
-    return props.children
-  } else if (router.locale == "en" && props.language == "default") {
-    return props.children
-  } else {
-    return null
   }
+  return null
 }
 
 export default RenderIf
