@@ -1,6 +1,4 @@
-import { getMetadataArgsStorage, WhereExpression } from "typeorm"
-import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
-import { UnitType } from "../../unit-types/entities/unit-type.entity"
+import { WhereExpression } from "typeorm"
 import { ListingMarketingTypeEnum } from "../../../types"
 
 export function addAvailabilityQuery(qb: WhereExpression, filterValue: string) {
@@ -8,20 +6,20 @@ export function addAvailabilityQuery(qb: WhereExpression, filterValue: string) {
   val.forEach((option) => {
     switch (option) {
       case "vacantUnits":
-        qb.andWhere("(unitGroups.total_available >= :vacantUnits)", {
+        qb.andWhere("(unitgroups.total_available >= :vacantUnits)", {
           vacantUnits: 1,
         })
         return
       case "openWaitlist":
         if (!val.includes("closedWaitlist")) {
-          qb.andWhere("(coalesce(unitGroups.open_waitlist, false) = :openWaitlist)", {
+          qb.andWhere("(coalesce(unitgroups.open_waitlist, false) = :openWaitlist)", {
             openWaitlist: true,
           })
         }
         return
       case "closedWaitlist":
         if (!val.includes("openWaitlist")) {
-          qb.andWhere("(coalesce(unitGroups.open_waitlist, false) = :closedWaitlist)", {
+          qb.andWhere("(coalesce(unitgroups.open_waitlist, false) = :closedWaitlist)", {
             closedWaitlist: false,
           })
         }
