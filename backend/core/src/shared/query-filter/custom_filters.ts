@@ -37,26 +37,13 @@ export function addAvailabilityQuery(qb: WhereExpression, filterValue: string) {
   })
 }
 
-export function addBedroomsQuery(qb: WhereExpression, filterValue: number[]) {
-  const typeOrmMetadata = getMetadataArgsStorage()
-  const unitGroupEntityMetadata = typeOrmMetadata.tables.find((table) => table.target === UnitGroup)
-  const unitTypeEntityMetadata = typeOrmMetadata.tables.find((table) => table.target === UnitType)
-  const whereParameterName = "unitGroups_numBedrooms"
-
-  const unitGroupUnitTypeJoinTableName = `${unitGroupEntityMetadata.name}_unit_type_${unitTypeEntityMetadata.name}`
-  qb.andWhere(
-    `
-      (
-        SELECT bool_or(num_bedrooms  IN (:...${whereParameterName})) FROM ${unitGroupEntityMetadata.name}
-        LEFT JOIN ${unitGroupUnitTypeJoinTableName} ON ${unitGroupUnitTypeJoinTableName}.unit_group_id = ${unitGroupEntityMetadata.name}.id
-        LEFT JOIN ${unitTypeEntityMetadata.name}  ON ${unitTypeEntityMetadata.name}.id = ${unitGroupUnitTypeJoinTableName}.unit_types_id
-        WHERE ${unitGroupEntityMetadata.name}.listing_id = listings.id
-      ) = true
-    `,
-    {
-      [whereParameterName]: filterValue,
-    }
-  )
+export function addBedroomsQuery(qb: WhereExpression, filterValue: string) {
+  const val = filterValue.split(",").filter((elem) => !!elem)
+  if (val.length) {
+    qb.andWhere("unitTypes.name IN (:...unitTypes) ", {
+      unitTypes: val,
+    })
+  }
   return
 }
 
@@ -116,9 +103,12 @@ export function addRegionFilter(qb: WhereExpression, filterValue: string) {
 }
 
 export function addAccessibilityFilter(qb: WhereExpression, filterValue: string) {
-  const val = filterValue.split(",").filter((elem) => !!elem)
-  val.forEach((key) => {
-    qb.andWhere(`listing_features.${key} = true`)
-  })
+  let val = filterValue.split(",").filter((elem) => !!elem)
+  const whereClause = val
+    .map((key) => {
+      return `listing_features.${key} = true`
+    })
+    .join(" OR ")
+  qb.andWhere(`(${whereClause})`)
   return
 }
