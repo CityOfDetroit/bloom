@@ -33,8 +33,7 @@ import landBankAuthority from "../page_content/resources/land_bank_authority.md"
 import projectCleanSlate from "../page_content/resources/project_clean_slate.md"
 import civilRightsInclusionOpportunity from "../page_content/resources/civil_rights_inclusion_opportunity.md"
 import housingRelocationAssistance from "../page_content/resources/housing_relocation_assistance.md"
-
-import sidebarContent from "../page_content/AdditionalResourcesSidebar.md"
+import sidebarContent from "../page_content/resources/sidebar.md"
 
 const AdditionalResources = () => {
   const pageTitle = t("pageTitle.additionalResources")
