@@ -22,6 +22,7 @@ import {
   AppearanceStyleType,
   IconFillColors,
   ImageTag,
+  Tooltip,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -117,7 +118,7 @@ export const getListingTag = (tag: ImageTag) => {
   )
 }
 
-export const getImageCardTag = (listing): ImageTag[] => {
+export const getImageCardTag = (listing: Listing): ImageTag[] => {
   const tag = getImageTagLabelFromListing(listing)
   return tag
     ? [
@@ -135,6 +136,13 @@ export const getImageCardTag = (listing): ImageTag[] => {
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? AppearanceStyleType.closed
               : AppearanceStyleType.accentLight,
+          tooltip:
+            listing?.isVerified && listing?.marketingType !== ListingMarketingTypeEnum.comingSoon // show tooltip only for confirmed badge
+              ? {
+                  id: "verified",
+                  text: t("listings.managerHasConfirmedInformation"),
+                }
+              : undefined,
         },
       ]
     : null
@@ -195,11 +203,19 @@ interface UnitSummaryTable {
 }
 
 export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
-  const groupedUnitHeaders = {
+  const groupedUnitHeaders: TableHeaders = {
     unitType: t("t.unitType"),
     rent: t("t.rent"),
     availability: t("t.availability"),
-    ami: t("listings.unit.ami"),
+    ami: {
+      name: "ami",
+      className: "ami-header",
+      icon: (
+        <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
+          <Icon size="medium" symbol="info" tabIndex={0} />
+        </Tooltip>
+      ),
+    },
   }
   let groupedUnitData: Record<string, React.ReactNode>[] = null
 
