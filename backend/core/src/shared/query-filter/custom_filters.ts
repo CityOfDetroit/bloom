@@ -12,16 +12,12 @@ export function addAvailabilityQuery(qb: WhereExpression, filterValue: string) {
         inputArgs.vacantUnits = 1
         return
       case "openWaitlist":
-        if (!val.includes("closedWaitlist")) {
-          whereClause.push("coalesce(unitgroups.open_waitlist, false) = :openWaitlist")
-          inputArgs.openWaitlist = true
-        }
+        whereClause.push("coalesce(unitgroups.open_waitlist, false) = :openWaitlist")
+        inputArgs.openWaitlist = true
         return
       case "closedWaitlist":
-        if (!val.includes("openWaitlist")) {
-          whereClause.push("coalesce(unitgroups.open_waitlist, false) = :closedWaitlist")
-          inputArgs.openWaitlist = false
-        }
+        whereClause.push("coalesce(unitgroups.open_waitlist, false) = :closedWaitlist")
+        inputArgs.closedWaitlist = false
         return
       case "comingSoon":
         whereClause.push("listings.marketing_type = :marketing_type")
