@@ -3,36 +3,35 @@ import { ListingMarketingTypeEnum } from "../../../types"
 
 export function addAvailabilityQuery(qb: WhereExpression, filterValue: string) {
   const val = filterValue?.split(",")
+  const whereClause = []
+  const inputArgs: Record<string, number | boolean | ListingMarketingTypeEnum> = {}
   val.forEach((option) => {
     switch (option) {
       case "vacantUnits":
-        qb.andWhere("(unitgroups.total_available >= :vacantUnits)", {
-          vacantUnits: 1,
-        })
+        whereClause.push("unitgroups.total_available >= :vacantUnits")
+        inputArgs.vacantUnits = 1
         return
       case "openWaitlist":
         if (!val.includes("closedWaitlist")) {
-          qb.andWhere("(coalesce(unitgroups.open_waitlist, false) = :openWaitlist)", {
-            openWaitlist: true,
-          })
+          whereClause.push("coalesce(unitgroups.open_waitlist, false) = :openWaitlist")
+          inputArgs.openWaitlist = true
         }
         return
       case "closedWaitlist":
         if (!val.includes("openWaitlist")) {
-          qb.andWhere("(coalesce(unitgroups.open_waitlist, false) = :closedWaitlist)", {
-            closedWaitlist: false,
-          })
+          whereClause.push("coalesce(unitgroups.open_waitlist, false) = :closedWaitlist")
+          inputArgs.openWaitlist = false
         }
         return
       case "comingSoon":
-        qb.andWhere("listings.marketing_type = :marketing_type", {
-          marketing_type: ListingMarketingTypeEnum.comingSoon,
-        })
+        whereClause.push("listings.marketing_type = :marketing_type")
+        inputArgs.marketing_type = ListingMarketingTypeEnum.comingSoon
         return
       default:
         return
     }
   })
+  qb.andWhere(`(${whereClause.join(" OR ")})`, { ...inputArgs })
 }
 
 export function addBedroomsQuery(qb: WhereExpression, filterValue: string) {
