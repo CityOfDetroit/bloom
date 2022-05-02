@@ -369,7 +369,7 @@ export const ListingView = (props: ListingProps) => {
           </div>
         </header>
 
-        <div className="w-full md:mt-6 md:mb-6 md:px-3 md:pr-8">
+        <div className="w-full md:mt-6 md:mb-6 md:px-3 md:pe-8">
           {groupedUnitData?.length > 0 && (
             <>
               <GroupedTable
