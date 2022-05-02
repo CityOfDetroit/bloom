@@ -76,7 +76,7 @@ export const ListingProcess = (props: ListingProcessProps) => {
   } = props
 
   return (
-    <aside className="w-full static md:mr-8 md:ml-2 md:border border-gray-400 bg-white text-gray-750">
+    <aside className="w-full static md:me-8 md:ms-2 md:border border-gray-400 bg-white text-gray-750">
       <ListingUpdated listingUpdated={listing.updatedAt} />
       {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
       {!applicationsClosed && (
