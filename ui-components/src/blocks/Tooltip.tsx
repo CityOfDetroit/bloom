@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import useKeyPress from "../helpers/useKeyPress"
 import "./Tooltip.scss"
 
@@ -16,6 +16,10 @@ export interface TooltipPosition {
 const Tooltip = ({ className, id, text, children }: React.PropsWithChildren<TooltipProps>) => {
   const [position, setPosition] = useState<TooltipPosition | null>(null)
   const childrenWrapperRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => setPosition(null))
+  }, [])
 
   const show = () => {
     const { x, y, width, height } = childrenWrapperRef.current?.getBoundingClientRect() || {}
