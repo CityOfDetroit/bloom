@@ -118,7 +118,9 @@ const FilterForm = (props: FilterFormProps) => {
   // This is causing a linting issue with unbound-method, see issue:
   // https://github.com/react-hook-form/react-hook-form/issues/2887
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, register, reset } = useForm()
+  const { handleSubmit, register, reset, trigger, watch: formWatch } = useForm()
+  const minRent = formWatch("minRent")
+  const maxRent = formWatch("maxRent")
 
   return (
     <Form
@@ -223,6 +225,14 @@ const FilterForm = (props: FilterFormProps) => {
               register={register}
               prepend={"$"}
               defaultValue={localFilterState?.minRent}
+              errorMessage={t("errors.minGreaterThanMaxSqFeetError")}
+              validation={{ max: maxRent || minRent }}
+              inputProps={{
+                onBlur: () => {
+                  void trigger("minRent")
+                  void trigger("maxRent")
+                },
+              }}
             />
           </GridCell>
           <GridCell span={1}>
@@ -233,6 +243,14 @@ const FilterForm = (props: FilterFormProps) => {
               register={register}
               prepend={"$"}
               defaultValue={localFilterState?.maxRent}
+              errorMessage={t("errors.maxLessThanMinSqFeetError")}
+              validation={{ min: minRent }}
+              inputProps={{
+                onBlur: () => {
+                  void trigger("minRent")
+                  void trigger("maxRent")
+                },
+              }}
             />
           </GridCell>
         </GridSection>
