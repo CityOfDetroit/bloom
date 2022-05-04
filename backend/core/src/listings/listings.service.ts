@@ -40,6 +40,7 @@ export class ListingsService {
   }
 
   public async list(params: ListingsQueryParams): Promise<Pagination<Listing>> {
+    console.time("listings query")
     // Inner query to get the sorted listing ids of the listings to display
     // TODO(avaleske): Only join the tables we need for the filters that are applied
     let innerFilteredQuery = this.listingRepository
@@ -120,6 +121,7 @@ export class ListingsService {
         last: "",
       },
     }
+    console.timeEnd("listings query")
     return paginatedListings
   }
 
@@ -295,7 +297,7 @@ export class ListingsService {
     return canUpdate
   }
 
-  public async getMetadata(): Promise<ListingMetadataDto> {
+  public async getMetadata(jurisdiction: string): Promise<ListingMetadataDto> {
     const unitTypes = await this.unitTypeRepository
       .createQueryBuilder("unitTypes")
       .select("unitTypes.id")
@@ -308,6 +310,8 @@ export class ListingsService {
       .createQueryBuilder("programs")
       .select("programs.id")
       .addSelect("programs.title")
+      .leftJoin("programs.jurisdictions", "jp")
+      .where("jp.name = :jurisdiction", { jurisdiction })
       .orderBy("programs.title")
       .getMany()
 

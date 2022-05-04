@@ -67,7 +67,11 @@ const FilterForm = (props: FilterFormProps) => {
   useEffect(() => {
     const getAndSetOptions = async () => {
       try {
-        const response = await axios.get(`${process.env.backendApiBase}/listings/meta`)
+        const response = await axios.get(`${process.env.backendApiBase}/listings/meta`, {
+          params: {
+            jurisdiction: process.env.jurisdictionName,
+          },
+        })
         if (response.data) {
           if (response.data.unitTypes) {
             setBedroomOptions(
