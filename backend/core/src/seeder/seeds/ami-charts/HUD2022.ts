@@ -3,7 +3,7 @@ import { BaseEntity } from "typeorm"
 
 // THIS FILE WAS AUTOMATICALLY GENERATED FROM HUD2022.txt.
 export const HUD2022: Omit<AmiChartCreateDto, keyof BaseEntity | "jurisdiction"> = {
-  name: "HUD2022",
+  name: "HUD 2022",
   items: [
     {
       percentOfAmi: 30,

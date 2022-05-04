@@ -3,7 +3,7 @@ import { BaseEntity } from "typeorm"
 
 // THIS FILE WAS AUTOMATICALLY GENERATED FROM MSHDA2022.txt.
 export const MSHDA2022: Omit<AmiChartCreateDto, keyof BaseEntity | "jurisdiction"> = {
-  name: "MSHDA2022",
+  name: "MSHDA 2022",
   items: [
     {
       percentOfAmi: 20,
