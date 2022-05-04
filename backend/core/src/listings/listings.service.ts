@@ -40,7 +40,6 @@ export class ListingsService {
   }
 
   public async list(params: ListingsQueryParams): Promise<Pagination<Listing>> {
-    console.time("listings query")
     // Inner query to get the sorted listing ids of the listings to display
     // TODO(avaleske): Only join the tables we need for the filters that are applied
     let innerFilteredQuery = this.listingRepository
@@ -121,7 +120,7 @@ export class ListingsService {
         last: "",
       },
     }
-    console.timeEnd("listings query")
+
     return paginatedListings
   }
 
