@@ -53,7 +53,6 @@ export class ListingsController {
   public async getListingMetaData(
     @Query("jurisdiction") jurisdiction: string
   ): Promise<ListingMetadataDto> {
-    console.log("jurisdiction:", jurisdiction)
     return mapTo(ListingMetadataDto, await this.listingsService.getMetadata(jurisdiction))
   }
 
