@@ -1223,12 +1223,18 @@ export class ListingsService {
   /**
    * Returns Listing Metadata
    */
-  metadata(options: IRequestOptions = {}): Promise<ListingMetadata> {
+  metadata(
+    params: {
+      /**  */
+      jurisdiction: string
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<ListingMetadata> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/listings/meta"
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
-
+      configs.params = { jurisdiction: params["jurisdiction"] }
       let data = null
 
       configs.data = data
@@ -4595,7 +4601,7 @@ export interface ListingFilterParams {
   status?: EnumListingFilterParamsStatus
 
   /**  */
-  bedrooms?: string
+  bedRoomSize?: string
 
   /**  */
   zipcode?: string
@@ -4658,9 +4664,6 @@ export interface ListingFilterParams {
   acInUnit?: boolean
 
   /**  */
-  neighborhood?: string
-
-  /**  */
   jurisdiction?: string
 
   /**  */
@@ -4674,6 +4677,9 @@ export interface ListingFilterParams {
 
   /**  */
   accessibility?: string
+
+  /**  */
+  region?: string
 }
 
 export interface FormMetadataExtraData {
