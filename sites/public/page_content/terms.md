@@ -27,7 +27,7 @@ Third Party means an individual or entity other than the City. You must acknowle
 You must understand that the Website, including all Content and Services, does NOT constitute and is NOT intended to serve as legal or financial advice in any capacity, or as advice for any particular purpose, and you agree to not use or rely upon the Website as such.
 You must acknowledge, understand and agree that although Website, including certain Content and Services, may describe various governmental functions or activities or summarize governmental information, including public laws, rules, regulations, orders, notices, records, or other publications, NONE of the Content constitutes or represents, and you agree to not use or rely upon the Website, including any Content and Services, an official representation of governmental activities or official governmental publication, unless it is clearly and expressly marked as such.
 You must understand and agree that although certain Services may enable or facilitate Users’ engagement or other form of communication with governmental entities, departments or officials, NONE of the Services constitutes or represents, and must not be used or relied upon as, an official means of communication for any governmental purpose. Acceptance of any engagement or communication made by means of the Website or any Services is at the City’s sole discretion.
-You may provide links to the Website, whether from another website, social media post, or other publication in any medium. You agree that doing so in any instance is subject to all of the following conditions: (a) the link directs to the Website’s homepage, located at “https://**\*\***\_**\*\***.com”; (b) you do not remove or obscure, by framing or otherwise, any portion of the Website, including advertisements, links to these Terms, copyright notices, or other notices on the Web Site; (c) you provide prior written notice to the City of such link by sending an email to: detroithomeconnect@detroitmi.gov and (d) you acknowledge that the City may request that you refrain or discontinue providing links to the Website at any time and for any reason in its sole and absolute discretion, and you agree to refrain from or immediately discontinue providing links to the Website upon such request by the City.
+You may provide links to the Website, whether from another website, social media post, or other publication in any medium. You agree that doing so in any instance is subject to all of the following conditions: (a) the link directs to the Website’s homepage, located at “https://-----------.com”; (b) you do not remove or obscure, by framing or otherwise, any portion of the Website, including advertisements, links to these Terms, copyright notices, or other notices on the Web Site; (c) you provide prior written notice to the City of such link by sending an email to: detroithomeconnect@detroitmi.gov and (d) you acknowledge that the City may request that you refrain or discontinue providing links to the Website at any time and for any reason in its sole and absolute discretion, and you agree to refrain from or immediately discontinue providing links to the Website upon such request by the City.
 You understand that the City is not a consumer reporting agency and none of the Content or Services provided via the Website constitute a “consumer report” as such term is defined in the Federal Fair Credit Reporting Act (FCRA), 15 U.S.C. sec. 1681 et seq. The Content available to you must not be used as a factor in consumer debt collection decisioning, establishing a consumer’s eligibility for credit, insurance, employment, government benefits, or housing, or for any other purpose authorized under the FCRA. You agree to refrain from using Website, including its Content and Services, for any purpose authorized under the FCRA or in relation to taking an adverse action relating to a consumer application.
 
 #### SECTION 6: USER ACCOUNTS
@@ -68,21 +68,19 @@ You agree to indemnify, defend and hold harmless the City, as well as its subsid
 
 #### SECTION 14: MISCELLANEOUS
 
-(a) Entire Agreement
-These Terms set forth the entire understanding between you and the City and supersedes prior agreements, communications, and representations between you and the City regarding the subject matter contained herein.
-(b) Applicable Laws
-These Terms are governed by and must be interpreted in accordance with the laws of the State of Michigan without regard to its conflict of laws provisions. Any controversy or claim arising out of or relating to these Terms shall be resolved in a state or federal court located in the County of Wayne in the State of Michigan and you agree to submit to the personal and exclusive jurisdiction of such courts. Regardless of any statute or law providing a longer limitation, you agree that any claim or cause of action arising out of or related to these Terms must be filed within one (1) year after such claim or cause of action arises, or will be barred forever.
-(c) Waiver/Severability
-The failure by the City to strictly enforce against every breach of every provision of these Terms must not be construed as a waiver of any such breach, or any subsequent breach, by you or any other User. If any provision of these Terms is unlawful, void or unenforceable under Applicable Law, then that provision may be severable from the remaining provisions and will not affect their validity and enforceability.
-(d) Headings
-The headings contained herein have been inserted as a matter of convenience for reference only and do not control or affect the meaning or construction of any of the terms or provisions herein.
-(e) Copyright Notice
-All Content within the Website is protected by copyright law except where explicitly noted otherwise. All rights reserved.
-(f) Reservation of Rights
-All rights not expressly granted herein are reserved.
-(g) Contact Information
-By e-mail: detroithomeconnect@detroitmi.gov
-
----
+- Entire Agreement
+  These Terms set forth the entire understanding between you and the City and supersedes prior agreements, communications, and representations between you and the City regarding the subject matter contained herein.
+- Applicable Laws
+  These Terms are governed by and must be interpreted in accordance with the laws of the State of Michigan without regard to its conflict of laws provisions. Any controversy or claim arising out of or relating to these Terms shall be resolved in a state or federal court located in the County of Wayne in the State of Michigan and you agree to submit to the personal and exclusive jurisdiction of such courts. Regardless of any statute or law providing a longer limitation, you agree that any claim or cause of action arising out of or related to these Terms must be filed within one (1) year after such claim or cause of action arises, or will be barred forever.
+- Waiver/Severability
+  The failure by the City to strictly enforce against every breach of every provision of these Terms must not be construed as a waiver of any such breach, or any subsequent breach, by you or any other User. If any provision of these Terms is unlawful, void or unenforceable under Applicable Law, then that provision may be severable from the remaining provisions and will not affect their validity and enforceability.
+- Headings
+  The headings contained herein have been inserted as a matter of convenience for reference only and do not control or affect the meaning or construction of any of the terms or provisions herein.
+- Copyright Notice
+  All Content within the Website is protected by copyright law except where explicitly noted otherwise. All rights reserved.
+- Reservation of Rights
+  All rights not expressly granted herein are reserved.
+- Contact Information
+  By e-mail: detroithomeconnect@detroitmi.gov
 
 ---
