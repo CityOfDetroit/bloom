@@ -277,7 +277,6 @@ describe("UserService", () => {
       const mockedUser = { id: "123", email: "abc@xyz.com" }
       mockUserRepo.findOne = jest.fn().mockResolvedValue(mockedUser)
       // Sets resetToken
-      console.log({ service })
       await service.forgotPassword({ email: "abc@xyz.com" })
       const accessToken = await service.updatePassword(updateDto)
       expect(accessToken).toBeDefined()
