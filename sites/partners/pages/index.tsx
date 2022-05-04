@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useState } from "react"
+import React, { useMemo, useContext, useState, useRef, useCallback } from "react"
 import Head from "next/head"
 import {
   PageHeader,
@@ -11,52 +11,62 @@ import {
   LoadingOverlay,
 } from "@bloom-housing/ui-components"
 import { AgGridReact } from "ag-grid-react"
-import { GridOptions } from "ag-grid-community"
-
+import { ColumnApi, ColumnState, GridOptions } from "ag-grid-community"
+import { useRouter } from "next/router"
 import { useListingsData } from "../lib/hooks"
 import Layout from "../layouts"
 import { MetaTags } from "../src/MetaTags"
-import { ListingStatus } from "@bloom-housing/backend-core/types"
-class formatLinkCell {
-  link: HTMLAnchorElement
+import { ListingStatus, OrderByFieldsEnum, OrderDirEnum } from "@bloom-housing/backend-core/types"
 
-  init(params) {
-    this.link = document.createElement("a")
-    this.link.classList.add("text-blue-700")
-    this.link.setAttribute("href", `/listings/${params.data.id}/applications`)
-    this.link.innerText = params.valueFormatted || params.value
-  }
+const COLUMN_STATE_KEY = "column-state"
 
-  getGui() {
-    return this.link
-  }
-}
-
-class ApplicationsLink extends formatLinkCell {
-  init(params) {
-    super.init(params)
-    this.link.setAttribute("href", `/listings/${params.data.id}/applications`)
-    this.link.setAttribute("data-test-id", "listing-status-cell")
-  }
-}
-
-class ListingsLink extends formatLinkCell {
-  init(params) {
-    super.init(params)
-    this.link.setAttribute("href", `/listings/${params.data.id}`)
-  }
+type ListingListSortOptions = {
+  orderBy: OrderByFieldsEnum
+  orderDir: OrderDirEnum
 }
 
 export default function ListingsList() {
   const { profile } = useContext(AuthContext)
   const isAdmin = profile.roles?.isAdmin || false
 
+  const router = useRouter()
+
   /* Pagination */
   const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
   const [currentPage, setCurrentPage] = useState<number>(1)
 
+  /* OrderBy columns */
+  const [sortOptions, setSortOptions] = useState<ListingListSortOptions>({
+    orderBy: OrderByFieldsEnum.name,
+    orderDir: OrderDirEnum.ASC,
+  })
+
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
   const metaImage = "" // TODO: replace with hero image
+
+  function saveColumnState(api: ColumnApi) {
+    const columnState = api.getColumnState()
+    const columnStateJSON = JSON.stringify(columnState)
+    sessionStorage.setItem(COLUMN_STATE_KEY, columnStateJSON)
+  }
+
+  class formatLinkCell {
+    link: HTMLAnchorElement
+
+    init(params) {
+      this.link = document.createElement("a")
+      this.link.classList.add("text-blue-700")
+      this.link.innerText = params.valueFormatted || params.value
+      this.link.addEventListener("click", function () {
+        void saveColumnState(params.columnApi)
+        void router.push(`/listings/${params.data.id}`)
+      })
+    }
+
+    getGui() {
+      return this.link
+    }
+  }
 
   class formatWaitlistStatus {
     text: HTMLSpanElement
@@ -73,12 +83,38 @@ export default function ListingsList() {
     }
   }
 
+  // update table items order on sort change
+  const initialLoadOnSort = useRef<boolean>(false)
+  const onSortChange = useCallback((columns: ColumnState[]) => {
+    // prevent multiple fetch on initial render
+    if (!initialLoadOnSort.current) {
+      initialLoadOnSort.current = true
+      return
+    }
+
+    const sortedBy = columns.find((col) => col.sort)
+    const { colId, sort } = sortedBy || {}
+
+    const allowedSortColIds: string[] = Object.values(OrderByFieldsEnum)
+
+    if (allowedSortColIds.includes(colId)) {
+      const name = OrderByFieldsEnum[colId]
+
+      setSortOptions({
+        orderBy: name,
+        orderDir: sort.toUpperCase() as OrderDirEnum,
+      })
+    }
+  }, [])
+
   const gridOptions: GridOptions = {
+    onSortChanged: (params) => {
+      saveColumnState(params.columnApi)
+      onSortChange(params.columnApi.getColumnState())
+    },
     components: {
-      ApplicationsLink,
       formatLinkCell,
       formatWaitlistStatus,
-      ListingsLink,
     },
   }
 
@@ -87,10 +123,12 @@ export default function ListingsList() {
       {
         headerName: t("listings.listingName"),
         field: "name",
-        sortable: false,
+        sortable: true,
+        unSortIcon: true,
+        sort: "asc",
         filter: false,
         resizable: true,
-        cellRenderer: "ListingsLink",
+        cellRenderer: "formatLinkCell",
       },
       {
         headerName: t("listings.buildingAddress"),
@@ -105,6 +143,7 @@ export default function ListingsList() {
         headerName: t("listings.listingStatusText"),
         field: "status",
         sortable: true,
+        unSortIcon: true,
         filter: false,
         resizable: true,
         flex: 1,
@@ -125,6 +164,7 @@ export default function ListingsList() {
         headerName: t("listings.verified"),
         field: "isVerified",
         sortable: true,
+        unSortIcon: true,
         filter: false,
         resizable: true,
         valueFormatter: ({ value }) => (value ? t("t.yes") : t("t.no")),
@@ -139,6 +179,8 @@ export default function ListingsList() {
     listingIds: !isAdmin
       ? profile?.leasingAgentInListings?.map((listing) => listing.id)
       : undefined,
+    orderBy: sortOptions.orderBy,
+    orderDir: sortOptions.orderDir,
   })
 
   return (
