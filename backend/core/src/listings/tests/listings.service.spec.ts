@@ -1,11 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing"
 import { getRepositoryToken } from "@nestjs/typeorm"
-import { getQueueToken } from "@nestjs/bull"
 import { HttpException, HttpStatus } from "@nestjs/common"
-import { AvailabilityFilterEnum } from "../types/listing-filter-keys-enum"
 import { ListingStatus } from "../types/listing-status-enum"
 import { ListingCreateDto } from "../dto/listing-create.dto"
-import { ListingUpdateType } from "../listings-notifications"
 import { ListingUpdateDto } from "../dto/listing-update.dto"
 import { ListingsService } from "../listings.service"
 import { Listing } from "../entities/listing.entity"
@@ -18,6 +15,9 @@ import { OrderByFieldsEnum } from "../types/listing-orderby-enum"
 import { ContextIdFactory } from "@nestjs/core"
 import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
 import { ListingMarketingTypeEnum } from "../types/listing-marketing-type-enum"
+import { UnitType } from "../../unit-types/entities/unit-type.entity"
+import { Program } from "../../program/entities/program.entity"
+import { BullModule, getQueueToken } from "@nestjs/bull"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -178,15 +178,23 @@ describe("ListingsService", () => {
           },
         },
         {
+          provide: getRepositoryToken(UnitType),
+          useValue: jest.fn(),
+        },
+        {
+          provide: getRepositoryToken(Program),
+          useValue: jest.fn(),
+        },
+        {
           provide: TranslationsService,
           useValue: { translateListing: jest.fn() },
         },
-        {
-          provide: getQueueToken("listings-notifications"),
-          useValue: mockListingsNotificationsQueue,
-        },
       ],
-    }).compile()
+      imports: [BullModule.registerQueue({ name: "listings-notifications" })],
+    })
+      .overrideProvider(getQueueToken("listings-notifications"))
+      .useValue(mockListingsNotificationsQueue)
+      .compile()
 
     const contextId = ContextIdFactory.create()
     jest.spyOn(ContextIdFactory, "getByRequest").mockImplementation(() => contextId)
@@ -244,15 +252,15 @@ describe("ListingsService", () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
-      const expectedNeighborhoodString = "Fox Creek, , Coliseum," // intentional extra and trailing commas for test
+      const expectedRegionString = "Downtown,Eastside," // intentional extra and trailing commas for test
       // lowercased, trimmed spaces, filtered empty
-      const expectedNeighborhoodArray = ["fox creek", "coliseum"]
+      const expectedRegionArray = ["Downtown", "Eastside"]
 
       const queryParams: ListingsQueryParams = {
         filter: [
           {
             $comparison: Compare["IN"],
-            neighborhood: expectedNeighborhoodString,
+            region: expectedRegionString,
           },
         ],
       }
@@ -261,9 +269,9 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "(LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0))",
+        "property.region IN (:...region) ",
         {
-          neighborhood_0: expectedNeighborhoodArray,
+          region: expectedRegionArray,
         }
       )
     })
@@ -272,15 +280,15 @@ describe("ListingsService", () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
-      const neighborhoodString = "neighborhood 1, , neighborhood 2," // intentional extra and trailing commas for test
+      const neighborhoodString = "Downtown,Eastside," // intentional extra and trailing commas for test
       // lowercased, trimmed spaces, filtered empty
-      const expectedNeighborhoodArray = ["neighborhood 1", "neighborhood 2"]
+      const expectedNeighborhoodArray = ["Downtown", "Eastside"]
 
       const queryParams: ListingsQueryParams = {
         filter: [
           {
             $comparison: Compare["IN"],
-            neighborhood: neighborhoodString,
+            region: neighborhoodString,
           },
         ],
       }
@@ -289,9 +297,9 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "(LOWER(CAST(property.neighborhood as text)) IN (:...neighborhood_0))",
+        "property.region IN (:...region) ",
         {
-          neighborhood_0: expectedNeighborhoodArray,
+          region: expectedNeighborhoodArray,
         }
       )
     })
@@ -346,16 +354,15 @@ describe("ListingsService", () => {
       )
     })
 
-    it("should include listings with missing data if $include_nulls is true for custom filters", async () => {
+    it("should filter by availability", async () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
       const queryParams: ListingsQueryParams = {
         filter: [
           {
-            $comparison: Compare["NA"],
-            availability: AvailabilityFilterEnum.waitlist,
-            $include_nulls: true,
+            $comparison: Compare["="],
+            availability: "openWaitlist",
           },
         ],
       }
@@ -364,9 +371,9 @@ describe("ListingsService", () => {
 
       expect(listings.items).toEqual(mockListings)
       expect(mockInnerQueryBuilder.andWhere).toHaveBeenCalledWith(
-        "(listings.is_waitlist_open = :availability OR listings.is_waitlist_open is NULL)",
+        "(coalesce(unitgroups.open_waitlist, false) = :openWaitlist)",
         {
-          availability: true,
+          openWaitlist: true,
         }
       )
     })
@@ -492,7 +499,7 @@ describe("ListingsService", () => {
   })
 
   describe("ListingsService.list sorting", () => {
-    it("defaults to ordering by application dates when no orderBy param is set", async () => {
+    it("defaults to ordering by name when no orderBy param is set", async () => {
       mockListingsRepo.createQueryBuilder
         .mockReturnValueOnce(mockInnerQueryBuilder)
         .mockReturnValueOnce(mockQueryBuilder)
@@ -500,8 +507,7 @@ describe("ListingsService", () => {
       await service.list({})
 
       const expectedOrderByArgument = {
-        "listings.applicationDueDate": "ASC",
-        "listings.applicationOpenDate": "DESC",
+        "listings.name": "ASC",
       }
 
       // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)
@@ -527,77 +533,6 @@ describe("ListingsService", () => {
 
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1)
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(expectedOrderByArgument)
-    })
-  })
-
-  describe("listing notifications", () => {
-    it("should trigger a notification upon new listing creation", async () => {
-      const mockSavedListing = { id: "some fake ID" }
-      const mockCreatedListing = { save: jest.fn().mockReturnValue(mockSavedListing) }
-      mockListingsRepo.create.mockReturnValueOnce(mockCreatedListing)
-
-      await service.create(mockListingsCreateDto)
-
-      expect(mockListingsNotificationsQueue.add).toHaveBeenCalledTimes(1)
-      expect(mockListingsNotificationsQueue.add).toHaveBeenLastCalledWith({
-        listing: mockSavedListing,
-        updateType: ListingUpdateType.CREATE,
-      })
-    })
-
-    it.skip("should trigger a notification when a listing is updated from 'pending' to 'active'", async () => {
-      // Simulate the DB lookup retrieving the already-existing listing, with status 'pending'.
-      mockQueryBuilder.getOne.mockReturnValueOnce({
-        id: "mock-listing-id",
-        property: { id: "mock-property-id" },
-        status: ListingStatus.pending,
-      })
-
-      // Simulate the new saved listing having status 'active'.
-      const mockSavedListing = { id: "mock-listing-id", status: ListingStatus.active }
-      mockListingsRepo.save.mockReturnValueOnce(mockSavedListing)
-
-      await service.update(mockListingsUpdateDto)
-
-      expect(mockListingsNotificationsQueue.add).toHaveBeenCalledTimes(1)
-      expect(mockListingsNotificationsQueue.add).toHaveBeenLastCalledWith({
-        listing: mockSavedListing,
-        updateType: ListingUpdateType.MODIFY,
-      })
-    })
-
-    it.skip("should not trigger a notification when a listing is updated but the status is 'active' before and after", async () => {
-      // Simulate the DB lookup retrieving the already-existing listing, with status 'active'.
-      mockQueryBuilder.getOne.mockReturnValueOnce({
-        id: "mock-listing-id",
-        property: { id: "mock-property-id" },
-        status: ListingStatus.active,
-      })
-
-      // Simulate the new saved listing having status 'active'.
-      const mockSavedListing = { id: "mock-listing-id", status: ListingStatus.active }
-      mockListingsRepo.save.mockReturnValueOnce(mockSavedListing)
-
-      await service.update(mockListingsUpdateDto)
-
-      expect(mockListingsNotificationsQueue.add).toHaveBeenCalledTimes(0)
-    })
-
-    it.skip("should not trigger a notification when a listing is updated from 'closed' to 'pending'", async () => {
-      // Simulate the DB lookup retrieving the already-existing listing, with status 'closed'.
-      mockQueryBuilder.getOne.mockReturnValueOnce({
-        id: "mock-listing-id",
-        property: { id: "mock-property-id" },
-        status: ListingStatus.closed,
-      })
-
-      // Simulate the new saved listing having status 'pending'.
-      const mockSavedListing = { id: "mock-listing-id", status: ListingStatus.pending }
-      mockListingsRepo.save.mockReturnValueOnce(mockSavedListing)
-
-      await service.update(mockListingsUpdateDto)
-
-      expect(mockListingsNotificationsQueue.add).toHaveBeenCalledTimes(0)
     })
   })
 })

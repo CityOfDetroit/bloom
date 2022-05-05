@@ -55,14 +55,7 @@
     @screen md {
       @apply mb-0;
       @apply float-left;
-      @apply w-full;
-    }
-
-    ul {
-      padding-left: 1em;
-      li {
-        list-style-type: disc;
-      }
+      @apply w-2/3;
     }
 
     &:last-of-type {

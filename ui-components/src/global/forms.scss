@@ -201,7 +201,6 @@
 
     .control {
       .input,
-      .prepend,
       select {
         @apply border-red-700;
         @apply border-2;
@@ -262,10 +261,6 @@ input[type="number"] {
   @apply pb-2;
   @apply text-tiny;
   @apply text-gray-800;
-}
-
-.field-label-extra-space {
-  @apply ml-2;
 }
 
 .field-label--caps {
