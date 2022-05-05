@@ -4595,7 +4595,7 @@ export interface ListingFilterParams {
   status?: EnumListingFilterParamsStatus
 
   /**  */
-  bedrooms?: string
+  bedRoomSize?: string
 
   /**  */
   zipcode?: string
@@ -4658,9 +4658,6 @@ export interface ListingFilterParams {
   acInUnit?: boolean
 
   /**  */
-  neighborhood?: string
-
-  /**  */
   jurisdiction?: string
 
   /**  */
@@ -4674,6 +4671,9 @@ export interface ListingFilterParams {
 
   /**  */
   accessibility?: string
+
+  /**  */
+  region?: string
 }
 
 export interface FormMetadataExtraData {
