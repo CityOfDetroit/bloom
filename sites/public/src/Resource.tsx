@@ -1,11 +1,14 @@
 import Markdown from "markdown-to-jsx"
 import RenderIf from "./RenderIf"
 
+const RenderFuck = (props: { language: string; children: JSX.Element }) => (
+  <p>Foo! {props.language}</p>
+)
+
 const Resource = ({ children }) => (
   <div className="info-card markdown">
     <Markdown
       options={{
-        disableParsingRawHTML: true,
         overrides: {
           RenderIf,
           a: {
