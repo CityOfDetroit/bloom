@@ -5768,9 +5768,6 @@ export interface ListingCreate {
   marketingSeason?: ListingSeasonEnum
 
   /**  */
-  region?: Region
-
-  /**  */
   applicationMethods: ApplicationMethodCreate[]
 
   /**  */
@@ -5823,6 +5820,9 @@ export interface ListingCreate {
 
   /**  */
   neighborhood?: string
+
+  /**  */
+  region?: string
 
   /**  */
   petPolicy?: string
@@ -6239,9 +6239,6 @@ export interface ListingUpdate {
   marketingSeason?: ListingSeasonEnum
 
   /**  */
-  region?: Region
-
-  /**  */
   id?: string
 
   /**  */
@@ -6303,6 +6300,9 @@ export interface ListingUpdate {
 
   /**  */
   neighborhood?: string
+
+  /**  */
+  region?: string
 
   /**  */
   petPolicy?: string
