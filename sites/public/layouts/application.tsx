@@ -36,7 +36,7 @@ const Layout = (props) => {
     },
     {
       title: t("pageTitle.resources"),
-      href: "/resources",
+      href: "/additional-resources",
     },
   ]
   if (profile) {
@@ -155,6 +155,9 @@ const Layout = (props) => {
             <a>{t("pageTitle.terms")}</a>
           </Link>
         </FooterNav>
+        <FooterSection className="bg-black" small>
+          <ExygyFooter />
+        </FooterSection>
       </SiteFooter>
     </div>
   )
