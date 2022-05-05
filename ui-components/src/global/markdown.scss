@@ -30,4 +30,7 @@
     list-style: disc;
     @apply ml-6;
   }
+  li:last-child {
+    @apply mb-4;
+  }
 }
