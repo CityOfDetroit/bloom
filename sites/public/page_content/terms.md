@@ -1,3 +1,9 @@
+<style>
+  .alpha-list ul{
+    list-style: lower-alpha;
+  }
+</style>
+
 TERMS AND CONDITIONS OF USE for Detroit Home Connect. The City of Detroit has worked with developers and property management staff to ensure the accuracy of information on this website. However, due to the changing nature of property information, please contact the property for the most up to date details on any housing opportunity. The City of Detroit does not certify the authenticity of information provided by third parties. See more information below.
 These Terms were most recently updated on, and are effective as of: May 1, 2022
 
@@ -67,12 +73,6 @@ UNDER NO CIRCUMSTANCES, INCLUDING BUT NOT LIMITED TO NEGLIGENCE, WILL THE CITY B
 You agree to indemnify, defend and hold harmless the City, as well as its subsidiaries, affiliates, agents, partners, owners, employees, licensors, licensees, suppliers, and any Third Party Content providers to the Website from and against all claims, losses, expenses, damages and costs, including reasonable attorneys’ fees, resulting from any violation by you of these Terms or from your use of the Website.
 
 #### SECTION 14: MISCELLANEOUS
-
-<style>
-  .alpha-list ul{
-    list-style: lower-alpha;
-  }
-</style>
 
 <div class='alpha-list'>
 - Entire Agreement
