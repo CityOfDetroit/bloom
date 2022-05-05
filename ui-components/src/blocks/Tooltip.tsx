@@ -17,10 +17,6 @@ const Tooltip = ({ className, id, text, children }: React.PropsWithChildren<Tool
   const [position, setPosition] = useState<TooltipPosition | null>(null)
   const childrenWrapperRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => setPosition(null))
-  }, [])
-
   const show = () => {
     const { x, y, width, height } = childrenWrapperRef.current?.getBoundingClientRect() || {}
 
@@ -32,6 +28,14 @@ const Tooltip = ({ className, id, text, children }: React.PropsWithChildren<Tool
   const hide = () => setPosition(null)
 
   useKeyPress("Escape", () => hide())
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => hide())
+
+    return () => {
+      window.removeEventListener("scroll", () => hide())
+    }
+  }, [])
 
   return (
     <div
