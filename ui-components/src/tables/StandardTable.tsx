@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd"
 import { nanoid } from "nanoid"
-import { getTranslationWithArguments } from "../helpers/translationHelpers"
+import { getTranslationWithArguments } from "../helpers/getTranslationWithArguments"
 import { Icon } from "../icons/Icon"
 import { t } from "../helpers/translator"
 
 export interface TableHeadersOptions {
   name: string
   className?: string
+  icon?: React.ReactNode
 }
 export interface TableHeaders {
   [key: string]: string | TableHeadersOptions

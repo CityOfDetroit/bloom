@@ -13,12 +13,14 @@ import {
   Browse,
   Building,
   Calendar,
+  CalendarBlock,
   Check,
   Clock,
   Close,
   CloseRound,
   CloseSmall,
   Cross,
+  Document,
   DoubleHouse,
   Down,
   Download,
@@ -30,8 +32,10 @@ import {
   File,
   Filter,
   Forward,
+  FrontDoor,
   Globe,
   Hamburger,
+  House,
   Info,
   Left,
   Lightbulb,
@@ -45,6 +49,7 @@ import {
   Map,
   MapThin,
   Menu,
+  Messages,
   Oval,
   Phone,
   Plus,
@@ -76,12 +81,14 @@ const IconMap = {
   browse: Browse,
   building: Building,
   calendar: Calendar,
+  calendarBlock: CalendarBlock,
   check: Check,
   clock: Clock,
   close: Close,
   closeRound: CloseRound,
   closeSmall: CloseSmall,
   cross: Cross,
+  document: Document,
   doubleHouse: DoubleHouse,
   down: Down,
   download: Download,
@@ -93,8 +100,10 @@ const IconMap = {
   file: File,
   filter: Filter,
   forward: Forward,
+  frontDoor: FrontDoor,
   globe: Globe,
   hamburger: Hamburger,
+  house: House,
   info: Info,
   left: Left,
   lightbulb: Lightbulb,
@@ -108,6 +117,7 @@ const IconMap = {
   map: Map,
   mapThin: MapThin,
   menu: Menu,
+  messages: Messages,
   oval: Oval,
   phone: Phone,
   plus: Plus,
@@ -154,6 +164,8 @@ export interface IconProps {
   fill?: string
   ariaHidden?: boolean
   iconClass?: string
+  dataTestId?: string
+  tabIndex?: number
 }
 
 const Icon = (props: IconProps) => {
@@ -165,7 +177,12 @@ const Icon = (props: IconProps) => {
   const SpecificIcon = IconMap[props.symbol]
 
   return (
-    <span className={wrapperClasses.join(" ")} aria-hidden={props.ariaHidden}>
+    <span
+      className={wrapperClasses.join(" ")}
+      aria-hidden={props.ariaHidden}
+      data-test-id={props.dataTestId ?? null}
+      tabIndex={props.tabIndex}
+    >
       <SpecificIcon
         fill={props.fill ? props.fill : undefined}
         className={props.iconClass ?? undefined}

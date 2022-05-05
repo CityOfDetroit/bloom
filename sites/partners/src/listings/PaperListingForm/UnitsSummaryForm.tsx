@@ -69,6 +69,8 @@ const UnitsSummaryForm = ({
       floorMax: current?.floorMax,
       sqFeetMin: current?.sqFeetMin,
       sqFeetMax: current?.sqFeetMax,
+      bathroomMin: current?.bathroomMin,
+      bathroomMax: current?.bathroomMax,
       minOccupancy: current?.minOccupancy,
       maxOccupancy: current?.maxOccupancy,
       totalCount: current?.totalCount,
@@ -80,6 +82,16 @@ const UnitsSummaryForm = ({
   })
 
   const unitType = formWatch("unitType")
+  const minOccupancy = formWatch("minOccupancy")
+  const maxOccupancy = formWatch("maxOccupancy")
+  const sqFeetMin = formWatch("sqFeetMin")
+  const sqFeetMax = formWatch("sqFeetMax")
+  const floorMin = formWatch("floorMin")
+  const floorMax = formWatch("floorMax")
+  const bathroomMin = formWatch("bathroomMin")
+  const bathroomMax = formWatch("bathroomMax")
+  const totalAvailable = formWatch("totalAvailable")
+  const totalCount = formWatch("totalCount")
 
   /**
    * fetch form options
@@ -95,7 +107,7 @@ const UnitsSummaryForm = ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore:next-line
       unitType: summary?.unitType?.map((elem) => elem.id ?? elem.toString()),
-      openWaitListQuestion: summary?.openWaitlist?.toString(),
+      openWaitListQuestion: summary?.openWaitListQuestion || summary?.openWaitlist?.toString(),
     })
   }, [summaries, reset, currentTempId, setCurrent])
 
@@ -271,6 +283,17 @@ const UnitsSummaryForm = ({
     action: "",
   }
 
+  const bathroomOptions = [
+    { label: "", value: "" },
+    { label: ".5", value: "0.5" },
+    { label: "1", value: "1" },
+    { label: "1.5", value: "1.5" },
+    { label: "2", value: "2" },
+    { label: "3", value: "3" },
+    { label: "4", value: "4" },
+    { label: "5", value: "5" },
+  ]
+
   useEffect(() => {
     if (unitType?.length && errors?.unitType) {
       clearErrors("unitType")
@@ -312,7 +335,14 @@ const UnitsSummaryForm = ({
                     readerOnly
                     type="number"
                     error={errors?.totalCount !== undefined}
-                    errorMessage={t("errors.requiredFieldError")}
+                    errorMessage={t("errors.totalCountLessThanTotalAvailableError")}
+                    validation={{ min: totalAvailable }}
+                    inputProps={{
+                      onBlur: () => {
+                        void trigger("totalCount")
+                        void trigger("totalAvailable")
+                      },
+                    }}
                     dataTestId="totalCount"
                   />
                 </ViewItem>
@@ -329,6 +359,15 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(8, 1, true)}
+                    error={errors?.minOccupancy !== undefined}
+                    errorMessage={t("errors.minGreaterThanMaxOccupancyError")}
+                    validation={{ max: maxOccupancy || minOccupancy }}
+                    inputProps={{
+                      onChange: () => {
+                        void trigger("minOccupancy")
+                        void trigger("maxOccupancy")
+                      },
+                    }}
                     dataTestId="minOccupancy"
                   />
                 </ViewItem>
@@ -343,6 +382,15 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(8, 1, true)}
+                    error={errors?.maxOccupancy !== undefined}
+                    errorMessage={t("errors.maxLessThanMinOccupancyError")}
+                    validation={{ min: minOccupancy }}
+                    inputProps={{
+                      onChange: () => {
+                        void trigger("minOccupancy")
+                        void trigger("maxOccupancy")
+                      },
+                    }}
                     dataTestId="maxOccupancy"
                   />
                 </ViewItem>
@@ -359,6 +407,15 @@ const UnitsSummaryForm = ({
                     register={register}
                     readerOnly
                     type="number"
+                    error={errors?.sqFeetMin !== undefined}
+                    errorMessage={t("errors.minGreaterThanMaxSqFeetError")}
+                    validation={{ max: sqFeetMax || sqFeetMin }}
+                    inputProps={{
+                      onBlur: () => {
+                        void trigger("sqFeetMin")
+                        void trigger("sqFeetMax")
+                      },
+                    }}
                     dataTestId="sqFeetMin"
                   />
                 </ViewItem>
@@ -373,6 +430,15 @@ const UnitsSummaryForm = ({
                     register={register}
                     readerOnly
                     type="number"
+                    error={errors?.sqFeetMax !== undefined}
+                    errorMessage={t("errors.maxLessThanMinSqFeetError")}
+                    validation={{ min: sqFeetMin }}
+                    inputProps={{
+                      onBlur: () => {
+                        void trigger("sqFeetMin")
+                        void trigger("sqFeetMax")
+                      },
+                    }}
                     dataTestId="sqFeetMax"
                   />
                 </ViewItem>
@@ -389,6 +455,15 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    error={errors?.floorMin !== undefined}
+                    errorMessage={t("errors.minGreaterThanMaxFloorError")}
+                    validation={{ max: floorMax || floorMin }}
+                    inputProps={{
+                      onChange: () => {
+                        void trigger("floorMin")
+                        void trigger("floorMax")
+                      },
+                    }}
                     dataTestId="floorMin"
                   />
                 </ViewItem>
@@ -403,6 +478,15 @@ const UnitsSummaryForm = ({
                     register={register}
                     controlClassName="control"
                     options={numberOptions(10, 1, true)}
+                    error={errors?.floorMax !== undefined}
+                    errorMessage={t("errors.maxLessThanMinFloorError")}
+                    validation={{ min: floorMin }}
+                    inputProps={{
+                      onChange: () => {
+                        void trigger("floorMin")
+                        void trigger("floorMax")
+                      },
+                    }}
                     dataTestId="floorMax"
                   />
                 </ViewItem>
@@ -410,29 +494,47 @@ const UnitsSummaryForm = ({
             </GridSection>
             <GridSection columns={3}>
               <GridCell span={1}>
-                <ViewItem label={t("listings.unitsSummary.bathroomsMin")}>
+                <ViewItem label={t("listings.unitsSummary.bathroomMin")}>
                   <Select
                     id="bathroomMin"
                     name="bathroomMin"
-                    label={t("listings.unitsSummary.bathroomsMin")}
+                    label={t("listings.unitsSummary.bathroomMin")}
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(10, 1, true)}
+                    options={bathroomOptions}
+                    error={errors?.bathroomMin !== undefined}
+                    errorMessage={t("errors.minGreaterThanMaxBathroomError")}
+                    validation={{ max: bathroomMax || bathroomMin }}
+                    inputProps={{
+                      onChange: () => {
+                        void trigger("bathroomMin")
+                        void trigger("bathroomMax")
+                      },
+                    }}
                     dataTestId="bathroomMin"
                   />
                 </ViewItem>
               </GridCell>
               <GridCell span={1}>
-                <ViewItem label={t("listings.unitsSummary.bathroomsMax")}>
+                <ViewItem label={t("listings.unitsSummary.bathroomMax")}>
                   <Select
                     id="bathroomMax"
                     name="bathroomMax"
-                    label={t("listings.unitsSummary.bathroomsMax")}
+                    label={t("listings.unitsSummary.bathroomMax")}
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(10, 1, true)}
+                    options={bathroomOptions}
+                    error={errors?.bathroomMax !== undefined}
+                    errorMessage={t("errors.maxLessThanMinBathroomError")}
+                    validation={{ min: bathroomMin }}
+                    inputProps={{
+                      onChange: () => {
+                        void trigger("bathroomMin")
+                        void trigger("bathroomMax")
+                      },
+                    }}
                     dataTestId="bathroomMax"
                   />
                 </ViewItem>
@@ -451,7 +553,14 @@ const UnitsSummaryForm = ({
                   readerOnly
                   type="number"
                   error={errors?.totalAvailable !== undefined}
-                  errorMessage={t("errors.requiredFieldError")}
+                  errorMessage={t("errors.totalAvailableGreaterThanTotalCountError")}
+                  validation={{ max: totalCount || totalAvailable }}
+                  inputProps={{
+                    onBlur: () => {
+                      void trigger("totalCount")
+                      void trigger("totalAvailable")
+                    },
+                  }}
                   dataTestId="totalAvailable"
                 />
               </ViewItem>

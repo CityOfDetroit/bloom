@@ -71,36 +71,6 @@ describe("Listing Management Tests", () => {
       { fieldID: "amiPercentage", byTestID: true },
     ]
 
-    const fieldsToTypePart2 = [
-      { fieldID: "leasingAgentName" },
-      { fieldID: "leasingAgentEmail" },
-      { fieldID: "leasingAgentPhone" },
-      { fieldID: "leasingAgentTitle" },
-      { fieldID: "leasingAgentOfficeHours" },
-      { fieldID: "leasingAgentAddress.street" },
-      { fieldID: "leasingAgentAddress.street2" },
-      { fieldID: "leasingAgentAddress.city" },
-      { fieldID: "leasingAgentAddress.zipCode" },
-      {
-        fieldID: "mailing-address-street",
-        byTestID: true,
-        fixtureID: "leasingAgentAddress.street",
-      },
-      {
-        fieldID: "mailing-address-street2",
-        byTestID: true,
-        fixtureID: "leasingAgentAddress.street2",
-      },
-      { fieldID: "mailing-address-city", byTestID: true, fixtureID: "leasingAgentAddress.city" },
-      { fieldID: "mailing-address-zip", byTestID: true, fixtureID: "leasingAgentAddress.zipCode" },
-      { fieldID: "additionalApplicationSubmissionNotes" },
-    ]
-
-    const fieldsToSelectPart2 = [
-      { fieldID: "leasingAgentAddress.state" },
-      { fieldID: "mailing-address-state", byTestID: true, fixtureID: "leasingAgentAddress.state" },
-    ]
-
     // start of part 1
     cy.getByID("addPhotoButton").contains("Add Photo").click()
     cy.get(`[data-test-id="dropzone-input"]`).attachFile(
@@ -126,43 +96,99 @@ describe("Listing Management Tests", () => {
 
     cy.fixture("listing").then((listing) => {
       cy.get(".addressPopup").contains(listing["buildingAddress.street"])
-      // start of building selection
+      cy.getByID("reservedCommunityType.id").select(listing["reservedCommunityType.id"])
+      cy.getByID("reservedCommunityDescription").type(listing["reservedCommunityDescription"])
+      cy.getByTestId("unit-types").check()
+      cy.get("#addUnitsButton").contains("Add Unit").click()
+      cy.getByID("number").type(listing["number"])
+      cy.getByID("unitType.id").select(listing["unitType.id"])
+      cy.getByID("numBathrooms").select(listing["numBathrooms"])
+      cy.getByID("floor").select(listing["floor"])
+      cy.getByID("sqFeet").type(listing["sqFeet"])
+      cy.getByID("minOccupancy").select(listing["minOccupancy"])
+      cy.getByID("maxOccupancy").select(listing["maxOccupancy"])
+      cy.get("#fixed").check()
+      cy.getByID("monthlyIncomeMin").type(listing["monthlyIncomeMin"])
+      cy.getByID("monthlyRent").type(listing["monthlyRent"])
+      cy.getByID("priorityType.id").select(listing["priorityType.id"])
+      cy.get(".mt-6 > .is-primary").contains("Save & Exit").click()
+      cy.get(".drawer__content > .is-primary").contains("Save").click()
+      cy.getByID("applicationFee").type(listing["applicationFee"])
+      cy.getByID("depositMin").type(listing["depositMin"])
+      cy.getByID("depositMax").type(listing["depositMax"])
+      cy.getByID("costsNotIncluded").type(listing["costsNotIncluded"])
+      cy.getByID("applicationFee").type(listing["applicationFee"])
+      cy.getByID("depositMin").type(listing["depositMin"])
+      cy.getByID("depositMax").type(listing["depositMax"])
+      cy.getByID("costsNotIncluded").type(listing["costsNotIncluded"])
+      cy.getByID("amenities").type(listing["amenities"])
+      cy.getByID("accessibility").type(listing["accessibility"])
+      cy.getByID("unitAmenities").type(listing["unitAmenities"])
+      cy.getByID("smokingPolicy").type(listing["smokingPolicy"])
+      cy.getByID("petPolicy").type(listing["petPolicy"])
+      cy.getByID("servicesOffered").type(listing["servicesOffered"])
+      cy.getByID("creditHistory").type(listing["creditHistory"])
+      cy.getByID("rentalHistory").type(listing["rentalHistory"])
+      cy.getByID("criminalBackground").type(listing["criminalBackground"])
       cy.get("#addBuildingSelectionCriteriaButton")
         .contains("Add Building Selection Criteria")
         .click()
       cy.get("#criteriaAttachTypeURL").check()
       cy.getByID("buildingSelectionCriteriaURL").type(listing["buildingSelectionCriteriaURL"])
       cy.get(".p-4 > .is-primary").contains("Save").click()
+      cy.getByID("requiredDocuments").type(listing["requiredDocuments"])
+      cy.getByID("programRules").type(listing["programRules"])
+      cy.getByID("specialNotes").type(listing["specialNotes"])
+      cy.get(".text-right > .button").contains("Application Process").click()
+      cy.get("#reviewOrderFCFS").check()
+      cy.get("#dueDateQuestionNo").check()
+      cy.get("#waitlistOpenNo").check()
+      cy.getByID("leasingAgentName").type(listing["leasingAgentName"])
+      cy.getByID("leasingAgentEmail").type(listing["leasingAgentEmail"])
+      cy.getByID("leasingAgentPhone").type(listing["leasingAgentPhone"])
+      cy.getByID("leasingAgentTitle").type(listing["leasingAgentTitle"])
+      cy.getByID("leasingAgentOfficeHours").type(listing["leasingAgentOfficeHours"])
+      cy.get("#digitalApplicationChoiceYes").check()
+      cy.get("#commonDigitalApplicationChoiceYes").check()
+      cy.get("#paperApplicationNo").check()
+      cy.get("#referralOpportunityNo").check()
+
+      cy.getByID("leasingAgentAddress.street").type(listing["leasingAgentAddress.street"])
+      cy.getByID("leasingAgentAddress.street2").type(listing["leasingAgentAddress.street2"])
+      cy.getByID("leasingAgentAddress.city").type(listing["leasingAgentAddress.city"])
+      cy.getByID("leasingAgentAddress.zipCode").type(listing["leasingAgentAddress.zipCode"])
+      cy.getByID("leasingAgentAddress.state").select(listing["leasingAgentAddress.state"])
+
+      cy.get("#applicationsMailedInYes").check()
+      cy.get("#mailInAnotherAddress").check()
+      cy.getByTestId("mailing-address-street").type(listing["leasingAgentAddress.street"])
+      cy.getByTestId("mailing-address-street2").type(listing["leasingAgentAddress.street2"])
+      cy.getByTestId("mailing-address-city").type(listing["leasingAgentAddress.city"])
+      cy.getByTestId("mailing-address-zip").type(listing["leasingAgentAddress.zipCode"])
+      cy.getByTestId("mailing-address-state").select(listing["leasingAgentAddress.state"])
+
+      cy.get("#applicationsPickedUpNo").check()
+      cy.get("#applicationsDroppedOffNo").check()
+      cy.get("#postmarksConsideredYes").check()
+      cy.getByTestId("postmark-date-field-month").type("12")
+      cy.getByTestId("postmark-date-field-day").type("17")
+      cy.getByTestId("postmark-date-field-year").type("2022")
+      cy.getByTestId("postmark-time-field-hours").type("5")
+      cy.getByTestId("postmark-time-field-minutes").type("45")
+      cy.getByTestId("postmark-time-field-period").select("PM")
+      cy.getByID("additionalApplicationSubmissionNotes").type(
+        listing["additionalApplicationSubmissionNotes"]
+      )
+
+      // start publishing
+      cy.get("#publishButton").contains("Publish").click()
+      cy.get("#publishButtonConfirm").contains("Publish").click()
+      cy.fixture("listing").then((listing) => {
+        cy.get(".page-header__title > .font-semibold").contains(listing["name"])
+      })
     })
 
-    // start of part 2
-    cy.get(".text-right > .button").contains("Application Process").click()
-    cy.get("#waitlistOpenNo").check()
-    cy.get("#digitalApplicationChoiceYes").check()
-    cy.get("#commonDigitalApplicationChoiceYes").check()
-    cy.get("#paperApplicationNo").check()
-    cy.get("#applicationsMailedInYes").check()
-    cy.get("#mailInAnotherAddress").check()
-    cy.get("#applicationsPickedUpNo").check()
-    cy.get("#applicationsDroppedOffNo").check()
-    cy.get("#postmarksConsideredYes").check()
-    cy.getByTestId("postmark-date-field-month").type("12")
-    cy.getByTestId("postmark-date-field-day").type("17")
-    cy.getByTestId("postmark-date-field-year").type("2022")
-    cy.getByTestId("postmark-time-field-hours").type("5")
-    cy.getByTestId("postmark-time-field-minutes").type("45")
-    cy.getByTestId("postmark-time-field-period").select("PM")
-    cy.fillFormFields("listing", fieldsToTypePart2, fieldsToSelectPart2)
-
-    // start publishing
-    cy.get("#publishButton").contains("Publish").click()
-    cy.get("#publishButtonConfirm").contains("Publish").click()
-    cy.fixture("listing").then((listing) => {
-      cy.get(".page-header__title > .font-semibold").contains(listing["name"])
-    })
-  })
-
-  it("verify details page", () => {
+    //verify the details section is correct
     cy.fixture("listing").then((listing) => {
       cy.getByID("jurisdiction.name").contains(listing["jurisdiction.id"])
       cy.get("#name").contains(listing["name"])
@@ -171,6 +197,7 @@ describe("Listing Management Tests", () => {
         "cypress-automated-image-upload-071e2ab9-5a52-4f34-85f0-e41f696f4b96"
       )
       cy.getByID("buildingAddress.street").contains(listing["buildingAddress.street"])
+      cy.get("#region").contains(listing.region)
       cy.get("#neighborhood").contains(listing.neighborhood)
       cy.getByID("buildingAddress.city").contains(listing["buildingAddress.city"])
       cy.getByID("buildingAddress.state").contains("CA")
@@ -178,14 +205,15 @@ describe("Listing Management Tests", () => {
       cy.get("#yearBuilt").contains(listing["yearBuilt"])
       cy.get("#longitude").contains("-122.40078")
       cy.get("#latitude").contains("37.79006")
-
+      cy.get("#reservedCommunityType").contains(listing["reservedCommunityType.id"])
+      cy.get("#reservedCommunityDescription").contains(listing["reservedCommunityDescription"])
+      cy.getByTestId("unit-types-or-individual").contains("Unit Types")
       cy.get("#unitTable").contains(listing["totalCount"])
       cy.get("#unitTable").contains(`${listing["amiPercentage"]}%`)
       cy.get("#unitTable").contains(`$${listing["flatRentValue"]}`)
       cy.get("#unitTable").contains(`${listing["minOccupancy"]} - ${listing["maxOccupancy"]}`)
       cy.get("#unitTable").contains(`${listing["sqFeetMin"]} - ${listing["sqFeetMax"]}`)
       cy.get("#unitTable").contains(`${listing["bathroomMin"]} - ${listing["bathroomMax"]}`)
-
       cy.get("#applicationFee").contains(listing["applicationFee"])
       cy.get("#applicationFee").contains(listing["applicationFee"])
       cy.get("#applicationFee").contains(listing["applicationFee"])
@@ -220,6 +248,7 @@ describe("Listing Management Tests", () => {
       cy.get("#digitalApplication").contains("Yes")
       cy.getByID("digitalMethod.type").contains("Yes")
       cy.get("#paperApplication").contains("No")
+      cy.get("#referralOpportunity").contains("No")
       cy.getByID("leasingAgentAddress.street").contains(listing["leasingAgentAddress.street"])
       cy.getByID("leasingAgentAddress.street2").contains(listing["leasingAgentAddress.street2"])
       cy.getByID("leasingAgentAddress.city").contains(listing["leasingAgentAddress.city"])
@@ -227,11 +256,17 @@ describe("Listing Management Tests", () => {
       cy.getByID("leasingAgentAddress.zipCode").contains(listing["leasingAgentAddress.zipCode"])
       cy.getByID("applicationPickupQuestion").contains("No")
       cy.getByID("applicationMailingSection").contains("Yes")
-      cy.getByTestId("mailing-address-street").contains(listing["leasingAgentAddress.street"])
-      cy.getByTestId("mailing-address-street2").contains(listing["leasingAgentAddress.street2"])
-      cy.getByTestId("mailing-address-city").contains(listing["leasingAgentAddress.city"])
-      cy.getByTestId("mailing-address-zip").contains(listing["leasingAgentAddress.zipCode"])
-      cy.getByTestId("mailing-address-state").contains("CA")
+      cy.getByTestId("applicationMailingAddress.street").contains(
+        listing["leasingAgentAddress.street"]
+      )
+      cy.getByTestId("applicationMailingAddress.street2").contains(
+        listing["leasingAgentAddress.street2"]
+      )
+      cy.getByTestId("applicationMailingAddress.city").contains(listing["leasingAgentAddress.city"])
+      cy.getByTestId("applicationMailingAddress.zipCode").contains(
+        listing["leasingAgentAddress.zipCode"]
+      )
+      cy.getByTestId("applicationMailingAddress.state").contains("CA")
       cy.get("#applicationDropOffQuestion").contains("No")
       cy.get("#postmarksConsideredQuestion").contains("Yes")
       cy.getByTestId("postmark-date").contains("12")
@@ -243,17 +278,18 @@ describe("Listing Management Tests", () => {
       cy.get("#additionalApplicationSubmissionNotes").contains(
         listing["additionalApplicationSubmissionNotes"]
       )
+      cy.getByID("openhouseHeader").contains("10/04/2022")
+      cy.getByID("openhouseHeader").contains("10:04 AM")
+      cy.getByID("openhouseHeader").contains("11:05 PM")
     })
-  })
 
-  // skipping for flakiness
-  it.skip("verify open listing warning happens", () => {
-    cy.getByTestId("listingEditButton").contains("Edit").click()
-    cy.getByTestId("nameField").type(" (Edited)")
-    cy.getByTestId("saveAndExitButton").contains("Save & Exit").click()
-    cy.getByTestId("listingIsAlreadyLiveButton").contains("Save").click()
+    // try editting the listing
     cy.fixture("listing").then((listing) => {
-      cy.get(".page-header__title").should("have.text", `${listing["name"]} (Edited)`)
+      cy.getByTestId("listingEditButton").contains("Edit").click()
+      cy.getByTestId("nameField").type(" (Edited)")
+      cy.getByTestId("saveAndExitButton").contains("Save & Exit").click()
+      cy.getByTestId("listingIsAlreadyLiveButton").contains("Save").click()
+      cy.getByTestId("page-header-text").should("have.text", `${listing["name"]} (Edited)`)
     })
   })
 })

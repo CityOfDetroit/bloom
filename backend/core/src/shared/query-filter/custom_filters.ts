@@ -1,70 +1,42 @@
-import { getMetadataArgsStorage, WhereExpression } from "typeorm"
-import { AvailabilityFilterEnum } from "../../listings/types/listing-filter-keys-enum"
-import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
-import { UnitType } from "../../unit-types/entities/unit-type.entity"
+import { WhereExpression } from "typeorm"
+import { ListingMarketingTypeEnum } from "../../../types"
 
-export function addAvailabilityQuery(
-  qb: WhereExpression,
-  filterValue: AvailabilityFilterEnum,
-  includeNulls?: boolean
-) {
-  const whereParameterName = "availability"
-  switch (filterValue) {
-    case AvailabilityFilterEnum.hasAvailability:
-      qb.andWhere(
-        `(unitGroups.total_available >= :${whereParameterName}${
-          includeNulls ? ` OR unitGroups.total_available IS NULL` : ""
-        })`,
-        {
-          [whereParameterName]: 1,
-        }
-      )
-      return
-    case AvailabilityFilterEnum.noAvailability:
-      qb.andWhere(
-        `(unitGroups.total_available = :${whereParameterName}${
-          includeNulls ? ` OR unitGroups.total_available IS NULL` : ""
-        })`,
-        {
-          [whereParameterName]: 0,
-        }
-      )
-      return
-    case AvailabilityFilterEnum.waitlist:
-      qb.andWhere(
-        `(listings.is_waitlist_open = :${whereParameterName}${
-          includeNulls ? ` OR listings.is_waitlist_open is NULL` : ""
-        })`,
-        {
-          [whereParameterName]: true,
-        }
-      )
-      return
-    default:
-      return
-  }
+export function addAvailabilityQuery(qb: WhereExpression, filterValue: string) {
+  const val = filterValue?.split(",")
+  const whereClause = []
+  const inputArgs: Record<string, number | boolean | ListingMarketingTypeEnum> = {}
+  val.forEach((option) => {
+    switch (option) {
+      case "vacantUnits":
+        whereClause.push("unitgroups.total_available >= :vacantUnits")
+        inputArgs.vacantUnits = 1
+        return
+      case "openWaitlist":
+        whereClause.push("coalesce(unitgroups.open_waitlist, false) = :openWaitlist")
+        inputArgs.openWaitlist = true
+        return
+      case "closedWaitlist":
+        whereClause.push("coalesce(unitgroups.open_waitlist, false) = :closedWaitlist")
+        inputArgs.closedWaitlist = false
+        return
+      case "comingSoon":
+        whereClause.push("listings.marketing_type = :marketing_type")
+        inputArgs.marketing_type = ListingMarketingTypeEnum.comingSoon
+        return
+      default:
+        return
+    }
+  })
+  qb.andWhere(`(${whereClause.join(" OR ")})`, { ...inputArgs })
 }
 
-export function addBedroomsQuery(qb: WhereExpression, filterValue: number[]) {
-  const typeOrmMetadata = getMetadataArgsStorage()
-  const unitGroupEntityMetadata = typeOrmMetadata.tables.find((table) => table.target === UnitGroup)
-  const unitTypeEntityMetadata = typeOrmMetadata.tables.find((table) => table.target === UnitType)
-  const whereParameterName = "unitGroups_numBedrooms"
-
-  const unitGroupUnitTypeJoinTableName = `${unitGroupEntityMetadata.name}_unit_type_${unitTypeEntityMetadata.name}`
-  qb.andWhere(
-    `
-      (
-        SELECT bool_or(num_bedrooms  IN (:...${whereParameterName})) FROM ${unitGroupEntityMetadata.name}
-        LEFT JOIN ${unitGroupUnitTypeJoinTableName} ON ${unitGroupUnitTypeJoinTableName}.unit_group_id = ${unitGroupEntityMetadata.name}.id
-        LEFT JOIN ${unitTypeEntityMetadata.name}  ON ${unitTypeEntityMetadata.name}.id = ${unitGroupUnitTypeJoinTableName}.unit_types_id
-        WHERE ${unitGroupEntityMetadata.name}.listing_id = listings.id
-      ) = true
-    `,
-    {
-      [whereParameterName]: filterValue,
-    }
-  )
+export function addBedroomsQuery(qb: WhereExpression, filterValue: string) {
+  const val = filterValue.split(",").filter((elem) => !!elem)
+  if (val.length) {
+    qb.andWhere("unitTypes.name IN (:...unitTypes) ", {
+      unitTypes: val,
+    })
+  }
   return
 }
 
@@ -100,5 +72,36 @@ export function addFavoritedFilter(qb: WhereExpression, filterValue: string) {
       favoritedListings: val,
     })
   }
+  return
+}
+
+export function addProgramFilter(qb: WhereExpression, filterValue: string) {
+  const val = filterValue.split(",").filter((elem) => !!elem)
+  if (val.length) {
+    qb.andWhere("programs.id IN (:...communityPrograms) ", {
+      communityPrograms: val,
+    })
+  }
+  return
+}
+
+export function addRegionFilter(qb: WhereExpression, filterValue: string) {
+  const val = filterValue.split(",").filter((elem) => !!elem)
+  if (val.length) {
+    qb.andWhere("property.region IN (:...region) ", {
+      region: val,
+    })
+  }
+  return
+}
+
+export function addAccessibilityFilter(qb: WhereExpression, filterValue: string) {
+  const val = filterValue.split(",").filter((elem) => !!elem)
+  const whereClause = val
+    .map((key) => {
+      return `listing_features.${key} = true`
+    })
+    .join(" OR ")
+  qb.andWhere(`(${whereClause})`)
   return
 }

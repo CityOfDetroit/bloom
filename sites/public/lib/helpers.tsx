@@ -4,14 +4,25 @@ import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
 import dayjs from "dayjs"
-import { Address, Listing } from "@bloom-housing/backend-core/types"
+import {
+  Address,
+  Listing,
+  ListingFeatures,
+  ListingMarketingTypeEnum,
+  ListingProgram,
+} from "@bloom-housing/backend-core/types"
 import {
   t,
   ListingCard,
-  IconTypes,
-  IconSize,
-  IconProps,
   TableHeaders,
+  FavoriteButton,
+  LinkButton,
+  Tag,
+  Icon,
+  AppearanceStyleType,
+  IconFillColors,
+  ImageTag,
+  Tooltip,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
 
@@ -42,11 +53,11 @@ const getListingCardSubtitle = (address: Address) => {
   return address ? `${street}, ${city} ${state}, ${zipCode}` : null
 }
 
-export const accessibilityFeaturesExist = (listing: Listing) => {
-  if (!listing.features) return false
+export const accessibilityFeaturesExist = (features: ListingFeatures) => {
+  if (!features) return false
   let featuresExist = false
   Object.keys(listingFeatures).map((feature) => {
-    if (listing.features[feature]) {
+    if (features[feature]) {
       featuresExist = true
     }
   })
@@ -54,71 +65,136 @@ export const accessibilityFeaturesExist = (listing: Listing) => {
 }
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
+  if (listing?.marketingType === ListingMarketingTypeEnum.comingSoon) {
+    let label = t("listings.comingSoon")
+    if (listing?.marketingSeason) {
+      label = label.concat(` ${t(`seasons.${listing.marketingSeason}`)}`)
+    }
+    if (listing?.marketingDate) {
+      label = label.concat(` ${dayjs(listing.marketingDate).year()}`)
+    }
+    return label
+  }
   return listing?.isVerified ? t("listings.verifiedListing") : undefined
 }
 
-export const getImageTagIconFromListing = (listing: Listing): IconProps | null => {
-  if (listing?.isVerified) {
-    const tagIconSymbol: IconTypes = "badgeCheck"
-    const tagIconSize: IconSize = "medium"
-    const tagIconFill = "#193154"
-    return {
-      symbol: tagIconSymbol,
-      size: tagIconSize,
-      fill: tagIconFill,
-    }
+export const getListingTags = (
+  listingPrograms: ListingProgram[],
+  listingFeatures: ListingFeatures
+) => {
+  const tags: ImageTag[] =
+    listingPrograms
+      ?.sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
+      .map((program) => {
+        return { text: program.program.title }
+      }) ?? []
+  if (accessibilityFeaturesExist(listingFeatures)) {
+    tags.push({
+      text: t("listings.reservedCommunityTypes.specialNeeds"),
+      iconType: "universalAccess",
+      iconColor: AppearanceStyleType.primary,
+    })
   }
-  return null
+  return tags
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getListingTableData = (listing: Listing) => {
-  return []
+export const getListingTag = (tag: ImageTag) => {
+  return (
+    <Tag
+      styleType={AppearanceStyleType.accentLight}
+      className={"me-2 mb-2 font-bold px-3 py-2"}
+      key={tag.text}
+    >
+      {tag.iconType && (
+        <Icon
+          size={"medium"}
+          symbol={tag.iconType}
+          fill={tag.iconColor ?? IconFillColors.primary}
+          className={"me-2"}
+        />
+      )}
+      {tag.text}
+    </Tag>
+  )
+}
+
+export const getImageCardTag = (listing: Listing): ImageTag[] => {
+  const tag = getImageTagLabelFromListing(listing)
+  return tag
+    ? [
+        {
+          text: tag,
+          iconType:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? "calendarBlock"
+              : "badgeCheck",
+          iconColor:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? IconFillColors.white
+              : "#193154",
+          styleType:
+            listing?.marketingType === ListingMarketingTypeEnum.comingSoon
+              ? AppearanceStyleType.closed
+              : AppearanceStyleType.accentLight,
+          tooltip:
+            listing?.isVerified && listing?.marketingType !== ListingMarketingTypeEnum.comingSoon // show tooltip only for confirmed badge
+              ? {
+                  id: "verified",
+                  text: t("listings.managerHasConfirmedInformation"),
+                }
+              : undefined,
+        },
+      ]
+    : null
 }
 
 export const getListings = (listings) => {
   const unitSummariesHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
+    unitType: "t.unitType",
+    rent: "t.rent",
+    availability: "t.availability",
   }
-  return listings.map((listing: Listing, index) => {
-    return (
-      <ListingCard
-        key={index}
-        imageCardProps={{
-          imageUrl:
-            imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")) || "",
-          subtitle: getListingCardSubtitle(listing.buildingAddress),
-          title: listing.name,
-          href: `/listing/${listing.id}/${listing.urlSlug}`,
-          tagLabel: getImageTagLabelFromListing(listing),
-          tagIcon: getImageTagIconFromListing(listing),
-        }}
-        tableProps={{
-          headers: unitSummariesHeaders,
-          data: getListingTableData(listing),
-          responsiveCollapse: true,
-          cellClassName: "px-5 py-3",
-        }}
-        seeDetailsLink={`/listing/${listing.id}/${listing.urlSlug}`}
-        detailsLinkClass="float-right"
-        tableHeaderProps={{
-          tableHeader: listing.showWaitlist ? t("listings.waitlist.open") : null,
-        }}
-        listingId={listing.id}
-        allowFavoriting={true}
-      />
-    )
-  })
+
+  return listings.map((listing: Listing, index) => (
+    <ListingCard
+      key={index}
+      imageCardProps={{
+        imageUrl: imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize || "1302")),
+        href: `/listing/${listing.id}/${listing.urlSlug}`,
+        tags: getImageCardTag(listing),
+      }}
+      tableProps={{
+        headers: unitSummariesHeaders,
+        data: getUnitGroupSummary(listing).data,
+        responsiveCollapse: true,
+        cellClassName: "px-5 py-3",
+      }}
+      contentProps={{
+        contentHeader: { text: listing.name },
+        contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
+        tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
+      }}
+      cardTags={getListingTags(listing.listingPrograms, listing.features)}
+      footerContent={
+        <div className={"flex justify-between items-center"}>
+          <FavoriteButton name={listing.name} id={listing.id} />
+          <LinkButton href={`/listing/${listing.id}/${listing.urlSlug}`} key={index}>
+            {t("t.seeDetails")}
+          </LinkButton>
+        </div>
+      }
+    />
+  ))
 }
 
-export const usToIntlPhone = (usPhoneNumber: string): string => {
-  return usPhoneNumber.replace(/\((\d{3})\) (\d{3})-(\d{4})/, "+1$1$2$3")
+export const usToIntlPhone = (usPhoneNumber: string | null): string => {
+  return usPhoneNumber !== ""
+    ? usPhoneNumber.replace(/\((\d{3})\) (\d{3})-(\d{4})/, "+1$1$2$3")
+    : null
 }
 
-export const intlToUsPhone = (intlPhoneNumber: string): string => {
-  return intlPhoneNumber.replace(/\+1(\d{10})/, "$1")
+export const intlToUsPhone = (intlPhoneNumber: string | null): string => {
+  return intlPhoneNumber !== "" ? intlPhoneNumber.replace(/\+1(\d{10})/, "$1") : null
 }
 
 interface UnitSummaryTable {
@@ -127,52 +203,62 @@ interface UnitSummaryTable {
 }
 
 export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
-  const groupedUnitHeaders = {
+  const groupedUnitHeaders: TableHeaders = {
     unitType: t("t.unitType"),
     rent: t("t.rent"),
     availability: t("t.availability"),
-    ami: t("listings.unit.ami"),
+    ami: {
+      name: "ami",
+      className: "ami-header",
+      icon: (
+        <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
+          <Icon size="medium" symbol="info" tabIndex={0} />
+        </Tooltip>
+      ),
+    },
   }
   let groupedUnitData: Record<string, React.ReactNode>[] = null
 
-  if (listing.unitGroups !== undefined && listing.unitGroups.length > 0) {
-    // unit group summary
-    groupedUnitData = listing.unitSummaries.unitGroupSummary.map((group) => {
-      let rentRange = null
-      let rentAsPercentIncomeRange = null
-      if (group.rentRange && group.rentRange.min === group.rentRange.max) {
-        rentRange = group.rentRange.min
-      } else if (group.rentRange) {
-        rentRange = `${group.rentRange.min} - ${group.rentRange.max}`
-      }
+  // unit group summary
+  groupedUnitData = listing?.unitSummaries?.unitGroupSummary?.map((group) => {
+    let rentRange = null
+    let rentAsPercentIncomeRange = null
+    if (group.rentRange && group.rentRange.min === group.rentRange.max) {
+      rentRange = group.rentRange.min
+    } else if (group.rentRange) {
+      rentRange = `${group.rentRange.min} - ${group.rentRange.max}`
+    }
 
-      if (rentRange) {
-        rentRange = (
-          <span>
-            <strong>{rentRange}</strong> {t("t.perMonth")}
-          </span>
-        )
-      }
+    if (rentRange) {
+      rentRange = (
+        <span>
+          <strong>{rentRange}</strong> {t("t.perMonth")}
+        </span>
+      )
+    }
 
-      if (
-        group.rentAsPercentIncomeRange &&
-        group.rentAsPercentIncomeRange.min === group.rentAsPercentIncomeRange.max
-      ) {
-        rentAsPercentIncomeRange = group.rentAsPercentIncomeRange.min
-      } else if (group.rentAsPercentIncomeRange) {
-        rentAsPercentIncomeRange = `${group.rentAsPercentIncomeRange.min} - ${group.rentAsPercentIncomeRange.max}`
-      }
+    if (
+      group.rentAsPercentIncomeRange &&
+      group.rentAsPercentIncomeRange.min === group.rentAsPercentIncomeRange.max
+    ) {
+      rentAsPercentIncomeRange = group.rentAsPercentIncomeRange.min
+    } else if (group.rentAsPercentIncomeRange) {
+      rentAsPercentIncomeRange = `${group.rentAsPercentIncomeRange.min} - ${group.rentAsPercentIncomeRange.max}`
+    }
 
-      if (rentAsPercentIncomeRange) {
-        rentAsPercentIncomeRange = (
-          <span>
-            <strong>{rentAsPercentIncomeRange}%</strong> {t("t.income")}
-          </span>
-        )
-      }
+    if (rentAsPercentIncomeRange) {
+      rentAsPercentIncomeRange = (
+        <span>
+          <strong>{rentAsPercentIncomeRange}%</strong> {t("t.income")}
+        </span>
+      )
+    }
 
-      let availability = null
+    let availability = null
 
+    if (listing.marketingType && listing.marketingType === ListingMarketingTypeEnum.comingSoon) {
+      availability = <strong>{t("listings.comingSoon")}</strong>
+    } else {
       if (group.unitVacancies > 0) {
         availability = (
           <div>
@@ -191,48 +277,45 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
           </strong>
         </>
       )
+    }
 
-      let ami = null
+    let ami = null
 
-      if (
-        group.amiPercentageRange &&
-        group.amiPercentageRange.min === group.amiPercentageRange.max
-      ) {
-        ami = `${group.amiPercentageRange.min}%`
-      } else if (group.amiPercentageRange) {
-        ami = `${group.amiPercentageRange.min} - ${group.amiPercentageRange.max}%`
-      }
+    if (group.amiPercentageRange && group.amiPercentageRange.min === group.amiPercentageRange.max) {
+      ami = `${group.amiPercentageRange.min}%`
+    } else if (group.amiPercentageRange) {
+      ami = `${group.amiPercentageRange.min} - ${group.amiPercentageRange.max}%`
+    }
 
-      let rent: React.ReactNode = null
+    let rent: React.ReactNode = null
 
-      if (rentRange && rentAsPercentIncomeRange) {
-        rent = (
-          <>
-            {rentRange}, {rentAsPercentIncomeRange}
-          </>
-        )
-      } else if (rentRange) {
-        rent = rentRange
-      } else if (rentAsPercentIncomeRange) {
-        rent = rentAsPercentIncomeRange
-      }
+    if (rentRange && rentAsPercentIncomeRange) {
+      rent = (
+        <>
+          {rentRange}, {rentAsPercentIncomeRange}
+        </>
+      )
+    } else if (rentRange) {
+      rent = rentRange
+    } else if (rentAsPercentIncomeRange) {
+      rent = rentAsPercentIncomeRange
+    }
 
-      return {
-        unitType: (
-          <>
-            {group.unitTypes
-              .map<React.ReactNode>((type) => (
-                <strong key={type}>{t(`listings.unitTypes.${type}`)}</strong>
-              ))
-              .reduce((acc, curr) => [acc, ", ", curr])}
-          </>
-        ),
-        rent,
-        availability,
-        ami: <strong>{ami}</strong>,
-      }
-    })
-  }
+    return {
+      unitType: (
+        <>
+          {group.unitTypes
+            .map<React.ReactNode>((type) => (
+              <strong key={type}>{t(`listings.unitTypes.${type}`)}</strong>
+            ))
+            .reduce((acc, curr) => [acc, ", ", curr])}
+        </>
+      ),
+      rent: rent ?? t("listings.unitsSummary.notAvailable"),
+      availability: <strong>{availability ?? t("listings.unitsSummary.notAvailable")}</strong>,
+      ami: ami ?? t("listings.unitsSummary.notAvailable"),
+    }
+  })
 
   return {
     headers: groupedUnitHeaders,
