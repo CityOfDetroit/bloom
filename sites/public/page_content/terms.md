@@ -68,6 +68,13 @@ You agree to indemnify, defend and hold harmless the City, as well as its subsid
 
 #### SECTION 14: MISCELLANEOUS
 
+<style>
+  .alpha-list ul{
+    list-style: lower-alpha;
+  }
+</style>
+
+<div class='alpha-list'>
 - Entire Agreement
   These Terms set forth the entire understanding between you and the City and supersedes prior agreements, communications, and representations between you and the City regarding the subject matter contained herein.
 - Applicable Laws
@@ -82,5 +89,5 @@ You agree to indemnify, defend and hold harmless the City, as well as its subsid
   All rights not expressly granted herein are reserved.
 - Contact Information
   By e-mail: detroithomeconnect@detroitmi.gov
-
+</div>
 ---
