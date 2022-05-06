@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useState, useRef, useCallback } from "react"
+import React, { useMemo, useContext, useEffect, useRef, useState, useCallback } from "react"
 import Head from "next/head"
 import {
   PageHeader,
@@ -31,6 +31,8 @@ export default function ListingsList() {
 
   const router = useRouter()
 
+  const [gridColumnApi, setGridColumnApi] = useState<ColumnApi | null>(null)
+
   /* Pagination */
   const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -48,6 +50,10 @@ export default function ListingsList() {
     const columnState = api.getColumnState()
     const columnStateJSON = JSON.stringify(columnState)
     sessionStorage.setItem(COLUMN_STATE_KEY, columnStateJSON)
+  }
+
+  function onGridReady(params) {
+    setGridColumnApi(params.columnApi)
   }
 
   class formatLinkCell {
@@ -83,6 +89,7 @@ export default function ListingsList() {
     }
   }
 
+  /* Grid Functionality and Formatting */
   // update table items order on sort change
   const initialLoadOnSort = useRef<boolean>(false)
   const onSortChange = useCallback((columns: ColumnState[]) => {
@@ -95,28 +102,19 @@ export default function ListingsList() {
     const sortedBy = columns.find((col) => col.sort)
     const { colId, sort } = sortedBy || {}
 
+    let col = colId
+    if (colId === "isVerified") {
+      col = "verified"
+    }
     const allowedSortColIds: string[] = Object.values(OrderByFieldsEnum)
-
-    if (allowedSortColIds.includes(colId)) {
-      const name = OrderByFieldsEnum[colId]
-
+    if (allowedSortColIds.includes(col)) {
+      const name = OrderByFieldsEnum[col]
       setSortOptions({
         orderBy: name,
         orderDir: sort.toUpperCase() as OrderDirEnum,
       })
     }
   }, [])
-
-  const gridOptions: GridOptions = {
-    onSortChanged: (params) => {
-      saveColumnState(params.columnApi)
-      onSortChange(params.columnApi.getColumnState())
-    },
-    components: {
-      formatLinkCell,
-      formatWaitlistStatus,
-    },
-  }
 
   const columnDefs = useMemo(() => {
     const columns = [
@@ -127,7 +125,8 @@ export default function ListingsList() {
         unSortIcon: true,
         sort: "asc",
         filter: false,
-        resizable: true,
+        width: 450,
+        minWidth: 100,
         cellRenderer: "formatLinkCell",
       },
       {
@@ -135,8 +134,8 @@ export default function ListingsList() {
         field: "buildingAddress.street",
         sortable: false,
         filter: false,
-        resizable: true,
-        flex: 1,
+        width: 495,
+        minWidth: 100,
         valueFormatter: ({ value }) => (value ? value : t("t.none")),
       },
       {
@@ -145,8 +144,8 @@ export default function ListingsList() {
         sortable: true,
         unSortIcon: true,
         filter: false,
-        resizable: true,
-        flex: 1,
+        width: 150,
+        minWidth: 100,
         valueFormatter: ({ value }) => {
           switch (value) {
             case ListingStatus.active:
@@ -166,7 +165,8 @@ export default function ListingsList() {
         sortable: true,
         unSortIcon: true,
         filter: false,
-        resizable: true,
+        width: 150,
+        minWidth: 100,
         valueFormatter: ({ value }) => (value ? t("t.yes") : t("t.no")),
       },
     ]
@@ -182,6 +182,38 @@ export default function ListingsList() {
     orderBy: sortOptions.orderBy,
     orderDir: sortOptions.orderDir,
   })
+
+  const gridOptions: GridOptions = {
+    onSortChanged: (params) => {
+      saveColumnState(params.columnApi)
+      onSortChange(params.columnApi.getColumnState())
+    },
+    components: {
+      formatLinkCell,
+      formatWaitlistStatus,
+    },
+    suppressNoRowsOverlay: listingsLoading,
+  }
+
+  /* Pagination */
+  // reset page to 1 when user change limit
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [itemsPerPage])
+
+  /* Data Performance */
+  // Load a table state on initial render & pagination change (because the new data comes from the API)
+  useEffect(() => {
+    const savedColumnState = sessionStorage.getItem(COLUMN_STATE_KEY)
+    if (gridColumnApi && savedColumnState) {
+      const parsedState: ColumnState[] = JSON.parse(savedColumnState)
+
+      gridColumnApi.applyColumnState({
+        state: parsedState,
+        applyOrder: true,
+      })
+    }
+  }, [gridColumnApi, currentPage])
 
   return (
     <Layout>
@@ -213,7 +245,11 @@ export default function ListingsList() {
             <div className="applications-table mt-5">
               <LoadingOverlay isLoading={listingsLoading}>
                 <AgGridReact
+                  onGridReady={onGridReady}
                   gridOptions={gridOptions}
+                  defaultColDef={{
+                    resizable: true,
+                  }}
                   columnDefs={columnDefs}
                   rowData={listingDtos?.items}
                   domLayout={"autoHeight"}
