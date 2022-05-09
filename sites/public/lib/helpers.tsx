@@ -102,7 +102,7 @@ export const getListingTag = (tag: ImageTag) => {
   return (
     <Tag
       styleType={AppearanceStyleType.accentLight}
-      className={"me-2 mb-2 font-bold px-3 py-2"}
+      className={"mr-2 mb-2 font-bold px-3 py-2"}
       key={tag.text}
     >
       {tag.iconType && (
@@ -110,7 +110,7 @@ export const getListingTag = (tag: ImageTag) => {
           size={"medium"}
           symbol={tag.iconType}
           fill={tag.iconColor ?? IconFillColors.primary}
-          className={"me-2"}
+          className={"mr-2"}
         />
       )}
       {tag.text}
@@ -292,7 +292,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
     if (rentRange && rentAsPercentIncomeRange) {
       rent = (
         <>
-          {rentRange}, {rentAsPercentIncomeRange}
+          {rentRange},&nbsp;{rentAsPercentIncomeRange}
         </>
       )
     } else if (rentRange) {
@@ -308,7 +308,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
             .map<React.ReactNode>((type) => (
               <strong key={type}>{t(`listings.unitTypes.${type}`)}</strong>
             ))
-            .reduce((acc, curr) => [acc, ", ", curr], [])}
+            .reduce((acc, curr) => [acc, ", ", curr])}
         </>
       ),
       rent: rent ?? t("listings.unitsSummary.notAvailable"),
