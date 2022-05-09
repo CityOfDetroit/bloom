@@ -221,15 +221,6 @@ const seedListings = async (
       (jurisdiction) => jurisdiction.name === listing.jurisdictionName
     )
     listing.leasingAgents = [everyOtherAgent]
-    const applicationMethods = await applicationMethodsService.create({
-      type: ApplicationMethodType.Internal,
-      acceptsPostmarkedApplications: false,
-      externalReference: "",
-      label: "Label",
-      paperApplications: [],
-      listing,
-    })
-    listing.applicationMethods = [applicationMethods]
     await listingRepository.save(listing)
 
     seeds.push(listing)
