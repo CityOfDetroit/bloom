@@ -220,6 +220,14 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
     }
   }, [apiUrl, storageType])
 
+  const enforcePreferences = (profile: User) => {
+    if (!profile.preferences) {
+      profile.preferences = {
+        favoriteIds: [],
+      }
+    }
+  }
+
   // Load our profile as soon as we have an access token available
   useEffect(() => {
     if (!state.profile && state.accessToken && !state.loading) {
@@ -228,6 +236,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
         try {
           const profile = await userService?.userControllerProfile()
           if (profile) {
+            enforcePreferences(profile)
             dispatch(saveProfile(profile))
           }
         } finally {
@@ -271,6 +280,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
           dispatch(saveToken({ accessToken: response.accessToken, apiUrl, dispatch }))
           const profile = await userService?.userControllerProfile()
           if (profile) {
+            enforcePreferences(profile)
             dispatch(saveProfile(profile))
             return profile
           }
@@ -284,6 +294,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
       dispatch(saveToken({ accessToken: token, apiUrl, dispatch }))
       const profile = await userService?.userControllerProfile()
       if (profile) {
+        enforcePreferences(profile)
         dispatch(saveProfile(profile))
         return profile
       }
@@ -305,6 +316,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
           dispatch(saveToken({ accessToken: response.accessToken, apiUrl, dispatch }))
           const profile = await userService?.userControllerProfile()
           if (profile) {
+            enforcePreferences(profile)
             dispatch(saveProfile(profile))
             return profile
           }
@@ -322,6 +334,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
           dispatch(saveToken({ accessToken: response.accessToken, apiUrl, dispatch }))
           const profile = await userService?.userControllerProfile()
           if (profile) {
+            enforcePreferences(profile)
             dispatch(saveProfile(profile))
             return profile
           }

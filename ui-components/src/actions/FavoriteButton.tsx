@@ -17,14 +17,14 @@ export interface FavoriteButtonProps {
 const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
   const { profile, userPreferencesService } = useContext(AuthContext)
   const preferences = profile?.preferences || {
-    sendEmailNotifications: false,
-    sendSmsNotifications: false,
     favoriteIds: [],
   }
 
-  const [listingFavorited, setListingFavorited] = useState(
-    preferences.favoriteIds?.includes(id) ?? false
-  )
+  const [listingFavorited, setListingFavorited] = useState(false)
+
+  useEffect(() => {
+    setListingFavorited(preferences.favoriteIds?.includes(id) ?? false)
+  }, [preferences])
 
   if (!profile) {
     return <span />
