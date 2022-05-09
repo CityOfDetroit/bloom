@@ -86,7 +86,7 @@ export const getListingTags = (
     listingPrograms
       ?.sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
       .map((program) => {
-        return { text: program.program.title }
+        return { text: t(`listingFilters.program.${program.program.title}`) }
       }) ?? []
   if (accessibilityFeaturesExist(listingFeatures)) {
     tags.push({
@@ -308,7 +308,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
             .map<React.ReactNode>((type) => (
               <strong key={type}>{t(`listings.unitTypes.${type}`)}</strong>
             ))
-            .reduce((acc, curr) => [acc, ", ", curr], [])}
+            .reduce((acc, curr, index) => [acc, index !== 0 ? ", " : "", curr], [])}
         </>
       ),
       rent: rent ?? t("listings.unitsSummary.notAvailable"),
