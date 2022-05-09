@@ -10,7 +10,7 @@ The Financial Empowerment Center (FEC) offers professional, one-on-one financial
 
 ### [Asesoramiento financiero](https://detroitmi.gov/departments/department-neighborhoods/financial-empowerment-center-fec)
 
-El Centro de Empoderamiento Financiero (FEC, por sus siglas en inglés) ofrece asesoramiento financiero profesional y personalizado de manera pública y gratuita y permite a los residentes abordar sus dificultades y necesidades financieras y planificar sus futuros. Para agendar una cita, llame al [313-322-6222](tel:+1-313-322-6222). 
+El Centro de Empoderamiento Financiero (FEC, por sus siglas en inglés) ofrece asesoramiento financiero profesional y personalizado de manera pública y gratuita y permite a los residentes abordar sus dificultades y necesidades financieras y planificar sus futuros. Para agendar una cita, llame al [313-322-6222](tel:+1-313-322-6222).
 
 </RenderIf>
 
