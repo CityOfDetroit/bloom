@@ -1,4 +1,4 @@
-describe("applications/preferences/general", function () {
+describe.skip("applications/preferences/general", function () {
   const route = "/applications/preferences/general"
 
   beforeEach(() => {

@@ -1,4 +1,4 @@
-describe("applications/household/add-members", function () {
+describe.skip("applications/household/add-members", function () {
   const route = "/applications/household/add-members"
 
   beforeEach(() => {

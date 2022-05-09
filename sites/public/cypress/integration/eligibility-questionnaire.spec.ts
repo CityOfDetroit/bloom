@@ -1,4 +1,5 @@
-describe("Verifying the eligibility questionnaire flow", () => {
+// Eligibility questionnaire is temporarily removed
+describe.skip("Verifying the eligibility questionnaire flow", () => {
   it("Clicks the button on the homepage to launch the eligibility questionnaire", () => {
     cy.visit("/")
 

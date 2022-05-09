@@ -1,4 +1,4 @@
-describe("applications/household/programs", function () {
+describe.skip("applications/household/programs", function () {
   const route = "/applications/household/programs"
 
   beforeEach(() => {

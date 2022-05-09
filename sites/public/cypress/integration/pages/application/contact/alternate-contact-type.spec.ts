@@ -1,4 +1,4 @@
-describe("applications/contact/alternate-contact-type", function () {
+describe.skip("applications/contact/alternate-contact-type", function () {
   const route = "/applications/contact/alternate-contact-type"
 
   beforeEach(() => {

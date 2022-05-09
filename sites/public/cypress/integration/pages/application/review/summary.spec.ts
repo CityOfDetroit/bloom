@@ -1,4 +1,4 @@
-describe("applications/review/summary", function () {
+describe.skip("applications/review/summary", function () {
   const route = "/applications/review/summary"
 
   beforeEach(() => {

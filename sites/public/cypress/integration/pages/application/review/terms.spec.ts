@@ -1,4 +1,4 @@
-describe("applications/review/terms", function () {
+describe.skip("applications/review/terms", function () {
   const route = "/applications/review/terms"
 
   function submitApplication() {

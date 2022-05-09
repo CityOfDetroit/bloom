@@ -1,4 +1,4 @@
-describe("applications/contact/address", function () {
+describe.skip("applications/contact/address", function () {
   const route = "/applications/contact/address"
 
   before(() => {

@@ -7,7 +7,7 @@ describe("Individual listing page", () => {
     // NOTE: this assumes that the first listing in the group contains these features,
     // which may or may not hold true as new seed listings are added.
     // TODO: pick a particular listing to click on with known features.
-    cy.contains("Management Company")
+    cy.contains("Listing Updated")
     cy.contains("Features")
     cy.contains("Neighborhood")
   })

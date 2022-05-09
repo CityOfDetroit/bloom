@@ -1,4 +1,4 @@
-describe("applications/contact/alternate-contact-name", function () {
+describe.skip("applications/contact/alternate-contact-name", function () {
   const route = "/applications/contact/alternate-contact-name"
 
   it("should render the alternate contact name sub-form", function () {

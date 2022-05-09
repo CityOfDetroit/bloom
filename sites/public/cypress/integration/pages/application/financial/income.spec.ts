@@ -1,4 +1,4 @@
-describe("applications/financial/income", function () {
+describe.skip("applications/financial/income", function () {
   const route = "applications/financial/income"
 
   beforeEach(() => {
