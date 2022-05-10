@@ -29,21 +29,21 @@ const Tooltip = ({ className, id, text, children }: React.PropsWithChildren<Tool
 
   useKeyPress("Escape", () => hide())
 
-  // useEffect(() => {
-  //   window.addEventListener("scroll", () => hide())
+  useEffect(() => {
+    window.addEventListener("scroll", () => hide())
 
-  //   return () => {
-  //     window.removeEventListener("scroll", () => hide())
-  //   }
-  // }, [])
+    return () => {
+      window.removeEventListener("scroll", () => hide())
+    }
+  }, [])
 
   return (
     <div
       className={`tooltip ${className || ""}`}
       onFocus={show}
       onMouseEnter={show}
-      onBlur={show}
-      onMouseLeave={show}
+      onBlur={hide}
+      onMouseLeave={hide}
     >
       <div
         className={`tooltip__element ${position ? "tooltip__element--visible" : ""}`}
