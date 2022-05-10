@@ -15,15 +15,22 @@ export interface FavoriteButtonProps {
 }
 
 const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
-  const { profile, userPreferencesService } = useContext(AuthContext)
-  const preferences = profile?.preferences || {
-    favoriteIds: [],
-  }
+  const { profile, userPreferencesService, updateProfile } = useContext(AuthContext)
+  const preferences = profile?.preferences
 
   const [listingFavorited, setListingFavorited] = useState(false)
 
   useEffect(() => {
-    setListingFavorited(preferences.favoriteIds?.includes(id) ?? false)
+    if (profile && updateProfile && !profile.preferences?.favoriteIds) {
+      if (!profile.preferences) {
+        profile.preferences = { favoriteIds: [] }
+      } else if (!profile.preferences?.favoriteIds) {
+        profile.preferences.favoriteIds = []
+      }
+      updateProfile(profile)
+    } else {
+      setListingFavorited(preferences?.favoriteIds?.includes(id) ?? false)
+    }
   }, [preferences])
 
   if (!profile) {
@@ -34,7 +41,7 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
     if (!profile || listingFavorited) {
       return
     }
-    preferences.favoriteIds?.push(id)
+    preferences?.favoriteIds?.push(id)
 
     try {
       await userPreferencesService?.update({
@@ -48,7 +55,7 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
   }
 
   const removeFavorite = async () => {
-    if (!profile || !preferences.favoriteIds || preferences?.favoriteIds?.length === 0) {
+    if (!profile || !preferences?.favoriteIds || preferences?.favoriteIds?.length === 0) {
       return
     }
 
