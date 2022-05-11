@@ -228,6 +228,7 @@ const FilterForm = (props: FilterFormProps) => {
               error={errors?.minRent !== undefined}
               errorMessage={t("errors.minGreaterThanMaxRentError")}
               validation={{ max: maxRent || minRent }}
+              readerOnly
               inputProps={{
                 onBlur: () => {
                   void trigger("minRent")
@@ -247,6 +248,7 @@ const FilterForm = (props: FilterFormProps) => {
               error={errors?.maxRent !== undefined}
               errorMessage={t("errors.maxLessThanMinRentError")}
               validation={{ min: minRent }}
+              readerOnly
               inputProps={{
                 onBlur: () => {
                   void trigger("minRent")
