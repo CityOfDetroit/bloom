@@ -18,7 +18,7 @@ const ModalHeader = (props: { title: string }) => (
 )
 
 const ModalFooter = (props: { actions: React.ReactNode[] }) => (
-  <footer className="modal__footer bg-primary-lighter" data-testid="footer">
+  <footer className="modal__footer bg-primary-lighter" data-test-id="footer">
     <div className="flex flex-row-reverse gap-5">
       {props.actions.map((action: React.ReactNode, index: number) => (
         <div key={index}>{action}</div>
