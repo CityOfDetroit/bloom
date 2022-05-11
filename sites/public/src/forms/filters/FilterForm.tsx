@@ -102,9 +102,9 @@ const FilterForm = (props: FilterFormProps) => {
     )
 
     setAccessibilityFeatureOptions(
-      Object.keys(listingFeatures).map((elem) => ({
+      listingFeatures.map((elem) => ({
         value: elem,
-        label: listingFeatures[elem],
+        label: t(`eligibility.accessibility.${elem}`),
       }))
     )
   }, [])
@@ -269,7 +269,7 @@ const FilterForm = (props: FilterFormProps) => {
               register={register}
               fields={communityProgramOptions.map((elem) => ({
                 id: elem.value,
-                label: elem.label,
+                label: t(`listingFilters.program.${elem.label}`),
                 value: elem.value,
                 inputProps: {
                   defaultChecked: Boolean(
@@ -345,7 +345,7 @@ const FilterForm = (props: FilterFormProps) => {
             <Button
               type="submit"
               styleType={AppearanceStyleType.primary}
-              className={"border-primary-darker bg-primary-darker mr-3 hover:text-white"}
+              className={"border-primary-darker bg-primary-darker me-3 hover:text-white"}
             >
               {t("t.done")}
             </Button>
