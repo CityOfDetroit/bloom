@@ -296,9 +296,9 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
 
     if (rentRange && rentAsPercentIncomeRange) {
       rent = (
-        <>
-          {rentRange},&nbsp;{rentAsPercentIncomeRange}
-        </>
+        <div>
+          {rentRange},{"  "}${rentAsPercentIncomeRange}
+        </div>
       )
     } else if (rentRange) {
       rent = rentRange
