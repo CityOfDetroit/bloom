@@ -68,9 +68,17 @@ export const Overlay = (props: OverlayProps) => {
   // disable body scrolling when the overlay is open
   useEffect(() => {
     if (!(overlayRoot && elForPortal)) return
-
-    props.open ? disableBodyScroll(elForPortal) : enableBodyScroll(elForPortal)
-
+    console.log(elForPortal)
+    console.log(elForPortal.className)
+    const testing: any[] = []
+    props.open
+      ? disableBodyScroll(elForPortal, {
+          allowTouchMove: (el) => {
+            return el.tagName == "DIV"
+          },
+        })
+      : enableBodyScroll(elForPortal)
+    console.log(testing)
     return () => {
       enableBodyScroll(elForPortal)
     }
