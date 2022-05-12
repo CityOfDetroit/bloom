@@ -41,16 +41,15 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
       preferences?.favoriteIds?.push(id)
     }
 
-    if (updateProfile) {
-      updateProfile(profile)
-    }
-
     try {
       await userPreferencesService?.update({
         id: profile.id,
         body: preferences ?? { favoriteIds: [id] },
       })
       setListingFavorited(true)
+      if (updateProfile) {
+        updateProfile(profile)
+      }
     } catch (err) {
       console.warn(err)
     }
@@ -63,9 +62,6 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
 
     const index: number = preferences.favoriteIds?.indexOf(id)
     preferences?.favoriteIds?.splice(index, 1)
-    if (updateProfile) {
-      updateProfile(profile)
-    }
 
     try {
       await userPreferencesService?.update({
@@ -73,6 +69,9 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
         body: preferences,
       })
       setListingFavorited(false)
+      if (updateProfile) {
+        updateProfile(profile)
+      }
     } catch (err) {
       console.warn(err)
     }
