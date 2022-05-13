@@ -136,6 +136,7 @@ const FilterForm = (props: FilterFormProps) => {
               type="hidden"
               register={register}
               defaultValue={EnumListingFilterParamsStatus.active}
+              labelClassName={"hidden"}
             />
             <ViewItem
               className={"font-bold"}

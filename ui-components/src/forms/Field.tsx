@@ -32,6 +32,7 @@ export interface FieldProps {
   dataTestId?: string
   hidden?: boolean
   labelClassName?: string
+  ariaHidden?: boolean
 }
 
 const Field = (props: FieldProps) => {
