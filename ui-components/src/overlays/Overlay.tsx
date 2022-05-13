@@ -70,15 +70,18 @@ export const Overlay = (props: OverlayProps) => {
     if (!(overlayRoot && elForPortal)) return
     console.log(elForPortal)
     console.log(elForPortal.className)
-    const testing: any[] = []
     props.open
       ? disableBodyScroll(elForPortal, {
           allowTouchMove: (el) => {
-            return el.tagName == "DIV"
+            while (el && el !== document.body) {
+              if (el.classList.contains("drawer")) return true
+              if (el.classList.contains("site-wrapper")) return false
+              if (el.parentElement !== null) el = el.parentElement
+            }
+            return false
           },
         })
       : enableBodyScroll(elForPortal)
-    console.log(testing)
     return () => {
       enableBodyScroll(elForPortal)
     }
