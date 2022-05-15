@@ -3,8 +3,8 @@ import "./Overlay.scss"
 import useKeyPress from "../helpers/useKeyPress"
 import { createPortal } from "react-dom"
 import FocusLock from "react-focus-lock"
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock"
 import { CSSTransition } from "react-transition-group"
+import { RemoveScroll } from "react-remove-scroll"
 
 export type OverlayProps = {
   open?: boolean
@@ -65,28 +65,6 @@ export const Overlay = (props: OverlayProps) => {
     }
   }, [elForPortal, overlayRoot])
 
-  // disable body scrolling when the overlay is open
-  useEffect(() => {
-    if (!(overlayRoot && elForPortal)) return
-    console.log(elForPortal)
-    console.log(elForPortal.className)
-    props.open
-      ? disableBodyScroll(elForPortal, {
-          allowTouchMove: (el) => {
-            while (el && el !== document.body) {
-              if (el.classList.contains("drawer")) return true
-              if (el.classList.contains("site-wrapper")) return false
-              if (el.parentElement !== null) el = el.parentElement
-            }
-            return false
-          },
-        })
-      : enableBodyScroll(elForPortal)
-    return () => {
-      enableBodyScroll(elForPortal)
-    }
-  }, [elForPortal, overlayRoot, props.open])
-
   return (
     elForPortal &&
     createPortal(
@@ -97,7 +75,9 @@ export const Overlay = (props: OverlayProps) => {
         mountOnEnter
         unmountOnExit
       >
-        <OverlayInner {...props}>{props.children}</OverlayInner>
+        <RemoveScroll>
+          <OverlayInner {...props}>{props.children}</OverlayInner>
+        </RemoveScroll>
       </CSSTransition>,
       elForPortal
     )
