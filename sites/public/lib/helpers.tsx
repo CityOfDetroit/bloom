@@ -80,13 +80,18 @@ export const getImageTagLabelFromListing = (listing: Listing) => {
 
 export const getListingTags = (
   listingPrograms: ListingProgram[],
-  listingFeatures: ListingFeatures
+  listingFeatures: ListingFeatures,
+  translate?: boolean
 ) => {
   const tags: ImageTag[] =
     listingPrograms
       ?.sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
       .map((program) => {
-        return { text: program.program.title }
+        return {
+          text: translate
+            ? t(`listingFilters.program.${program.program.title}`)
+            : program.program.title,
+        }
       }) ?? []
   if (accessibilityFeaturesExist(listingFeatures)) {
     tags.push({
@@ -174,7 +179,7 @@ export const getListings = (listings) => {
         contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
         tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
       }}
-      cardTags={getListingTags(listing.listingPrograms, listing.features)}
+      cardTags={getListingTags(listing.listingPrograms, listing.features, true)}
       footerContent={
         <div className={"flex justify-between items-center"}>
           <FavoriteButton name={listing.name} id={listing.id} />
@@ -291,9 +296,9 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
 
     if (rentRange && rentAsPercentIncomeRange) {
       rent = (
-        <>
+        <div>
           {rentRange}, {rentAsPercentIncomeRange}
-        </>
+        </div>
       )
     } else if (rentRange) {
       rent = rentRange
