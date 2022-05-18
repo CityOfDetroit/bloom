@@ -10,7 +10,7 @@ United Community Housing Coalition works with individuals and families who are f
 
 ### [Asistencia para la reubicación de vivienda](https://www.uchcdetroit.org/)
 
-United Community Housing Coalition trabaja con las personas y las familias que enfrentan un desalojo para que puedan identificar oportunidades decentes y asequibles de vivienda y les brinda asistencia para su reubicación. Llame a la UCHC al [313-963-3310](tel:+1-313-963-3310). 
+United Community Housing Coalition trabaja con las personas y las familias que enfrentan un desalojo para que puedan identificar oportunidades decentes y asequibles de vivienda y les brinda asistencia para su reubicación. Llame a la UCHC al [313-963-3310](tel:+1-313-963-3310).
 
 </RenderIf>
 
