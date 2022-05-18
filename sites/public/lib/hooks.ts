@@ -77,10 +77,10 @@ const listingsFetcher = function (view: string) {
 // TODO: move this so it can be shared with the partner site.
 export function useListingsData(
   pageIndex: number,
-  limit = 10,
+  limit = 8,
   filters: ListingFilterState,
   orderBy: OrderByFieldsEnum,
-  view = "base"
+  view = "publicListings"
 ) {
   const { data, error } = useSWR(
     [`${process.env.listingServiceUrl}`, pageIndex, limit, filters, orderBy],
@@ -141,9 +141,9 @@ export async function fetchBaseListingData() {
   try {
     const response = await axios.get(process.env.listingServiceUrl, {
       params: {
-        view: "base",
-        limit: "8",
-        page: "1",
+        view: "publicListings",
+        limit: 8,
+        page: 1,
         orderBy: OrderByFieldsEnum.comingSoon,
         filter: [
           {
