@@ -502,59 +502,6 @@ export const ListingView = (props: ListingProps) => {
               />
             </div>
           </ListingDetailItem>
-          {hmiData?.length || occupancyData?.length || listing.listingPrograms?.length ? (
-            <ListingDetailItem
-              imageAlt={t("listings.eligibilityNotebook")}
-              imageSrc="/images/listing-eligibility.svg"
-              title={t("listings.sections.eligibilityTitle")}
-              subtitle={t("listings.sections.eligibilitySubtitle")}
-              desktopClass="bg-primary-lighter"
-            >
-              <ul>
-                {hmiData?.length > 0 && (
-                  <ListSection
-                    id="household_maximum_income_summary"
-                    title={t("listings.householdMaximumIncome")}
-                    subtitle={t("listings.forIncomeCalculations")}
-                  >
-                    <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
-                  </ListSection>
-                )}
-                {occupancyData.length > 0 && (
-                  <ListSection
-                    title={t("t.occupancy")}
-                    subtitle={t("listings.occupancyDescriptionNoSro")}
-                  >
-                    <StandardTable
-                      headers={{
-                        unitType: "t.unitType",
-                        occupancy: "t.occupancy",
-                      }}
-                      data={occupancyData}
-                      responsiveCollapse={false}
-                    />
-                  </ListSection>
-                )}
-                {listing.listingPrograms?.length > 0 && (
-                  <ListSection
-                    title={t("publicFilter.communityPrograms")}
-                    subtitle={t("listings.communityProgramsDescription")}
-                  >
-                    {listing.listingPrograms
-                      .sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
-                      .map((program) => (
-                        <InfoCard className="" title={program.program.title}>
-                          {program.program.description}
-                        </InfoCard>
-                      ))}
-                    <p className="text-gray-700 text-tiny">
-                      {t("listings.sections.publicProgramNote")}
-                    </p>
-                  </ListSection>
-                )}
-              </ul>
-            </ListingDetailItem>
-          ) : null}
 
           <ListingDetailItem
             imageAlt={t("listings.eligibilityNotebook")}
@@ -644,6 +591,7 @@ export const ListingView = (props: ListingProps) => {
               )}
             </ul>
           </ListingDetailItem>
+
           <ListingDetailItem
             imageAlt={t("listings.featuresCards")}
             imageSrc="/images/listing-features.svg"
