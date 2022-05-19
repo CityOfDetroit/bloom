@@ -10,7 +10,7 @@ Access emergency shelter by contacting CAM Detroit. Call CAM Detroit at [(313) 3
 
 ### [Servicios para personas sin hogar y acceso a refugios](http://www.camdetroit.org/)
 
-Acceda a refugios de emergencia llamando a CAM Detroit al (313) 305-0311. Para obtener información actualizada sobre los horarios del CAM, visite [www.camdetroit.org](http://www.camdetroit.org/). Se encuentran disponibles servicios presenciales para veteranos en la siguiente dirección: 4646 John R. St., Red Tower, 2nd Floor, Detroit MI 48201.
+Acceda a refugios de emergencia llamando a CAM Detroit al (313) 305-0311. Para obtener información actualizada sobre los horarios del CAM, visite [www.camdetroit.org](http://www.camdetroit.org/). Se encuentran disponibles servicios presenciales para veteranos en la siguiente dirección: 4646 John R. St., Red Tower, 2nd Floor, Detroit MI 48201. 
 
 </RenderIf>
 
@@ -18,9 +18,9 @@ Acceda a refugios de emergencia llamando a CAM Detroit al (313) 305-0311. Para o
 
 ### [خدمات المشردين والحصول على مأوى](http://www.camdetroit.org/)
 
-يمكنك الوصول إلى مأوى الطوارئ من خلال الاتصال بكنائس المعونة المسيحية (CAM) في ديترويت. اتصل بكنائس المعونة المسيحية (CAM) في ديترويت على الرقم
+يمكنك الوصول إلى مأوى الطوارئ من خلال الاتصال بكنائس المعونة المسيحية (CAM) في ديترويت. اتصل بكنائس المعونة المسيحية (CAM) في ديترويت على الرقم 
 [3133050311](tel:+1-313-305-0311)
-. للحصول على أحدث المعلومات حول ساعات عمل كنائس المعونة المسيحية، تفضل بزيارة [www.camdetroit.org](http://www.camdetroit.org/). تتوفر الخدمات الشخصية للمحاربين القدامى في العنوان 4646 John R. St., Red Tower, 2nd Floor, Detroit MI 48201.
+. للحصول على أحدث المعلومات حول ساعات عمل كنائس المعونة المسيحية، تفضل بزيارة [www.camdetroit.org](http://www.camdetroit.org/). تتوفر الخدمات الشخصية للمحاربين القدامى في العنوان 4646 John R. St., Red Tower, 2nd Floor, Detroit MI 48201. 
 
 </RenderIf>
 

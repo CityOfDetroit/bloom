@@ -48,32 +48,6 @@ export default function ListingPage(props: ListingProps) {
     profile,
   ])
 
-  useEffect(() => {
-    if (!listing.id) return
-    pushGtmEvent<ListingDetail>({
-      event: "pageView",
-      pageTitle: `${listing.name} - Housing Portal`,
-      status: profile ? UserStatus.LoggedIn : UserStatus.NotLoggedIn,
-      listingStartDate: dayjs(listing.applicationOpenDate).format("YYYY-MM-DD"),
-      listingStatus: listing.status,
-      listingType: listing.reviewOrderType,
-      listingID: listing.id,
-      applicationDueDate: dayjs(listing.applicationDueDate).format("YYYY-MM-DD"),
-      digitalApplication: listing.digitalApplication,
-      paperApplication: listing.paperApplication,
-    })
-  }, [
-    listing.applicationDueDate,
-    listing.applicationOpenDate,
-    listing.digitalApplication,
-    listing.id,
-    listing.name,
-    listing.paperApplication,
-    listing.reviewOrderType,
-    listing.status,
-    profile,
-  ])
-
   if (!listing) {
     return <ErrorPage />
   }
