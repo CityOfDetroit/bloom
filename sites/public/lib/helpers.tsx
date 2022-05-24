@@ -24,7 +24,7 @@ import {
   ImageTag,
   Tooltip,
 } from "@bloom-housing/ui-components"
-import { imageUrlFromListing, listingFeatures } from "@bloom-housing/shared-helpers"
+import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
 
 export const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -55,13 +55,7 @@ const getListingCardSubtitle = (address: Address) => {
 
 export const accessibilityFeaturesExist = (features: ListingFeatures) => {
   if (!features) return false
-  let featuresExist = false
-  Object.keys(listingFeatures).map((feature) => {
-    if (features[feature]) {
-      featuresExist = true
-    }
-  })
-  return featuresExist
+  return Object.keys(features).some((feature) => features[feature])
 }
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
@@ -266,21 +260,21 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
     } else {
       if (group.unitVacancies > 0) {
         availability = (
-          <div>
+          <span>
             <strong>{group.unitVacancies} </strong>
             {group.unitVacancies === 1 ? t("listings.vacantUnit") : t("listings.vacantUnits")}
-            {` ${t("t.&")}`}
-          </div>
+            {` ${t("t.&")} `}
+          </span>
         )
       }
 
       availability = (
-        <>
+        <span>
           {availability}
           <strong>
             {group.openWaitlist ? t("listings.waitlist.open") : t("listings.waitlist.closed")}
           </strong>
-        </>
+        </span>
       )
     }
 

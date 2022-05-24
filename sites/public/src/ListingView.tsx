@@ -6,6 +6,7 @@ import {
   ApplicationMethod,
   ApplicationMethodType,
   Listing,
+  ListingMetadata,
   ListingApplicationAddressType,
   ListingEvent,
   ListingEventType,
@@ -33,6 +34,9 @@ import {
   Waitlist,
   WhatToExpect,
   t,
+  ExpandableText,
+  PreferencesList,
+  AuthContext,
 } from "@bloom-housing/ui-components"
 import {
   cloudinaryPdfFromId,
@@ -61,6 +65,7 @@ interface ListingProcessProps {
 
 interface ListingProps {
   listing: Listing
+  listingMetadata: ListingMetadata
   preview?: boolean
   allowFavoriting?: boolean
 }
@@ -75,7 +80,7 @@ export const ListingProcess = (props: ListingProcessProps) => {
   } = props
 
   return (
-    <aside className="w-full static md:me-8 md:ms-2 md:border border-gray-400 bg-white text-gray-750">
+    <aside className="w-full static md:me-8 md:ms-2 md:border-r md:border-l md:border-b border-gray-400 bg-white text-gray-750">
       <ListingUpdated listingUpdated={listing.updatedAt} />
       {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
       {!applicationsClosed && (
@@ -127,7 +132,7 @@ export const ListingProcess = (props: ListingProcessProps) => {
 }
 
 export const ListingView = (props: ListingProps) => {
-  const { listing } = props
+  const { listing, listingMetadata } = props
 
   const appOpenInFuture = openInFuture(listing)
   const hasNonReferralMethods = listing?.applicationMethods
@@ -147,6 +152,10 @@ export const ListingView = (props: ListingProps) => {
 
   const { headers: hmiHeaders, data: hmiData } = getHmiSummary(listing)
 
+  const occupancyHeaders = {
+    unitType: "t.unitType",
+    occupancy: "t.occupancy",
+  }
   const occupancyData = occupancyTable(listing)
 
   let openHouseEvents: ListingEvent[] | null = null
@@ -336,6 +345,31 @@ export const ListingView = (props: ListingProps) => {
     return featuresExist ? <ul>{features}</ul> : null
   }
 
+  const buildingSelectionCriteria = (() => {
+    if (listing.buildingSelectionCriteriaFile) {
+      return (
+        <p>
+          <a
+            href={cloudinaryPdfFromId(
+              listing.buildingSelectionCriteriaFile.fileId,
+              process.env.cloudinaryCloudName
+            )}
+          >
+            {t("listings.moreBuildingSelectionCriteria")}
+          </a>
+        </p>
+      )
+    } else if (listing.buildingSelectionCriteria) {
+      return (
+        <p>
+          <a href={listing.buildingSelectionCriteria}>
+            {t("listings.moreBuildingSelectionCriteria")}
+          </a>
+        </p>
+      )
+    }
+  })()
+
   const accessibilityFeatures = getAccessibilityFeatures()
 
   return (
@@ -439,6 +473,12 @@ export const ListingView = (props: ListingProps) => {
                     />
                   </ListSection>
                 )}
+                {listing.rentalAssistance && (
+                  <ListSection
+                    title={t("listings.sections.rentalAssistanceTitle")}
+                    subtitle={listing.rentalAssistance}
+                  />
+                )}
                 {listing.listingPrograms?.length > 0 && (
                   <ListSection
                     title={t("publicFilter.communityPrograms")}
@@ -454,6 +494,40 @@ export const ListingView = (props: ListingProps) => {
                     <p className="text-gray-700 text-tiny">
                       {t("listings.sections.publicProgramNote")}
                     </p>
+                  </ListSection>
+                )}
+                {(listing.creditHistory ||
+                  listing.rentalHistory ||
+                  listing.criminalBackground ||
+                  buildingSelectionCriteria) && (
+                  <ListSection
+                    title={t("listings.sections.additionalEligibilityTitle")}
+                    subtitle={t("listings.sections.additionalEligibilitySubtitle")}
+                  >
+                    <>
+                      {listing.creditHistory && (
+                        <InfoCard title={t("listings.creditHistory")}>
+                          <ExpandableText className="text-sm text-gray-700">
+                            {listing.creditHistory}
+                          </ExpandableText>
+                        </InfoCard>
+                      )}
+                      {listing.rentalHistory && (
+                        <InfoCard title={t("listings.rentalHistory")}>
+                          <ExpandableText className="text-sm text-gray-700">
+                            {listing.rentalHistory}
+                          </ExpandableText>
+                        </InfoCard>
+                      )}
+                      {listing.criminalBackground && (
+                        <InfoCard title={t("listings.criminalBackground")}>
+                          <ExpandableText className="text-sm text-gray-700">
+                            {listing.criminalBackground}
+                          </ExpandableText>
+                        </InfoCard>
+                      )}
+                      {buildingSelectionCriteria}
+                    </>
                   </ListSection>
                 )}
               </ul>
@@ -537,7 +611,6 @@ export const ListingView = (props: ListingProps) => {
               </div>
             )}
           </ListingDetailItem>
-
           <ListingDetailItem
             imageAlt={t("listings.neighborhoodBuildings")}
             imageSrc="/images/listing-neighborhood.svg"
@@ -551,7 +624,6 @@ export const ListingView = (props: ListingProps) => {
               />
             </div>
           </ListingDetailItem>
-
           {(listing.requiredDocuments || listing.programRules || listing.specialNotes) && (
             <ListingDetailItem
               imageAlt={t("listings.additionalInformationEnvelope")}
