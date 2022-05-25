@@ -7,7 +7,7 @@
   @apply w-screen;
   @apply z-50;
   @apply flex;
-  height: var(--fit-screen);
+  height: 100%;
 
   &.is-backdrop:before {
     content: "";

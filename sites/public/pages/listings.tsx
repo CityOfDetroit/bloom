@@ -36,13 +36,6 @@ const ListingsPage = ({ initialListings }) => {
       `/listings/filtered?page=${page}&limit=${limit}${encodeToFrontendFilterString(data)}`
     )
   }
-  //Custom css variable for drawer height sizing
-  if (typeof window !== "undefined") {
-    document.documentElement.style.setProperty("--fit-screen", `${window.innerHeight}px`)
-    window.addEventListener("resize", () => {
-      document.documentElement.style.setProperty("--fit-screen", `${window.innerHeight}px`)
-    })
-  }
   useEffect(() => {
     pushGtmEvent<ListingList>({
       event: "pageView",
