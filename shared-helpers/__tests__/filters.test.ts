@@ -4,7 +4,7 @@ import {
   encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,
   ListingFilterState,
-} from "../../src/helpers/filters"
+} from "../src/filters"
 import { parse } from "querystring"
 import {
   EnumListingFilterParamsComparison,
