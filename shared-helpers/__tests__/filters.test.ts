@@ -6,11 +6,7 @@ import {
   ListingFilterState,
 } from "../src/filters"
 import { parse } from "querystring"
-import {
-  EnumListingFilterParamsComparison,
-  EnumListingFilterParamsStatus,
-  ListingFilterParams,
-} from "@bloom-housing/backend-core/types"
+import { EnumListingFilterParamsComparison } from "@bloom-housing/backend-core/types"
 
 afterEach(cleanup)
 
