@@ -54,7 +54,7 @@ jobs:
       name: "Partners site Cypress tests"
       script:
         - yarn cypress install
-        - yarn db:reseed:detroit
+        - yarn db:reseed
         - cd backend/core
         - yarn nest start &
         - cd ../../sites/partners
