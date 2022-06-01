@@ -29,6 +29,7 @@ if (process.env.NODE_ENV === "production") {
   connectionInfo.ssl = { rejectUnauthorized: false }
 }
 
+console.log("32:", connectionInfo)
 // Unfortunately, we need to use CommonJS/AMD style exports rather than ES6-style modules for this due to how
 // TypeORM expects the config to be available.
 export = {
