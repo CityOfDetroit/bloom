@@ -6,4 +6,7 @@ export enum OrderByFieldsEnum {
   name = "name",
   status = "status",
   verified = "verified",
+  waitlistOpen = "waitlistOpen",
+  unitsAvailable = "unitsAvailable",
+  marketingType = "marketingType",
 }

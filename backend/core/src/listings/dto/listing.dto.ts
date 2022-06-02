@@ -16,10 +16,10 @@ import { UserBasicDto } from "../../auth/dto/user-basic.dto"
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
 import { UnitGroupDto } from "../../units-summary/dto/unit-group.dto"
 import { ListingFeaturesDto } from "./listing-features.dto"
-import { ListingPreferenceDto } from "../../preferences/dto/listing-preference.dto"
-import { ListingProgramDto } from "../../program/dto/listing-program.dto"
 import { Column } from "typeorm"
 import { Region } from "../../property/types/region-enum"
+import { ListingPreferenceDto } from "../../preferences/dto/listing-preference.dto"
+import { ListingProgramDto } from "../../program/dto/listing-program.dto"
 import { ListingImageDto } from "./listing-image.dto"
 
 export class ListingDto extends OmitType(Listing, [
@@ -130,19 +130,8 @@ export class ListingDto extends OmitType(Listing, [
   result?: AssetDto | null
 
   @Expose()
-  @Transform(
-    (_value, listing) => {
-      if (
-        dayjs(listing.applicationDueDate).isBefore(dayjs()) &&
-        listing.status !== ListingStatus.pending
-      ) {
-        listing.status = ListingStatus.closed
-      }
-
-      return listing.status
-    },
-    { toClassOnly: true }
-  )
+  @IsEnum(ListingStatus, { groups: [ValidationsGroupsEnum.default] })
+  @ApiProperty({ enum: ListingStatus, enumName: "ListingStatus" })
   status: ListingStatus
 
   @Expose()

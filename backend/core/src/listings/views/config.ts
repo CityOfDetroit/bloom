@@ -15,6 +15,8 @@ const views: Views = {
       "listings.status",
       "listings.assets",
       "listings.isVerified",
+      "listings.closedAt",
+      "listings.publishedAt",
       "jurisdiction.id",
       "jurisdiction.name",
       "reservedCommunityType.id",
@@ -63,8 +65,7 @@ views.partnerList = {
   select: [
     "listings.id",
     "listings.name",
-    "property.id",
-    ...getBaseAddressSelect(["buildingAddress"]),
+    "listings.applicationDueDate",
     "listings.status",
     "listings.isVerified",
   ],
