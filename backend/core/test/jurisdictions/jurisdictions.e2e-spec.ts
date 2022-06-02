@@ -84,6 +84,7 @@ describe("Jurisdictions", () => {
         programs: [newProgram],
         publicUrl: "",
         emailFromAddress: "",
+        rentalAssistanceDefault: "",
       })
       .expect(201)
 
@@ -127,6 +128,7 @@ describe("Jurisdictions", () => {
         preferences: [],
         publicUrl: "",
         emailFromAddress: "",
+        rentalAssistanceDefault: "",
       })
       .expect(201)
     expect(res.body).toHaveProperty("id")

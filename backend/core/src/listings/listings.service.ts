@@ -23,6 +23,13 @@ import { ListingMetadataDto } from "./dto/listings-metadata.dto"
 import { UnitType } from "../unit-types/entities/unit-type.entity"
 import { Program } from "../program/entities/program.entity"
 import { ListingSeasonEnum } from "./types/listing-season-enum"
+import { OrderParam } from "../applications/types/order-param"
+
+type OrderByConditionData = {
+  orderBy: string
+  orderDir: "DESC" | "ASC"
+  nulls?: "NULLS LAST" | "NULLS FIRST"
+}
 
 @Injectable()
 export class ListingsService {
@@ -37,6 +44,42 @@ export class ListingsService {
 
   private getFullyJoinedQueryBuilder() {
     return getView(this.listingRepository.createQueryBuilder("listings"), "full").getViewQb()
+  }
+
+  private static getOrderByCondition(
+    orderBy: OrderByFieldsEnum,
+    orderDir: OrderParam
+  ): OrderByConditionData {
+    switch (orderBy) {
+      case OrderByFieldsEnum.mostRecentlyUpdated:
+        return { orderBy: "listings.updated_at", orderDir }
+      case OrderByFieldsEnum.status:
+        return { orderBy: "listings.status", orderDir }
+      case OrderByFieldsEnum.name:
+        return { orderBy: "listings.name", orderDir }
+      case OrderByFieldsEnum.waitlistOpen:
+        return { orderBy: "listings.isWaitlistOpen", orderDir }
+      case OrderByFieldsEnum.unitsAvailable:
+        return { orderBy: "property.unitsAvailable", orderDir }
+      case OrderByFieldsEnum.mostRecentlyClosed:
+        return {
+          orderBy: "listings.closedAt",
+          orderDir,
+          nulls: "NULLS LAST",
+        }
+      case OrderByFieldsEnum.marketingType:
+        return { orderBy: "listings.marketingType", orderDir }
+      case OrderByFieldsEnum.applicationDates:
+      case undefined:
+        // Default to ordering by applicationDates (i.e. applicationDueDate
+        // and applicationOpenDate) if no orderBy param is specified.
+        return { orderBy: "listings.applicationDueDate", orderDir }
+      default:
+        throw new HttpException(
+          `OrderBy parameter not recognized or not yet implemented.`,
+          HttpStatus.NOT_IMPLEMENTED
+        )
+    }
   }
 
   public async list(params: ListingsQueryParams): Promise<Pagination<Listing>> {
@@ -90,8 +133,6 @@ export class ListingsService {
     mainQuery = ListingsService.addOrderByToQb(mainQuery, params)
 
     let listings = await mainQuery.getMany()
-
-    listings = await this.addUnitSummariesToListings(listings)
     // Set pagination info
     const itemsPerPage = paginate ? (params.limit as number) : listings.length
     const totalItems = paginate ? await innerFilteredQuery.getCount() : listings.length

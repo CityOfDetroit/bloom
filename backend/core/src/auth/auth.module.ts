@@ -4,7 +4,6 @@ import { LocalMfaStrategy } from "./passport-strategies/local-mfa.strategy"
 import { JwtStrategy } from "./passport-strategies/jwt.strategy"
 import { PassportModule } from "@nestjs/passport"
 import { TypeOrmModule } from "@nestjs/typeorm"
-import { TwilioModule } from "nestjs-twilio"
 import { RevokedToken } from "./entities/revoked-token.entity"
 import { SharedModule } from "../shared/shared.module"
 import { ConfigModule, ConfigService } from "@nestjs/config"
@@ -21,9 +20,9 @@ import { UserProfileController } from "./controllers/user-profile.controller"
 import { ActivityLogModule } from "../activity-log/activity-log.module"
 import { EmailModule } from "../email/email.module"
 import { SmsMfaService } from "./services/sms-mfa.service"
-import { UserPreferencesController } from "./controllers/user-preferences.controller"
-import { UserPreferencesService } from "./services/user-preferences.services"
 import { UserPreferences } from "./entities/user-preferences.entity"
+import { TwilioModule } from "nestjs-twilio"
+import { UserRepository } from "./repositories/user-repository"
 
 @Module({
   imports: [
@@ -46,7 +45,7 @@ import { UserPreferences } from "./entities/user-preferences.entity"
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([RevokedToken, User, Application, UserPreferences]),
+    TypeOrmModule.forFeature([RevokedToken, User, UserRepository, Application, UserPreferences]),
     SharedModule,
     JurisdictionsModule,
     EmailModule,
@@ -60,9 +59,8 @@ import { UserPreferences } from "./entities/user-preferences.entity"
     UserService,
     PasswordService,
     SmsMfaService,
-    UserPreferencesService,
   ],
-  exports: [AuthzService, AuthService, UserService, UserPreferencesService],
-  controllers: [AuthController, UserController, UserProfileController, UserPreferencesController],
+  exports: [AuthzService, AuthService, UserService],
+  controllers: [AuthController, UserController, UserProfileController],
 })
 export class AuthModule {}

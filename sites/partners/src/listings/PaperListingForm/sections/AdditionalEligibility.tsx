@@ -1,13 +1,32 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
 import { t, GridSection, Textarea } from "@bloom-housing/ui-components"
 import { fieldMessage } from "../../../../lib/helpers"
 
-const AdditionalEligibility = () => {
+type AdditionalEligibilityProps = {
+  defaultText?: string
+}
+
+const AdditionalEligibility = (props: AdditionalEligibilityProps) => {
   const formMethods = useFormContext()
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, errors, clearErrors } = formMethods
+  const { register, errors, clearErrors, watch, setValue, getValues } = formMethods
+
+  const jurisdiction: string = watch("jurisdiction.id")
+  const currentValue = getValues().rentalAssistance
+
+  const { data: currentJurisdiction = undefined } = useJurisdiction(jurisdiction)
+
+  useEffect(() => {
+    if (currentJurisdiction && !currentValue) {
+      setValue(
+        "rentalAssistance",
+        props.defaultText ?? (currentJurisdiction && currentJurisdiction?.rentalAssistanceDefault)
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentJurisdiction, setValue])
 
   return (
     <div>
