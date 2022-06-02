@@ -21,9 +21,9 @@ export class addPropertyRegion1649062179928 implements MigrationInterface {
     { name: "Farwell area", region: Region.Eastside },
     { name: "Gratiot Town/Kettering area", region: Region.Eastside },
     { name: "Gratiot/7 Mile area", region: Region.Eastside },
-    { name: "Greater Corktown area", region: Region.Downtown },
-    { name: "Greater Downtown area", region: Region.Downtown },
-    { name: "Greater Downtown area", region: Region.Downtown },
+    { name: "Greater Corktown area", region: Region.GreaterDowntown },
+    { name: "Greater Downtown area", region: Region.GreaterDowntown },
+    { name: "Greater Downtown area", region: Region.GreaterDowntown },
     { name: "Islandview/Greater Villages area", region: Region.Eastside },
     { name: "Islandview/Greater Villages area", region: Region.Eastside },
     { name: "Islandview/Greater Villages area", region: Region.Westside },
@@ -44,7 +44,7 @@ export class addPropertyRegion1649062179928 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TYPE "property_region_enum" AS ENUM('Downtown', 'Eastside', 'Midtown - New Center', 'Southwest', 'Westside')`
+      `CREATE TYPE "property_region_enum" AS ENUM('Greater Downtown', 'Eastside', 'Southwest', 'Westside')`
     )
     await queryRunner.query(`ALTER TABLE "property" ADD "region" "property_region_enum"`)
 
