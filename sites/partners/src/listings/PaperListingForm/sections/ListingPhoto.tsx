@@ -36,7 +36,7 @@ const ListingPhoto = () => {
     id: "",
     url: "",
   })
-  console.log("39:", !cloudinaryData.url ? "listing-photo-empty" : "listing-photo-uploaded")
+
   const resetDrawerState = () => {
     setProgressValue(0)
     setCloudinaryData({
