@@ -91,39 +91,6 @@ describe("Listings", () => {
     expect(res.body.items.length).toEqual(1)
   })
 
-  it("should return listings with matching zipcodes", async () => {
-    const queryParams = {
-      limit: "all",
-      filter: [
-        {
-          $comparison: "IN",
-          zipcode: "94621,94404",
-        },
-      ],
-      view: "base",
-    }
-    const query = qs.stringify(queryParams)
-    await supertest(app.getHttpServer()).get(`/listings?${query}`).expect(200)
-  })
-
-  it("should return listings with matching Alameda jurisdiction", async () => {
-    const jurisdictions = await jurisdictionsRepository.find()
-    const alameda = jurisdictions.find((jurisdiction) => jurisdiction.name === "Alameda")
-    const queryParams = {
-      limit: "all",
-      filter: [
-        {
-          $comparison: "=",
-          jurisdiction: alameda.id,
-        },
-      ],
-      view: "base",
-    }
-    const query = qs.stringify(queryParams)
-    const res = await supertest(app.getHttpServer()).get(`/listings?${query}`).expect(200)
-    expect(res.body.items.length).toBe(20)
-  })
-
   it("should modify property related fields of a listing and return a modified value", async () => {
     const res = await supertest(app.getHttpServer())
       .get("/listings?orderBy=applicationDates")
@@ -255,47 +222,6 @@ describe("Listings", () => {
     expect(modifiedListing.events[0].file.id).toBeDefined()
     expect(modifiedListing.events[0].file.fileId).toBe(listingEvent.file.fileId)
     expect(modifiedListing.events[0].file.label).toBe(listingEvent.file.label)
-  })
-
-  it("should add/overwrite and remove listing programs in existing listing", async () => {
-    const res = await supertest(app.getHttpServer())
-      .get("/listings?orderBy=applicationDates")
-      .expect(200)
-    const listing: ListingUpdateDto = { ...res.body.items[0] }
-    const newProgram = await programsRepository.save({
-      title: "TestTitle",
-      subtitle: "TestSubtitle",
-      description: "TestDescription",
-    })
-    listing.listingPrograms = [{ program: newProgram, ordinal: 1 }]
-
-    const putResponse = await supertest(app.getHttpServer())
-      .put(`/listings/${listing.id}`)
-      .send(listing)
-      .set(...setAuthorization(adminAccessToken))
-      .expect(200)
-
-    const listingResponse = await supertest(app.getHttpServer())
-      .get(`/listings/${putResponse.body.id}`)
-      .expect(200)
-
-    expect(listingResponse.body.listingPrograms[0].program.id).toBe(newProgram.id)
-    expect(listingResponse.body.listingPrograms[0].program.title).toBe(newProgram.title)
-    expect(listingResponse.body.listingPrograms[0].ordinal).toBe(1)
-
-    await supertest(app.getHttpServer())
-      .put(`/listings/${listing.id}`)
-      .send({
-        ...putResponse.body,
-        listingPrograms: [],
-      })
-      .set(...setAuthorization(adminAccessToken))
-      .expect(200)
-
-    const listingResponse2 = await supertest(app.getHttpServer())
-      .get(`/listings/${putResponse.body.id}`)
-      .expect(200)
-    expect(listingResponse2.body.listingPrograms.length).toBe(0)
   })
 
   describe.skip("AMI Filter", () => {
@@ -522,7 +448,7 @@ describe("Listings", () => {
 
   it("sorts listings by most recently updated when that orderBy param is set", async () => {
     const res = await supertest(app.getHttpServer())
-      .get(`/listings?orderBy=mostRecentlyUpdated&limit=all`)
+      .get(`/listings?orderBy[0]=mostRecentlyUpdated&orderDir[0]=DESC&limit=all`)
       .expect(200)
     for (let i = 0; i < res.body.items.length - 1; ++i) {
       const currentUpdatedAt = new Date(res.body.items[i].updatedAt)
@@ -558,7 +484,7 @@ describe("Listings", () => {
 
     // Get the second page of 5 results
     const secondPage = await supertest(app.getHttpServer())
-      .get(`/listings?orderBy=mostRecentlyUpdated&limit=5&page=2`)
+      .get(`/listings?orderBy[0]=mostRecentlyUpdated&orderDir[0]=DESC&limit=5&page=2`)
       .expect(200)
 
     // Verify that each of the listings on the second page was less recently updated than the last
@@ -569,6 +495,45 @@ describe("Listings", () => {
         secondPageListingUpdateTimestamp.getTime()
       )
     }
+  })
+
+  it("should add/overwrite and remove listing programs in existing listing", async () => {
+    const res = await supertest(app.getHttpServer()).get("/listings").expect(200)
+    const listing: ListingUpdateDto = { ...res.body.items[0] }
+    const newProgram = await programsRepository.save({
+      title: "TestTitle",
+      subtitle: "TestSubtitle",
+      description: "TestDescription",
+    })
+    listing.listingPrograms = [{ program: newProgram, ordinal: 1 }]
+
+    const putResponse = await supertest(app.getHttpServer())
+      .put(`/listings/${listing.id}`)
+      .send(listing)
+      .set(...setAuthorization(adminAccessToken))
+      .expect(200)
+
+    const listingResponse = await supertest(app.getHttpServer())
+      .get(`/listings/${putResponse.body.id}`)
+      .expect(200)
+
+    expect(listingResponse.body.listingPrograms[0].program.id).toBe(newProgram.id)
+    expect(listingResponse.body.listingPrograms[0].program.title).toBe(newProgram.title)
+    expect(listingResponse.body.listingPrograms[0].ordinal).toBe(1)
+
+    await supertest(app.getHttpServer())
+      .put(`/listings/${listing.id}`)
+      .send({
+        ...putResponse.body,
+        listingPrograms: [],
+      })
+      .set(...setAuthorization(adminAccessToken))
+      .expect(200)
+
+    const listingResponse2 = await supertest(app.getHttpServer())
+      .get(`/listings/${putResponse.body.id}`)
+      .expect(200)
+    expect(listingResponse2.body.listingPrograms.length).toBe(0)
   })
 
   afterEach(() => {

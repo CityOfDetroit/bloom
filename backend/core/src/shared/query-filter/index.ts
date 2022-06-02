@@ -46,13 +46,11 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
 ): void {
   for (const [index, filter] of filters.entries()) {
     const comparison = filter["$comparison"]
-    const includeNulls = filter["$include_nulls"]
     for (const filterKey in filter) {
       if (
         filter[filterKey] === undefined ||
         filter[filterKey] === null ||
-        filterKey === "$comparison" ||
-        filterKey === "$include_nulls"
+        filterKey === "$comparison"
       ) {
         continue
       }
@@ -111,21 +109,9 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
           break
         case Compare["<>"]:
         case Compare["="]:
-          qb.andWhere(
-            `(LOWER(CAST(${filterField} as text)) ${comparison} LOWER(:${whereParameterName})${
-              includeNulls ? ` OR ${filterField} IS NULL` : ""
-            })`,
-            {
-              [whereParameterName]: filterValue,
-            }
-          )
-          break
         case Compare[">="]:
-        case Compare["<="]:
           qb.andWhere(
-            `(${filterField} ${comparison} :${whereParameterName}${
-              includeNulls ? ` OR ${filterField} IS NULL` : ""
-            })`,
+            `LOWER(CAST(${filterField} as text)) ${comparison} LOWER(:${whereParameterName})`,
             {
               [whereParameterName]: filterValue,
             }

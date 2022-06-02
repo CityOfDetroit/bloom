@@ -23,6 +23,7 @@ import {
   IconFillColors,
   ImageTag,
   Tooltip,
+  StandardTableData,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
 
@@ -41,6 +42,13 @@ export const getGenericAddress = (bloomAddress: Address) => {
         placeName: bloomAddress.placeName,
       }
     : null
+}
+
+export const disableContactFormOption = (id: string, noPhone: boolean, noEmail: boolean) => {
+  if (id === "phone" || id === "text") {
+    return noPhone
+  }
+  return id === "email" && noEmail
 }
 
 export const openInFuture = (listing: Listing) => {
@@ -198,7 +206,7 @@ export const intlToUsPhone = (intlPhoneNumber: string | null): string => {
 
 interface UnitSummaryTable {
   headers: TableHeaders
-  data: Record<string, React.ReactNode>[]
+  data: StandardTableData
 }
 
 export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
@@ -216,7 +224,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
       ),
     },
   }
-  let groupedUnitData: Record<string, React.ReactNode>[] = null
+  let groupedUnitData: StandardTableData = null
 
   // unit group summary
   groupedUnitData = listing?.unitSummaries?.unitGroupSummary?.map((group) => {
@@ -301,18 +309,22 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
     }
 
     return {
-      unitType: (
-        <>
-          {group.unitTypes
-            .map<React.ReactNode>((type) => (
-              <strong key={type}>{t(`listings.unitTypes.${type}`)}</strong>
-            ))
-            .reduce((acc, curr, index) => [acc, index !== 0 ? ", " : "", curr], [])}
-        </>
-      ),
-      rent: rent ?? t("listings.unitsSummary.notAvailable"),
-      availability: <strong>{availability ?? t("listings.unitsSummary.notAvailable")}</strong>,
-      ami: ami ?? t("listings.unitsSummary.notAvailable"),
+      unitType: {
+        content: (
+          <>
+            {group.unitTypes
+              .map<React.ReactNode>((type) => (
+                <strong key={type}>{t(`listings.unitTypes.${type}`)}</strong>
+              ))
+              .reduce((acc, curr, index) => [acc, index !== 0 ? ", " : "", curr], [])}
+          </>
+        ),
+      },
+      rent: { content: rent ?? t("listings.unitsSummary.notAvailable") },
+      availability: {
+        content: <strong>{availability ?? t("listings.unitsSummary.notAvailable")}</strong>,
+      },
+      ami: ami ?? { content: t("listings.unitsSummary.notAvailable") },
     }
   })
 
@@ -324,7 +336,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
 
 export const getHmiSummary = (listing: Listing): UnitSummaryTable => {
   let hmiHeaders: TableHeaders
-  let hmiData: Record<string, React.ReactNode>[] = null
+  let hmiData: StandardTableData = null
 
   if (listing.unitGroups !== undefined && listing.unitGroups.length > 0) {
     // hmi summary

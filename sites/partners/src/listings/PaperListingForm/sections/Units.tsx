@@ -32,7 +32,7 @@ const FormUnits = ({ unitsSummaries, setSummaries, disableUnitsAccordion }: Unit
 
   const formMethods = useFormContext()
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { setValue, errors, clearErrors } = formMethods
+  const { errors, clearErrors, reset, getValues } = formMethods
   const { data: unitTypesData = [] } = useUnitTypeList()
 
   const unitTypeOptions = unitTypesData.map((unitType) => {
@@ -55,8 +55,9 @@ const FormUnits = ({ unitsSummaries, setSummaries, disableUnitsAccordion }: Unit
   }
 
   useEffect(() => {
-    setValue("disableUnitsAccordion", disableUnitsAccordion ? "true" : "false")
-  }, [disableUnitsAccordion, setValue])
+    reset({ ...getValues(), disableUnitsAccordion: disableUnitsAccordion ? "true" : "false" })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const editSummary = useCallback(
     (tempId: number) => {
@@ -169,6 +170,7 @@ const FormUnits = ({ unitsSummaries, setSummaries, disableUnitsAccordion }: Unit
             </div>
           ) : null}
           <Button
+            id="addUnitsButton"
             type="button"
             size={AppearanceSizeType.normal}
             styleType={fieldHasError(errors?.unitsSummaries) ? AppearanceStyleType.alert : null}

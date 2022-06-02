@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import Head from "next/head"
 import Link from "next/link"
 import {
+  AuthContext,
   AlertBox,
   Hero,
   t,
@@ -37,7 +38,7 @@ export default function Home({ latestListings }) {
     alertMessage: null,
     alertType: null,
   }
-
+  const { profile } = useContext(AuthContext)
   const [alertInfo, setAlertInfo] = useState(blankAlertInfo)
 
   const heroTitle = <>{t("welcome.title")}</>

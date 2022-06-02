@@ -1,39 +1,36 @@
-import * as React from "react"
-import { nanoid } from "nanoid"
-import { MinMax, UnitGroupSummary, Unit } from "@bloom-housing/backend-core/types"
+// import { MinMax, Unit } from "@bloom-housing/backend-core/types"
 
-import { StandardTable } from "../../tables/StandardTable"
-import { t } from "../../helpers/translator"
-import { numberOrdinal } from "../../helpers/numberOrdinal"
+// import { t } from "../../helpers/translator"
+// import { numberOrdinal } from "../../helpers/numberOrdinal"
 
-const formatRange = (range: MinMax, ordinalize?: boolean) => {
-  let min: string | number = range.min
-  let max: string | number = range.max
+// const formatRange = (range: MinMax, ordinalize?: boolean) => {
+//   let min: string | number = range.min
+//   let max: string | number = range.max
 
-  if (ordinalize) {
-    min = numberOrdinal(min)
-    max = numberOrdinal(max)
-  }
+//   if (ordinalize) {
+//     min = numberOrdinal(min)
+//     max = numberOrdinal(max)
+//   }
 
-  if (min == max) {
-    return min
-  } else {
-    return `${min} - ${max}`
-  }
-}
+//   if (min == max) {
+//     return min
+//   } else {
+//     return `${min} - ${max}`
+//   }
+// }
 
-const unitsLabel = (units: Unit[]): string => {
-  const label = units.length > 1 ? t("t.units") : t("t.unit")
-  return `${units.length} ${label}`
-}
+// const unitsLabel = (units: Unit[]): string => {
+//   const label = units.length > 1 ? t("t.units") : t("t.unit")
+//   return `${units.length} ${label}`
+// }
 
-interface UnitTablesProps {
-  units: Unit[]
-  unitSummaries: UnitGroupSummary[]
-  disableAccordion?: boolean
-}
+// interface UnitTablesProps {
+//   units: Unit[]
+//   unitSummaries: UnitGroupSummary[]
+//   disableAccordion?: boolean
+// }
 
-const UnitTables = (props: UnitTablesProps) => {
+const UnitTables = () => {
   /* const unitSummaries = props.unitSummaries || []
 
   const unitsHeaders = {
@@ -43,46 +40,38 @@ const UnitTables = (props: UnitTablesProps) => {
     floor: "t.floor",
   }
 
-  const toggleTable = (event: React.MouseEvent) => {
-    if (!props.disableAccordion) {
-      event.currentTarget.parentElement?.querySelector(".unit-table")?.classList?.toggle("hidden")
-    }
-  } */
-
-  const buttonClasses = ["w-full", "text-left"]
-  if (props.disableAccordion) buttonClasses.push("cursor-default")
-  return null
-  /* return (
+  return (
     <>
-      {unitSummaries.map((group: UnitGroupSummary) => {
-        const uniqKey = process.env.NODE_ENV === "test" ? "" : nanoid()
-        const units = group.unitTypes || []
-
-        const formatted: Record<string, React.ReactNode> = {
-          sqFeet: (
-            <>
-              <strong>{group.}</strong> {t("t.sqFeet")}
-            </>
-          ),
-          numBathrooms: <strong>{unit.numBathrooms}</strong>,
-          floor: <strong>{unit.floor}</strong>,
-        }
-        let floorSection
-        units.forEach((unit: string) => {
+      {unitSummaries.map((unitSummary: UnitSummary, index) => {
+        const units = props.units.filter(
+          (unit: Unit) => unit.unitType?.name == unitSummary.unitType.name
+        )
+        const unitsFormatted = [] as StandardTableData
+        let floorSection: React.ReactNode
+        units.forEach((unit: Unit) => {
           unitsFormatted.push({
-            sqFeet: (
-              <>
-                <strong>{unit.sqFeet}</strong> {t("t.sqFeet")}
-              </>
-            ),
-            numBathrooms: <strong>{unit.numBathrooms}</strong>,
-            floor: <strong>{unit.floor}</strong>,
+            number: { content: unit.number },
+            sqFeet: {
+              content: (
+                <>
+                  {unit.sqFeet ? (
+                    <>
+                      <strong>{parseInt(unit.sqFeet)}</strong> {t("t.sqFeet")}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ),
+            },
+            numBathrooms: { content: <strong>{unit.numBathrooms}</strong> },
+            floor: { content: <strong>{unit.floor}</strong> },
           })
         })
 
-        let areaRangeSection
-        if (unitSummary.rentRange) {
-          areaRangeSection = `, ${unitSummary.rentRange} ${t("t.squareFeet")}`
+        let areaRangeSection: React.ReactNode
+        if (unitSummary.areaRange?.min || unitSummary.areaRange?.max) {
+          areaRangeSection = `, ${formatRange(unitSummary.areaRange)} ${t("t.squareFeet")}`
         }
 
         // if (unitSummary.floorRange && unitSummary.floorRange.min) {
@@ -94,20 +83,33 @@ const UnitTables = (props: UnitTablesProps) => {
         //       }`
         // }
 
-        return (
-          <div key={uniqKey} className="mb-4">
-            <button onClick={toggleTable} className={buttonClasses.join(" ")}>
-              <h3 className="toggle-header">
-                {<strong>{t("listings.unitTypes." + unitSummary.unitType.name)}</strong>:&nbsp;}
-                {unitsLabel(units)}
-                {areaRangeSection}
-                {floorSection}
-              </h3>
-            </button>
-            <div className="unit-table hidden">
+        const getBarContent = () => {
+          return (
+            <h3 className={"toggle-header-content"}>
+              <strong>{t("listings.unitTypes." + unitSummary.unitType.name)}</strong>:&nbsp;
+              {unitsLabel(units)}
+              {areaRangeSection}
+              {floorSection}
+            </h3>
+          )
+        }
+
+        const getExpandableContent = () => {
+          return (
+            <div className="unit-table">
               <StandardTable headers={unitsHeaders} data={unitsFormatted} />
             </div>
-          </div>
+          )
+        }
+
+        return (
+          <ContentAccordion
+            customBarContent={getBarContent()}
+            customExpandedContent={getExpandableContent()}
+            disableAccordion={props.disableAccordion}
+            accordionTheme={"blue"}
+            key={index}
+          />
         )
       })}
     </>

@@ -13,35 +13,37 @@ import {
 } from "@bloom-housing/backend-core/types"
 import {
   AdditionalFees,
+  Contact,
   Description,
+  EventSection,
+  EventType,
+  ExpandableText,
   FavoriteButton,
   GetApplication,
   GroupedTable,
   Heading,
   ImageCard,
   InfoCard,
-  LeasingAgent,
   ListSection,
   ListingDetailItem,
   ListingDetails,
   ListingMap,
   ListingUpdated,
   OneLineAddress,
-  OpenHouseEvent,
+  QuantityRowSection,
   ReferralApplication,
   StandardTable,
   SubmitApplication,
-  Waitlist,
   WhatToExpect,
   t,
-  ExpandableText,
-  PreferencesList,
-  AuthContext,
 } from "@bloom-housing/ui-components"
 import {
   cloudinaryPdfFromId,
   imageUrlFromListing,
   occupancyTable,
+  getTimeRangeString,
+  getCurrencyRange,
+  getPostmarkString,
 } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { ErrorPage } from "../pages/_error"
@@ -79,16 +81,35 @@ export const ListingProcess = (props: ListingProcessProps) => {
     applySidebar,
   } = props
 
+  const appOpenInFuture = openInFuture(listing)
+
   return (
     <aside className="w-full static md:me-8 md:ms-2 md:border-r md:border-l md:border-b border-gray-400 bg-white text-gray-750">
       <ListingUpdated listingUpdated={listing.updatedAt} />
-      {openHouseEvents && <OpenHouseEvent events={openHouseEvents} />}
+      {openHouseEvents && (
+        <EventSection events={openHouseEvents} headerText={t("listings.openHouseEvent.header")} />
+      )}
       {!applicationsClosed && (
-        <Waitlist
-          isWaitlistOpen={listing.isWaitlistOpen}
-          waitlistMaxSize={listing.waitlistMaxSize}
-          waitlistCurrentSize={listing.waitlistCurrentSize}
-          waitlistOpenSpots={listing.waitlistOpenSpots}
+        <QuantityRowSection
+          quantityRows={[
+            {
+              text: t("listings.waitlist.currentSize"),
+              amount: listing.waitlistCurrentSize,
+            },
+            {
+              text: t("listings.waitlist.openSlots"),
+              amount: listing.waitlistOpenSpots,
+              emphasized: true,
+            },
+            {
+              text: t("listings.waitlist.finalSize"),
+              amount: listing.waitlistMaxSize,
+            },
+          ]}
+          strings={{
+            sectionTitle: t("listings.waitlist.unitsAndWaitlist"),
+            description: t("listings.waitlist.submitAnApplication"),
+          }}
         />
       )}
       {hasNonReferralMethods && !applicationsClosed && applySidebar()}
@@ -107,20 +128,39 @@ export const ListingProcess = (props: ListingProcessProps) => {
       )}
       {openHouseEvents && (
         <div className="mb-2 md:hidden">
-          <OpenHouseEvent events={openHouseEvents} />
+          <EventSection events={openHouseEvents} headerText={t("listings.openHouseEvent.header")} />
         </div>
       )}
       <WhatToExpect
         content={listing.whatToExpect}
         expandableContent={listing.whatToExpectAdditionalText}
       />
-      <LeasingAgent
-        listing={listing}
-        managementCompany={{
-          name: listing.managementCompany,
-          website: listing.managementWebsite,
-        }}
-      />
+      {!appOpenInFuture && (
+        <Contact
+          sectionTitle={t("leasingAgent.contact")}
+          additionalInformation={
+            listing.leasingAgentOfficeHours
+              ? [
+                  {
+                    title: t("leasingAgent.officeHours"),
+                    content: listing.leasingAgentOfficeHours,
+                  },
+                ]
+              : undefined
+          }
+          contactAddress={listing.leasingAgentAddress}
+          contactEmail={listing.leasingAgentEmail}
+          contactName={listing.leasingAgentName}
+          contactPhoneNumber={`${t("t.call")} ${listing.leasingAgentPhone}`}
+          contactPhoneNumberNote={t("leasingAgent.dueToHighCallVolume")}
+          contactTitle={listing.leasingAgentTitle}
+          strings={{
+            email: t("t.email"),
+            website: t("t.website"),
+            getDirections: t("t.getDirections"),
+          }}
+        />
+      )}
       {listing.neighborhood && (
         <section className="hidden md:block aside-block">
           <h4 className="text-caps-underline">{t("listings.sections.neighborhoodTitle")}</h4>
@@ -132,6 +172,7 @@ export const ListingProcess = (props: ListingProcessProps) => {
 }
 
 export const ListingView = (props: ListingProps) => {
+  let buildingSelectionCriteria, preferencesSection
   const { listing, listingMetadata } = props
 
   const appOpenInFuture = openInFuture(listing)
@@ -158,7 +199,42 @@ export const ListingView = (props: ListingProps) => {
   }
   const occupancyData = occupancyTable(listing)
 
-  let openHouseEvents: ListingEvent[] | null = null
+  if (listing.buildingSelectionCriteriaFile) {
+    buildingSelectionCriteria = (
+      <p>
+        <a
+          href={cloudinaryPdfFromId(
+            listing.buildingSelectionCriteriaFile.fileId,
+            process.env.cloudinaryCloudName
+          )}
+        >
+          {t("listings.moreBuildingSelectionCriteria")}
+        </a>
+      </p>
+    )
+  } else if (listing.buildingSelectionCriteria) {
+    buildingSelectionCriteria = (
+      <p>
+        <a href={listing.buildingSelectionCriteria}>
+          {t("listings.moreBuildingSelectionCriteria")}
+        </a>
+      </p>
+    )
+  }
+
+  const getEvent = (event: ListingEvent, note?: string | React.ReactNode): EventType => {
+    return {
+      timeString: getTimeRangeString(event.startTime, event.endTime),
+      dateString: dayjs(event.startTime).format("MMMM D, YYYY"),
+      linkURL: event.url,
+      linkText: event.label || t("listings.openHouseEvent.seeVideo"),
+      note: note || event.note,
+    }
+  }
+
+  let openHouseEvents: EventType[] | null = null
+  let publicLottery: ListingEvent | null = null
+  let lotteryResults: ListingEvent | null = null
   if (Array.isArray(listing.events)) {
     listing.events.forEach((event) => {
       switch (event.type) {
@@ -166,7 +242,7 @@ export const ListingView = (props: ListingProps) => {
           if (!openHouseEvents) {
             openHouseEvents = []
           }
-          openHouseEvents.push(event)
+          openHouseEvents.push(getEvent(event))
           break
       }
     })
@@ -291,18 +367,25 @@ export const ListingView = (props: ListingProps) => {
         applicationDropOffAddress={getAddress(listing.applicationDropOffAddressType, "dropOff")}
         applicationDropOffAddressOfficeHours={listing.applicationDropOffAddressOfficeHours}
         applicationOrganization={listing.applicationOrganization}
-        postmarkedApplicationData={{
-          postmarkedApplicationsReceivedByDate: getDateString(
-            listing.postmarkedApplicationsReceivedByDate,
-            `MMM DD, YYYY [${t("t.at")}] hh:mm A`
+        strings={{
+          postmark: getPostmarkString(
+            listing.applicationDueDate
+              ? getDateString(listing.applicationDueDate, `MMM DD, YYYY [${t("t.at")}] hh:mm A`)
+              : null,
+            listing.postmarkedApplicationsReceivedByDate
+              ? getDateString(
+                  listing.postmarkedApplicationsReceivedByDate,
+                  `MMM DD, YYYY [${t("t.at")}] hh:mm A`
+                )
+              : null,
+            listing.developer
           ),
-          developer: listing.developer,
-          applicationsDueDate: getDateString(
-            listing.applicationDueDate,
-            `MMM DD, YYYY [${t("t.at")}] hh:mm A`
-          ),
+          mailHeader: t("listings.apply.sendByUsMail"),
+          dropOffHeader: t("listings.apply.dropOffApplication"),
+          sectionHeader: t("listings.apply.submitAPaperApplication"),
+          officeHoursHeader: t("leasingAgent.officeHours"),
+          mapString: t("t.getDirections"),
         }}
-        listingStatus={listing.status}
       />
     </>
   )
@@ -344,31 +427,6 @@ export const ListingView = (props: ListingProps) => {
     })
     return featuresExist ? <ul>{features}</ul> : null
   }
-
-  const buildingSelectionCriteria = (() => {
-    if (listing.buildingSelectionCriteriaFile) {
-      return (
-        <p>
-          <a
-            href={cloudinaryPdfFromId(
-              listing.buildingSelectionCriteriaFile.fileId,
-              process.env.cloudinaryCloudName
-            )}
-          >
-            {t("listings.moreBuildingSelectionCriteria")}
-          </a>
-        </p>
-      )
-    } else if (listing.buildingSelectionCriteria) {
-      return (
-        <p>
-          <a href={listing.buildingSelectionCriteria}>
-            {t("listings.moreBuildingSelectionCriteria")}
-          </a>
-        </p>
-      )
-    }
-  })()
 
   const accessibilityFeatures = getAccessibilityFeatures()
 
@@ -464,10 +522,7 @@ export const ListingView = (props: ListingProps) => {
                     subtitle={t("listings.occupancyDescriptionNoSro")}
                   >
                     <StandardTable
-                      headers={{
-                        unitType: "t.unitType",
-                        occupancy: "t.occupancy",
-                      }}
+                      headers={occupancyHeaders}
                       data={occupancyData}
                       responsiveCollapse={false}
                     />
@@ -602,11 +657,22 @@ export const ListingView = (props: ListingProps) => {
                 /> */}
                 </dl>
                 <AdditionalFees
-                  depositMin={listing.depositMin}
-                  depositMax={listing.depositMax}
-                  applicationFee={listing.applicationFee}
+                  deposit={getCurrencyRange(
+                    parseInt(listing.depositMin),
+                    parseInt(listing.depositMax)
+                  )}
+                  applicationFee={`$${listing.applicationFee}`}
                   costsNotIncluded={listing.costsNotIncluded}
-                  containerClass={"mt-4"}
+                  strings={{
+                    sectionHeader: t("listings.sections.additionalFees"),
+                    applicationFee: t("listings.applicationFee"),
+                    deposit: t("t.deposit"),
+                    applicationFeeSubtext: [
+                      t("listings.applicationPerApplicantAgeDescription"),
+                      t("listings.applicationFeeDueAt"),
+                    ],
+                    depositSubtext: [listing.depositHelperText],
+                  }}
                 />
               </div>
             )}

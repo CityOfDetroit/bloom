@@ -18,6 +18,7 @@ import { ListingMarketingTypeEnum } from "../types/listing-marketing-type-enum"
 import { UnitType } from "../../unit-types/entities/unit-type.entity"
 import { Program } from "../../program/entities/program.entity"
 import { BullModule, getQueueToken } from "@nestjs/bull"
+import { OrderParam } from "../../applications/types/order-param"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -83,6 +84,7 @@ const mockInnerQueryBuilder = {
   orderBy: jest.fn().mockReturnThis(),
   addOrderBy: jest.fn().mockReturnThis(),
   groupBy: jest.fn().mockReturnThis(),
+  addGroupBy: jest.fn().mockReturnThis(),
   andWhere: jest.fn().mockReturnThis(),
   offset: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
@@ -507,7 +509,7 @@ describe("ListingsService", () => {
       await service.list({})
 
       const expectedOrderByArgument = {
-        "listings.name": "ASC",
+        "listings.id": "ASC",
       }
 
       // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)
