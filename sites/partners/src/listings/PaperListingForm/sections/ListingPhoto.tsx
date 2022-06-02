@@ -36,6 +36,7 @@ const ListingPhoto = () => {
     id: "",
     url: "",
   })
+  console.log("39:", !cloudinaryData.url ? "listing-photo-empty" : "listing-photo-uploaded")
   const resetDrawerState = () => {
     setProgressValue(0)
     setCloudinaryData({
@@ -142,7 +143,7 @@ const ListingPhoto = () => {
   const photoUploader = async (file: File) => {
     void (await cloudinaryFileUploader({ file, setCloudinaryData, setProgressValue }))
   }
-  console.log("145:", !cloudinaryData.url ? "listing-photo-empty" : "listing-photo-uploaded")
+
   return (
     <>
       <input type="hidden" {...register("images.0.image.fileId")} />
