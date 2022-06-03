@@ -119,33 +119,37 @@ const FormUnits = ({ unitsSummaries, setSummaries, disableUnitsAccordion }: Unit
         })
 
         return {
-          unitType: types.map((option) => option.label).join(", "),
-          units: summary.totalCount,
-          amiRange: amiRange && formatRange(amiRange.min, amiRange.max, "", "%"),
-          rentRange: formatRentRange(rentRange, percentIncomeRange),
-          occupancyRange: formatRange(summary.minOccupancy, summary.maxOccupancy, "", ""),
-          sqFeetRange: formatRange(summary.sqFeetMin, summary.sqFeetMax, "", ""),
-          bathRange: formatRange(summary.bathroomMin, summary.bathroomMax, "", ""),
-          action: (
-            <div className="flex-col">
-              <Button
-                type="button"
-                className="front-semibold uppercase m-1"
-                onClick={() => editSummary(summary.tempId)}
-                unstyled
-              >
-                {t("t.edit")}
-              </Button>
-              <Button
-                type="button"
-                className="front-semibold uppercase text-red-700 m-1"
-                onClick={() => setSummaryDeleteModal(summary.tempId)}
-                unstyled
-              >
-                {t("t.delete")}
-              </Button>
-            </div>
-          ),
+          unitType: { content: types.map((option) => option.label).join(", ") },
+          units: { content: summary.totalCount },
+          amiRange: { content: amiRange && formatRange(amiRange.min, amiRange.max, "", "%") },
+          rentRange: { content: formatRentRange(rentRange, percentIncomeRange) },
+          occupancyRange: {
+            content: formatRange(summary.minOccupancy, summary.maxOccupancy, "", ""),
+          },
+          sqFeetRange: { content: formatRange(summary.sqFeetMin, summary.sqFeetMax, "", "") },
+          bathRange: { content: formatRange(summary.bathroomMin, summary.bathroomMax, "", "") },
+          action: {
+            content: (
+              <div className="flex-col">
+                <Button
+                  type="button"
+                  className="front-semibold uppercase m-1"
+                  onClick={() => editSummary(summary.tempId)}
+                  unstyled
+                >
+                  {t("t.edit")}
+                </Button>
+                <Button
+                  type="button"
+                  className="front-semibold uppercase text-red-700 m-1"
+                  onClick={() => setSummaryDeleteModal(summary.tempId)}
+                  unstyled
+                >
+                  {t("t.delete")}
+                </Button>
+              </div>
+            ),
+          },
         }
       }),
     [unitsSummaries, editSummary, unitTypeOptions]
