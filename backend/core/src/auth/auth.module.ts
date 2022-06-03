@@ -20,9 +20,10 @@ import { UserProfileController } from "./controllers/user-profile.controller"
 import { ActivityLogModule } from "../activity-log/activity-log.module"
 import { EmailModule } from "../email/email.module"
 import { SmsMfaService } from "./services/sms-mfa.service"
+import { UserPreferencesController } from "./controllers/user-preferences.controller"
+import { UserPreferencesService } from "./services/user-preferences.services"
 import { UserPreferences } from "./entities/user-preferences.entity"
 import { TwilioModule } from "nestjs-twilio"
-import { UserRepository } from "./repositories/user-repository"
 
 @Module({
   imports: [
@@ -45,7 +46,7 @@ import { UserRepository } from "./repositories/user-repository"
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([RevokedToken, User, UserRepository, Application, UserPreferences]),
+    TypeOrmModule.forFeature([RevokedToken, User, Application, UserPreferences]),
     SharedModule,
     JurisdictionsModule,
     EmailModule,
@@ -59,8 +60,9 @@ import { UserRepository } from "./repositories/user-repository"
     UserService,
     PasswordService,
     SmsMfaService,
+    UserPreferencesService,
   ],
-  exports: [AuthzService, AuthService, UserService],
-  controllers: [AuthController, UserController, UserProfileController],
+  exports: [AuthzService, AuthService, UserService, UserPreferencesService],
+  controllers: [AuthController, UserController, UserProfileController, UserPreferencesController],
 })
 export class AuthModule {}
