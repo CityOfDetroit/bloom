@@ -339,7 +339,23 @@ export const ListingView = (props: ListingProps) => {
     const features = Object.keys(listing?.features ?? {}).map((feature, index) => {
       if (listing?.features[feature]) {
         featuresExist = true
-        return <li key={index}>{t(`eligibility.accessibility.${feature}`)}</li>
+        let translationString = feature
+        if (
+          [
+            "inUnitWasherDryer",
+            "grabBars",
+            "accessibleParking",
+            "visual",
+            "mobility",
+            "hearing",
+            "rollInShower",
+          ].includes(feature)
+        ) {
+          translationString = `${feature}2`
+        } else if (feature === "barrierFreeEntrance") {
+          translationString = "barrierFreePropertyEntrance"
+        }
+        return <li key={index}>{t(`eligibility.accessibility.${translationString}`)}</li>
       }
     })
     return featuresExist ? <ul>{features}</ul> : null

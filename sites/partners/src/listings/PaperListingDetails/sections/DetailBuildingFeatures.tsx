@@ -12,9 +12,25 @@ const DetailBuildingFeatures = () => {
     const features = Object.keys(listing?.features ?? {}).map((feature) => {
       if (listing?.features[feature]) {
         featuresExist = true
+        let translationString = feature
+        if (
+          [
+            "inUnitWasherDryer",
+            "grabBars",
+            "accessibleParking",
+            "visual",
+            "mobility",
+            "hearing",
+            "rollInShower",
+          ].includes(feature)
+        ) {
+          translationString = `${feature}2`
+        } else if (feature === "barrierFreeEntrance") {
+          translationString = "barrierFreePropertyEntrance"
+        }
         return (
           <li className={"list-disc mx-5 mb-1 md:w-1/3 w-full grow"}>
-            {t(`eligibility.accessibility.${feature}`)}
+            {t(`eligibility.accessibility.${translationString}`)}
           </li>
         )
       }
