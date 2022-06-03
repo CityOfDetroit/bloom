@@ -804,28 +804,7 @@ export class UserService {
     })
   }
   /**
-   * Verifies token is valid
-   */
-  isUserConfirmationTokenValid(
-    params: {
-      /** requestBody */
-      body?: Confirm
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + "/user/is-confirmation-token-valid"
-
-      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
-
-      let data = params.body
-
-      configs.data = data
-      axios(configs, resolve, reject)
-    })
-  }
-  /**
-   * Resend confirmation
+   * Resend partner confirmation
    */
   resendPartnerConfirmation(
     params: {
@@ -878,27 +857,6 @@ export class UserService {
   ): Promise<Status> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/user/resend-confirmation"
-
-      const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
-
-      let data = params.body
-
-      configs.data = data
-      axios(configs, resolve, reject)
-    })
-  }
-  /**
-   * Resend confirmation
-   */
-  resendPartnerConfirmation(
-    params: {
-      /** requestBody */
-      body?: Email
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<Status> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + "/user/resend-partner-confirmation"
 
       const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
 
@@ -1298,7 +1256,7 @@ export class ListingsService {
       /**  */
       view?: string
       /**  */
-      orderBy?: any | null[]
+      orderBy?: OrderByFieldsEnum
       /**  */
       orderDir?: OrderDirEnum
     } = {} as any,
@@ -2623,13 +2581,7 @@ export interface Id {
   id: string
 }
 
-export interface Jurisdiction {
-  /**  */
-  programs: Id[]
-
-  /**  */
-  preferences: Id[]
-
+export interface AmiChart {
   /**  */
   id: string
 
@@ -2646,19 +2598,7 @@ export interface Jurisdiction {
   name: string
 
   /**  */
-  notificationsSignUpURL?: string
-
-  /**  */
-  languages: EnumJurisdictionLanguages[]
-
-  /**  */
-  partnerTerms?: string
-
-  /**  */
-  publicUrl: string
-
-  /**  */
-  emailFromAddress: string
+  jurisdiction: Id
 }
 
 export interface AmiChartCreate {
@@ -2679,18 +2619,9 @@ export interface AmiChartUpdate {
   /**  */
   name: string
 
-export interface AmiChartCreate {
-  /**  */
-  items: AmiChartItem[]
-
   /**  */
   jurisdiction: Id
 
-  /**  */
-  name: string
-}
-
-export interface AmiChartUpdate {
   /**  */
   id?: string
 
@@ -4125,6 +4056,41 @@ export interface UserRoles {
   isPartner?: boolean
 }
 
+export interface Jurisdiction {
+  /**  */
+  programs: Id[]
+
+  /**  */
+  preferences: Id[]
+
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
+  /**  */
+  name: string
+
+  /**  */
+  notificationsSignUpURL?: string
+
+  /**  */
+  languages: EnumJurisdictionLanguages[]
+
+  /**  */
+  partnerTerms?: string
+
+  /**  */
+  publicUrl: string
+
+  /**  */
+  emailFromAddress: string
+}
+
 export interface UserPreferences {
   /**  */
   sendEmailNotifications?: boolean
@@ -4199,6 +4165,9 @@ export interface User {
 
   /**  */
   phoneNumberVerified?: boolean
+
+  /**  */
+  agreedToTermsOfService: boolean
 
   /**  */
   hitConfirmationURL?: Date
@@ -4319,15 +4288,10 @@ export interface UserBasic {
   phoneNumberVerified?: boolean
 
   /**  */
+  agreedToTermsOfService: boolean
+
+  /**  */
   hitConfirmationURL?: Date
-}
-
-export interface Confirm {
-  /**  */
-  token: string
-
-  /**  */
-  password?: string
 }
 
 export interface Email {
@@ -4341,6 +4305,14 @@ export interface Email {
 export interface Status {
   /**  */
   status: string
+}
+
+export interface Confirm {
+  /**  */
+  token: string
+
+  /**  */
+  password?: string
 }
 
 export interface ForgotPassword {
@@ -4434,6 +4406,9 @@ export interface UserUpdate {
   phoneNumberVerified?: boolean
 
   /**  */
+  agreedToTermsOfService: boolean
+
+  /**  */
   hitConfirmationURL?: Date
 
   /**  */
@@ -4445,7 +4420,7 @@ export interface UserFilterParams {
   $comparison: EnumUserFilterParamsComparison
 
   /**  */
-  isPartner?: boolean
+  $include_nulls?: boolean
 
   /**  */
   isPartner?: boolean
@@ -4559,6 +4534,9 @@ export interface UserProfileUpdate {
 
   /**  */
   phoneNumber?: string
+
+  /**  */
+  agreedToTermsOfService: boolean
 }
 
 export interface JurisdictionCreate {
@@ -4720,6 +4698,14 @@ export interface ListingFilterParams {
   region?: string
 }
 
+export interface ListingsApiExtraModels {
+  /**  */
+  orderBy?: OrderByFieldsEnum[]
+
+  /**  */
+  order?: EnumListingsApiExtraModelsOrder[]
+}
+
 export interface FormMetadataExtraData {
   /**  */
   type: InputType
@@ -4878,7 +4864,6 @@ export interface HMIColumns {
   /**  */
   "120"?: number
 
-export interface ListingProgram {
   /**  */
   "125"?: number
 
@@ -4908,17 +4893,26 @@ export interface UnitSummaries {
   householdMaxIncomeSummary: HouseholdMaxIncomeSummary
 }
 
-export interface PreferenceLink {
+export interface Asset {
   /**  */
-  title: string
+  fileId: string
 
   /**  */
-  url: string
+  label: string
+
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
 }
 
-export interface Preference {
+export interface ListingEvent {
   /**  */
-  links?: PreferenceLink[]
+  type: ListingEventType
 
   /**  */
   id: string
@@ -4930,35 +4924,22 @@ export interface Preference {
   updatedAt: Date
 
   /**  */
-  title?: string
+  startTime?: Date
 
   /**  */
-  subtitle?: string
+  endTime?: Date
 
   /**  */
-  description?: string
+  url?: string
 
   /**  */
-  formMetadata?: FormMetadata
-}
-
-export interface ListingPreference {
-  /**  */
-  preference: Preference
+  note?: string
 
   /**  */
-  ordinal?: number
-}
-
-export interface JurisdictionSlim {
-  /**  */
-  id: string
+  label?: string
 
   /**  */
-  name: string
-
-  /**  */
-  publicUrl: string
+  file?: Asset
 }
 
 export interface ListingImage {
@@ -5314,7 +5295,7 @@ export interface Listing {
   status: ListingStatus
 
   /**  */
-  status: ListingStatus
+  reviewOrderType?: ListingReviewOrder
 
   /**  */
   showWaitlist: boolean
@@ -5794,22 +5775,19 @@ export interface ListingProgramUpdate {
   ordinal?: number
 }
 
-export interface ListingPreferenceUpdate {
+export interface ListingCreate {
   /**  */
-  preference: Id
+  applicationPickUpAddressType?: ListingApplicationAddressType
 
   /**  */
-  ordinal?: number
-}
+  applicationDropOffAddressType?: ListingApplicationAddressType
 
-export interface ListingProgramUpdate {
   /**  */
   applicationMailingAddressType?: ListingApplicationAddressType
 
   /**  */
   status: ListingStatus
 
-export interface ListingCreate {
   /**  */
   reviewOrderType?: ListingReviewOrder
 
@@ -5914,12 +5892,6 @@ export interface ListingCreate {
 
   /**  */
   hrdId?: string
-
-  /**  */
-  listingPreferences: ListingPreferenceUpdate[]
-
-  /**  */
-  listingPrograms?: ListingProgramUpdate[]
 
   /**  */
   additionalApplicationSubmissionNotes?: string
@@ -6288,7 +6260,7 @@ export interface ListingUpdate {
   status: ListingStatus
 
   /**  */
-  status: ListingStatus
+  reviewOrderType?: ListingReviewOrder
 
   /**  */
   marketingType: ListingMarketingTypeEnum
@@ -6400,12 +6372,6 @@ export interface ListingUpdate {
 
   /**  */
   hrdId?: string
-
-  /**  */
-  listingPreferences: ListingPreferenceUpdate[]
-
-  /**  */
-  listingPrograms?: ListingProgramUpdate[]
 
   /**  */
   additionalApplicationSubmissionNotes?: string
@@ -6627,90 +6593,6 @@ export interface ProgramsFilterParams {
 
   /**  */
   $include_nulls?: boolean
-
-  /**  */
-  jurisdiction?: string
-}
-
-export interface ProgramCreate {
-  /**  */
-  title?: string
-
-  /**  */
-  subtitle?: string
-
-  /**  */
-  description?: string
-
-  /**  */
-  formMetadata?: FormMetadata
-}
-
-export interface ProgramUpdate {
-  /**  */
-  title?: string
-
-  /**  */
-  subtitle?: string
-
-  /**  */
-  description?: string
-
-  /**  */
-  formMetadata?: FormMetadata
-
-  /**  */
-  id: string
-}
-
-export interface PreferencesFilterParams {
-  /**  */
-  $comparison: EnumPreferencesFilterParamsComparison
-
-  /**  */
-  jurisdiction?: string
-}
-
-export interface PreferenceCreate {
-  /**  */
-  links?: PreferenceLink[]
-
-  /**  */
-  title?: string
-
-  /**  */
-  subtitle?: string
-
-  /**  */
-  description?: string
-
-  /**  */
-  formMetadata?: FormMetadata
-}
-
-export interface PreferenceUpdate {
-  /**  */
-  links?: PreferenceLink[]
-
-  /**  */
-  title?: string
-
-  /**  */
-  subtitle?: string
-
-  /**  */
-  description?: string
-
-  /**  */
-  formMetadata?: FormMetadata
-
-  /**  */
-  id: string
-}
-
-export interface ProgramsFilterParams {
-  /**  */
-  $comparison: EnumProgramsFilterParamsComparison
 
   /**  */
   jurisdiction?: string
@@ -7079,13 +6961,7 @@ export interface UnitAccessibilityPriorityTypeUpdate {
   /**  */
   id: string
 }
-export enum EnumJurisdictionLanguages {
-  "en" = "en",
-  "es" = "es",
-  "vi" = "vi",
-  "zh" = "zh",
-  "tl" = "tl",
-}
+
 export enum IncomePeriod {
   "perMonth" = "perMonth",
   "perYear" = "perYear",
@@ -7158,6 +7034,13 @@ export enum EnumRequestMfaCodeMfaType {
   "sms" = "sms",
   "email" = "email",
 }
+export enum EnumJurisdictionLanguages {
+  "en" = "en",
+  "es" = "es",
+  "vi" = "vi",
+  "zh" = "zh",
+  "tl" = "tl",
+}
 export type CombinedRolesTypes = UserRolesCreate
 export type CombinedPreferencesTypes = UserPreferences
 export enum EnumUserFilterParamsComparison {
@@ -7165,6 +7048,7 @@ export enum EnumUserFilterParamsComparison {
   "<>" = "<>",
   "IN" = "IN",
   ">=" = ">=",
+  "<=" = "<=",
   "NA" = "NA",
 }
 export enum EnumJurisdictionCreateLanguages {
@@ -7186,6 +7070,7 @@ export enum EnumListingFilterParamsComparison {
   "<>" = "<>",
   "IN" = "IN",
   ">=" = ">=",
+  "<=" = "<=",
   "NA" = "NA",
 }
 export enum EnumListingFilterParamsStatus {
@@ -7197,11 +7082,6 @@ export enum EnumListingFilterParamsMarketingType {
   "Marketing" = "Marketing",
   "ComingSoon" = "ComingSoon",
 }
-export enum FormMetaDataType {
-  "radio" = "radio",
-  "checkbox" = "checkbox",
-}
-
 export enum OrderByFieldsEnum {
   "mostRecentlyUpdated" = "mostRecentlyUpdated",
   "applicationDates" = "applicationDates",
@@ -7210,12 +7090,24 @@ export enum OrderByFieldsEnum {
   "name" = "name",
   "status" = "status",
   "verified" = "verified",
+  "waitlistOpen" = "waitlistOpen",
+  "unitsAvailable" = "unitsAvailable",
+  "marketingType" = "marketingType",
+}
+export enum EnumListingsApiExtraModelsOrder {
+  "ASC" = "ASC",
+  "DESC" = "DESC",
+}
+export enum FormMetaDataType {
+  "radio" = "radio",
+  "checkbox" = "checkbox",
 }
 
 export enum OrderDirEnum {
   "ASC" = "ASC",
   "DESC" = "DESC",
 }
+
 export enum ListingApplicationAddressType {
   "leasingAgent" = "leasingAgent",
 }
@@ -7255,11 +7147,6 @@ export enum ListingEventType {
   "openHouse" = "openHouse",
   "publicLottery" = "publicLottery",
   "lotteryResults" = "lotteryResults",
-}
-
-export enum FormMetaDataType {
-  "radio" = "radio",
-  "checkbox" = "checkbox",
 }
 
 export enum UnitStatus {

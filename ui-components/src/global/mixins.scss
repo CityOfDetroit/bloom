@@ -141,11 +141,12 @@
   }
 }
 
+// this seems to be causing a lot of issues
 @mixin outlined-appearances() {
   background-color: var(--bloom-color-white);
   color: var(--bloom-color-primary);
   border-width: var(--bloom-border-2);
-  border-color: var(--bloom-color-primary);
+  border-color: var(--bloom-color-primary); //hm
 
   &:hover {
     background-color: var(

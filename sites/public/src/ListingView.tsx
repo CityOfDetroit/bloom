@@ -59,7 +59,7 @@ import {
 
 interface ListingProcessProps {
   listing: Listing
-  openHouseEvents: ListingEvent[]
+  openHouseEvents: EventType[]
   applicationsClosed: boolean
   hasNonReferralMethods: boolean
   applySidebar: () => JSX.Element
@@ -172,8 +172,8 @@ export const ListingProcess = (props: ListingProcessProps) => {
 }
 
 export const ListingView = (props: ListingProps) => {
-  let buildingSelectionCriteria, preferencesSection
-  const { listing, listingMetadata } = props
+  let buildingSelectionCriteria
+  const { listing } = props
 
   const appOpenInFuture = openInFuture(listing)
   const hasNonReferralMethods = listing?.applicationMethods
@@ -233,8 +233,6 @@ export const ListingView = (props: ListingProps) => {
   }
 
   let openHouseEvents: EventType[] | null = null
-  let publicLottery: ListingEvent | null = null
-  let lotteryResults: ListingEvent | null = null
   if (Array.isArray(listing.events)) {
     listing.events.forEach((event) => {
       switch (event.type) {

@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
-import { Brackets, DeepPartial, FindConditions, Repository } from "typeorm"
+import { DeepPartial, FindConditions, Repository } from "typeorm"
 import { paginate, Pagination, PaginationTypeEnum } from "nestjs-typeorm-paginate"
 import { decode, encode } from "jwt-simple"
 import dayjs from "dayjs"
@@ -36,7 +36,6 @@ import { Listing } from "../../listings/entities/listing.entity"
 import { UserRoles } from "../entities/user-roles.entity"
 import { UserPreferences } from "../entities/user-preferences.entity"
 import { Jurisdiction } from "../../jurisdictions/entities/jurisdiction.entity"
-import { UserQueryFilter } from "../filters/user-query-filter"
 import { assignDefined } from "../../shared/utils/assign-defined"
 import { EmailService } from "../../email/email.service"
 import { RequestMfaCodeDto } from "../dto/request-mfa-code.dto"
@@ -47,16 +46,16 @@ import { GetMfaInfoDto } from "../dto/get-mfa-info.dto"
 import { GetMfaInfoResponseDto } from "../dto/get-mfa-info-response.dto"
 import { addFilters } from "../../shared/query-filter"
 import { UserFilterParams } from "../dto/user-filter-params"
-import { JurisdictionsService } from "../../jurisdictions/services/jurisdictions.service"
+
 import advancedFormat from "dayjs/plugin/advancedFormat"
-import { UserRepository } from "../repositories/user-repository"
+import { JurisdictionsService } from "../../jurisdictions/services/jurisdictions.service"
 
 dayjs.extend(advancedFormat)
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {
   constructor(
-    @InjectRepository(UserRepository) private readonly userRepository: UserRepository,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(Application) private readonly applicationsRepository: Repository<Application>,
     private readonly emailService: EmailService,
     private readonly configService: ConfigService,
@@ -80,14 +79,6 @@ export class UserService {
       where: options,
       relations: ["leasingAgentInListings"],
     })
-  }
-
-  public async findById(id: string) {
-    const user = await this.userRepository.findById(id)
-    if (!user) {
-      throw new NotFoundException()
-    }
-    return user
   }
 
   public static isPasswordOutdated(user: User) {
@@ -140,7 +131,7 @@ export class UserService {
     qb.andWhere("user.id IN (:...distinctIDs)", {
       distinctIDs: distinctIDResult.items.map((elem) => elem.id),
     })
-    const result = distinctIDResult.items.length ? await qb.getMany() : []
+    const result = await qb.getMany()
     /**
      * admin are the only ones that can access all users
      * so this will throw on the first user that isn't their own (non admin users can access themselves)
@@ -162,7 +153,9 @@ export class UserService {
   }
 
   async update(dto: UserUpdateDto, authContext: AuthContext) {
-    const user = await this.findById(dto.id)
+    const user = await this.find({
+      id: dto.id,
+    })
     if (!user) {
       throw new NotFoundException()
     }
@@ -229,7 +222,7 @@ export class UserService {
       throw new HttpException(USER_ERRORS.TOKEN_EXPIRED.message, USER_ERRORS.TOKEN_EXPIRED.status)
     }
 
-    const user = await this.userRepository.findById(token.id)
+    const user = await this.find({ id: token.id })
     if (!user) {
       console.error(`Trying to confirm non-existing user ${token.id}.`)
       throw new HttpException(USER_ERRORS.NOT_FOUND.message, USER_ERRORS.NOT_FOUND.status)
@@ -276,13 +269,13 @@ export class UserService {
   public async isUserConfirmationTokenValid(dto: ConfirmDto) {
     try {
       const token = decode(dto.token, process.env.APP_SECRET)
-      const user = await this.userRepository.findById(token.id)
+      const user = await this.find({ id: token.id })
       await this.setHitConfirmationURl(user, dto.token)
       return true
     } catch (e) {
       console.error("isUserConfirmationTokenValid error = ", e)
       try {
-        const user = await this.userRepository.findByConfirmationToken(dto.token)
+        const user = await this.find({ confirmationToken: dto.token })
         await this.setHitConfirmationURl(user, dto.token)
       } catch (e) {
         console.error("isUserConfirmationTokenValid error = ", e)
@@ -301,7 +294,7 @@ export class UserService {
   }
 
   public async resendPublicConfirmation(dto: EmailDto) {
-    const user = await this.userRepository.findByEmail(dto.email)
+    const user = await this.findByEmail(dto.email)
     if (!user) {
       throw new HttpException(USER_ERRORS.NOT_FOUND.message, USER_ERRORS.NOT_FOUND.status)
     }
@@ -374,7 +367,7 @@ export class UserService {
         ...dto,
       })
     }
-    const existingUser = await this.userRepository.findByEmail(dto.email)
+    const existingUser = await this.findByEmail(dto.email)
 
     if (existingUser) {
       if (!existingUser.roles && dto.roles) {
@@ -424,7 +417,7 @@ export class UserService {
   }
 
   public async forgotPassword(dto: ForgotPasswordDto) {
-    const user = await this.userRepository.findByEmail(dto.email)
+    const user = await this.findByEmail(dto.email)
     if (!user) {
       throw new HttpException(USER_ERRORS.NOT_FOUND.message, USER_ERRORS.NOT_FOUND.status)
     }
@@ -438,7 +431,7 @@ export class UserService {
   }
 
   public async updatePassword(dto: UpdatePasswordDto) {
-    const user = await this.userRepository.findByResetToken(dto.token)
+    const user = await this.find({ resetToken: dto.token })
     if (!user) {
       throw new HttpException(USER_ERRORS.TOKEN_MISSING.message, USER_ERRORS.TOKEN_MISSING.status)
     }

@@ -1,6 +1,6 @@
 import { UserFilterKeys } from "../types/user-filter-keys"
 
 export const userFilterTypeToFieldMap: Record<keyof typeof UserFilterKeys, string> = {
-  isPartner: "userRoles.isPartner",
-  isPortalUser: "userRoles",
+  isPartner: "user_roles.isPartner",
+  isPortalUser: "user_roles",
 }
