@@ -2,8 +2,6 @@ import { Test, TestingModule } from "@nestjs/testing"
 import { getRepositoryToken } from "@nestjs/typeorm"
 import { HttpException, HttpStatus } from "@nestjs/common"
 import { ListingStatus } from "../types/listing-status-enum"
-import { ListingCreateDto } from "../dto/listing-create.dto"
-import { ListingUpdateDto } from "../dto/listing-update.dto"
 import { ListingsService } from "../listings.service"
 import { Listing } from "../entities/listing.entity"
 import { TranslationsService } from "../../translations/services/translations.service"
@@ -14,11 +12,9 @@ import { ListingFilterParams } from "../dto/listing-filter-params"
 import { OrderByFieldsEnum } from "../types/listing-orderby-enum"
 import { ContextIdFactory } from "@nestjs/core"
 import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
-import { ListingMarketingTypeEnum } from "../types/listing-marketing-type-enum"
 import { UnitType } from "../../unit-types/entities/unit-type.entity"
 import { Program } from "../../program/entities/program.entity"
 import { BullModule, getQueueToken } from "@nestjs/bull"
-import { OrderParam } from "../../applications/types/order-param"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -109,49 +105,6 @@ const mockListingsRepo = {
   count: jest.fn().mockReturnValue(100),
   create: jest.fn(),
   save: jest.fn(),
-}
-const mockListingsCreateDto: ListingCreateDto = {
-  applicationMethods: [],
-  applicationDropOffAddress: null,
-  applicationMailingAddress: null,
-  events: [],
-  units: [],
-  buildingAddress: null,
-  jurisdiction: null,
-  assets: [],
-  name: null,
-  status: null,
-  displayWaitlistSize: false,
-  hasId: null,
-  marketingType: ListingMarketingTypeEnum.Marketing,
-  listingPreferences: [],
-  save: jest.fn(),
-  remove: jest.fn(),
-  softRemove: jest.fn(),
-  recover: jest.fn(),
-  reload: jest.fn(),
-}
-const mockListingsUpdateDto: ListingUpdateDto = {
-  applicationMethods: [],
-  applicationDropOffAddress: null,
-  applicationMailingAddress: null,
-  events: [],
-  units: [],
-  unitGroups: [],
-  buildingAddress: null,
-  jurisdiction: null,
-  assets: [],
-  name: null,
-  status: ListingStatus.pending,
-  displayWaitlistSize: false,
-  hasId: null,
-  marketingType: ListingMarketingTypeEnum.Marketing,
-  listingPreferences: [],
-  save: jest.fn(),
-  remove: jest.fn(),
-  softRemove: jest.fn(),
-  recover: jest.fn(),
-  reload: jest.fn(),
 }
 
 const mockListingsNotificationsQueue = { add: jest.fn() }
@@ -509,7 +462,7 @@ describe("ListingsService", () => {
       await service.list({})
 
       const expectedOrderByArgument = {
-        "listings.id": "ASC",
+        "listings.name": "ASC",
       }
 
       // The inner query must be ordered so that the ordering applies across all pages (if pagination is requested)
