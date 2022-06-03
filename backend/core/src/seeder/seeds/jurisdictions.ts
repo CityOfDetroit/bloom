@@ -11,7 +11,6 @@ export const defaultJurisdictions: JurisdictionCreateDto[] = [
     programs: [],
     publicUrl: "",
     emailFromAddress: "Detroit Housing",
-    rentalAssistanceDefault: "",
   },
 ]
 
