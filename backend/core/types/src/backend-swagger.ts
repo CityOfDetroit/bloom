@@ -4062,9 +4062,6 @@ export interface Jurisdiction {
 
   /**  */
   emailFromAddress: string
-
-  /**  */
-  rentalAssistanceDefault: string
 }
 
 export interface UserPreferences {
@@ -4535,9 +4532,6 @@ export interface JurisdictionCreate {
   emailFromAddress: string
 
   /**  */
-  rentalAssistanceDefault: string
-
-  /**  */
   programs: Id[]
 
   /**  */
@@ -4571,9 +4565,6 @@ export interface JurisdictionUpdate {
 
   /**  */
   emailFromAddress: string
-
-  /**  */
-  rentalAssistanceDefault: string
 
   /**  */
   programs: Id[]
