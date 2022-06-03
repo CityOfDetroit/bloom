@@ -1,48 +1,49 @@
 import * as React from "react"
-import { StandardTableData, t } from "@bloom-housing/ui-components"
-import { Listing } from "@bloom-housing/backend-core/types"
+import { t } from "@bloom-housing/ui-components"
+import { Listing, UnitType } from "@bloom-housing/backend-core/types"
 
-export const occupancyTable = (listing: Listing): StandardTableData => {
-  let occupancyData: StandardTableData = []
-  if (listing.unitsSummarized && listing.unitsSummarized.byUnitType) {
-    occupancyData = listing.unitsSummarized.byUnitType.map((unitSummary) => {
-      let occupancy = ""
-
-      if (unitSummary.occupancyRange.max == null) {
-        occupancy = `at least ${unitSummary.occupancyRange.min} ${
-          unitSummary.occupancyRange.min == 1 ? t("t.person") : t("t.people")
-        }`
-      } else if (unitSummary.occupancyRange.max > 1) {
-        occupancy = `${unitSummary.occupancyRange.min}-${unitSummary.occupancyRange.max} ${
-          unitSummary.occupancyRange.max == 1 ? t("t.person") : t("t.people")
-        }`
-      } else {
-        occupancy = `1 ${t("t.person")}`
-      }
-
-      return {
-        unitType: {
-          content: <strong>{t("listings.unitTypes." + unitSummary.unitType.name)}</strong>,
-        },
-        occupancy: { content: occupancy },
-      }
-    })
+// Differs from core due to unit groups
+export const occupancyTable = (listing: Listing) => {
+  const getOccupancyString = (min?: number, max?: number) => {
+    if (!max && min) return min === 1 ? t("t.minPerson") : t("t.minPeople", { num: min })
+    if (!min && max) return max === 1 ? t("t.maxPerson") : t("t.maxPeople", { num: max })
+    if (min === max) return max === 1 ? t("t.onePerson") : t("t.numPeople", { num: max })
+    return t("t.peopleRange", { min, max })
   }
 
-  return occupancyData
-}
-
-export const getOccupancyDescription = (listing: Listing) => {
-  const unitsSummarized = listing.unitsSummarized
-  if (
-    unitsSummarized &&
-    unitsSummarized.unitTypes &&
-    unitsSummarized.unitTypes.map((unitType) => unitType.name).includes("SRO")
-  ) {
-    return unitsSummarized.unitTypes.length == 1
-      ? t("listings.occupancyDescriptionAllSro")
-      : t("listings.occupancyDescriptionSomeSro")
-  } else {
-    return t("listings.occupancyDescriptionNoSro")
+  const getUnitTypeNameString = (unitType: UnitType) => {
+    return t("listings.unitTypes." + unitType.name)
   }
+
+  const getUnitTypeString = (unitTypes: UnitType[]) => {
+    const unitTypesString = unitTypes.reduce((acc, curr, index) => {
+      return index > 0 ? `${acc}, ${getUnitTypeNameString(curr)}` : getUnitTypeNameString(curr)
+    }, "")
+
+    return <strong>{unitTypesString}</strong>
+  }
+
+  const sortedUnitGroups = listing.unitGroups
+    ?.sort(
+      (a, b) =>
+        a.unitType.sort((c, d) => c.numBedrooms - d.numBedrooms)[0].numBedrooms -
+        b.unitType.sort((e, f) => e.numBedrooms - f.numBedrooms)[0].numBedrooms
+    )
+    .filter((unitGroup) => unitGroup.maxOccupancy || unitGroup.minOccupancy)
+
+  const tableRows = sortedUnitGroups?.reduce<{ [key: string]: string | JSX.Element }[]>(
+    (acc, curr) => {
+      const unitTypeString = getUnitTypeString(curr.unitType)
+      const occupancyString = getOccupancyString(curr.minOccupancy, curr.maxOccupancy)
+      if (occupancyString) {
+        acc.push({
+          unitType: unitTypeString,
+          occupancy: occupancyString,
+        })
+      }
+      return acc
+    },
+    []
+  )
+  return tableRows
 }
