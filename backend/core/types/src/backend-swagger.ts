@@ -1073,6 +1073,33 @@ export class UserProfileService {
   }
 }
 
+export class UserPreferencesService {
+  /**
+   * Update user preferences
+   */
+  update(
+    params: {
+      /**  */
+      id: string
+      /** requestBody */
+      body?: UserPreferences
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<UserPreferences> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/userPreferences/{id}"
+      url = url.replace("{id}", params["id"] + "")
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+}
+
 export class JurisdictionsService {
   /**
    * List jurisdictions
