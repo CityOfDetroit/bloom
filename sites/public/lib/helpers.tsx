@@ -10,6 +10,8 @@ import {
   ListingFeatures,
   ListingMarketingTypeEnum,
   ListingProgram,
+  ListingStatus,
+  ListingReviewOrder,
 } from "@bloom-housing/backend-core/types"
 import {
   t,
@@ -24,6 +26,8 @@ import {
   ImageTag,
   Tooltip,
   StandardTableData,
+  StatusBarType,
+  ApplicationStatusType,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
 
@@ -59,6 +63,52 @@ export const openInFuture = (listing: Listing) => {
 const getListingCardSubtitle = (address: Address) => {
   const { street, city, state, zipCode } = address || {}
   return address ? `${street}, ${city} ${state}, ${zipCode}` : null
+}
+
+export const getListingApplicationStatus = (listing: Listing): StatusBarType => {
+  let content = ""
+  let subContent = ""
+  let formattedDate = ""
+  let status = ApplicationStatusType.Open
+
+  if (openInFuture(listing)) {
+    const date = listing.applicationOpenDate
+    const openDate = dayjs(date)
+    formattedDate = openDate.format("MMM D, YYYY")
+    content = t("listings.applicationOpenPeriod")
+  } else {
+    if (listing.status === ListingStatus.closed) {
+      status = ApplicationStatusType.Closed
+      content = t("listings.applicationsClosed")
+    } else if (listing.applicationDueDate) {
+      const dueDate = dayjs(listing.applicationDueDate)
+      formattedDate = dueDate.format("MMM DD, YYYY")
+      formattedDate = formattedDate + ` ${t("t.at")} ` + dueDate.format("h:mmA")
+
+      // if due date is in future, listing is open
+      if (dayjs() < dueDate) {
+        content = t("listings.applicationDeadline")
+      } else {
+        status = ApplicationStatusType.Closed
+        content = t("listings.applicationsClosed")
+      }
+    }
+  }
+
+  if (formattedDate != "") {
+    content = content + `: ${formattedDate}`
+  }
+
+  if (listing.reviewOrderType === ListingReviewOrder.firstComeFirstServe) {
+    subContent = content
+    content = t("listings.applicationFCFS")
+  }
+
+  return {
+    status,
+    content,
+    subContent,
+  }
 }
 
 export const accessibilityFeaturesExist = (features: ListingFeatures) => {
