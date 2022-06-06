@@ -22,6 +22,5 @@
   "pageDescription.additionalResources": "We encourage you to browse additional resources in your search for housing.",
   "errors.minGreaterThanMaxRentError": "Min Rent must be less than or equal to Max Rent",
   "errors.maxLessThanMinRentError": "Max Rent must be greater than or equal to Min Rent",
-  "t.additionalAccessibility": "Additional Accessibility Details",
   "publicFilter.communityPrograms": "Community Types"
 }

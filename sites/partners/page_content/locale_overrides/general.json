@@ -342,6 +342,5 @@
   "users.resendInvite": "Resend Invite",
   "users.totalUsers": "total users",
   "users.unconfirmed": "Unconfirmed",
-  "users.userDetails": "User Details",
-  "t.additionalAccessibility": "Additional Accessibility Details"
+  "users.userDetails": "User Details"
 }
