@@ -135,15 +135,6 @@ const DetailUnitDrawer = ({ unit, setUnitDrawer }: UnitDrawerProps) => {
             )}
           </GridSection>
         </GridSection>
-        <GridSection title={t("t.accessibility")} tinted={true} inset={true} grid={false}>
-          <GridSection grid columns={4}>
-            <ViewItem
-              id="unit.accessibilityPriorityType"
-              label={t("listings.unit.accessibilityPriorityType")}
-              children={unit?.priorityType?.name || t("t.n/a")}
-            />
-          </GridSection>
-        </GridSection>
       </section>
 
       <Button styleType={AppearanceStyleType.primary} onClick={() => setUnitDrawer(null)}>
