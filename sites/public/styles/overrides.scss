@@ -61,3 +61,21 @@ $header-desktop-min-size: 1024px;
     margin-bottom: 3.5px;
   }
 }
+
+:root {
+  --bloom-color-accent-cool: "#297E73";
+  --bloom-color-gray-700: "#000000";
+  --bloom-color-gray-800: "#18252A";
+  --bloom-color-gray-950: "#000000";
+  --bloom-color-lush: "#feb70d";
+  --bloom-color-primary-dark: "#004445";
+  --bloom-color-primary-darker: "#004445";
+  --bloom-color-primary-light: "#F2F2F2";
+  --bloom-color-primary-lighter: "#F2F2F2";
+  --bloom-color-primary: "#297e73";
+  --bloom-color-warn: "#feb70d";
+  --bloom-font-alt-sans: [ "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif",
+    ];
+  --bloom-font-serif: [ "Montserrat", "Droid Serif", "Georgia", "Times", "serif" ];
+  --primary-appearance-background-color: "#297E73";
+}
