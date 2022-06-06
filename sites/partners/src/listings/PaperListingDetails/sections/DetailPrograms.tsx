@@ -25,7 +25,7 @@ const DetailPrograms = () => {
 
   return (
     <GridSection className="bg-primary-lighter" title={"Community Types"} grid={false} tinted inset>
-      <ViewItem label={"Active Types"} className={"mb-2"} />
+      <ViewItem label={"Active Community Types"} className={"mb-2"} />
       {programsTableData.length ? (
         <MinimalTable headers={programsTableHeaders} data={programsTableData} />
       ) : (
