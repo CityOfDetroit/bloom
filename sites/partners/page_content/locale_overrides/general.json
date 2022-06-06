@@ -111,7 +111,7 @@
   "footer.header": "Detroit Home Connect is a project of the",
   "footer.headerUrl": "https://detroitmi.gov/departments/housing-and-revitalization-department",
   "footer.headerLink": "City of Detroit",
-  "leasingAgent.name": "Leasing Agent Name",
+  "leasingAgent.name": "Property Management Company",
   "leasingAgent.namePlaceholder": "Full Name",
   "leasingAgent.officeHoursPlaceholder": "ex: 9:00am - 5:00pm, Monday to Friday",
   "leasingAgent.title": "Leasing Agent Title",
@@ -347,5 +347,6 @@
   "users.resendInvite": "Resend Invite",
   "users.totalUsers": "total users",
   "users.unconfirmed": "Unconfirmed",
-  "users.userDetails": "User Details"
+  "users.userDetails": "User Details",
+  "t.additionalAccessibility": "Additional Accessibility Details"
 }
