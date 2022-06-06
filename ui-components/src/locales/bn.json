@@ -918,7 +918,7 @@
     "publicFilter.rentRange": "মাসিক ভাড়ার পরিসর",
     "publicFilter.rentRangeMin": "কোনো সর্বনিম্ন ভাড়া নেই",
     "publicFilter.rentRangeMax": "কোনো সর্বোচ্চ ভাড়া নেই",
-    "publicFilter.communityPrograms": "কমিউনিটি কর্মসূচি",
+    "publicFilter.communityTypes": "সম্প্রদায়ের ধরন",
     "publicFilter.waitlist.open": "খোলা অপেক্ষমান তালিকা",
     "publicFilter.waitlist.closed": "বন্ধ অপেক্ষমান তালিকা",
     "seasons.fall": "শরৎ",

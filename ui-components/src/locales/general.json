@@ -1540,7 +1540,7 @@
   "publicFilter.rentRange": "Monthly Rent Range",
   "publicFilter.rentRangeMin": "No Min Rent",
   "publicFilter.rentRangeMax": "No Max Rent",
-  "publicFilter.communityPrograms": "Community Programs",
+  "publicFilter.communityTypes": "Community Types",
   "publicFilter.waitlist.open": "Open Waitlist",
   "publicFilter.waitlist.closed": "Closed Waitlist",
   "account.noFavorites": "It looks like you haven't favorited any listings yet."
