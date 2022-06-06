@@ -112,7 +112,7 @@
   "footer.headerUrl": "https://detroitmi.gov/departments/housing-and-revitalization-department",
   "footer.headerLink": "City of Detroit",
   "leasingAgent.name": "Property Management Company",
-  "leasingAgent.namePlaceholder": "Full Name",
+  "leasingAgent.namePlaceholder": "Company Name",
   "leasingAgent.officeHoursPlaceholder": "ex: 9:00am - 5:00pm, Monday to Friday",
   "leasingAgent.title": "Leasing Agent Title",
   "listings.actions.close": "Close",
