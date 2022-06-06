@@ -15,30 +15,12 @@ const BuildingFeatures = (props: BuildingFeaturesProps) => {
   const { register } = formMethods
 
   const featureOptions = useMemo(() => {
-    return listingFeatures.map((item) => {
-      let translationString = item
-      if (
-        [
-          "inUnitWasherDryer",
-          "grabBars",
-          "accessibleParking",
-          "visual",
-          "mobility",
-          "hearing",
-          "rollInShower",
-        ].includes(item)
-      ) {
-        translationString = `${item}2`
-      } else if (item === "barrierFreeEntrance") {
-        translationString = "barrierFreePropertyEntrance"
-      }
-      return {
-        id: item,
-        label: t(`eligibility.accessibility.${translationString}`),
-        defaultChecked: props.existingFeatures ? props.existingFeatures[item] : false,
-        register,
-      }
-    })
+    return listingFeatures.map((item) => ({
+      id: item,
+      label: t(`eligibility.accessibility.${item}`),
+      defaultChecked: props.existingFeatures ? props.existingFeatures[item] : false,
+      register,
+    }))
   }, [register])
 
   return (

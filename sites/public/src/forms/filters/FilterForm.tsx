@@ -104,28 +104,10 @@ const FilterForm = (props: FilterFormProps) => {
     )
 
     setAccessibilityFeatureOptions(
-      listingFeatures.map((elem) => {
-        let translationString = elem
-        if (
-          [
-            "inUnitWasherDryer",
-            "grabBars",
-            "accessibleParking",
-            "visual",
-            "mobility",
-            "hearing",
-            "rollInShower",
-          ].includes(elem)
-        ) {
-          translationString = `${elem}2`
-        } else if (elem === "barrierFreeEntrance") {
-          translationString = "barrierFreePropertyEntrance"
-        }
-        return {
-          value: elem,
-          label: t(`eligibility.accessibility.${translationString}`),
-        }
-      })
+      listingFeatures.map((elem) => ({
+        value: elem,
+        label: t(`eligibility.accessibility.${elem}`),
+      }))
     )
   }, [])
 

@@ -83,7 +83,7 @@ const EligibilityAccessibility = () => {
             id="accessibleParking"
             name="accessibleParking"
             type="checkbox"
-            label={t("eligibility.accessibility.accessibleParking2")}
+            label={t("eligibility.accessibility.accessibleParking")}
             inputProps={{
               defaultChecked: eligibilityRequirements.accessibleParking,
             }}
@@ -105,7 +105,7 @@ const EligibilityAccessibility = () => {
             id="inUnitWasherDryer"
             name="inUnitWasherDryer"
             type="checkbox"
-            label={t("eligibility.accessibility.inUnitWasherDryer2")}
+            label={t("eligibility.accessibility.inUnitWasherDryer")}
             inputProps={{
               defaultChecked: eligibilityRequirements.inUnitWasherDryer,
             }}
@@ -127,7 +127,7 @@ const EligibilityAccessibility = () => {
             id="barrierFreeEntrance"
             name="barrierFreeEntrance"
             type="checkbox"
-            label={t("eligibility.accessibility.barrierFreePropertyEntrance")}
+            label={t("eligibility.accessibility.barrierFreeEntrance")}
             inputProps={{
               defaultChecked: eligibilityRequirements.barrierFreeEntrance,
             }}
@@ -138,7 +138,7 @@ const EligibilityAccessibility = () => {
             id="rollInShower"
             name="rollInShower"
             type="checkbox"
-            label={t("eligibility.accessibility.rollInShower2")}
+            label={t("eligibility.accessibility.rollInShower")}
             inputProps={{
               defaultChecked: eligibilityRequirements.rollInShower,
             }}
@@ -149,7 +149,7 @@ const EligibilityAccessibility = () => {
             id="grabBars"
             name="grabBars"
             type="checkbox"
-            label={t("eligibility.accessibility.grabBars2")}
+            label={t("eligibility.accessibility.grabBars")}
             inputProps={{
               defaultChecked: eligibilityRequirements.grabBars,
             }}
