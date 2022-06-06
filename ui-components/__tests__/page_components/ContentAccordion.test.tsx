@@ -18,7 +18,7 @@ describe("<ContentAccordion>", () => {
     )
     expect(queryByText("Header Content")).toBeTruthy()
     expect(queryByText("Expanded Content")).toBeFalsy()
-    getByTestId("content-accordion-button").click()
+    getByTestId("accordion-open").click()
     expect(queryByText("Header Content")).toBeTruthy()
     expect(queryByText("Expanded Content")).toBeTruthy()
   })
