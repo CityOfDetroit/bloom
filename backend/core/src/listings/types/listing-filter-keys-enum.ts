@@ -43,6 +43,9 @@ export enum ListingFilterKeys {
   bedRoomSize = "bedRoomSize",
   communityPrograms = "communityPrograms",
   accessibility = "accessibility",
+  filterByIncomePercentage = "filterByIncomePercentage",
+  minRentPercentage = "minRentPercentage",
+  maxRentPercentage = "maxRentPercentage",
 }
 
 export enum AvailabilityFilterEnum {

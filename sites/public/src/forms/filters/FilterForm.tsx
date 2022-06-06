@@ -50,7 +50,6 @@ const getTranslationString = (str: string) => {
 }
 
 const FilterForm = (props: FilterFormProps) => {
-  // TODO: Select options should come from the database
   const [bedroomOptions, setBedroomOptions] = useState<optionInterface[]>([])
   const [communityProgramOptions, setCommunityProgramOptions] = useState<optionInterface[]>([])
   const [regionOptions, setRegionOptions] = useState<optionInterface[]>([])
@@ -58,6 +57,7 @@ const FilterForm = (props: FilterFormProps) => {
     []
   )
   const [localFilterState, setLocalFilterState] = useState<ListingFilterState>({})
+  const [filterByIncomePercentage, setFilterByIncomePercentage] = useState(false)
 
   const availabilityOptions = [
     { value: "vacantUnits", label: t("listings.vacantUnits") },
@@ -115,14 +115,19 @@ const FilterForm = (props: FilterFormProps) => {
     setLocalFilterState({
       ...props.filterState,
     })
+    setFilterByIncomePercentage(
+      !!(props.filterState.minRentPercentage || props.filterState.maxRentPercentage)
+    )
   }, [props.filterState])
 
   // This is causing a linting issue with unbound-method, see issue:
   // https://github.com/react-hook-form/react-hook-form/issues/2887
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, errors, register, reset, trigger, watch: formWatch } = useForm()
+  const { handleSubmit, errors, register, reset, trigger, watch: formWatch, setValue } = useForm()
   const minRent = formWatch("minRent")
   const maxRent = formWatch("maxRent")
+  const minRentPercentage = formWatch("minRentPercentage")
+  const maxRentPercentage = formWatch("maxRentPercentage")
 
   return (
     <Form
@@ -222,6 +227,28 @@ const FilterForm = (props: FilterFormProps) => {
           </GridCell>
           <GridCell span={1}>
             <Field
+              id={"minRentPercentage"}
+              name={FrontendListingFilterStateKeys.minRentPercentage}
+              type="number"
+              placeholder={t("publicFilter.rentRangeMin")}
+              label={t("publicFilter.rentRangeMin")}
+              register={register}
+              prepend={""}
+              defaultValue={localFilterState?.minRentPercentage}
+              error={errors?.minRentPercentage !== undefined}
+              errorMessage={t("errors.minGreaterThanMaxRentError")}
+              validation={{ max: maxRentPercentage || minRentPercentage }}
+              readerOnly
+              inputProps={{
+                onBlur: () => {
+                  void trigger("minRentPercentage")
+                  void trigger("maxRentPercentage")
+                },
+              }}
+              className={"mb-0"}
+              hidden={!filterByIncomePercentage}
+            />
+            <Field
               id={"minRent"}
               name={FrontendListingFilterStateKeys.minRent}
               type="number"
@@ -240,9 +267,32 @@ const FilterForm = (props: FilterFormProps) => {
                   void trigger("maxRent")
                 },
               }}
+              hidden={filterByIncomePercentage}
             />
           </GridCell>
           <GridCell span={1}>
+            <Field
+              id={"maxRentPercentage"}
+              type="number"
+              name={FrontendListingFilterStateKeys.maxRentPercentage}
+              placeholder={t("publicFilter.rentRangeMax")}
+              label={t("publicFilter.rentRangeMax")}
+              register={register}
+              prepend={""}
+              defaultValue={localFilterState?.maxRentPercentage}
+              error={errors?.maxRentPercentage !== undefined}
+              errorMessage={t("errors.maxLessThanMinRentError")}
+              validation={{ min: minRentPercentage }}
+              readerOnly
+              inputProps={{
+                onBlur: () => {
+                  void trigger("minRentPercentage")
+                  void trigger("maxRentPercentage")
+                },
+              }}
+              className={"mb-0"}
+              hidden={!filterByIncomePercentage}
+            />
             <Field
               id={"maxRent"}
               type="number"
@@ -262,6 +312,29 @@ const FilterForm = (props: FilterFormProps) => {
                   void trigger("maxRent")
                 },
               }}
+              hidden={filterByIncomePercentage}
+            />
+          </GridCell>
+          <GridCell span={1}>
+            <Field
+              id="filterByIncomePercentage"
+              name={FrontendListingFilterStateKeys.filterByIncomePercentage}
+              type="checkbox"
+              label={t("publicFilter.filterByIncomePercentage")}
+              inputProps={{
+                checked: filterByIncomePercentage,
+                onChange: () => {
+                  setFilterByIncomePercentage(!filterByIncomePercentage)
+                  if (!filterByIncomePercentage) {
+                    void setValue("minRent", "")
+                    void setValue("maxRent", "")
+                  } else {
+                    void setValue("minRentPercentage", "")
+                    void setValue("maxRentPercentage", "")
+                  }
+                },
+              }}
+              labelClassName={"text-gray-750 font-semibold"}
             />
           </GridCell>
         </GridSection>
@@ -365,6 +438,7 @@ const FilterForm = (props: FilterFormProps) => {
               className={"border-primary text-primary hover:text-white"}
               onClick={() => {
                 setLocalFilterState({})
+                setFilterByIncomePercentage(false)
                 reset({
                   status: EnumListingFilterParamsStatus.active,
                   isVerified: "",
@@ -375,6 +449,8 @@ const FilterForm = (props: FilterFormProps) => {
                   communityPrograms: "",
                   region: "",
                   accessibility: "",
+                  minRentPercentage: "",
+                  maxRentPercentage: "",
                 })
               }}
             >

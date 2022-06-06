@@ -71,7 +71,13 @@ const FilteredListingsPage = () => {
       (p) => p !== "$comparison" && p !== "includeNulls" && p !== "status"
     ).length
     // We want to consider rent as a single filter, so if both min and max are defined, reduce the count.
-    if (filterState.minRent !== undefined && filterState.maxRent != undefined) {
+    if (filterState.minRent !== undefined && filterState.maxRent !== undefined) {
+      numberOfFilters -= 1
+    }
+    if (
+      filterState.minRentPercentage !== undefined &&
+      filterState.maxRentPercentage !== undefined
+    ) {
       numberOfFilters -= 1
     }
   }
