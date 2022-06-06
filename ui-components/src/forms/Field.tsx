@@ -44,6 +44,10 @@ const Field = (props: FieldProps) => {
     classes.push(props.className)
   }
 
+  if (props.hidden) {
+    classes.push("hidden")
+  }
+
   const controlClasses = []
 
   if (props.type !== "checkbox") {
@@ -95,7 +99,7 @@ const Field = (props: FieldProps) => {
       {!isRadioOrCheckbox && !props.hidden && label}
       {note}
       <div className={controlClasses.join(" ")}>
-        {props.prepend && <span className="prepend">{props.prepend}</span>}
+        {props.prepend && !props.hidden && <span className="prepend">{props.prepend}</span>}
         <input
           aria-describedby={props.describedBy ? props.describedBy : `${idOrName}`}
           aria-invalid={!!props.error || false}

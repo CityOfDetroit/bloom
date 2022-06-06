@@ -4677,6 +4677,12 @@ export interface ListingFilterParams {
 
   /**  */
   region?: string
+
+  /**  */
+  minRentPercentage?: number
+
+  /**  */
+  maxRentPercentage?: number
 }
 
 export interface FormMetadataExtraData {

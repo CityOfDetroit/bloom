@@ -308,5 +308,25 @@ export class ListingFilterParams extends BaseFilter {
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
-  [ListingFilterKeys.region]?: string
+  [ListingFilterKeys.region]?: string;
+
+  @Expose()
+  @ApiProperty({
+    type: Number,
+    example: "300",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.minRentPercentage]?: number;
+
+  @Expose()
+  @ApiProperty({
+    type: Number,
+    example: "700",
+    required: false,
+  })
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsNumberString({}, { groups: [ValidationsGroupsEnum.default] })
+  [ListingFilterKeys.maxRentPercentage]?: number
 }

@@ -50,8 +50,10 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.Veterans:
       return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.minRent:
+    case ListingFilterKeys.minRentPercentage:
       return EnumListingFilterParamsComparison[">="]
     case ListingFilterKeys.maxRent:
+    case ListingFilterKeys.maxRentPercentage:
       return EnumListingFilterParamsComparison["<="]
     case ListingFilterKeys.bedrooms:
     case ListingFilterKeys.bedRoomSize:
@@ -116,6 +118,8 @@ export interface ListingFilterState {
   // rentRange
   [FrontendListingFilterStateKeys.minRent]?: string | number
   [FrontendListingFilterStateKeys.maxRent]?: string | number
+  [FrontendListingFilterStateKeys.minRentPercentage]?: string | number
+  [FrontendListingFilterStateKeys.maxRentPercentage]?: string | number
   // communityPrograms
   [FrontendListingFilterStateKeys.communityPrograms]?: string
   [FrontendListingFilterStateKeys.ResidentswithDisabilities]?: string | number
@@ -151,6 +155,7 @@ export interface ListingFilterState {
 
   // misc
   [FrontendListingFilterStateKeys.zipcode]?: string
+  [FrontendListingFilterStateKeys.filterByIncomePercentage]?: string
 }
 
 export function encodeToBackendFilterArray(filterState: ListingFilterState) {
