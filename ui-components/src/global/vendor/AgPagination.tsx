@@ -55,11 +55,6 @@ const AgPagination = ({
     onPerPageChange && onPerPageChange(itemsPerPage)
   }
 
-  const onRowLimitChange = (size: string) => {
-    setItemsPerPage?.(parseInt(size))
-    onPerPageChange && onPerPageChange(itemsPerPage)
-  }
-
   const dataPagerContainerClassName = ["data-pager-container"]
   if (sticky) {
     dataPagerContainerClassName.push("sticky")
