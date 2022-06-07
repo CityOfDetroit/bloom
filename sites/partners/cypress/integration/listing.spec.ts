@@ -139,7 +139,6 @@ describe("Listing Management Tests", () => {
     cy.get("#waitlistOpenNo").check()
     cy.get("#digitalApplicationChoiceYes").check()
     cy.get("#paperApplicationNo").check()
-    cy.get("#referralOpportunityNo").check()
     cy.get("#applicationsMailedInYes").check()
     cy.get("#mailInAnotherAddress").check()
     cy.get("#applicationsPickedUpNo").check()
