@@ -35,6 +35,8 @@ const AgPagination = ({
   const onNextClick = () => {
     setCurrentPage(currentPage + 1)
     onPageChange && onPageChange(currentPage)
+    //ensure mobile pagination starts on top
+    if (typeof window !== "undefined") window.scrollTo(0, 0)
   }
 
   const onPrevClick = () => {
@@ -45,6 +47,12 @@ const AgPagination = ({
     }
     setCurrentPage(pageNumber)
     onPageChange && onPageChange(currentPage)
+    if (typeof window !== "undefined") window.scrollTo(0, 0)
+  }
+
+  const onRowLimitChange = (size: string) => {
+    setItemsPerPage?.(parseInt(size))
+    onPerPageChange && onPerPageChange(itemsPerPage)
   }
 
   const onRowLimitChange = (size: string) => {
