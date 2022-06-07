@@ -79,7 +79,6 @@ describe("Listing Management Tests", () => {
     },
     { fieldID: "mailing-address-city", byTestID: true, fixtureID: "leasingAgentAddress.city" },
     { fieldID: "mailing-address-zip", byTestID: true, fixtureID: "leasingAgentAddress.zipCode" },
-    { fieldID: "additionalApplicationSubmissionNotes", byTestID: true },
     { fieldID: "postmark-date-field-month", byTestID: true },
     { fieldID: "postmark-date-field-day", byTestID: true },
     { fieldID: "postmark-date-field-year", byTestID: true },
