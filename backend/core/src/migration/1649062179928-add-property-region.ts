@@ -44,7 +44,7 @@ export class addPropertyRegion1649062179928 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TYPE "property_region_enum" AS ENUM('Greater Downtown', 'Eastside', 'Southwest', 'Westside')`
+      `CREATE TYPE "property_region_enum" AS ENUM('Downtown', 'Eastside', 'Midtown - New Center', 'Southwest', 'Westside')`
     )
     await queryRunner.query(`ALTER TABLE "property" ADD "region" "property_region_enum"`)
 

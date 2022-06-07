@@ -5,7 +5,7 @@ export class regionRename1654549186207 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`BEGIN TRANSACTION`)
-    await queryRunner.query(`ALTER TYPE "property_region_enum" ADD VALUE 'Downtown'`)
+    await queryRunner.query(`ALTER TYPE "property_region_enum" ADD VALUE 'Greater Downtown'`)
     await queryRunner.query(`COMMIT TRANSACTION`)
     await queryRunner.query(
       `UPDATE "property" SET "region" = 'Greater Downtown' WHERE "region" = 'Downtown'`
