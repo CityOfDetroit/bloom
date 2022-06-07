@@ -200,7 +200,6 @@ describe("Listing Management Tests", () => {
     cy.get("#digitalApplication").contains("Yes")
     cy.getByID("digitalMethod.type").contains("No")
     cy.get("#paperApplication").contains("No")
-    cy.get("#referralOpportunity").contains("No")
     cy.getByID("applicationPickupQuestion").contains("No")
     cy.getByID("applicationMailingSection").contains("Yes")
     cy.get("#applicationDropOffQuestion").contains("No")
