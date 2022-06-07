@@ -322,7 +322,6 @@ const UnitForm = ({ onSubmit, onClose, defaultUnit, nextId, draft }: UnitFormPro
   useEffect(() => {
     if (defaultUnit) {
       setValue("amiChart.id", defaultUnit.amiChart?.id)
-      setValue("priorityType.id", defaultUnit.priorityType?.id)
       setValue("unitType.id", defaultUnit.unitType?.id)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

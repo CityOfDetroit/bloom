@@ -52,7 +52,6 @@ describe("Listing Management Tests", () => {
     { fieldID: "floorMax", byTestID: true },
     { fieldID: "bathroomMin", byTestID: true },
     { fieldID: "bathroomMax", byTestID: true },
-    { fieldID: "priorityType.id", byTestID: true },
   ]
 
   const amiFormFieldsToType = [{ fieldID: "flatRentValue", byTestID: true }]
