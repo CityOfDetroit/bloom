@@ -831,7 +831,6 @@
   "listings.includesPriorityUnits": "Includes Priority Units for %{priorities}",
   "listings.isDigitalApplication": "Is there a digital application?",
   "listings.isPaperApplication": "Is there a paper application?",
-  "listings.isReferralOpportunity": "Is there a referral opportunity?",
   "listings.selectJurisdiction": "You must first select a jurisdiction",
   "listings.latitude": "Latitude",
   "listings.leasingAgentAddress": "Leasing Agent Address",
