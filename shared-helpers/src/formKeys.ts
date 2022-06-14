@@ -260,3 +260,14 @@ export const listingFeatures = [
   "wideDoorways",
   "loweredCabinets",
 ]
+
+export const utilities = [
+  "water",
+  "gas",
+  "trash",
+  "sewer",
+  "electricity",
+  "cable",
+  "phone",
+  "internet",
+]
