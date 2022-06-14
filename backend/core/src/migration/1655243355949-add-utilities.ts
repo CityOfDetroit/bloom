@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm"
 
-export class addUtilities1655238491424 implements MigrationInterface {
-  name = "addUtilities1655238491424"
+export class addUtilities1655243355949 implements MigrationInterface {
+  name = "addUtilities1655243355949"
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -20,7 +20,6 @@ export class addUtilities1655238491424 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "listings" DROP CONSTRAINT "FK_61b80a947c9db249548ba3c73a5"`
     )
-    await queryRunner.query(`ALTER TABLE "listings" DROP COLUMN "marketing_season"`)
     await queryRunner.query(
       `ALTER TABLE "listings" DROP CONSTRAINT "UQ_61b80a947c9db249548ba3c73a5"`
     )

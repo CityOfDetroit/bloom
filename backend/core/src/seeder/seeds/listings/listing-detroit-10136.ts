@@ -61,6 +61,9 @@ const listingSeed: ListingSeedType = {
     heatingInUnit: false,
     acInUnit: false,
   },
+  utilities: {
+    gas: true,
+  },
   listingPreferences: [],
   jurisdictionName: "Detroit",
   marketingType: ListingMarketingTypeEnum.Marketing,
