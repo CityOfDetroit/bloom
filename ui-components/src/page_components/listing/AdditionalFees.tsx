@@ -1,4 +1,3 @@
-import { ListingUtilities } from "@bloom-housing/backend-core"
 import * as React from "react"
 import { t } from "../../helpers/translator"
 
@@ -6,24 +5,13 @@ export interface AdditionalFeesProps {
   depositMin?: string
   depositMax?: string
   applicationFee?: string
-  costsNotIncluded?: string
   depositHelperText?: string
-  utilitiesIncluded?: ListingUtilities
-  columns?: number
+  footerContent?: (string | React.ReactNode)[]
   containerClass?: string
 }
 
-interface FooterProps {
-  utilitiesIncluded?: string
-  columns?: number
-}
-
-const footer = (props: FooterProps) => {
-  return <div>Hello</div>
-}
-
 const AdditionalFees = (props: AdditionalFeesProps) => {
-  if (!props.depositMin && !props.depositMax && !props.applicationFee && !props.costsNotIncluded) {
+  if (!props.depositMin && !props.depositMax && !props.applicationFee && !props.footerContent) {
     return <></>
   }
 
@@ -55,13 +43,14 @@ const AdditionalFees = (props: AdditionalFeesProps) => {
           </div>
         )}
       </div>
-      {props.utilitiesIncluded &&
-        Object.entries(props.utilitiesIncluded).map(
-          (utility) => utility[1] && <div>{utility[0]}</div>
-        )}
-      {props.costsNotIncluded && <p className="text-sm mt-6">{props.costsNotIncluded}</p>}
+      <div className="info-card__columns  text-sm">
+        {props?.footerContent?.map((elem) => (
+          <div style={{ flex: "1 1 50%" }} className="mt-6">
+            {elem}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
-
 export { AdditionalFees as default, AdditionalFees }

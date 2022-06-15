@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import ReactDOMServer from "react-dom/server"
 import Markdown from "markdown-to-jsx"
 import moment from "moment"
@@ -54,6 +54,8 @@ import {
   getUnitGroupSummary,
   openInFuture,
 } from "../lib/helpers"
+import { IgnorePlugin } from "webpack"
+import { util } from "prettier"
 
 interface ListingProcessProps {
   listing: Listing
@@ -372,6 +374,43 @@ export const ListingView = (props: ListingProps) => {
 
   const accessibilityFeatures = getAccessibilityFeatures()
 
+  const getUtilitiesIncluded = () => {
+    let utilitiesExist = false
+    const utilities = Object.keys(listing?.utilities ?? {}).map((utility, index) => {
+      console.log(listing?.utilities[utility])
+      if (listing?.utilities[utility]) {
+        utilitiesExist = true
+        return (
+          <li key={index} className={"list-disc list-inside"}>
+            {t(`listings.utilities.${utility}`)}
+          </li>
+        )
+      }
+    })
+    const utilitiesIncluded = utilities.filter((utility) => utility)
+    return utilitiesExist ? (
+      <div>
+        <div>{t("listings.sections.utilities")}</div>
+        {utilitiesIncluded.length <= 4 ? (
+          <ul>{utilitiesIncluded}</ul>
+        ) : (
+          <div className="flex justify-around">
+            <ul className="float-left">{utilitiesIncluded.slice(3)}</ul>
+            <ul className="float-right">{utilitiesIncluded.slice(4, utilitiesIncluded.length)}</ul>
+          </div>
+        )}
+      </div>
+    ) : null
+  }
+
+  const getFooterContent = () => {
+    const footerContent: (string | React.ReactNode)[] = []
+    if (getUtilitiesIncluded()) footerContent.push(getUtilitiesIncluded())
+    if (listing?.costsNotIncluded) footerContent.push(listing.costsNotIncluded)
+    footerContent.push("beep Boop")
+    return footerContent
+  }
+
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
       <div className="w-full md:w-2/3">
@@ -605,8 +644,7 @@ export const ListingView = (props: ListingProps) => {
                   depositMin={listing.depositMin}
                   depositMax={listing.depositMax}
                   applicationFee={listing.applicationFee}
-                  costsNotIncluded={listing.costsNotIncluded}
-                  utilitiesIncluded={listing.utilities}
+                  footerContent={getFooterContent()}
                   containerClass={"mt-4"}
                 />
               </div>

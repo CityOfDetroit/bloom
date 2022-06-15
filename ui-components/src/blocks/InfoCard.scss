@@ -35,6 +35,7 @@
 
 .info-card__columns {
   @apply flex;
+  @apply flex-wrap;
 }
 
 .info-card__column {
