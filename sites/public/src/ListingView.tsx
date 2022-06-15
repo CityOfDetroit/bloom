@@ -377,7 +377,6 @@ export const ListingView = (props: ListingProps) => {
   const getUtilitiesIncluded = () => {
     let utilitiesExist = false
     const utilities = Object.keys(listing?.utilities ?? {}).map((utility, index) => {
-      console.log(listing?.utilities[utility])
       if (listing?.utilities[utility]) {
         utilitiesExist = true
         return (

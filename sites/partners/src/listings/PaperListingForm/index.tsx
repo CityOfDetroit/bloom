@@ -307,7 +307,6 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
       setError,
     ]
   )
-  console.log(listing)
   return loading === true ? null : (
     <>
       <LoadingOverlay isLoading={loading}>
