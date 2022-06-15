@@ -381,7 +381,7 @@ export const ListingView = (props: ListingProps) => {
       if (listing?.utilities[utility]) {
         utilitiesExist = true
         return (
-          <li key={index} className={"list-disc list-inside"}>
+          <li key={index} className={"list-disc list-inside flex-nowrap"}>
             {t(`listings.utilities.${utility}`)}
           </li>
         )

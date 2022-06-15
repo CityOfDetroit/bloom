@@ -43,9 +43,9 @@ const AdditionalFees = (props: AdditionalFeesProps) => {
           </div>
         )}
       </div>
-      <div className="info-card__columns  text-sm">
-        {props?.footerContent?.map((elem) => (
-          <div style={{ flex: "1 1 50%" }} className="mt-6">
+      <div className="info-card__columns text-sm">
+        {props?.footerContent?.map((elem, idx) => (
+          <div key={`footer_info_${idx}`} style={{ flex: "1 1 50%" }} className="mt-6">
             {elem}
           </div>
         ))}

@@ -11,7 +11,7 @@ describe("<AdditionalFees>", () => {
         applicationFee={"30"}
         depositMin={"1140"}
         depositMax={"1500"}
-        costsNotIncluded={"Resident responsible for PG&E, internet and phone."}
+        footerContent={["Resident responsible for PG&E, internet and phone."]}
       />
     )
     expect(getByText("Additional Fees")).toBeTruthy()
