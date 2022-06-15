@@ -421,7 +421,7 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
                               "Please choose the populations your building serves, based on your building's financing and regulatory agreements."
                             }
                           />
-                          <AdditionalFees />
+                          <AdditionalFees existingUtilities={listing?.utilities} />
                           <BuildingFeatures existingFeatures={listing?.features} />
                           <AdditionalEligibility />
                           <BuildingSelectionCriteria />

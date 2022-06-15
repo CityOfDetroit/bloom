@@ -261,7 +261,7 @@ export const listingFeatures = [
   "loweredCabinets",
 ]
 
-export const utilities = [
+export const listingUtilities = [
   "water",
   "gas",
   "trash",

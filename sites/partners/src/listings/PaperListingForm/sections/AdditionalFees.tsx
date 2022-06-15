@@ -2,20 +2,26 @@ import React, { useMemo } from "react"
 import { useFormContext } from "react-hook-form"
 import { t, GridSection, Field, Textarea, FieldGroup, ViewItem } from "@bloom-housing/ui-components"
 import { fieldHasError, fieldMessage } from "../../../../lib/helpers"
-import { utilities } from "@bloom-housing/shared-helpers"
+import { listingUtilities } from "@bloom-housing/shared-helpers"
+import { ListingUtilities } from "@bloom-housing/backend-core/types"
 
-const AdditionalFees = () => {
+type AdditionalFeesProps = {
+  existingUtilities: ListingUtilities
+}
+
+const AdditionalFees = (props: AdditionalFeesProps) => {
   const formMethods = useFormContext()
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, errors, clearErrors } = formMethods
-  const utilitiesOptions = useMemo(() => {
-    return utilities.map((item) => ({
-      id: item,
-      label: item,
-      defaultChecked: false,
+  const utilitiesFields = useMemo(() => {
+    return listingUtilities.map((utility) => ({
+      id: utility,
+      label: t(`listings.utilities.${utility}`),
+      defaultChecked: props.existingUtilities ? props.existingUtilities[utility] : false,
       register,
     }))
-  }, [register])
+  }, [props.existingUtilities, register])
+
   return (
     <div>
       <GridSection
@@ -82,11 +88,11 @@ const AdditionalFees = () => {
           />
         </GridSection>
         <GridSection columns={1}>
-          <ViewItem label={"Accessibility Features"}>
+          <ViewItem label={"Utilities Included"}>
             <FieldGroup
               type="checkbox"
-              name="listingFeatures"
-              fields={utilitiesOptions}
+              name="listingUtilities"
+              fields={utilitiesFields}
               register={register}
               fieldGroupClassName="grid grid-cols-2 mt-4"
             />
