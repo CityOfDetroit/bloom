@@ -1,3 +1,4 @@
+import { ListingUtilities } from "@bloom-housing/backend-core"
 import * as React from "react"
 import { t } from "../../helpers/translator"
 
@@ -7,7 +8,18 @@ export interface AdditionalFeesProps {
   applicationFee?: string
   costsNotIncluded?: string
   depositHelperText?: string
+  utilitiesIncluded?: ListingUtilities
+  columns?: number
   containerClass?: string
+}
+
+interface FooterProps {
+  utilitiesIncluded?: string
+  columns?: number
+}
+
+const footer = (props: FooterProps) => {
+  return <div>Hello</div>
 }
 
 const AdditionalFees = (props: AdditionalFeesProps) => {
@@ -43,7 +55,10 @@ const AdditionalFees = (props: AdditionalFeesProps) => {
           </div>
         )}
       </div>
-
+      {props.utilitiesIncluded &&
+        Object.entries(props.utilitiesIncluded).map(
+          (utility) => utility[1] && <div>{utility[0]}</div>
+        )}
       {props.costsNotIncluded && <p className="text-sm mt-6">{props.costsNotIncluded}</p>}
     </div>
   )
