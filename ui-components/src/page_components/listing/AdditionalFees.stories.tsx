@@ -12,9 +12,14 @@ export const allFields = () => {
       depositMin={"1140"}
       depositMax={"1500"}
       applicationFee={"30"}
-      costsNotIncluded={
-        "Resident responsible for PG&E, internet and phone.  Owner pays for water, trash, and sewage.  Residents encouraged to obtain renter's insurance but this is not a requirement.  Rent is due by the 5th of each month. Late fee $35 and returned check fee is $35 additional."
-      }
+      footerContent={[
+        <ul>
+          <li key={0} className={"list-disc list-inside flex-nowrap"}>
+            Gas
+          </li>
+        </ul>,
+        "Resident responsible for PG&E, internet and phone.",
+      ]}
     />
   )
 }
@@ -30,9 +35,9 @@ export const showsJustFee = () => {
 export const showsJustCostsNotIncluded = () => {
   return (
     <AdditionalFees
-      costsNotIncluded={
-        "Resident responsible for PG&E, internet and phone.  Owner pays for water, trash, and sewage.  Residents encouraged to obtain renter's insurance but this is not a requirement.  Rent is due by the 5th of each month. Late fee $35 and returned check fee is $35 additional."
-      }
+      footerContent={[
+        "Resident responsible for PG&E, internet and phone.  Owner pays for water, trash, and sewage.  Residents encouraged to obtain renter's insurance but this is not a requirement.  Rent is due by the 5th of each month. Late fee $35 and returned check fee is $35 additional.",
+      ]}
     />
   )
 }
