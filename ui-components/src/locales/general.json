@@ -965,6 +965,7 @@
   "listings.sections.verification": "Verification",
   "listings.sections.verificationSubtitle": "Provide verification of listing data accuracy.",
   "listings.sections.isVerified": "I verify that this listing data is valid.",
+  "listings.sections.utilities" : "Utilities Included",
   "listings.seeMaximumIncomeInformation": "See Maximum Income Information",
   "listings.seePreferenceInformation": "See Preference Information",
   "listings.seeUnitInformation": "See Unit Information",

@@ -88,7 +88,7 @@ const AdditionalFees = (props: AdditionalFeesProps) => {
           />
         </GridSection>
         <GridSection columns={1}>
-          <ViewItem label={"Utilities Included"}>
+          <ViewItem label={t("listings.sections.utilities")}>
             <FieldGroup
               type="checkbox"
               name="listingUtilities"

@@ -58,7 +58,7 @@ const DetailAdditionalFees = () => {
       </GridSection>
       <GridSection columns={1}>
         <GridCell className={"m-h-1"}>
-          <ViewItem label={"Utilities Included"}>
+          <ViewItem label={t("listings.sections.utilities")}>
             <ul className={"flex flex-wrap"}>{getUtilitiesIncluded()}</ul>
           </ViewItem>
         </GridCell>
