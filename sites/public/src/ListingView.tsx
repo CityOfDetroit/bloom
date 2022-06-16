@@ -408,7 +408,6 @@ export const ListingView = (props: ListingProps) => {
     const footerContent: (string | React.ReactNode)[] = []
     if (getUtilitiesIncluded()) footerContent.push(getUtilitiesIncluded())
     if (listing?.costsNotIncluded) footerContent.push(listing.costsNotIncluded)
-    footerContent.push("beep Boop")
     return footerContent
   }
 
