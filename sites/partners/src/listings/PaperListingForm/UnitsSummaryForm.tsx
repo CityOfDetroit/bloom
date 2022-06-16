@@ -607,6 +607,7 @@ const UnitsSummaryForm = ({
               </div>
             </GridCell>
           </GridSection>
+<<<<<<< HEAD
           <GridSection title={t("t.accessibility")} columns={4} separator>
             <GridCell>
               <ViewItem label={t("listings.unit.accessibilityPriorityType")}>
@@ -623,6 +624,8 @@ const UnitsSummaryForm = ({
               </ViewItem>
             </GridCell>
           </GridSection>
+=======
+>>>>>>> remotes/origin/dev
         </div>
         <div className="mt-6">
           <Button
