@@ -380,7 +380,7 @@ export const ListingView = (props: ListingProps) => {
       if (listing?.utilities[utility]) {
         utilitiesExist = true
         return (
-          <li key={index} className={"list-disc list-inside flex-nowrap"}>
+          <li key={index} className={"list-disc list-inside"}>
             {t(`listings.utilities.${utility}`)}
           </li>
         )
@@ -389,13 +389,15 @@ export const ListingView = (props: ListingProps) => {
     const utilitiesIncluded = utilities.filter((utility) => utility)
     return utilitiesExist ? (
       <div>
-        <div>{t("listings.sections.utilities")}</div>
+        <div className="text-base">{t("listings.sections.utilities")}</div>
         {utilitiesIncluded.length <= 4 ? (
           <ul>{utilitiesIncluded}</ul>
         ) : (
-          <div className="flex justify-around">
-            <ul className="float-left">{utilitiesIncluded.slice(3)}</ul>
-            <ul className="float-right">{utilitiesIncluded.slice(4, utilitiesIncluded.length)}</ul>
+          <div className="flex">
+            <ul className="float-left w-1/2">{utilitiesIncluded.slice(3)}</ul>
+            <ul className="float-right w-1/2">
+              {utilitiesIncluded.slice(4, utilitiesIncluded.length)}
+            </ul>
           </div>
         )}
       </div>

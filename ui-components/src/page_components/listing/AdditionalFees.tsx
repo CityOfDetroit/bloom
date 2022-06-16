@@ -28,7 +28,7 @@ const AdditionalFees = (props: AdditionalFeesProps) => {
       <p className="info-card__title">{t("listings.sections.additionalFees")}</p>
       <div className="info-card__columns text-sm">
         {props.applicationFee && (
-          <div className="info-card__column">
+          <div className="info-card__column-2">
             <div className="text-base">{t("listings.applicationFee")}</div>
             <div className="text-xl font-bold">${props.applicationFee}</div>
             <div>{t("listings.applicationPerApplicantAgeDescription")}</div>
@@ -36,7 +36,7 @@ const AdditionalFees = (props: AdditionalFeesProps) => {
           </div>
         )}
         {(props.depositMin || props.depositMax) && (
-          <div className="info-card__column">
+          <div className="info-card__column-2">
             <div className="text-base">{t("t.deposit")}</div>
             <div className="text-xl font-bold">{getDeposit()}</div>
             {props.depositHelperText && <div>{props.depositHelperText}</div>}
@@ -45,7 +45,7 @@ const AdditionalFees = (props: AdditionalFeesProps) => {
       </div>
       <div className="info-card__columns text-sm">
         {props?.footerContent?.map((elem, idx) => (
-          <div key={`footer_info_${idx}`} style={{ flex: "1 1 50%" }} className="mt-6">
+          <div key={`footer_info_${idx}`} className=" info-card__column-2">
             {elem}
           </div>
         ))}

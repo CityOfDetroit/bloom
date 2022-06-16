@@ -41,3 +41,12 @@
 .info-card__column {
   @apply flex-1;
 }
+
+.info-card__column-2 {
+  flex: 1 1 100%;
+  @apply mt-4;
+  @apply mr-4;
+  @media (min-width: 440px) {
+    flex: 1 1 45%;
+  }
+}
