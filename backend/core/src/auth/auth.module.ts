@@ -4,6 +4,7 @@ import { LocalMfaStrategy } from "./passport-strategies/local-mfa.strategy"
 import { JwtStrategy } from "./passport-strategies/jwt.strategy"
 import { PassportModule } from "@nestjs/passport"
 import { TypeOrmModule } from "@nestjs/typeorm"
+import { TwilioModule } from "nestjs-twilio"
 import { RevokedToken } from "./entities/revoked-token.entity"
 import { SharedModule } from "../shared/shared.module"
 import { ConfigModule, ConfigService } from "@nestjs/config"
@@ -23,7 +24,6 @@ import { SmsMfaService } from "./services/sms-mfa.service"
 import { UserPreferencesController } from "./controllers/user-preferences.controller"
 import { UserPreferencesService } from "./services/user-preferences.services"
 import { UserPreferences } from "./entities/user-preferences.entity"
-import { TwilioModule } from "nestjs-twilio"
 
 @Module({
   imports: [
