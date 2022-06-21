@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React from "react"
 import ReactDOMServer from "react-dom/server"
 import Markdown from "markdown-to-jsx"
 import moment from "moment"
@@ -35,8 +35,6 @@ import {
   WhatToExpect,
   t,
   ExpandableText,
-  PreferencesList,
-  AuthContext,
 } from "@bloom-housing/ui-components"
 import {
   cloudinaryPdfFromId,
@@ -54,8 +52,6 @@ import {
   getUnitGroupSummary,
   openInFuture,
 } from "../lib/helpers"
-import { IgnorePlugin } from "webpack"
-import { util } from "prettier"
 
 interface ListingProcessProps {
   listing: Listing
@@ -376,17 +372,20 @@ export const ListingView = (props: ListingProps) => {
 
   const getUtilitiesIncluded = () => {
     let utilitiesExist = false
-    const utilities = Object.keys(listing?.utilities ?? {}).map((utility, index) => {
-      if (listing?.utilities[utility]) {
-        utilitiesExist = true
-        return (
-          <li key={index} className={"list-disc list-inside"}>
-            {t(`listings.utilities.${utility}`)}
-          </li>
-        )
-      }
-    })
-    const utilitiesIncluded = utilities.filter((utility) => utility)
+    const utilitiesIncluded = Object.keys(listing?.utilities ?? {}).reduce(
+      (acc, current, index) => {
+        if (listing?.utilities[current]) {
+          utilitiesExist = true
+          acc.push(
+            <li key={index} className={"list-disc list-inside"}>
+              {t(`listings.utilities.${current}`)}
+            </li>
+          )
+        }
+        return acc
+      },
+      []
+    )
     return utilitiesExist ? (
       <div>
         <div className="text-base">{t("listings.sections.utilities")}</div>
@@ -394,10 +393,8 @@ export const ListingView = (props: ListingProps) => {
           <ul>{utilitiesIncluded}</ul>
         ) : (
           <div className="flex">
-            <ul className="float-left w-1/2">{utilitiesIncluded.slice(3)}</ul>
-            <ul className="float-right w-1/2">
-              {utilitiesIncluded.slice(4, utilitiesIncluded.length)}
-            </ul>
+            <ul className="float-left w-1/2">{utilitiesIncluded.slice(0, 4)}</ul>
+            <ul className="float-right w-1/2">{utilitiesIncluded.slice(4)}</ul>
           </div>
         )}
       </div>
@@ -406,7 +403,8 @@ export const ListingView = (props: ListingProps) => {
 
   const getFooterContent = () => {
     const footerContent: (string | React.ReactNode)[] = []
-    if (getUtilitiesIncluded()) footerContent.push(getUtilitiesIncluded())
+    const utilitiesDisplay = getUtilitiesIncluded()
+    if (utilitiesDisplay) footerContent.push(utilitiesDisplay)
     if (listing?.costsNotIncluded) footerContent.push(listing.costsNotIncluded)
     return footerContent
   }
