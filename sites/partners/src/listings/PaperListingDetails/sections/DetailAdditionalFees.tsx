@@ -17,7 +17,7 @@ const DetailAdditionalFees = () => {
         )
       }
     })
-    return utilitiesExist ? utilities : <>None</>
+    return utilitiesExist ? utilities : <>{t("t.none")}</>
   }
 
   return (
