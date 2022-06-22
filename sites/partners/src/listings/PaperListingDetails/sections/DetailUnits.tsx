@@ -77,13 +77,15 @@ const DetailUnits = ({ setUnitDrawer }: DetailUnitsProps) => {
         ) : (
           <span className="text-base font-semibold pt-4">{t("t.none")}</span>
         )}
-        <GridSection columns={3} className="pt-8">
-          <GridCell>
-            <ViewItem label={t("listings.section8AcceptanceQuestion")}>
-              {listing.section8Acceptance ? t("t.yes") : t("t.no")}
-            </ViewItem>
-          </GridCell>
-        </GridSection>
+        {listing.section8Acceptance !== null && (
+          <GridSection columns={3} className="pt-8">
+            <GridCell>
+              <ViewItem label={t("listings.section8AcceptanceQuestion")}>
+                {listing.section8Acceptance ? t("t.yes") : t("t.no")}
+              </ViewItem>
+            </GridCell>
+          </GridSection>
+        )}
       </GridSection>
     </>
   )
