@@ -13,12 +13,12 @@ describe("<ContentAccordion>", () => {
   }
 
   it("toggles content section", () => {
-    const { queryByText, getByTestId, debug } = render(
+    const { queryByText, getByTestId } = render(
       <ContentAccordion customBarContent={barContent()} customExpandedContent={expandedContent()} />
     )
     expect(queryByText("Header Content")).toBeTruthy()
     expect(queryByText("Expanded Content")).toBeFalsy()
-    getByTestId("accordion-open").click()
+    getByTestId("content-accordion-button").click()
     expect(queryByText("Header Content")).toBeTruthy()
     expect(queryByText("Expanded Content")).toBeTruthy()
   })
