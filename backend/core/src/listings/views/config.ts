@@ -225,7 +225,6 @@ views.publicListings = {
     "listings.marketingDate",
     "listings.marketingSeason",
     "listings.isVerified",
-    "listings.section8Acceptance",
     "property.id",
     ...getBaseAddressSelect(["buildingAddress"]),
     "listingImages.ordinal",
