@@ -37,6 +37,7 @@ const ListingPhoto = () => {
     id: "",
     url: "",
   })
+
   const resetDrawerState = () => {
     setProgressValue(0)
     setCloudinaryData({

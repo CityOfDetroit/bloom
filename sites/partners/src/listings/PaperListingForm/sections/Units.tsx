@@ -9,16 +9,20 @@ import {
   Modal,
   AppearanceStyleType,
   AppearanceBorderType,
+  GridCell,
+  FieldGroup,
 } from "@bloom-housing/ui-components"
 import { useFormContext } from "react-hook-form"
 import UnitsSummaryForm from "../UnitsSummaryForm"
-import { TempUnit, TempUnitsSummary } from "../formTypes"
+import { FormListing, TempUnit, TempUnitsSummary } from "../formTypes"
 import { fieldHasError } from "../../../../lib/helpers"
 import { useUnitTypeList } from "../../../../lib/hooks"
 import { MinMax, MonthlyRentDeterminationType } from "@bloom-housing/backend-core/types"
 import { minMaxFinder, formatRange, formatRentRange } from "@bloom-housing/shared-helpers"
+import { YesNoAnswer } from "../../../applications/PaperApplicationForm/FormTypes"
 
 type UnitProps = {
+  listing: FormListing
   units: TempUnit[]
   unitsSummaries: TempUnitsSummary[]
   setUnits: (units: TempUnit[]) => void
@@ -26,13 +30,12 @@ type UnitProps = {
   disableUnitsAccordion: boolean
 }
 
-const FormUnits = ({ unitsSummaries, setSummaries, disableUnitsAccordion }: UnitProps) => {
+const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordion }: UnitProps) => {
   const [summaryDrawer, setSummaryDrawer] = useState<number | null>(null)
   const [summaryDeleteModal, setSummaryDeleteModal] = useState<number | null>(null)
-
   const formMethods = useFormContext()
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { errors, clearErrors, reset, getValues } = formMethods
+  const { errors, clearErrors, register, reset, getValues } = formMethods
   const { data: unitTypesData = [] } = useUnitTypeList()
 
   const unitTypeOptions = unitTypesData.map((unitType) => {
@@ -53,7 +56,16 @@ const FormUnits = ({ unitsSummaries, setSummaries, disableUnitsAccordion }: Unit
     bathRange: "listings.unitsSummary.bathRange",
     action: "",
   }
-
+  const yesNoRadioOptions = [
+    {
+      label: t("t.yes"),
+      value: YesNoAnswer.Yes,
+    },
+    {
+      label: t("t.no"),
+      value: YesNoAnswer.No,
+    },
+  ]
   useEffect(() => {
     reset({ ...getValues(), disableUnitsAccordion: disableUnitsAccordion ? "true" : "false" })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -182,6 +194,7 @@ const FormUnits = ({ unitsSummaries, setSummaries, disableUnitsAccordion }: Unit
               editSummary(unitsSummaries.length + 1)
               clearErrors("unitsSummaries")
             }}
+            dataTestId="addUnitsButton"
           >
             {t("listings.unitsSummary.add")}
           </Button>
@@ -230,6 +243,28 @@ const FormUnits = ({ unitsSummaries, setSummaries, disableUnitsAccordion }: Unit
       >
         {t("listings.unitsSummary.deleteConf")}
       </Modal>
+      <GridSection columns={3} className={"flex items-center"}>
+        <GridCell>
+          <p className="field-label m-8 mb-2 ml-0">{t("listings.section8AcceptanceQuestion")}</p>
+          <FieldGroup
+            name="section8Choice"
+            type="radio"
+            register={register}
+            fields={[
+              {
+                ...yesNoRadioOptions[0],
+                id: "section8AcceptanceYes",
+                defaultChecked: listing && listing.section8Acceptance === true,
+              },
+              {
+                ...yesNoRadioOptions[1],
+                id: "section8AcceptanceNo",
+                defaultChecked: listing && listing.section8Acceptance === false,
+              },
+            ]}
+          />
+        </GridCell>
+      </GridSection>
     </>
   )
 }

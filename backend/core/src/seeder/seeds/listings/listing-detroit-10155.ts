@@ -37,6 +37,7 @@ const listingSeed: ListingSeedType = {
   images: [],
   digitalApplication: undefined,
   paperApplication: undefined,
+  section8Acceptance: false,
   referralOpportunity: undefined,
   depositMin: undefined,
   depositMax: undefined,
@@ -58,11 +59,21 @@ const listingSeed: ListingSeedType = {
     heatingInUnit: true,
     acInUnit: true,
   },
+  utilities: {
+    water: null,
+    gas: null,
+    trash: null,
+    sewer: null,
+    electricity: null,
+    cable: null,
+    phone: null,
+    internet: null,
+  },
   listingPreferences: [],
   jurisdictionName: "Detroit",
   marketingType: ListingMarketingTypeEnum.ComingSoon,
-  whatToExpect: `<div><strong>Vacant Units</strong>:<div className="mb-3">If you are looking to move in immediately, contact the property and ask if they have any vacant units.</div><div><strong>Waitlists</strong>:<div>If none are vacant, but you are still interested in living at the property in the future, ask how you can be placed on their waitlist.</div>`,
-  whatToExpectAdditionalText: `<ul className="list-disc pl-6"><li>Property staff should walk you through the process to get on their waitlist.</li><li>You can be on waitlists for multiple properties, but you will need to contact each one of them to begin that process.</li><li>Even if you are on a waitlist, it can take months or over a year to get an available unit for that building.</li><li>Many properties that are affordable because of government funding or agreements have long waitlists. If you're on a waitlist for a property, you will be notified as available units come up.</li></ul>`,
+  whatToExpect: `This property is still under development by the property owners. If you sign up for notifications through Detroit Home Connect, we will send you updates when this property has opened up applications for residents. You can also check back later to this page for updates.`,
+  whatToExpectAdditionalText: null,
 }
 
 export class Listing10155Seed extends ListingDefaultSeed {
