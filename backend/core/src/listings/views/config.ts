@@ -15,8 +15,6 @@ const views: Views = {
       "listings.status",
       "listings.assets",
       "listings.isVerified",
-      "listings.closedAt",
-      "listings.publishedAt",
       "listings.section8Acceptance",
       "jurisdiction.id",
       "jurisdiction.name",
@@ -78,7 +76,14 @@ const views: Views = {
 }
 
 views.partnerList = {
-  select: ["listings.id", "listings.name", "listings.status", "listings.isVerified"],
+  select: [
+    "listings.id",
+    "listings.name",
+    "property.id",
+    ...getBaseAddressSelect(["buildingAddress"]),
+    "listings.status",
+    "listings.isVerified",
+  ],
   leftJoins: [
     { join: "listings.property", alias: "property" },
     { join: "property.buildingAddress", alias: "buildingAddress" },
