@@ -43,6 +43,11 @@ export enum ListingFilterKeys {
   accessibility = "accessibility",
   leasingAgents = "leasingAgents",
   jurisdiction = "jurisdiction",
+  barrierFreeUnitEntrance = "barrierFreeUnitEntrance",
+  loweredLightSwitch = "loweredLightSwitch",
+  barrierFreeBathroom = "barrierFreeBathroom",
+  wideDoorways = "wideDoorways",
+  loweredCabinets = "loweredCabinets",
 }
 
 export enum AvailabilityFilterEnum {

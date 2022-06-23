@@ -319,6 +319,7 @@ const UnitsSummaryForm = ({
                   errorMessage={t("errors.requiredFieldError")}
                   validation={{ required: true }}
                   fieldGroupClassName="grid grid-cols-2 mt-4"
+                  dataTestId="unitTypeCheckBox"
                 />
               </ViewItem>
             </GridCell>
@@ -344,6 +345,7 @@ const UnitsSummaryForm = ({
                         void trigger("totalAvailable")
                       },
                     }}
+                    dataTestId="totalCount"
                   />
                 </ViewItem>
               </GridCell>
@@ -368,6 +370,7 @@ const UnitsSummaryForm = ({
                         void trigger("maxOccupancy")
                       },
                     }}
+                    dataTestId="minOccupancy"
                   />
                 </ViewItem>
               </GridCell>
@@ -390,6 +393,7 @@ const UnitsSummaryForm = ({
                         void trigger("maxOccupancy")
                       },
                     }}
+                    dataTestId="maxOccupancy"
                   />
                 </ViewItem>
               </GridCell>
@@ -414,6 +418,7 @@ const UnitsSummaryForm = ({
                         void trigger("sqFeetMax")
                       },
                     }}
+                    dataTestId="sqFeetMin"
                   />
                 </ViewItem>
               </GridCell>
@@ -436,6 +441,7 @@ const UnitsSummaryForm = ({
                         void trigger("sqFeetMax")
                       },
                     }}
+                    dataTestId="sqFeetMax"
                   />
                 </ViewItem>
               </GridCell>
@@ -460,6 +466,7 @@ const UnitsSummaryForm = ({
                         void trigger("floorMax")
                       },
                     }}
+                    dataTestId="floorMin"
                   />
                 </ViewItem>
               </GridCell>
@@ -482,6 +489,7 @@ const UnitsSummaryForm = ({
                         void trigger("floorMax")
                       },
                     }}
+                    dataTestId="floorMax"
                   />
                 </ViewItem>
               </GridCell>
@@ -506,6 +514,7 @@ const UnitsSummaryForm = ({
                         void trigger("bathroomMax")
                       },
                     }}
+                    dataTestId="bathroomMin"
                   />
                 </ViewItem>
               </GridCell>
@@ -528,6 +537,7 @@ const UnitsSummaryForm = ({
                         void trigger("bathroomMax")
                       },
                     }}
+                    dataTestId="bathroomMax"
                   />
                 </ViewItem>
               </GridCell>
@@ -553,6 +563,7 @@ const UnitsSummaryForm = ({
                       void trigger("totalAvailable")
                     },
                   }}
+                  dataTestId="totalAvailable"
                 />
               </ViewItem>
             </GridCell>
@@ -567,6 +578,7 @@ const UnitsSummaryForm = ({
                   fieldGroupClassName="flex h-12 items-center"
                   error={errors?.openWaitlist !== undefined}
                   errorMessage={t("errors.requiredFieldError")}
+                  dataTestId="openWaitListQuestion"
                 />
               </ViewItem>
             </GridCell>
@@ -590,25 +602,11 @@ const UnitsSummaryForm = ({
                   onClick={() => {
                     editAmi((current?.amiLevels?.length || 0) + 1)
                   }}
+                  dataTestId="openAmiDrawer"
                 >
                   {t("listings.unitsSummary.addAmi")}
                 </Button>
               </div>
-            </GridCell>
-          </GridSection>
-          <GridSection title={t("t.accessibility")} columns={4} separator>
-            <GridCell>
-              <ViewItem label={t("listings.unit.accessibilityPriorityType")}>
-                <Select
-                  id="priorityType.id"
-                  name="priorityType.id"
-                  label={t("listings.unit.accessibilityPriorityType")}
-                  labelClassName="sr-only"
-                  register={register}
-                  controlClassName="control"
-                  options={options.unitPriorities}
-                />
-              </ViewItem>
             </GridCell>
           </GridSection>
         </div>
@@ -617,6 +615,7 @@ const UnitsSummaryForm = ({
             type="button"
             onClick={() => onFormSubmit()}
             styleType={AppearanceStyleType.primary}
+            dataTestId="saveUnit"
           >
             {t("t.saveExit")}
           </Button>

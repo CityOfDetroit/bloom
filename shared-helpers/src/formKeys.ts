@@ -256,4 +256,20 @@ export const listingFeatures = [
   "hearing",
   "mobility",
   "visual",
+  "barrierFreeUnitEntrance",
+  "loweredLightSwitch",
+  "barrierFreeBathroom",
+  "wideDoorways",
+  "loweredCabinets",
+]
+
+export const listingUtilities = [
+  "water",
+  "gas",
+  "trash",
+  "sewer",
+  "electricity",
+  "cable",
+  "phone",
+  "internet",
 ]

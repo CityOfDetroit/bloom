@@ -1,58 +1,56 @@
 import * as React from "react"
+import { t } from "../../helpers/translator"
 
 export interface AdditionalFeesProps {
-  /** The application fee for the property, rendered in the first block */
+  depositMin?: string
+  depositMax?: string
   applicationFee?: string
-  /** Costs not included in the deposit or application fee, rendered below both blocks */
-  costsNotIncluded?: string | React.ReactNode
-  /** The deposit amount for the property, rendered in the second block */
-  deposit?: string
-  strings: {
-    sectionHeader: string
-    deposit?: string
-    depositSubtext?: string[]
-    applicationFee?: string
-    applicationFeeSubtext?: string[]
-  }
+  depositHelperText?: string
+  footerContent?: (string | React.ReactNode)[]
+  containerClass?: string
 }
 
-const AdditionalFees = ({
-  deposit,
-  applicationFee,
-  costsNotIncluded,
-  strings,
-}: AdditionalFeesProps) => {
+const AdditionalFees = (props: AdditionalFeesProps) => {
+  if (!props.depositMin && !props.depositMax && !props.applicationFee && !props.footerContent) {
+    return <></>
+  }
+
+  const getDeposit = () => {
+    const min = props.depositMin
+    const max = props.depositMax
+    if (min && max && min !== max) {
+      return `$${min} – $${max}`
+    } else if (min) return `$${min}`
+    else return `$${max}`
+  }
   return (
-    <div className="info-card bg-gray-100 border-0">
-      <p className="info-card__title mb-2">{strings.sectionHeader}</p>
+    <div className={`info-card bg-gray-100 border-0 ${props.containerClass}`}>
+      <p className="info-card__title">{t("listings.sections.additionalFees")}</p>
       <div className="info-card__columns text-sm">
-        {applicationFee && (
-          <div className={`info-card__column ${deposit && "mr-2"}`}>
-            <div className="text-base">{strings.applicationFee}</div>
-            <div className="text-xl font-bold">{applicationFee}</div>
-            {strings.applicationFeeSubtext?.map((appFeeSubtext, index) => (
-              <div key={index}>{appFeeSubtext}</div>
-            ))}
+        {props.applicationFee && (
+          <div className="info-card__column-2">
+            <div className="text-base">{t("listings.applicationFee")}</div>
+            <div className="text-xl font-bold">${props.applicationFee}</div>
+            <div>{t("listings.applicationPerApplicantAgeDescription")}</div>
+            <div>{t("listings.applicationFeeDueAt")}</div>
           </div>
         )}
-        {deposit && (
-          <div className={`info-card__column ${applicationFee && "ml-2"}`}>
-            <div className="text-base">{strings.deposit}</div>
-            <div className="text-xl font-bold">{deposit}</div>
-            {strings.depositSubtext?.map((depositSubtext, index) => (
-              <div key={index}>{depositSubtext}</div>
-            ))}
+        {(props.depositMin || props.depositMax) && (
+          <div className="info-card__column-2">
+            <div className="text-base">{t("t.deposit")}</div>
+            <div className="text-xl font-bold">{getDeposit()}</div>
+            {props.depositHelperText && <div>{props.depositHelperText}</div>}
           </div>
         )}
       </div>
-
-      {costsNotIncluded && (
-        <p className={`text-sm mt-2 ${(applicationFee || deposit) && `mt-6`}`}>
-          {costsNotIncluded}
-        </p>
-      )}
+      <div className="info-card__columns text-sm">
+        {props?.footerContent?.map((elem, idx) => (
+          <div key={`footer_info_${idx}`} className=" info-card__column-2">
+            {elem}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
-
 export { AdditionalFees as default, AdditionalFees }
