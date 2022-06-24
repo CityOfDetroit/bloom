@@ -76,7 +76,14 @@ const views: Views = {
 }
 
 views.partnerList = {
-  select: ["listings.id", "listings.name", "listings.status", "listings.isVerified"],
+  select: [
+    "listings.id",
+    "listings.name",
+    "property.id",
+    ...getBaseAddressSelect(["buildingAddress"]),
+    "listings.status",
+    "listings.isVerified",
+  ],
   leftJoins: [
     { join: "listings.property", alias: "property" },
     { join: "property.buildingAddress", alias: "buildingAddress" },

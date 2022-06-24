@@ -17,7 +17,6 @@ import {
   Description,
   EventSection,
   EventType,
-  ExpandableText,
   FavoriteButton,
   GetApplication,
   GroupedTable,
@@ -43,7 +42,6 @@ import {
   imageUrlFromListing,
   occupancyTable,
   getTimeRangeString,
-  getCurrencyRange,
   getPostmarkString,
 } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"

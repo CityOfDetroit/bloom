@@ -13,9 +13,6 @@ import {
   Field,
   MinimalTable,
   Select,
-  Textarea,
-  PhoneField,
-  PhoneMask,
   StandardTableData,
 } from "@bloom-housing/ui-components"
 import { YesNoAnswer } from "../../../applications/PaperApplicationForm/FormTypes"
@@ -38,9 +35,7 @@ const ApplicationTypes = ({ listing }: { listing: FormListing }) => {
   const { register, setValue, watch, errors } = useFormContext()
   // watch fields
   const digitalApplicationChoice = watch("digitalApplicationChoice")
-  const commonDigitalApplicationChoice = watch("commonDigitalApplicationChoice")
   const paperApplicationChoice = watch("paperApplicationChoice")
-  const referralOpportunityChoice = watch("referralOpportunityChoice")
   /*
     Set state for methods, drawer, upload progress, and more
   */
