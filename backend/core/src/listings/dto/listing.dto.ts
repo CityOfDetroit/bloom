@@ -1,8 +1,8 @@
 import { Listing } from "../entities/listing.entity"
 import { Expose, plainToClass, Transform, Type } from "class-transformer"
 import { IsDefined, IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator"
-import dayjs from "dayjs"
 import { ApiProperty, OmitType } from "@nestjs/swagger"
+import { Column } from "typeorm"
 import { AddressDto } from "../../shared/dto/address.dto"
 import { ValidationsGroupsEnum } from "../../shared/types/validations-groups-enum"
 import { ListingStatus } from "../types/listing-status-enum"
@@ -16,7 +16,7 @@ import { UserBasicDto } from "../../auth/dto/user-basic.dto"
 import { ApplicationMethodDto } from "../../application-methods/dto/application-method.dto"
 import { UnitGroupDto } from "../../units-summary/dto/unit-group.dto"
 import { ListingFeaturesDto } from "./listing-features.dto"
-import { Column } from "typeorm"
+import { ListingUtilitiesDto } from "./listing-utilities.dto"
 import { Region } from "../../property/types/region-enum"
 import { ListingPreferenceDto } from "../../preferences/dto/listing-preference.dto"
 import { ListingProgramDto } from "../../program/dto/listing-program.dto"
@@ -41,6 +41,7 @@ export class ListingDto extends OmitType(Listing, [
   "result",
   "unitGroups",
   "features",
+  "utilities",
 ] as const) {
   @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
@@ -347,4 +348,9 @@ export class ListingDto extends OmitType(Listing, [
   @Type(() => ListingFeaturesDto)
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   features?: ListingFeaturesDto
+
+  @Expose()
+  @Type(() => ListingUtilitiesDto)
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  utilities?: ListingUtilitiesDto
 }

@@ -752,18 +752,6 @@ const ApplicationAddress = ({ listing }: ApplicationAddressProps) => {
             )}
           </GridCell>
         </GridSection>
-        <GridSection columns={3}>
-          <GridCell span={2}>
-            <Textarea
-              label={t("listings.additionalApplicationSubmissionNotes")}
-              name={"additionalApplicationSubmissionNotes"}
-              id={"additionalApplicationSubmissionNotes"}
-              fullWidth={true}
-              register={register}
-              placeholder={t("t.addNotes")}
-            />
-          </GridCell>
-        </GridSection>
       </GridSection>
     </div>
   )

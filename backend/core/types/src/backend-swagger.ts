@@ -5276,6 +5276,47 @@ export interface ListingFeatures {
 
   /**  */
   mobility?: boolean
+
+  /**  */
+  barrierFreeUnitEntrance?: boolean
+
+  /**  */
+  loweredLightSwitch?: boolean
+
+  /**  */
+  barrierFreeBathroom?: boolean
+
+  /**  */
+  wideDoorways?: boolean
+
+  /**  */
+  loweredCabinets?: boolean
+}
+
+export interface ListingUtilities {
+  /**  */
+  water?: boolean
+
+  /**  */
+  gas?: boolean
+
+  /**  */
+  trash?: boolean
+
+  /**  */
+  sewer?: boolean
+
+  /**  */
+  electricity?: boolean
+
+  /**  */
+  cable?: boolean
+
+  /**  */
+  phone?: boolean
+
+  /**  */
+  internet?: boolean
 }
 
 export interface Listing {
@@ -5412,6 +5453,9 @@ export interface Listing {
   features?: ListingFeatures
 
   /**  */
+  utilities?: ListingUtilities
+
+  /**  */
   id: string
 
   /**  */
@@ -5437,6 +5481,9 @@ export interface Listing {
 
   /**  */
   referralOpportunity?: boolean
+
+  /**  */
+  section8Acceptance?: boolean
 
   /**  */
   assets: AssetCreate[]
@@ -5909,6 +5956,9 @@ export interface ListingCreate {
   referralOpportunity?: boolean
 
   /**  */
+  section8Acceptance?: boolean
+
+  /**  */
   assets: AssetCreate[]
 
   /**  */
@@ -6057,6 +6107,9 @@ export interface ListingCreate {
 
   /**  */
   features?: ListingFeatures
+
+  /**  */
+  utilities?: ListingUtilities
 }
 
 export interface ListingEventUpdate {
@@ -6389,6 +6442,9 @@ export interface ListingUpdate {
   referralOpportunity?: boolean
 
   /**  */
+  section8Acceptance?: boolean
+
+  /**  */
   assets: AssetCreate[]
 
   /**  */
@@ -6537,6 +6593,9 @@ export interface ListingUpdate {
 
   /**  */
   features?: ListingFeatures
+
+  /**  */
+  utilities?: ListingUtilities
 }
 
 export interface PreferencesFilterParams {
@@ -7136,9 +7195,8 @@ export enum ListingSeasonEnum {
 }
 
 export enum Region {
-  "Downtown" = "Downtown",
+  "Greater Downtown" = "Greater Downtown",
   "Eastside" = "Eastside",
-  "Midtown - New Center" = "Midtown - New Center",
   "Southwest" = "Southwest",
   "Westside" = "Westside",
 }
