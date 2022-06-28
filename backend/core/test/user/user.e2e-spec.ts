@@ -957,7 +957,8 @@ describe("Users", () => {
       .expect(201)
   })
 
-  it("should not crash with empty search query param", async () => {
+  // TODO: add back when adding search to users
+  it.skip("should not crash with empty search query param", async () => {
     const usersRepository = app.get<UserRepository>(UserRepository)
 
     const totalUsersCount = await usersRepository.count()
@@ -969,7 +970,8 @@ describe("Users", () => {
     expect(allUsersListRes.body.meta.totalItems).toBe(totalUsersCount)
   })
 
-  it("should find user by email and assigned listing", async () => {
+  // TODO: add back when adding search to users
+  it.skip("should find user by email and assigned listing", async () => {
     const searchableEmailAddress = "searchable-email@example.com"
     const listing = (await listingRepository.find({ take: 1 }))[0]
     const userCreateDto: UserCreateDto = {

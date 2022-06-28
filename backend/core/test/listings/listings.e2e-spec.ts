@@ -36,7 +36,6 @@ describe("Listings", () => {
   let app: INestApplication
   let programsRepository: Repository<Program>
   let adminAccessToken: string
-  let jurisdictionsRepository: Repository<Jurisdiction>
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -448,7 +447,7 @@ describe("Listings", () => {
 
   it("sorts listings by most recently updated when that orderBy param is set", async () => {
     const res = await supertest(app.getHttpServer())
-      .get(`/listings?orderBy[0]=mostRecentlyUpdated&orderDir[0]=DESC&limit=all`)
+      .get(`/listings?orderBy=mostRecentlyUpdated&limit=all`)
       .expect(200)
     for (let i = 0; i < res.body.items.length - 1; ++i) {
       const currentUpdatedAt = new Date(res.body.items[i].updatedAt)
@@ -484,7 +483,7 @@ describe("Listings", () => {
 
     // Get the second page of 5 results
     const secondPage = await supertest(app.getHttpServer())
-      .get(`/listings?orderBy[0]=mostRecentlyUpdated&orderDir[0]=DESC&limit=5&page=2`)
+      .get(`/listings?orderBy=mostRecentlyUpdated&limit=5&page=2`)
       .expect(200)
 
     // Verify that each of the listings on the second page was less recently updated than the last
