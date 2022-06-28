@@ -4696,6 +4696,9 @@ export interface ListingFilterParams {
 
   /**  */
   region?: string
+
+  /**  */
+  section8Acceptance?: boolean
 }
 
 export interface ListingsApiExtraModels {
