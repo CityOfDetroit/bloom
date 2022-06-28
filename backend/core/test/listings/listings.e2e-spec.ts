@@ -21,7 +21,6 @@ import { ListingUpdateDto } from "../../src/listings/dto/listing-update.dto"
 import { Program } from "../../src/program/entities/program.entity"
 import { Repository } from "typeorm"
 import { INestApplication } from "@nestjs/common"
-import { Jurisdiction } from "../../src/jurisdictions/entities/jurisdiction.entity"
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const dbOptions = require("../../ormconfig.test")
@@ -41,7 +40,6 @@ describe("Listings", () => {
     const moduleRef = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(dbOptions),
-        TypeOrmModule.forFeature([Jurisdiction]),
         ListingsModule,
         AssetsModule,
         ApplicationMethodsModule,
@@ -54,9 +52,6 @@ describe("Listings", () => {
     await app.init()
     programsRepository = app.get<Repository<Program>>(getRepositoryToken(Program))
     adminAccessToken = await getUserAccessToken(app, "admin@example.com", "abcdef")
-    jurisdictionsRepository = moduleRef.get<Repository<Jurisdiction>>(
-      getRepositoryToken(Jurisdiction)
-    )
   })
 
   it("should return all listings", async () => {
