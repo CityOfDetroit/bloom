@@ -73,6 +73,7 @@
   "dependencies": {
     "@bloom-housing/backend-core": "^4.4.0",
     "@mapbox/mapbox-sdk": "^0.13.0",
+    "@types/body-scroll-lock": "^2.6.1",
     "@types/jwt-decode": "^2.2.1",
     "@types/markdown-to-jsx": "^6.11.2",
     "@types/mdx": "^2.0.1",
