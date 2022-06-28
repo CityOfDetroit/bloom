@@ -3,7 +3,6 @@ import { cleanup } from "@testing-library/react"
 import { occupancyTable } from "../src/occupancyFormatting"
 import { Listing, UnitType, UnitGroup } from "@bloom-housing/backend-core/types"
 
-const unitTypeSRO = { name: "SRO", numBedrooms: 0 } as UnitType
 const unitTypeStudio = { name: "studio", numBedrooms: 0 } as UnitType
 const unitTypeOneBdrm = { name: "oneBdrm", numBedrooms: 1 } as UnitType
 const unitTypeTwoBdrm = { name: "twoBdrm", numBedrooms: 2 } as UnitType
