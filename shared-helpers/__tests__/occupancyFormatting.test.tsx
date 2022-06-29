@@ -44,11 +44,6 @@ const unitGroups: Omit<
     maxOccupancy: undefined,
   },
   {
-    unitType: [unitTypeSRO],
-    minOccupancy: undefined,
-    maxOccupancy: 1,
-  },
-  {
     unitType: [unitTypeTwoBdrm],
     minOccupancy: 1,
     maxOccupancy: 1,
@@ -81,10 +76,6 @@ describe("occupancy formatting helpers", () => {
         {
           occupancy: "1-2 people",
           unitType: <strong>Studio, 1 BR</strong>,
-        },
-        {
-          occupancy: "at most 1 person",
-          unitType: <strong>SRO</strong>,
         },
         {
           occupancy: "1-3 people",
