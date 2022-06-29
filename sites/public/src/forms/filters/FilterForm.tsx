@@ -69,10 +69,9 @@ const FilterForm = (props: FilterFormProps) => {
       try {
         const response = await axios.get(`${process.env.backendApiBase}/listings/meta`)
         if (response.data) {
-          console.log(response.data)
           if (response.data.unitTypes) {
             setBedroomOptions(
-              response.data.unitTypes.map((elem: { name: string; id: any }) => ({
+              response.data.unitTypes.map((elem) => ({
                 label: elem.name,
                 value: elem.id,
                 translation: getTranslationString(elem.name),
