@@ -153,6 +153,7 @@ export type IconSize =
   | "small"
   | "base"
   | "medium"
+  | "md-large"
   | "large"
   | "xlarge"
   | "2xl"

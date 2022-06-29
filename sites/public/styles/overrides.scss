@@ -92,9 +92,10 @@ $header-desktop-min-size: 1024px;
   --normal-font-size: var(--bloom-font-size-base);
   --label-letter-spacing: normal;
   --label-transform: none;
-  svg {
-    height: 1.5rem;
-    width: 1.5rem;
+  &:hover {
+    svg {
+      fill: var(--bloom-color-white);
+    }
   }
   .ui-icon {
     &.button__icon {

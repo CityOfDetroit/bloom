@@ -51,3 +51,11 @@
   --outlined-appearance-hover-background-color: var(--bloom-color-primary-dark);
   --outlined-appearance-hover-border-color: var(--bloom-color-primary-dark);
 }
+
+.button {
+  &:hover {
+    svg {
+      fill: var(--bloom-color-white);
+    }
+  }
+}
