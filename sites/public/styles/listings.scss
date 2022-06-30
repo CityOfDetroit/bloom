@@ -115,6 +115,7 @@
 }
 
 .coming-soon-listings {
+  padding: 24px 0 0 0;
   .listings-row_table,
   .listings-row_footer_container {
     display: none;
@@ -141,4 +142,10 @@
   .image-card img {
     height: 70%;
   }
+}
+.coming-soon-title-only {
+  justify-content: flex-start !important;
+}
+.coming-soon-title-button {
+  justify-content: space-between !important;
 }

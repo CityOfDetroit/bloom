@@ -20,7 +20,6 @@ import styles from "./index.module.scss"
 import horizontalSectionStyles from "../lib/HorizontalScrollSection.module.scss"
 import {
   EnumListingFilterParamsComparison,
-  EnumListingFilterParamsMarketingType,
   EnumListingFilterParamsStatus,
   Listing,
 } from "@bloom-housing/backend-core/types"
@@ -34,7 +33,7 @@ import {
 
 export default function Home({ latestListings, comingSoonListings }) {
   const showLatestListings = false // Disabled for now
-
+  const showSeeMoreButton = comingSoonListings?.items?.length > 3
   const blankAlertInfo = {
     alertMessage: null,
     alertType: null,
@@ -123,29 +122,38 @@ export default function Home({ latestListings, comingSoonListings }) {
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
-      {console.log(comingSoonListings)}
       {comingSoonListings?.items && (
         <section className={`coming-soon-listings`}>
-          <div className={horizontalSectionStyles.title}>
-            <Icon
-              size="xlarge"
-              symbol="clock"
-              className={horizontalSectionStyles.icon}
-              ariaHidden={true}
-            />
-            <h2
-              className={`${horizontalSectionStyles.title__text} ${horizontalSectionStyles["icon-space"]}`}
-            >
-              {t("listings.comingSoon")}
-            </h2>
-            {comingSoonListings?.items?.length > 3 && <ComingSoonButton />}
+          <div
+            className={`${horizontalSectionStyles.title} ${
+              showSeeMoreButton ? "coming-soon-title-button" : "coming-soon-title-only"
+            }`}
+          >
+            <div style={{ display: "inline-block" }}>
+              <Icon
+                size="xlarge"
+                symbol="clock"
+                className={horizontalSectionStyles.icon}
+                ariaHidden={true}
+              />
+              <h2
+                className={`${horizontalSectionStyles.title__text} ${horizontalSectionStyles["icon-space"]}`}
+              >
+                {t("listings.comingSoon")}
+              </h2>
+            </div>
+            {showSeeMoreButton && (
+              <div className="coming-soon-button">
+                <ComingSoonButton />
+              </div>
+            )}
           </div>
           <div className={`${styles["coming-soon"]} ${horizontalSectionStyles.content}`}>
-            {getListings(comingSoonListings?.items)}
+            {getListings(comingSoonListings?.items.slice(0, -1))}
           </div>
         </section>
       )}
-      {
+      {showLatestListings && latestListings?.items && (
         <HorizontalScrollSection
           title={t("welcome.latestListings")}
           subtitle={getLastUpdatedString(latestListings.items)}
@@ -155,7 +163,7 @@ export default function Home({ latestListings, comingSoonListings }) {
         >
           {getListings(latestListings.items)}
         </HorizontalScrollSection>
-      }
+      )}
       <HorizontalScrollSection
         title={t("welcome.cityRegions")}
         scrollAmount={311}
