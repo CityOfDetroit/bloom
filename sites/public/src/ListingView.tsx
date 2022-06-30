@@ -88,29 +88,30 @@ export const ListingProcess = (props: ListingProcessProps) => {
       {openHouseEvents && (
         <EventSection events={openHouseEvents} headerText={t("listings.openHouseEvent.header")} />
       )}
-      {!applicationsClosed && (
-        <QuantityRowSection
-          quantityRows={[
-            {
-              text: t("listings.waitlist.currentSize"),
-              amount: listing.waitlistCurrentSize,
-            },
-            {
-              text: t("listings.waitlist.openSlots"),
-              amount: listing.waitlistOpenSpots,
-              emphasized: true,
-            },
-            {
-              text: t("listings.waitlist.finalSize"),
-              amount: listing.waitlistMaxSize,
-            },
-          ]}
-          strings={{
-            sectionTitle: t("listings.waitlist.unitsAndWaitlist"),
-            description: t("listings.waitlist.submitAnApplication"),
-          }}
-        />
-      )}
+      {listing.isWaitlistOpen &&
+        (listing.waitlistCurrentSize || listing.waitlistOpenSpots || listing.waitlistMaxSize) && (
+          <QuantityRowSection
+            quantityRows={[
+              {
+                text: t("listings.waitlist.currentSize"),
+                amount: listing.waitlistCurrentSize,
+              },
+              {
+                text: t("listings.waitlist.openSlots"),
+                amount: listing.waitlistOpenSpots,
+                emphasized: true,
+              },
+              {
+                text: t("listings.waitlist.finalSize"),
+                amount: listing.waitlistMaxSize,
+              },
+            ]}
+            strings={{
+              sectionTitle: t("listings.waitlist.unitsAndWaitlist"),
+              description: t("listings.waitlist.submitAnApplication"),
+            }}
+          />
+        )}
       {hasNonReferralMethods && !applicationsClosed && applySidebar()}
       {listing?.referralApplication && (
         <ReferralApplication
