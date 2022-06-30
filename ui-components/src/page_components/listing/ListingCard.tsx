@@ -91,29 +91,6 @@ const ListingCard = (props: ListingCardProps) => {
       <>
         {getHeader(contentProps?.contentHeader, 2, "cardHeader", "order-1")}
         {getHeader(contentProps?.contentSubheader, 3, "cardSubheader", "order-2")}
-        {cardTags && cardTags?.length > 0 && (
-          <div className={"inline-flex flex-wrap justify-start w-full"}>
-            {cardTags?.map((cardTag, index) => {
-              return (
-                <Tag
-                  styleType={AppearanceStyleType.accentLight}
-                  className={"me-2 mb-2 font-bold px-3 py-2"}
-                  key={index}
-                >
-                  {cardTag.iconType && (
-                    <Icon
-                      size={"medium"}
-                      symbol={cardTag.iconType}
-                      fill={cardTag.iconColor ?? IconFillColors.primary}
-                      className={"me-2"}
-                    />
-                  )}
-                  {cardTag.text}
-                </Tag>
-              )
-            })}
-          </div>
-        )}
       </>
     )
   }
@@ -129,6 +106,29 @@ const ListingCard = (props: ListingCardProps) => {
           <div className={"listings-row_headers"}>
             {getHeader(contentProps?.tableHeader, 4, "tableHeader")}
             {getHeader(contentProps?.tableSubheader, 5, "tableSubheader")}
+            {cardTags && cardTags?.length > 0 && (
+              <div className={"inline-flex flex-wrap justify-start w-full"}>
+                {cardTags?.map((cardTag, index) => {
+                  return (
+                    <Tag
+                      styleType={AppearanceStyleType.accentLight}
+                      className={"me-2 mb-2 font-bold px-3 py-2"}
+                      key={index}
+                    >
+                      {cardTag.iconType && (
+                        <Icon
+                          size={"medium"}
+                          symbol={cardTag.iconType}
+                          fill={cardTag.iconColor ?? IconFillColors.primary}
+                          className={"me-2"}
+                        />
+                      )}
+                      {cardTag.text}
+                    </Tag>
+                  )
+                })}
+              </div>
+            )}
           </div>
           {children && children}
           {tableProps && (tableProps.data || tableProps.stackedData) && (
