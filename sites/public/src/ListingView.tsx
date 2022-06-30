@@ -151,7 +151,9 @@ export const ListingProcess = (props: ListingProcessProps) => {
           contactAddress={listing.leasingAgentAddress}
           contactEmail={listing.leasingAgentEmail}
           contactName={listing.leasingAgentName}
-          contactPhoneNumber={`${t("t.call")} ${listing.leasingAgentPhone}`}
+          contactPhoneNumber={
+            listing.leasingAgentPhone ? `${t("t.call")} ${listing.leasingAgentPhone}` : undefined
+          }
           contactPhoneNumberNote={t("leasingAgent.dueToHighCallVolume")}
           contactTitle={listing.leasingAgentTitle}
           strings={{
