@@ -73,6 +73,8 @@
 }
 
 .latest-listings {
+  grid-auto-columns: fit-content(33%);
+
   .listings-row_table,
   .listings-row_footer_container {
     display: none;
@@ -137,6 +139,6 @@
   }
 
   .image-card img {
-    height: 63.3%;
+    height: 70%;
   }
 }

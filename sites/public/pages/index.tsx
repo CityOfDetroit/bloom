@@ -83,6 +83,16 @@ export default function Home({ latestListings, comingSoonListings }) {
     </a>
   )
 
+  const ComingSoonButton = () => (
+    <LinkButton
+      href={`/listings/filtered?page=1${encodeToFrontendFilterString({
+        availability: "comingSoon",
+      })}`}
+    >
+      See All Coming Soon
+    </LinkButton>
+  )
+
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
   const metaImage = "" // TODO: replace with hero image
   const alertClasses = "flex-grow mt-6 max-w-6xl w-full"
@@ -128,13 +138,14 @@ export default function Home({ latestListings, comingSoonListings }) {
             >
               {t("listings.comingSoon")}
             </h2>
+            {comingSoonListings?.items?.length > 3 && <ComingSoonButton />}
           </div>
-          <div className={horizontalSectionStyles.content}>
+          <div className={`${styles["coming-soon"]} ${horizontalSectionStyles.content}`}>
             {getListings(comingSoonListings?.items)}
           </div>
         </section>
       )}
-      {showLatestListings && latestListings?.items && (
+      {
         <HorizontalScrollSection
           title={t("welcome.latestListings")}
           subtitle={getLastUpdatedString(latestListings.items)}
@@ -144,7 +155,7 @@ export default function Home({ latestListings, comingSoonListings }) {
         >
           {getListings(latestListings.items)}
         </HorizontalScrollSection>
-      )}
+      }
       <HorizontalScrollSection
         title={t("welcome.cityRegions")}
         scrollAmount={311}
@@ -223,7 +234,7 @@ export async function getStaticProps() {
   try {
     const comingSoonResponse = await axios.get(process.env.listingServiceUrl, {
       params: {
-        limit: 3,
+        limit: 4,
         view: "base",
         filter: [
           {

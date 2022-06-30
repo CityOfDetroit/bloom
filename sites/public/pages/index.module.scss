@@ -2,6 +2,10 @@
   padding: 24px 0 0 0;
 }
 
+.coming-soon {
+  grid-auto-columns: fit-content(33%);
+}
+
 .regions {
   padding: 24px 0;
 }
