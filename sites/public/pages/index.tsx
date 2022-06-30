@@ -17,8 +17,10 @@ import { HorizontalScrollSection } from "../lib/HorizontalScrollSection"
 import axios from "axios"
 import qs from "qs"
 import styles from "./index.module.scss"
+import horizontalSectionStyles from "../lib/HorizontalScrollSection.module.scss"
 import {
   EnumListingFilterParamsComparison,
+  EnumListingFilterParamsMarketingType,
   EnumListingFilterParamsStatus,
   Listing,
 } from "@bloom-housing/backend-core/types"
@@ -30,7 +32,7 @@ import {
   encodeToFrontendFilterString,
 } from "@bloom-housing/shared-helpers"
 
-export default function Home({ latestListings }) {
+export default function Home({ latestListings, comingSoonListings }) {
   const showLatestListings = false // Disabled for now
 
   const blankAlertInfo = {
@@ -111,6 +113,27 @@ export default function Home({ latestListings }) {
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
+      {console.log(comingSoonListings)}
+      {comingSoonListings?.items && (
+        <section className={`coming-soon-listings`}>
+          <div className={horizontalSectionStyles.title}>
+            <Icon
+              size="xlarge"
+              symbol="clock"
+              className={horizontalSectionStyles.icon}
+              ariaHidden={true}
+            />
+            <h2
+              className={`${horizontalSectionStyles.title__text} ${horizontalSectionStyles["icon-space"]}`}
+            >
+              {t("listings.comingSoon")}
+            </h2>
+          </div>
+          <div className={horizontalSectionStyles.content}>
+            {getListings(comingSoonListings?.items)}
+          </div>
+        </section>
+      )}
       {showLatestListings && latestListings?.items && (
         <HorizontalScrollSection
           title={t("welcome.latestListings")}
@@ -173,8 +196,9 @@ export default function Home({ latestListings }) {
 
 export async function getStaticProps() {
   let latestListings = []
+  let comingSoonListings = []
   try {
-    const response = await axios.get(process.env.listingServiceUrl, {
+    const latestResponse = await axios.get(process.env.listingServiceUrl, {
       params: {
         limit: 5,
         orderBy: "mostRecentlyUpdated",
@@ -191,9 +215,32 @@ export async function getStaticProps() {
         return qs.stringify(params)
       },
     })
-    latestListings = response.data
+    latestListings = latestResponse.data
   } catch (error) {
     console.error(error)
   }
-  return { props: { latestListings }, revalidate: process.env.cacheRevalidate }
+
+  try {
+    const comingSoonResponse = await axios.get(process.env.listingServiceUrl, {
+      params: {
+        limit: 3,
+        view: "base",
+        filter: [
+          {
+            $comparison: EnumListingFilterParamsComparison["="],
+            status: EnumListingFilterParamsStatus.active,
+            marketingType: "comingSoon",
+          },
+        ],
+      },
+      paramsSerializer: (params) => {
+        return qs.stringify(params)
+      },
+    })
+    comingSoonListings = comingSoonResponse.data
+  } catch (error) {
+    console.error(error)
+  }
+
+  return { props: { latestListings, comingSoonListings }, revalidate: process.env.cacheRevalidate }
 }
