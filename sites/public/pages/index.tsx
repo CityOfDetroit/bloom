@@ -123,7 +123,7 @@ export default function Home({ latestListings, comingSoonListings }) {
       </Hero>
       {comingSoonListings?.items?.length > 0 && (
         <section className={`coming-soon-listings`}>
-          <div className={`${horizontalSectionStyles.title}  coming-soon-title-button`}>
+          <div className={`${horizontalSectionStyles.title}  coming-soon-title`}>
             <div className={"flex items-center"}>
               <Icon
                 size="xlarge"

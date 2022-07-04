@@ -3,8 +3,8 @@
 }
 
 .coming-soon {
-  padding: 24px 0 0 0;
-  padding-top: 34px;
+  padding: 24px;
+  justify-content: space-evenly;
   @screen md {
     display: grid;
     grid-auto-flow: column;

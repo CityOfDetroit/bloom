@@ -116,20 +116,16 @@
 
 .coming-soon-listings {
   padding: 24px 0 0 0;
-
   .listings-row_table,
   .listings-row_footer_container {
     display: none;
   }
-
   .listings-row {
-    @apply my-4;
+    @apply mt-0;
+    @apply mb-2;
     @apply px-2;
     max-width: 30rem;
-  }
-
-  .listings-row:hover {
-    opacity: 0.7;
+    flex-direction: column;
   }
 
   .listings-row_content {
@@ -147,6 +143,6 @@
   }
 }
 
-.coming-soon-title-button {
+.coming-soon-title {
   justify-content: space-between !important;
 }
