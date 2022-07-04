@@ -116,13 +116,16 @@
 
 .coming-soon-listings {
   padding: 24px 0 0 0;
+
   .listings-row_table,
   .listings-row_footer_container {
     display: none;
   }
 
   .listings-row {
-    margin: 0 15px;
+    @apply my-4;
+    @apply px-2;
+    max-width: 30rem;
   }
 
   .listings-row:hover {

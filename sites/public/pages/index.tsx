@@ -33,7 +33,6 @@ import {
 
 export default function Home({ latestListings, comingSoonListings }) {
   const showLatestListings = false // Disabled for now
-  const showSeeMoreButton = comingSoonListings?.items?.length > 3
   const blankAlertInfo = {
     alertMessage: null,
     alertType: null,
@@ -122,11 +121,10 @@ export default function Home({ latestListings, comingSoonListings }) {
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
-      {console.log(comingSoonListings.items)}
       {comingSoonListings?.items?.length > 0 && (
         <section className={`coming-soon-listings`}>
           <div className={`${horizontalSectionStyles.title}  coming-soon-title-button`}>
-            <div className={"flex"}>
+            <div className={"flex items-center"}>
               <Icon
                 size="xlarge"
                 symbol="clock"
@@ -134,16 +132,14 @@ export default function Home({ latestListings, comingSoonListings }) {
                 ariaHidden={true}
               />
               <h2
-                className={`${horizontalSectionStyles.title__text} ${horizontalSectionStyles["icon-space"]}`}
+                className={`${horizontalSectionStyles.title__text} ${horizontalSectionStyles["icon-space"]} pr-8`}
               >
                 {t("listings.comingSoon")}
               </h2>
             </div>
             <ComingSoonButton />
           </div>
-          <div className={`${styles["coming-soon"]} ${horizontalSectionStyles.content}`}>
-            {getListings(comingSoonListings?.items)}
-          </div>
+          <div className={`${styles["coming-soon"]}`}>{getListings(comingSoonListings?.items)}</div>
         </section>
       )}
       {showLatestListings && latestListings?.items && (

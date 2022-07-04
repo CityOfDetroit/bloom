@@ -3,8 +3,12 @@
 }
 
 .coming-soon {
-  grid-auto-columns: fit-content(33%);
-  justify-content: center;
+  padding: 24px 0 0 0;
+  padding-top: 34px;
+  @screen md {
+    display: grid;
+    grid-auto-flow: column;
+  }
 }
 
 .regions {
