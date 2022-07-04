@@ -122,14 +122,11 @@ export default function Home({ latestListings, comingSoonListings }) {
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
-      {comingSoonListings?.items && (
+      {console.log(comingSoonListings.items)}
+      {comingSoonListings?.items?.length > 0 && (
         <section className={`coming-soon-listings`}>
-          <div
-            className={`${horizontalSectionStyles.title} ${
-              showSeeMoreButton ? "coming-soon-title-button" : "coming-soon-title-only"
-            }`}
-          >
-            <div style={{ display: "inline-block" }}>
+          <div className={`${horizontalSectionStyles.title}  coming-soon-title-button`}>
+            <div className={"flex"}>
               <Icon
                 size="xlarge"
                 symbol="clock"
@@ -142,14 +139,10 @@ export default function Home({ latestListings, comingSoonListings }) {
                 {t("listings.comingSoon")}
               </h2>
             </div>
-            {showSeeMoreButton && (
-              <div className="coming-soon-button">
-                <ComingSoonButton />
-              </div>
-            )}
+            <ComingSoonButton />
           </div>
           <div className={`${styles["coming-soon"]} ${horizontalSectionStyles.content}`}>
-            {getListings(comingSoonListings?.items.slice(0, -1))}
+            {getListings(comingSoonListings?.items)}
           </div>
         </section>
       )}
@@ -242,7 +235,7 @@ export async function getStaticProps() {
   try {
     const comingSoonResponse = await axios.get(process.env.listingServiceUrl, {
       params: {
-        limit: 4,
+        limit: 3,
         view: "base",
         filter: [
           {

@@ -4,6 +4,7 @@
 
 .coming-soon {
   grid-auto-columns: fit-content(33%);
+  justify-content: center;
 }
 
 .regions {
@@ -40,8 +41,4 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   @apply text-primary-dark;
-}
-
-.comingSoon {
-  padding: 24px 0 0 0;
 }
