@@ -233,6 +233,7 @@ export async function getStaticProps() {
       params: {
         limit: 3,
         view: "base",
+        orderBy: "comingSoon",
         filter: [
           {
             $comparison: EnumListingFilterParamsComparison["="],
