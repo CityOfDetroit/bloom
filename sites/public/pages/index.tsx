@@ -87,7 +87,7 @@ export default function Home({ latestListings, comingSoonListings }) {
         availability: "comingSoon",
       })}`}
     >
-      See All Coming Soon
+      {t("welcome.comingSoonButton")}
     </LinkButton>
   )
 
