@@ -21,6 +21,7 @@ const MetaTags = (props: MetaTagsProps) => {
       <meta property="twitter:title" content={props.title} />
       {props.image && <meta property="twitter:image" content={props.image} />}
       <meta property="twitter:description" content={props.description} />
+      <meta name="google-site-verification" content="5iADIG7fr36FuNKKMf57MyuEQMbv_xt-x6JfJZ0QJfc" />
     </Head>
   )
 }
