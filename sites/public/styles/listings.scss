@@ -124,7 +124,8 @@
     @apply mt-0;
     @apply mb-2;
     @apply px-2;
-    max-width: 30rem;
+    max-width: 480px;
+    min-width: 260px;
     flex-direction: column;
   }
 
@@ -139,7 +140,7 @@
   }
 
   .image-card img {
-    height: 300px;
+    height: auto;
   }
 }
 
