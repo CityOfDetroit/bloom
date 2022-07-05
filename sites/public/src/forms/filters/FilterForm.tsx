@@ -44,8 +44,6 @@ const getTranslationString = (str: string) => {
     return "threePlus"
   } else if (str === "fourBdrm") {
     return "fourPlus"
-  } else if (str === "SRO") {
-    return "SROPlus"
   }
 }
 
@@ -264,6 +262,20 @@ const FilterForm = (props: FilterFormProps) => {
               }}
             />
           </GridCell>
+          <GridCell span={2}>
+            <Field
+              id="section8Acceptance"
+              name={FrontendListingFilterStateKeys.section8Acceptance}
+              type="checkbox"
+              label={t("listingFilters.section8")}
+              inputProps={{
+                defaultChecked: localFilterState.section8Acceptance,
+              }}
+              labelClassName={"text-gray-750 font-semibold"}
+              // eslint-disable-next-line @typescript-eslint/unbound-method
+              register={register}
+            />
+          </GridCell>
         </GridSection>
         <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-4"}>
           <GridCell span={3}>
@@ -368,6 +380,7 @@ const FilterForm = (props: FilterFormProps) => {
                 reset({
                   status: EnumListingFilterParamsStatus.active,
                   isVerified: "",
+                  section8Acceptance: "",
                   availability: "",
                   bedRoomSize: "",
                   minRent: "",
