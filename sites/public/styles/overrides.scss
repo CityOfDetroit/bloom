@@ -103,3 +103,11 @@ $header-desktop-min-size: 1024px;
     }
   }
 }
+
+.action-block {
+  .action-block__actions .button {
+    @media (max-width: 640px) {
+      @apply text-sm;
+    }
+  }
+}

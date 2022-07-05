@@ -106,7 +106,7 @@ export default function Home({ latestListings }) {
         title={heroTitle}
         backgroundImage={"/images/hero-main.jpg"}
         heroInset={heroInset}
-        innerClassName="bg-white bg-opacity-90 max-w-2xl mx-auto p-8 rounded-xl"
+        innerClassName="max-w-2xl mx-auto p-8 rounded-xl"
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
