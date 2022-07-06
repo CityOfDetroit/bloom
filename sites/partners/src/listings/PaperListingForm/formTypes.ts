@@ -46,8 +46,10 @@ export type FormListing = Omit<Listing, "countyCode" | "unitSummaries" | "unitGr
   canApplicationsBeMailedIn?: YesNoAnswer
   digitalApplicationChoice?: YesNoAnswer
   listingFeatures?: string[]
+  listingUtilities?: string[]
   commonDigitalApplicationChoice?: YesNoAnswer
   paperApplicationChoice?: YesNoAnswer
+  section8Choice?: YesNoAnswer
   referralOpportunityChoice?: YesNoAnswer
   dueDateQuestionChoice?: YesNoAnswer
   criteriaAttachType?: string
@@ -114,13 +116,15 @@ export const formDefaults: FormListing = {
   criminalBackground: "",
   depositMax: "0",
   depositMin: "0",
-  depositHelperText: "or one month's rent may be higher for lower credit scores",
+  depositHelperText: "",
   disableUnitsAccordion: false,
   displayWaitlistSize: false,
   events: [],
   images: [],
   listingFeatures: [],
+  listingUtilities: [],
   features: {},
+  utilities: {},
   leasingAgentAddress: null,
   leasingAgentEmail: null,
   leasingAgentName: null,

@@ -4677,6 +4677,9 @@ export interface ListingFilterParams {
 
   /**  */
   region?: string
+
+  /**  */
+  section8Acceptance?: boolean
 }
 
 export interface FormMetadataExtraData {
@@ -5266,6 +5269,32 @@ export interface ListingFeatures {
   loweredCabinets?: boolean
 }
 
+export interface ListingUtilities {
+  /**  */
+  water?: boolean
+
+  /**  */
+  gas?: boolean
+
+  /**  */
+  trash?: boolean
+
+  /**  */
+  sewer?: boolean
+
+  /**  */
+  electricity?: boolean
+
+  /**  */
+  cable?: boolean
+
+  /**  */
+  phone?: boolean
+
+  /**  */
+  internet?: boolean
+}
+
 export interface Listing {
   /**  */
   referralApplication?: ApplicationMethod
@@ -5400,6 +5429,9 @@ export interface Listing {
   features?: ListingFeatures
 
   /**  */
+  utilities?: ListingUtilities
+
+  /**  */
   id: string
 
   /**  */
@@ -5425,6 +5457,9 @@ export interface Listing {
 
   /**  */
   referralOpportunity?: boolean
+
+  /**  */
+  section8Acceptance?: boolean
 
   /**  */
   assets: AssetCreate[]
@@ -5897,6 +5932,9 @@ export interface ListingCreate {
   referralOpportunity?: boolean
 
   /**  */
+  section8Acceptance?: boolean
+
+  /**  */
   assets: AssetCreate[]
 
   /**  */
@@ -6045,6 +6083,9 @@ export interface ListingCreate {
 
   /**  */
   features?: ListingFeatures
+
+  /**  */
+  utilities?: ListingUtilities
 }
 
 export interface ListingEventUpdate {
@@ -6377,6 +6418,9 @@ export interface ListingUpdate {
   referralOpportunity?: boolean
 
   /**  */
+  section8Acceptance?: boolean
+
+  /**  */
   assets: AssetCreate[]
 
   /**  */
@@ -6525,6 +6569,99 @@ export interface ListingUpdate {
 
   /**  */
   features?: ListingFeatures
+
+  /**  */
+  utilities?: ListingUtilities
+}
+
+export interface PreferencesFilterParams {
+  /**  */
+  $comparison: EnumPreferencesFilterParamsComparison
+
+  /**  */
+  $include_nulls?: boolean
+
+  /**  */
+  jurisdiction?: string
+}
+
+export interface PreferenceCreate {
+  /**  */
+  links?: PreferenceLink[]
+
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+}
+
+export interface PreferenceUpdate {
+  /**  */
+  links?: PreferenceLink[]
+
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+
+  /**  */
+  id: string
+}
+
+export interface ProgramsFilterParams {
+  /**  */
+  $comparison: EnumProgramsFilterParamsComparison
+
+  /**  */
+  $include_nulls?: boolean
+
+  /**  */
+  jurisdiction?: string
+}
+
+export interface ProgramCreate {
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+}
+
+export interface ProgramUpdate {
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+
+  /**  */
+  id: string
 }
 
 export interface PreferencesFilterParams {

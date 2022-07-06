@@ -32,7 +32,7 @@ const SubmitApplication = (props: ApplicationAddressesProps) => {
     const applicationDueDate = props.postmarkedApplicationData?.applicationsDueDate
     const postmarkReceivedByDate =
       props.postmarkedApplicationData?.postmarkedApplicationsReceivedByDate
-    const developer = props.postmarkedApplicationData?.developer
+    const developer = props.postmarkedApplicationData?.developer ?? "Developer"
     if (applicationDueDate) {
       return postmarkReceivedByDate
         ? t("listings.apply.submitPaperDueDatePostMark", {

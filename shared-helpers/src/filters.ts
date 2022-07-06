@@ -53,6 +53,7 @@ function getComparisonForFilter(filterKey: ListingFilterKeys) {
     case ListingFilterKeys.barrierFreeBathroom:
     case ListingFilterKeys.wideDoorways:
     case ListingFilterKeys.loweredCabinets:
+    case ListingFilterKeys.section8Acceptance:
       return EnumListingFilterParamsComparison["="]
     case ListingFilterKeys.minRent:
       return EnumListingFilterParamsComparison[">="]
@@ -83,7 +84,6 @@ enum BedroomFields {
   twoBdrm = "twoBdrm",
   threeBdrm = "threeBdrm",
   fourBdrm = "fourBdrm",
-  SRO = "SRO",
 }
 export const FrontendListingFilterStateKeys = {
   ...IncludedBackendKeys,
@@ -113,7 +113,6 @@ export interface ListingFilterState {
   // bedRoomSize
   [FrontendListingFilterStateKeys.bedRoomSize]?: string
   [FrontendListingFilterStateKeys.studio]?: string | boolean
-  [FrontendListingFilterStateKeys.SRO]?: string | boolean
   [FrontendListingFilterStateKeys.oneBdrm]?: string | boolean
   [FrontendListingFilterStateKeys.twoBdrm]?: string | boolean
   [FrontendListingFilterStateKeys.threeBdrm]?: string | boolean
@@ -155,6 +154,8 @@ export interface ListingFilterState {
   [FrontendListingFilterStateKeys.barrierFreeBathroom]?: string | boolean
   [FrontendListingFilterStateKeys.wideDoorways]?: string | boolean
   [FrontendListingFilterStateKeys.loweredCabinets]?: string | boolean
+  [FrontendListingFilterStateKeys.section8Acceptance]?: string | boolean
+
   // favorites
   [FrontendListingFilterStateKeys.favorited]?: string | boolean
 
