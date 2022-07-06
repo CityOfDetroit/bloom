@@ -180,6 +180,8 @@ export const ListingView = (props: ListingProps) => {
       listing.unitAmenities ||
       listing.servicesOffered ||
       listing.accessibility ||
+      Object.values(listing.features).some((val) => val === true) ||
+      Object.values(listing.utilities).some((val) => val === true) ||
       // props for UnitTables
       (listing.units && listing.units.length > 0) ||
       listing.unitSummaries ||
