@@ -664,6 +664,7 @@ export const ListingView = (props: ListingProps) => {
                   depositMin={listing.depositMin}
                   depositMax={listing.depositMax}
                   applicationFee={listing.applicationFee}
+                  depositHelperText={listing.depositHelperText}
                   footerContent={getFooterContent()}
                   containerClass={"mt-4"}
                 />
