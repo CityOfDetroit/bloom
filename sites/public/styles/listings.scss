@@ -123,7 +123,7 @@
   .listings-row {
     @apply mt-0;
     @apply mb-2;
-    @apply px-2;
+    @apply px-4;
     max-width: 480px;
     min-width: 260px;
     flex-direction: column;
@@ -142,8 +142,4 @@
   .image-card img {
     height: auto;
   }
-}
-
-.coming-soon-title {
-  justify-content: space-between !important;
 }

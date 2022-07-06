@@ -17,7 +17,6 @@ import { HorizontalScrollSection } from "../lib/HorizontalScrollSection"
 import axios from "axios"
 import qs from "qs"
 import styles from "./index.module.scss"
-import horizontalSectionStyles from "../lib/HorizontalScrollSection.module.scss"
 import {
   EnumListingFilterParamsComparison,
   EnumListingFilterParamsStatus,
@@ -122,25 +121,24 @@ export default function Home({ latestListings, comingSoonListings }) {
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
       {comingSoonListings?.items?.length > 0 && (
-        <section className={`coming-soon-listings`}>
-          <div className={`${horizontalSectionStyles.title}  coming-soon-title`}>
-            <div className={"flex items-center"}>
-              <Icon
-                size="xlarge"
-                symbol="clock"
-                className={horizontalSectionStyles.icon}
-                ariaHidden={true}
-              />
-              <h2
-                className={`${horizontalSectionStyles.title__text} ${horizontalSectionStyles["icon-space"]} pr-8`}
-              >
-                {t("listings.comingSoon")}
-              </h2>
+        <div className={styles["content-container"]}>
+          <section className={`coming-soon-listings`}>
+            <div className={`${styles["content-title"]}`}>
+              <div className={"flex items-center"}>
+                <Icon size="xlarge" symbol="clock" className={styles.icon} ariaHidden={true} />
+                <h2 className={`${styles.title__text} ${styles["icon-space"]}`}>
+                  {t("listings.comingSoon")}
+                </h2>
+              </div>
             </div>
-            <ComingSoonButton />
-          </div>
-          <div className={`${styles["coming-soon"]}`}>{getListings(comingSoonListings?.items)}</div>
-        </section>
+            <div className={`${styles["coming-soon"]}`}>
+              {getListings(comingSoonListings?.items)}
+            </div>
+            <div className={`${styles["content-title"]}`}>
+              <ComingSoonButton />
+            </div>
+          </section>
+        </div>
       )}
       {showLatestListings && latestListings?.items && (
         <HorizontalScrollSection
@@ -153,16 +151,24 @@ export default function Home({ latestListings, comingSoonListings }) {
           {getListings(latestListings.items)}
         </HorizontalScrollSection>
       )}
-      <HorizontalScrollSection
-        title={t("welcome.cityRegions")}
-        scrollAmount={311}
-        icon="map"
-        className={styles.regions}
-      >
-        {Object.entries(Region).map((region, index) => (
-          <RegionButton region={region} key={index} />
-        ))}
-      </HorizontalScrollSection>
+      <div className={styles["region-background"]}>
+        <div className={styles["content-container"]}>
+          <section className={styles.regions}>
+            <div className={`${styles["content-title"]}`}>
+              <Icon size="xlarge" symbol={"map"} className={styles.icon} ariaHidden={true} />
+
+              <h2 className={`${styles.title__text} ${styles["icon-space"]}`}>
+                {t("welcome.cityRegions")}
+              </h2>
+            </div>
+            <div className={styles.content2}>
+              {Object.entries(Region).map((region, index) => (
+                <RegionButton region={region} key={index} />
+              ))}
+            </div>
+          </section>
+        </div>
+      </div>
       <section className="homepage-extra">
         <div className="action-blocks mt-4 mb-4 w-full">
           <ActionBlock
@@ -195,6 +201,7 @@ export default function Home({ latestListings, comingSoonListings }) {
           />
         </div>
       </section>
+
       <ConfirmationModal
         setSiteAlertMessage={(alertMessage, alertType) => setAlertInfo({ alertMessage, alertType })}
       />
