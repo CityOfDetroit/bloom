@@ -38,7 +38,7 @@ $icon-large: 40px;
   }
 }
 .icon-space.title__text {
-  margin-inline-start: 16px;
+  margin-inline-start: 8px;
 }
 .title__text {
   font-size: 1.5rem;
@@ -52,26 +52,30 @@ $icon-large: 40px;
 }
 .region-background {
   margin-top: 32px;
+  width: 100%;
   background-color: #f7f7f7;
 }
 .regions {
   @apply my-4;
+  width: 100%;
+  display: grid;
+
   justify-content: center;
 }
 
 .region {
   background-size: cover;
   background-position: 50% 50%;
-  border-radius: 14px 14px 14px 14px;
+  border-radius: 14px 14px 0 0;
   @apply my-8;
   @apply mx-4;
+  min-height: 170px;
+  width: 100%;
   position: relative;
-  height: 170px;
-  width: 278px;
-  @screen md {
-    width: 209px;
-    height: 130px;
-  }
+  // @screen md {
+  //   width: 180px;
+  //   // height: 107px;
+  // }
 }
 .region:hover {
   opacity: 0.9;
@@ -82,7 +86,10 @@ $icon-large: 40px;
   font-size: 1.3rem;
   font-weight: 700;
   line-height: 1rem;
-  max-width: 236px;
+  min-width: 260px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;
@@ -91,10 +98,9 @@ $icon-large: 40px;
 }
 
 .content2 {
-  display: grid;
-  grid-template-rows: 1fr;
   justify-content: center;
   @screen md {
-    grid-auto-flow: column;
+    display: flex;
+    flex-direction: row;
   }
 }
