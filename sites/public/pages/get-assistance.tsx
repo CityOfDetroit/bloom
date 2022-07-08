@@ -15,10 +15,10 @@ export default function GetAssistance() {
   return (
     <Layout>
       <PageHeader title={pageTitle} subtitle={subTitle} inverse />
-      <section className="md:px-5">
+      <section className="md:px-5 mt-8">
         <article className="markdown max-w-5xl m-auto md:flex">
           <div className="pt-4 md:w-8/12 md:py-0 serif-paragraphs">
-            <div>
+            <div className="md:me-8">
               <div className="border-b">
                 <MarkdownSection>
                   <Icon
@@ -27,8 +27,10 @@ export default function GetAssistance() {
                     symbol="questionThin"
                     className="ml-2 info-cards__title"
                   />
-                  <h3 className="font-semibold">Affordable Housing Basics</h3>
-                  <div>Learn how you can find and apply for affordable rentals</div>
+                  <h3 className="font-semibold mt-0">Affordable Housing Basics</h3>
+                  <div className="mb-4">
+                    Learn how you can find and apply for affordable rentals
+                  </div>
                   <a href="/">Read about how it works</a>
                 </MarkdownSection>
               </div>
@@ -41,8 +43,8 @@ export default function GetAssistance() {
                     symbol="house"
                     className="ml-2 info-cards__title"
                   />
-                  <h3 className="font-semibold">Housing Resources</h3>
-                  <div>
+                  <h3 className="font-semibold mt-0">Housing Resources</h3>
+                  <div className="mb-4">
                     We encourage you to browse additional resources in your search for housing
                   </div>
                   <a href="/">View opportunities and resources</a>
@@ -50,7 +52,7 @@ export default function GetAssistance() {
               </div>
             </div>
           </div>
-          <aside className="pt-4 pb-10 md:w-4/12 md:pl-4 md:py-0 md:shadow-left">
+          <aside className="pt-4 pb-10 md:w-4/12 md:pl-4 md:py-0 md:border-s">
             <MarkdownSection>
               <Markdown
                 options={{
