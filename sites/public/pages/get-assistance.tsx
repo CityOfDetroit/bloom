@@ -31,7 +31,7 @@ export default function GetAssistance() {
                   <div className="mb-4">
                     Learn how you can find and apply for affordable rentals
                   </div>
-                  <a className="underline" href="/">
+                  <a className="underline" href="/housing-basics">
                     Read about how it works
                   </a>
                 </MarkdownSection>
@@ -49,7 +49,7 @@ export default function GetAssistance() {
                   <div className="mb-4">
                     We encourage you to browse additional resources in your search for housing
                   </div>
-                  <a className="underline" href="/">
+                  <a className="underline" href="/additional-resources">
                     View opportunities and resources
                   </a>
                 </MarkdownSection>
