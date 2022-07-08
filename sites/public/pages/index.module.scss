@@ -7,10 +7,11 @@
 }
 
 .coming-soon {
-  padding: 16px;
-  @media (min-width: 950px) {
-    display: grid;
-    grid-auto-flow: column;
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  @screen lg {
+    flex-direction: row;
   }
 }
 
@@ -59,25 +60,25 @@ $icon-large: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 50%;
   // height: 100%;
   // max-height: 150px;
-  max-width: 0px;
-  min-width: 200px;
+  // max-width: 0px;
+  // min-width: 200px;
   overflow: hidden;
   @apply pt-8;
   @apply px-4;
-  @media (min-width: 950px) {
-    max-width: 450px;
-  }
+  // @media (min-width: 950px) {
+  //   max-width: 450px;
+  // }
   img {
     object-fit: cover;
     border-radius: 14px 14px 0 0;
     height: 100%;
     width: 100%;
     @apply pb-4;
-    @media (min-width: 950px) {
-    }
+    // @media (min-width: 950px) {
+    // }
   }
   p {
     @apply pb-4;
@@ -104,9 +105,8 @@ $icon-large: 40px;
 }
 
 .content2 {
-  justify-content: center;
-  display: grid;
-  @media (min-width: 950px) {
-    grid-auto-flow: column;
+  flex-direction: column;
+  @screen lg {
+    flex-direction: row;
   }
 }
