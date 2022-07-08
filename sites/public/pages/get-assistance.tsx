@@ -31,7 +31,9 @@ export default function GetAssistance() {
                   <div className="mb-4">
                     Learn how you can find and apply for affordable rentals
                   </div>
-                  <a href="/">Read about how it works</a>
+                  <a className="underline" href="/">
+                    Read about how it works
+                  </a>
                 </MarkdownSection>
               </div>
 
@@ -47,7 +49,9 @@ export default function GetAssistance() {
                   <div className="mb-4">
                     We encourage you to browse additional resources in your search for housing
                   </div>
-                  <a href="/">View opportunities and resources</a>
+                  <a className="underline" href="/">
+                    View opportunities and resources
+                  </a>
                 </MarkdownSection>
               </div>
             </div>
