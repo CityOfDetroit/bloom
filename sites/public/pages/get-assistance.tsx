@@ -1,6 +1,6 @@
 import React from "react"
 import Markdown from "markdown-to-jsx"
-import { MarkdownSection, t, InfoCardGrid, PageHeader, Icon } from "@bloom-housing/ui-components"
+import { MarkdownSection, t, PageHeader, Icon } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import RenderIf from "../src/RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"
@@ -24,7 +24,7 @@ export default function GetAssistance() {
                   <Icon
                     fill="black"
                     size="large"
-                    symbol="question"
+                    symbol="questionThin"
                     className="ml-2 info-cards__title"
                   />
                   <h3 className="font-semibold">Affordable Housing Basics</h3>
