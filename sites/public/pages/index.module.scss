@@ -8,7 +8,7 @@
 
 .coming-soon {
   padding: 16px;
-  @screen md {
+  @media (min-width: 950px) {
     display: grid;
     grid-auto-flow: column;
   }
@@ -44,11 +44,6 @@ $icon-large: 40px;
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 2rem;
-
-  @screen sm {
-    font-size: 2rem;
-    line-height: 2.25rem;
-  }
 }
 .region-background {
   margin-top: 32px;
@@ -57,50 +52,58 @@ $icon-large: 40px;
 }
 .regions {
   @apply my-4;
-  width: 100%;
-  display: grid;
-
   justify-content: center;
 }
 
 .region {
-  background-size: cover;
-  background-position: 50% 50%;
-  border-radius: 14px 14px 0 0;
-  @apply my-8;
-  @apply mx-4;
-  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  position: relative;
-  // @screen md {
-  //   width: 180px;
-  //   // height: 107px;
-  // }
+  max-width: 250px;
+  height: auto;
+  min-height: 100%;
+  overflow: hidden;
+  @apply pt-8;
+  @apply px-4;
+  img {
+    object-fit: cover;
+    border-radius: 14px 14px 0 0;
+    height: 100%;
+    @apply pb-4;
+    @media (min-width: 950px) {
+      // min-width: 209px;
+      // min-height: 130px;
+    }
+  }
+  p {
+    @apply pb-4;
+  }
 }
 .region:hover {
   opacity: 0.9;
 }
 
 .region__text {
-  bottom: -2rem;
   font-size: 1.3rem;
   font-weight: 700;
   line-height: 1rem;
-  min-width: 260px;
-  max-width: 480px;
+  // max-width: 278px;
   width: 100%;
   text-align: center;
   overflow: hidden;
-  position: absolute;
   text-overflow: ellipsis;
   white-space: nowrap;
   @apply text-primary-dark;
+  @media (min-width: 950px) {
+    max-width: 209px;
+  }
 }
 
 .content2 {
   justify-content: center;
-  @screen md {
-    display: flex;
-    flex-direction: row;
+  display: grid;
+  @media (min-width: 950px) {
+    grid-auto-flow: column;
   }
 }
