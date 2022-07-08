@@ -122,26 +122,22 @@ export default function Home({ latestListings, comingSoonListings }) {
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
       {comingSoonListings?.items?.length > 0 && (
-        <div className={styles["content-container"]}>
+        <div className={styles["section-container"]}>
           <section className={`coming-soon-listings`}>
-            <div className={`${styles["content-title"]}`}>
-              <div className={"flex items-center"}>
-                <Icon size="xlarge" symbol="clock" className={styles.icon} ariaHidden={true} />
-                <h2 className={`${styles.title__text} ${styles["icon-space"]}`}>
-                  {t("listings.comingSoon")}
-                </h2>
-              </div>
+            <div className={`${styles["title"]}`}>
+              <Icon size="xlarge" symbol="clock" ariaHidden={true} />
+              <h2>{t("listings.comingSoon")}</h2>
             </div>
-            <div className={`${styles["coming-soon"]}`}>
+            <div className={`${styles["cards-container"]}`}>
               {getListings(comingSoonListings?.items)}
             </div>
-            <div className={`${styles["content-title"]}`}>
+            <div className={`${styles["title"]}`}>
               <ComingSoonButton />
             </div>
           </section>
         </div>
       )}
-      {showLatestListings && latestListings?.items && (
+      {/* {showLatestListings && latestListings?.items && (
         <HorizontalScrollSection
           title={t("welcome.latestListings")}
           subtitle={getLastUpdatedString(latestListings.items)}
@@ -151,18 +147,15 @@ export default function Home({ latestListings, comingSoonListings }) {
         >
           {getListings(latestListings.items)}
         </HorizontalScrollSection>
-      )}
+      )} */}
       <div className={styles["region-background"]}>
-        <div className={styles["content-container"]}>
+        <div className={styles["section-container"]}>
           <section className={styles.regions}>
-            <div className={`${styles["content-title"]}`}>
+            <div className={`${styles["title"]}`}>
               <Icon size="xlarge" symbol={"map"} className={styles.icon} ariaHidden={true} />
-
-              <h2 className={`${styles.title__text} ${styles["icon-space"]}`}>
-                {t("welcome.cityRegions")}
-              </h2>
+              <h2>{t("welcome.cityRegions")}</h2>
             </div>
-            <div className={styles.content2}>
+            <div className={styles["cards-container"]}>
               {Object.entries(Region).map((region, index) => (
                 <RegionButton region={region} key={index} />
               ))}

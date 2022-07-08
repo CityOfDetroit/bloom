@@ -114,20 +114,19 @@
 }
 
 .coming-soon-listings {
-  padding-top: 0.75rem;
   .listings-row_table,
   .listings-row_footer_container {
     display: none;
   }
-
   .listings-row {
     @apply mt-0;
     @apply mb-2;
     @apply px-4;
     flex: 1;
-    display: block;
+    @screen lg {
+      display: block;
+    }
   }
-
   .listings-row_content {
     width: 100%;
     padding: 1rem 0 0 0;
