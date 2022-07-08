@@ -37,13 +37,11 @@ const Layout = (props) => {
       title: t("pageTitle.resources"),
       href: "/additional-resources",
     },
-  ]
-  if (process.env.housingCounselorServiceUrl) {
-    menuLinks.push({
+    {
       title: t("pageTitle.getAssistance"),
-      href: process.env.housingCounselorServiceUrl,
-    })
-  }
+      href: "/get-assistance",
+    },
+  ]
   if (profile) {
     menuLinks.push({
       title: t("nav.myAccount"),
