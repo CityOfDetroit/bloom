@@ -49,6 +49,7 @@
   flex-direction: column;
   align-items: center;
   max-width: 48rem;
+  min-height: 100%;
   overflow: hidden;
   @apply px-4;
   @screen lg {
@@ -69,17 +70,17 @@
 .region__text {
   display: flex;
   justify-content: center;
-  // padding-bottom: 2rem;
   font-size: 1.3rem;
   font-weight: 700;
   line-height: 1rem;
   max-width: 278px;
-  overflow: hidden;
+  overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   @apply text-primary-dark;
-  @media (min-width: 950px) {
-    max-width: 209px;
+  @apply pb-8;
+  @screen lg {
+    @apply pb-0;
   }
 }
 
