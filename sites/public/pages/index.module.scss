@@ -1,6 +1,7 @@
 .section-container {
   max-width: 1600px;
   padding-top: 1rem;
+  padding-bottom: 2rem;
   @apply mx-auto;
 }
 
@@ -38,7 +39,6 @@
 }
 
 .region-background {
-  margin-top: 2rem;
   padding-top: 1rem;
   width: 100%;
   background-color: #f7f7f7;
@@ -59,7 +59,7 @@
     border-radius: 16px 16px 0 0;
     height: 100%;
     width: 100%;
-    @apply pb-4;
+    @apply pb-2;
   }
 }
 .region:hover {
@@ -69,7 +69,7 @@
 .region__text {
   display: flex;
   justify-content: center;
-  padding-bottom: 2rem;
+  // padding-bottom: 2rem;
   font-size: 1.3rem;
   font-weight: 700;
   line-height: 1rem;
