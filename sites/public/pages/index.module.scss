@@ -10,9 +10,13 @@
   justify-content: center;
   display: flex;
   h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    line-height: 2.25rem;
+    line-height: 2rem;
+    @screen sm {
+      font-size: 2rem;
+      line-height: 2.25rem;
+    }
   }
   svg {
     padding: 0 0.5rem 0 0;
@@ -80,7 +84,7 @@
   font-weight: 700;
   line-height: 1.3rem;
   max-width: 278px;
-  overflow-x: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   @apply text-primary-dark;

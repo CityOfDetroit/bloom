@@ -121,6 +121,17 @@ export default function Home({ latestListings, comingSoonListings }) {
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
+      {showLatestListings && latestListings?.items && (
+        <HorizontalScrollSection
+          title={t("welcome.latestListings")}
+          subtitle={getLastUpdatedString(latestListings.items)}
+          scrollAmount={560}
+          icon="clock"
+          className={`${styles["latest-listings"]} latest-listings`}
+        >
+          {getListings(latestListings.items)}
+        </HorizontalScrollSection>
+      )}
       {comingSoonListings?.items?.length > 0 && (
         <div className={styles["section-container"]}>
           <section className={`coming-soon-listings`}>
@@ -137,17 +148,6 @@ export default function Home({ latestListings, comingSoonListings }) {
           </section>
         </div>
       )}
-      {/* {showLatestListings && latestListings?.items && (
-        <HorizontalScrollSection
-          title={t("welcome.latestListings")}
-          subtitle={getLastUpdatedString(latestListings.items)}
-          scrollAmount={560}
-          icon="clock"
-          className={`${styles["latest-listings"]} latest-listings`}
-        >
-          {getListings(latestListings.items)}
-        </HorizontalScrollSection>
-      )} */}
       <div className={styles["region-background"]}>
         <div className={styles["section-container"]}>
           <section className={styles.regions}>
