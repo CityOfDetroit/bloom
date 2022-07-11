@@ -34,10 +34,6 @@ const Layout = (props) => {
       href: "/about",
     },
     {
-      title: t("pageTitle.resources"),
-      href: "/additional-resources",
-    },
-    {
       title: t("pageTitle.getAssistance"),
       href: "/get-assistance",
     },
