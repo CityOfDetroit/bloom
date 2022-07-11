@@ -74,7 +74,6 @@ export default function Home({ latestListings, comingSoonListings }) {
       href={`/listings/filtered?page=1${encodeToFrontendFilterString({
         region: props.region[1],
       })}`}
-      // style={{ backgroundImage: `url(${regionImageUrls.get(props.region[1])})` }}
     >
       <img src={`${regionImageUrls.get(props.region[1])}`} />
       <p className={styles.region__text}>{props.region[1]}</p>
