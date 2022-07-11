@@ -37,16 +37,12 @@ const ResourceLinkCard = (props: ResourceLinkCardProps) => {
 }
 
 export default function GetAssistance() {
-  // TODO: Create pageTitle and pageDescription in general.json
-  // const pageTitle = t("pageTitle.additionalResources")
-  // const subTitle = t("pageDescription.additionalResources")
-
   const pageTitle = t("pageTitle.getAssistance")
+  const subtitle = t("pageDescription.getAssistance")
 
-  const subTitle = t("pageDescription.getAssistance")
   return (
     <Layout>
-      <PageHeader title={pageTitle} subtitle={subTitle} inverse />
+      <PageHeader title={pageTitle} subtitle={subtitle} inverse />
       <section className="md:px-5 mt-8">
         <article className="markdown max-w-5xl m-auto md:flex">
           <div className="pt-4 md:w-8/12 md:py-0 serif-paragraphs">
