@@ -6,7 +6,7 @@ import RenderIf from "../src/RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"
 import { IconTypes } from "../../../ui-components/src/icons/Icon"
 
-interface LinkCardProps {
+interface ResourceLinkCardProps {
   iconSymbol: IconTypes
   title: string
   subtitle: string
@@ -14,7 +14,7 @@ interface LinkCardProps {
   linkLabel: string
 }
 
-const LinkCard = (props: LinkCardProps) => {
+const ResourceLinkCard = (props: ResourceLinkCardProps) => {
   const { iconSymbol, title, subtitle, linkUrl, linkLabel } = props
 
   return (
@@ -45,7 +45,7 @@ export default function GetAssistance() {
         <article className="markdown max-w-5xl m-auto md:flex">
           <div className="pt-4 md:w-8/12 md:py-0 serif-paragraphs">
             <div className="md:me-8">
-              <LinkCard
+              <ResourceLinkCard
                 iconSymbol="questionThin"
                 title="Affordable Housing Basics"
                 subtitle="Learn how you can find and apply for affordable rentals"
@@ -53,7 +53,7 @@ export default function GetAssistance() {
                 linkUrl="/housing-basics"
               />
 
-              <LinkCard
+              <ResourceLinkCard
                 iconSymbol="house"
                 title="Housing Resources"
                 subtitle="We encourage you to browse additional resources in your search for housing"
