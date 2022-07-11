@@ -20,7 +20,12 @@ const ResourceLinkCard = (props: ResourceLinkCardProps) => {
   return (
     <div className="border-b">
       <MarkdownSection>
-        <Icon fill="black" size="large" symbol={iconSymbol} className="ml-2 info-cards__title" />
+        <Icon
+          fill="black"
+          size="large"
+          symbol={iconSymbol}
+          className="ml-2 px-2 info-cards__title"
+        />
         <h3 className="font-semibold mt-0">{title}</h3>
         <div className="mb-4">{subtitle}</div>
         <a className="underline" href={linkUrl}>
@@ -36,8 +41,9 @@ export default function GetAssistance() {
   // const pageTitle = t("pageTitle.additionalResources")
   // const subTitle = t("pageDescription.additionalResources")
 
-  const pageTitle = "Get Assistance"
-  const subTitle = t("pageDescription.additionalResources")
+  const pageTitle = t("pageTitle.getAssistance")
+
+  const subTitle = t("pageDescription.getAssistance")
   return (
     <Layout>
       <PageHeader title={pageTitle} subtitle={subTitle} inverse />
@@ -47,17 +53,17 @@ export default function GetAssistance() {
             <div className="md:me-8">
               <ResourceLinkCard
                 iconSymbol="questionThin"
-                title="Affordable Housing Basics"
-                subtitle="Learn how you can find and apply for affordable rentals"
-                linkLabel="Read about how it works"
+                title={t("resourceLinkCard.affordableHousingTitle")}
+                subtitle={t("resourceLinkCard.affordableHousingSubtitle")}
+                linkLabel={t("resourceLinkCard.affordableHousingLinkLabel")}
                 linkUrl="/housing-basics"
               />
 
               <ResourceLinkCard
                 iconSymbol="house"
-                title="Housing Resources"
-                subtitle="We encourage you to browse additional resources in your search for housing"
-                linkLabel="View opportunities and resources"
+                title={t("resourceLinkCard.housingResourcesTitle")}
+                subtitle={t("resourceLinkCard.housingResourcesSubtitle")}
+                linkLabel={t("resourceLinkCard.housingResourcesLinkLabel")}
                 linkUrl="/additional-resources"
               />
             </div>
