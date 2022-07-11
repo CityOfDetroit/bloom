@@ -36,6 +36,9 @@
     flex-direction: row;
     align-items: unset;
   }
+  :last-child {
+    @apply pb-0;
+  }
 }
 
 .region-background {
@@ -52,14 +55,17 @@
   min-height: 100%;
   overflow: hidden;
   @apply px-4;
+  @apply pb-4;
   @screen lg {
     width: 25%;
+    @apply pb-0;
   }
   img {
     object-fit: cover;
     border-radius: 24px 24px 0 0;
     height: 100%;
     width: 100%;
+    aspect-ratio: 3/2;
     @apply pb-2;
   }
 }
@@ -78,10 +84,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   @apply text-primary-dark;
-  @apply pb-4;
-  @screen lg {
-    @apply pb-0;
-  }
 }
 
 .latest-listings {
