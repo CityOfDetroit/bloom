@@ -1,40 +1,10 @@
 import React from "react"
 import Markdown from "markdown-to-jsx"
-import { MarkdownSection, t, PageHeader, Icon } from "@bloom-housing/ui-components"
+import { MarkdownSection, t, PageHeader } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import RenderIf from "../src/RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"
-import { IconTypes } from "../../../ui-components/src/icons/Icon"
-
-interface ResourceLinkCardProps {
-  iconSymbol: IconTypes
-  title: string
-  subtitle: string
-  linkUrl: string
-  linkLabel: string
-}
-
-const ResourceLinkCard = (props: ResourceLinkCardProps) => {
-  const { iconSymbol, title, subtitle, linkUrl, linkLabel } = props
-
-  return (
-    <div className="border-b">
-      <MarkdownSection>
-        <Icon
-          fill="black"
-          size="large"
-          symbol={iconSymbol}
-          className="ml-2 px-2 info-cards__title"
-        />
-        <h3 className="font-semibold mt-0">{title}</h3>
-        <div className="mb-4">{subtitle}</div>
-        <a className="underline" href={linkUrl}>
-          {linkLabel}
-        </a>
-      </MarkdownSection>
-    </div>
-  )
-}
+import ResourceLinkCard from "../src/ResourceLinkCard"
 
 export default function GetAssistance() {
   const pageTitle = t("pageTitle.getAssistance")
@@ -49,17 +19,17 @@ export default function GetAssistance() {
             <div className="md:me-8">
               <ResourceLinkCard
                 iconSymbol="questionThin"
-                title={t("resourceLinkCard.affordableHousingTitle")}
-                subtitle={t("resourceLinkCard.affordableHousingSubtitle")}
-                linkLabel={t("resourceLinkCard.affordableHousingLinkLabel")}
+                title={t("resources.affordableHousingTitle")}
+                subtitle={t("resources.affordableHousingSubtitle")}
+                linkLabel={t("resources.affordableHousingLinkLabel")}
                 linkUrl="/housing-basics"
               />
 
               <ResourceLinkCard
                 iconSymbol="house"
-                title={t("resourceLinkCard.housingResourcesTitle")}
-                subtitle={t("resourceLinkCard.housingResourcesSubtitle")}
-                linkLabel={t("resourceLinkCard.housingResourcesLinkLabel")}
+                title={t("resources.housingResourcesTitle")}
+                subtitle={t("resources.housingResourcesSubtitle")}
+                linkLabel={t("resources.housingResourcesLinkLabel")}
                 linkUrl="/additional-resources"
               />
             </div>

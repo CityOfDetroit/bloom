@@ -23,11 +23,5 @@
   "pageDescription.resources": "The City of Detroit Housing and Revitalization Department has compiled a list of resources to help you find and maintain your housing. At the end of this page, you will also find four short videos where you can learn more about the application process for affordable housing.",
   "pageDescription.additionalResources": "We encourage you to browse additional resources in your search for housing.",
   "errors.minGreaterThanMaxRentError": "Min Rent must be less than or equal to Max Rent",
-  "errors.maxLessThanMinRentError": "Max Rent must be greater than or equal to Min Rent",
-  "resourceLinkCard.affordableHousingTitle": "Affordable housing basics",
-  "resourceLinkCard.affordableHousingSubtitle": "Learn how you can find and apply for affordable rentals.",
-  "resourceLinkCard.affordableHousingLinkLabel": "Read about how it works",
-  "resourceLinkCard.housingResourcesTitle": "Housing resources",
-  "resourceLinkCard.housingResourcesSubtitle": "We encourage you to browse additional resoruces in your search for housing.",
-  "resourceLinkCard.housingResourcesLinkLabel": "View opportunities and resources"
+  "errors.maxLessThanMinRentError": "Max Rent must be greater than or equal to Min Rent"
 }
