@@ -6,10 +6,6 @@ import RenderIf from "../src/RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"
 
 export default function HousingBasics() {
-  // TODO: Create pageTitle and pageDescription in general.json
-  // const pageTitle = t("pageTitle.additionalResources")
-  // const subTitle = t("pageDescription.additionalResources")
-
   const pageTitle = "Affordable Housing Basics"
   const subTitle = "Learn about affordable housing and find out what you need to know."
   return (
