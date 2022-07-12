@@ -12,7 +12,7 @@ interface ResourceLinkCardProps {
 
 const ResourceLinkCard = (props: ResourceLinkCardProps) => {
   const { iconSymbol, title, subtitle, linkUrl, linkLabel } = props
-
+  // TODO: Swap <a> tag with LinkButton
   return (
     <div className="border-b">
       <MarkdownSection>
