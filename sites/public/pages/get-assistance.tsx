@@ -7,12 +7,13 @@ import sidebarContent from "../page_content/resources/sidebar.md"
 import ResourceLinkCard from "../src/ResourceLinkCard"
 
 export default function GetAssistance() {
-  const pageTitle = t("pageTitle.getAssistance")
-  const subtitle = t("pageDescription.getAssistance")
-
   return (
     <Layout>
-      <PageHeader title={pageTitle} subtitle={subtitle} inverse />
+      <PageHeader
+        title={t("pageTitle.getAssistance")}
+        subtitle={t("pageDescription.getAssistance")}
+        inverse
+      />
       <section className="md:px-5 mt-8">
         <article className="markdown max-w-5xl m-auto md:flex">
           <div className="pt-4 md:w-8/12 md:py-0 serif-paragraphs">

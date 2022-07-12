@@ -18,8 +18,6 @@
   "leasingAgent.dueToHighCallVolume": "",
   "listingFilters.resetButton": "Show all listings",
   "pageTitle.additionalResources": "Additional Housing Resources",
-  "pageTitle.getAssistance": "Get Assistance",
-  "pageDescription.getAssistance": "We encourage you to browse additional resources in your search for housing.",
   "pageDescription.resources": "The City of Detroit Housing and Revitalization Department has compiled a list of resources to help you find and maintain your housing. At the end of this page, you will also find four short videos where you can learn more about the application process for affordable housing.",
   "pageDescription.additionalResources": "We encourage you to browse additional resources in your search for housing.",
   "errors.minGreaterThanMaxRentError": "Min Rent must be less than or equal to Max Rent",
