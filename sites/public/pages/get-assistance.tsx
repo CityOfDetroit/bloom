@@ -14,7 +14,7 @@ export default function GetAssistance() {
         subtitle={t("pageDescription.getAssistance")}
         inverse
       />
-      <section className="md:px-5 mt-8">
+      <section className="md:px-5 my-8">
         <article className="markdown max-w-5xl m-auto md:flex">
           <div className="pt-4 md:w-8/12 md:py-0 serif-paragraphs">
             <div className="md:me-8">
