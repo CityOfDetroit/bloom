@@ -29,6 +29,7 @@ import {
   regionImageUrls,
   encodeToFrontendFilterString,
 } from "@bloom-housing/shared-helpers"
+// import {faCircleQuestion} from "font awesome"
 
 export default function Home({ latestListings }) {
   const showLatestListings = false // Disabled for now
@@ -155,6 +156,16 @@ export default function Home({ latestListings }) {
             className="flex-1 has-bold-header"
             header={t("welcome.seeMoreOpportunitiesTruncated")}
             icon={<Icon size="3xl" symbol="building" />}
+            actions={[
+              <LinkButton href="/additional-resources" key={"additional-resources"}>
+                {t("welcome.viewAdditionalHousingTruncated")}
+              </LinkButton>,
+            ]}
+          />
+          <ActionBlock
+            className="flex-1 has-bold-header"
+            header={t("welcome.learnMore")}
+            icon={<Icon size="3xl" symbol="question" />}
             actions={[
               <LinkButton href="/additional-resources" key={"additional-resources"}>
                 {t("welcome.viewAdditionalHousingTruncated")}
