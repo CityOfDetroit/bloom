@@ -20,7 +20,6 @@
       @apply justify-around;
       > :nth-child(2) {
         @apply border-l;
-        @apply border-r;
         @apply border-gray-450;
       }
     }

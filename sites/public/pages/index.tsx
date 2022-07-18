@@ -163,12 +163,13 @@ export default function Home({ latestListings }) {
             ]}
           />
           <ActionBlock
-            className="flex-1 has-bold-header"
-            header={t("welcome.learnMore")}
+            className="flex-1 has-bold-header text-lg"
+            header={t("welcome.learnHousingBasics")}
+            //update with FA when merged
             icon={<Icon size="3xl" symbol="question" />}
             actions={[
-              <LinkButton href="/additional-resources" key={"additional-resources"}>
-                {t("welcome.viewAdditionalHousingTruncated")}
+              <LinkButton href="/housing-basics" key={"housing-basics"}>
+                {t("welcome.learnMore")}
               </LinkButton>,
             ]}
           />
