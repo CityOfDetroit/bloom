@@ -130,6 +130,7 @@ const FilteredListingsPage = () => {
             iconPlacement="left"
             iconSize="md-large"
             onClick={() => setFilterModalVisible(true)}
+            iconColor={"var(--bloom-color-primary)"}
           >
             {t("listingFilters.buttonTitle")}
             {numberOfFilters ? (
