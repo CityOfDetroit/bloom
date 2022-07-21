@@ -43,25 +43,23 @@ export default function HousingBasics() {
           <div className="pt-4 md:w-8/12 md:py-0 serif-paragraphs">
             <div className={`md:me-8 ${styles["media-grid"]}`}>
               <MediaCard
-                title="Detroit Home Connect: What is Affordable Housing?"
-                handleClick={() =>
-                  updateModal("Detroit Home Connect: What is Affordable Housing?", "cqd1IlIm1HM")
-                }
+                title={t("basicsVideo.affordableHousing")}
+                handleClick={() => updateModal(t("basicsVideo.affordableHousing"), "cqd1IlIm1HM")}
                 className={styles["media-grid__cell"]}
               />
               <MediaCard
-                title="Detroit Home Connect: Understanding Income Restrictions"
-                handleClick={() => alert("boop")}
+                title={t("basicsVideo.incomeRestrictions")}
+                handleClick={() => updateModal(t("basicsVideo.incomeRestrictions"), "jknVMnyXEW8")}
                 className={styles["media-grid__cell"]}
               />
               <MediaCard
-                title="Detroit Home Connect: The Affordable Housing Application"
-                handleClick={() => alert("boop")}
+                title={t("basicsVideo.application")}
+                handleClick={() => updateModal(t("basicsVideo.application"), "39KLpIXiPDI")}
                 className={styles["media-grid__cell"]}
               />
               <MediaCard
-                title="Detroit Home Connect: Affordable Housing Waitlists"
-                handleClick={() => alert("boop")}
+                title={t("basicsVideo.waitlist")}
+                handleClick={() => updateModal(t("basicsVideo.waitlist"), "CZ8UVjdCcA8")}
                 className={styles["media-grid__cell"]}
               />
             </div>
