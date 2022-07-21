@@ -12,11 +12,14 @@ import Layout from "../layouts/application"
 import RenderIf from "../src/RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"
 import styles from "./housing-basics.module.scss"
+import { useRouter } from "next/router"
 
 export default function HousingBasics() {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [currentVideoID, setCurrentVideoId] = useState<string>("")
   const [currentVideoTitle, setCurrentVideoTitle] = useState<string>("")
+  const language = useRouter()?.locale
+  console.log(language)
 
   const updateModal = (videoTitle: string, videoID: string) => {
     setCurrentVideoId(videoID)
@@ -36,7 +39,7 @@ export default function HousingBasics() {
         title={currentVideoTitle}
         className={"pb-0 px-0 max-w-3xl"}
       >
-        <Video label={currentVideoTitle} videoId={currentVideoID} />
+        <Video label={currentVideoTitle} videoId={currentVideoID} ccLang={language} />
       </Modal>
       <section className="md:px-5 mt-8">
         <article className="max-w-5xl m-auto md:flex">
