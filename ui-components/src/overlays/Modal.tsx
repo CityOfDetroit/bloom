@@ -11,6 +11,7 @@ export interface ModalProps extends Omit<OverlayProps, "children"> {
   children?: React.ReactNode
   slim?: boolean
   role?: string
+  innerClassNames?: string
 }
 
 const ModalHeader = (props: { title: string; uniqueId?: string }) => (
@@ -35,6 +36,10 @@ const ModalFooter = (props: { actions: React.ReactNode[] }) => (
 
 export const Modal = (props: ModalProps) => {
   const uniqueIdRef = useRef(nanoid())
+  const wrapperClasses = ["modal"]
+  const innerClassNames = ["modal__inner"]
+  if (props.className) wrapperClasses.push(props.className)
+  if (props.innerClassNames) innerClassNames.push(props.innerClassNames)
 
   return (
     <Overlay
@@ -46,10 +51,10 @@ export const Modal = (props: ModalProps) => {
       slim={props.slim}
       role={props.role ? props.role : "dialog"}
     >
-      <div className="modal">
+      <div className={wrapperClasses.join(" ")}>
         <ModalHeader title={props.title} uniqueId={uniqueIdRef.current} />
 
-        <section className="modal__inner">
+        <section className={innerClassNames.join(" ")}>
           {typeof props.children === "string" ? (
             <p className="c-steel">{props.children}</p>
           ) : (

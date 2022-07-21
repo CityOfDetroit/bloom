@@ -19,7 +19,6 @@ export default function HousingBasics() {
   const [currentVideoID, setCurrentVideoId] = useState<string>("")
   const [currentVideoTitle, setCurrentVideoTitle] = useState<string>("")
   const language = useRouter()?.locale
-  console.log(language)
 
   const updateModal = (videoTitle: string, videoID: string) => {
     setCurrentVideoId(videoID)
@@ -38,6 +37,7 @@ export default function HousingBasics() {
         onClose={() => setOpenModal(false)}
         title={currentVideoTitle}
         className={"pb-0 px-0 max-w-3xl"}
+        innerClassNames={"pb-0 px-0"}
       >
         <Video label={currentVideoTitle} videoId={currentVideoID} ccLang={language} />
       </Modal>
