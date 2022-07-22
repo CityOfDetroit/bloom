@@ -7,11 +7,11 @@ import {
   MediaCard,
   Modal,
   Video,
+  InfoCardGrid,
 } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import RenderIf from "../src/RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"
-import styles from "./housing-basics.module.scss"
 import { useRouter } from "next/router"
 
 export default function HousingBasics() {
@@ -37,35 +37,46 @@ export default function HousingBasics() {
         onClose={() => setOpenModal(false)}
         title={currentVideoTitle}
         className={"pb-0 px-0 max-w-3xl"}
-        innerClassNames={"pb-0 px-0"}
+        innerClassNames={"p-0"}
       >
         <Video label={currentVideoTitle} videoId={currentVideoID} ccLang={language} />
       </Modal>
-      <section className="md:px-5 mt-8">
+      <section className="md:px-5 md:my-12 my-6">
         <article className="max-w-5xl m-auto md:flex">
-          <div className="pt-4 md:w-8/12 md:py-0 serif-paragraphs">
-            <div className={`md:me-8 ${styles["media-grid"]}`}>
-              <MediaCard
-                title={t("basicsVideo.affordableHousing")}
-                handleClick={() => updateModal(t("basicsVideo.affordableHousing"), "cqd1IlIm1HM")}
-                className={styles["media-grid__cell"]}
-              />
-              <MediaCard
-                title={t("basicsVideo.incomeRestrictions")}
-                handleClick={() => updateModal(t("basicsVideo.incomeRestrictions"), "jknVMnyXEW8")}
-                className={styles["media-grid__cell"]}
-              />
-              <MediaCard
-                title={t("basicsVideo.application")}
-                handleClick={() => updateModal(t("basicsVideo.application"), "39KLpIXiPDI")}
-                className={styles["media-grid__cell"]}
-              />
-              <MediaCard
-                title={t("basicsVideo.waitlist")}
-                handleClick={() => updateModal(t("basicsVideo.waitlist"), "CZ8UVjdCcA8")}
-                className={styles["media-grid__cell"]}
-              />
-            </div>
+          <div className="pt-4 md:w-8/12 md:py-0 serif-paragraphs px-4 md:px-8 ">
+            <InfoCardGrid
+              title={t("basicsVideo.sectionTitle")}
+              subtitle={t("basicsVideo.sectionSubtitle")}
+            >
+              <div className={"media-grid"}>
+                <MediaCard
+                  title={t("basicsVideo.affordableHousing")}
+                  subtitle={t("basicsVideo.affordableHousingSubtitle")}
+                  handleClick={() => updateModal(t("basicsVideo.affordableHousing"), "cqd1IlIm1HM")}
+                  className={"media-grid__cell"}
+                />
+                <MediaCard
+                  title={t("basicsVideo.incomeRestrictions")}
+                  subtitle={t("basicsVideo.incomeRestrictionsSubtitle")}
+                  handleClick={() =>
+                    updateModal(t("basicsVideo.incomeRestrictions"), "jknVMnyXEW8")
+                  }
+                  className={"media-grid__cell"}
+                />
+                <MediaCard
+                  title={t("basicsVideo.application")}
+                  subtitle={t("basicsVideo.applicationSubtitle")}
+                  handleClick={() => updateModal(t("basicsVideo.application"), "39KLpIXiPDI")}
+                  className={"media-grid__cell"}
+                />
+                <MediaCard
+                  title={t("basicsVideo.waitlist")}
+                  subtitle={t("basicsVideo.waitlistSubtitle")}
+                  handleClick={() => updateModal(t("basicsVideo.waitlist"), "CZ8UVjdCcA8")}
+                  className={"media-grid__cell"}
+                />
+              </div>
+            </InfoCardGrid>
           </div>
           <aside className="pt-4 pb-10 md:w-4/12 md:pl-4 md:py-0 md:border-s">
             <MarkdownSection>
