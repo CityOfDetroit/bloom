@@ -26,8 +26,14 @@ interface UseSingleApplicationDataProps extends PaginationProps {
 }
 
 type UseUserListProps = PaginationProps
+// export interface ColumnOrder {
+//   orderBy: string
+//   orderDir: string
+// }
 
 type UseListingsDataProps = PaginationProps & {
+  search?: string
+  // sort?: ColumnOrder[]
   listingIds?: string[]
   view?: string
 }
@@ -48,6 +54,7 @@ export function useSingleListingData(listingId: string) {
 export function useListingsData({
   page,
   limit,
+  search,
   listingIds,
   orderBy,
   orderDir,
@@ -56,6 +63,7 @@ export function useListingsData({
   const params = {
     page,
     limit,
+    search,
     view,
     orderBy,
     orderDir: OrderDirEnum.ASC,
@@ -72,6 +80,12 @@ export function useListingsData({
       ],
     })
   }
+  if (search?.length < 3) {
+    delete params.search
+  } else {
+    Object.assign(params, { search })
+    console.log("here")
+  }
 
   if (orderBy) {
     Object.assign(params, { orderBy, orderDir })
@@ -81,6 +95,7 @@ export function useListingsData({
   const fetcher = () => listingsService.list(params)
 
   const paramsString = qs.stringify(params)
+  console.log(paramsString)
   const { data, error } = useSWR(`${process.env.backendApiBase}/listings?${paramsString}`, fetcher)
 
   return {
