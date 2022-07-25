@@ -8,13 +8,10 @@
   --card-border: var(--bloom-border-1) solid var(--bloom-color-gray-450);
   --card-border-rounded: var(--bloom-rounded);
   --card-padding: var(--bloom-s6);
-  --max-width: var(--bloom-width-lg);
   --background-color: var(--bloom-color-white);
-  max-width: var(--max-width);
   border: var(--card-border);
   border-radius: var(--card-border-rounded);
   background-color: var(--content-bg-color);
-  max-width: var(--max-width);
 }
 
 .media-card__header {
