@@ -26,7 +26,9 @@ const MediaCard = (props: MediaCardProps) => {
         </div>
       </span>
       <div className="media-card__body">
-        <h3 className="media-card__title">{props.title}</h3>
+        <button onClick={props.handleClick}>
+          <h3 className="media-card__title">{props.title}</h3>
+        </button>
         <div className={"media-card__subtitle"}>{props.subtitle}</div>
       </div>
     </div>
