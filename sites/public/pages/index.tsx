@@ -29,7 +29,6 @@ import {
   regionImageUrls,
   encodeToFrontendFilterString,
 } from "@bloom-housing/shared-helpers"
-import { faCircleQuestion } from "@fortawesome/free-regular-svg-icons"
 
 export default function Home({ latestListings, comingSoonListings }) {
   const showLatestListings = false // Disabled for now
@@ -193,10 +192,9 @@ export default function Home({ latestListings, comingSoonListings }) {
             ]}
           />
           <ActionBlock
-            className="flex-1 has-bold-header text-lg"
+            className="flex-1 has-bold-header"
             header={t("welcome.learnHousingBasics")}
-            //update with FA when merged
-            icon={<Icon size="3xl" symbol={faCircleQuestion} />}
+            icon={<Icon size="3xl" symbol={"questionThin"} />}
             actions={[
               <LinkButton href="/housing-basics" key={"housing-basics"}>
                 {t("welcome.learnMore")}

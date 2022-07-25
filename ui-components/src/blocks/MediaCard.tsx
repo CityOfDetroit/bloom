@@ -19,7 +19,9 @@ const MediaCard = (props: MediaCardProps) => {
       <span onClick={props.handleClick}>
         <div className="media-card__header">
           <div className="media-card__icon-container">
-            <Icon symbol={props.icon ?? faCirclePlay} size="2xl" fill="white" />
+            <button>
+              <Icon symbol={props.icon ?? faCirclePlay} size="2xl" fill="white" />
+            </button>
           </div>
         </div>
       </span>
