@@ -81,7 +81,6 @@ export function useListingsData({
     delete params.search
   } else {
     Object.assign(params, { search })
-    console.log("here")
   }
 
   if (sort) {
@@ -96,7 +95,6 @@ export function useListingsData({
   const fetcher = () => listingsService.list(params)
 
   const paramsString = qs.stringify(params)
-  console.log(paramsString)
   const { data, error } = useSWR(`${process.env.backendApiBase}/listings?${paramsString}`, fetcher)
 
   return {

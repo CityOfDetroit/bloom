@@ -141,7 +141,6 @@ export default function ListingsList() {
     sort: tableOptions.sort.sortOptions,
     view: "partnerList",
   })
-  console.log(listingDtos)
   return (
     <Layout>
       <Head>
