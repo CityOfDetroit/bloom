@@ -24,7 +24,7 @@ class formatLinkCell {
     this.link = document.createElement("a")
     this.link.classList.add("text-blue-700")
     this.link.innerText = params.valueFormatted || params.value
-    this.link.setAttribute("href", `/listings/${params.data.id}/applications`)
+    this.link.setAttribute("href", `/listings/${params.data.id}/`)
   }
 
   getGui() {
@@ -135,8 +135,11 @@ export default function ListingsList() {
     page: tableOptions.pagination.currentPage,
     limit: tableOptions.pagination.itemsPerPage,
     search: tableOptions.filter.filterValue,
-    // userId: !isAdmin ? profile?.id : undefined,
+    listingIds: !isAdmin
+      ? profile?.leasingAgentInListings?.map((listing) => listing.id)
+      : undefined,
     sort: tableOptions.sort.sortOptions,
+    view: "partnerList",
   })
   console.log(listingDtos)
   return (
