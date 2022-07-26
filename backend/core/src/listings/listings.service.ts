@@ -57,7 +57,10 @@ export class ListingsService {
       .groupBy("listings.id")
 
     innerFilteredQuery = ListingsService.addOrderByToQb(innerFilteredQuery, params)
-
+    innerFilteredQuery = ListingsService.addSearchByListingNameCondition(
+      innerFilteredQuery,
+      params.search
+    )
     if (params.filter) {
       addFilters<Array<ListingFilterParams>, typeof filterTypeToFieldMap>(
         params.filter,
@@ -312,6 +315,16 @@ export class ListingsService {
       .getMany()
 
     return { programs, unitTypes }
+  }
+
+  private static addSearchByListingNameCondition(
+    qb: SelectQueryBuilder<Listing>,
+    searchName?: string
+  ) {
+    if (searchName) {
+      qb.andWhere(`${qb.alias}.name ILIKE :search`, { search: `%${searchName}%` })
+    }
+    return qb
   }
 
   private static addOrderByToQb(qb: SelectQueryBuilder<Listing>, params: ListingsQueryParams) {

@@ -26,14 +26,14 @@ interface UseSingleApplicationDataProps extends PaginationProps {
 }
 
 type UseUserListProps = PaginationProps
-// export interface ColumnOrder {
-//   orderBy: string
-//   orderDir: string
-// }
+export interface ColumnOrder {
+  orderBy: string
+  orderDir: string
+}
 
 type UseListingsDataProps = PaginationProps & {
   search?: string
-  // sort?: ColumnOrder[]
+  sort?: ColumnOrder[]
   listingIds?: string[]
   view?: string
 }

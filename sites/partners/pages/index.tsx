@@ -44,15 +44,6 @@ class formatWaitlistStatus {
     return this.text
   }
 }
-
-class ApplicationsLink extends formatLinkCell {
-  init(params) {
-    super.init(params)
-    this.link.setAttribute("href", `/listings/${params.data.id}/applications`)
-    this.link.setAttribute("data-test-id", "listing-status-cell")
-  }
-}
-
 class ListingsLink extends formatLinkCell {
   init(params) {
     super.init(params)
@@ -69,7 +60,6 @@ export default function ListingsList() {
   const tableOptions = useAgTable()
 
   const gridComponents = {
-    ApplicationsLink,
     formatLinkCell,
     formatWaitlistStatus,
     ListingsLink,
@@ -126,9 +116,8 @@ export default function ListingsList() {
     page: tableOptions.pagination.currentPage,
     limit: tableOptions.pagination.itemsPerPage,
     search: tableOptions.filter.filterValue,
-    // search: tableOptions.search
     // userId: !isAdmin ? profile?.id : undefined,
-    // sort: tableOptions.sort.sortOptions,
+    sort: tableOptions.sort.sortOptions,
   })
   console.log(listingDtos)
   return (
