@@ -56,8 +56,7 @@ export function useListingsData({
   limit,
   search,
   listingIds,
-  orderBy,
-  orderDir,
+  sort,
   view = "base",
 }: UseListingsDataProps) {
   const params = {
@@ -65,8 +64,6 @@ export function useListingsData({
     limit,
     search,
     view,
-    orderBy,
-    orderDir: OrderDirEnum.ASC,
   }
 
   // filter if logged user is an agent
@@ -87,10 +84,14 @@ export function useListingsData({
     console.log("here")
   }
 
-  if (orderBy) {
-    Object.assign(params, { orderBy, orderDir })
+  if (sort) {
+    Object.assign(params, {
+      orderBy: sort?.filter((item) => item.orderBy).map((item) => item.orderBy)[0],
+    })
+    Object.assign(params, {
+      orderDir: sort?.filter((item) => item.orderDir).map((item) => item.orderDir)[0],
+    })
   }
-
   const { listingsService } = useContext(AuthContext)
   const fetcher = () => listingsService.list(params)
 
@@ -130,7 +131,6 @@ export function useApplicationsData(
   }
 
   const paramsString = qs.stringify(params)
-
   const endpoint = `${process.env.backendApiBase}/applications?${paramsString}`
 
   const fetcher = () => applicationsService.list(params)
