@@ -6,7 +6,6 @@
   min-width: 20rem;
   width: 100%;
   overflow-y: auto;
-
   @screen md {
     max-height: 80vh;
     max-width: 32rem;
@@ -16,8 +15,12 @@
     @apply text-2xl font-bold;
   }
 
-  .modal__close svg {
-    fill: #5f6368;
+  .modal__close {
+    top: 0.825rem;
+    right: 0.825rem;
+    svg {
+      fill: #5f6368;
+    }
   }
 
   .modal__inner {
