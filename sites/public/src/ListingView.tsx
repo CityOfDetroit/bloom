@@ -235,7 +235,6 @@ export const ListingView = (props: ListingProps) => {
       note: note || event.note,
     }
   }
-  const occupancyData = occupancyTable(listing)
 
   let openHouseEvents: EventType[] | null = null
   if (Array.isArray(listing.events)) {
@@ -261,8 +260,6 @@ export const ListingView = (props: ListingProps) => {
       listing.unitAmenities ||
       listing.servicesOffered ||
       listing.accessibility ||
-      Object.values(listing.features).some((val) => val === true) ||
-      Object.values(listing.utilities).some((val) => val === true) ||
       // props for UnitTables
       (listing.units && listing.units.length > 0) ||
       listing.unitSummaries ||
@@ -391,7 +388,6 @@ export const ListingView = (props: ListingProps) => {
           officeHoursHeader: t("leasingAgent.officeHours"),
           mapString: t("t.getDirections"),
         }}
-        listingStatus={listing.status}
       />
     </>
   )

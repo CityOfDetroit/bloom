@@ -3,8 +3,8 @@ import "./Overlay.scss"
 import useKeyPress from "../helpers/useKeyPress"
 import { createPortal } from "react-dom"
 import FocusLock from "react-focus-lock"
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock"
 import { CSSTransition } from "react-transition-group"
-import { RemoveScroll } from "react-remove-scroll"
 
 export type OverlayProps = {
   open?: boolean
@@ -87,9 +87,7 @@ export const Overlay = (props: OverlayProps) => {
         mountOnEnter
         unmountOnExit
       >
-        <RemoveScroll>
-          <OverlayInner {...props}>{props.children}</OverlayInner>
-        </RemoveScroll>
+        <OverlayInner {...props}>{props.children}</OverlayInner>
       </CSSTransition>,
       elForPortal
     )

@@ -93,10 +93,6 @@ export const getListingApplicationStatus = (listing: Listing): StatusBarType => 
         content = t("listings.applicationsClosed")
       }
     }
-    if (listing?.marketingDate) {
-      label = label.concat(` ${dayjs(listing.marketingDate).year()}`)
-    }
-    return label
   }
 
   if (formattedDate != "") {
