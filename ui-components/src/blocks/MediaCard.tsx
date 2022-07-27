@@ -18,11 +18,11 @@ const MediaCard = (props: MediaCardProps) => {
     <div className={wrapperClasses.join(" ")}>
       <span onClick={props.handleClick}>
         <div className="media-card__header">
-          <div className="media-card__icon-container">
-            <button>
-              <Icon symbol={props.icon ?? faCirclePlay} size="2xl" fill="white" />
-            </button>
-          </div>
+          {/* <div className="media-card__icon-container"> */}
+          <button>
+            <Icon symbol={props.icon ?? faCirclePlay} size="2xl" fill="white" iconClass="block" />
+          </button>
+          {/* </div> */}
         </div>
       </span>
       <div className="media-card__body">

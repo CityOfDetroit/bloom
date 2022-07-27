@@ -20,13 +20,13 @@
   border-top-right-radius: calc(var(--card-border-rounded) - var(--bloom-border-1));
   border-top-left-radius: calc(var(--card-border-rounded) - var(--bloom-border-1));
   background-color: var(--title-color);
+  display: flex;
+  justify-content: center;
   cursor: pointer;
 }
 
 .media-card__icon-container {
-  display: flex;
-  justify-content: center;
-  overflow: visible;
+  height: fit-content;
 }
 
 .media-card__body {
