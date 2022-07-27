@@ -29,10 +29,10 @@ const Layout = (props) => {
       title: t("nav.rentals"),
       href: "/listings",
     },
-    {
+    /* {
       title: t("pageTitle.getAssistance"),
       href: "/get-assistance",
-    },
+    }, */
     {
       title: t("pageTitle.about"),
       href: "/about",
