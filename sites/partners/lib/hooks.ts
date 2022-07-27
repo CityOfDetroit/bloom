@@ -77,6 +77,7 @@ export function useListingsData({
       ],
     })
   }
+
   if (search?.length < 3) {
     delete params.search
   } else {
