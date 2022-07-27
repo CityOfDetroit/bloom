@@ -36,7 +36,6 @@ import { Listing } from "../../listings/entities/listing.entity"
 import { UserRoles } from "../entities/user-roles.entity"
 import { UserPreferences } from "../entities/user-preferences.entity"
 import { Jurisdiction } from "../../jurisdictions/entities/jurisdiction.entity"
-import { UserQueryFilter } from "../filters/user-query-filter"
 import { assignDefined } from "../../shared/utils/assign-defined"
 import { EmailService } from "../../email/email.service"
 import { RequestMfaCodeDto } from "../dto/request-mfa-code.dto"
@@ -47,7 +46,7 @@ import { GetMfaInfoDto } from "../dto/get-mfa-info.dto"
 import { GetMfaInfoResponseDto } from "../dto/get-mfa-info-response.dto"
 import { addFilters } from "../../shared/query-filter"
 import { UserFilterParams } from "../dto/user-filter-params"
-
+import { UserRepository } from "../repositories/user-repository"
 import advancedFormat from "dayjs/plugin/advancedFormat"
 import { JurisdictionsService } from "../../jurisdictions/services/jurisdictions.service"
 
@@ -56,7 +55,7 @@ dayjs.extend(advancedFormat)
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(UserRepository) private readonly userRepository: UserRepository,
     @InjectRepository(Application) private readonly applicationsRepository: Repository<Application>,
     private readonly emailService: EmailService,
     private readonly configService: ConfigService,

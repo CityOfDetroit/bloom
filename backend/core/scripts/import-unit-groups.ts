@@ -9,7 +9,7 @@ import { AmiChart } from "../src/ami-charts/entities/ami-chart.entity"
 import { HUD2021 } from "../src/seeder/seeds/ami-charts/HUD2021"
 import { MSHDA2021 } from "../src/seeder/seeds/ami-charts/MSHDA2021"
 import { MonthlyRentDeterminationType } from "../src/units-summary/types/monthly-rent-determination.enum"
-import dbOptions = require("../ormconfig")
+import dbOptions from "../ormconfig"
 
 type AmiChartNameType = "MSHDA" | "HUD"
 
@@ -103,7 +103,7 @@ function getAmiValueFromColumn(row, amiPercentage: number, type: "percentage" | 
   if (value) {
     // This is case where $ is added by google spreadsheet because it's a single non % value
     if (type === "flat" && value.toString().includes("$")) {
-      return Number.parseInt(value.replace(/\$/, "").replace(/,/, ""))
+      return Number.parseInt(value.replace(/\$/g, "").replace(/,/g, ""))
     }
 
     const splitValues = value.toString().split(",")

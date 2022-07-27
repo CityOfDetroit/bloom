@@ -10,7 +10,7 @@ Wayne Metro offers multiple programs to assist residents with paying their water
 
 ### [Asistencia con los servicios públicos](https://www.waynemetro.org/energy-and-water-assistance/)
 
-Wayne Metro ofrece varios programas para brindar asistencia a los residentes con el pago de las facturas del agua y otros servicios públicos. Para obtener más información, llame al [313-388-9799](tel:+1-313-388-9799). The Heat and Warmth Fund (THAW) también trabaja con socios para hacer llegar la asistencia a viviendas con necesidades. Para comunicarse con el THAW, llame al [1-800-866-8429](tel:+1-800-866-8429).
+Wayne Metro ofrece varios programas para brindar asistencia a los residentes con el pago de las facturas del agua y otros servicios públicos. Para obtener más información, llame al [313-388-9799](tel:+1-313-388-9799). The Heat and Warmth Fund (THAW) también trabaja con socios para hacer llegar la asistencia a viviendas con necesidades. Para comunicarse con el THAW, llame al [1-800-866-8429](tel:+1-800-866-8429). 
 
 </RenderIf>
 

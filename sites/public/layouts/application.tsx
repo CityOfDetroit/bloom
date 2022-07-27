@@ -30,12 +30,12 @@ const Layout = (props) => {
       href: "/listings",
     },
     {
-      title: t("pageTitle.about"),
-      href: "/about",
+      title: t("pageTitle.getAssistance"),
+      href: "/get-assistance",
     },
     {
-      title: t("pageTitle.resources"),
-      href: "/additional-resources",
+      title: t("pageTitle.about"),
+      href: "/about",
     },
   ]
   if (profile) {
