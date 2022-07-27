@@ -36,7 +36,7 @@ export default function HousingBasics() {
         open={openModal}
         onClose={() => setOpenModal(false)}
         title={currentVideoTitle}
-        modalClassNames={"pb-0 px-0 border-none max-w-3xl"}
+        modalClassNames={"border-none max-w-3xl"}
         innerClassNames={"p-0"}
       >
         <Video label={currentVideoTitle} videoId={currentVideoID} ccLang={language} />
