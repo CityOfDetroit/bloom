@@ -364,6 +364,12 @@ export class ListingsService {
           "listings.name": "ASC",
         })
         break
+      case OrderByFieldsEnum.updatedAt:
+        qb.orderBy({
+          "listings.updatedAt": params.orderDir ?? "ASC",
+          "listings.name": "ASC",
+        })
+        break
       case OrderByFieldsEnum.name:
       case undefined:
         // Default to ordering by applicationDates (i.e. applicationDueDate
