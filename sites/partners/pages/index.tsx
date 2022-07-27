@@ -1,7 +1,6 @@
 import React, { useMemo, useContext } from "react"
 import Head from "next/head"
 import {
-  //   NavigationHeader,
   t,
   Button,
   LocalizedLink,
