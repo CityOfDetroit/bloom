@@ -5,9 +5,9 @@
   @apply left-0;
   @apply fixed;
   @apply w-screen;
+  @apply h-screen;
   @apply z-50;
   @apply flex;
-  height: 100%;
 
   &.is-backdrop:before {
     content: "";
@@ -28,7 +28,7 @@
       transform: translate(0px, 14px);
     }
     &.is-backdrop:before {
-      @apply opacity-50;
+      @apply bg-opacity-0;
     }
   }
   &.overlay-effect-enter-active {
@@ -37,7 +37,7 @@
       transform: translate(0px, 0px);
     }
     &.is-backdrop:before {
-      @apply bg-opacity-50;
+      @apply opacity-50;
     }
   }
 }
