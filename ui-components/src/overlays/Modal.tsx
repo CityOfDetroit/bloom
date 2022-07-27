@@ -1,22 +1,26 @@
 import React, { useRef } from "react"
 import "./Modal.scss"
-import { Icon } from "../icons/Icon"
+import { Icon, IconFillColors } from "../icons/Icon"
 import { Overlay, OverlayProps } from "./Overlay"
 import { nanoid } from "nanoid"
 
 export interface ModalProps extends Omit<OverlayProps, "children"> {
-  title: string
   actions?: React.ReactNode[]
-  hideCloseIcon?: boolean
   children?: React.ReactNode
-  slim?: boolean
-  role?: string
+  closeClassNames?: string
+  closeIconColor?: string
+  hideCloseIcon?: boolean
   innerClassNames?: string
+  modalClassNames?: string
+  role?: string
+  scrollable?: boolean
+  slim?: boolean
+  title: string
 }
 
 const ModalHeader = (props: { title: string; uniqueId?: string }) => (
   <>
-    <header className="modal__inner">
+    <header>
       <h1 className="modal__title" id={props.uniqueId}>
         {props.title}
       </h1>
@@ -25,8 +29,8 @@ const ModalHeader = (props: { title: string; uniqueId?: string }) => (
 )
 
 const ModalFooter = (props: { actions: React.ReactNode[] }) => (
-  <footer className="modal__footer bg-primary-lighter" data-testid="footer">
-    <div className="flex flex-row-reverse gap-5">
+  <footer className="modal__footer" data-testid="footer">
+    <div className="flex flex-row-reverse gap-5 items-center">
       {props.actions.map((action: React.ReactNode, index: number) => (
         <div key={index}>{action}</div>
       ))}
@@ -36,10 +40,13 @@ const ModalFooter = (props: { actions: React.ReactNode[] }) => (
 
 export const Modal = (props: ModalProps) => {
   const uniqueIdRef = useRef(nanoid())
-  const wrapperClasses = ["modal"]
+  const modalClassNames = ["modal"]
   const innerClassNames = ["modal__inner"]
-  if (props.className) wrapperClasses.push(props.className)
-  if (props.innerClassNames) innerClassNames.push(props.innerClassNames)
+  const closeClassNames = ["modal__close"]
+  if (props.scrollable) innerClassNames.push("is-scrollable")
+  if (props.modalClassNames) modalClassNames.push(...props.modalClassNames.split(" "))
+  if (props.innerClassNames) innerClassNames.push(...props.innerClassNames.split(" "))
+  if (props.closeClassNames) closeClassNames.push(...props.closeClassNames.split(" "))
 
   return (
     <Overlay
@@ -48,25 +55,31 @@ export const Modal = (props: ModalProps) => {
       open={props.open}
       onClose={props.onClose}
       backdrop={props.backdrop}
+      scrollable={props.scrollable}
       slim={props.slim}
       role={props.role ? props.role : "dialog"}
     >
-      <div className={wrapperClasses.join(" ")}>
+      <div className={modalClassNames.join(" ")}>
         <ModalHeader title={props.title} uniqueId={uniqueIdRef.current} />
 
         <section className={innerClassNames.join(" ")}>
-          {typeof props.children === "string" ? (
-            <p className="c-steel">{props.children}</p>
-          ) : (
-            props.children
-          )}
+          {typeof props.children === "string" ? <p>{props.children}</p> : props.children}
         </section>
 
         {props.actions && <ModalFooter actions={props.actions} />}
 
         {!props.hideCloseIcon && (
-          <button className="modal__close" aria-label="Close" onClick={props.onClose} tabIndex={0}>
-            <Icon size="medium" symbol="close" />
+          <button
+            className={closeClassNames.join(" ")}
+            aria-label="Close"
+            onClick={props.onClose}
+            tabIndex={0}
+          >
+            <Icon
+              size="medium"
+              symbol="close"
+              fill={props.closeIconColor ?? IconFillColors.primary}
+            />
           </button>
         )}
       </div>
