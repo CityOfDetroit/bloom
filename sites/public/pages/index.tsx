@@ -30,14 +30,12 @@ import {
   encodeToFrontendFilterString,
 } from "@bloom-housing/shared-helpers"
 
-export default function Home({ latestListings }) {
+export default function Home({ latestListings, comingSoonListings }) {
   const showLatestListings = false // Disabled for now
-
   const blankAlertInfo = {
     alertMessage: null,
     alertType: null,
   }
-
   const [alertInfo, setAlertInfo] = useState(blankAlertInfo)
 
   const heroTitle = <>{t("welcome.title")}</>
@@ -75,10 +73,20 @@ export default function Home({ latestListings }) {
       href={`/listings/filtered?page=1${encodeToFrontendFilterString({
         region: props.region[1],
       })}`}
-      style={{ backgroundImage: `url(${regionImageUrls.get(props.region[1])})` }}
     >
+      <img src={`${regionImageUrls.get(props.region[1])}`} />
       <p className={styles.region__text}>{props.region[1]}</p>
     </a>
+  )
+
+  const ComingSoonButton = () => (
+    <LinkButton
+      href={`/listings/filtered?page=1${encodeToFrontendFilterString({
+        availability: "comingSoon",
+      })}`}
+    >
+      {t("welcome.comingSoonButton")}
+    </LinkButton>
   )
 
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
@@ -107,7 +115,7 @@ export default function Home({ latestListings }) {
         title={heroTitle}
         backgroundImage={"/images/hero-main.jpg"}
         heroInset={heroInset}
-        innerClassName="bg-white bg-opacity-90 max-w-2xl mx-auto p-8 rounded-xl"
+        innerClassName="max-w-2xl mx-auto p-8 rounded-xl"
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
@@ -122,16 +130,37 @@ export default function Home({ latestListings }) {
           {getListings(latestListings.items)}
         </HorizontalScrollSection>
       )}
-      <HorizontalScrollSection
-        title={t("welcome.cityRegions")}
-        scrollAmount={311}
-        icon="map"
-        className={styles.regions}
-      >
-        {Object.entries(Region).map((region, index) => (
-          <RegionButton region={region} key={index} />
-        ))}
-      </HorizontalScrollSection>
+      {comingSoonListings?.items?.length > 0 && (
+        <div className={styles["section-container"]}>
+          <section className={`coming-soon-listings`}>
+            <div className={`${styles["title"]}`}>
+              <Icon size="xlarge" symbol="clock" ariaHidden={true} />
+              <h2>{t("listings.comingSoon")}</h2>
+            </div>
+            <div className={`${styles["cards-container"]}`}>
+              {getListings(comingSoonListings?.items)}
+            </div>
+            <div className={`${styles["title"]}`}>
+              <ComingSoonButton />
+            </div>
+          </section>
+        </div>
+      )}
+      <div className={styles["region-background"]}>
+        <div className={styles["section-container"]}>
+          <section className={styles.regions}>
+            <div className={`${styles["title"]}`}>
+              <Icon size="xlarge" symbol={"map"} className={styles.icon} ariaHidden={true} />
+              <h2>{t("welcome.cityRegions")}</h2>
+            </div>
+            <div className={styles["cards-container"]}>
+              {Object.entries(Region).map((region, index) => (
+                <RegionButton region={region} key={index} />
+              ))}
+            </div>
+          </section>
+        </div>
+      </div>
       <section className="homepage-extra">
         <div className="action-blocks mt-4 mb-4 w-full">
           <ActionBlock
@@ -173,8 +202,9 @@ export default function Home({ latestListings }) {
 
 export async function getStaticProps() {
   let latestListings = []
+  let comingSoonListings = []
   try {
-    const response = await axios.get(process.env.listingServiceUrl, {
+    const latestResponse = await axios.get(process.env.listingServiceUrl, {
       params: {
         limit: 5,
         orderBy: "mostRecentlyUpdated",
@@ -191,9 +221,33 @@ export async function getStaticProps() {
         return qs.stringify(params)
       },
     })
-    latestListings = response.data
+    latestListings = latestResponse.data
   } catch (error) {
     console.error(error)
   }
-  return { props: { latestListings }, revalidate: process.env.cacheRevalidate }
+
+  try {
+    const comingSoonResponse = await axios.get(process.env.listingServiceUrl, {
+      params: {
+        limit: 3,
+        view: "base",
+        orderBy: "comingSoon",
+        filter: [
+          {
+            $comparison: EnumListingFilterParamsComparison["="],
+            status: EnumListingFilterParamsStatus.active,
+            marketingType: "comingSoon",
+          },
+        ],
+      },
+      paramsSerializer: (params) => {
+        return qs.stringify(params)
+      },
+    })
+    comingSoonListings = comingSoonResponse.data
+  } catch (error) {
+    console.error(error)
+  }
+
+  return { props: { latestListings, comingSoonListings }, revalidate: process.env.cacheRevalidate }
 }
