@@ -196,7 +196,7 @@ const AgTable = ({
               placeholder={t("t.filter")}
             />
           </div>
-          <div className="w-full md:w-auto mt-2 mb-2 md:mb-0">
+          <div className="w-full md:w-auto my-2 md:my-0">
             {!validSearch && (
               <AlertBox type="notice">{t("applications.table.searchError")}</AlertBox>
             )}
