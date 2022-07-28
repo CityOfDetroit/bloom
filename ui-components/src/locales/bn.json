@@ -1263,5 +1263,10 @@
   "resources.utilityAssistance": "ইউটিলিটি সহায়তা",
   "resources.homelessnessServices": "গৃহহীনতা সেবা",
   "resources.detroitLandBankAuthority": "ডেট্রয়েট ল্যান্ড ব্যাংক কর্তৃপক্ষ",
-  "resources.homeRepairResources": "বাড়ি মেরামতের সংস্থান"
+  "resources.homeRepairResources": "বাড়ি মেরামতের সংস্থান",
+  "resources.affordableHousingTitle": "আবাসন বিষয়ক সাধারণ তথ্য",
+  "resources.affordableHousingLinkLabel": "এটি কীভাবে কাজ করে তা জানতে আরও পড়ুন",
+  "resources.housingResourcesTitle": "আবাসন সংক্রান্ত অতিরিক্ত রিসোর্সসমূহ",
+  "resources.housingResourcesSubtitle": "আপনার আবাসনের খোঁজে স্থানীয় রিসোর্স ও পরিষেবাগুলো ব্রাউজ করুন",
+  "resources.housingResourcesLinkLabel": "কমিউনিটি রিসোর্সগুলো দেখুন"
 }

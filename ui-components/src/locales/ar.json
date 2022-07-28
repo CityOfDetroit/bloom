@@ -1265,5 +1265,10 @@
   "resources.utilityAssistance": "مساعدة المرافق",
   "resources.homelessnessServices": "خدمات التشرد",
   "resources.detroitLandBankAuthority": "هيئة مصرف ديترويت العقاري",
-  "resources.homeRepairResources": "موارد إصلاح المنزل"
+  "resources.homeRepairResources": "موارد إصلاح المنزل",
+  "resources.affordableHousingTitle": "أساسيات السكن",
+  "resources.affordableHousingLinkLabel": "قراءة المزيد لمعرفة كيف يسير الأمر",
+  "resources.housingResourcesTitle": "موارد سكن إضافية",
+  "resources.housingResourcesSubtitle": "تصفّح الموارد والخدمات المحلية في بحثك عن سكن",
+  "resources.housingResourcesLinkLabel": "عرض الموارد المجتمعية"
 }
