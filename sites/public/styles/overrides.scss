@@ -39,7 +39,7 @@ $header-desktop-min-size: 1024px;
         border-inline-width: 1px;
       }
       .action-block__header {
-        @apply text-lg;
+        font-size: (var(--bloom-font-size-base-alt));
       }
     }
   }
