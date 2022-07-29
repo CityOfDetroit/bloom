@@ -12,15 +12,14 @@
   }
 
   .modal__title {
-    @apply text-2xl font-bold;
+    @apply text-lg font-bold;
+    @screen sm {
+      @apply text-2xl font-bold;
+    }
   }
 
-  .modal__close {
-    top: 0.825rem;
-    right: 0.825rem;
-    svg {
-      fill: #5f6368;
-    }
+  .modal__close svg {
+    fill: #5f6368;
   }
 
   .modal__inner {
