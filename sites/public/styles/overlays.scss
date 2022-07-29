@@ -12,7 +12,10 @@
   }
 
   .modal__title {
-    @apply text-2xl font-bold;
+    @apply text-lg font-bold;
+    @screen sm {
+      @apply text-2xl font-bold;
+    }
   }
 
   .modal__close svg {
