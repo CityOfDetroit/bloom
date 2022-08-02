@@ -32,9 +32,8 @@
 }
 
 .modal__title {
-  padding-block: var(--bloom-s6) var(--bloom-s3);
-  padding-inline-start: var(--bloom-s6);
-  padding-inline-end: var(--bloom-s12);
+  padding-block: var(--bloom-s8);
+  padding-inline: var(--bloom-s6) var(--bloom-s12);
   color: var(--title-color);
   font-size: var(--title-font-size);
   font-family: var(--title-font-family);
