@@ -6,7 +6,7 @@ footer.site-footer > .footer-row:first-of-type {
 .footer-sections {
   @apply py-8;
   @apply px-5;
-  max-width: 64rem;
+  @apply max-w-5xl;
   margin: auto;
 }
 
