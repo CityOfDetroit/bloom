@@ -18,12 +18,7 @@ const MediaCard = (props: MediaCardProps) => {
     <div className={wrapperClasses.join(" ")}>
       <span onClick={props.handleClick}>
         <div className="media-card__header">
-          <Icon
-            symbol={props.icon ?? faCirclePlay}
-            size="2xl"
-            fill="white"
-            className="fa-expand-alt"
-          />
+          <Icon symbol={props.icon ?? faCirclePlay} size="2xl" fill="white" />
         </div>
       </span>
       <div className="media-card__body">
