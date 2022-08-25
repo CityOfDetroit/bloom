@@ -72,9 +72,6 @@ export class ListingsQueryParams extends PaginationAllowsAllQueryParams {
     type: String,
     example: "search",
     required: false,
-    enum: OrderDirEnum,
-    enumName: "OrderDirEnum",
-    example: "ASC",
   })
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
