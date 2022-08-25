@@ -1,9 +1,5 @@
 import React, { useMemo, useState } from "react"
 import Head from "next/head"
-<<<<<<< HEAD
-import { AgGridReact } from "ag-grid-react"
-=======
->>>>>>> remotes/origin/dev
 import dayjs from "dayjs"
 import {
   PageHeader,
@@ -40,21 +36,12 @@ const getRolesDisplay = ({ value }) => {
   return roles.join(", ")
 }
 
-type UserDrawerValue = {
-  type: "add" | "edit"
-  user?: User
-}
-
 const Users = () => {
   /* Add user drawer */
   const [userDrawer, setUserDrawer] = useState<UserDrawerValue | null>(null)
 
-<<<<<<< HEAD
-  /* Ag Grid column definitions */
-=======
   const tableOptions = useAgTable()
 
->>>>>>> remotes/origin/dev
   const columns = useMemo(() => {
     return [
       {
@@ -117,11 +104,8 @@ const Users = () => {
       {
         headerName: t("listings.details.createdDate"),
         field: "createdAt",
-<<<<<<< HEAD
-=======
         sortable: true,
         unSortIcon: true,
->>>>>>> remotes/origin/dev
         valueFormatter: ({ value }) => dayjs(value).format("MM/DD/YYYY"),
       },
       {
@@ -143,13 +127,6 @@ const Users = () => {
     ]
   }, [])
 
-<<<<<<< HEAD
-  /* Pagination */
-  const [itemsPerPage, setItemsPerPage] = useState<number>(AG_PER_PAGE_OPTIONS[0])
-  const [currentPage, setCurrentPage] = useState<number>(1)
-
-=======
->>>>>>> remotes/origin/dev
   /* Fetch user list */
   const { data: userList, loading, error } = useUserList({
     page: tableOptions.pagination.currentPage,
