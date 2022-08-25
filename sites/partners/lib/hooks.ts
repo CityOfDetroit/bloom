@@ -25,9 +25,17 @@ interface UseSingleApplicationDataProps extends PaginationProps {
   listingId: string
 }
 
-type UseUserListProps = PaginationProps
+type UseUserListProps = PaginationProps & {
+  search?: string
+}
+export interface ColumnOrder {
+  orderBy: string
+  orderDir: string
+}
 
 type UseListingsDataProps = PaginationProps & {
+  search?: string
+  sort?: ColumnOrder[]
   listingIds?: string[]
   view?: string
 }
@@ -48,17 +56,16 @@ export function useSingleListingData(listingId: string) {
 export function useListingsData({
   page,
   limit,
+  search,
   listingIds,
-  orderBy,
-  orderDir,
+  sort,
   view = "base",
 }: UseListingsDataProps) {
   const params = {
     page,
     limit,
+    search,
     view,
-    orderBy,
-    orderDir: OrderDirEnum.ASC,
   }
 
   // filter if logged user is an agent
@@ -73,10 +80,20 @@ export function useListingsData({
     })
   }
 
-  if (orderBy) {
-    Object.assign(params, { orderBy, orderDir })
+  if (search?.length < 3) {
+    delete params.search
+  } else {
+    Object.assign(params, { search })
   }
 
+  if (sort) {
+    Object.assign(params, {
+      orderBy: sort?.filter((item) => item.orderBy).map((item) => item.orderBy)[0],
+    })
+    Object.assign(params, {
+      orderDir: sort?.filter((item) => item.orderDir).map((item) => item.orderDir)[0],
+    })
+  }
   const { listingsService } = useContext(AuthContext)
   const fetcher = () => listingsService.list(params)
 
@@ -115,7 +132,6 @@ export function useApplicationsData(
   }
 
   const paramsString = qs.stringify(params)
-
   const endpoint = `${process.env.backendApiBase}/applications?${paramsString}`
 
   const fetcher = () => applicationsService.list(params)
@@ -353,29 +369,32 @@ export function useReservedCommunityTypeList() {
   }
 }
 
-export function useUserList({ page, limit }: UseUserListProps) {
-  const queryParams = new URLSearchParams()
-  queryParams.append("page", page.toString())
-  queryParams.append("limit", limit.toString())
+export function useUserList({ page, limit, search = "" }: UseUserListProps) {
+  const params = {
+    page,
+    limit,
+    filter: [
+      {
+        isPortalUser: true,
+        $comparison: EnumUserFilterParamsComparison["="],
+      },
+    ],
+    search,
+  }
+
+  if (search?.length < 3) {
+    delete params.search
+  } else {
+    Object.assign(params, { search })
+  }
+
+  const paramsString = qs.stringify(params)
 
   const { userService } = useContext(AuthContext)
 
-  const fetcher = () =>
-    userService.list({
-      page,
-      limit,
-      filter: [
-        {
-          isPortalUser: true,
-          $comparison: EnumUserFilterParamsComparison["NA"],
-        },
-      ],
-    })
+  const fetcher = () => userService.list(params)
 
-  const { data, error } = useSWR(
-    `${process.env.backendApiBase}/user/list?${queryParams.toString()}`,
-    fetcher
-  )
+  const { data, error } = useSWR(`${process.env.backendApiBase}/user/list?${paramsString}`, fetcher)
 
   return {
     data,

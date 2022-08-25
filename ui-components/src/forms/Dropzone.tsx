@@ -28,6 +28,7 @@ const Dropzone = (props: DropzoneProps) => {
     onDrop,
     accept: props.accept,
     maxFiles: 1,
+    multiple: false,
   })
 
   const dropzoneClasses = ["dropzone", "control"]

@@ -1,7 +1,7 @@
 {
   "welcome.title": "العثور على سكن للإيجار بأسعار معقولة في Detroit",
   "welcome.heroText": "مصدرك للعثور على سكن متعدد الأُسر بناءً على دخلك واحتياجات أسرتك",
-  "welcome.seeMoreOpportunitiesTruncated": "الاطلاع على المزيد من موارد الإسكان معقول التكلفة",
+  "welcome.seeMoreOpportunitiesTruncated": "الاطلاع على المزيد من موارد وخدمات السكن بأسعار معقولة",
   "welcome.viewAdditionalHousingTruncated": "عرض الموارد",
   "nav.siteTitle": "Detroit Home Connect",
   "region.name": "ديترويت",
@@ -17,7 +17,18 @@
   "leasingAgent.contact": "شركة إدارة",
   "leasingAgent.dueToHighCallVolume": "",
   "listingFilters.resetButton": "انظر جميع القوائم",
-  "pageTitle.additionalResources": "موارد إسكان إضافية",
+  "pageTitle.additionalResources": "موارد سكن إضافية",
   "pageDescription.resources": "قامت دائرة الإسكان والتنشيط بمدينة ديترويت بتجميع قائمة بالموارد لمساعدتك في العثور على مسكنك والمحافظة عليه. في نهاية هذه الصفحة ، ستجد أيضًا أربعة مقاطع فيديو قصيرة حيث يمكنك معرفة المزيد حول عملية التقديم للحصول على سكن ميسور التكلفة.",
-  "pageDescription.additionalResources": "نشجعك على تصفح الموارد الإضافية في رحلة بحثك عن السكن"
+  "pageDescription.additionalResources": "نشجعك على تصفح الموارد الإضافية في رحلة بحثك عن السكن",
+  "basicsVideo.sectionTitle": "دروس الفيديو عن السكن بأسعار معقولة",
+  "basicsVideo.affordableHousing": "Detroit Home Connect: ما هو السكن الميسور التكلفة؟",
+  "basicsVideo.affordableHousingSubtitle": "في مقطع الفيديو هذا، تعرّف على الأنواع المختلفة من السكن بأسعار معقولة المتاحة في ديترويت.",
+  "basicsVideo.application": "Detroit Home Connect: تطبيق الإسكان الميسور التكلفة",
+  "basicsVideo.applicationSubtitle": "في مقطع الفيديو هذا، تعرّف على المستندات الشائعة التي قد تحتاج إليها لتعبئة طلب الحصول على سكن بأسعار معقولة.",
+  "basicsVideo.waitlist": "Detroit Home Connect: قوائم انتظار الإسكان الميسور التكلفة",
+  "basicsVideo.waitlistSubtitle": "في مقطع الفيديو هذا، تعرّف على أهمية دخول قوائم انتظار السكن بأسعار معقولة، والتي ستجعلك مرشحًا للحصول على الوحدات عند توفرها.",
+  "basicsVideo.incomeRestrictions": "Detroit Home Connect: فهم قيود الدخل",
+  "basicsVideo.incomeRestrictionsSubtitle": "في مقطع الفيديو هذا، تعرّف على متطلبات الدخل اللازمة للسكن بأسعار معقولة مدفوع التكاليف عن طريق الموارد الحكومية.",
+  "basicsVideo.residentTutorialSubtitle": "تعرّف على كيفية استخدام محدد مواقع السكن بأسعار معقولة في المدينة، (ديترويت هوم كونكت) لفهم خيارات السكن بأسعار معقولة في المدينة.",
+  "basicsCard.sectionTitle": "معرفة المزيد عن أساسيات السكن بأسعار معقولة"
 }
