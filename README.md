@@ -103,20 +103,6 @@ On every merge to master (roughly bi-weekly), a release of the backend/core and 
 
 Once staging has been QAed, we manually update `production`.
 
-### Committing, Versioning, and Releasing
-
-We are using [lerna](https://lerna.js.org/) as a monorepo management tool. It automatically versions, releases, and generates a changelog across our packages. In conjunction with lerna we are also using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), a specification for commit messages that helps lerna understand what level of change each commit is in order to automate our processes.
-
-On commit, two steps automatically run: (1) linting and (2) a verification of the conventional commit standard. We recommend not running `git commit` and instead globally installing commitizen (`npm install -g commitizen`) and committing with `git cz` which will run a commit message CLI. The CLI asks a series of questions and builds the commit message for you in the conventional commit format. You can also `git commit` with a message if you are 100% confident you have indicated the right level of change (it will still lint the message format).
-
-In addition to commits needing to be formatted as conventional commits, if you are making version changes across multiple packages, your commits must also be separated by package in order to not improperly version a package.
-
-On every merge to dev, a pre-release of the ui-components package is automatically published to npm, and our Netlify dev environment is updated.
-
-On every merge to master (bi-weekly), a release of the backend/core and ui-components packages are automatically published to npm, and our Netlify staging environment is updated.
-
-Once staging has been QAed, we manually update production.
-
 ### Pull Requests
 
 Pull requests are opened to the dev branch, not to master. When opening a pull request please fill out the entire pull request template which includes tagging the issue your PR is related to, a description of your PR, indicating the type of change, including details for the reviewer about how to test your PR, and a testing checklist. Additionally, officially link the issue to the PR using GitHub's linking UI.

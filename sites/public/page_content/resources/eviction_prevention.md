@@ -10,7 +10,7 @@ Several agencies in Detroit provide legal assistance to low-income households fa
 
 ### Prevención del desalojo y asistencia legal
 
-Varias agencias de Detroit brindan asistencia legal a viviendas de bajos recursos que enfrentan problemas de desalojo y de otra índole. Las organizaciones a las cuales recurrir incluyen las siguientes: [United Community Housing Coalition](https://www.uchcdetroit.org/) ([313-963-3310](tel:+1-313-963-3310)), [Lakeshore Legal Aid](https://lakeshorelegalaid.org/) ([888-783-8190](tel:+1-888-783-8190)), y la [Legal Aid and Defender Association](https://ladadetroit.org/) ([313-967-5800](tel:+1-313-967-5800)).
+Varias agencias de Detroit brindan asistencia legal a viviendas de bajos recursos que enfrentan problemas de desalojo y de otra índole. Las organizaciones a las cuales recurrir incluyen las siguientes: [United Community Housing Coalition](https://www.uchcdetroit.org/) ([313-963-3310](tel:+1-313-963-3310)), [Lakeshore Legal Aid](https://lakeshorelegalaid.org/) ([888-783-8190](tel:+1-888-783-8190)), y la [Legal Aid and Defender Association](https://ladadetroit.org/) ([313-967-5800](tel:+1-313-967-5800)). 
 
 </RenderIf>
 
@@ -18,7 +18,7 @@ Varias agencias de Detroit brindan asistencia legal a viviendas de bajos recurso
 
 ### منع الطرد والمساعدة القانونية
 
-تقدم العديد من الوكالات في ديترويت المساعدة القانونية للأسر ذات الدخل المنخفض المهددة بالطرد وغيرها من القضايا. تشمل المنظمات التي يجب الاتصال بها كلاً من
+تقدم العديد من الوكالات في ديترويت المساعدة القانونية للأسر ذات الدخل المنخفض المهددة بالطرد وغيرها من القضايا. تشمل المنظمات التي يجب الاتصال بها كلاً من 
 
 [United Community Housing Coalition](https://www.uchcdetroit.org/) ([3139633310](tel:+1-313-963-3310))
 ، و
