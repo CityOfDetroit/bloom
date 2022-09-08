@@ -3,7 +3,6 @@ import "./Overlay.scss"
 import useKeyPress from "../helpers/useKeyPress"
 import { createPortal } from "react-dom"
 import FocusLock from "react-focus-lock"
-// import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock"\
 import { RemoveScroll } from "react-remove-scroll"
 import { CSSTransition } from "react-transition-group"
 
