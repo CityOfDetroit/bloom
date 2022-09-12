@@ -172,4 +172,7 @@
   svg {
     @apply sr-only;
   }
+  footer button:focus {
+    box-shadow: 0 0 3px 4px var(--bloom-color-accent-cool);
+  }
 }
