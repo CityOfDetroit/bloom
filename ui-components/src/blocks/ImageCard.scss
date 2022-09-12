@@ -166,6 +166,9 @@
     flex-direction: column;
     align-items: center;
   }
+  button {
+    outline: none;
+  }
   svg {
     @apply sr-only;
   }
