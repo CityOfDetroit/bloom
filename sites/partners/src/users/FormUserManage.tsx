@@ -125,7 +125,7 @@ const FormUserManage = ({ mode, user, listings, onDrawerClose }: FormUserManageP
       }
 
       return []
-    })()
+    })() as string[]
 
     const validation = await trigger()
 
