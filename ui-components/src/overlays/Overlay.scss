@@ -9,7 +9,7 @@
   top: 0px;
   left: 0px;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   z-index: 50;
 
   &.is-backdrop:before {
@@ -57,14 +57,6 @@
   width: 90vw;
 
   @media (min-width: $screen-md) {
-    width: 75vw;
-  }
-}
-
-.fixed-overlay__inner-slim {
-  width: 90vw;
-
-  @screen md {
     width: 75vw;
   }
 }
