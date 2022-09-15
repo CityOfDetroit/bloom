@@ -1,13 +1,22 @@
-import { FormCard, PageHeader, ProgressNav, StepHeader, t } from "@bloom-housing/ui-components"
+import {
+  Field,
+  FormCard,
+  PageHeader,
+  ProgressNav,
+  StepHeader,
+  t,
+} from "@bloom-housing/ui-components"
+import FormsLayout from "../layouts/forms"
+
 import React from "react"
 import Layout from "../layouts/application"
 
 export default function Finder() {
-  const hm = () => {
+  const ProgressHeader = () => {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full">
         <div className="flex flex-row justify-between">
-          <div className="text-lg font-bold">Find Listings For You</div>
+          <div className="text-xl font-bold">Find Listings For You</div>
           <StepHeader
             currentStep={1}
             totalSteps={3}
@@ -18,16 +27,31 @@ export default function Finder() {
         <ProgressNav
           currentPageSection={1}
           completedSections={1}
-          labels={["You", "Household", "Income", "Preferences", "Review"]}
+          labels={["Housing Needs", "Accessibility", "Building Types"]}
           mounted={true}
           style="bar"
         ></ProgressNav>
       </div>
     )
   }
+  const rentalTypes = ["one", "two", "three", "four"]
   return (
     <Layout>
-      <PageHeader>{hm()}</PageHeader>
+      <section className="bg-gray-300 border-t border-gray-450">
+        <div className="md:mb-20 md:mt-12 mx-auto max-w-5xl">
+          {ProgressHeader()}
+          <FormCard>
+            <div>What types of rentals are you interested in?</div>
+            <div>
+              We host a variety of listings from active vacancies to properties that are currently
+              occupied and have no active vacancies, but do have open waitlists.
+            </div>
+            {rentalTypes.map((type) => (
+              <Field name={type} label={type} type="checkbox"></Field>
+            ))}
+          </FormCard>
+        </div>
+      </section>
     </Layout>
   )
 }
