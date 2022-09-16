@@ -277,7 +277,6 @@
 }
 
 .hero__button {
-  color: black;
   display: inline-block;
   font-size: large;
   max-width: 100%;
@@ -292,11 +291,21 @@
   }
 }
 
-.hero__home-button {
+.hero__rentals-button {
+  color: black;
   background-color: #ffbe42;
 
   &:hover {
     @apply bg-primary;
+    color: white;
+  }
+}
+.hero__finder-button {
+  color: var(--bloom-color-white);
+  background-color: var(--bloom-color-primary);
+  margin-left: var(--bloom-s2);
+  &:hover {
+    background-color: var(--bloom-color-primary);
     color: white;
   }
 }
