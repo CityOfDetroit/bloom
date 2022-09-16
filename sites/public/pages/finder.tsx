@@ -1,12 +1,4 @@
-import {
-  Field,
-  FormCard,
-  PageHeader,
-  ProgressNav,
-  StepHeader,
-  t,
-} from "@bloom-housing/ui-components"
-import FormsLayout from "../layouts/forms"
+import { Field, FormCard, ProgressNav, StepHeader, t } from "@bloom-housing/ui-components"
 
 import React from "react"
 import Layout from "../layouts/application"
@@ -16,7 +8,9 @@ export default function Finder() {
     return (
       <div className="flex flex-col w-full">
         <div className="flex flex-row justify-between">
-          <div className="text-xl font-bold">Find Listings For You</div>
+          <div className="text-xl capitalize font-bold">
+            {t("listingFilters.buttonTitleExtended")}
+          </div>
           <StepHeader
             currentStep={1}
             totalSteps={3}
@@ -47,7 +41,7 @@ export default function Finder() {
               occupied and have no active vacancies, but do have open waitlists.
             </div>
             {rentalTypes.map((type) => (
-              <Field name={type} label={type} type="checkbox"></Field>
+              <Field name={type} label={type} type="checkbox" bordered></Field>
             ))}
           </FormCard>
         </div>
