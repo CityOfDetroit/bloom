@@ -45,3 +45,20 @@ li.progress-nav__item {
 .field-note {
   @apply font-normal;
 }
+
+.finder-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 0.5rem;
+  column-gap: 0.5rem;
+  .finder-grid__field {
+    .field {
+      --leftward-margin: 0rem;
+    }
+    width: 100%;
+    @screen md {
+      width: calc(50% - 0.25rem);
+    }
+  }
+}

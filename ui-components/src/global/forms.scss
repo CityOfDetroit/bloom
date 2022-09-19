@@ -4,6 +4,7 @@
   --bordered-vertical-padding: var(--bloom-s4);
   --bordered-leftward-padding: 2.875rem;
   --bordered-checked-bg-color: var(--bloom-color-gray-100);
+  --leftward-margin: 2rem;
 
   margin-bottom: 1.25rem;
 
@@ -127,7 +128,7 @@
   input[type="checkbox"] + label,
   input[type="radio"] + label {
     cursor: pointer;
-    margin-inline-start: 2rem;
+    margin-inline-start: var(--leftward-margin);
     display: block;
     text-indent: -2rem;
   }

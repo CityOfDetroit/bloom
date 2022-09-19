@@ -1,21 +1,75 @@
 import {
+  encodeToFrontendFilterString,
+  FrontendListingFilterStateKeys,
+  ListingFilterState,
+} from "@bloom-housing/shared-helpers"
+import {
   AppearanceStyleType,
   Button,
   Field,
-  FieldGroup,
-  FieldSingle,
+  Form,
   FormCard,
   ProgressNav,
   StepHeader,
   t,
 } from "@bloom-housing/ui-components"
+import axios from "axios"
+import router from "next/router"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
+interface optionInterface {
+  value: string
+  label: string
+  translation?: string
+}
 
-export default function Finder() {
-  const { handleSubmit, errors, register, reset, trigger, watch: formWatch } = useForm()
+const getTranslationString = (str: string) => {
+  if (str === "studio") {
+    return "studioPlus"
+  } else if (str === "oneBdrm") {
+    return "onePlus"
+  } else if (str === "twoBdrm") {
+    return "twoPlus"
+  } else if (str === "threeBdrm") {
+    return "threePlus"
+  } else if (str === "fourBdrm") {
+    return "fourPlus"
+  }
+}
+
+const Finder = () => {
+  const [bedroomOptions, setBedroomOptions] = useState<optionInterface[]>([])
+  const onSubmit = (data: ListingFilterState) => {
+    console.log(data)
+    void router.push(`/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(data)}`)
+  }
+  useEffect(() => {
+    const getAndSetOptions = async () => {
+      try {
+        const response = await axios.get(`${process.env.backendApiBase}/listings/meta`)
+        if (response.data) {
+          if (response.data.unitTypes) {
+            setBedroomOptions(
+              response.data.unitTypes.map((elem) => ({
+                label: elem.name,
+                value: elem.id,
+                translation: getTranslationString(elem.name),
+              }))
+            )
+          }
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    void getAndSetOptions()
+  }, [])
+
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const { register, handleSubmit } = useForm()
+
   const ProgressHeader = () => {
     return (
       <div className="flex flex-col w-full">
@@ -40,53 +94,61 @@ export default function Finder() {
       </div>
     )
   }
-  const rentalTypes = ["one", "two", "three", "four"]
-  // const rentalFields = rentalTypes.map((type) => {
-  //   return {
-  //     id: type,
-  //     label: type,
-  //     value: type,
-  //     bordered: true,
-  //   }
-  // })
+  // console.log(localFilterState)
+
   return (
     <Layout>
-      <section className="bg-gray-300 border-t border-gray-450">
+      <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
         <div className="md:mb-20 md:mt-12 mx-auto max-w-5xl">
           {ProgressHeader()}
           <FormCard>
             <div className="px-20">
               <div className="pt-12">
                 <div className="text-3xl pb-4">What types of rentals are you interested in?</div>
-                <div className="pb-8">
+                <div className="pb-8 border-b border-gray-450">
                   We'll use your selection to highlight possible rentals that match.
                 </div>
               </div>
-              <div className="flex flex-row flex-wrap">
-                {rentalTypes.map((type) => (
-                  <div className="w-2/5">
-                    <Field
-                      className="w-full"
-                      name={type}
-                      label={type}
-                      type="checkbox"
-                      bordered
-                    ></Field>
-                  </div>
-                ))}
+              <div className="py-8">
+                <p className="pb-4">Select all that apply: </p>
+                <div className="finder-grid">
+                  {bedroomOptions.map((elem) => {
+                    console.log(FrontendListingFilterStateKeys[elem.label])
+                    return (
+                      <div className="finder-grid__field">
+                        <Field
+                          name="bedRoomSize"
+                          register={register}
+                          id={FrontendListingFilterStateKeys[elem.label]}
+                          label={t(`listingFilters.bedroomsOptions.${elem.translation}`)}
+                          key={FrontendListingFilterStateKeys[elem.label]}
+                          type="checkbox"
+                          inputProps={{
+                            value: FrontendListingFilterStateKeys[elem.label],
+                          }}
+                          bordered
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
             </div>
             <div className="bg-gray-300 flex flex-row-reverse py-8 pr-20">
-              <Button type="button" styleType={AppearanceStyleType.primary}>
+              <Button type="submit" styleType={AppearanceStyleType.primary}>
                 Next
               </Button>
             </div>
             <div className="flex justify-center align-center bg-white py-8">
-              <a href="/listings">Skip this and show me listings</a>
+              <a className="underline" href="/listings">
+                Skip this and show me listings
+              </a>
             </div>
           </FormCard>
         </div>
-      </section>
+      </Form>
     </Layout>
   )
 }
+
+export default Finder

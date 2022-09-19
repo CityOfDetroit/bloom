@@ -302,11 +302,12 @@
 }
 .hero__finder-button {
   color: var(--bloom-color-white);
-  background-color: var(--bloom-color-primary);
+  background-color: var(--bloom-color-primary-dark);
   margin-left: var(--bloom-s2);
   &:hover {
-    background-color: var(--bloom-color-primary);
-    color: white;
+    background-color: var(--bloom-color-white);
+    color: var(--bloom-color-primary-dark);
+    border-color: var(--bloom-color-primary-dark);
   }
 }
 
