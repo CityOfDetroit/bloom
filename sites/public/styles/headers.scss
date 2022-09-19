@@ -305,9 +305,9 @@
   background-color: var(--bloom-color-primary-dark);
   margin-left: var(--bloom-s2);
   &:hover {
-    background-color: var(--bloom-color-white);
-    color: var(--bloom-color-primary-dark);
-    border-color: var(--bloom-color-primary-dark);
+    color: var(--bloom-color-white);
+    box-shadow: 0 0 0 var(--bloom-s0_5) var(--bloom-color-primary-dark) inset;
+    background-color: var(--bloom-color-black);
   }
 }
 
