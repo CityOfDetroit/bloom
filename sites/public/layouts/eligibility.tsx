@@ -66,7 +66,7 @@ const EligibilityLayout = (props: EligibilityLayoutProps) => {
                   t(`eligibility.progress.sections.${label}`)
                 )}
                 mounted={OnClientSide()}
-                routes={ELIGIBILITY_SECTIONS.map((_label, i) => eligibilityRoute(i))}
+                // routes={ELIGIBILITY_SECTIONS.map((_label, i) => eligibilityRoute(i))}
               />
             </div>
           </div>
