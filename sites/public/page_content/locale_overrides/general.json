@@ -34,5 +34,9 @@
   "basicsVideo.incomeRestrictionsSubtitle": "In this video, learn about income requirements for affordable housing that is paid for by governmental resources.",
   "basicsVideo.residentTutorial": "Detroit Home Connect Resident Tutorial",
   "basicsVideo.residentTutorialSubtitle": "Learn how to use the City's affordable housing locator, Detroit Home Connect, to understand affordable housing options in the City.",
-  "basicsCard.sectionTitle": "Learn more about the basics of affordable housing"
+  "basicsCard.sectionTitle": "Learn more about the basics of affordable housing",
+  "finder.bedroomsQuestions": "What types of rentals are you interested in?",
+  "finder.questionSubtitle": "We'll use your selection to highlight possible rentals that match.",
+  "finder.multiselectHelper": "Select all that apply:",
+  "finder.skip": "Skip this and show me listings"
 }

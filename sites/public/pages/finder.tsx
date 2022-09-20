@@ -94,7 +94,6 @@ const Finder = () => {
       </div>
     )
   }
-  // console.log(localFilterState)
 
   return (
     <Layout>
@@ -104,13 +103,11 @@ const Finder = () => {
           <FormCard>
             <div className="px-20">
               <div className="pt-12">
-                <div className="text-3xl pb-4">What types of rentals are you interested in?</div>
-                <div className="pb-8 border-b border-gray-450">
-                  We'll use your selection to highlight possible rentals that match.
-                </div>
+                <div className="text-3xl pb-4">{t("finder.bedroomQuestions")}</div>
+                <div className="pb-8 border-b border-gray-450">{t("finder.questionSubtitle")}</div>
               </div>
               <div className="py-8">
-                <p className="pb-4">Select all that apply: </p>
+                <p className="pb-4">{t("finder.multiselectHelper")}</p>
                 <div className="finder-grid">
                   {bedroomOptions.map((elem) => {
                     console.log(FrontendListingFilterStateKeys[elem.label])
@@ -136,12 +133,12 @@ const Finder = () => {
             </div>
             <div className="bg-gray-300 flex flex-row-reverse py-8 pr-20">
               <Button type="submit" styleType={AppearanceStyleType.primary}>
-                Next
+                {t("t.next")}
               </Button>
             </div>
             <div className="flex justify-center align-center bg-white py-8">
               <a className="underline" href="/listings">
-                Skip this and show me listings
+                {t("finder.skip")}
               </a>
             </div>
           </FormCard>
