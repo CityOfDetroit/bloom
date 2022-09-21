@@ -20,20 +20,6 @@ import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
 
-const getTranslationString = (str: string) => {
-  if (str === "studio") {
-    return "studioPlus"
-  } else if (str === "oneBdrm") {
-    return "onePlus"
-  } else if (str === "twoBdrm") {
-    return "twoPlus"
-  } else if (str === "threeBdrm") {
-    return "threePlus"
-  } else if (str === "fourBdrm") {
-    return "fourPlus"
-  }
-}
-
 interface finderField {
   label: string
   translation: string
@@ -50,10 +36,25 @@ interface finderForm {
 }
 
 const Finder = () => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const { register, handleSubmit, getValues } = useForm()
   const [currentStep, setCurrentStep] = useState<number>(1)
-  const [completedSteps, setCompletedSteps] = useState<number>(0)
-  const [activeQuestion, setActiveQuestion] = useState<finderQuestion>(null)
-  const formData: finderForm = {}
+  const [formData, setFormData] = useState<finderForm>(null)
+  const activeQuestion = formData?.[currentStep]
+
+  const translationStringMap = {
+    studio: "studioPlus",
+    oneBdrm: "onePlus",
+    twoBdrm: "twoPlus",
+    threeBdrm: "threePlus",
+    fourBdrm: "fourPlus",
+  }
+
+  const stepLabels = [
+    t("finder.progress.housingLabel"),
+    t("t.accessibility"),
+    t("finder.progress.builingLabel"),
+  ]
 
   const onSubmit = (data: ListingFilterState) => {
     void router.push(`/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(data)}`)
@@ -62,28 +63,25 @@ const Finder = () => {
     const getAndSetOptions = async () => {
       try {
         const response = await axios.get(`${process.env.backendApiBase}/listings/meta`)
-        // console.log(response.data)
-        if (response.data) {
-          if (response.data.unitTypes) {
-            const bedroomFields = response.data.unitTypes.map((elem) => ({
-              label: elem.name,
-              translation: getTranslationString(elem.name),
-              selected: false,
-            }))
-            formData[1] = { fieldGroupName: "bedRoomSize", fields: bedroomFields }
-          }
-          setActiveQuestion(formData[1])
+        const formQuestions: finderForm = {}
+        if (response?.data?.unitTypes) {
+          const bedroomFields = response.data.unitTypes.map((elem) => ({
+            label: elem.name,
+            translation: translationStringMap[elem.name],
+            selected: false,
+          }))
+          formQuestions[1] = { fieldGroupName: "bedRoomSize", fields: bedroomFields }
         }
+        setFormData(formQuestions)
       } catch (e) {
         console.error(e)
       }
     }
     void getAndSetOptions()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, getValues } = useForm()
 
-  const ProgressHeader = (currentStep: number, completedSteps: number) => {
+  const ProgressHeader = () => {
     return (
       <div className="flex flex-col w-full">
         <div className="flex flex-row justify-between">
@@ -93,14 +91,14 @@ const Finder = () => {
           <StepHeader
             currentStep={currentStep}
             totalSteps={3}
-            stepPreposition={"of"}
-            stepLabeling={["steps"]}
+            stepPreposition={t("finder.progress.stepPreposition")}
+            stepLabeling={stepLabels}
           ></StepHeader>
         </div>
         <ProgressNav
           currentPageSection={currentStep}
-          completedSections={completedSteps}
-          labels={["Housing Needs", "Accessibility", "Building Types"]}
+          completedSections={currentStep - 1}
+          labels={stepLabels}
           mounted={true}
           style="bar"
         ></ProgressNav>
@@ -110,33 +108,35 @@ const Finder = () => {
 
   const nextQuestion = () => {
     const userSelections = getValues()[formData[currentStep]["fieldGroupName"]]
-    formData[currentStep]["fields"].forEach(
+    const formCopy = { ...formData }
+    formCopy[currentStep]["fields"].forEach(
       (field) => (field["selected"] = userSelections.includes(field))
     )
-    setCompletedSteps(completedSteps + 1)
+    setFormData(formCopy)
     setCurrentStep(currentStep + 1)
   }
   const previousQuestion = () => {
     const userSelections = getValues()[formData[currentStep]["fieldGroupName"]]
-    formData[currentStep]["fields"].forEach(
+    const formCopy = { ...formData }
+    formCopy[currentStep]["fields"].forEach(
       (field) => (field["selected"] = userSelections.includes(field))
     )
-    setCompletedSteps(completedSteps - 1)
+    setFormData(formCopy)
     setCurrentStep(currentStep - 1)
   }
 
   return (
     <Layout>
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
-        <div className="md:mb-20 md:mt-12 mx-auto max-w-5xl">
-          {ProgressHeader(currentStep, completedSteps)}
+        <div className="md:mb-8 mt-4 md:mt-8 mx-auto max-w-5xl">
+          {ProgressHeader()}
           <FormCard>
-            {activeQuestion && (
+            {formData && (
               <>
                 <div className="px-20">
                   <div className="pt-12">
                     <div className="text-3xl pb-4">
-                      {t(`finder.${activeQuestion["fieldGroupName"]}.question`)}
+                      {t(`finder.${activeQuestion?.fieldGroupName}.question`)}
                     </div>
                     <div className="pb-8 border-b border-gray-450">
                       {t("finder.questionSubtitle")}
@@ -145,9 +145,12 @@ const Finder = () => {
                   <div className="py-8">
                     <p className="pb-4">{t("finder.multiselectHelper")}</p>
                     <div className="finder-grid">
-                      {activeQuestion["fields"]?.map((field) => {
+                      {activeQuestion?.fields?.map((field) => {
                         return (
-                          <div className="finder-grid__field">
+                          <div
+                            className="finder-grid__field"
+                            key={FrontendListingFilterStateKeys[field.label]}
+                          >
                             <Field
                               name="bedRoomSize"
                               register={register}
@@ -169,8 +172,7 @@ const Finder = () => {
                 </div>
 
                 <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
-                  {/* change as more questions added */}
-                  {currentStep === 1 ? (
+                  {currentStep === Object.keys(formData).length ? (
                     <Button type="submit" styleType={AppearanceStyleType.primary}>
                       {t("t.submit")}
                     </Button>
@@ -183,7 +185,7 @@ const Finder = () => {
                       {t("t.next")}
                     </Button>
                   )}
-                  {completedSteps > 0 && (
+                  {currentStep > 1 && (
                     <Button
                       type="button"
                       onClick={() => previousQuestion()}
