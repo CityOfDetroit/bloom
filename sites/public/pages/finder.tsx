@@ -87,7 +87,7 @@ const Finder = () => {
     return (
       <div className="flex flex-col w-full">
         <div className="flex flex-row justify-between">
-          <div className="text-xl capitalize font-bold">
+          <div className="md:text-xl capitalize font-bold">
             {t("listingFilters.buttonTitleExtended")}
           </div>
           <StepHeader
