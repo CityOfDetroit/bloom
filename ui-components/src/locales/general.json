@@ -1177,6 +1177,8 @@
   "pageDescription.welcome": "Search and apply for affordable housing on %{regionName}'s Housing Portal",
   "pageDescription.listing": "Apply for affordable housing at %{listingName} in %{regionName}, built in partnership with Exygy.",
   "region.name": "Local Region",
+  "progressNav.completed": "completed",
+  "progressNav.notCompleted": "not completed",
   "progressNav.srHeading": "Progress",
   "progressNav.current": "Current step: ",
   "seasons.fall": "Fall",

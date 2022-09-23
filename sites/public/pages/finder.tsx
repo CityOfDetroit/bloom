@@ -36,8 +36,8 @@ interface finderQuestion {
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, getValues } = useForm()
-  const [questionIndex, setQuestionIndex] = useState<number>(1)
-  const [formData, setFormData] = useState<finderQuestion[]>(null)
+  const [questionIndex, setQuestionIndex] = useState<number>(0)
+  const [formData, setFormData] = useState<finderQuestion[]>([])
   const activeQuestion = formData?.[questionIndex]
 
   const translationStringMap = {
@@ -53,6 +53,8 @@ const Finder = () => {
     t("t.accessibility"),
     t("finder.progress.builingLabel"),
   ]
+
+  const sectionNumber = stepLabels.indexOf(formData[questionIndex]?.formSection) + 1
 
   const onSubmit = (data: ListingFilterState) => {
     void router.push(`/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(data)}`)
@@ -80,7 +82,7 @@ const Finder = () => {
         }))
         formQuestions.push({
           formSection: t("finder.progress.housingLabel"),
-          fieldGroupName: "",
+          fieldGroupName: "neighborhood",
           fields: neihborhoodFields,
         })
         setFormData(formQuestions)
@@ -100,15 +102,15 @@ const Finder = () => {
             {t("listingFilters.buttonTitleExtended")}
           </div>
           <StepHeader
-            currentStep={questionIndex}
+            currentStep={sectionNumber}
             totalSteps={3}
             stepPreposition={t("finder.progress.stepPreposition")}
             stepLabeling={stepLabels}
           ></StepHeader>
         </div>
         <ProgressNav
-          currentPageSection={questionIndex}
-          completedSections={questionIndex - 1}
+          currentPageSection={sectionNumber}
+          completedSections={sectionNumber - 1}
           labels={stepLabels}
           mounted={true}
           style="bar"
@@ -120,9 +122,10 @@ const Finder = () => {
   const nextQuestion = () => {
     const userSelections = getValues()[formData[questionIndex]["fieldGroupName"]]
     const formCopy = { ...formData }
-    formCopy[questionIndex]["fields"].forEach(
-      (field) => (field["selected"] = userSelections.includes(field))
-    )
+    formCopy[questionIndex]["fields"].forEach((field) => {
+      field["selected"] = userSelections.includes(field.label)
+    })
+    console.log(formCopy)
     setFormData(formCopy)
     setQuestionIndex(questionIndex + 1)
   }
@@ -130,7 +133,7 @@ const Finder = () => {
     const userSelections = getValues()[formData[questionIndex]["fieldGroupName"]]
     const formCopy = { ...formData }
     formCopy[questionIndex]["fields"].forEach(
-      (field) => (field["selected"] = userSelections.includes(field))
+      (field) => (field["selected"] = userSelections?.includes(field))
     )
     setFormData(formCopy)
     setQuestionIndex(questionIndex - 1)
@@ -163,7 +166,7 @@ const Finder = () => {
                             key={FrontendListingFilterStateKeys[field.label]}
                           >
                             <Field
-                              name="bedRoomSize"
+                              name={activeQuestion.fieldGroupName}
                               register={register}
                               id={FrontendListingFilterStateKeys[field.label]}
                               label={
@@ -187,23 +190,23 @@ const Finder = () => {
                 </div>
 
                 <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
-                  {questionIndex === Object.keys(formData).length ? (
+                  {questionIndex === formData.length ? (
                     <Button type="submit" styleType={AppearanceStyleType.primary}>
                       {t("t.submit")}
                     </Button>
                   ) : (
                     <Button
                       type="button"
-                      onClick={() => nextQuestion()}
+                      onClick={nextQuestion}
                       styleType={AppearanceStyleType.primary}
                     >
                       {t("t.next")}
                     </Button>
                   )}
-                  {questionIndex > 1 && (
+                  {questionIndex > 0 && (
                     <Button
                       type="button"
-                      onClick={() => previousQuestion()}
+                      onClick={previousQuestion}
                       styleType={AppearanceStyleType.primary}
                     >
                       {t("t.back")}

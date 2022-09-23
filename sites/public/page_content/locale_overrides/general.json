@@ -39,6 +39,7 @@
   "finder.progress.builingLabel": "Building Types",
   "finder.progress.stepPreposition": "of",
   "finder.bedRoomSize.question": "How many bedrooms do you need?",
+  "finder.neighborhood.question": "What areas of Detroit would you like to live in?",
   "finder.questionSubtitle": "We'll use your selection to highlight possible rentals that match.",
   "finder.multiselectHelper": "Select all that apply:",
   "finder.skip": "Skip this and show me listings"
