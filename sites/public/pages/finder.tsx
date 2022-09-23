@@ -1,7 +1,6 @@
 import {
   encodeToFrontendFilterString,
   FrontendListingFilterStateKeys,
-  ListingFilterState,
   Region,
 } from "@bloom-housing/shared-helpers"
 import {
@@ -56,8 +55,18 @@ const Finder = () => {
 
   const sectionNumber = stepLabels.indexOf(formData[questionIndex]?.formSection) + 1
 
-  const onSubmit = (data: ListingFilterState) => {
-    void router.push(`/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(data)}`)
+  const onSubmit = () => {
+    const formSelections = {}
+    formData?.forEach((question) => {
+      formSelections[question.fieldGroupName] = question?.fields
+        ?.filter((field) => field.selected)
+        ?.map((field) => field.label)
+        ?.join()
+    })
+    console.log(formSelections)
+    void router.push(
+      `/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(formSelections)}`
+    )
   }
   useEffect(() => {
     const getAndSetOptions = async () => {
@@ -67,7 +76,7 @@ const Finder = () => {
         if (response?.data?.unitTypes) {
           const bedroomFields = response.data.unitTypes.map((elem) => ({
             label: elem.name,
-            translation: translationStringMap[elem.name],
+            translation: `bedroomsOptions.${translationStringMap[elem.name]}`,
             selected: false,
           }))
           formQuestions.push({
@@ -76,13 +85,14 @@ const Finder = () => {
             fields: bedroomFields,
           })
         }
+        console.log(Region)
         const neihborhoodFields = Object.keys(Region).map((key) => ({
           label: key,
           selected: false,
         }))
         formQuestions.push({
           formSection: t("finder.progress.housingLabel"),
-          fieldGroupName: "neighborhood",
+          fieldGroupName: "region",
           fields: neihborhoodFields,
         })
         setFormData(formQuestions)
@@ -120,20 +130,19 @@ const Finder = () => {
   }
 
   const nextQuestion = () => {
-    const userSelections = getValues()[formData[questionIndex]["fieldGroupName"]]
-    const formCopy = { ...formData }
+    const userSelections = getValues()?.[formData[questionIndex]["fieldGroupName"]]
+    const formCopy = [...formData]
     formCopy[questionIndex]["fields"].forEach((field) => {
       field["selected"] = userSelections.includes(field.label)
     })
-    console.log(formCopy)
     setFormData(formCopy)
     setQuestionIndex(questionIndex + 1)
   }
   const previousQuestion = () => {
-    const userSelections = getValues()[formData[questionIndex]["fieldGroupName"]]
-    const formCopy = { ...formData }
+    const userSelections = getValues()?.[formData[questionIndex]["fieldGroupName"]]
+    const formCopy = [...formData]
     formCopy[questionIndex]["fields"].forEach(
-      (field) => (field["selected"] = userSelections?.includes(field))
+      (field) => (field["selected"] = userSelections?.includes(field.label))
     )
     setFormData(formCopy)
     setQuestionIndex(questionIndex - 1)
@@ -171,13 +180,16 @@ const Finder = () => {
                               id={FrontendListingFilterStateKeys[field.label]}
                               label={
                                 field.translation
-                                  ? t(`listingFilters.bedroomsOptions.${field.translation}`)
-                                  : field.label
+                                  ? t(`listingFilters.${field.translation}`)
+                                  : FrontendListingFilterStateKeys[field.label]
                               }
                               key={FrontendListingFilterStateKeys[field.label]}
                               type="checkbox"
                               inputProps={{
-                                value: FrontendListingFilterStateKeys[field.label],
+                                value:
+                                  activeQuestion.fieldGroupName === "region"
+                                    ? field.label
+                                    : FrontendListingFilterStateKeys[field.label],
                                 defaultChecked: field.selected,
                               }}
                               bordered
@@ -191,9 +203,11 @@ const Finder = () => {
 
                 <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
                   {questionIndex === formData.length ? (
-                    <Button type="submit" styleType={AppearanceStyleType.primary}>
-                      {t("t.submit")}
-                    </Button>
+                    <>
+                      <Button type="submit" styleType={AppearanceStyleType.primary}>
+                        {t("t.submit")}
+                      </Button>
+                    </>
                   ) : (
                     <Button
                       type="button"
