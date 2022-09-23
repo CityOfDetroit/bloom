@@ -2,6 +2,7 @@ import {
   encodeToFrontendFilterString,
   FrontendListingFilterStateKeys,
   ListingFilterState,
+  Region,
 } from "@bloom-housing/shared-helpers"
 import {
   AppearanceStyleType,
@@ -22,25 +23,22 @@ import Layout from "../layouts/application"
 
 interface finderField {
   label: string
-  translation: string
+  translation?: string
   selected: boolean
 }
 
 interface finderQuestion {
+  formSection: string
   fieldGroupName: string
   fields: finderField[]
-}
-
-interface finderForm {
-  [key: number]: finderQuestion
 }
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, getValues } = useForm()
-  const [currentStep, setCurrentStep] = useState<number>(1)
-  const [formData, setFormData] = useState<finderForm>(null)
-  const activeQuestion = formData?.[currentStep]
+  const [questionIndex, setQuestionIndex] = useState<number>(1)
+  const [formData, setFormData] = useState<finderQuestion[]>(null)
+  const activeQuestion = formData?.[questionIndex]
 
   const translationStringMap = {
     studio: "studioPlus",
@@ -63,15 +61,28 @@ const Finder = () => {
     const getAndSetOptions = async () => {
       try {
         const response = await axios.get(`${process.env.backendApiBase}/listings/meta`)
-        const formQuestions: finderForm = {}
+        const formQuestions: finderQuestion[] = []
         if (response?.data?.unitTypes) {
           const bedroomFields = response.data.unitTypes.map((elem) => ({
             label: elem.name,
             translation: translationStringMap[elem.name],
             selected: false,
           }))
-          formQuestions[1] = { fieldGroupName: "bedRoomSize", fields: bedroomFields }
+          formQuestions.push({
+            formSection: t("finder.progress.housingLabel"),
+            fieldGroupName: "bedRoomSize",
+            fields: bedroomFields,
+          })
         }
+        const neihborhoodFields = Object.keys(Region).map((key) => ({
+          label: key,
+          selected: false,
+        }))
+        formQuestions.push({
+          formSection: t("finder.progress.housingLabel"),
+          fieldGroupName: "",
+          fields: neihborhoodFields,
+        })
         setFormData(formQuestions)
       } catch (e) {
         console.error(e)
@@ -89,15 +100,15 @@ const Finder = () => {
             {t("listingFilters.buttonTitleExtended")}
           </div>
           <StepHeader
-            currentStep={currentStep}
+            currentStep={questionIndex}
             totalSteps={3}
             stepPreposition={t("finder.progress.stepPreposition")}
             stepLabeling={stepLabels}
           ></StepHeader>
         </div>
         <ProgressNav
-          currentPageSection={currentStep}
-          completedSections={currentStep - 1}
+          currentPageSection={questionIndex}
+          completedSections={questionIndex - 1}
           labels={stepLabels}
           mounted={true}
           style="bar"
@@ -107,22 +118,22 @@ const Finder = () => {
   }
 
   const nextQuestion = () => {
-    const userSelections = getValues()[formData[currentStep]["fieldGroupName"]]
+    const userSelections = getValues()[formData[questionIndex]["fieldGroupName"]]
     const formCopy = { ...formData }
-    formCopy[currentStep]["fields"].forEach(
+    formCopy[questionIndex]["fields"].forEach(
       (field) => (field["selected"] = userSelections.includes(field))
     )
     setFormData(formCopy)
-    setCurrentStep(currentStep + 1)
+    setQuestionIndex(questionIndex + 1)
   }
   const previousQuestion = () => {
-    const userSelections = getValues()[formData[currentStep]["fieldGroupName"]]
+    const userSelections = getValues()[formData[questionIndex]["fieldGroupName"]]
     const formCopy = { ...formData }
-    formCopy[currentStep]["fields"].forEach(
+    formCopy[questionIndex]["fields"].forEach(
       (field) => (field["selected"] = userSelections.includes(field))
     )
     setFormData(formCopy)
-    setCurrentStep(currentStep - 1)
+    setQuestionIndex(questionIndex - 1)
   }
 
   return (
@@ -155,7 +166,11 @@ const Finder = () => {
                               name="bedRoomSize"
                               register={register}
                               id={FrontendListingFilterStateKeys[field.label]}
-                              label={t(`listingFilters.bedroomsOptions.${field.translation}`)}
+                              label={
+                                field.translation
+                                  ? t(`listingFilters.bedroomsOptions.${field.translation}`)
+                                  : field.label
+                              }
                               key={FrontendListingFilterStateKeys[field.label]}
                               type="checkbox"
                               inputProps={{
@@ -172,7 +187,7 @@ const Finder = () => {
                 </div>
 
                 <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
-                  {currentStep === Object.keys(formData).length ? (
+                  {questionIndex === Object.keys(formData).length ? (
                     <Button type="submit" styleType={AppearanceStyleType.primary}>
                       {t("t.submit")}
                     </Button>
@@ -185,7 +200,7 @@ const Finder = () => {
                       {t("t.next")}
                     </Button>
                   )}
-                  {currentStep > 1 && (
+                  {questionIndex > 1 && (
                     <Button
                       type="button"
                       onClick={() => previousQuestion()}
