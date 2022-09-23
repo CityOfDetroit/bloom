@@ -94,8 +94,8 @@ const Finder = () => {
 
   const ProgressHeader = () => {
     return (
-      <div className="flex flex-col w-full">
-        <div className="flex flex-row justify-between">
+      <div className="flex flex-col w-full px-2 md:px-0">
+        <div className="flex flex-row flex-wrap justify-between gap-y-4 gap-x-0.5">
           <div className="md:text-xl capitalize font-bold">
             {t("listingFilters.buttonTitleExtended")}
           </div>
@@ -139,13 +139,13 @@ const Finder = () => {
   return (
     <Layout>
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
-        <div className="md:mb-8 mt-4 md:mt-8 mx-auto max-w-5xl">
+        <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
           {ProgressHeader()}
           <FormCard>
             {formData && (
               <>
-                <div className="px-20">
-                  <div className="pt-12">
+                <div className="px-10 md:px-20 pt-6 md:pt-12 ">
+                  <div className="">
                     <div className="text-3xl pb-4">
                       {t(`finder.${activeQuestion?.fieldGroupName}.question`)}
                     </div>
