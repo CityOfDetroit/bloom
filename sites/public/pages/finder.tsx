@@ -179,7 +179,7 @@ const Finder = () => {
                   ) : (
                     <Button
                       type="button"
-                      onClick={() => nextQuestion()}
+                      onClick={nextQuestion}
                       styleType={AppearanceStyleType.primary}
                     >
                       {t("t.next")}
@@ -188,7 +188,7 @@ const Finder = () => {
                   {currentStep > 1 && (
                     <Button
                       type="button"
-                      onClick={() => previousQuestion()}
+                      onClick={previousQuestion}
                       styleType={AppearanceStyleType.primary}
                     >
                       {t("t.back")}
