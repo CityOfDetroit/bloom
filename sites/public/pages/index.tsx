@@ -43,7 +43,12 @@ export default function Home({ latestListings, comingSoonListings }) {
   const heroInset: React.ReactNode = (
     <>
       <Link href="/listings">
-        <a className="hero__button hero__home-button">{t("welcome.seeRentalListings")}</a>
+        <a className="hero__button hero__rentals-button">{t("welcome.seeRentalListings")}</a>
+      </Link>
+      <Link href="/finder">
+        <a className="hero__button hero__finder-button">
+          {t("listingFilters.buttonTitleExtended")}
+        </a>
       </Link>
     </>
   )
