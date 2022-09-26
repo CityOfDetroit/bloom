@@ -95,6 +95,11 @@ const Finder = () => {
           fieldGroupName: "region",
           fields: neihborhoodFields,
         })
+        formQuestions.push({
+          formSection: t("finder.progress.builingLabel"),
+          fieldGroupName: "disclaimer",
+          fields: [],
+        })
         setFormData(formQuestions)
       } catch (e) {
         console.error(e)
@@ -139,13 +144,11 @@ const Finder = () => {
     setQuestionIndex(questionIndex + 1)
   }
   const previousQuestion = () => {
-    const userSelections = getValues()?.[formData[questionIndex]["fieldGroupName"]]
-    const formCopy = [...formData]
-    formCopy[questionIndex]["fields"].forEach(
-      (field) => (field["selected"] = userSelections?.includes(field.label))
-    )
-    setFormData(formCopy)
     setQuestionIndex(questionIndex - 1)
+  }
+
+  const skipToListings = () => {
+    setQuestionIndex(formData.length - 1)
   }
 
   return (
@@ -202,7 +205,7 @@ const Finder = () => {
                 </div>
 
                 <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
-                  {questionIndex === formData.length ? (
+                  {questionIndex === formData.length - 1 ? (
                     <>
                       <Button type="submit" styleType={AppearanceStyleType.primary}>
                         {t("t.submit")}
@@ -229,7 +232,7 @@ const Finder = () => {
                 </div>
 
                 <div className="flex justify-center align-center bg-white py-8">
-                  <a className="underline" href="/listings">
+                  <a className="underline" onClick={skipToListings}>
                     {t("finder.skip")}
                   </a>
                 </div>
