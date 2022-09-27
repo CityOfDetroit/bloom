@@ -4,6 +4,7 @@ import {
   Region,
 } from "@bloom-housing/shared-helpers"
 import {
+  AlertBox,
   AppearanceStyleType,
   Button,
   Field,
@@ -38,6 +39,7 @@ const Finder = () => {
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<finderQuestion[]>([])
   const activeQuestion = formData?.[questionIndex]
+  const isDisclaimer = questionIndex >= formData.length - 1
 
   const translationStringMap = {
     studio: "studioPlus",
@@ -165,14 +167,16 @@ const Finder = () => {
                       {t(`finder.${activeQuestion?.fieldGroupName}.question`)}
                     </div>
                     <div className="pb-8 border-b border-gray-450">
-                      {t("finder.questionSubtitle")}
+                      {!isDisclaimer
+                        ? t("finder.questionSubtitle")
+                        : t("finder.disclaimerSubtitle")}
                     </div>
                   </div>
-                  <div className="py-8">
-                    <p className="pb-4">{t("finder.multiselectHelper")}</p>
-                    <div className="finder-grid">
-                      {activeQuestion?.fields?.map((field) => {
-                        return (
+                  {!isDisclaimer ? (
+                    <div className="py-8">
+                      <p className="pb-4">{t("finder.multiselectHelper")}</p>
+                      <div className="finder-grid">
+                        {activeQuestion?.fields?.map((field) => (
                           <div
                             className="finder-grid__field"
                             key={FrontendListingFilterStateKeys[field.label]}
@@ -198,10 +202,21 @@ const Finder = () => {
                               bordered
                             />
                           </div>
-                        )
-                      })}
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="pb-8">
+                      <AlertBox type="notice" closeable>
+                        {t("finder.disclaimer.alert")}
+                      </AlertBox>
+                      <ul>
+                        {[1, 2, 3, 4, 5].map((num) => (
+                          <div>{t(`finder.disclaimer.info${num}`)}</div>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
 
                 <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
