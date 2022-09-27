@@ -20,23 +20,23 @@ import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
 
-interface finderField {
+interface FinderField {
   label: string
   translation?: string
   selected: boolean
 }
 
-interface finderQuestion {
+interface FinderQuestion {
   formSection: string
   fieldGroupName: string
-  fields: finderField[]
+  fields: FinderField[]
 }
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, getValues } = useForm()
   const [questionIndex, setQuestionIndex] = useState<number>(0)
-  const [formData, setFormData] = useState<finderQuestion[]>([])
+  const [formData, setFormData] = useState<FinderQuestion[]>([])
   const activeQuestion = formData?.[questionIndex]
 
   const translationStringMap = {
@@ -50,7 +50,7 @@ const Finder = () => {
   const stepLabels = [
     t("finder.progress.housingLabel"),
     t("t.accessibility"),
-    t("finder.progress.builingLabel"),
+    t("finder.progress.buildingLabel"),
   ]
 
   const sectionNumber = stepLabels.indexOf(formData[questionIndex]?.formSection) + 1
@@ -71,10 +71,10 @@ const Finder = () => {
     const getAndSetOptions = async () => {
       try {
         const response = await axios.get(`${process.env.backendApiBase}/listings/meta`)
-        const formQuestions: finderQuestion[] = []
+        const formQuestions: FinderQuestion[] = []
         if (response?.data?.unitTypes) {
           const bedroomFields = response.data.unitTypes.map((elem) => ({
-            label: elem.name,
+            label: FrontendListingFilterStateKeys[elem.name],
             translation: `bedroomsOptions.${translationStringMap[elem.name]}`,
             selected: false,
           }))
@@ -85,7 +85,7 @@ const Finder = () => {
           })
         }
         const neighborhoodFields = Object.keys(Region).map((key) => ({
-          label: key,
+          label: FrontendListingFilterStateKeys[key],
           selected: false,
         }))
         formQuestions.push({
@@ -94,7 +94,7 @@ const Finder = () => {
           fields: neighborhoodFields,
         })
         formQuestions.push({
-          formSection: t("finder.progress.builingLabel"),
+          formSection: t("finder.progress.buildingLabel"),
           fieldGroupName: "disclaimer",
           fields: [],
         })
@@ -171,26 +171,20 @@ const Finder = () => {
                     <div className="finder-grid">
                       {activeQuestion?.fields?.map((field) => {
                         return (
-                          <div
-                            className="finder-grid__field"
-                            key={FrontendListingFilterStateKeys[field.label]}
-                          >
+                          <div className="finder-grid__field" key={field.label}>
                             <Field
                               name={activeQuestion.fieldGroupName}
                               register={register}
-                              id={FrontendListingFilterStateKeys[field.label]}
+                              id={field.label}
                               label={
                                 field.translation
                                   ? t(`listingFilters.${field.translation}`)
-                                  : FrontendListingFilterStateKeys[field.label]
+                                  : field.label
                               }
-                              key={FrontendListingFilterStateKeys[field.label]}
+                              key={field.label}
                               type="checkbox"
                               inputProps={{
-                                value:
-                                  activeQuestion.fieldGroupName === "region"
-                                    ? field.label
-                                    : FrontendListingFilterStateKeys[field.label],
+                                value: field.label,
                                 defaultChecked: field.selected,
                               }}
                               bordered
@@ -228,11 +222,10 @@ const Finder = () => {
                     </Button>
                   )}
                 </div>
-
-                <div className="flex justify-center align-center bg-white py-8">
-                  <a className="underline" onClick={skipToListings}>
+                <div className="flex justify-center align-center bg-white py-4">
+                  <Button className="text-base underline" unstyled onClick={skipToListings}>
                     {t("finder.skip")}
-                  </a>
+                  </Button>
                 </div>
               </>
             )}
