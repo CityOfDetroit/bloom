@@ -198,11 +198,13 @@ const Finder = () => {
 
                 <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
                   {questionIndex === formData.length - 1 ? (
-                    <>
-                      <Button type="submit" styleType={AppearanceStyleType.primary}>
-                        {t("t.submit")}
-                      </Button>
-                    </>
+                    <Button
+                      type="submit"
+                      key="finderSubmit"
+                      styleType={AppearanceStyleType.primary}
+                    >
+                      {t("t.submit")}
+                    </Button>
                   ) : (
                     <Button
                       type="button"
