@@ -63,7 +63,6 @@ const Finder = () => {
         ?.map((field) => field.label)
         ?.join()
     })
-    console.log(formSelections)
     void router.push(
       `/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(formSelections)}`
     )
@@ -85,15 +84,14 @@ const Finder = () => {
             fields: bedroomFields,
           })
         }
-        console.log(Region)
-        const neihborhoodFields = Object.keys(Region).map((key) => ({
+        const neighborhoodFields = Object.keys(Region).map((key) => ({
           label: key,
           selected: false,
         }))
         formQuestions.push({
           formSection: t("finder.progress.housingLabel"),
           fieldGroupName: "region",
-          fields: neihborhoodFields,
+          fields: neighborhoodFields,
         })
         formQuestions.push({
           formSection: t("finder.progress.builingLabel"),
