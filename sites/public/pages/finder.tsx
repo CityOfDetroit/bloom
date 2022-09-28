@@ -210,9 +210,11 @@ const Finder = () => {
                       <AlertBox type="notice" closeable>
                         {t("finder.disclaimer.alert")}
                       </AlertBox>
-                      <ul>
+                      <ul className="list-disc list-inside py-8 flex flex-col gap-y-4">
                         {[1, 2, 3, 4, 5].map((num) => (
-                          <div>{t(`finder.disclaimer.info${num}`)}</div>
+                          <li className="pl-2 text-gray-700">
+                            {t(`finder.disclaimer.info${num}`)}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -245,12 +247,13 @@ const Finder = () => {
                     </Button>
                   )}
                 </div>
-
-                <div className="flex justify-center align-center bg-white py-8">
-                  <a className="underline" onClick={skipToListings}>
-                    {t("finder.skip")}
-                  </a>
-                </div>
+                {!isDisclaimer && (
+                  <div className="flex justify-center align-center bg-white py-8">
+                    <a className="underline" onClick={skipToListings}>
+                      {t("finder.skip")}
+                    </a>
+                  </div>
+                )}
               </>
             )}
           </FormCard>
