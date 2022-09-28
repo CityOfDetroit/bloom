@@ -21,23 +21,23 @@ import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
 
-interface finderField {
+interface FinderField {
   label: string
   translation?: string
   selected: boolean
 }
 
-interface finderQuestion {
+interface FinderQuestion {
   formSection: string
   fieldGroupName: string
-  fields: finderField[]
+  fields: FinderField[]
 }
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, getValues } = useForm()
   const [questionIndex, setQuestionIndex] = useState<number>(0)
-  const [formData, setFormData] = useState<finderQuestion[]>([])
+  const [formData, setFormData] = useState<FinderQuestion[]>([])
   const activeQuestion = formData?.[questionIndex]
   const isDisclaimer = questionIndex >= formData.length - 1
 
@@ -52,7 +52,7 @@ const Finder = () => {
   const stepLabels = [
     t("finder.progress.housingLabel"),
     t("t.accessibility"),
-    t("finder.progress.builingLabel"),
+    t("finder.progress.buildingLabel"),
   ]
 
   const sectionNumber = stepLabels.indexOf(formData[questionIndex]?.formSection) + 1
@@ -65,7 +65,6 @@ const Finder = () => {
         ?.map((field) => field.label)
         ?.join()
     })
-    console.log(formSelections)
     void router.push(
       `/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(formSelections)}`
     )
@@ -74,10 +73,10 @@ const Finder = () => {
     const getAndSetOptions = async () => {
       try {
         const response = await axios.get(`${process.env.backendApiBase}/listings/meta`)
-        const formQuestions: finderQuestion[] = []
+        const formQuestions: FinderQuestion[] = []
         if (response?.data?.unitTypes) {
           const bedroomFields = response.data.unitTypes.map((elem) => ({
-            label: elem.name,
+            label: FrontendListingFilterStateKeys[elem.name],
             translation: `bedroomsOptions.${translationStringMap[elem.name]}`,
             selected: false,
           }))
@@ -87,18 +86,17 @@ const Finder = () => {
             fields: bedroomFields,
           })
         }
-        console.log(Region)
-        const neihborhoodFields = Object.keys(Region).map((key) => ({
-          label: key,
+        const neighborhoodFields = Object.keys(Region).map((key) => ({
+          label: FrontendListingFilterStateKeys[key],
           selected: false,
         }))
         formQuestions.push({
           formSection: t("finder.progress.housingLabel"),
           fieldGroupName: "region",
-          fields: neihborhoodFields,
+          fields: neighborhoodFields,
         })
         formQuestions.push({
-          formSection: t("finder.progress.builingLabel"),
+          formSection: t("finder.progress.buildingLabel"),
           fieldGroupName: "disclaimer",
           fields: [],
         })
@@ -176,33 +174,29 @@ const Finder = () => {
                     <div className="py-8">
                       <p className="pb-4">{t("finder.multiselectHelper")}</p>
                       <div className="finder-grid">
-                        {activeQuestion?.fields?.map((field) => (
-                          <div
-                            className="finder-grid__field"
-                            key={FrontendListingFilterStateKeys[field.label]}
-                          >
-                            <Field
-                              name={activeQuestion.fieldGroupName}
-                              register={register}
-                              id={FrontendListingFilterStateKeys[field.label]}
-                              label={
-                                field.translation
-                                  ? t(`listingFilters.${field.translation}`)
-                                  : FrontendListingFilterStateKeys[field.label]
-                              }
-                              key={FrontendListingFilterStateKeys[field.label]}
-                              type="checkbox"
-                              inputProps={{
-                                value:
-                                  activeQuestion.fieldGroupName === "region"
-                                    ? field.label
-                                    : FrontendListingFilterStateKeys[field.label],
-                                defaultChecked: field.selected,
-                              }}
-                              bordered
-                            />
-                          </div>
-                        ))}
+                        {activeQuestion?.fields?.map((field) => {
+                          return (
+                            <div className="finder-grid__field" key={field.label}>
+                              <Field
+                                name={activeQuestion.fieldGroupName}
+                                register={register}
+                                id={field.label}
+                                label={
+                                  field.translation
+                                    ? t(`listingFilters.${field.translation}`)
+                                    : field.label
+                                }
+                                key={field.label}
+                                type="checkbox"
+                                inputProps={{
+                                  value: field.label,
+                                  defaultChecked: field.selected,
+                                }}
+                                bordered
+                              />
+                            </div>
+                          )
+                        })}
                       </div>
                     </div>
                   ) : (
@@ -223,11 +217,13 @@ const Finder = () => {
 
                 <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
                   {questionIndex === formData.length - 1 ? (
-                    <>
-                      <Button type="submit" styleType={AppearanceStyleType.primary}>
-                        {t("t.submit")}
-                      </Button>
-                    </>
+                    <Button
+                      type="submit"
+                      key="finderSubmit"
+                      styleType={AppearanceStyleType.primary}
+                    >
+                      {t("t.submit")}
+                    </Button>
                   ) : (
                     <Button
                       type="button"
