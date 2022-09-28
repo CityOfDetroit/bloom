@@ -1,7 +1,7 @@
 import {
   encodeToFrontendFilterString,
   FrontendListingFilterStateKeys,
-  ListingFilterState,
+  Region,
 } from "@bloom-housing/shared-helpers"
 import {
   AppearanceStyleType,
@@ -20,27 +20,24 @@ import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
 
-interface finderField {
+interface FinderField {
   label: string
-  translation: string
+  translation?: string
   selected: boolean
 }
 
-interface finderQuestion {
+interface FinderQuestion {
+  formSection: string
   fieldGroupName: string
-  fields: finderField[]
-}
-
-interface finderForm {
-  [key: number]: finderQuestion
+  fields: FinderField[]
 }
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, getValues } = useForm()
-  const [currentStep, setCurrentStep] = useState<number>(1)
-  const [formData, setFormData] = useState<finderForm>(null)
-  const activeQuestion = formData?.[currentStep]
+  const [questionIndex, setQuestionIndex] = useState<number>(0)
+  const [formData, setFormData] = useState<FinderQuestion[]>([])
+  const activeQuestion = formData?.[questionIndex]
 
   const translationStringMap = {
     studio: "studioPlus",
@@ -53,25 +50,54 @@ const Finder = () => {
   const stepLabels = [
     t("finder.progress.housingLabel"),
     t("t.accessibility"),
-    t("finder.progress.builingLabel"),
+    t("finder.progress.buildingLabel"),
   ]
 
-  const onSubmit = (data: ListingFilterState) => {
-    void router.push(`/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(data)}`)
+  const sectionNumber = stepLabels.indexOf(formData[questionIndex]?.formSection) + 1
+
+  const onSubmit = () => {
+    const formSelections = {}
+    formData?.forEach((question) => {
+      formSelections[question.fieldGroupName] = question?.fields
+        ?.filter((field) => field.selected)
+        ?.map((field) => field.label)
+        ?.join()
+    })
+    void router.push(
+      `/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(formSelections)}`
+    )
   }
   useEffect(() => {
     const getAndSetOptions = async () => {
       try {
         const response = await axios.get(`${process.env.backendApiBase}/listings/meta`)
-        const formQuestions: finderForm = {}
+        const formQuestions: FinderQuestion[] = []
         if (response?.data?.unitTypes) {
           const bedroomFields = response.data.unitTypes.map((elem) => ({
-            label: elem.name,
-            translation: translationStringMap[elem.name],
+            label: FrontendListingFilterStateKeys[elem.name],
+            translation: `bedroomsOptions.${translationStringMap[elem.name]}`,
             selected: false,
           }))
-          formQuestions[1] = { fieldGroupName: "bedRoomSize", fields: bedroomFields }
+          formQuestions.push({
+            formSection: t("finder.progress.housingLabel"),
+            fieldGroupName: "bedRoomSize",
+            fields: bedroomFields,
+          })
         }
+        const neighborhoodFields = Object.keys(Region).map((key) => ({
+          label: FrontendListingFilterStateKeys[key],
+          selected: false,
+        }))
+        formQuestions.push({
+          formSection: t("finder.progress.housingLabel"),
+          fieldGroupName: "region",
+          fields: neighborhoodFields,
+        })
+        formQuestions.push({
+          formSection: t("finder.progress.buildingLabel"),
+          fieldGroupName: "disclaimer",
+          fields: [],
+        })
         setFormData(formQuestions)
       } catch (e) {
         console.error(e)
@@ -89,15 +115,15 @@ const Finder = () => {
             {t("listingFilters.buttonTitleExtended")}
           </div>
           <StepHeader
-            currentStep={currentStep}
+            currentStep={sectionNumber}
             totalSteps={3}
             stepPreposition={t("finder.progress.stepPreposition")}
             stepLabeling={stepLabels}
           ></StepHeader>
         </div>
         <ProgressNav
-          currentPageSection={currentStep}
-          completedSections={currentStep - 1}
+          currentPageSection={sectionNumber}
+          completedSections={sectionNumber - 1}
           labels={stepLabels}
           mounted={true}
           style="bar"
@@ -107,22 +133,20 @@ const Finder = () => {
   }
 
   const nextQuestion = () => {
-    const userSelections = getValues()[formData[currentStep]["fieldGroupName"]]
-    const formCopy = { ...formData }
-    formCopy[currentStep]["fields"].forEach(
-      (field) => (field["selected"] = userSelections.includes(field))
-    )
+    const userSelections = getValues()?.[formData[questionIndex]["fieldGroupName"]]
+    const formCopy = [...formData]
+    formCopy[questionIndex]["fields"].forEach((field) => {
+      field["selected"] = userSelections.includes(field.label)
+    })
     setFormData(formCopy)
-    setCurrentStep(currentStep + 1)
+    setQuestionIndex(questionIndex + 1)
   }
   const previousQuestion = () => {
-    const userSelections = getValues()[formData[currentStep]["fieldGroupName"]]
-    const formCopy = { ...formData }
-    formCopy[currentStep]["fields"].forEach(
-      (field) => (field["selected"] = userSelections.includes(field))
-    )
-    setFormData(formCopy)
-    setCurrentStep(currentStep - 1)
+    setQuestionIndex(questionIndex - 1)
+  }
+
+  const skipToListings = () => {
+    setQuestionIndex(formData.length - 1)
   }
 
   return (
@@ -147,19 +171,20 @@ const Finder = () => {
                     <div className="finder-grid">
                       {activeQuestion?.fields?.map((field) => {
                         return (
-                          <div
-                            className="finder-grid__field"
-                            key={FrontendListingFilterStateKeys[field.label]}
-                          >
+                          <div className="finder-grid__field" key={field.label}>
                             <Field
-                              name="bedRoomSize"
+                              name={activeQuestion.fieldGroupName}
                               register={register}
-                              id={FrontendListingFilterStateKeys[field.label]}
-                              label={t(`listingFilters.bedroomsOptions.${field.translation}`)}
-                              key={FrontendListingFilterStateKeys[field.label]}
+                              id={field.label}
+                              label={
+                                field.translation
+                                  ? t(`listingFilters.${field.translation}`)
+                                  : field.label
+                              }
+                              key={field.label}
                               type="checkbox"
                               inputProps={{
-                                value: FrontendListingFilterStateKeys[field.label],
+                                value: field.label,
                                 defaultChecked: field.selected,
                               }}
                               bordered
@@ -172,8 +197,12 @@ const Finder = () => {
                 </div>
 
                 <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
-                  {currentStep === Object.keys(formData).length ? (
-                    <Button type="submit" styleType={AppearanceStyleType.primary}>
+                  {questionIndex === formData.length - 1 ? (
+                    <Button
+                      type="submit"
+                      key="finderSubmit"
+                      styleType={AppearanceStyleType.primary}
+                    >
                       {t("t.submit")}
                     </Button>
                   ) : (
@@ -185,7 +214,7 @@ const Finder = () => {
                       {t("t.next")}
                     </Button>
                   )}
-                  {currentStep > 1 && (
+                  {questionIndex > 0 && (
                     <Button
                       type="button"
                       onClick={previousQuestion}
@@ -195,11 +224,10 @@ const Finder = () => {
                     </Button>
                   )}
                 </div>
-
-                <div className="flex justify-center align-center bg-white py-8">
-                  <a className="underline" href="/listings">
+                <div className="flex justify-center align-center bg-white py-4">
+                  <Button className="text-base underline" unstyled onClick={skipToListings}>
                     {t("finder.skip")}
-                  </a>
+                  </Button>
                 </div>
               </>
             )}
