@@ -98,11 +98,6 @@ const Finder = () => {
           fieldGroupName: "region",
           fields: neighborhoodFields,
         })
-        // formQuestions.push({
-        //   formSection: t("finder.progress.buildingLabel"),
-        //   fieldGroupName: "disclaimer",
-        //   fields: [],
-        // })
         setFormData(formQuestions)
       } catch (e) {
         console.error(e)
