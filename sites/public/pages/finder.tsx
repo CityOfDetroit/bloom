@@ -41,7 +41,6 @@ const Finder = () => {
   const [isDisclaimer, setIsDisclaimer] = useState<boolean>(false)
 
   const activeQuestion = formData?.[questionIndex]
-  // const isDisclaimer = questionIndex >= formData.length && formData.length > 0
 
   const translationStringMap = {
     studio: "studioPlus",
