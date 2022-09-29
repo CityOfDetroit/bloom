@@ -38,6 +38,7 @@ const Finder = () => {
   const { register, handleSubmit, getValues } = useForm()
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FinderQuestion[]>([])
+
   const activeQuestion = formData?.[questionIndex]
   const isDisclaimer = questionIndex >= formData.length - 1
 
@@ -55,7 +56,9 @@ const Finder = () => {
     t("finder.progress.buildingLabel"),
   ]
 
-  const sectionNumber = stepLabels.indexOf(formData[questionIndex]?.formSection) + 1
+  const sectionNumber = !isDisclaimer
+    ? stepLabels.indexOf(formData[questionIndex]?.formSection) + 1
+    : stepLabels.length + 1
 
   const onSubmit = () => {
     const formSelections = {}
@@ -116,12 +119,14 @@ const Finder = () => {
           <div className="md:text-xl capitalize font-bold">
             {t("listingFilters.buttonTitleExtended")}
           </div>
-          <StepHeader
-            currentStep={sectionNumber}
-            totalSteps={3}
-            stepPreposition={t("finder.progress.stepPreposition")}
-            stepLabeling={stepLabels}
-          ></StepHeader>
+          {!isDisclaimer && (
+            <StepHeader
+              currentStep={sectionNumber}
+              totalSteps={3}
+              stepPreposition={t("finder.progress.stepPreposition")}
+              stepLabeling={stepLabels}
+            ></StepHeader>
+          )}
         </div>
         <ProgressNav
           currentPageSection={sectionNumber}
