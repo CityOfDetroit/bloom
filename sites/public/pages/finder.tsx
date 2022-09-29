@@ -35,12 +35,13 @@ interface FinderQuestion {
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, getValues } = useForm()
+  const { register, handleSubmit, watch } = useForm()
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FinderQuestion[]>([])
+  const [isDisclaimer, setIsDisclaimer] = useState<boolean>(false)
 
   const activeQuestion = formData?.[questionIndex]
-  const isDisclaimer = questionIndex >= formData.length && formData.length > 0
+  // const isDisclaimer = questionIndex >= formData.length && formData.length > 0
 
   const translationStringMap = {
     studio: "studioPlus",
@@ -135,15 +136,17 @@ const Finder = () => {
   }
 
   const nextQuestion = () => {
-    const userSelections = getValues()?.[formData[questionIndex]["fieldGroupName"]]
+    const userSelections = watch()?.[formData[questionIndex]["fieldGroupName"]]
     const formCopy = [...formData]
     formCopy[questionIndex]["fields"].forEach((field) => {
       field["selected"] = userSelections.includes(field.label)
     })
     setFormData(formCopy)
+    questionIndex >= formData.length - 1 && setIsDisclaimer(true)
     setQuestionIndex(questionIndex + 1)
   }
   const previousQuestion = () => {
+    setIsDisclaimer(false)
     setQuestionIndex(questionIndex - 1)
   }
 
@@ -162,8 +165,9 @@ const Finder = () => {
                 <div className="px-10 md:px-20 pt-6 md:pt-12 ">
                   <div className="">
                     <div className="text-3xl pb-4">
-                      {t(`finder.${activeQuestion?.fieldGroupName}.question`) ??
-                        t("finder.disclaimer.header")}
+                      {!isDisclaimer
+                        ? t(`finder.${activeQuestion?.fieldGroupName}.question`)
+                        : t("finder.disclaimer.header")}
                     </div>
                     <div className="pb-8 border-b border-gray-450">
                       {!isDisclaimer
