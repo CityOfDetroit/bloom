@@ -40,7 +40,7 @@ const Finder = () => {
   const [formData, setFormData] = useState<FinderQuestion[]>([])
 
   const activeQuestion = formData?.[questionIndex]
-  const isDisclaimer = questionIndex >= formData.length - 1
+  const isDisclaimer = questionIndex >= formData.length
 
   const translationStringMap = {
     studio: "studioPlus",
@@ -98,11 +98,11 @@ const Finder = () => {
           fieldGroupName: "region",
           fields: neighborhoodFields,
         })
-        formQuestions.push({
-          formSection: t("finder.progress.buildingLabel"),
-          fieldGroupName: "disclaimer",
-          fields: [],
-        })
+        // formQuestions.push({
+        //   formSection: t("finder.progress.buildingLabel"),
+        //   fieldGroupName: "disclaimer",
+        //   fields: [],
+        // })
         setFormData(formQuestions)
       } catch (e) {
         console.error(e)
@@ -162,12 +162,12 @@ const Finder = () => {
         <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
           {ProgressHeader()}
           <FormCard>
-            {formData && (
+            {formData?.length > 0 && (
               <>
                 <div className="px-10 md:px-20 pt-6 md:pt-12 ">
                   <div className="">
                     <div className="text-3xl pb-4">
-                      {t(`finder.${activeQuestion?.fieldGroupName}.question`)}
+                      {t(`finder.${activeQuestion?.fieldGroupName ?? "disclaimer"}.question`)}
                     </div>
                     <div className="pb-8 border-b border-gray-450">
                       {!isDisclaimer
@@ -205,7 +205,7 @@ const Finder = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="pb-8">
+                    <div>
                       <AlertBox type="notice" closeable>
                         {t("finder.disclaimer.alert")}
                       </AlertBox>
@@ -220,16 +220,8 @@ const Finder = () => {
                   )}
                 </div>
 
-                <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
-                  {questionIndex === formData.length - 1 ? (
-                    <Button
-                      type="submit"
-                      key="finderSubmit"
-                      styleType={AppearanceStyleType.primary}
-                    >
-                      {t("t.submit")}
-                    </Button>
-                  ) : (
+                <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-10 md:px-20 ">
+                  {!isDisclaimer ? (
                     <Button
                       type="button"
                       onClick={nextQuestion}
@@ -237,14 +229,22 @@ const Finder = () => {
                     >
                       {t("t.next")}
                     </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      key="finderSubmit"
+                      styleType={AppearanceStyleType.primary}
+                    >
+                      {t("t.submit")}
+                    </Button>
                   )}
                   {questionIndex > 0 && (
                     <Button
                       type="button"
                       onClick={previousQuestion}
-                      styleType={AppearanceStyleType.primary}
+                      styleType={AppearanceStyleType.accentLight}
                     >
-                      {t("t.back")}
+                      {t("t.previous")}
                     </Button>
                   )}
                 </div>
