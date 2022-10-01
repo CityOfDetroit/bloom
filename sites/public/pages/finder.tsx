@@ -4,10 +4,8 @@ import {
   Region,
 } from "@bloom-housing/shared-helpers"
 import {
-  AlertBox,
   AppearanceStyleType,
   Button,
-  Field,
   Form,
   FormCard,
   ProgressNav,
@@ -20,6 +18,9 @@ import router from "next/router"
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
+import FinderDisclaimer from "../src/forms/finder/FinderDisclaimer"
+import FinderMultiselect from "../src/forms/finder/FinderMultiselect"
+import FinderRentalCosts from "../src/forms/finder/FinderRentalCosts"
 
 interface FinderField {
   type?: string
@@ -28,7 +29,7 @@ interface FinderField {
   value: boolean | string
 }
 
-interface FinderQuestion {
+export interface FinderQuestion {
   formSection: string
   fieldGroupName: string
   fields: FinderField[]
@@ -192,67 +193,21 @@ const Finder = () => {
                   {!isDisclaimer ? (
                     <div className="py-8">
                       <p className="pb-4">{t("finder.multiselectHelper")}</p>
-                      <div className="finder-grid">
-                        {activeQuestion?.fields?.map((field) => {
-                          return activeQuestion?.fieldGroupName != "rentalCosts" ? (
-                            <div className="finder-grid__field" key={field.label}>
-                              <Field
-                                name={activeQuestion.fieldGroupName}
-                                register={register}
-                                id={field.label}
-                                label={
-                                  field.translation
-                                    ? t(`listingFilters.${field.translation}`)
-                                    : field.label
-                                }
-                                key={field.label}
-                                type="checkbox"
-                                inputProps={{
-                                  value: field.label,
-                                  defaultChecked: field.value,
-                                }}
-                                bordered
-                              />
-                            </div>
-                          ) : (
-                            <div>
-                              <Field
-                                id={field.label}
-                                name={FrontendListingFilterStateKeys[field.label]}
-                                type="number"
-                                placeholder={t("publicFilter.rentRangeMin")}
-                                label={t("publicFilter.rentRangeMin")}
-                                register={register}
-                                prepend={"$"}
-                                defaultValue={typeof field?.value != "boolean" && field?.value}
-                                error={errors?.minRent !== undefined}
-                                errorMessage={t("errors.minGreaterThanMaxRentError")}
-                                validation={{ max: maxRent || minRent }}
-                                inputProps={{
-                                  onBlur: () => {
-                                    void trigger("minRent")
-                                    void trigger("maxRent")
-                                  },
-                                }}
-                              />
-                            </div>
-                          )
-                        })}
-                      </div>
+                      {activeQuestion.fieldGroupName !== "rentalCosts" ? (
+                        <FinderMultiselect activeQuestion={activeQuestion} register={register} />
+                      ) : (
+                        <FinderRentalCosts
+                          activeQuestion={activeQuestion}
+                          register={register}
+                          errors={errors}
+                          trigger={trigger}
+                          minRent={minRent}
+                          maxRent={maxRent}
+                        />
+                      )}
                     </div>
                   ) : (
-                    <div>
-                      <AlertBox type="notice" closeable>
-                        {t("finder.disclaimer.alert")}
-                      </AlertBox>
-                      <ul className="list-disc list-inside py-8 flex flex-col gap-y-4">
-                        {[1, 2, 3, 4, 5].map((num) => (
-                          <li className="pl-2 text-gray-700">
-                            {t(`finder.disclaimer.info${num}`)}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <FinderDisclaimer />
                   )}
                 </div>
 
