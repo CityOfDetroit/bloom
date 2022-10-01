@@ -22,9 +22,10 @@ import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
 
 interface FinderField {
+  type?: string
   label: string
   translation?: string
-  selected: boolean
+  value: boolean | string
 }
 
 interface FinderQuestion {
@@ -35,10 +36,12 @@ interface FinderQuestion {
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, watch } = useForm()
+  const { register, handleSubmit, trigger, errors, watch } = useForm()
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FinderQuestion[]>([])
   const [isDisclaimer, setIsDisclaimer] = useState<boolean>(false)
+  const minRent = watch("minRent")
+  const maxRent = watch("maxRent")
 
   const activeQuestion = formData?.[questionIndex]
 
@@ -64,10 +67,11 @@ const Finder = () => {
     const formSelections = {}
     formData?.forEach((question) => {
       formSelections[question.fieldGroupName] = question?.fields
-        ?.filter((field) => field.selected)
+        ?.filter((field) => field.value)
         ?.map((field) => field.label)
         ?.join()
     })
+    console.log(formSelections)
     void router.push(
       `/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(formSelections)}`
     )
@@ -81,7 +85,7 @@ const Finder = () => {
           const bedroomFields = response.data.unitTypes.map((elem) => ({
             label: FrontendListingFilterStateKeys[elem.name],
             translation: `bedroomsOptions.${translationStringMap[elem.name]}`,
-            selected: false,
+            value: false,
           }))
           formQuestions.push({
             formSection: t("finder.progress.housingLabel"),
@@ -91,12 +95,23 @@ const Finder = () => {
         }
         const neighborhoodFields = Object.keys(Region).map((key) => ({
           label: FrontendListingFilterStateKeys[key],
-          selected: false,
+          value: false,
         }))
         formQuestions.push({
           formSection: t("finder.progress.housingLabel"),
           fieldGroupName: "region",
           fields: neighborhoodFields,
+        })
+        const costFields = [
+          { label: "minRent", type: "number", value: "" },
+          { label: "maxRent", type: "number", value: "" },
+          { label: "section8Acceptance", type: "checkbox", value: false },
+        ]
+
+        formQuestions.push({
+          formSection: t("finder.progress.housingLabel"),
+          fieldGroupName: "rentalCosts",
+          fields: costFields,
         })
         setFormData(formQuestions)
       } catch (e) {
@@ -138,7 +153,7 @@ const Finder = () => {
     const userSelections = watch()?.[formData[questionIndex]["fieldGroupName"]]
     const formCopy = [...formData]
     formCopy[questionIndex]["fields"].forEach((field) => {
-      field["selected"] = userSelections.includes(field.label)
+      field["value"] = userSelections.includes(field.label)
     })
     setFormData(formCopy)
     questionIndex >= formData.length - 1 && setIsDisclaimer(true)
@@ -179,7 +194,7 @@ const Finder = () => {
                       <p className="pb-4">{t("finder.multiselectHelper")}</p>
                       <div className="finder-grid">
                         {activeQuestion?.fields?.map((field) => {
-                          return (
+                          return activeQuestion?.fieldGroupName != "rentalCosts" ? (
                             <div className="finder-grid__field" key={field.label}>
                               <Field
                                 name={activeQuestion.fieldGroupName}
@@ -194,9 +209,31 @@ const Finder = () => {
                                 type="checkbox"
                                 inputProps={{
                                   value: field.label,
-                                  defaultChecked: field.selected,
+                                  defaultChecked: field.value,
                                 }}
                                 bordered
+                              />
+                            </div>
+                          ) : (
+                            <div>
+                              <Field
+                                id={field.label}
+                                name={FrontendListingFilterStateKeys[field.label]}
+                                type="number"
+                                placeholder={t("publicFilter.rentRangeMin")}
+                                label={t("publicFilter.rentRangeMin")}
+                                register={register}
+                                prepend={"$"}
+                                defaultValue={typeof field?.value != "boolean" && field?.value}
+                                error={errors?.minRent !== undefined}
+                                errorMessage={t("errors.minGreaterThanMaxRentError")}
+                                validation={{ max: maxRent || minRent }}
+                                inputProps={{
+                                  onBlur: () => {
+                                    void trigger("minRent")
+                                    void trigger("maxRent")
+                                  },
+                                }}
                               />
                             </div>
                           )
