@@ -158,7 +158,7 @@ const Finder = () => {
     <Layout>
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
         <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
-          {ProgressHeader()}
+          <ProgressHeader />
           <FormCard>
             {formData?.length > 0 && (
               <>
@@ -209,7 +209,7 @@ const Finder = () => {
                       </AlertBox>
                       <ul className="list-disc list-inside py-8 flex flex-col gap-y-4">
                         {[1, 2, 3, 4, 5].map((num) => (
-                          <li className="pl-2 text-gray-700">
+                          <li key={num} className="pl-2 text-gray-700">
                             {t(`finder.disclaimer.info${num}`)}
                           </li>
                         ))}
