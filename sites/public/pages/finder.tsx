@@ -141,7 +141,7 @@ const Finder = () => {
       field["selected"] = userSelections.includes(field.label)
     })
     setFormData(formCopy)
-    questionIndex >= formData.length - 1 && setIsDisclaimer(true)
+    if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
     setQuestionIndex(questionIndex + 1)
   }
   const previousQuestion = () => {
@@ -150,7 +150,8 @@ const Finder = () => {
   }
 
   const skipToListings = () => {
-    setQuestionIndex(formData.length - 1)
+    setIsDisclaimer(true)
+    setQuestionIndex(formData.length)
   }
 
   return (
@@ -232,7 +233,7 @@ const Finder = () => {
                       key="finderSubmit"
                       styleType={AppearanceStyleType.primary}
                     >
-                      {t("t.submit")}
+                      {t("t.finish")}
                     </Button>
                   )}
                   {questionIndex > 0 && (
@@ -247,9 +248,9 @@ const Finder = () => {
                 </div>
                 {!isDisclaimer && (
                   <div className="flex justify-center align-center bg-white py-8">
-                    <a className="underline" onClick={skipToListings}>
+                    <Button className="text-base underline" unstyled onClick={skipToListings}>
                       {t("finder.skip")}
-                    </a>
+                    </Button>
                   </div>
                 )}
               </>
