@@ -4,6 +4,7 @@ import {
   Region,
 } from "@bloom-housing/shared-helpers"
 import {
+  AlertBox,
   AppearanceStyleType,
   Button,
   Field,
@@ -34,9 +35,11 @@ interface FinderQuestion {
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, getValues } = useForm()
+  const { register, handleSubmit, watch } = useForm()
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FinderQuestion[]>([])
+  const [isDisclaimer, setIsDisclaimer] = useState<boolean>(false)
+
   const activeQuestion = formData?.[questionIndex]
 
   const translationStringMap = {
@@ -53,7 +56,9 @@ const Finder = () => {
     t("finder.progress.buildingLabel"),
   ]
 
-  const sectionNumber = stepLabels.indexOf(formData[questionIndex]?.formSection) + 1
+  const sectionNumber = !isDisclaimer
+    ? stepLabels.indexOf(formData[questionIndex]?.formSection) + 1
+    : stepLabels.length + 1
 
   const onSubmit = () => {
     const formSelections = {}
@@ -93,11 +98,6 @@ const Finder = () => {
           fieldGroupName: "region",
           fields: neighborhoodFields,
         })
-        formQuestions.push({
-          formSection: t("finder.progress.buildingLabel"),
-          fieldGroupName: "disclaimer",
-          fields: [],
-        })
         setFormData(formQuestions)
       } catch (e) {
         console.error(e)
@@ -114,12 +114,14 @@ const Finder = () => {
           <div className="md:text-xl capitalize font-bold">
             {t("listingFilters.buttonTitleExtended")}
           </div>
-          <StepHeader
-            currentStep={sectionNumber}
-            totalSteps={3}
-            stepPreposition={t("finder.progress.stepPreposition")}
-            stepLabeling={stepLabels}
-          ></StepHeader>
+          {!isDisclaimer && (
+            <StepHeader
+              currentStep={sectionNumber}
+              totalSteps={3}
+              stepPreposition={t("finder.progress.stepPreposition")}
+              stepLabeling={stepLabels}
+            ></StepHeader>
+          )}
         </div>
         <ProgressNav
           currentPageSection={sectionNumber}
@@ -133,79 +135,91 @@ const Finder = () => {
   }
 
   const nextQuestion = () => {
-    const userSelections = getValues()?.[formData[questionIndex]["fieldGroupName"]]
+    const userSelections = watch()?.[formData[questionIndex]["fieldGroupName"]]
     const formCopy = [...formData]
     formCopy[questionIndex]["fields"].forEach((field) => {
       field["selected"] = userSelections.includes(field.label)
     })
     setFormData(formCopy)
+    if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
     setQuestionIndex(questionIndex + 1)
   }
   const previousQuestion = () => {
+    setIsDisclaimer(false)
     setQuestionIndex(questionIndex - 1)
   }
 
   const skipToListings = () => {
-    setQuestionIndex(formData.length - 1)
+    setIsDisclaimer(true)
+    setQuestionIndex(formData.length)
   }
 
   return (
     <Layout>
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
         <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
-          {ProgressHeader()}
+          <ProgressHeader />
           <FormCard>
-            {formData && (
+            {formData?.length > 0 && (
               <>
                 <div className="px-10 md:px-20 pt-6 md:pt-12 ">
-                  <div className="">
-                    <div className="text-3xl pb-4">
-                      {t(`finder.${activeQuestion?.fieldGroupName}.question`)}
-                    </div>
-                    <div className="pb-8 border-b border-gray-450">
-                      {t("finder.questionSubtitle")}
-                    </div>
+                  <div className="text-3xl pb-4">
+                    {!isDisclaimer
+                      ? t(`finder.${activeQuestion?.fieldGroupName}.question`)
+                      : t("finder.disclaimer.header")}
                   </div>
-                  <div className="py-8">
-                    <p className="pb-4">{t("finder.multiselectHelper")}</p>
-                    <div className="finder-grid">
-                      {activeQuestion?.fields?.map((field) => {
-                        return (
-                          <div className="finder-grid__field" key={field.label}>
-                            <Field
-                              name={activeQuestion.fieldGroupName}
-                              register={register}
-                              id={field.label}
-                              label={
-                                field.translation
-                                  ? t(`listingFilters.${field.translation}`)
-                                  : field.label
-                              }
-                              key={field.label}
-                              type="checkbox"
-                              inputProps={{
-                                value: field.label,
-                                defaultChecked: field.selected,
-                              }}
-                              bordered
-                            />
-                          </div>
-                        )
-                      })}
-                    </div>
+                  <div className="pb-8 border-b border-gray-450">
+                    {!isDisclaimer
+                      ? t("finder.question.subtitle")
+                      : t("finder.disclaimer.subtitle")}
                   </div>
+                  {!isDisclaimer ? (
+                    <div className="py-8">
+                      <p className="pb-4">{t("finder.multiselectHelper")}</p>
+                      <div className="finder-grid">
+                        {activeQuestion?.fields?.map((field) => {
+                          return (
+                            <div className="finder-grid__field" key={field.label}>
+                              <Field
+                                name={activeQuestion.fieldGroupName}
+                                register={register}
+                                id={field.label}
+                                label={
+                                  field.translation
+                                    ? t(`listingFilters.${field.translation}`)
+                                    : field.label
+                                }
+                                key={field.label}
+                                type="checkbox"
+                                inputProps={{
+                                  value: field.label,
+                                  defaultChecked: field.selected,
+                                }}
+                                bordered
+                              />
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <AlertBox type="notice" closeable>
+                        {t("finder.disclaimer.alert")}
+                      </AlertBox>
+                      <ul className="list-disc list-inside py-8 flex flex-col gap-y-4">
+                        {[1, 2, 3, 4, 5].map((num) => (
+                          <li key={num} className="pl-2 text-gray-700">
+                            {t(`finder.disclaimer.info${num}`)}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
 
-                <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-20">
-                  {questionIndex === formData.length - 1 ? (
-                    <Button
-                      type="submit"
-                      key="finderSubmit"
-                      styleType={AppearanceStyleType.primary}
-                    >
-                      {t("t.submit")}
-                    </Button>
-                  ) : (
+                <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-10 md:px-20 ">
+                  {!isDisclaimer ? (
                     <Button
                       type="button"
                       onClick={nextQuestion}
@@ -213,22 +227,32 @@ const Finder = () => {
                     >
                       {t("t.next")}
                     </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      key="finderSubmit"
+                      styleType={AppearanceStyleType.primary}
+                    >
+                      {t("t.finish")}
+                    </Button>
                   )}
                   {questionIndex > 0 && (
                     <Button
                       type="button"
                       onClick={previousQuestion}
-                      styleType={AppearanceStyleType.primary}
+                      styleType={AppearanceStyleType.accentLight}
                     >
-                      {t("t.back")}
+                      {t("t.previous")}
                     </Button>
                   )}
                 </div>
-                <div className="flex justify-center align-center bg-white py-4">
-                  <Button className="text-base underline" unstyled onClick={skipToListings}>
-                    {t("finder.skip")}
-                  </Button>
-                </div>
+                {!isDisclaimer && (
+                  <div className="flex justify-center align-center bg-white py-8">
+                    <Button className="text-base underline" unstyled onClick={skipToListings}>
+                      {t("finder.skip")}
+                    </Button>
+                  </div>
+                )}
               </>
             )}
           </FormCard>
