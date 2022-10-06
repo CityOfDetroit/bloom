@@ -19,15 +19,15 @@ const NeighborhoodAmenities = () => {
         <GridSection columns={2}>
           <Textarea
             label={t("t.grocery")}
-            name={"grocery"}
-            id={"grocery"}
+            name={"neighborhoodAmenities.grocery"}
+            id={"neighborhoodAmenities.grocery"}
             fullWidth={true}
             register={register}
           />
           <Textarea
             label={t("t.pharmacy")}
-            name={"pharmacy"}
-            id={"pharmacy"}
+            name={"neighborhoodAmenities.pharmacy"}
+            id={"neighborhoodAmenities.pharmacy"}
             fullWidth={true}
             register={register}
           />
@@ -35,15 +35,15 @@ const NeighborhoodAmenities = () => {
         <GridSection columns={2}>
           <Textarea
             label={t("t.medicalClinic")}
-            name={"medicalClinic"}
-            id={"medicalClinic"}
+            name={"neighborhoodAmenities.medicalClinic"}
+            id={"neighborhoodAmenities.medicalClinic"}
             fullWidth={true}
             register={register}
           />
           <Textarea
             label={t("t.park")}
-            name={"park"}
-            id={"park"}
+            name={"neighborhoodAmenities.park"}
+            id={"neighborhoodAmenities.park"}
             fullWidth={true}
             register={register}
           />
@@ -51,8 +51,8 @@ const NeighborhoodAmenities = () => {
         <GridSection columns={2}>
           <Textarea
             label={t("t.seniorCenter")}
-            name={"seniorCenter"}
-            id={"seniorCenter"}
+            name={"neighborhoodAmenities.seniorCenter"}
+            id={"neighborhoodAmenities.seniorCenter"}
             fullWidth={true}
             register={register}
           />
