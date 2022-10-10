@@ -14,35 +14,35 @@ const DetailBuildingFeatures = () => {
     >
       <GridSection columns={1}>
         <GridCell>
-          <ViewItem id="grocery" label={t("t.grocery")}>
+          <ViewItem id="neighborhoodAmenities.grocery" label={t("t.grocery")}>
             {getDetailFieldString(listing.neighborhoodAmenities?.grocery)}
           </ViewItem>
         </GridCell>
       </GridSection>
       <GridSection columns={1}>
         <GridCell>
-          <ViewItem id="pharmacy" label={t("t.pharmacy")}>
+          <ViewItem id="neighborhoodAmenities.pharmacy" label={t("t.pharmacy")}>
             {getDetailFieldString(listing.neighborhoodAmenities?.pharmacy)}
           </ViewItem>
         </GridCell>
       </GridSection>
       <GridSection columns={1}>
         <GridCell>
-          <ViewItem id="medicalClinic" label={t("t.medicalClinic")}>
+          <ViewItem id="neighborhoodAmenities.medicalClinic" label={t("t.medicalClinic")}>
             {getDetailFieldString(listing.neighborhoodAmenities?.medicalClinic)}
           </ViewItem>
         </GridCell>
       </GridSection>
       <GridSection columns={1}>
         <GridCell>
-          <ViewItem id="park" label={t("t.park")}>
+          <ViewItem id="neighborhoodAmenities.park" label={t("t.park")}>
             {getDetailFieldString(listing.neighborhoodAmenities?.park)}
           </ViewItem>
         </GridCell>
       </GridSection>
       <GridSection columns={1}>
         <GridCell>
-          <ViewItem id="seniorCenter" label={t("t.seniorCenter")}>
+          <ViewItem id="neighborhoodAmenities.seniorCenter" label={t("t.seniorCenter")}>
             {getDetailFieldString(listing.neighborhoodAmenities?.seniorCenter)}
           </ViewItem>
         </GridCell>
