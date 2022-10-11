@@ -23,10 +23,10 @@ import FinderMultiselect from "../src/forms/finder/FinderMultiselect"
 import FinderRentalCosts from "../src/forms/finder/FinderRentalCosts"
 
 interface FinderField {
-  type?: string
   label: string
   translation?: string
   value: boolean | string
+  type?: string
 }
 
 export interface FinderQuestion {
@@ -67,10 +67,17 @@ const Finder = () => {
   const onSubmit = () => {
     const formSelections = {}
     formData?.forEach((question) => {
-      formSelections[question.fieldGroupName] = question?.fields
-        ?.filter((field) => field.value)
-        ?.map((field) => field.label)
-        ?.join()
+      if (question.fieldGroupName !== "rentalCosts") {
+        formSelections[question.fieldGroupName] = question?.fields
+          ?.filter((field) => field.value)
+          ?.map((field) => field.label)
+          ?.join()
+      } else {
+        question.fields.forEach((field) => {
+          if (field.value) formSelections[field.label] = field.value
+          console.log(field)
+        })
+      }
     })
     console.log(formSelections)
     void router.push(
@@ -151,11 +158,19 @@ const Finder = () => {
   }
 
   const nextQuestion = () => {
-    const userSelections = watch()?.[formData[questionIndex]["fieldGroupName"]]
     const formCopy = [...formData]
-    formCopy[questionIndex]["fields"].forEach((field) => {
-      field["value"] = userSelections.includes(field.label)
-    })
+    if (activeQuestion.fieldGroupName !== "rentalCosts") {
+      const userSelections = watch()?.[formData[questionIndex]["fieldGroupName"]]
+      formCopy[questionIndex]["fields"].forEach((field) => {
+        field["value"] = userSelections.includes(field.label)
+      })
+    } else {
+      const userInputs = watch()
+      console.log(userInputs)
+      formCopy[questionIndex]["fields"].forEach((field) => {
+        field["value"] = userInputs[field.label]
+      })
+    }
     setFormData(formCopy)
     questionIndex >= formData.length - 1 && setIsDisclaimer(true)
     setQuestionIndex(questionIndex + 1)

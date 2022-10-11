@@ -41,6 +41,7 @@
   "finder.bedRoomSize.question": "How many bedrooms do you need?",
   "finder.region.question": "What areas of Detroit would you like to live in?",
   "finder.rentalCosts.question": "How much rent can you afford to pay?",
+  "finder.rentalCosts.section8": "Include opportunities that accept Section 8 Housing Choice Vouchers",
   "finder.disclaimer.header": "Before you see the results",
   "finder.question.subtitle": "We'll use your selection to highlight possible rentals that match.",
   "finder.disclaimer.subtitle": "We have some final notes on understanding Regulated Affordable Housing.",

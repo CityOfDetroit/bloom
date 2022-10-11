@@ -54,13 +54,16 @@ li.progress-nav__item {
   justify-content: space-between;
   row-gap: 0.5rem;
   column-gap: 0.5rem;
+  .field {
+    --leftward-margin: 0rem;
+  }
   .finder-grid__field {
-    .field {
-      --leftward-margin: 0rem;
-    }
     width: 100%;
     @screen md {
       width: calc(50% - 0.25rem);
     }
+  }
+  .finder-grid__row {
+    width: 100%;
   }
 }
