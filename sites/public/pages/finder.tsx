@@ -75,11 +75,9 @@ const Finder = () => {
       } else {
         question.fields.forEach((field) => {
           if (field.value) formSelections[field.label] = field.value
-          console.log(field)
         })
       }
     })
-    console.log(formSelections)
     void router.push(
       `/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(formSelections)}`
     )
@@ -158,22 +156,23 @@ const Finder = () => {
   }
 
   const nextQuestion = () => {
-    const formCopy = [...formData]
-    if (activeQuestion.fieldGroupName !== "rentalCosts") {
-      const userSelections = watch()?.[activeQuestion["fieldGroupName"]]
-      formCopy[questionIndex]["fields"].forEach((field) => {
-        field["value"] = userSelections.includes(field.label)
-      })
-    } else {
-      const userInputs = watch()
-      console.log(userInputs)
-      formCopy[questionIndex]["fields"].forEach((field) => {
-        field["value"] = userInputs[field.label]
-      })
+    if (!Object.keys(errors).length) {
+      const formCopy = [...formData]
+      if (activeQuestion.fieldGroupName !== "rentalCosts") {
+        const userSelections = watch()?.[activeQuestion["fieldGroupName"]]
+        formCopy[questionIndex]["fields"].forEach((field) => {
+          field["value"] = userSelections.includes(field.label)
+        })
+      } else {
+        const userInputs = watch()
+        formCopy[questionIndex]["fields"].forEach((field) => {
+          field["value"] = userInputs[field.label]
+        })
+      }
+      setFormData(formCopy)
+      if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
+      setQuestionIndex(questionIndex + 1)
     }
-    setFormData(formCopy)
-    if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
-    setQuestionIndex(questionIndex + 1)
   }
   const previousQuestion = () => {
     setIsDisclaimer(false)
