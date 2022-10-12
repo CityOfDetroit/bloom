@@ -11,8 +11,8 @@ const FinderRentalCosts = (props: {
   minRent: number
   maxRent: number
 }) => {
-  const numericFields = props.activeQuestion?.fields.slice(0, 2)
-  const section8Field = props.activeQuestion?.fields[2]
+  const numericFields = props.activeQuestion?.fields.filter((field) => field.type === "number")
+  const section8Field = props.activeQuestion?.fields.find((field) => field.type === "checkbox")
   return (
     <div className="finder-grid finder-grid__rental_costs">
       {numericFields.map((field) => {
