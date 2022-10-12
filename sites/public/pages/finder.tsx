@@ -172,7 +172,7 @@ const Finder = () => {
       })
     }
     setFormData(formCopy)
-    questionIndex >= formData.length - 1 && setIsDisclaimer(true)
+    if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
     setQuestionIndex(questionIndex + 1)
   }
   const previousQuestion = () => {
@@ -181,14 +181,15 @@ const Finder = () => {
   }
 
   const skipToListings = () => {
-    setQuestionIndex(formData.length - 1)
+    setIsDisclaimer(true)
+    setQuestionIndex(formData.length)
   }
 
   return (
     <Layout>
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
         <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
-          {ProgressHeader()}
+          <ProgressHeader />
           <FormCard>
             {formData?.length > 0 && (
               <>
@@ -241,7 +242,7 @@ const Finder = () => {
                       key="finderSubmit"
                       styleType={AppearanceStyleType.primary}
                     >
-                      {t("t.submit")}
+                      {t("t.finish")}
                     </Button>
                   )}
                   {questionIndex > 0 && (
@@ -256,9 +257,9 @@ const Finder = () => {
                 </div>
                 {!isDisclaimer && (
                   <div className="flex justify-center align-center bg-white py-8">
-                    <a className="underline" onClick={skipToListings}>
+                    <Button className="text-base underline" unstyled onClick={skipToListings}>
                       {t("finder.skip")}
-                    </a>
+                    </Button>
                   </div>
                 )}
               </>
