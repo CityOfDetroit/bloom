@@ -160,7 +160,7 @@ const Finder = () => {
   const nextQuestion = () => {
     const formCopy = [...formData]
     if (activeQuestion.fieldGroupName !== "rentalCosts") {
-      const userSelections = watch()?.[formData[questionIndex]["fieldGroupName"]]
+      const userSelections = watch()?.[activeQuestion["fieldGroupName"]]
       formCopy[questionIndex]["fields"].forEach((field) => {
         field["value"] = userSelections.includes(field.label)
       })

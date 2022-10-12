@@ -14,36 +14,36 @@ const FinderRentalCosts = (props: {
   const numericFields = props.activeQuestion?.fields.slice(0, 2)
   const section8Field = props.activeQuestion?.fields[2]
   return (
-    <div className="finder-grid">
+    <div className="finder-grid finder-grid__costs">
       {numericFields.map((field) => {
         const isMin = field.label === "minRent"
-        console.log(numericFields)
         return (
-          <Field
-            id={field.label}
-            name={FrontendListingFilterStateKeys[field.label]}
-            type="number"
-            placeholder={isMin ? t("publicFilter.rentRangeMin") : t("publicFilter.rentRangeMax")}
-            label={isMin ? t("publicFilter.rentRangeMin") : t("publicFilter.rentRangeMax")}
-            register={props.register}
-            prepend={"$"}
-            defaultValue={typeof field?.value != "boolean" && field?.value}
-            error={
-              isMin ? props.errors?.minRent !== undefined : props.errors?.maxRent !== undefined
-            }
-            errorMessage={
-              isMin ? t("errors.minGreaterThanMaxRentError") : t("errors.maxLessThanMinRentError")
-            }
-            validation={isMin ? { max: props.maxRent || props.minRent } : { min: props.minRent }}
-            className={"finder-grid__field"}
-            inputProps={{
-              onBlur: () => {
-                void props.trigger("minRent")
-                void props.trigger("maxRent")
-              },
-            }}
-            readerOnly
-          />
+          <div className="finder-grid__field">
+            <Field
+              id={field.label}
+              name={FrontendListingFilterStateKeys[field.label]}
+              type="number"
+              placeholder={isMin ? t("publicFilter.rentRangeMin") : t("publicFilter.rentRangeMax")}
+              label={isMin ? t("publicFilter.rentRangeMin") : t("publicFilter.rentRangeMax")}
+              register={props.register}
+              prepend={"$"}
+              defaultValue={typeof field?.value != "boolean" && field?.value}
+              error={
+                isMin ? props.errors?.minRent !== undefined : props.errors?.maxRent !== undefined
+              }
+              errorMessage={
+                isMin ? t("errors.minGreaterThanMaxRentError") : t("errors.maxLessThanMinRentError")
+              }
+              validation={isMin ? { max: props.maxRent || props.minRent } : { min: props.minRent }}
+              inputProps={{
+                onBlur: () => {
+                  void props.trigger("minRent")
+                  void props.trigger("maxRent")
+                },
+              }}
+              readerOnly
+            />
+          </div>
         )
       })}
       {section8Field && (
