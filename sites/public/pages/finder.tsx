@@ -160,7 +160,7 @@ const Finder = () => {
         if (response?.data?.programs) {
           console.log(response.data.programs)
           const programFields = response.data.programs.map((elem) => ({
-            label: elem.title,
+            label: elem.id,
             translation: t(`listingFilters.program.${elem.title}`),
             value: false,
           }))
