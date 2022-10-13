@@ -1,6 +1,7 @@
 import {
   encodeToFrontendFilterString,
   FrontendListingFilterStateKeys,
+  listingFeatures,
   Region,
 } from "@bloom-housing/shared-helpers"
 import {
@@ -33,6 +34,8 @@ export interface FinderQuestion {
   formSection: string
   fieldGroupName: string
   fields: FinderField[]
+  question: string
+  subtitle: string
 }
 
 const Finder = () => {
@@ -90,13 +93,15 @@ const Finder = () => {
         if (response?.data?.unitTypes) {
           const bedroomFields = response.data.unitTypes.map((elem) => ({
             label: FrontendListingFilterStateKeys[elem.name],
-            translation: `bedroomsOptions.${translationStringMap[elem.name]}`,
+            translation: t(`listingFilters.bedroomsOptions.${translationStringMap[elem.name]}`),
             value: false,
           }))
           formQuestions.push({
             formSection: t("finder.progress.housingLabel"),
             fieldGroupName: "bedRoomSize",
             fields: bedroomFields,
+            question: t("finder.bedRoomSize.question"),
+            subtitle: t("finder.default.subtitle"),
           })
         }
         const neighborhoodFields = Object.keys(Region).map((key) => ({
@@ -107,18 +112,67 @@ const Finder = () => {
           formSection: t("finder.progress.housingLabel"),
           fieldGroupName: "region",
           fields: neighborhoodFields,
+          question: t("finder.region.question"),
+          subtitle: t("finder.default.subtitle"),
         })
         const costFields = [
-          { label: "minRent", type: "number", value: "" },
-          { label: "maxRent", type: "number", value: "" },
-          { label: "section8Acceptance", type: "checkbox", value: false },
+          {
+            label: "minRent",
+            translation: t("finder.rentalCosts.minRent"),
+            type: "number",
+            value: "",
+          },
+          {
+            label: "maxRent",
+            translation: t("finder.rentalCosts.maxRent"),
+            type: "number",
+            value: "",
+          },
+          {
+            label: "section8Acceptance",
+            translation: t("listingFilters.section8"),
+            type: "checkbox",
+            value: false,
+          },
         ]
 
         formQuestions.push({
           formSection: t("finder.progress.housingLabel"),
           fieldGroupName: "rentalCosts",
           fields: costFields,
+          question: t("finder.rentalCosts.question"),
+          subtitle: t("finder.default.subtitle"),
         })
+
+        const a11yFields = listingFeatures.map((elem) => ({
+          label: elem,
+          translation: t(`eligibility.accessibility.${elem}`),
+          value: false,
+        }))
+
+        formQuestions.push({
+          formSection: t("t.accessibility"),
+          fieldGroupName: "accessibility",
+          fields: a11yFields,
+          question: t("finder.accessibility.question"),
+          subtitle: t("finder.accessibility.subtitle"),
+        })
+        if (response?.data?.programs) {
+          console.log(response.data.programs)
+          const programFields = response.data.programs.map((elem) => ({
+            label: elem.title,
+            translation: t(`listingFilters.program.${elem.title}`),
+            value: false,
+          }))
+          formQuestions.push({
+            formSection: t("finder.progress.buildingLabel"),
+            fieldGroupName: "communityPrograms",
+            fields: programFields,
+            question: t("finder.programs.question"),
+            subtitle: t("finder.default.subtitle"),
+          })
+        }
+
         setFormData(formQuestions)
       } catch (e) {
         console.error(e)
@@ -195,14 +249,10 @@ const Finder = () => {
                 <div className="px-10 md:px-20 pt-6 md:pt-12 ">
                   <div className="">
                     <div className="text-3xl pb-4">
-                      {!isDisclaimer
-                        ? t(`finder.${activeQuestion?.fieldGroupName}.question`)
-                        : t("finder.disclaimer.header")}
+                      {!isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")}
                     </div>
                     <div className="pb-8 border-b border-gray-450">
-                      {!isDisclaimer
-                        ? t("finder.question.subtitle")
-                        : t("finder.disclaimer.subtitle")}
+                      {!isDisclaimer ? activeQuestion.subtitle : t("finder.disclaimer.subtitle")}
                     </div>
                   </div>
                   {!isDisclaimer ? (

@@ -1,4 +1,4 @@
-import { Field, t } from "@bloom-housing/ui-components"
+import { Field } from "@bloom-housing/ui-components"
 import { UseFormMethods } from "react-hook-form"
 import { FinderQuestion } from "../../../pages/finder"
 
@@ -14,7 +14,7 @@ const FinderMultiselect = (props: {
             name={props.activeQuestion.fieldGroupName}
             register={props.register}
             id={field.label}
-            label={field.translation ? t(`listingFilters.${field.translation}`) : field.label}
+            label={field.translation ?? field.label}
             key={field.label}
             type="checkbox"
             inputProps={{
