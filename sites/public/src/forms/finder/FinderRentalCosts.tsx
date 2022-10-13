@@ -23,10 +23,8 @@ const FinderRentalCosts = (props: {
               id={field.label}
               name={FrontendListingFilterStateKeys[field.label]}
               type="number"
-              placeholder={`${t("t.no")} ${
-                isMin ? t("finder.rentalCosts.minRent") : t("finder.rentalCosts.maxRent")
-              }`}
-              label={isMin ? t("finder.rentalCosts.minRent") : t("finder.rentalCosts.maxRent")}
+              placeholder={`${t("t.no")} ${field.translation}`}
+              label={field.translation}
               register={props.register}
               prepend={"$"}
               defaultValue={typeof field?.value != "boolean" && field?.value}
@@ -52,7 +50,7 @@ const FinderRentalCosts = (props: {
           id={section8Field.label}
           name={FrontendListingFilterStateKeys[section8Field.label]}
           type="checkbox"
-          label={t("finder.rentalCosts.section8")}
+          label={section8Field.translation}
           className={"finder-grid__row"}
           register={props.register}
           inputProps={{

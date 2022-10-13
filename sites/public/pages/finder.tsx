@@ -109,9 +109,24 @@ const Finder = () => {
           fields: neighborhoodFields,
         })
         const costFields = [
-          { label: "minRent", type: "number", value: "" },
-          { label: "maxRent", type: "number", value: "" },
-          { label: "section8Acceptance", type: "checkbox", value: false },
+          {
+            label: "minRent",
+            translation: t("finder.rentalCosts.minRent"),
+            type: "number",
+            value: "",
+          },
+          {
+            label: "maxRent",
+            translation: t("finder.rentalCosts.maxRent"),
+            type: "number",
+            value: "",
+          },
+          {
+            label: "section8Acceptance",
+            translation: t("finder.rentalCosts.section8"),
+            type: "checkbox",
+            value: false,
+          },
         ]
 
         formQuestions.push({
