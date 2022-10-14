@@ -933,7 +933,7 @@
   "listings.sections.buildingFeaturesSubtitle": "Provide details about any amenities and unit details.",
   "listings.sections.buildingFeaturesTitle": "Building Features",
   "listings.sections.neighborhoodAmenitiesTitle": "Neighborhood Amenities",
-  "listings.sections.neighborhoodAmenitiesSubtitle": "Provide details about any local amenities including grocery stores, health services and parks.",
+  "listings.sections.neighborhoodAmenitiesSubtitle": "Provide details about any local amenities including grocery stores, health services and parks within 2 miles of your listings.",
   "listings.sections.applicationDatesTitle": "Application Dates",
   "listings.sections.applicationDatesSubtitle": "Tell us about important dates related to this listing.",
   "listings.sections.communityType": "Community Type",
