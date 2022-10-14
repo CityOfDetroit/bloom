@@ -751,6 +751,49 @@ export const ListingView = (props: ListingProps) => {
               />
             </div>
           </ListingDetailItem>
+          {listing.neighborhoodAmenities && (
+            <ListingDetailItem
+              imageAlt=""
+              imageSrc=""
+              title={t("listings.sections.neighborhoodAmenitiesPublicTitle")}
+              subtitle={t("listings.sections.neighborhoodAmenitiesPublicSubtitle")}
+            >
+              <div className="listing-detail-panel">
+                <dl className="column-definition-list">
+                  {listing.neighborhoodAmenities?.grocery && (
+                    <Description
+                      term={t("t.grocery")}
+                      description={listing.neighborhoodAmenities.grocery}
+                    />
+                  )}
+                  {listing.neighborhoodAmenities?.pharmacy && (
+                    <Description
+                      term={t("t.pharmacy")}
+                      description={listing.neighborhoodAmenities.pharmacy}
+                    />
+                  )}
+                  {listing.neighborhoodAmenities?.medicalClinic && (
+                    <Description
+                      term={t("t.medicalClinic")}
+                      description={listing.neighborhoodAmenities.medicalClinic}
+                    />
+                  )}
+                  {listing.neighborhoodAmenities?.park && (
+                    <Description
+                      term={t("t.park")}
+                      description={listing.neighborhoodAmenities.park}
+                    />
+                  )}
+                  {listing.neighborhoodAmenities?.seniorCenter && (
+                    <Description
+                      term={t("t.seniorCenter")}
+                      description={listing.neighborhoodAmenities.seniorCenter}
+                    />
+                  )}
+                </dl>
+              </div>
+            </ListingDetailItem>
+          )}
           {(listing.requiredDocuments || listing.programRules || listing.specialNotes) && (
             <ListingDetailItem
               imageAlt={t("listings.additionalInformationEnvelope")}
