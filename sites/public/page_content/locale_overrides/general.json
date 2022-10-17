@@ -22,6 +22,7 @@
   "pageDescription.additionalResources": "We encourage you to browse additional resources in your search for housing.",
   "errors.minGreaterThanMaxRentError": "Min Rent must be less than or equal to Max Rent",
   "errors.maxLessThanMinRentError": "Max Rent must be greater than or equal to Min Rent",
+  "errors.negativeMinRent": "Min Rent must be a positive value",
   "basicsVideo.sectionTitle": "Affordable Housing Video Tutorials",
   "basicsVideo.sectionSubtitle": "In the following videos, you can learn the basics about affordable housing, as well as understand more about income requirements to apply for properties, key housing application processes, and property waitlists.",
   "basicsVideo.affordableHousing": "Detroit Home Connect: What is Affordable Housing?",

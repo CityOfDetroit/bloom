@@ -18,7 +18,7 @@ const FinderRentalCosts = (props: {
       {numericFields.map((field) => {
         const isMin = field.label === "minRent"
         return (
-          <div className="finder-grid__field">
+          <div className="finder-grid__field" key={field.label}>
             <Field
               id={field.label}
               name={FrontendListingFilterStateKeys[field.label]}
@@ -32,14 +32,21 @@ const FinderRentalCosts = (props: {
                 isMin ? props.errors?.minRent !== undefined : props.errors?.maxRent !== undefined
               }
               errorMessage={
-                isMin ? t("errors.minGreaterThanMaxRentError") : t("errors.maxLessThanMinRentError")
+                isMin
+                  ? props.errors?.minRent?.type === "min"
+                    ? t("errors.negativeMinRent")
+                    : t("errors.minGreaterThanMaxRentError")
+                  : t("errors.maxLessThanMinRentError")
               }
-              validation={isMin ? { max: props.maxRent || props.minRent } : { min: props.minRent }}
+              validation={
+                isMin ? { max: props.maxRent || props.minRent, min: 0 } : { min: props.minRent }
+              }
               inputProps={{
                 onBlur: () => {
                   void props.trigger("minRent")
                   void props.trigger("maxRent")
                 },
+                min: 0,
               }}
             />
           </div>

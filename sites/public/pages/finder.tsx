@@ -130,7 +130,7 @@ const Finder = () => {
           },
           {
             label: "section8Acceptance",
-            translation: t("listingFilters.section8"),
+            translation: t("finder.rentalCosts.section8"),
             type: "checkbox",
             value: false,
           },
