@@ -158,7 +158,6 @@ const Finder = () => {
           subtitle: t("finder.accessibility.subtitle"),
         })
         if (response?.data?.programs) {
-          console.log(response.data.programs)
           const programFields = response.data.programs.map((elem) => ({
             label: elem.id,
             translation: t(`listingFilters.program.${elem.title}`),
