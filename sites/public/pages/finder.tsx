@@ -4,10 +4,8 @@ import {
   Region,
 } from "@bloom-housing/shared-helpers"
 import {
-  AlertBox,
   AppearanceStyleType,
   Button,
-  Field,
   Form,
   FormCard,
   ProgressNav,
@@ -20,14 +18,18 @@ import router from "next/router"
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
+import FinderDisclaimer from "../src/forms/finder/FinderDisclaimer"
+import FinderMultiselect from "../src/forms/finder/FinderMultiselect"
+import FinderRentalCosts from "../src/forms/finder/FinderRentalCosts"
 
 interface FinderField {
   label: string
   translation?: string
-  selected: boolean
+  value: boolean | string
+  type?: string
 }
 
-interface FinderQuestion {
+export interface FinderQuestion {
   formSection: string
   fieldGroupName: string
   fields: FinderField[]
@@ -35,10 +37,12 @@ interface FinderQuestion {
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, watch } = useForm()
+  const { register, handleSubmit, trigger, errors, watch } = useForm()
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FinderQuestion[]>([])
   const [isDisclaimer, setIsDisclaimer] = useState<boolean>(false)
+  const minRent = watch("minRent")
+  const maxRent = watch("maxRent")
 
   const activeQuestion = formData?.[questionIndex]
 
@@ -63,10 +67,16 @@ const Finder = () => {
   const onSubmit = () => {
     const formSelections = {}
     formData?.forEach((question) => {
-      formSelections[question.fieldGroupName] = question?.fields
-        ?.filter((field) => field.selected)
-        ?.map((field) => field.label)
-        ?.join()
+      if (question.fieldGroupName !== "rentalCosts") {
+        formSelections[question.fieldGroupName] = question?.fields
+          ?.filter((field) => field.value)
+          ?.map((field) => field.label)
+          ?.join()
+      } else {
+        question.fields.forEach((field) => {
+          if (field.value) formSelections[field.label] = field.value
+        })
+      }
     })
     void router.push(
       `/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(formSelections)}`
@@ -81,7 +91,7 @@ const Finder = () => {
           const bedroomFields = response.data.unitTypes.map((elem) => ({
             label: FrontendListingFilterStateKeys[elem.name],
             translation: `bedroomsOptions.${translationStringMap[elem.name]}`,
-            selected: false,
+            value: false,
           }))
           formQuestions.push({
             formSection: t("finder.progress.housingLabel"),
@@ -91,12 +101,38 @@ const Finder = () => {
         }
         const neighborhoodFields = Object.keys(Region).map((key) => ({
           label: FrontendListingFilterStateKeys[key],
-          selected: false,
+          value: false,
         }))
         formQuestions.push({
           formSection: t("finder.progress.housingLabel"),
           fieldGroupName: "region",
           fields: neighborhoodFields,
+        })
+        const costFields = [
+          {
+            label: "minRent",
+            translation: t("finder.rentalCosts.minRent"),
+            type: "number",
+            value: "",
+          },
+          {
+            label: "maxRent",
+            translation: t("finder.rentalCosts.maxRent"),
+            type: "number",
+            value: "",
+          },
+          {
+            label: "section8Acceptance",
+            translation: t("finder.rentalCosts.section8"),
+            type: "checkbox",
+            value: false,
+          },
+        ]
+
+        formQuestions.push({
+          formSection: t("finder.progress.housingLabel"),
+          fieldGroupName: "rentalCosts",
+          fields: costFields,
         })
         setFormData(formQuestions)
       } catch (e) {
@@ -135,14 +171,23 @@ const Finder = () => {
   }
 
   const nextQuestion = () => {
-    const userSelections = watch()?.[formData[questionIndex]["fieldGroupName"]]
-    const formCopy = [...formData]
-    formCopy[questionIndex]["fields"].forEach((field) => {
-      field["selected"] = userSelections.includes(field.label)
-    })
-    setFormData(formCopy)
-    if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
-    setQuestionIndex(questionIndex + 1)
+    if (!Object.keys(errors).length) {
+      const formCopy = [...formData]
+      if (activeQuestion.fieldGroupName !== "rentalCosts") {
+        const userSelections = watch()?.[activeQuestion["fieldGroupName"]]
+        formCopy[questionIndex]["fields"].forEach((field) => {
+          field["value"] = userSelections.includes(field.label)
+        })
+      } else {
+        const userInputs = watch()
+        formCopy[questionIndex]["fields"].forEach((field) => {
+          field["value"] = userInputs[field.label]
+        })
+      }
+      setFormData(formCopy)
+      if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
+      setQuestionIndex(questionIndex + 1)
+    }
   }
   const previousQuestion = () => {
     setIsDisclaimer(false)
@@ -176,45 +221,21 @@ const Finder = () => {
                   {!isDisclaimer ? (
                     <div className="py-8">
                       <p className="pb-4">{t("finder.multiselectHelper")}</p>
-                      <div className="finder-grid">
-                        {activeQuestion?.fields?.map((field) => {
-                          return (
-                            <div className="finder-grid__field" key={field.label}>
-                              <Field
-                                name={activeQuestion.fieldGroupName}
-                                register={register}
-                                id={field.label}
-                                label={
-                                  field.translation
-                                    ? t(`listingFilters.${field.translation}`)
-                                    : field.label
-                                }
-                                key={field.label}
-                                type="checkbox"
-                                inputProps={{
-                                  value: field.label,
-                                  defaultChecked: field.selected,
-                                }}
-                                bordered
-                              />
-                            </div>
-                          )
-                        })}
-                      </div>
+                      {activeQuestion.fieldGroupName !== "rentalCosts" ? (
+                        <FinderMultiselect activeQuestion={activeQuestion} register={register} />
+                      ) : (
+                        <FinderRentalCosts
+                          activeQuestion={activeQuestion}
+                          register={register}
+                          errors={errors}
+                          trigger={trigger}
+                          minRent={minRent}
+                          maxRent={maxRent}
+                        />
+                      )}
                     </div>
                   ) : (
-                    <div>
-                      <AlertBox type="notice" closeable>
-                        {t("finder.disclaimer.alert")}
-                      </AlertBox>
-                      <ul className="list-disc list-inside py-8 flex flex-col gap-y-4">
-                        {[1, 2, 3, 4, 5].map((num) => (
-                          <li key={num} className="pl-2 text-gray-700">
-                            {t(`finder.disclaimer.info${num}`)}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <FinderDisclaimer />
                   )}
                 </div>
 
