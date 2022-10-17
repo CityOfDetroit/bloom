@@ -43,7 +43,7 @@
   "finder.accessibility.subtitle": "تشمل ميزات التيسير العديد من الميزات المصممة خصوصًا للمقيمين من ذوي الإعاقة، بالإضافة إلى عدد من وسائل الراحة الأخرى بالمباني والوحدات.",
   "finder.programs.question": "Do you or anyone in your household qualify for one of the following programs?",
   "finder.disclaimer.header": "Before you see the results",
-  "finder.default.subtitle": "We'll use your selection to highlight possible rentals that match.",
+  "finder.default.subtitle": "سوف نستخدم اختياراتك للعثور على أماكن للإيجار قد تتناسب مع احتياجات السكن لديك.",
   "finder.disclaimer.subtitle": "We have some final notes on understanding Regulated Affordable Housing.",
   "finder.disclaimer.alert": "The information in this personalized rental finder should be used for informational purposes only. Due to the changing nature of property information, the best way to see if you qualify for a property or if it has any availability is by contacting the property itself. You can find contact information on most rental listings on this website.",
   "finder.disclaimer.info1": "Detroit Home Connect will show you regulated affordable rentals, meaning they are affordable because of governmental funding.",
@@ -51,6 +51,6 @@
   "finder.disclaimer.info3": "Many buildings serve moderate- or lower-income households, so applicants cannot make more money than specific income limits.",
   "finder.disclaimer.info4": "Some buildings are only reserved for seniors.",
   "finder.disclaimer.info5": "At these kinds of rentals, property management staff will help you determine your eligibility.",
-  "finder.multiselectHelper": "Select all that apply:",
-  "finder.skip": "Skip this and show me listings"
+  "finder.multiselectHelper": "يرجى تحديد واحد أو أكثر:",
+  "finder.skip": "تخطي هذا وإظهار أماكن للإيجار لي"
 }
