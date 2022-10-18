@@ -41,6 +41,8 @@
   "finder.rentalCosts.section8": "Incluir alquileres que acepten vales de elección de vivienda de la sección 8",
   "finder.rentalCosts.minRent": "Alquiler mínimo",
   "finder.rentalCosts.maxRent": "Alquiler máximo",
+  "finder.rentalCosts.minPlaceholder": "Sin alquiler mínimo",
+  "finder.rentalCosts.maxPlaceholder": "Sin alquiler máximo",
   "finder.accessibility.question": "¿Usted o alguien de su grupo familiar necesita alguna de las siguientes características de accesibilidad?",
   "finder.accessibility.subtitle": "Las características de accesibilidad incluyen muchas diseñadas específicamente para los residentes con discapacidades, así como una serie de otros servicios del edificio y de la unidad.",
   "finder.programs.question": "¿Está buscando uno de los siguientes tipos de alquiler?",

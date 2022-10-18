@@ -45,6 +45,8 @@
   "finder.rentalCosts.section8": "Include rentals that accept Section 8 Housing Choice Vouchers",
   "finder.rentalCosts.minRent": "Minimum Rent",
   "finder.rentalCosts.maxRent": "Maximum Rent",
+  "finder.rentalCosts.minPlaceholder": "No Minimum Rent",
+  "finder.rentalCosts.maxPlaceholder": "No Maximum Rent",
   "finder.accessibility.question": "Do you or anyone in your household need any of the following accessibility features?",
   "finder.accessibility.subtitle": "Accessibility features include many designed specifically for residents with disabilities as well as a number of other building and unit amenities.",
   "finder.programs.question": "Are you looking for one of the following rental types?",

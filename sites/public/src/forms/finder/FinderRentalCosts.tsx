@@ -1,5 +1,6 @@
 import { FrontendListingFilterStateKeys } from "@bloom-housing/shared-helpers"
 import { Field, t } from "@bloom-housing/ui-components"
+import { useRouter } from "next/router"
 import { UseFormMethods } from "react-hook-form"
 import { FinderQuestion } from "../../../pages/finder"
 
@@ -11,6 +12,7 @@ const FinderRentalCosts = (props: {
   minRent: number
   maxRent: number
 }) => {
+  const dollarSign = useRouter().locale !== "ar"
   const numericFields = props.activeQuestion?.fields.filter((field) => field.type === "number")
   const section8Field = props.activeQuestion?.fields.find((field) => field.type === "checkbox")
   return (
@@ -23,10 +25,10 @@ const FinderRentalCosts = (props: {
               id={field.label}
               name={FrontendListingFilterStateKeys[field.label]}
               type="number"
-              placeholder={`${t("t.no")} ${field.translation}`}
+              placeholder={t(`finder.rentalCosts.${isMin ? "min" : "max"}Placeholder`)}
               label={field.translation}
               register={props.register}
-              prepend={"$"}
+              prepend={dollarSign && "$"}
               defaultValue={typeof field?.value != "boolean" && field?.value}
               error={
                 isMin ? props.errors?.minRent !== undefined : props.errors?.maxRent !== undefined

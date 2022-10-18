@@ -41,6 +41,8 @@
   "finder.rentalCosts.section8": "تضمين أماكن الإيجار التي تقبل قسائم اختيار السكن بموجب المادة 8",
   "finder.rentalCosts.minRent": "الحد الأدنى للإيجار",
   "finder.rentalCosts.maxRent": "الحد الأقصى للإيجار",
+  // "finder.rentalCosts.minPlaceholder": "Sin alquiler mínimo",
+  "finder.rentalCosts.maxPlaceholder": "لا يوجد حد أقصى للإيجار بالدولار الأمريكي",
   "finder.accessibility.question": "هل تحتاج أنت أو أي من أفراد أسرتك إلى أي من ميزات التيسير التالية؟",
   "finder.accessibility.subtitle": "تشمل ميزات التيسير العديد من الميزات المصممة خصوصًا للمقيمين من ذوي الإعاقة، بالإضافة إلى عدد من وسائل الراحة الأخرى بالمباني والوحدات.",
   "finder.programs.question": "هل تبحث عن أحد أنواع أماكن الإيجار التالية؟",
