@@ -169,7 +169,7 @@ const Finder = () => {
             fieldGroupName: "communityPrograms",
             fields: programFields,
             question: t("finder.programs.question"),
-            subtitle: t("finder.default.subtitle"),
+            subtitle: t("finder.programs.subtitle"),
           })
         }
 
