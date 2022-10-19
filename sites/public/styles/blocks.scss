@@ -25,6 +25,15 @@
   font-weight: 600;
 }
 
+.action-block.no-results {
+  .action-block__header {
+    font-size: var(--bloom-font-size-lg);
+  }
+  .action-block__icon {
+    margin-bottom: var(--bloom-s8);
+  }
+}
+
 .media-grid {
   display: flex;
   flex-wrap: wrap;
