@@ -158,10 +158,12 @@ const Finder = () => {
           subtitle: t("finder.accessibility.subtitle"),
         })
         if (response?.data?.programs) {
-          console.log(response.data.programs)
-          const programFields = response.data.programs.map((elem) => ({
+          const programsFiltered = response.data.programs.filter(
+            (program) => program.title !== "Families"
+          )
+          const programFields = programsFiltered.map((elem) => ({
             label: elem.id,
-            translation: t(`listingFilters.program.${elem.title}`),
+            translation: t(`finder.programs.${elem.title}`),
             value: false,
           }))
           formQuestions.push({
