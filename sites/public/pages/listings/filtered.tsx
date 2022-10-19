@@ -8,6 +8,9 @@ import {
   LoadingOverlay,
   Drawer,
   AG_PER_PAGE_OPTIONS,
+  ActionBlock,
+  Icon,
+  LinkButton,
 } from "@bloom-housing/ui-components"
 import {
   encodeToFrontendFilterString,
@@ -162,10 +165,21 @@ const FilteredListingsPage = () => {
           )}
           {!listingsLoading && !listingsError && listingsData?.meta.totalItems === 0 && (
             <div className="container max-w-5xl my-4 px-4 content-start mx-auto">
-              <header>
+              {/* <header>
                 <h2 className="page-header__title text-left">{t("listingFilters.noResults")}</h2>
                 <p className="page-header__lead">{t("listingFilters.noResultsSubtitle")}</p>
-              </header>
+              </header> */}
+              <ActionBlock
+                actions={[
+                  <LinkButton key={"additional-resources"} href="/additional-resources">
+                    {t("listings.additionalResources")}
+                  </LinkButton>,
+                ]}
+                background="primary-lighter"
+                icon={<Icon size="2xl" symbol="house" />}
+                header={t("listingFilters.noResults")}
+                subheader={t("listingFilters.noResultsSubtitle")}
+              ></ActionBlock>
             </div>
           )}
           {!listingsLoading && listingsData?.meta.totalItems > 0 && (
