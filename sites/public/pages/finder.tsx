@@ -273,7 +273,11 @@ const Finder = () => {
                   )}
                 </div>
 
-                <div className="bg-gray-300 flex flex-row-reverse justify-between py-8 px-10 md:px-20 ">
+                <div
+                  className={`bg-gray-300 flex flex-row-reverse justify-between py-8 px-10 md:px-20 ${
+                    isDisclaimer && "rounded-lg"
+                  }`}
+                >
                   {!isDisclaimer ? (
                     <Button
                       type="button"
@@ -302,7 +306,7 @@ const Finder = () => {
                   )}
                 </div>
                 {!isDisclaimer && (
-                  <div className="flex justify-center align-center bg-white py-8">
+                  <div className="flex justify-center align-center bg-white py-8 rounded-lg">
                     <Button className="text-base underline" unstyled onClick={skipToListings}>
                       {t("finder.skip")}
                     </Button>
