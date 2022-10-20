@@ -61,7 +61,6 @@ const FinderRentalCosts = (props: {
           className={"finder-grid__row"}
           register={props.register}
           inputProps={{
-            value: section8Field.label,
             defaultChecked: section8Field.value,
           }}
           bordered
