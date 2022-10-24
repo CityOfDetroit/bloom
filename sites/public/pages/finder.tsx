@@ -16,7 +16,7 @@ import {
 import axios from "axios"
 import router from "next/router"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
 import FinderDisclaimer from "../src/forms/finder/FinderDisclaimer"
@@ -44,6 +44,7 @@ const Finder = () => {
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FinderQuestion[]>([])
   const [isDisclaimer, setIsDisclaimer] = useState<boolean>(false)
+  const formBody = useRef(null)
   const minRent = watch("minRent")
   const maxRent = watch("maxRent")
 
@@ -225,11 +226,13 @@ const Finder = () => {
       setFormData(formCopy)
       if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
       setQuestionIndex(questionIndex + 1)
+      formBody.current.focus()
     }
   }
   const previousQuestion = () => {
     setIsDisclaimer(false)
     setQuestionIndex(questionIndex - 1)
+    formBody.current.focus()
   }
 
   const skipToListings = () => {
@@ -245,7 +248,7 @@ const Finder = () => {
           <FormCard>
             {formData?.length > 0 && (
               <>
-                <div className="px-10 md:px-20 pt-6 md:pt-12 ">
+                <div className="px-10 md:px-20 pt-6 md:pt-12" tabIndex={0} ref={formBody}>
                   <div className="text-3xl pb-4">
                     {!isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")}
                   </div>
