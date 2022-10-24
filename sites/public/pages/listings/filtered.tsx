@@ -171,7 +171,7 @@ const FilteredListingsPage = () => {
                     {t("listings.additionalResources")}
                   </LinkButton>,
                 ]}
-                className={"p-8 has-bold-header no-results"}
+                className={"p-8 has-bold-header"}
                 background="primary-lighter"
                 icon={<Icon size="2xl" symbol="house" />}
                 header={t("listingFilters.noResults")}
