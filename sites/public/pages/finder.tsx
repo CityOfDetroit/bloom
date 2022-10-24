@@ -106,6 +106,7 @@ const Finder = () => {
         }
         const neighborhoodFields = Object.keys(Region).map((key) => ({
           label: FrontendListingFilterStateKeys[key],
+          translation: t(`listingFilters.region.${key}`),
           value: false,
         }))
         formQuestions.push({
