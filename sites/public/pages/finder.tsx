@@ -106,6 +106,7 @@ const Finder = () => {
         }
         const neighborhoodFields = Object.keys(Region).map((key) => ({
           label: FrontendListingFilterStateKeys[key],
+          translation: t(`listingFilters.region.${key}`),
           value: false,
         }))
         formQuestions.push({
@@ -158,9 +159,12 @@ const Finder = () => {
           subtitle: t("finder.accessibility.subtitle"),
         })
         if (response?.data?.programs) {
-          const programFields = response.data.programs.map((elem) => ({
+          const programsFiltered = response.data.programs.filter(
+            (program) => program.title !== "Families"
+          )
+          const programFields = programsFiltered.map((elem) => ({
             label: elem.id,
-            translation: t(`listingFilters.program.${elem.title}`),
+            translation: t(`finder.programs.${elem.title}`),
             value: false,
           }))
           formQuestions.push({
@@ -168,7 +172,7 @@ const Finder = () => {
             fieldGroupName: "communityPrograms",
             fields: programFields,
             question: t("finder.programs.question"),
-            subtitle: t("finder.default.subtitle"),
+            subtitle: t("finder.programs.subtitle"),
           })
         }
 

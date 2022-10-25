@@ -41,7 +41,7 @@ export default function Home({ latestListings, comingSoonListings }) {
   const heroTitle = <>{t("welcome.title")}</>
 
   const heroInset: React.ReactNode = (
-    <>
+    <div className="flex flex-wrap justify-center gap-2">
       <Link href="/listings">
         <a className="hero__button hero__rentals-button">{t("welcome.seeRentalListings")}</a>
       </Link>
@@ -50,7 +50,7 @@ export default function Home({ latestListings, comingSoonListings }) {
           {t("listingFilters.buttonTitleExtended")}
         </a>
       </Link>
-    </>
+    </div>
   )
 
   /**
