@@ -45,11 +45,13 @@ export default function Home({ latestListings, comingSoonListings }) {
       <Link href="/listings">
         <a className="hero__button hero__rentals-button">{t("welcome.seeRentalListings")}</a>
       </Link>
-      <Link href="/finder">
-        <a className="hero__button hero__finder-button">
-          {t("listingFilters.buttonTitleExtended")}
-        </a>
-      </Link>
+      {process.env.SHOW_FINDER && (
+        <Link href="/finder">
+          <a className="hero__button hero__finder-button">
+            {t("listingFilters.buttonTitleExtended")}
+          </a>
+        </Link>
+      )}
     </div>
   )
 
