@@ -749,10 +749,20 @@ export const ListingView = (props: ListingProps) => {
                 address={getGenericAddress(listing.buildingAddress)}
                 listingName={listing.name}
               />
+              <p className="text-sm underline block mt-4 mb-8">
+                <a
+                  href={googleMapsHref}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label="Opens in new window"
+                >
+                  {t("t.getDirections")}
+                </a>
+              </p>
             </div>
             {listing.neighborhoodAmenities && (
               <>
-                <header className="detail-header ps-0 md:ps-4 border-none flex justify-start">
+                <header className="detail-header pt-0 ps-0 md:ps-4 pb-6 border-none flex justify-start">
                   <div className="flex justify-between w-full">
                     <hgroup className="detail-header__hgroup ps-0 md:ps-4">
                       <h2 className="detail-header__title">
