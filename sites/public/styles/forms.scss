@@ -80,30 +80,3 @@ li.progress-nav__item {
     width: 100%;
   }
 }
-
-.card-overrides {
-  --bloom-font-sans: Montserrat;
-  --bloom-font-alt-sans: var(--bloom-font-sans);
-  --bloom-color-primary: rgb(41, 126, 115);
-  --bloom-color-primary-dark: rgb(0, 68, 69);
-
-  --primary-appearance-hover-background-color: white;
-  --primary-appearance-hover-label-color: var(--bloom-color-primary-dark);
-
-  --outlined-appearance-hover-background-color: var(--bloom-color-primary);
-  --outlined-appearance-hover-border-color: var(--bloom-color-primary);
-
-  font-family: var(--bloom-font-sans);
-}
-
-.card-overrides .heading-group > *:first-child {
-  font-family: var(--bloom-font-sans);
-}
-
-.card-overrides .button {
-  --normal-rounded: 60px;
-  --normal-padding: 0.5rem 1rem;
-  --normal-font-size: var(--bloom-font-size-base);
-  --label-letter-spacing: normal;
-  --label-transform: none;
-}
