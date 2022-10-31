@@ -7,8 +7,13 @@ import {
 import {
   AppearanceStyleType,
   Button,
+  ButtonGroup,
+  Card,
+  CardFooter,
+  CardHeader,
+  CardSection,
   Form,
-  FormCard,
+  HeadingGroup,
   ProgressNav,
   StepHeader,
   t,
@@ -246,79 +251,91 @@ const Finder = () => {
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
         <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
           <ProgressHeader />
-          <FormCard>
+          <Card>
             {formData?.length > 0 && (
               <>
                 <div className="px-10 md:px-20 pt-6 md:pt-12 ">
-                  <div className="text-3xl pb-4">
-                    {!isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")}
+                  <CardHeader>
+                    <HeadingGroup
+                      headingPriority={2}
+                      heading={
+                        !isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")
+                      }
+                      subheading={
+                        !isDisclaimer ? activeQuestion.subtitle : t("finder.disclaimer.subtitle")
+                      }
+                    />
+                  </CardHeader>
+                  <CardSection>
+                    {!isDisclaimer ? (
+                      <div className="py-8">
+                        <p className="pb-4">{t("finder.multiselectHelper")}</p>
+                        {activeQuestion.fieldGroupName !== "rentalCosts" ? (
+                          <FinderMultiselect activeQuestion={activeQuestion} register={register} />
+                        ) : (
+                          <FinderRentalCosts
+                            activeQuestion={activeQuestion}
+                            register={register}
+                            errors={errors}
+                            trigger={trigger}
+                            minRent={minRent}
+                            maxRent={maxRent}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <FinderDisclaimer />
+                    )}
+                  </CardSection>
+                </div>
+                <CardFooter>
+                  <div
+                    className={`bg-gray-300 flex flex-row-reverse justify-between py-8 px-10 md:px-20 ${
+                      isDisclaimer && "rounded-lg"
+                    }`}
+                  >
+                    <ButtonGroup
+                      columns={[
+                        !isDisclaimer ? (
+                          <Button
+                            type="button"
+                            onClick={nextQuestion}
+                            styleType={AppearanceStyleType.primary}
+                          >
+                            {t("t.next")}
+                          </Button>
+                        ) : (
+                          <Button
+                            type="submit"
+                            key="finderSubmit"
+                            styleType={AppearanceStyleType.primary}
+                          >
+                            {t("t.finish")}
+                          </Button>
+                        ),
+                        questionIndex > 0 && (
+                          <Button
+                            type="button"
+                            onClick={previousQuestion}
+                            styleType={AppearanceStyleType.accentLight}
+                          >
+                            {t("t.previous")}
+                          </Button>
+                        ),
+                      ]}
+                    />
                   </div>
-                  <div className="pb-8 border-b border-gray-450">
-                    {!isDisclaimer ? activeQuestion.subtitle : t("finder.disclaimer.subtitle")}
-                  </div>
-                  {!isDisclaimer ? (
-                    <div className="py-8">
-                      <p className="pb-4">{t("finder.multiselectHelper")}</p>
-                      {activeQuestion.fieldGroupName !== "rentalCosts" ? (
-                        <FinderMultiselect activeQuestion={activeQuestion} register={register} />
-                      ) : (
-                        <FinderRentalCosts
-                          activeQuestion={activeQuestion}
-                          register={register}
-                          errors={errors}
-                          trigger={trigger}
-                          minRent={minRent}
-                          maxRent={maxRent}
-                        />
-                      )}
+                  {!isDisclaimer && (
+                    <div className="flex justify-center align-center bg-white py-8 rounded-lg">
+                      <Button className="text-base underline" unstyled onClick={skipToListings}>
+                        {t("finder.skip")}
+                      </Button>
                     </div>
-                  ) : (
-                    <FinderDisclaimer />
                   )}
-                </div>
-
-                <div
-                  className={`bg-gray-300 flex flex-row-reverse justify-between py-8 px-10 md:px-20 ${
-                    isDisclaimer && "rounded-lg"
-                  }`}
-                >
-                  {!isDisclaimer ? (
-                    <Button
-                      type="button"
-                      onClick={nextQuestion}
-                      styleType={AppearanceStyleType.primary}
-                    >
-                      {t("t.next")}
-                    </Button>
-                  ) : (
-                    <Button
-                      type="submit"
-                      key="finderSubmit"
-                      styleType={AppearanceStyleType.primary}
-                    >
-                      {t("t.finish")}
-                    </Button>
-                  )}
-                  {questionIndex > 0 && (
-                    <Button
-                      type="button"
-                      onClick={previousQuestion}
-                      styleType={AppearanceStyleType.accentLight}
-                    >
-                      {t("t.previous")}
-                    </Button>
-                  )}
-                </div>
-                {!isDisclaimer && (
-                  <div className="flex justify-center align-center bg-white py-8 rounded-lg">
-                    <Button className="text-base underline" unstyled onClick={skipToListings}>
-                      {t("finder.skip")}
-                    </Button>
-                  </div>
-                )}
+                </CardFooter>
               </>
             )}
-          </FormCard>
+          </Card>
         </div>
       </Form>
     </Layout>
