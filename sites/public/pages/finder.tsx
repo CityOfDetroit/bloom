@@ -9,9 +9,6 @@ import {
   Button,
   ButtonGroup,
   Card,
-  CardFooter,
-  CardHeader,
-  CardSection,
   Form,
   HeadingGroup,
   ProgressNav,
@@ -251,51 +248,64 @@ const Finder = () => {
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
         <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
           <ProgressHeader />
-          <Card>
-            {formData?.length > 0 && (
-              <>
-                <div className="px-10 md:px-20 pt-6 md:pt-12 ">
-                  <CardHeader>
-                    <HeadingGroup
-                      headingPriority={2}
-                      heading={
-                        !isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")
-                      }
-                      subheading={
-                        !isDisclaimer ? activeQuestion.subtitle : t("finder.disclaimer.subtitle")
-                      }
-                    />
-                  </CardHeader>
-                  <CardSection>
-                    {!isDisclaimer ? (
-                      <div className="py-8">
-                        <p className="pb-4">{t("finder.multiselectHelper")}</p>
-                        {activeQuestion.fieldGroupName !== "rentalCosts" ? (
-                          <FinderMultiselect activeQuestion={activeQuestion} register={register} />
-                        ) : (
-                          <FinderRentalCosts
-                            activeQuestion={activeQuestion}
-                            register={register}
-                            errors={errors}
-                            trigger={trigger}
-                            minRent={minRent}
-                            maxRent={maxRent}
-                          />
-                        )}
-                      </div>
-                    ) : (
-                      <FinderDisclaimer />
-                    )}
-                  </CardSection>
-                </div>
-                <CardFooter>
-                  <div
+          <div className="card-overrides">
+            <Card>
+              {formData?.length > 0 && (
+                <>
+                  <div className="px-10 md:px-20 pt-6 md:pt-12 ">
+                    <Card.Header>
+                      <HeadingGroup
+                        headingPriority={2}
+                        heading={
+                          !isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")
+                        }
+                        subheading={
+                          !isDisclaimer ? activeQuestion.subtitle : t("finder.disclaimer.subtitle")
+                        }
+                      />
+                    </Card.Header>
+                    <Card.Section>
+                      {!isDisclaimer ? (
+                        <div>
+                          <p className="pb-4">{t("finder.multiselectHelper")}</p>
+                          {activeQuestion.fieldGroupName !== "rentalCosts" ? (
+                            <FinderMultiselect
+                              activeQuestion={activeQuestion}
+                              register={register}
+                            />
+                          ) : (
+                            <FinderRentalCosts
+                              activeQuestion={activeQuestion}
+                              register={register}
+                              errors={errors}
+                              trigger={trigger}
+                              minRent={minRent}
+                              maxRent={maxRent}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <FinderDisclaimer />
+                      )}
+                    </Card.Section>
+                  </div>
+                  <Card.Footer>
+                    {/* <div
                     className={`bg-gray-300 flex flex-row-reverse justify-between py-8 px-10 md:px-20 ${
                       isDisclaimer && "rounded-lg"
                     }`}
-                  >
+                  > */}
                     <ButtonGroup
                       columns={[
+                        questionIndex > 0 && (
+                          <Button
+                            type="button"
+                            onClick={previousQuestion}
+                            styleType={AppearanceStyleType.accentLight}
+                          >
+                            {t("t.previous")}
+                          </Button>
+                        ),
                         !isDisclaimer ? (
                           <Button
                             type="button"
@@ -313,29 +323,23 @@ const Finder = () => {
                             {t("t.finish")}
                           </Button>
                         ),
-                        questionIndex > 0 && (
-                          <Button
-                            type="button"
-                            onClick={previousQuestion}
-                            styleType={AppearanceStyleType.accentLight}
-                          >
-                            {t("t.previous")}
-                          </Button>
-                        ),
                       ]}
                     />
-                  </div>
-                  {!isDisclaimer && (
-                    <div className="flex justify-center align-center bg-white py-8 rounded-lg">
-                      <Button className="text-base underline" unstyled onClick={skipToListings}>
-                        {t("finder.skip")}
-                      </Button>
-                    </div>
-                  )}
-                </CardFooter>
-              </>
-            )}
-          </Card>
+                    {/* </div> */}
+                    {!isDisclaimer && (
+                      <Card.Section>
+                        <div className="flex justify-center align-center bg-white py-8 rounded-lg">
+                          <Button className="text-base underline" unstyled onClick={skipToListings}>
+                            {t("finder.skip")}
+                          </Button>
+                        </div>
+                      </Card.Section>
+                    )}
+                  </Card.Footer>
+                </>
+              )}
+            </Card>
+          </div>
         </div>
       </Form>
     </Layout>
