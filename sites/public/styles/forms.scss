@@ -48,6 +48,27 @@ li.progress-nav__item {
   @apply font-normal;
 }
 
+.finder-card {
+  --header-padding-block: var(--bloom-s12) var(--bloom-s8);
+  --content-margin-inline-desktop: var(--bloom-s20);
+  --content-margin-inline-mobile: var(--bloom-s4);
+  --header-margin-inline-mobile: var(--bloom-s5);
+  .heading-group {
+    --subheading-margin: var(--bloom-s4) 0rem;
+  }
+  .button-group {
+    --padding-inline-desktop: 0rem;
+    --padding-inline-mobile: 0rem;
+    .button-group__column {
+      .button {
+        --normal-rounded: 60px;
+        --normal-padding: var(--bloom-s2) var(--bloom-s4);
+        --normal-font-size: var(--bloom-font-size-base);
+      }
+    }
+  }
+}
+
 .finder-grid {
   display: flex;
   flex-wrap: wrap;
@@ -79,4 +100,8 @@ li.progress-nav__item {
   .finder-grid__row {
     width: 100%;
   }
+}
+
+.finder-disclaimer {
+  --header-padding-block: ;
 }

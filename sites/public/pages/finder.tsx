@@ -189,7 +189,7 @@ const Finder = () => {
 
   const ProgressHeader = () => {
     return (
-      <div className="flex flex-col w-full px-2 md:px-0">
+      <div className="flex flex-col w-full pb-8 px-2 md:px-0 md:pb-0">
         <div className="flex flex-row flex-wrap justify-between gap-y-4 gap-x-0.5">
           <div className="md:text-xl capitalize font-bold">
             {t("listingFilters.buttonTitleExtended")}
@@ -200,16 +200,18 @@ const Finder = () => {
               totalSteps={3}
               stepPreposition={t("finder.progress.stepPreposition")}
               stepLabeling={stepLabels}
-            ></StepHeader>
+            />
           )}
         </div>
-        <ProgressNav
-          currentPageSection={sectionNumber}
-          completedSections={sectionNumber - 1}
-          labels={stepLabels}
-          mounted={true}
-          style="bar"
-        ></ProgressNav>
+        <div className="hidden md:block">
+          <ProgressNav
+            currentPageSection={sectionNumber}
+            completedSections={sectionNumber - 1}
+            labels={stepLabels}
+            mounted={true}
+            style="bar"
+          />
+        </div>
       </div>
     )
   }
@@ -248,45 +250,43 @@ const Finder = () => {
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
         <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
           <ProgressHeader />
-          <Card>
+          <Card className="finder-card">
             {formData?.length > 0 && (
               <>
-                <div className="px-10 md:px-20 pt-6 md:pt-12">
-                  <Card.Header>
-                    <HeadingGroup
-                      headingPriority={2}
-                      heading={
-                        !isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")
-                      }
-                      subheading={
-                        !isDisclaimer ? activeQuestion.subtitle : t("finder.disclaimer.subtitle")
-                      }
-                    />
-                  </Card.Header>
-                  <Card.Section>
-                    {!isDisclaimer ? (
-                      <>
-                        <p className="pb-4">{t("finder.multiselectHelper")}</p>
-                        {activeQuestion.fieldGroupName !== "rentalCosts" ? (
-                          <FinderMultiselect activeQuestion={activeQuestion} register={register} />
-                        ) : (
-                          <FinderRentalCosts
-                            activeQuestion={activeQuestion}
-                            register={register}
-                            errors={errors}
-                            trigger={trigger}
-                            minRent={minRent}
-                            maxRent={maxRent}
-                          />
-                        )}
-                      </>
-                    ) : (
-                      <FinderDisclaimer />
-                    )}
-                  </Card.Section>
-                </div>
+                <Card.Header>
+                  <HeadingGroup
+                    headingPriority={2}
+                    heading={
+                      !isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")
+                    }
+                    subheading={
+                      !isDisclaimer ? activeQuestion.subtitle : t("finder.disclaimer.subtitle")
+                    }
+                  />
+                </Card.Header>
+                <Card.Section className={!isDisclaimer ? "" : "finder-disclaimer"}>
+                  {!isDisclaimer ? (
+                    <>
+                      <p className="pb-4">{t("finder.multiselectHelper")}</p>
+                      {activeQuestion.fieldGroupName !== "rentalCosts" ? (
+                        <FinderMultiselect activeQuestion={activeQuestion} register={register} />
+                      ) : (
+                        <FinderRentalCosts
+                          activeQuestion={activeQuestion}
+                          register={register}
+                          errors={errors}
+                          trigger={trigger}
+                          minRent={minRent}
+                          maxRent={maxRent}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <FinderDisclaimer />
+                  )}
+                </Card.Section>
                 <Card.Footer className="mx-0">
-                  <div className={`bg-gray-300 px-10 md:px-20 ${isDisclaimer && "rounded-lg"}`}>
+                  <div className={`bg-gray-300 px-4 sm:px-20 ${isDisclaimer && "rounded-lg"}`}>
                     <ButtonGroup
                       columns={[
                         questionIndex > 0 && (
@@ -319,8 +319,8 @@ const Finder = () => {
                     />
                   </div>
                   {!isDisclaimer && (
-                    <Card.Section centered>
-                      <Button className="text-base underline" unstyled onClick={skipToListings}>
+                    <Card.Section className="md:text-center">
+                      <Button className="text-base underline m-0" unstyled onClick={skipToListings}>
                         {t("finder.skip")}
                       </Button>
                     </Card.Section>
