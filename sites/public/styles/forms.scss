@@ -53,7 +53,7 @@ li.progress-nav__item {
   --content-margin-inline-mobile: var(--bloom-s4);
   --header-margin-inline-mobile: var(--bloom-s5);
   --header-padding-block-desktop: var(--bloom-s12) var(--bloom-s8);
-  -- .heading-group {
+  .heading-group {
     --subheading-margin: var(--bloom-s4) 0rem;
   }
   .button-group {
@@ -65,6 +65,11 @@ li.progress-nav__item {
         --normal-padding: var(--bloom-s2) var(--bloom-s4);
         --normal-font-size: var(--bloom-font-size-base);
       }
+    }
+  }
+  @media (max-width: $screen-sm) {
+    h2 {
+      font-size: var(--bloom-s5);
     }
   }
 }
