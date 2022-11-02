@@ -189,7 +189,7 @@ const Finder = () => {
 
   const ProgressHeader = () => {
     return (
-      <div className="flex flex-col w-full pb-8 px-2 md:px-0 md:pb-0">
+      <div className="flex flex-col w-full pb-8 px-2 lg:px-0 sm:pb-0">
         <div className="flex flex-row flex-wrap justify-between gap-y-4 gap-x-0.5">
           <div className="md:text-xl capitalize font-bold">
             {t("listingFilters.buttonTitleExtended")}
@@ -203,7 +203,7 @@ const Finder = () => {
             />
           )}
         </div>
-        <div className="hidden md:block">
+        <div className="hidden sm:block">
           <ProgressNav
             currentPageSection={sectionNumber}
             completedSections={sectionNumber - 1}
@@ -319,7 +319,7 @@ const Finder = () => {
                     />
                   </div>
                   {!isDisclaimer && (
-                    <Card.Section className="md:text-center">
+                    <Card.Section className="sm:text-center">
                       <Button className="text-base underline m-0" unstyled onClick={skipToListings}>
                         {t("finder.skip")}
                       </Button>
