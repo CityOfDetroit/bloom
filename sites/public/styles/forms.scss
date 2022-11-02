@@ -51,8 +51,7 @@ li.progress-nav__item {
 .finder-card {
   --content-margin-inline-desktop: var(--bloom-s20);
   --content-margin-inline-mobile: var(--bloom-s4);
-  --header-margin-inline-mobile: var(--bloom-s5);
-  --header-padding-block-desktop: var(--bloom-s12) var(--bloom-s8);
+  --header-padding-block: var(--bloom-s12) var(--bloom-s8);
   .heading-group {
     --subheading-margin: var(--bloom-s4) 0rem;
   }
