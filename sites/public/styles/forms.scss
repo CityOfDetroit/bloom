@@ -53,9 +53,7 @@ li.progress-nav__item {
   --content-margin-inline-mobile: var(--bloom-s4);
   --header-margin-inline-mobile: var(--bloom-s5);
   --header-padding-block-desktop: var(--bloom-s12) var(--bloom-s8);
-  --header-padding-block-mobile: var(--bloom-s5);
-
-  .heading-group {
+  -- .heading-group {
     --subheading-margin: var(--bloom-s4) 0rem;
   }
   .button-group {
@@ -102,8 +100,4 @@ li.progress-nav__item {
   .finder-grid__row {
     width: 100%;
   }
-}
-
-.finder-disclaimer {
-  --header-padding-block: ;
 }
