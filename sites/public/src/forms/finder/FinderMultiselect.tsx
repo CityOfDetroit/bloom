@@ -7,7 +7,7 @@ const FinderMultiselect = (props: {
   register: UseFormMethods["register"]
 }) => {
   return (
-    <div className="finder-grid finder-grid__multiselect">
+    <fieldset className="finder-grid finder-grid__multiselect">
       {props.activeQuestion?.fields?.map((field) => (
         <div className="finder-grid__field" key={field.label}>
           <Field
@@ -25,7 +25,7 @@ const FinderMultiselect = (props: {
           />
         </div>
       ))}
-    </div>
+    </fieldset>
   )
 }
 

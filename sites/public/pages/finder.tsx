@@ -18,7 +18,7 @@ import {
 import axios from "axios"
 import router from "next/router"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import Layout from "../layouts/application"
 import FinderDisclaimer from "../src/forms/finder/FinderDisclaimer"
@@ -46,6 +46,7 @@ const Finder = () => {
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FinderQuestion[]>([])
   const [isDisclaimer, setIsDisclaimer] = useState<boolean>(false)
+  const cardBody = useRef(null)
   const minRent = watch("minRent")
   const maxRent = watch("maxRent")
 
@@ -189,17 +190,18 @@ const Finder = () => {
 
   const ProgressHeader = () => {
     return (
-      <div className="flex flex-col w-full pb-8 px-2 lg:px-0 sm:pb-0">
+      <div tabIndex={0} className="flex flex-col w-full pb-8 px-2 lg:px-0 sm:pb-0">
         <div className="flex flex-row flex-wrap justify-between gap-y-4 gap-x-0.5">
-          <div className="md:text-xl capitalize font-bold">
+          <h1 className="text-base md:text-lg capitalize font-bold">
             {t("listingFilters.buttonTitleExtended")}
-          </div>
+          </h1>
           {!isDisclaimer && (
             <StepHeader
               currentStep={sectionNumber}
               totalSteps={3}
               stepPreposition={t("finder.progress.stepPreposition")}
               stepLabeling={stepLabels}
+              priority={2}
             />
           )}
         </div>
@@ -210,6 +212,7 @@ const Finder = () => {
             labels={stepLabels}
             mounted={true}
             style="bar"
+            removeSrHeader
           />
         </div>
       </div>
@@ -233,11 +236,13 @@ const Finder = () => {
       setFormData(formCopy)
       if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
       setQuestionIndex(questionIndex + 1)
+      cardBody.current.focus()
     }
   }
   const previousQuestion = () => {
     setIsDisclaimer(false)
     setQuestionIndex(questionIndex - 1)
+    cardBody.current.focus()
   }
 
   const skipToListings = () => {
@@ -252,10 +257,10 @@ const Finder = () => {
           <ProgressHeader />
           <Card className="finder-card">
             {formData?.length > 0 && (
-              <>
+              <div tabIndex={0} ref={cardBody}>
                 <Card.Header>
                   <HeadingGroup
-                    headingPriority={2}
+                    headingPriority={3}
                     heading={
                       !isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")
                     }
@@ -326,7 +331,7 @@ const Finder = () => {
                     </Card.Section>
                   )}
                 </Card.Footer>
-              </>
+              </div>
             )}
           </Card>
         </div>
