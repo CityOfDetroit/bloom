@@ -184,6 +184,9 @@ const ListingForm = ({ listing, editMode }: ListingFormProps) => {
     if (status) {
       formData = { ...formData, status }
     }
+    if (!Object.values(formData.neighborhoodAmenities).some((item) => item.trim() !== "")) {
+      formData.neighborhoodAmenities = null
+    }
     void onSubmit(formData)
   }
 
