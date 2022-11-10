@@ -8,6 +8,7 @@ const FinderMultiselect = (props: {
 }) => {
   return (
     <fieldset className="finder-grid finder-grid__multiselect">
+      <legend className="sr-only">{props.activeQuestion.legendText}</legend>
       {props.activeQuestion?.fields?.map((field) => (
         <div className="finder-grid__field" key={field.label}>
           <Field

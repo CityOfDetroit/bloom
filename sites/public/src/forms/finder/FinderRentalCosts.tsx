@@ -17,6 +17,7 @@ const FinderRentalCosts = (props: {
   const section8Field = props.activeQuestion?.fields.find((field) => field.type === "checkbox")
   return (
     <fieldset className="finder-grid finder-grid__rental_costs">
+      <legend className="sr-only">{props.activeQuestion.legendText}</legend>
       {numericFields.map((field) => {
         const isMin = field.label === "minRent"
         return (

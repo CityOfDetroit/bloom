@@ -36,6 +36,7 @@ export interface FinderQuestion {
   formSection: string
   fieldGroupName: string
   fields: FinderField[]
+  legendText: string
   question: string
   subtitle: string
 }
@@ -103,6 +104,7 @@ const Finder = () => {
             formSection: t("finder.progress.housingLabel"),
             fieldGroupName: "bedRoomSize",
             fields: bedroomFields,
+            legendText: t("finder.bedRoomSize.legend"),
             question: t("finder.bedRoomSize.question"),
             subtitle: t("finder.default.subtitle"),
           })
@@ -116,6 +118,7 @@ const Finder = () => {
           formSection: t("finder.progress.housingLabel"),
           fieldGroupName: "region",
           fields: neighborhoodFields,
+          legendText: t("finder.region.legend"),
           question: t("finder.region.question"),
           subtitle: t("finder.default.subtitle"),
         })
@@ -144,6 +147,7 @@ const Finder = () => {
           formSection: t("finder.progress.housingLabel"),
           fieldGroupName: "rentalCosts",
           fields: costFields,
+          legendText: t("finder.rentalCosts.legend"),
           question: t("finder.rentalCosts.question"),
           subtitle: t("finder.default.subtitle"),
         })
@@ -158,6 +162,7 @@ const Finder = () => {
           formSection: t("t.accessibility"),
           fieldGroupName: "accessibility",
           fields: a11yFields,
+          legendText: t("finder.accessibility.legend"),
           question: t("finder.accessibility.question"),
           subtitle: t("finder.accessibility.subtitle"),
         })
@@ -174,6 +179,7 @@ const Finder = () => {
             formSection: t("finder.progress.buildingLabel"),
             fieldGroupName: "communityPrograms",
             fields: programFields,
+            legendText: t("finder.programs.legend"),
             question: t("finder.programs.question"),
             subtitle: t("finder.programs.subtitle"),
           })
