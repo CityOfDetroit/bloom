@@ -175,6 +175,26 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
         grid={false}
         separator
       >
+        <GridSection columns={3} className={"flex items-center"}>
+          <p className="field-label m-8 mb-2 ml-0">{t("listings.section8AcceptanceQuestion")}</p>
+          <FieldGroup
+            name="section8Choice"
+            type="radio"
+            register={register}
+            fields={[
+              {
+                ...yesNoRadioOptions[0],
+                id: "section8AcceptanceYes",
+                defaultChecked: listing && listing.section8Acceptance === true,
+              },
+              {
+                ...yesNoRadioOptions[1],
+                id: "section8AcceptanceNo",
+                defaultChecked: listing && listing.section8Acceptance === false,
+              },
+            ]}
+          />
+        </GridSection>
         <div className="bg-gray-300 px-4 py-5">
           {unitsSummaries.length ? (
             <div className="mb-5">
