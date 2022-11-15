@@ -259,11 +259,11 @@ const Finder = () => {
   return (
     <Layout>
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
-        <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
+        <div tabIndex={-1} ref={cardBody} className="md:mb-8 mt-8 mx-auto max-w-5xl">
           <ProgressHeader />
           <Card className="finder-card">
             {formData?.length > 0 && (
-              <div tabIndex={0} ref={cardBody}>
+              <div>
                 <Card.Header>
                   <HeadingGroup
                     headingPriority={3}
