@@ -610,7 +610,11 @@ export const ListingView = (props: ListingProps) => {
                     {listing.listingPrograms
                       .sort((a, b) => (a.ordinal < b.ordinal ? -1 : 1))
                       .map((program) => (
-                        <InfoCard className="" title={program.program.title}>
+                        <InfoCard
+                          className=""
+                          title={program.program.title}
+                          key={program.program?.id}
+                        >
                           {program.program.description}
                         </InfoCard>
                       ))}
@@ -745,7 +749,73 @@ export const ListingView = (props: ListingProps) => {
                 address={getGenericAddress(listing.buildingAddress)}
                 listingName={listing.name}
               />
+              <p className="text-sm underline block mt-4 mb-8">
+                <a
+                  href={googleMapsHref}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label="Opens in new window"
+                >
+                  {t("t.getDirections")}
+                </a>
+              </p>
             </div>
+            {listing.neighborhoodAmenities && (
+              <>
+                <header className="detail-header pt-0 ps-0 md:ps-4 pb-6 border-none flex justify-start">
+                  <div className="flex justify-between w-full">
+                    <hgroup className="detail-header__hgroup ps-0 md:ps-4">
+                      <h2 className="detail-header__title">
+                        {t("listings.sections.neighborhoodAmenitiesPublicTitle")}
+                      </h2>
+                      <span className="detail-header__subtitle">
+                        {t("listings.sections.neighborhoodAmenitiesPublicSubtitle")}
+                      </span>
+                    </hgroup>
+                  </div>
+                </header>
+                <div className="listing-detail-panel">
+                  <dl className="column-definition-list">
+                    {listing.neighborhoodAmenities?.groceryStores && (
+                      <Description
+                        term={t("listings.amenities.groceryStores")}
+                        description={listing.neighborhoodAmenities.groceryStores}
+                      />
+                    )}
+                    {listing.neighborhoodAmenities?.publicTransportation && (
+                      <Description
+                        term={t("listings.amenities.publicTransportation")}
+                        description={listing.neighborhoodAmenities.publicTransportation}
+                      />
+                    )}
+                    {listing.neighborhoodAmenities?.schools && (
+                      <Description
+                        term={t("listings.amenities.schools")}
+                        description={listing.neighborhoodAmenities.schools}
+                      />
+                    )}
+                    {listing.neighborhoodAmenities?.parksAndCommunityCenters && (
+                      <Description
+                        term={t("listings.amenities.parksAndCommunityCenters")}
+                        description={listing.neighborhoodAmenities.parksAndCommunityCenters}
+                      />
+                    )}
+                    {listing.neighborhoodAmenities?.pharmacies && (
+                      <Description
+                        term={t("listings.amenities.pharmacies")}
+                        description={listing.neighborhoodAmenities.pharmacies}
+                      />
+                    )}
+                    {listing.neighborhoodAmenities?.healthCareResources && (
+                      <Description
+                        term={t("listings.amenities.healthCareResources")}
+                        description={listing.neighborhoodAmenities.healthCareResources}
+                      />
+                    )}
+                  </dl>
+                </div>
+              </>
+            )}
           </ListingDetailItem>
           {(listing.requiredDocuments || listing.programRules || listing.specialNotes) && (
             <ListingDetailItem
