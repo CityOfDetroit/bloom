@@ -712,7 +712,6 @@
   "housingCounselors.languageServices": "Language Services: ",
   "housingCounselors.call": "Call %{number}",
   "housingCounselors.visitWebsite": "Visit %{name}",
-
   "homeType.apartment": "Apartment",
   "homeType.duplex": "Duplex",
   "homeType.house": "House",
