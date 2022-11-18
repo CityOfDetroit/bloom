@@ -450,6 +450,27 @@ export class ApplicationsService {
     })
   }
   /**
+   * Delete application by id
+   */
+  delete(
+    params: {
+      /** requestBody */
+      body?: Id
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/applications"
+
+      const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * List applications as csv
    */
   listAsCsv(
@@ -537,28 +558,6 @@ export class ApplicationsService {
       const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
 
       let data = params.body
-
-      configs.data = data
-      axios(configs, resolve, reject)
-    })
-  }
-  /**
-   * Delete application by id
-   */
-  delete(
-    params: {
-      /**  */
-      id: string
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + "/applications/{id}"
-      url = url.replace("{id}", params["id"] + "")
-
-      const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
-
-      let data = null
 
       configs.data = data
       axios(configs, resolve, reject)
@@ -804,6 +803,27 @@ export class UserService {
     })
   }
   /**
+   * Delete user by id
+   */
+  delete(
+    params: {
+      /** requestBody */
+      body?: Id
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user"
+
+      const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * Resend partner confirmation
    */
   resendPartnerConfirmation(
@@ -967,27 +987,6 @@ export class UserService {
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
 
       let data = null
-
-      configs.data = data
-      axios(configs, resolve, reject)
-    })
-  }
-  /**
-   * Delete user by id
-   */
-  delete(
-    params: {
-      /** requestBody */
-      body?: Id
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + "/user"
-
-      const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
-
-      let data = params.body
 
       configs.data = data
       axios(configs, resolve, reject)
@@ -4602,6 +4601,79 @@ export interface JurisdictionUpdate {
   preferences: Id[]
 }
 
+export interface FormMetadataExtraData {
+  /**  */
+  type: InputType
+
+  /**  */
+  key: string
+}
+
+export interface FormMetadataOptions {
+  /**  */
+  key: string
+
+  /**  */
+  extraData?: FormMetadataExtraData[]
+
+  /**  */
+  description: boolean
+
+  /**  */
+  exclusive: boolean
+}
+
+export interface FormMetadata {
+  /**  */
+  key: string
+
+  /**  */
+  options: FormMetadataOptions[]
+
+  /**  */
+  hideGenericDecline: boolean
+
+  /**  */
+  customSelectText: string
+
+  /**  */
+  hideFromListing: boolean
+
+  /**  */
+  type: FormMetaDataType
+}
+
+export interface Program {
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
+  /**  */
+  title?: string
+
+  /**  */
+  subtitle?: string
+
+  /**  */
+  description?: string
+
+  /**  */
+  formMetadata?: FormMetadata
+}
+
+export interface ListingMetadata {
+  /**  */
+  programs?: Program[]
+
+  /**  */
+  unitTypes?: UnitType[]
+}
+
 export interface ListingFilterParams {
   /**  */
   $comparison: EnumListingFilterParamsComparison
@@ -4701,87 +4773,6 @@ export interface ListingFilterParams {
 
   /**  */
   section8Acceptance?: boolean
-}
-
-export interface ListingsApiExtraModels {
-  /**  */
-  orderBy?: OrderByFieldsEnum[]
-
-  /**  */
-  order?: EnumListingsApiExtraModelsOrder[]
-}
-
-export interface FormMetadataExtraData {
-  /**  */
-  type: InputType
-
-  /**  */
-  key: string
-}
-
-export interface FormMetadataOptions {
-  /**  */
-  key: string
-
-  /**  */
-  extraData?: FormMetadataExtraData[]
-
-  /**  */
-  description: boolean
-
-  /**  */
-  exclusive: boolean
-}
-
-export interface FormMetadata {
-  /**  */
-  key: string
-
-  /**  */
-  options: FormMetadataOptions[]
-
-  /**  */
-  hideGenericDecline: boolean
-
-  /**  */
-  customSelectText: string
-
-  /**  */
-  hideFromListing: boolean
-
-  /**  */
-  type: FormMetaDataType
-}
-
-export interface Program {
-  /**  */
-  id: string
-
-  /**  */
-  createdAt: Date
-
-  /**  */
-  updatedAt: Date
-
-  /**  */
-  title?: string
-
-  /**  */
-  subtitle?: string
-
-  /**  */
-  description?: string
-
-  /**  */
-  formMetadata?: FormMetadata
-}
-
-export interface ListingMetadata {
-  /**  */
-  programs?: Program[]
-
-  /**  */
-  unitTypes?: UnitType[]
 }
 
 export interface MinMax {
@@ -5003,6 +4994,23 @@ export interface ListingPreference {
 
   /**  */
   ordinal?: number
+}
+
+export interface ListingNeighborhoodAmenities {
+  /**  */
+  grocery?: string
+
+  /**  */
+  pharmacy?: string
+
+  /**  */
+  medicalClinic?: string
+
+  /**  */
+  park?: string
+
+  /**  */
+  seniorCenter?: string
 }
 
 export interface JurisdictionSlim {
@@ -5324,23 +5332,6 @@ export interface ListingUtilities {
   internet?: boolean
 }
 
-export interface ListingNeighborhoodAmenities {
-  /**  */
-  grocery?: string
-
-  /**  */
-  pharmacy?: string
-
-  /**  */
-  medicalClinic?: string
-
-  /**  */
-  park?: string
-
-  /**  */
-  seniorCenter?: string
-}
-
 export interface Listing {
   /**  */
   referralApplication?: ApplicationMethod
@@ -5371,6 +5362,9 @@ export interface Listing {
 
   /**  */
   marketingSeason?: ListingSeasonEnum
+
+  /**  */
+  homeType?: HomeTypeEnum
 
   /**  */
   region?: Region
@@ -5409,6 +5403,9 @@ export interface Listing {
   listingPreferences: ListingPreference[]
 
   /**  */
+  neighborhoodAmenities?: CombinedNeighborhoodAmenitiesTypes
+
+  /**  */
   jurisdiction: JurisdictionSlim
 
   /**  */
@@ -5443,9 +5440,6 @@ export interface Listing {
 
   /**  */
   neighborhood?: string
-
-  /**  */
-  neighborhoodAmenities?: ListingNeighborhoodAmenities
 
   /**  */
   petPolicy?: string
@@ -5870,6 +5864,9 @@ export interface ListingCreate {
   marketingSeason?: ListingSeasonEnum
 
   /**  */
+  homeType?: HomeTypeEnum
+
+  /**  */
   applicationMethods: ApplicationMethodCreate[]
 
   /**  */
@@ -6128,6 +6125,9 @@ export interface ListingCreate {
   marketingDate?: Date
 
   /**  */
+  neighborhoodAmenities?: CombinedNeighborhoodAmenitiesTypes
+
+  /**  */
   countyCode?: string
 
   /**  */
@@ -6345,6 +6345,9 @@ export interface ListingUpdate {
 
   /**  */
   marketingSeason?: ListingSeasonEnum
+
+  /**  */
+  homeType?: HomeTypeEnum
 
   /**  */
   id?: string
@@ -6612,6 +6615,9 @@ export interface ListingUpdate {
 
   /**  */
   marketingDate?: Date
+
+  /**  */
+  neighborhoodAmenities?: CombinedNeighborhoodAmenitiesTypes
 
   /**  */
   countyCode?: string
@@ -7149,6 +7155,10 @@ export enum EnumJurisdictionUpdateLanguages {
   "zh" = "zh",
   "tl" = "tl",
 }
+export enum FormMetaDataType {
+  "radio" = "radio",
+  "checkbox" = "checkbox",
+}
 export enum EnumListingFilterParamsComparison {
   "=" = "=",
   "<>" = "<>",
@@ -7174,17 +7184,7 @@ export enum OrderByFieldsEnum {
   "name" = "name",
   "status" = "status",
   "verified" = "verified",
-  "waitlistOpen" = "waitlistOpen",
-  "unitsAvailable" = "unitsAvailable",
-  "marketingType" = "marketingType",
-}
-export enum EnumListingsApiExtraModelsOrder {
-  "ASC" = "ASC",
-  "DESC" = "DESC",
-}
-export enum FormMetaDataType {
-  "radio" = "radio",
-  "checkbox" = "checkbox",
+  "updatedAt" = "updatedAt",
 }
 
 export enum OrderDirEnum {
@@ -7219,6 +7219,13 @@ export enum ListingSeasonEnum {
   "winter" = "winter",
 }
 
+export enum HomeTypeEnum {
+  "apartment" = "apartment",
+  "duplex" = "duplex",
+  "house" = "house",
+  "townhome" = "townhome",
+}
+
 export enum Region {
   "Greater Downtown" = "Greater Downtown",
   "Eastside" = "Eastside",
@@ -7249,6 +7256,7 @@ export type CombinedApplicationDropOffAddressTypes = AddressUpdate
 export type CombinedApplicationMailingAddressTypes = AddressUpdate
 export type CombinedBuildingSelectionCriteriaFileTypes = AssetUpdate
 export type CombinedLeasingAgentAddressTypes = AddressUpdate
+export type CombinedNeighborhoodAmenitiesTypes = ListingNeighborhoodAmenities
 export type CombinedResultTypes = AssetCreate
 export type CombinedBuildingAddressTypes = AddressUpdate
 export enum EnumPreferencesFilterParamsComparison {

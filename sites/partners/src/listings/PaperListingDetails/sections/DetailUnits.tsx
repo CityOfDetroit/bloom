@@ -72,8 +72,22 @@ const DetailUnits = ({ setUnitDrawer }: DetailUnitsProps) => {
         tinted
         inset
       >
+        <GridSection columns={3} className="pb-8">
+          <GridCell>
+            <ViewItem label={t("listings.homeType")}>
+              {listing.homeType ? t(`homeType.${listing.homeType}`) : t("t.none")}
+            </ViewItem>
+          </GridCell>
+        </GridSection>
         {listing.unitGroups.length ? (
-          <MinimalTable id="unitTable" headers={unitTableHeaders} data={unitTableData} />
+          <ViewItem label={t("listings.unit.unitGroups")}>
+            <MinimalTable
+              flushLeft
+              id="unitTable"
+              headers={unitTableHeaders}
+              data={unitTableData}
+            />
+          </ViewItem>
         ) : (
           <span className="text-base font-semibold pt-4">{t("t.none")}</span>
         )}

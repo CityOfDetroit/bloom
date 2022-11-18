@@ -11,13 +11,18 @@ import {
   AppearanceBorderType,
   GridCell,
   FieldGroup,
+  Select,
 } from "@bloom-housing/ui-components"
 import { useFormContext } from "react-hook-form"
 import UnitsSummaryForm from "../UnitsSummaryForm"
 import { FormListing, TempUnit, TempUnitsSummary } from "../formTypes"
 import { fieldHasError } from "../../../../lib/helpers"
 import { useUnitTypeList } from "../../../../lib/hooks"
-import { MinMax, MonthlyRentDeterminationType } from "@bloom-housing/backend-core/types"
+import {
+  HomeTypeEnum,
+  MinMax,
+  MonthlyRentDeterminationType,
+} from "@bloom-housing/backend-core/types"
 import { minMaxFinder, formatRange, formatRentRange } from "@bloom-housing/shared-helpers"
 import { YesNoAnswer } from "../../../applications/PaperApplicationForm/FormTypes"
 
@@ -175,6 +180,22 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
         grid={false}
         separator
       >
+        <GridSection columns={3} className={"pb-10"}>
+          <GridCell>
+            <p className="field-label ">{t("listings.homeType")}</p>
+            <Select
+              id="homeType"
+              name="homeType"
+              label={t("listings.homeType")}
+              defaultValue={listing?.homeType}
+              labelClassName="sr-only"
+              register={register}
+              controlClassName="control"
+              options={["", ...Object.values(HomeTypeEnum)]}
+              keyPrefix="homeType"
+            />
+          </GridCell>
+        </GridSection>
         <div className="bg-gray-300 px-4 py-5">
           {unitsSummaries.length ? (
             <div className="mb-5">
