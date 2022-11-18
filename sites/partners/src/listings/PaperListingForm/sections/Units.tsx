@@ -182,7 +182,7 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
       >
         <GridSection columns={3} className={"pb-10"}>
           <GridCell>
-            <p className="field-label ">{t("listings.homeType")}</p>
+            <p className="field-label">{t("listings.homeType")}</p>
             <Select
               id="homeType"
               name="homeType"
@@ -196,6 +196,7 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
             />
           </GridCell>
         </GridSection>
+        <p className="field-label">{t("listings.unit.unitGroups")}</p>
         <div className="bg-gray-300 px-4 py-5">
           {unitsSummaries.length ? (
             <div className="mb-5">
