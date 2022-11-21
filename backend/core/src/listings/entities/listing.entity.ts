@@ -683,6 +683,7 @@ class Listing extends BaseEntity {
   marketingDate?: Date | null
 
   @Column({
+    type: "enum",
     enum: ListingSeasonEnum,
     nullable: true,
   })
@@ -696,6 +697,7 @@ class Listing extends BaseEntity {
   marketingSeason?: ListingSeasonEnum | null
 
   @Column({
+    type: "enum",
     enum: HomeTypeEnum,
     nullable: true,
   })

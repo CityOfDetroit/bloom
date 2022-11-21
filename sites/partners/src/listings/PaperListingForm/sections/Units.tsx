@@ -12,6 +12,7 @@ import {
   GridCell,
   FieldGroup,
   Select,
+  ViewItem,
 } from "@bloom-housing/ui-components"
 import { useFormContext } from "react-hook-form"
 import UnitsSummaryForm from "../UnitsSummaryForm"
@@ -181,8 +182,7 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
         separator
       >
         <GridSection columns={3} className={"pb-10"}>
-          <GridCell>
-            <p className="field-label">{t("listings.homeType")}</p>
+          <ViewItem label={t("listings.homeType")}>
             <Select
               id="homeType"
               name="homeType"
@@ -194,7 +194,7 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
               options={["", ...Object.values(HomeTypeEnum)]}
               keyPrefix="homeType"
             />
-          </GridCell>
+          </ViewItem>
         </GridSection>
         <p className="field-label">{t("listings.unit.unitGroups")}</p>
         <div className="bg-gray-300 px-4 py-5">

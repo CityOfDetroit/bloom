@@ -79,18 +79,18 @@ const DetailUnits = ({ setUnitDrawer }: DetailUnitsProps) => {
             </ViewItem>
           </GridCell>
         </GridSection>
-        {listing.unitGroups.length ? (
-          <ViewItem label={t("listings.unit.unitGroups")}>
+        <ViewItem label={t("listings.unit.unitGroups")}>
+          {listing.unitGroups.length ? (
             <MinimalTable
               flushLeft
               id="unitTable"
               headers={unitTableHeaders}
               data={unitTableData}
             />
-          </ViewItem>
-        ) : (
-          <span className="text-base font-semibold pt-4">{t("t.none")}</span>
-        )}
+          ) : (
+            t("t.none")
+          )}
+        </ViewItem>
         {listing.section8Acceptance !== null && (
           <GridSection columns={3} className="pt-8">
             <GridCell>
