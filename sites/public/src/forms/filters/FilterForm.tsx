@@ -63,6 +63,12 @@ const FilterForm = (props: FilterFormProps) => {
     { value: "closedWaitlist", label: t("publicFilter.waitlist.closed") },
     { value: "comingSoon", label: t("listings.comingSoon") },
   ]
+  const homeTypeOptions = [
+    { value: "apartment", label: t("homeType.apartment") },
+    { value: "duplex", label: t("homeType.duplex") },
+    { value: "house", label: t("homeType.house") },
+    { value: "townhome", label: t("homeType.townhome") },
+  ]
 
   useEffect(() => {
     const getAndSetOptions = async () => {
@@ -93,7 +99,6 @@ const FilterForm = (props: FilterFormProps) => {
       }
     }
     void getAndSetOptions()
-
     setRegionOptions(
       Object.entries(Region).map((elem) => ({
         value: elem[1],
@@ -185,9 +190,35 @@ const FilterForm = (props: FilterFormProps) => {
           <GridCell span={3}>
             <ViewItem
               className={"font-bold"}
+              label={t("listings.homeType")}
+              labelStyling={"text-gray-750"}
+            />
+            <FieldGroup
+              name="homeType"
+              type="checkbox"
+              register={register}
+              fields={homeTypeOptions.map((elem) => ({
+                id: elem.value,
+                label: elem.label,
+                value: elem.value,
+                inputProps: {
+                  defaultChecked: localFilterState?.homeType?.includes(elem.value),
+                },
+              }))}
+              fieldClassName="m-0"
+              fieldGroupClassName="flex items-center grid md:grid-cols-3 sm:grid-cols-1"
+              fieldLabelClassName={"text-gray-750"}
+            />
+          </GridCell>
+        </GridSection>
+        <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
+          <GridCell span={3}>
+            <ViewItem
+              className={"font-bold"}
               label={t("publicFilter.bedRoomSize")}
               labelStyling={"text-gray-750"}
             />
+            {console.log(localFilterState)}
             <FieldGroup
               name="bedRoomSize"
               type="checkbox"
@@ -388,6 +419,7 @@ const FilterForm = (props: FilterFormProps) => {
                   isVerified: "",
                   section8Acceptance: "",
                   availability: "",
+                  homeType: "",
                   bedRoomSize: "",
                   minRent: "",
                   maxRent: "",
