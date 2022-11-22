@@ -3,11 +3,13 @@ import { ImageCard, ImageCardProps, ImageTag } from "../../blocks/ImageCard"
 import { LinkButton } from "../../actions/LinkButton"
 import { StackedTable, StackedTableProps } from "../../tables/StackedTable"
 import { StandardTable, StandardTableProps } from "../../tables/StandardTable"
-import { Heading, HeaderType } from "../../headers/Heading"
+import { HeaderType, Heading } from "../../headers/Heading"
 import { Tag } from "../../text/Tag"
-import { AppearanceStyleType } from "../../global/AppearanceTypes"
+import { AppearanceShadeType, AppearanceStyleType } from "../../global/AppearanceTypes"
 import { Icon, IconFillColors } from "../../icons/Icon"
 import "./ListingCard.scss"
+import { HomeTypeEnum } from "@bloom-housing/backend-core/types"
+import { t } from "@bloom-housing/ui-components"
 
 interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
 
@@ -27,8 +29,10 @@ export interface ListingCardContentProps {
   tableHeader?: ListingCardHeader
   tableSubheader?: ListingCardHeader
 }
+
 export interface ListingCardProps {
   cardTags?: ImageTag[]
+  homeType: HomeTypeEnum
   children?: React.ReactElement
   contentProps?: ListingCardContentProps
   footerButtons?: ListingFooterButton[]
@@ -59,6 +63,7 @@ export interface ListingCardProps {
 const ListingCard = (props: ListingCardProps) => {
   const {
     cardTags,
+    homeType,
     children,
     footerButtons,
     footerContent,
@@ -85,7 +90,6 @@ const ListingCard = (props: ListingCardProps) => {
       return <></>
     }
   }
-
   const getContentHeader = () => {
     return (
       <>
@@ -94,7 +98,6 @@ const ListingCard = (props: ListingCardProps) => {
       </>
     )
   }
-
   const getContent = () => {
     return (
       <>
@@ -108,6 +111,15 @@ const ListingCard = (props: ListingCardProps) => {
             {getHeader(contentProps?.tableSubheader, 5, "tableSubheader")}
             {cardTags && cardTags?.length > 0 && (
               <div className={"inline-flex flex-wrap justify-start w-full"}>
+                {!!homeType && (
+                  <Tag
+                    styleType={AppearanceStyleType.success}
+                    shade={AppearanceShadeType.light}
+                    className={"me-2 mb-2 font-bold px-3 py-2"}
+                  >
+                    {t(`homeType.${homeType}`)}
+                  </Tag>
+                )}
                 {cardTags?.map((cardTag, index) => {
                   return (
                     <Tag
