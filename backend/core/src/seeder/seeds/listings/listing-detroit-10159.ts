@@ -42,6 +42,7 @@ const listingSeed: ListingSeedType = {
   digitalApplication: undefined,
   paperApplication: undefined,
   section8Acceptance: null,
+  homeType: null,
   referralOpportunity: undefined,
   depositMin: undefined,
   depositMax: undefined,
