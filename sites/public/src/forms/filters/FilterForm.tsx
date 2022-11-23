@@ -20,6 +20,7 @@ import {
   FrontendListingFilterStateKeys,
   ListingFilterState,
 } from "@bloom-housing/shared-helpers"
+import { HomeTypeEnum } from "@bloom-housing/backend-core/src/listings/types/home-type-enum"
 
 interface FilterFormProps {
   onSubmit: (data: ListingFilterState) => void
@@ -63,12 +64,10 @@ const FilterForm = (props: FilterFormProps) => {
     { value: "closedWaitlist", label: t("publicFilter.waitlist.closed") },
     { value: "comingSoon", label: t("listings.comingSoon") },
   ]
-  const homeTypeOptions = [
-    { value: "apartment", label: t("homeType.apartment") },
-    { value: "duplex", label: t("homeType.duplex") },
-    { value: "house", label: t("homeType.house") },
-    { value: "townhome", label: t("homeType.townhome") },
-  ]
+
+  const homeTypeOptions = Object.values(HomeTypeEnum)?.map((val) => {
+    return { value: val, label: t(`homeType.${val}`) }
+  })
 
   useEffect(() => {
     const getAndSetOptions = async () => {
@@ -218,7 +217,6 @@ const FilterForm = (props: FilterFormProps) => {
               label={t("publicFilter.bedRoomSize")}
               labelStyling={"text-gray-750"}
             />
-            {console.log(localFilterState)}
             <FieldGroup
               name="bedRoomSize"
               type="checkbox"
