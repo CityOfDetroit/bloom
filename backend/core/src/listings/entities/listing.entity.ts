@@ -656,6 +656,13 @@ class Listing extends BaseEntity {
   @IsBoolean({ groups: [ValidationsGroupsEnum.default] })
   isVerified?: boolean
 
+  @Column({ type: "timestamptz", nullable: true })
+  @Expose()
+  @IsOptional({ groups: [ValidationsGroupsEnum.default] })
+  @IsDate({ groups: [ValidationsGroupsEnum.default] })
+  @Type(() => Date)
+  verifiedAt?: Date | null
+
   @Column({ type: "integer", nullable: true })
   @Expose()
   @IsOptional({ groups: [ValidationsGroupsEnum.default] })
@@ -683,6 +690,7 @@ class Listing extends BaseEntity {
   marketingDate?: Date | null
 
   @Column({
+    type: "enum",
     enum: ListingSeasonEnum,
     nullable: true,
   })
@@ -696,6 +704,7 @@ class Listing extends BaseEntity {
   marketingSeason?: ListingSeasonEnum | null
 
   @Column({
+    type: "enum",
     enum: HomeTypeEnum,
     nullable: true,
   })
