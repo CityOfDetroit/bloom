@@ -9,7 +9,6 @@ import { AppearanceShadeType, AppearanceStyleType } from "../../global/Appearanc
 import { Icon, IconFillColors } from "../../icons/Icon"
 import "./ListingCard.scss"
 import { HomeTypeEnum } from "@bloom-housing/backend-core/types"
-import { t } from "@bloom-housing/ui-components"
 
 interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
 
@@ -30,8 +29,12 @@ export interface ListingCardContentProps {
   tableSubheader?: ListingCardHeader
 }
 
+export interface CardTag extends ImageTag {
+  shadeType?: AppearanceShadeType
+}
+
 export interface ListingCardProps {
-  cardTags?: ImageTag[]
+  cardTags?: CardTag[]
   homeType: HomeTypeEnum
   children?: React.ReactElement
   contentProps?: ListingCardContentProps
@@ -63,7 +66,6 @@ export interface ListingCardProps {
 const ListingCard = (props: ListingCardProps) => {
   const {
     cardTags,
-    homeType,
     children,
     footerButtons,
     footerContent,
@@ -111,19 +113,11 @@ const ListingCard = (props: ListingCardProps) => {
             {getHeader(contentProps?.tableSubheader, 5, "tableSubheader")}
             {cardTags && cardTags?.length > 0 && (
               <div className={"inline-flex flex-wrap justify-start w-full"}>
-                {!!homeType && (
-                  <Tag
-                    styleType={AppearanceStyleType.success}
-                    shade={AppearanceShadeType.light}
-                    className={"me-2 mb-2 font-bold px-3 py-2"}
-                  >
-                    {t(`homeType.${homeType}`)}
-                  </Tag>
-                )}
                 {cardTags?.map((cardTag, index) => {
                   return (
                     <Tag
-                      styleType={AppearanceStyleType.accentLight}
+                      styleType={cardTag.styleType ?? AppearanceStyleType.accentLight}
+                      shade={cardTag?.shadeType}
                       className={"me-2 mb-2 font-bold px-3 py-2"}
                       key={index}
                     >

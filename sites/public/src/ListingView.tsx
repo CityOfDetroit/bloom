@@ -36,9 +36,6 @@ import {
   WhatToExpect,
   t,
   ExpandableText,
-  AppearanceStyleType,
-  AppearanceShadeType,
-  Tag,
 } from "@bloom-housing/ui-components"
 import {
   cloudinaryPdfFromId,
@@ -508,18 +505,11 @@ export const ListingView = (props: ListingProps) => {
             </p>
           </div>
           <div className={"flex flex-wrap mx-2"}>
-            {!!listing.homeType && (
-              <Tag
-                styleType={AppearanceStyleType.success}
-                shade={AppearanceShadeType.light}
-                className={"me-2 mb-2 font-bold px-3 py-2"}
-              >
-                {t(`homeType.${listing.homeType}`)}
-              </Tag>
-            )}
-            {getListingTags(listing.listingPrograms, listing.features)?.map((cardTag) =>
-              getListingTag(cardTag)
-            )}
+            {getListingTags(
+              listing.listingPrograms,
+              listing.features,
+              listing.homeType
+            )?.map((cardTag) => getListingTag(cardTag))}
           </div>
           <div className="text-right px-2">
             <FavoriteButton name={listing.name} id={listing.id} />
