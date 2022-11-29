@@ -65,10 +65,6 @@ const FilterForm = (props: FilterFormProps) => {
     { value: "comingSoon", label: t("listings.comingSoon") },
   ]
 
-  const homeTypeOptions = Object.values(HomeTypeEnum)?.map((val) => {
-    return { value: val, label: t(`homeType.${val}`) }
-  })
-
   useEffect(() => {
     const getAndSetOptions = async () => {
       try {
@@ -196,12 +192,12 @@ const FilterForm = (props: FilterFormProps) => {
               name="homeType"
               type="checkbox"
               register={register}
-              fields={homeTypeOptions.map((elem) => ({
-                id: elem.value,
-                label: elem.label,
-                value: elem.value,
+              fields={Object.values(HomeTypeEnum)?.map((elem) => ({
+                id: elem,
+                label: t(`homeType.${elem}`),
+                value: elem,
                 inputProps: {
-                  defaultChecked: localFilterState?.homeType?.includes(elem.value),
+                  defaultChecked: localFilterState?.homeType?.includes(elem),
                 },
               }))}
               fieldClassName="m-0"
