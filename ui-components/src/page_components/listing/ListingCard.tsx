@@ -8,7 +8,6 @@ import { Tag } from "../../text/Tag"
 import { AppearanceShadeType, AppearanceStyleType } from "../../global/AppearanceTypes"
 import { Icon, IconFillColors } from "../../icons/Icon"
 import "./ListingCard.scss"
-import { HomeTypeEnum } from "@bloom-housing/backend-core/types"
 
 interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
 
@@ -35,7 +34,6 @@ export interface CardTag extends ImageTag {
 
 export interface ListingCardProps {
   cardTags?: CardTag[]
-  homeType: HomeTypeEnum
   children?: React.ReactElement
   contentProps?: ListingCardContentProps
   footerButtons?: ListingFooterButton[]

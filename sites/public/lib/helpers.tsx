@@ -136,7 +136,7 @@ export const getImageTagLabelFromListing = (listing: Listing) => {
 export const getListingTags = (
   listingPrograms: ListingProgram[],
   listingFeatures: ListingFeatures,
-  homeType: HomeTypeEnum,
+  homeType?: HomeTypeEnum,
   translate?: boolean
 ) => {
   const tags: CardTag[] =
@@ -244,7 +244,6 @@ export const getListings = (listings) => {
         tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
       }}
       cardTags={getListingTags(listing.listingPrograms, listing.features, listing.homeType, true)}
-      homeType={listing.homeType}
       footerContent={
         <div className={"flex justify-between items-center"}>
           <FavoriteButton name={listing.name} id={listing.id} />
