@@ -32,7 +32,7 @@ jobs:
     script:
     - yarn cypress install
     - cd backend/core
-    - yarn db:reseed:detroit
+    - yarn db:reseed
     - yarn nest start &
     - cd ../../sites/partners
     - yarn build
