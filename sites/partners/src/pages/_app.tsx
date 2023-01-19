@@ -1,9 +1,7 @@
-import React, { useMemo } from "react"
-import { SWRConfig } from "swr"
-import type { AppProps } from "next/app"
-
 import "@bloom-housing/ui-components/src/global/css-imports.scss"
 import "@bloom-housing/ui-components/src/global/app-css.scss"
+import React, { useMemo } from "react"
+import type { AppProps } from "next/app"
 import {
   addTranslation,
   ConfigProvider,
@@ -19,6 +17,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css"
 
 import LinkComponent from "../components/core/LinkComponent"
 import { translations, overrideTranslations } from "../lib/translations"
+import { SWRConfig } from "swr"
 
 // Note: import overrides.scss last so that it overrides styles defined in imports above
 import "../../styles/overrides.scss"

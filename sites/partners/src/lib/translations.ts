@@ -3,10 +3,10 @@ import spanishTranslations from "@bloom-housing/ui-components/src/locales/es.jso
 import arabicTranslations from "@bloom-housing/ui-components/src/locales/ar.json"
 import bengaliTranslations from "@bloom-housing/ui-components/src/locales/bn.json"
 
-import additionalGeneralTranslations from "../../page_content/locale_overrides/general.json"
-import additionalSpanishTranslations from "../../page_content/locale_overrides/es.json"
-import additionalArabicTranslations from "../../page_content/locale_overrides/ar.json"
-import additionalBengaliTranslations from "../../page_content/locale_overrides/bn.json"
+import additionalGeneralTranslations from "../page_content/locale_overrides/general.json"
+import additionalSpanishTranslations from "../page_content/locale_overrides/es.json"
+import additionalArabicTranslations from "../page_content/locale_overrides/ar.json"
+import additionalBengaliTranslations from "../page_content/locale_overrides/bn.json"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const translations = {
