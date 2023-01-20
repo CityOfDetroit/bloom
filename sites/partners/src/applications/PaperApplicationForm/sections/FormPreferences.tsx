@@ -1,20 +1,15 @@
 import React, { useMemo } from "react"
+import { Field, t, GridSection, GridCell, SelectOption } from "@bloom-housing/ui-components"
+import { ViewItem } from "../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { useFormContext } from "react-hook-form"
 import {
-  Field,
-  t,
-  ExtraField,
-  getPreferenceOptionName,
-  GridSection,
-  ViewItem,
-  GridCell,
-  SelectOption,
+  stateKeys,
   getExclusivePreferenceOptionName,
   getExclusiveKeys,
   setExclusive,
-} from "@bloom-housing/ui-components"
-
-import { useFormContext } from "react-hook-form"
-import { stateKeys } from "@bloom-housing/shared-helpers"
+  ExtraField,
+  getPreferenceOptionName,
+} from "@bloom-housing/shared-helpers"
 import {
   Preference,
   FormMetadataExtraData,

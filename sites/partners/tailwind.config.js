@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const cloneDeep = require("clone-deep")
-const bloomTheme = cloneDeep(require("@bloom-housing/ui-components/tailwind.config.js"))
+const bloomTheme = cloneDeep(require("@bloom-housing/detroit-ui-components/tailwind.config.js"))
 
 // Modify bloomTheme to override any Tailwind vars
 // For example:
@@ -48,7 +48,7 @@ module.exports = {
       "./pages/**/*.tsx",
       "./src/**/*.tsx",
       "./layouts/**/*.tsx",
-      "../../ui-components/src/**/*.tsx",
+      "../../detroit-ui-components/src/**/*.tsx",
     ],
     safelist: [/grid-cols-/],
   },

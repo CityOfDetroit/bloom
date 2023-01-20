@@ -12,37 +12,37 @@ import {
   ListingEventType,
 } from "@bloom-housing/backend-core/types"
 import {
-  AdditionalFees,
   Contact,
-  Description,
   EventSection,
   EventType,
-  FavoriteButton,
   GetApplication,
   GroupedTable,
-  Heading,
-  ImageCard,
   InfoCard,
   ListSection,
   ListingDetailItem,
-  ListingDetails,
   ListingMap,
   ListingUpdated,
   OneLineAddress,
   QuantityRowSection,
   ReferralApplication,
-  StandardTable,
   SubmitApplication,
-  WhatToExpect,
   t,
   ExpandableText,
 } from "@bloom-housing/ui-components"
+import { ImageCard } from "../../../detroit-ui-components/src/blocks/ImageCard"
+import { Heading } from "../../../detroit-ui-components/src/headers/Heading"
+import { WhatToExpect } from "../../../detroit-ui-components/src/page_components/listing/listing_sidebar/WhatToExpect"
+import { AdditionalFees } from "../../../detroit-ui-components/src/page_components/listing/AdditionalFees"
+import { ListingDetails } from "../../../detroit-ui-components/src/page_components/listing/ListingDetails"
+import { StandardTable } from "../../../detroit-ui-components/src/tables/StandardTable"
+import { Description } from "../../../detroit-ui-components/src/text/Description"
 import {
   cloudinaryPdfFromId,
   imageUrlFromListing,
   occupancyTable,
   getTimeRangeString,
   getPostmarkString,
+  FavoriteButton,
 } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { ErrorPage } from "../pages/_error"
@@ -123,7 +123,9 @@ export const ListingProcess = (props: ListingProcessProps) => {
             listing.referralApplication.externalReference ||
             t("application.referralApplication.instructions")
           }
-          title={t("application.referralApplication.furtherInformation")}
+          strings={{
+            title: t("application.referralApplication.furtherInformation"),
+          }}
         />
       )}
       {openHouseEvents && (
@@ -362,7 +364,6 @@ export const ListingView = (props: ListingProps) => {
         applicationPickUpAddressOfficeHours={listing.applicationPickUpAddressOfficeHours}
         applicationPickUpAddress={getAddress(listing.applicationPickUpAddressType, "pickUp")}
         preview={props.preview}
-        listingStatus={listing.status}
       />
       <SubmitApplication
         applicationMailingAddress={getAddress(listing.applicationMailingAddressType, "mailIn")}
@@ -636,21 +637,39 @@ export const ListingView = (props: ListingProps) => {
                     <>
                       {listing.creditHistory && (
                         <InfoCard title={t("listings.creditHistory")}>
-                          <ExpandableText className="text-sm text-gray-700">
+                          <ExpandableText
+                            className="text-sm text-gray-700"
+                            strings={{
+                              readMore: t("t.more"),
+                              readLess: t("t.less"),
+                            }}
+                          >
                             {listing.creditHistory}
                           </ExpandableText>
                         </InfoCard>
                       )}
                       {listing.rentalHistory && (
                         <InfoCard title={t("listings.rentalHistory")}>
-                          <ExpandableText className="text-sm text-gray-700">
+                          <ExpandableText
+                            className="text-sm text-gray-700"
+                            strings={{
+                              readMore: t("t.more"),
+                              readLess: t("t.less"),
+                            }}
+                          >
                             {listing.rentalHistory}
                           </ExpandableText>
                         </InfoCard>
                       )}
                       {listing.criminalBackground && (
                         <InfoCard title={t("listings.criminalBackground")}>
-                          <ExpandableText className="text-sm text-gray-700">
+                          <ExpandableText
+                            className="text-sm text-gray-700"
+                            strings={{
+                              readMore: t("t.more"),
+                              readLess: t("t.less"),
+                            }}
+                          >
                             {listing.criminalBackground}
                           </ExpandableText>
                         </InfoCard>

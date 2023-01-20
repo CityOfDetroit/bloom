@@ -8,9 +8,9 @@ import {
   Field,
   PhoneField,
   GridCell,
-  ViewItem,
   Select,
 } from "@bloom-housing/ui-components"
+import { ViewItem } from "../../../../../../detroit-ui-components/src/blocks/ViewItem"
 import { fieldMessage, fieldHasError } from "../../../../lib/helpers"
 import { stateKeys } from "@bloom-housing/shared-helpers"
 
@@ -118,7 +118,6 @@ const LeasingAgent = () => {
             fullWidth={true}
             placeholder={t("leasingAgent.officeHoursPlaceholder")}
             register={register}
-            dataTestId="leasingAgentOfficeHours"
           />
         </GridSection>
         <GridSection columns={3} subtitle={"Leasing Agent Address"}>

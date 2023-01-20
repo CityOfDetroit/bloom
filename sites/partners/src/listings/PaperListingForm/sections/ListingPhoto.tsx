@@ -4,15 +4,15 @@ import {
   t,
   AppearanceStyleType,
   AppearanceBorderType,
-  Button,
   Dropzone,
-  Drawer,
   GridSection,
   GridCell,
   MinimalTable,
   TableThumbnail,
   StandardTableData,
 } from "@bloom-housing/ui-components"
+import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
+import { Drawer } from "../../../../../../detroit-ui-components/src/overlays/Drawer"
 import { cloudinaryUrlFromId } from "@bloom-housing/shared-helpers"
 
 import { cloudinaryFileUploader, fieldHasError } from "../../../../lib/helpers"

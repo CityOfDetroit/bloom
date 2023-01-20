@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
-import { t, GridSection, ViewItem, GridCell } from "@bloom-housing/ui-components"
+import { t, GridSection, GridCell } from "@bloom-housing/ui-components"
+import { ViewItem } from "../../../../../../detroit-ui-components/src/blocks/ViewItem"
 import { ListingContext } from "../../ListingContext"
 import { getDetailFieldString } from "./helpers"
-import { listingFeatures } from "@bloom-housing/shared-helpers"
 
 const DetailBuildingFeatures = () => {
   const listing = useContext(ListingContext)
