@@ -3,11 +3,11 @@ import Head from "next/head"
 import { useRouter } from "next/router"
 import { AgGridReact } from "ag-grid-react"
 
-import { useFlaggedApplicationsList, useSingleListingData } from "../../../../src/lib/hooks"
-import Layout from "../../../../src/layouts"
+import { useFlaggedApplicationsList, useSingleListingData } from "../../../..//lib/hooks"
+import Layout from "../../../../layouts/index"
 import { t, AgPagination, AG_PER_PAGE_OPTIONS } from "@bloom-housing/ui-components"
-import { getFlagSetCols } from "../../../../src/components/flags/flagSetCols"
-import { ApplicationSecondaryNav } from "../../../../src/components/applications/ApplicationSecondaryNav"
+import { getFlagSetCols } from "../../../../components/flags/flagSetCols"
+import { ApplicationSecondaryNav } from "../../../../components/applications/ApplicationSecondaryNav"
 
 const FlagsPage = () => {
   const router = useRouter()

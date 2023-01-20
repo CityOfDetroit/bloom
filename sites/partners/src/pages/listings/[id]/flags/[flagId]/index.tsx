@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { AgGridReact } from "ag-grid-react"
 import { GridApi, RowNode, GridOptions } from "ag-grid-community"
 
-import Layout from "../../../../../src/layouts"
+import Layout from "../../../../../layouts"
 import {
   t,
   Button,
@@ -14,9 +14,9 @@ import {
   useMutate,
   AuthContext,
 } from "@bloom-housing/ui-components"
-import { useSingleFlaggedApplication } from "../../../../../src/lib/hooks"
-import { getCols } from "../../../../../src/components/flags/applicationsCols"
-import { StatusBar } from "../../../../../src/components/shared/StatusBar"
+import { useSingleFlaggedApplication } from "../../../../../lib/hooks"
+import { getCols } from "../../../../../components/flags/applicationsCols"
+import { StatusBar } from "../../../../../components/shared/StatusBar"
 
 import {
   EnumApplicationFlaggedSetStatus,
