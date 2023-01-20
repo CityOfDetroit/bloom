@@ -31,7 +31,7 @@ const BACKEND_PROXY_BASE = process.env.BACKEND_PROXY_BASE
 const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN
 // Load the Tailwind theme and set up SASS vars
 const bloomTheme = require("./tailwind.config.js")
-const tailwindVars = require("@bloom-housing/detroit-ui-components/tailwind.tosass.js")(bloomTheme)
+const tailwindVars = require("../../detroit-ui-components/tailwind.tosass.js")(bloomTheme)
 
 // Tell webpack to compile the ui components package
 // https://www.npmjs.com/package/next-transpile-modules

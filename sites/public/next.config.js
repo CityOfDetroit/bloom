@@ -32,7 +32,7 @@ const HOUSING_COUNSELOR_SERVICE_URL = process.env.HOUSING_COUNSELOR_SERVICE_URL
 
 // Load the Tailwind theme and set up SASS vars
 const bloomTheme = require("./tailwind.config.js")
-const tailwindVars = require("@bloom-housing/ui-components/tailwind.tosass.js")(bloomTheme)
+const tailwindVars = require("../../detroit-ui-components/tailwind.tosass.js")(bloomTheme)
 
 // Tell webpack to compile the ui components package
 // https://www.npmjs.com/package/next-transpile-modules

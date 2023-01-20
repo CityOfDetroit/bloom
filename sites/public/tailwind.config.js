@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const cloneDeep = require("clone-deep")
-const bloomTheme = cloneDeep(require("@bloom-housing/detroit-ui-components/tailwind.config.js"))
+const bloomTheme = cloneDeep(require("../../detroit-ui-components/tailwind.config.js"))
 
 // Detroit style overrides.
 // See the [Detroit style guide](https://detroitmi.gov/departments/department-innovation-and-technology/style-guide)

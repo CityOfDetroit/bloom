@@ -1,5 +1,3 @@
-import "@bloom-housing/detroit-ui-components/src/global/css-imports.scss"
-import "@bloom-housing/detroit-ui-components/src/global/app-css.scss"
 import { useEffect, useMemo, useState } from "react"
 import type { AppProps } from "next/app"
 import { addTranslation, GenericRouter, NavigationContext } from "@bloom-housing/ui-components"
@@ -20,6 +18,8 @@ import LinkComponent from "../src/LinkComponent"
 import { blankEligibilityRequirements, EligibilityContext } from "../lib/EligibilityContext"
 
 // Note: import overrides.scss last so that it overrides styles defined in imports above
+import "../../../detroit-ui-components/src/global/css-imports.scss"
+import "../../../detroit-ui-components/src/global/app-css.scss"
 import "../styles/overrides.scss"
 
 function BloomApp({ Component, router, pageProps }: AppProps) {
