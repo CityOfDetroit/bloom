@@ -140,6 +140,45 @@ h1.title {
   @apply block;
 }
 
+// These are legacy and will be removed as we sync
+.card-header {
+  @apply font-alt-sans;
+  @apply font-semibold;
+  @apply text-primary-dark;
+  @apply text-3xl;
+  @apply mb-3;
+  @apply leading-tight;
+}
+
+.card-subheader {
+  @apply font-alt-sans;
+  @apply text-black;
+  @apply text-base;
+  @apply mb-3;
+}
+
+.table-header {
+  @apply font-alt-sans;
+  @apply font-semibold;
+  @apply text-gray-800;
+  @apply text-sm;
+  @apply mb-1;
+}
+
+.table-subheader {
+  @apply font-alt-sans;
+  @apply text-gray-750;
+  @apply text-sm;
+  @apply mb-3;
+}
+
+.category-header {
+  @apply font-alt-sans;
+  @apply font-semibold;
+  @apply text-gray-700;
+  @apply text-sm;
+}
+
 :root {
   --bloom-text-color-light: var(--bloom-color-gray-700);
   --bloom-text-color: var(--bloom-color-gray-750);
@@ -208,7 +247,7 @@ h1.title {
   border: var(--text-underline-weighted-border, 0);
   border-bottom: var(--text-underline-weighted-border, 4px solid var(--bloom-color-primary));
   font-weight: var(--text-underline-weighted-font-weight, 600);
-  color: var(--text-underline-weighted-color, var(--bloom-text-color-dark));
+  color: var(--text-underline-weighted-color, var(--bloom-text-color-darker));
   letter-spacing: var(--text-underline-weighted-letter-spacing, var(--bloom-letter-spacing-widest));
   display: inline-block;
 }

@@ -53,6 +53,7 @@ export * from "./src/sections/InfoCardGrid"
 export * from "./src/sections/GridSection"
 
 /* Tables */
+export * from "./src/tables/GroupedTable"
 export * from "./src/tables/StandardTable"
 export * from "./src/tables/AgTable"
 

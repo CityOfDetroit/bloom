@@ -7,6 +7,7 @@
   @apply flex;
   @apply justify-end;
   margin: auto;
+  max-width: none;
 
   @screen md {
     padding: 0 12px;

@@ -45,7 +45,7 @@ More content
       externalHref="http://google.com"
       className="is-normal-primary-lighter"
     >
-      <ExpandableText>
+      <ExpandableText strings={{ readMore: "read more", readLess: "read less" }}>
         {`
 Text within _another_ component…
       `}

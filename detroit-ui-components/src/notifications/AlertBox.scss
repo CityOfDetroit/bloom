@@ -66,12 +66,14 @@
 }
 
 .alert-box__head {
-  @apply flex justify-between;
+  @apply flex;
+  @apply justify-between;
   @apply w-full;
 }
 
 .alert-box__title {
-  @apply flex justify-between;
+  @apply flex;
+  @apply justify-between;
 }
 
 .alert-box__body {

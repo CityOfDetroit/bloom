@@ -17,9 +17,9 @@ import { translations, overrideTranslations } from "../src/translations"
 import LinkComponent from "../src/LinkComponent"
 import { blankEligibilityRequirements, EligibilityContext } from "../lib/EligibilityContext"
 
-// Note: import overrides.scss last so that it overrides styles defined in imports above
 import "../../../detroit-ui-components/src/global/css-imports.scss"
 import "../../../detroit-ui-components/src/global/app-css.scss"
+// Note: import overrides.scss last so that it overrides styles defined in imports above
 import "../styles/overrides.scss"
 
 function BloomApp({ Component, router, pageProps }: AppProps) {

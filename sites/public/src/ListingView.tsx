@@ -16,10 +16,8 @@ import {
   EventSection,
   EventType,
   GetApplication,
-  GroupedTable,
   InfoCard,
   ListSection,
-  ListingDetailItem,
   ListingMap,
   ListingUpdated,
   OneLineAddress,
@@ -33,8 +31,12 @@ import { ImageCard } from "../../../detroit-ui-components/src/blocks/ImageCard"
 import { Heading } from "../../../detroit-ui-components/src/headers/Heading"
 import { WhatToExpect } from "../../../detroit-ui-components/src/page_components/listing/listing_sidebar/WhatToExpect"
 import { AdditionalFees } from "../../../detroit-ui-components/src/page_components/listing/AdditionalFees"
-import { ListingDetails } from "../../../detroit-ui-components/src/page_components/listing/ListingDetails"
+import {
+  ListingDetails,
+  ListingDetailItem,
+} from "../../../detroit-ui-components/src/page_components/listing/ListingDetails"
 import { StandardTable } from "../../../detroit-ui-components/src/tables/StandardTable"
+import { GroupedTable } from "../../../detroit-ui-components/src/tables/GroupedTable"
 import { Description } from "../../../detroit-ui-components/src/text/Description"
 import {
   cloudinaryPdfFromId,
@@ -365,31 +367,33 @@ export const ListingView = (props: ListingProps) => {
         applicationPickUpAddress={getAddress(listing.applicationPickUpAddressType, "pickUp")}
         preview={props.preview}
       />
-      <SubmitApplication
-        applicationMailingAddress={getAddress(listing.applicationMailingAddressType, "mailIn")}
-        applicationDropOffAddress={getAddress(listing.applicationDropOffAddressType, "dropOff")}
-        applicationDropOffAddressOfficeHours={listing.applicationDropOffAddressOfficeHours}
-        applicationOrganization={listing.applicationOrganization}
-        strings={{
-          postmark: getPostmarkString(
-            listing.applicationDueDate
-              ? getDateString(listing.applicationDueDate, `MMM DD, YYYY [${t("t.at")}] hh:mm A`)
-              : null,
-            listing.postmarkedApplicationsReceivedByDate
-              ? getDateString(
-                  listing.postmarkedApplicationsReceivedByDate,
-                  `MMM DD, YYYY [${t("t.at")}] hh:mm A`
-                )
-              : null,
-            listing.developer
-          ),
-          mailHeader: t("listings.apply.sendByUsMail"),
-          dropOffHeader: t("listings.apply.dropOffApplication"),
-          sectionHeader: t("listings.apply.submitAPaperApplication"),
-          officeHoursHeader: t("leasingAgent.officeHours"),
-          mapString: t("t.getDirections"),
-        }}
-      />
+      {(listing.applicationMailingAddress || listing.applicationDropOffAddress) && (
+        <SubmitApplication
+          applicationMailingAddress={getAddress(listing.applicationMailingAddressType, "mailIn")}
+          applicationDropOffAddress={getAddress(listing.applicationDropOffAddressType, "dropOff")}
+          applicationDropOffAddressOfficeHours={listing.applicationDropOffAddressOfficeHours}
+          applicationOrganization={listing.applicationOrganization}
+          strings={{
+            postmark: getPostmarkString(
+              listing.applicationDueDate
+                ? getDateString(listing.applicationDueDate, `MMM DD, YYYY [${t("t.at")}] hh:mm A`)
+                : null,
+              listing.postmarkedApplicationsReceivedByDate
+                ? getDateString(
+                    listing.postmarkedApplicationsReceivedByDate,
+                    `MMM DD, YYYY [${t("t.at")}] hh:mm A`
+                  )
+                : null,
+              listing.developer
+            ),
+            mailHeader: t("listings.apply.sendByUsMail"),
+            dropOffHeader: t("listings.apply.dropOffApplication"),
+            sectionHeader: t("listings.apply.submitAPaperApplication"),
+            officeHoursHeader: t("leasingAgent.officeHours"),
+            mapString: t("t.getDirections"),
+          }}
+        />
+      )}
     </>
   )
 
