@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common"
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Pagination } from "nestjs-typeorm-paginate"
 import { In, Repository, SelectQueryBuilder } from "typeorm"
@@ -23,6 +29,7 @@ import { ListingMetadataDto } from "./dto/listings-metadata.dto"
 import { UnitType } from "../unit-types/entities/unit-type.entity"
 import { Program } from "../program/entities/program.entity"
 import { ListingSeasonEnum } from "./types/listing-season-enum"
+import { User } from "../auth/entities/user.entity"
 
 @Injectable()
 export class ListingsService {
@@ -32,6 +39,7 @@ export class ListingsService {
     @InjectRepository(UnitGroup) private readonly unitGroupRepository: Repository<UnitGroup>,
     @InjectRepository(UnitType) private readonly unitTypeRepository: Repository<UnitType>,
     @InjectRepository(Program) private readonly programRepository: Repository<Program>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly translationService: TranslationsService
   ) {}
 
@@ -249,6 +257,41 @@ export class ListingsService {
 
     await this.addUnitSummaries(result)
     return result
+  }
+
+  async rawListWithFlagged(userId) {
+    // verify user has access to get the list of listings
+    const userAccess = await this.userRepository
+      .createQueryBuilder("user")
+      .select("user.id")
+      .leftJoin("user.roles", "userRole")
+      .where("user.id = :id", { id: userId })
+      .andWhere("userRole.is_admin = :is_admin", { is_admin: true })
+      .getOne()
+
+    if (!userAccess) {
+      throw new UnauthorizedException()
+    }
+
+    // generated out list of permissioned listings
+    const permissionedListings = await this.listingRepository
+      .createQueryBuilder("listing")
+      .select("listing.id")
+      // should we include draft listings (or listings that aren't live on the site atm)
+      .getMany()
+
+    // pulled out on the ids
+    const listingIds = permissionedListings.map((listing) => listing.id)
+
+    // generating the list of general listing data
+    const generalListingData = await this.listingRepository
+      .createQueryBuilder("listing")
+      .select(["listing.id", "listing.create_at", "listing.status", "programs.title"])
+      .leftJoin("listingPrograms", "programs")
+      .where("listing.id IN (:...listingIds)", { listingIds })
+      .getMany()
+    console.log("do I have data")
+    // generating the list of unit group listing data
   }
 
   private async addUnitSummaries(listing: Listing) {
