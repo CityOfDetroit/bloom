@@ -34,6 +34,7 @@ import { ListingCreateValidationPipe } from "./validation-pipes/listing-create-v
 import { ListingUpdateValidationPipe } from "./validation-pipes/listing-update-validation-pipe"
 import { ActivityLogInterceptor } from "../activity-log/interceptors/activity-log.interceptor"
 import { ActivityLogMetadata } from "../activity-log/decorators/activity-log-metadata.decorator"
+import { ListingsRetrieveDto } from "./dto/listings-retrieve-zip-params"
 
 @Controller("listings")
 @ApiTags("listings")
@@ -69,6 +70,17 @@ export class ListingsController {
   async create(@Body() listingDto: ListingCreateDto): Promise<ListingDto> {
     const listing = await this.listingsService.create(listingDto)
     return mapTo(ListingDto, listing)
+  }
+
+  @Get(`zip`)
+  @ApiOperation({ summary: "Retrieve listings and units as csv", operationId: "listAsZip" })
+  // @Header("Content-Type", "string")
+  async listAsCsv(
+    @Query(new ValidationPipe(defaultValidationPipeOptions))
+    queryParams: ListingsRetrieveDto
+  ): Promise<string> {
+    const listings = await this.listingsService.rawListWithFlagged(queryParams.userId)
+    return JSON.stringify(listings)
   }
 
   @Get(`:id`)
