@@ -290,20 +290,19 @@ export class ListingsService {
         "listing.id",
         "listing.createdAt",
         "listing.status",
-        "listing.published_at",
-        "listing.closed_at",
-        "listing.is_verified",
-        "listing.verified_at",
-        "listing.updated_at",
+        "listing.publishedAt",
+        "listing.closedAt",
+        "listing.isVerified",
+        "listing.verifiedAt",
+        "listing.updatedAt",
         "listing.name",
-        "listing.leasing_agent_name",
-        "listing.",
+        "listing.leasingAgentName",
       ])
       .leftJoin("listing.listingPrograms", "listing_programs")
       .leftJoin("listing_programs.program", "programs")
       .where("listing.id IN (:...listingIds)", { listingIds })
-      .getOne()
-    // generating the list of unit group listing data
+      .getMany()
+    // generating the list of unit group listing data (parsed data)
     return generalListingData
   }
 

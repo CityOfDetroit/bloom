@@ -35,6 +35,7 @@ import { ListingUpdateValidationPipe } from "./validation-pipes/listing-update-v
 import { ActivityLogInterceptor } from "../activity-log/interceptors/activity-log.interceptor"
 import { ActivityLogMetadata } from "../activity-log/decorators/activity-log-metadata.decorator"
 import { ListingsRetrieveDto } from "./dto/listings-retrieve-zip-params"
+import { ListingsCsvExporterService } from "./listings-csv-exporter.service"
 
 @Controller("listings")
 @ApiTags("listings")
@@ -44,7 +45,10 @@ import { ListingsRetrieveDto } from "./dto/listings-retrieve-zip-params"
 @ActivityLogMetadata([{ targetPropertyName: "status", propertyPath: "status" }])
 @UseInterceptors(ActivityLogInterceptor)
 export class ListingsController {
-  constructor(private readonly listingsService: ListingsService) {}
+  constructor(
+    private readonly listingsService: ListingsService,
+    private readonly listingsCsvExporter: ListingsCsvExporterService
+  ) {}
 
   @Get("meta")
   @ApiOperation({ summary: "Returns Listing Metadata", operationId: "metadata" })
@@ -80,7 +84,7 @@ export class ListingsController {
     queryParams: ListingsRetrieveDto
   ): Promise<string> {
     const listings = await this.listingsService.rawListWithFlagged(queryParams.userId)
-    return JSON.stringify(listings)
+    return this.listingsCsvExporter.exportFromObject(listings)
   }
 
   @Get(`:id`)
