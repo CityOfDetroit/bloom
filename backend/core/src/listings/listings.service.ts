@@ -286,12 +286,25 @@ export class ListingsService {
     // generating the list of general listing data
     const generalListingData = await this.listingRepository
       .createQueryBuilder("listing")
-      .select(["listing.id", "listing.create_at", "listing.status", "programs.title"])
-      .leftJoin("listingPrograms", "programs")
+      .select([
+        "listing.id",
+        "listing.createdAt",
+        "listing.status",
+        "listing.published_at",
+        "listing.closed_at",
+        "listing.is_verified",
+        "listing.verified_at",
+        "listing.updated_at",
+        "listing.name",
+        "listing.leasing_agent_name",
+        "listing.",
+      ])
+      .leftJoin("listing.listingPrograms", "listing_programs")
+      .leftJoin("listing_programs.program", "programs")
       .where("listing.id IN (:...listingIds)", { listingIds })
-      .getMany()
-    console.log("do I have data")
+      .getOne()
     // generating the list of unit group listing data
+    return generalListingData
   }
 
   private async addUnitSummaries(listing: Listing) {
