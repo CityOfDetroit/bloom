@@ -84,7 +84,7 @@ export class ListingsController {
     queryParams: ListingsRetrieveDto
   ): Promise<string> {
     const listings = await this.listingsService.rawListWithFlagged(queryParams.userId)
-    return this.listingsCsvExporter.exportFromObject(listings)
+    return JSON.stringify(listings)
   }
 
   @Get(`:id`)

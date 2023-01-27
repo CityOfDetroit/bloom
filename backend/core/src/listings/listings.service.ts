@@ -30,6 +30,7 @@ import { UnitType } from "../unit-types/entities/unit-type.entity"
 import { Program } from "../program/entities/program.entity"
 import { ListingSeasonEnum } from "./types/listing-season-enum"
 import { User } from "../auth/entities/user.entity"
+import { getBaseAddressSelect } from "../../src/views/base.view"
 
 @Injectable()
 export class ListingsService {
@@ -297,9 +298,98 @@ export class ListingsService {
         "listing.updatedAt",
         "listing.name",
         "listing.leasingAgentName",
+        "programs.description",
+        ...getBaseAddressSelect(["buildingAddress"]),
+        "property.yearBuilt",
+        "property.neighborhood",
+        "property.region",
+        "listing.homeType",
+        "listing.section8Acceptance",
+        "unitGroups.totalCount",
+        //community type comma separated
+        "listing.applicationFee",
+        "listing.depositMin",
+        "listing.depositMax",
+        "listing.depositHelperText",
+        "listing.costsNotIncluded",
+        "utilities.id",
+        "utilities.water",
+        "utilities.gas",
+        "utilities.trash",
+        "utilities.sewer",
+        "utilities.electricity",
+        "utilities.cable",
+        "utilities.phone",
+        "utilities.internet",
+        "property.amenities",
+        "property.accessibility",
+        //unit amenities
+        "property.smokingPolicy",
+        "property.petPolicy",
+        "property.servicesOffered",
+        // Continue Here
+        "listing.name",
+        "listing.applicationDueDate",
+        "listing.applicationOpenDate",
+        "listing.marketingType",
+        "listing.marketingDate",
+        "listing.marketingSeason",
+        "listing.reviewOrderType",
+        "listing.status",
+        "listing.assets",
+        "listing.isVerified",
+        "jurisdiction.id",
+        "jurisdiction.name",
+        "reservedCommunityType.id",
+        "reservedCommunityType.name",
+        "property.id",
+        ...getBaseAddressSelect(["buildingAddress"]),
+        "listingImages.ordinal",
+        "listingImagesImage.id",
+        "listingImagesImage.fileId",
+        "listingImagesImage.label",
+        "features.id",
+        "features.elevator",
+        "features.wheelchairRamp",
+        "features.serviceAnimalsAllowed",
+        "features.accessibleParking",
+        "features.parkingOnSite",
+        "features.inUnitWasherDryer",
+        "features.barrierFreeEntrance",
+        "features.rollInShower",
+        "features.grabBars",
+        "features.heatingInUnit",
+        "features.acInUnit",
+        "features.laundryInBuilding",
+        "features.barrierFreeUnitEntrance",
+        "features.loweredLightSwitch",
+        "features.barrierFreeBathroom",
+        "features.wideDoorways",
+        "features.loweredCabinets",
+        "utilities.id",
+        "utilities.water",
+        "utilities.gas",
+        "utilities.trash",
+        "utilities.sewer",
+        "utilities.electricity",
+        "utilities.cable",
+        "utilities.phone",
+        "utilities.internet",
+        "listingPrograms.ordinal",
+        "listingsProgramsProgram.id",
+        "listingsProgramsProgram.title",
+        "summaryUnitType.numBedrooms",
       ])
       .leftJoin("listing.listingPrograms", "listing_programs")
       .leftJoin("listing_programs.program", "programs")
+      .leftJoin("listing.property", "property")
+      .leftJoin("property.buildingAddress", "buildingAdress")
+
+      // .leftJoin("listings.leasingAgentAddress", "leasingAgentAddress")
+      // .leftJoin("listings.applicationPickUpAddress", "applicationPickUpAddress")
+      // .leftJoin("listings.applicationMailingAddress", "applicationMailingAddress")
+      // .leftJoin("listings.applicationDropOffAddress", "applicationDropOffAddress")
+
       .where("listing.id IN (:...listingIds)", { listingIds })
       .getMany()
     // generating the list of unit group listing data (parsed data)
