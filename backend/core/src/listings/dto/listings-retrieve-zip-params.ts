@@ -8,7 +8,7 @@ export class ListingsRetrieveDto {
   @ApiProperty({
     type: String,
     example: "userId",
-    required: true,
+    required: false,
   })
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   userId?: string
