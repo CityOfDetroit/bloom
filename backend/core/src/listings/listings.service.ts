@@ -285,7 +285,7 @@ export class ListingsService {
     const listingIds = permissionedListings.map((listing) => listing.id)
 
     // generating the list of general listing data
-    const listingQuery = this.listingRepository
+    const generalListingData = await this.listingRepository
       .createQueryBuilder("listing")
       .select([
         "listing.id",
@@ -299,8 +299,9 @@ export class ListingsService {
         "listing.name",
         "listing.leasingAgentName",
         // "programs.description",
+        "property.id",
         ...getBaseAddressSelect(["buildingAddress"]),
-        // "property.yearBuilt",
+        "property.yearBuilt",
         // "property.neighborhood",
         // "property.region",
         // "listing.homeType",
@@ -366,15 +367,15 @@ export class ListingsService {
         // "features.barrierFreeBathroom",
         // "features.wideDoorways",
         // "features.loweredCabinets",
-        // "utilities.id",
-        // "utilities.water",
-        // "utilities.gas",
-        // "utilities.trash",
-        // "utilities.sewer",
-        // "utilities.electricity",
-        // "utilities.cable",
-        // "utilities.phone",
-        // "utilities.internet",
+        "utilities.id",
+        "utilities.water",
+        "utilities.gas",
+        "utilities.trash",
+        "utilities.sewer",
+        "utilities.electricity",
+        "utilities.cable",
+        "utilities.phone",
+        "utilities.internet",
         // "listingPrograms.ordinal",
         // "listingsProgramsProgram.id",
         // "listingsProgramsProgram.title",
@@ -384,6 +385,7 @@ export class ListingsService {
       // .leftJoin("listing_programs.program", "programs")
       .leftJoin("listing.property", "property")
       .leftJoin("property.buildingAddress", "buildingAddress")
+      .leftJoin("listing.utilities", "utilities")
 
       // .leftJoin("listings.leasingAgentAddress", "leasingAgentAddress")
       // .leftJoin("listings.applicationPickUpAddress", "applicationPickUpAddress")
@@ -391,9 +393,7 @@ export class ListingsService {
       // .leftJoin("listings.applicationDropOffAddress", "applicationDropOffAddress")
 
       .where("listing.id IN (:...listingIds)", { listingIds })
-    // .getMany()
-    console.log(listingQuery.getQueryAndParameters())
-    const generalListingData = listingQuery.getMany()
+      .getMany()
 
     // generating the list of unit group listing data (parsed data)
     return generalListingData
