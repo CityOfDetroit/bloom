@@ -9,8 +9,6 @@ import { AppearanceShadeType, AppearanceStyleType } from "../../global/Appearanc
 import { Icon, IconFillColors } from "../../icons/Icon"
 import "./ListingCard.scss"
 
-interface ListingCardTableProps extends StandardTableProps, StackedTableProps {}
-
 export interface ListingCardHeader {
   customClass?: string
   text: string
@@ -41,7 +39,7 @@ export interface ListingCardProps {
   footerContent?: React.ReactNode
   imageCardProps: ImageCardProps
   stackedTable?: boolean
-  tableProps?: ListingCardTableProps
+  tableProps?: any
 }
 
 /**

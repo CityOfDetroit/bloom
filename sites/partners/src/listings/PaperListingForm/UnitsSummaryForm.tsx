@@ -360,7 +360,7 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(8, 1, true)}
+                    options={numberOptions(8, 1)}
                     error={errors?.minOccupancy !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxOccupancyError")}
                     validation={{ max: maxOccupancy || minOccupancy }}
@@ -383,7 +383,7 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(8, 1, true)}
+                    options={numberOptions(8, 1)}
                     error={errors?.maxOccupancy !== undefined}
                     errorMessage={t("errors.maxLessThanMinOccupancyError")}
                     validation={{ min: minOccupancy }}
@@ -456,7 +456,7 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(10, 1, true)}
+                    options={numberOptions(10, 1)}
                     error={errors?.floorMin !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxFloorError")}
                     validation={{ max: floorMax || floorMin }}
@@ -479,7 +479,7 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(10, 1, true)}
+                    options={numberOptions(10, 1)}
                     error={errors?.floorMax !== undefined}
                     errorMessage={t("errors.maxLessThanMinFloorError")}
                     validation={{ min: floorMin }}

@@ -123,7 +123,9 @@ export const ListingProcess = (props: ListingProcessProps) => {
             listing.referralApplication.externalReference ||
             t("application.referralApplication.instructions")
           }
-          title={t("application.referralApplication.furtherInformation")}
+          strings={{
+            title: t("application.referralApplication.furtherInformation"),
+          }}
         />
       )}
       {openHouseEvents && (
@@ -636,21 +638,39 @@ export const ListingView = (props: ListingProps) => {
                     <>
                       {listing.creditHistory && (
                         <InfoCard title={t("listings.creditHistory")}>
-                          <ExpandableText className="text-sm text-gray-700">
+                          <ExpandableText
+                            className="text-sm text-gray-700"
+                            strings={{
+                              readMore: t("t.more"),
+                              readLess: t("t.less"),
+                            }}
+                          >
                             {listing.creditHistory}
                           </ExpandableText>
                         </InfoCard>
                       )}
                       {listing.rentalHistory && (
                         <InfoCard title={t("listings.rentalHistory")}>
-                          <ExpandableText className="text-sm text-gray-700">
+                          <ExpandableText
+                            className="text-sm text-gray-700"
+                            strings={{
+                              readMore: t("t.more"),
+                              readLess: t("t.less"),
+                            }}
+                          >
                             {listing.rentalHistory}
                           </ExpandableText>
                         </InfoCard>
                       )}
                       {listing.criminalBackground && (
                         <InfoCard title={t("listings.criminalBackground")}>
-                          <ExpandableText className="text-sm text-gray-700">
+                          <ExpandableText
+                            className="text-sm text-gray-700"
+                            strings={{
+                              readMore: t("t.more"),
+                              readLess: t("t.less"),
+                            }}
+                          >
                             {listing.criminalBackground}
                           </ExpandableText>
                         </InfoCard>

@@ -1,8 +1,7 @@
 import React from "react"
 
-import { InfoCard } from "../blocks/InfoCard"
 import { InfoCardGrid } from "./InfoCardGrid"
-import { ExpandableText } from "../actions/ExpandableText"
+import { ExpandableText, InfoCard } from "@bloom-housing/ui-components"
 
 export default {
   title: "Sections/Info Card Grid",
@@ -45,7 +44,7 @@ More content
       externalHref="http://google.com"
       className="is-normal-primary-lighter"
     >
-      <ExpandableText>
+      <ExpandableText strings={{ readMore: "read more", readLess: "read less" }}>
         {`
 Text within _another_ component…
       `}

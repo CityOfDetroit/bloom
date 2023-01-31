@@ -31,6 +31,7 @@ import {
   ApplicationStatusType,
   AppearanceShadeType,
   CardTag,
+  UniversalIconType,
 } from "@bloom-housing/ui-components"
 import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
 
@@ -152,7 +153,7 @@ export const getListingTags = (
   if (accessibilityFeaturesExist(listingFeatures)) {
     tags.push({
       text: t("listings.reservedCommunityTypes.specialNeeds"),
-      iconType: "universalAccess",
+      iconType: "universalAccess" as UniversalIconType,
       iconColor: AppearanceStyleType.primary,
     })
   }
@@ -195,8 +196,8 @@ export const getImageCardTag = (listing: Listing): ImageTag[] => {
           text: tag,
           iconType:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-              ? "calendarBlock"
-              : "badgeCheck",
+              ? ("calendarBlock" as UniversalIconType)
+              : ("badgeCheck" as UniversalIconType),
           iconColor:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? IconFillColors.white

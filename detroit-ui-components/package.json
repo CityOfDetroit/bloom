@@ -6,7 +6,7 @@
   "homepage": "https://github.com/bloom-housing/bloom/tree/master/shared/ui-components",
   "main": "index.js",
   "license": "Apache-2.0",
-  "private": false,
+  "private": true,
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -71,7 +71,9 @@
     "webpack": "^4.44.2"
   },
   "dependencies": {
+    "@bloom-housing/backend-core": "^4.4.0",
     "@bloom-housing/ui-components": "5.0.1-alpha.0",
+    "@bloom-housing/shared-helpers": "^4.4.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
