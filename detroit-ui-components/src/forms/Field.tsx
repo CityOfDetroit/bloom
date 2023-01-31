@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-import { ErrorMessage } from "../notifications/ErrorMessage"
+import { ErrorMessage } from "@bloom-housing/ui-components"
 import { UseFormMethods, RegisterOptions } from "react-hook-form"
 
 export interface FieldProps {

@@ -2,21 +2,21 @@ import React, { useEffect, useState, useCallback, useMemo } from "react"
 import {
   t,
   GridSection,
-  ViewItem,
   GridCell,
   Field,
   Select,
   AppearanceStyleType,
   AppearanceBorderType,
-  FieldGroup,
-  Button,
   Form,
   numberOptions,
   MinimalTable,
   AppearanceSizeType,
-  Drawer,
-  Modal,
 } from "@bloom-housing/ui-components"
+import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
+import { ViewItem } from "../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { FieldGroup } from "../../../../../detroit-ui-components/src/forms/FieldGroup"
+import { Drawer } from "../../../../../detroit-ui-components/src/overlays/Drawer"
+import { Modal } from "../../../../../detroit-ui-components/src/overlays/Modal"
 import { useForm, useFormContext } from "react-hook-form"
 import { TempUnitsSummary, TempAmiLevel } from "./formTypes"
 import {

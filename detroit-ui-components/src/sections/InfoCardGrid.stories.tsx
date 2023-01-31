@@ -1,7 +1,8 @@
 import React from "react"
 
+import { InfoCard } from "@bloom-housing/ui-components"
 import { InfoCardGrid } from "./InfoCardGrid"
-import { ExpandableText, InfoCard } from "@bloom-housing/ui-components"
+import { ExpandableText } from "@bloom-housing/ui-components"
 
 export default {
   title: "Sections/Info Card Grid",

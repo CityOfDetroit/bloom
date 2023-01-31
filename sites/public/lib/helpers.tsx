@@ -16,24 +16,26 @@ import {
 } from "@bloom-housing/backend-core/types"
 import {
   t,
-  ListingCard,
-  TableHeaders,
-  FavoriteButton,
-  LinkButton,
-  Tag,
-  Icon,
-  AppearanceStyleType,
   IconFillColors,
-  ImageTag,
-  Tooltip,
   StandardTableData,
   StatusBarType,
   ApplicationStatusType,
   AppearanceShadeType,
-  CardTag,
   UniversalIconType,
 } from "@bloom-housing/ui-components"
-import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
+import { LinkButton } from "../../../detroit-ui-components/src/actions/LinkButton"
+import { Tooltip } from "../../../detroit-ui-components/src/blocks/Tooltip"
+import { AppearanceStyleType } from "../../../detroit-ui-components/src/global/AppearanceTypes"
+import { ImageTag } from "../../../detroit-ui-components/src/blocks/ImageCard"
+import { TableHeaders } from "../../../detroit-ui-components/src/tables/StandardTable"
+import { Icon } from "../../../detroit-ui-components/src/icons/Icon"
+import {
+  ListingCard,
+  CardTag,
+} from "../../../detroit-ui-components/src/page_components/listing/ListingCard"
+import { Tag } from "../../../detroit-ui-components/src/text/Tag"
+
+import { imageUrlFromListing, FavoriteButton } from "@bloom-housing/shared-helpers"
 
 export const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 

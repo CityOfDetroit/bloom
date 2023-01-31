@@ -12,37 +12,39 @@ import {
   ListingEventType,
 } from "@bloom-housing/backend-core/types"
 import {
-  AdditionalFees,
   Contact,
-  Description,
   EventSection,
   EventType,
-  FavoriteButton,
   GetApplication,
-  GroupedTable,
-  Heading,
-  ImageCard,
   InfoCard,
   ListSection,
-  ListingDetailItem,
-  ListingDetails,
   ListingMap,
   ListingUpdated,
   OneLineAddress,
   QuantityRowSection,
   ReferralApplication,
-  StandardTable,
   SubmitApplication,
-  WhatToExpect,
   t,
   ExpandableText,
 } from "@bloom-housing/ui-components"
+import { ImageCard } from "../../../detroit-ui-components/src/blocks/ImageCard"
+import { Heading } from "../../../detroit-ui-components/src/headers/Heading"
+import { WhatToExpect } from "../../../detroit-ui-components/src/page_components/listing/listing_sidebar/WhatToExpect"
+import { AdditionalFees } from "../../../detroit-ui-components/src/page_components/listing/AdditionalFees"
+import {
+  ListingDetails,
+  ListingDetailItem,
+} from "../../../detroit-ui-components/src/page_components/listing/ListingDetails"
+import { StandardTable } from "../../../detroit-ui-components/src/tables/StandardTable"
+import { GroupedTable } from "../../../detroit-ui-components/src/tables/GroupedTable"
+import { Description } from "../../../detroit-ui-components/src/text/Description"
 import {
   cloudinaryPdfFromId,
   imageUrlFromListing,
   occupancyTable,
   getTimeRangeString,
   getPostmarkString,
+  FavoriteButton,
 } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { ErrorPage } from "../pages/_error"
@@ -364,7 +366,6 @@ export const ListingView = (props: ListingProps) => {
         applicationPickUpAddressOfficeHours={listing.applicationPickUpAddressOfficeHours}
         applicationPickUpAddress={getAddress(listing.applicationPickUpAddressType, "pickUp")}
         preview={props.preview}
-        listingStatus={listing.status}
       />
       <SubmitApplication
         applicationMailingAddress={getAddress(listing.applicationMailingAddressType, "mailIn")}

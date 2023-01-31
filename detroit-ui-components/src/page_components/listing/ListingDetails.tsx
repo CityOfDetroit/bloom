@@ -4,7 +4,7 @@ import {
   ResponsiveContentItem,
   ResponsiveContentItemHeader,
   ResponsiveContentItemBody,
-} from "../../sections/ResponsiveContentList"
+} from "@bloom-housing/ui-components"
 import { ListingDetailHeader, ListingDetailHeaderProps } from "./ListingDetailHeader"
 
 export const ListingDetails = (props: any) => (

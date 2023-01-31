@@ -1,7 +1,6 @@
 import React from "react"
 import ActionBlock, { ActionBlockLayout } from "./ActionBlock"
-import HeaderBadge from "../icons/HeaderBadge"
-import { Button } from "@bloom-housing/ui-components"
+import { Button } from "../actions/Button"
 import { AppearanceStyleType } from "../global/AppearanceTypes"
 import Icon from "../icons/Icon"
 

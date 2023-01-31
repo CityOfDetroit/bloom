@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
-import useKeyPress from "../helpers/useKeyPress"
+import { useKeyPress } from "@bloom-housing/shared-helpers"
 import "./Tooltip.scss"
 
 export interface TooltipProps {

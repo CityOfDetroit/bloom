@@ -1,6 +1,6 @@
 import * as React from "react"
 import Markdown from "markdown-to-jsx"
-import { t } from "../../../helpers/translator"
+import { t } from "@bloom-housing/ui-components"
 import { ExpandableContent } from "../../../actions/ExpandableContent"
 
 interface WhatToExpectProps {

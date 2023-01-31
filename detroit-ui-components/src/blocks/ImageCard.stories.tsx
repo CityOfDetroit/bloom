@@ -1,8 +1,7 @@
 import * as React from "react"
 import { BADGES } from "../../.storybook/constants"
 import { ImageCard } from "./ImageCard"
-import { t } from "../helpers/translator"
-import { ApplicationStatusType } from "../global/ApplicationStatusType"
+import { ApplicationStatusType, t } from "@bloom-housing/ui-components"
 import { IconFillColors } from "../icons/Icon"
 import ImageCardDocumentation from "./ImageCard.docs.mdx"
 

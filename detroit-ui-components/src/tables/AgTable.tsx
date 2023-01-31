@@ -2,12 +2,15 @@ import React, { useState, useCallback, useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { AgGridReact } from "ag-grid-react"
 import { GridOptions, ColumnState, ColumnApi, ColDef, ColGroupDef } from "ag-grid-community"
-import { AgPagination, AG_PER_PAGE_OPTIONS } from "./AgPagination"
-import { LoadingOverlay } from "../overlays/LoadingOverlay"
+import {
+  AgPagination,
+  AG_PER_PAGE_OPTIONS,
+  debounce,
+  t,
+  LoadingOverlay,
+} from "@bloom-housing/ui-components"
 import { Field } from "../forms/Field"
 import { AlertBox } from "../notifications/AlertBox"
-import { debounce } from "../helpers/debounce"
-import { t } from "../helpers/translator"
 
 export interface ColumnOrder {
   orderBy: string

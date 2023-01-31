@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { ExpandableContent } from "../actions/ExpandableContent"
-import { ErrorMessage } from "../notifications/ErrorMessage"
+import { ErrorMessage, t } from "@bloom-housing/ui-components"
 import { UseFormMethods, RegisterOptions } from "react-hook-form"
 import { Field } from "./Field"
-import { t } from "../helpers/translator"
 
 export interface FieldSingle {
   additionalText?: boolean

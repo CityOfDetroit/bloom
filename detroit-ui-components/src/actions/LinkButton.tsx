@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
 import "./Button.scss"
 import { buttonClassesForProps, buttonInner, ButtonProps } from "./Button"
-import { NavigationContext } from "../config/NavigationContext"
-import { isExternalLink } from "../helpers/links"
+import { NavigationContext } from "@bloom-housing/shared-helpers"
+import { isExternalLink } from "@bloom-housing/ui-components"
 
 export interface LinkButtonProps extends Omit<ButtonProps, "onClick"> {
   href: string

@@ -1,11 +1,11 @@
 import React, { useRef } from "react"
 import "./Drawer.scss"
 import { Icon } from "../icons/Icon"
-import { Overlay, OverlayProps } from "./Overlay"
+import { Overlay, OverlayProps } from "@bloom-housing/ui-components"
 import { Tag } from "../text/Tag"
 import { AppearanceStyleType, AppearanceSizeType } from "../global/AppearanceTypes"
 import { AlertTypes } from "../notifications/alertTypes"
-import { AlertBox } from "../notifications"
+import { AlertBox } from "../notifications/AlertBox"
 import { nanoid } from "nanoid"
 
 export enum DrawerSide {

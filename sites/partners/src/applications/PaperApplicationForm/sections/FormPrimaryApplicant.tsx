@@ -3,16 +3,16 @@ import { useFormContext } from "react-hook-form"
 import {
   t,
   GridSection,
-  ViewItem,
   DOBField,
   Select,
   GridCell,
   Field,
   emailRegex,
   PhoneField,
-  FieldGroup,
   FormAddress,
 } from "@bloom-housing/ui-components"
+import { ViewItem } from "../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { phoneNumberKeys, contactPreferencesKeys, stateKeys } from "@bloom-housing/shared-helpers"
 import { YesNoAnswer } from "../../PaperApplicationForm/FormTypes"
 
