@@ -298,36 +298,52 @@ export class ListingsService {
         "listing.updatedAt",
         "listing.name",
         "listing.leasingAgentName",
+        // "programs.id",
         // "programs.description",
         "property.id",
         ...getBaseAddressSelect(["buildingAddress"]),
         "property.yearBuilt",
-        // "property.neighborhood",
-        // "property.region",
-        // "listing.homeType",
-        // "listing.section8Acceptance",
-        // "unitGroups.totalCount",
-        // //community type comma separated
-        // "listing.applicationFee",
-        // "listing.depositMin",
-        // "listing.depositMax",
-        // "listing.depositHelperText",
-        // "listing.costsNotIncluded",
-        // "utilities.id",
-        // "utilities.water",
-        // "utilities.gas",
-        // "utilities.trash",
-        // "utilities.sewer",
-        // "utilities.electricity",
-        // "utilities.cable",
-        // "utilities.phone",
-        // "utilities.internet",
-        // "property.amenities",
-        // "property.accessibility",
-        // //unit amenities
-        // "property.smokingPolicy",
-        // "property.petPolicy",
-        // "property.servicesOffered",
+        "property.neighborhood",
+        "property.region",
+        "listing.homeType",
+        "listing.section8Acceptance",
+        //double check this formatting
+        "unitGroups.totalCount",
+        //community type comma separated
+        "listing.applicationFee",
+        "listing.depositMin",
+        "listing.depositMax",
+        "listing.depositHelperText",
+        "listing.costsNotIncluded",
+        "utilities.id",
+        "utilities.water",
+        "utilities.gas",
+        "utilities.trash",
+        "utilities.sewer",
+        "utilities.electricity",
+        "utilities.cable",
+        "utilities.phone",
+        "utilities.internet",
+        "property.amenities",
+        "property.accessibility",
+        //unit amenities
+        "property.smokingPolicy",
+        "property.petPolicy",
+        "property.servicesOffered",
+        "features.id",
+        "features.elevator",
+        "features.wheelchairRamp",
+        "features.serviceAnimalsAllowed",
+        "features.accessibleParking",
+        "features.parkingOnSite",
+        "features.inUnitWasherDryer",
+        "features.barrierFreeEntrance",
+        "features.rollInShower",
+        "features.grabBars",
+        "features.heatingInUnit",
+        "features.acInUnit",
+        "features.laundryInBuilding",
+
         // // Continue Here
         // "listing.name",
         // "listing.applicationDueDate",
@@ -381,11 +397,12 @@ export class ListingsService {
         // "listingsProgramsProgram.title",
         // "summaryUnitType.numBedrooms",
       ])
-      // .leftJoin("listing.listingPrograms", "listing_programs")
-      // .leftJoin("listing_programs.program", "programs")
+      .leftJoin("listing.listingPrograms", "listing_programs")
+      .leftJoin("listing_programs.program", "programs")
       .leftJoin("listing.property", "property")
       .leftJoin("property.buildingAddress", "buildingAddress")
       .leftJoin("listing.utilities", "utilities")
+      .leftJoin("listing.unitGroups", "unitGroups")
 
       // .leftJoin("listings.leasingAgentAddress", "leasingAgentAddress")
       // .leftJoin("listings.applicationPickUpAddress", "applicationPickUpAddress")
