@@ -5,11 +5,7 @@ process.env.TZ = "UTC"
 
 module.exports = {
   testRegex: ["/*.test.tsx$", "/*.test.ts$"],
-  collectCoverageFrom: [
-    "**/*.tsx",
-    "!**/*.stories.tsx",
-    "<rootDir>/ui-components/src/helpers/*.ts",
-  ],
+  collectCoverageFrom: ["**/*.tsx", "!**/*.stories.tsx"],
   coverageReporters: ["lcov", "text"],
   coverageDirectory: "test-coverage",
   coverageThreshold: {
@@ -27,12 +23,12 @@ module.exports = {
     },
   },
   rootDir: "..",
-  roots: ["<rootDir>/ui-components"],
+  roots: ["<rootDir>/detroit-ui-components"],
   transform: {
     "^.+\\.[t|j]sx?$": "ts-jest",
   },
   setupFiles: ["dotenv/config"],
-  setupFilesAfterEnv: ["<rootDir>/ui-components/.jest/setup-tests.js"],
+  setupFilesAfterEnv: ["<rootDir>/detroit-ui-components/.jest/setup-tests.js"],
   moduleNameMapper: {
     "\\.(scss|css|less)$": "identity-obj-proxy",
   },

@@ -51,7 +51,6 @@ module.exports = {
           },
         },
       ],
-      include: path.resolve(__dirname, "../"),
     })
 
     config.module.rules.push({
