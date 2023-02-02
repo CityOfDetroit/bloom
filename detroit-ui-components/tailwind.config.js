@@ -110,8 +110,11 @@ module.exports = {
         300: "var(--bloom-color-yellow-300)",
       },
       green: {
+        900: "var(--bloom-color-green-900)",
         700: "var(--bloom-color-green-700)",
+        500: "var(--bloom-color-green-500)",
         300: "var(--bloom-color-green-300)",
+        100: "var(--bloom-color-green-100)",
       },
       teal: {
         700: "var(--bloom-color-green-700)",
