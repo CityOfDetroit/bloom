@@ -298,8 +298,8 @@ export class ListingsService {
         "listing.updatedAt",
         "listing.name",
         "listing.leasingAgentName",
-        // "programs.id",
-        // "programs.description",
+        "reservedCommunityType.id",
+        "reservedCommunityType.name",
         "property.id",
         ...getBaseAddressSelect(["buildingAddress"]),
         "property.yearBuilt",
@@ -383,26 +383,20 @@ export class ListingsService {
         // "features.barrierFreeBathroom",
         // "features.wideDoorways",
         // "features.loweredCabinets",
-        "utilities.id",
-        "utilities.water",
-        "utilities.gas",
-        "utilities.trash",
-        "utilities.sewer",
-        "utilities.electricity",
-        "utilities.cable",
-        "utilities.phone",
-        "utilities.internet",
         // "listingPrograms.ordinal",
         // "listingsProgramsProgram.id",
         // "listingsProgramsProgram.title",
         // "summaryUnitType.numBedrooms",
       ])
-      .leftJoin("listing.listingPrograms", "listing_programs")
-      .leftJoin("listing_programs.program", "programs")
+      .leftJoin("listing.reservedCommunityType", "reservedCommunityType")
+      .leftJoin("listing.neighborhoodAmenities", "neighborhoodAmenities")
+
       .leftJoin("listing.property", "property")
       .leftJoin("property.buildingAddress", "buildingAddress")
       .leftJoin("listing.utilities", "utilities")
       .leftJoin("listing.unitGroups", "unitGroups")
+      .leftJoin("listing.features", "features")
+      .leftJoin("listing.neighborhoodAmenities", "listing_neighborhood_amenities")
 
       // .leftJoin("listings.leasingAgentAddress", "leasingAgentAddress")
       // .leftJoin("listings.applicationPickUpAddress", "applicationPickUpAddress")
