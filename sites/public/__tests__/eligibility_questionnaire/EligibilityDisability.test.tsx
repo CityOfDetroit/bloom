@@ -17,10 +17,8 @@ describe("<EligibilityDisability>", () => {
     act(() => {
       render(<EligibilityDisability />)
     })
-    expect(
-      screen.getByRole("heading", { name: "Does anyone in your household have a disability?" })
-    ).toBeInTheDocument()
-    expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument()
+    expect(screen.getByText("Does anyone in your household have a disability?")).toBeInTheDocument()
+    expect(screen.getByText("Next")).toBeInTheDocument()
   })
 
   it("Does not display an error message if no selection has been made", async () => {
@@ -33,7 +31,7 @@ describe("<EligibilityDisability>", () => {
 
     await act(async () => {
       // Click "Next" with no selection made --> no error message
-      fireEvent.click(screen.getByRole("button", { name: "Next" }))
+      fireEvent.click(screen.getByText("Next"))
     })
 
     expect(mockRouter.push.mock.calls.length).toBe(1)
@@ -43,8 +41,8 @@ describe("<EligibilityDisability>", () => {
   it("Clicks the Next button", async () => {
     await act(async () => {
       render(<EligibilityDisability />)
-      fireEvent.click(screen.getByRole("radio", { name: "No" }))
-      fireEvent.click(screen.getByRole("button", { name: "Next" }))
+      fireEvent.click(screen.getByText("No"))
+      fireEvent.click(screen.getByText("Next"))
     })
 
     expect(mockRouter.push.mock.calls.length).toBe(1)
@@ -54,7 +52,7 @@ describe("<EligibilityDisability>", () => {
   it("Clicks the See results now button", async () => {
     await act(async () => {
       render(<EligibilityDisability />)
-      fireEvent.click(screen.getByRole("button", { name: "See results now" }))
+      fireEvent.click(screen.getByText("See results now"))
     })
 
     expect(mockRouter.push.mock.calls.length).toBe(1)

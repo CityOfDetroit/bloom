@@ -1,6 +1,6 @@
 import React from "react"
 import { useForm } from "react-hook-form"
-import { MinimalTable } from "../tables/MinimalTable"
+import { MinimalTable } from "@bloom-housing/ui-components"
 import { ViewItem } from "../blocks/ViewItem"
 import { GridSection, GridCell } from "./GridSection"
 import { Field } from "../forms/Field"
