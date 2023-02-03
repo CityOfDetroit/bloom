@@ -37,7 +37,7 @@ import axiosStatic from "axios"
 import { ConfigContext } from "./ConfigContext"
 import { createAction, createReducer } from "typesafe-actions"
 import { clearToken, getToken, getTokenTtl, setToken } from "./token"
-import { NavigationContext } from "./NavigationContext"
+import { NavigationContext } from "@bloom-housing/ui-components"
 
 type ContextProps = {
   amiChartsService: AmiChartsService

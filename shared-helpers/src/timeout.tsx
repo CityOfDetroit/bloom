@@ -1,13 +1,13 @@
 import React, { createElement, FunctionComponent, useContext, useEffect, useState } from "react"
 import { AuthContext } from "./AuthContext"
 import { ConfigContext } from "./ConfigContext"
-import { NavigationContext } from "./NavigationContext"
 import {
   Button,
   setSiteAlertMessage,
   AlertTypes,
   t,
   AppearanceStyleType,
+  NavigationContext,
 } from "@bloom-housing/ui-components"
 import { Modal } from "../../detroit-ui-components/src/overlays/Modal"
 
