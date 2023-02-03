@@ -17,7 +17,7 @@ describe("<EligibilityWelcome>", () => {
     act(() => {
       render(<EligibilityWelcome />)
     })
-    expect(screen.getByText("Welcome")).toBeInTheDocument()
+    expect(screen.getAllByText("Welcome").length).toBeTruthy()
     expect(screen.getByText("Next")).toBeInTheDocument()
   })
 

@@ -25,15 +25,16 @@ describe("<EligibilityHouseholdSize>", () => {
       render(<EligibilityHouseholdSize />)
     })
     expect(
-      screen.getByText("How many people will live in your next rental, including yourself?")
-    ).toBeInTheDocument()
+      screen.getAllByText("How many people will live in your next rental, including yourself?")
+        .length
+    ).toBeTruthy()
     expect(screen.getByText("Next")).toBeInTheDocument()
   })
 
   it("Clicks the Next button", async () => {
     await act(async () => {
       render(<EligibilityHouseholdSize />)
-      userEvent.selectOptions(screen.getByRole("combobox"), "two")
+      userEvent.selectOptions(screen.getByLabelText("Household Size"), "two")
       fireEvent.click(screen.getByText("Next"))
     })
 
@@ -44,7 +45,7 @@ describe("<EligibilityHouseholdSize>", () => {
   it("Clicks the See results now button", async () => {
     await act(async () => {
       render(<EligibilityHouseholdSize />)
-      userEvent.selectOptions(screen.getByRole("combobox"), "two")
+      userEvent.selectOptions(screen.getByLabelText("Household Size"), "two")
       fireEvent.click(screen.getByText("See results now"))
     })
 

@@ -17,7 +17,9 @@ describe("<EligibilityDisability>", () => {
     act(() => {
       render(<EligibilityDisability />)
     })
-    expect(screen.getByText("Does anyone in your household have a disability?")).toBeInTheDocument()
+    expect(
+      screen.getAllByText("Does anyone in your household have a disability?").length
+    ).toBeTruthy()
     expect(screen.getByText("Next")).toBeInTheDocument()
   })
 
