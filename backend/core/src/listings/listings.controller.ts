@@ -84,7 +84,10 @@ export class ListingsController {
     queryParams: ListingsRetrieveDto
   ): Promise<string> {
     const listings = await this.listingsService.rawListWithFlagged(queryParams.userId)
-    return JSON.stringify(listings)
+    const formattedListings = listings.map((listing) => {
+      return JSON.stringify(listing) + `\n\n`
+    })
+    return formattedListings.join()
   }
 
   @Get(`:id`)
