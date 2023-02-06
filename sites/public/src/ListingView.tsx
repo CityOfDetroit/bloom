@@ -16,7 +16,6 @@ import {
   EventSection,
   EventType,
   GetApplication,
-  InfoCard,
   ListSection,
   ListingMap,
   OneLineAddress,
@@ -26,6 +25,7 @@ import {
   t,
   ExpandableText,
 } from "@bloom-housing/ui-components"
+import { InfoCard } from "../../../detroit-ui-components/src/blocks/InfoCard"
 import { ImageCard } from "../../../detroit-ui-components/src/blocks/ImageCard"
 import { Heading } from "../../../detroit-ui-components/src/headers/Heading"
 import { WhatToExpect } from "../../../detroit-ui-components/src/page_components/listing/listing_sidebar/WhatToExpect"
@@ -438,6 +438,15 @@ export const ListingView = (props: ListingProps) => {
 
   const accessibilityFeatures = getAccessibilityFeatures()
 
+  const showEligibilitySection =
+    !!listing.creditHistory ||
+    !!listing.rentalHistory ||
+    !!listing.criminalBackground ||
+    !!buildingSelectionCriteria ||
+    hmiData?.length ||
+    occupancyData?.length ||
+    listing.listingPrograms?.length
+
   const getUtilitiesIncluded = () => {
     let utilitiesExist = false
     const utilitiesIncluded = Object.keys(listing?.utilities ?? {}).reduce(
@@ -560,7 +569,7 @@ export const ListingView = (props: ListingProps) => {
             </div>
           </ListingDetailItem>
 
-          {hmiData?.length || occupancyData?.length || listing.listingPrograms?.length ? (
+          {showEligibilitySection && (
             <ListingDetailItem
               imageAlt={t("listings.eligibilityNotebook")}
               imageSrc="/images/listing-eligibility.svg"
@@ -631,16 +640,16 @@ export const ListingView = (props: ListingProps) => {
                     </p>
                   </ListSection>
                 )}
-                {(listing.creditHistory ||
-                  listing.rentalHistory ||
-                  listing.criminalBackground ||
-                  buildingSelectionCriteria) && (
+                {(!!listing.creditHistory ||
+                  !!listing.rentalHistory ||
+                  !!listing.criminalBackground ||
+                  !!buildingSelectionCriteria) && (
                   <ListSection
                     title={t("listings.sections.additionalEligibilityTitle")}
                     subtitle={t("listings.sections.additionalEligibilitySubtitle")}
                   >
                     <>
-                      {listing.creditHistory && (
+                      {!!listing.creditHistory && (
                         <InfoCard title={t("listings.creditHistory")}>
                           <ExpandableText
                             className="text-sm text-gray-700"
@@ -653,7 +662,7 @@ export const ListingView = (props: ListingProps) => {
                           </ExpandableText>
                         </InfoCard>
                       )}
-                      {listing.rentalHistory && (
+                      {!!listing.rentalHistory && (
                         <InfoCard title={t("listings.rentalHistory")}>
                           <ExpandableText
                             className="text-sm text-gray-700"
@@ -666,7 +675,7 @@ export const ListingView = (props: ListingProps) => {
                           </ExpandableText>
                         </InfoCard>
                       )}
-                      {listing.criminalBackground && (
+                      {!!listing.criminalBackground && (
                         <InfoCard title={t("listings.criminalBackground")}>
                           <ExpandableText
                             className="text-sm text-gray-700"
@@ -685,7 +694,7 @@ export const ListingView = (props: ListingProps) => {
                 )}
               </ul>
             </ListingDetailItem>
-          ) : null}
+          )}
 
           <ListingDetailItem
             imageAlt={t("listings.featuresCards")}

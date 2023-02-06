@@ -7,6 +7,7 @@ export * from "./src/actions/ExpandableContent"
 export * from "./src/blocks/ActionBlock"
 export * from "./src/blocks/FormCard"
 export * from "./src/blocks/ImageCard"
+export * from "./src/blocks/InfoCard"
 export * from "./src/blocks/ViewItem"
 export * from "./src/blocks/Tooltip"
 
