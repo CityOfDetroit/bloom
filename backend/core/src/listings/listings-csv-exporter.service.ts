@@ -7,6 +7,7 @@ import { capitalizeFirstLetter } from "../shared/utils/capitalize-first-letter"
 import { capAndSplit } from "../shared/utils/cap-and-split"
 import { AddressCreateDto } from "../shared/dto/address.dto"
 import Listing from "./entities/listing.entity"
+import { map } from "rxjs"
 
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
@@ -14,43 +15,59 @@ export class ListingsCsvExporterService {
 
   exportFromObject(listings: any[]): string {
     const listingsObj = listings.map((listing) => {
+      if (listing.name === "MLK Homes") {
+        console.log("-----------------------")
+        console.log(listing)
+        console.log(
+          Object.entries(listing.utilities ?? {})
+            .filter((entry) => entry[1] === true)
+            .map((entry) => entry[0])
+            .join(",")
+        )
+      }
       return {
         ID: listing.id,
-        Created_At_Date: listing.createdAt,
+        Created_At_Date: listing.createdAt.toString(),
         Listing_Status: listing.status,
-        Publish_Date: listing.publishedAt,
-        Close_Date: listing.closedAt,
+        //need to add to seed
+        Publish_Date: listing.publishedAt?.toString(),
+        //not seeing ability to close on Detroit
+        // Close_Date: listing.closedAt,
         Verified: listing.isVerified,
-        Verified_Date: listing.verifiedAt,
-        Last_Updated: listing.updatedAt,
+        Verified_Date: listing.verifiedAt?.toString(),
+        Last_Updated: listing.updatedAt?.toString(),
         Listing_Name: listing.name,
-        Developer_Property_Owner: listing.ownerCompany,
-        Street_Address: listing.street,
-        City: listing.city,
-        State: listing.state,
-        Zip: listing.Zip,
-        Year_Built: listing.yearBuilt,
-        Neighborhood: listing.neighborhood,
-        Region: listing.region,
-        Latitude: listing.latitude,
-        Longitude: listing.longitude,
+        Developer_Property_Owner: listing.property.developer,
+        Street_Address: listing.property.buildingAddress?.street,
+        City: listing.property.buildingAddress?.city,
+        State: listing.property.buildingAddress?.state,
+        Zip: listing.property.buildingAddress?.zipCode,
+        Year_Built: listing.property.yearBuilt,
+        Neighborhood: listing.property.neighborhood,
+        Region: listing.property.region,
+        Latitude: listing.property.buildingAddress?.latitude,
+        Longitude: listing.property.buildingAddress?.longitude,
         Home_Type: listing.homeType,
         Accept_Section_8: listing.section8Acceptance,
-        // Unit Group
-        // Number of Unit Groups
-        Community_Types: listing.communityTypes,
+        Number_Of_Unit_Groups: listing.unitGroups?.length,
+        Community_Types: listing.listingPrograms
+          ?.map((listingProgram) => listingProgram.program.title)
+          .join(", "),
         Application_Fee: listing.applicationFee,
         Deposit_Min: listing.depositMin,
         Deposit_Max: listing.depositMax,
-        Deposit_Helper: listing.depositHelper,
+        Deposit_Helper: listing.depositHelperText,
         Costs_Not_Included: listing.costsNotIncluded,
-        Utilities_Included: listing.utilitiesIncluded,
-        Property_Amenities: listing.propertyAmenities,
-        Additional_Accessibility_Details: listing.additionalAccessibilityDetails,
-        Unit_Amenities: listing.unitAmenities,
-        // Smoking Policy
-        // Pets Policy
-        // Services Offered
+        Utilities_Included: Object.entries(listing.utilities ?? {})
+          .filter((entry) => entry[1] === true)
+          .map((entry) => entry[0])
+          .join(", "),
+        Property_Amenities: listing.property.amenities,
+        Additional_Accessibility_Details: listing.property.accessibility,
+        Unit_Amenities: listing.property.unitAmenities,
+        Smoking_Policy: listing.property.smokingPolicy,
+        Pets_Policy: listing.property.petPolicy,
+        Services_Offered: listing.property.servicesOffered,
         // Accessibility Features
         // 	Grocery Stores
         //   Public Transportation

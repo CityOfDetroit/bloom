@@ -297,7 +297,7 @@ export class ListingsService {
         "listing.verifiedAt",
         "listing.updatedAt",
         "listing.name",
-        "listing.leasingAgentName",
+        "property.developer",
         "reservedCommunityType.id",
         "reservedCommunityType.name",
         "property.id",
@@ -310,6 +310,10 @@ export class ListingsService {
         //double check this formatting
         "unitGroups.totalCount",
         //community type comma separated
+        "listingPrograms.ordinal",
+        "listingProgramsProgram.id",
+        "listingProgramsProgram.title",
+
         "listing.applicationFee",
         "listing.depositMin",
         "listing.depositMax",
@@ -326,7 +330,7 @@ export class ListingsService {
         "utilities.internet",
         "property.amenities",
         "property.accessibility",
-        //unit amenities
+        "property.unitAmenities",
         "property.smokingPolicy",
         "property.petPolicy",
         "property.servicesOffered",
@@ -437,6 +441,9 @@ export class ListingsService {
       .leftJoin("property.buildingAddress", "buildingAddress")
       .leftJoin("listing.utilities", "utilities")
       .leftJoin("listing.unitGroups", "unitGroups")
+      .leftJoin("listing.listingPrograms", "listingPrograms")
+      .leftJoin("listingPrograms.program", "listingProgramsProgram")
+
       .leftJoin("listing.features", "features")
       .leftJoin("listing.leasingAgentAddress", "leasingAgentAddress")
       .leftJoin("listing.applicationPickUpAddress", "applicationPickUpAddress")
