@@ -343,6 +343,48 @@ export class ListingsService {
         "features.heatingInUnit",
         "features.acInUnit",
         "features.laundryInBuilding",
+        "neighborhoodAmenities.groceryStores",
+        "neighborhoodAmenities.pharmacies",
+        "neighborhoodAmenities.healthCareResources",
+        "neighborhoodAmenities.parksAndCommunityCenters",
+        "neighborhoodAmenities.schools",
+        "neighborhoodAmenities.publicTransportation",
+        "listing.creditHistory",
+        "listing.criminalBackground",
+        "listing.buildingSelectionCriteria",
+        "listing.requiredDocuments",
+        "listing.programRules",
+        "listing.specialNotes",
+        "listing.reviewOrderType",
+        //lottery info
+        "listing.applicationDueDate",
+        //which of two below for "waitlist" column?
+        "listing.isWaitlistOpen",
+        "listing.displayWaitlistSize",
+        "listing.waitlistCurrentSize",
+        "listing.waitlistMaxSize",
+        "listing.waitlistOpenSpots",
+        "listing.marketingType",
+        "listing.marketingDate",
+        "listing.marketingSeason",
+        //is below leasing company
+        "listing.managementCompany",
+        "listing.managementWebsite",
+        "listing.leasingAgentEmail",
+        "listing.leasingAgentName",
+        "listing.leasingAgentOfficeHours",
+        "listing.leasingAgentPhone",
+        "listing.leasingAgentTitle",
+        ...getBaseAddressSelect([
+          "leasingAgentAddress",
+          "applicationPickUpAddress",
+          "applicationMailingAddress",
+          "applicationDropOffAddress",
+        ]),
+        "listing.applicationPickUpAddressOfficeHours",
+        "listing.postmarkedApplicationsReceivedByDate",
+        "listing.digitalApplication",
+        "listing.paperApplication",
 
         // // Continue Here
         // "listing.name",
@@ -396,7 +438,10 @@ export class ListingsService {
       .leftJoin("listing.utilities", "utilities")
       .leftJoin("listing.unitGroups", "unitGroups")
       .leftJoin("listing.features", "features")
-      .leftJoin("listing.neighborhoodAmenities", "listing_neighborhood_amenities")
+      .leftJoin("listing.leasingAgentAddress", "leasingAgentAddress")
+      .leftJoin("listing.applicationPickUpAddress", "applicationPickUpAddress")
+      .leftJoin("listing.applicationMailingAddress", "applicationMailingAddress")
+      .leftJoin("listing.applicationDropOffAddress", "applicationDropOffAddress")
 
       // .leftJoin("listings.leasingAgentAddress", "leasingAgentAddress")
       // .leftJoin("listings.applicationPickUpAddress", "applicationPickUpAddress")
