@@ -43,6 +43,7 @@
 .modal__inner {
   padding-block: var(--content-padding-block);
   padding-inline: var(--bloom-s6);
+  margin-top: 0;
 
   &:last-of-type {
     border-bottom-right-radius: var(--border-radius);

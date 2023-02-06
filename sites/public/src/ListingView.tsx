@@ -19,7 +19,6 @@ import {
   InfoCard,
   ListSection,
   ListingMap,
-  ListingUpdated,
   OneLineAddress,
   QuantityRowSection,
   ReferralApplication,
@@ -86,7 +85,11 @@ export const ListingProcess = (props: ListingProcessProps) => {
 
   return (
     <aside className="w-full static md:me-8 md:ms-2 md:border-r md:border-l md:border-b border-gray-400 bg-white text-gray-750">
-      <ListingUpdated listingUpdated={listing.updatedAt} />
+      <section className="aside-block">
+        <p className="text-tiny text-gray-750">
+          {`${t("listings.listingUpdated")}: ${dayjs(listing.updatedAt).format("MMMM DD, YYYY")}`}
+        </p>
+      </section>
       {openHouseEvents && (
         <EventSection events={openHouseEvents} headerText={t("listings.openHouseEvent.header")} />
       )}

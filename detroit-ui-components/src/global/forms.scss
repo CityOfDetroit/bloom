@@ -25,6 +25,11 @@
   }
 
   label.sr-only + .control,
+  label.text__caps-spaced + .control {
+    @apply mt-0;
+  }
+
+  label.sr-only + .control,
   label.field-label--caps + .control {
     @apply mt-0;
   }
