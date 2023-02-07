@@ -266,7 +266,7 @@ const Finder = () => {
                 <Card.Header>
                   {/* Deconstructed header group to allow for ref */}
                   <hgroup role="group">
-                    <h3 tabIndex={0} ref={finderBody}>
+                    <h3 tabIndex={-1} ref={finderBody}>
                       {!isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")}
                     </h3>
                     <p aria-roledescription="subtitle">
