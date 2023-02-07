@@ -31,8 +31,6 @@ export class ListingsCsvExporterService {
         Listing_Status: listing.status,
         //need to add to seed
         Publish_Date: listing.publishedAt?.toString(),
-        //not seeing ability to close on Detroit
-        // Close_Date: listing.closedAt,
         Verified: listing.isVerified,
         Verified_Date: listing.verifiedAt?.toString(),
         Last_Updated: listing.updatedAt?.toString(),
@@ -68,7 +66,10 @@ export class ListingsCsvExporterService {
         Smoking_Policy: listing.property.smokingPolicy,
         Pets_Policy: listing.property.petPolicy,
         Services_Offered: listing.property.servicesOffered,
-        // Accessibility Features
+        Accessibility_Features: Object.entries(listing.features ?? {})
+          .filter((entry) => entry[1] === true)
+          .map((entry) => entry[0])
+          .join(", "),
         // 	Grocery Stores
         //   Public Transportation
         //   	Schools
