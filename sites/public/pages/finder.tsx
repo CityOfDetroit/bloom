@@ -4,12 +4,16 @@ import {
   listingFeatures,
   Region,
 } from "@bloom-housing/shared-helpers"
-import { ButtonGroup, Card, Form, t } from "@bloom-housing/ui-components"
-import { Button } from "../../../detroit-ui-components/src/actions/Button"
-import { HeadingGroup } from "../../../detroit-ui-components/src/headers/HeadingGroup"
-import { StepHeader } from "../../../detroit-ui-components/src/headers/StepHeader"
-import { ProgressNav } from "../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AppearanceStyleType } from "../../../detroit-ui-components/src/global/AppearanceTypes"
+import {
+  AppearanceStyleType,
+  Button,
+  ButtonGroup,
+  Card,
+  Form,
+  ProgressNav,
+  StepHeader,
+  t,
+} from "@bloom-housing/ui-components"
 import axios from "axios"
 import router from "next/router"
 
@@ -254,21 +258,21 @@ const Finder = () => {
   return (
     <Layout>
       <Form onSubmit={handleSubmit(onSubmit)} className="bg-gray-300 border-t border-gray-450">
-        <div tabIndex={-1} ref={finderBody} className="md:mb-8 mt-8 mx-auto max-w-5xl">
+        <div className="md:mb-8 mt-8 mx-auto max-w-5xl">
           <ProgressHeader />
           <Card className="finder-card">
             {formData?.length > 0 && (
               <div>
                 <Card.Header>
-                  <HeadingGroup
-                    headingPriority={3}
-                    heading={
-                      !isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")
-                    }
-                    subheading={
-                      !isDisclaimer ? activeQuestion.subtitle : t("finder.disclaimer.subtitle")
-                    }
-                  />
+                  {/* Deconstructed header group to allow for ref */}
+                  <hgroup role="group">
+                    <h3 tabIndex={0} ref={finderBody}>
+                      {!isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")}
+                    </h3>
+                    <p aria-roledescription="subtitle">
+                      {!isDisclaimer ? activeQuestion.subtitle : t("finder.disclaimer.subtitle")}
+                    </p>
+                  </hgroup>
                 </Card.Header>
                 <Card.Section className={!isDisclaimer ? "" : "finder-disclaimer"}>
                   {!isDisclaimer ? (
