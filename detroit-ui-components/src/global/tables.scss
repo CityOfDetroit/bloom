@@ -430,6 +430,10 @@ table.td-plain {
 .table__draggable-cell {
   width: 60px;
   padding: 0px;
+
+  .ui-icon svg {
+    color: var(--bloom-color-gray-750);
+  }
 }
 
 .table__is-dragging {

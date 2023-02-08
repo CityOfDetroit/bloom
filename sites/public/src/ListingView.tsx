@@ -443,9 +443,9 @@ export const ListingView = (props: ListingProps) => {
     !!listing.rentalHistory ||
     !!listing.criminalBackground ||
     !!buildingSelectionCriteria ||
-    hmiData?.length ||
-    occupancyData?.length ||
-    listing.listingPrograms?.length
+    !!hmiData?.length ||
+    !!occupancyData?.length ||
+    !!listing.listingPrograms?.length
 
   const getUtilitiesIncluded = () => {
     let utilitiesExist = false
