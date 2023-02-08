@@ -264,7 +264,7 @@ const Finder = () => {
             {formData?.length > 0 && (
               <div>
                 <Card.Header>
-                  {/* Deconstructed header group to allow for ref */}
+                  {/* Deconstructed header group to support ref */}
                   <hgroup role="group">
                     <h3 tabIndex={-1} ref={finderBody}>
                       {!isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")}
