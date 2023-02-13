@@ -46,7 +46,7 @@ const Finder = () => {
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FinderQuestion[]>([])
   const [isDisclaimer, setIsDisclaimer] = useState<boolean>(false)
-  const finderBody = useRef(null)
+  const finderSectionHeader = useRef(null)
   const minRent = watch("minRent")
   const maxRent = watch("maxRent")
 
@@ -241,18 +241,19 @@ const Finder = () => {
       setFormData(formCopy)
       if (questionIndex >= formData.length - 1) setIsDisclaimer(true)
       setQuestionIndex(questionIndex + 1)
-      finderBody.current.focus()
+      finderSectionHeader.current.focus()
     }
   }
   const previousQuestion = () => {
     setIsDisclaimer(false)
     setQuestionIndex(questionIndex - 1)
-    finderBody.current.focus()
+    finderSectionHeader.current.focus()
   }
 
   const skipToListings = () => {
     setIsDisclaimer(true)
     setQuestionIndex(formData.length)
+    finderSectionHeader.current.focus()
   }
 
   return (
@@ -266,7 +267,7 @@ const Finder = () => {
                 <Card.Header>
                   {/* Deconstructed header group to support ref */}
                   <hgroup role="group">
-                    <h3 tabIndex={-1} ref={finderBody}>
+                    <h3 tabIndex={-1} ref={finderSectionHeader}>
                       {!isDisclaimer ? activeQuestion.question : t("finder.disclaimer.header")}
                     </h3>
                     <p aria-roledescription="subtitle">
