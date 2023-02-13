@@ -1366,6 +1366,7 @@
   "t.region": "Region",
   "t.relationship": "Relationship",
   "t.otherRelationShip": "Other Relationship",
+  "t.opensInNewWindow": "Opens in new window",
   "t.rent": "Rent",
   "t.review": "Review",
   "t.role": "Role",

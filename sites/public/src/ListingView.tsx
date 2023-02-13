@@ -514,7 +514,11 @@ export const ListingView = (props: ListingProps) => {
             </Heading>
             <p className="text-gray-750 text-base mb-1">{listing.developer}</p>
             <p className="text-base">
-              <a href={googleMapsHref} target="_blank" aria-label="Opens in new window">
+              <a
+                href={googleMapsHref}
+                target="_blank"
+                aria-label={`${t("t.viewOnMap")} (${t("t.opensInNewWindow")})`}
+              >
                 {t("t.viewOnMap")}
               </a>
             </p>
@@ -789,9 +793,9 @@ export const ListingView = (props: ListingProps) => {
                   href={googleMapsHref}
                   target="_blank"
                   rel="noreferrer noopener"
-                  aria-label="Opens in new window"
+                  aria-label={`${t("t.viewOnMap")} (${t("t.opensInNewWindow")})`}
                 >
-                  {t("t.getDirections")}
+                  {t("t.viewOnMap")}
                 </a>
               </p>
             </div>
