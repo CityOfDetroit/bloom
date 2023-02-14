@@ -70,23 +70,23 @@ export class ListingsCsvExporterService {
           .filter((entry) => entry[1] === true)
           .map((entry) => entry[0])
           .join(", "),
-        // 	Grocery Stores
-        //   Public Transportation
-        //   	Schools
-        //     Parks and Community Centers
-        //     Pharmacies
-        //     Health Care Resources
-        //     Credit History
-        //     Rental History
-        //     Criminal Background
-        //     Building Selection Critera
-        //     Required Documents
-        //     Important Program Rules
-        //     	Special Notes
-        //       Review Order
-        //       Lottery Date
-        //       Lottery Start
-        //       Lottery End
+        Grocery_Stores: listing.neighborhoodAmenities?.groceryStores,
+        Public_Transportation: listing.neighborhoodAmenities?.publicTransportation,
+        Schools: listing.neighborhoodAmenities?.schools,
+        Parks_and_Community_Centers: listing.neighborhoodAmenities?.parksAndCommunityCenters,
+        Pharmacies: listing.neighborhoodAmenities?.pharmacies,
+        Health_Care_Resources: listing.neighborhoodAmenities?.healthCareResources,
+        Credit_History: listing.creditHistory,
+        Rental_History: listing.rentalHistory,
+        Criminal_Background: listing.criminalBackground,
+        Building_Selection_Critera: listing.buildingSelectionCriteria,
+        Required_Documents: listing.requiredDocuments,
+        Important_Program_Rules: listing.programRules,
+        Special_Notes: listing.specialNotes,
+        Review_Order: listing.reviewOrderType,
+        // Lottery_Date: formatDateTime(listing.events.startTime),
+        // Lottery_Start:
+        // Lotter_End:
         //       Lottery Notes
         //       Application Due Date
         //       	Waitlist

@@ -360,13 +360,16 @@ export class ListingsService {
         "neighborhoodAmenities.schools",
         "neighborhoodAmenities.publicTransportation",
         "listing.creditHistory",
+        "listing.rentalHistory",
         "listing.criminalBackground",
         "listing.buildingSelectionCriteria",
         "listing.requiredDocuments",
         "listing.programRules",
         "listing.specialNotes",
         "listing.reviewOrderType",
-        //lottery info
+        "listingEvents.startTime",
+        "listingEvents.endTime",
+        "listingEvents.note",
         "listing.applicationDueDate",
         //which of two below for "waitlist" column?
         "listing.isWaitlistOpen",
@@ -395,50 +398,6 @@ export class ListingsService {
         "listing.postmarkedApplicationsReceivedByDate",
         "listing.digitalApplication",
         "listing.paperApplication",
-
-        // // Continue Here
-        // "listing.name",
-        // "listing.applicationDueDate",
-        // "listing.applicationOpenDate",
-        // "listing.marketingType",
-        // "listing.marketingDate",
-        // "listing.marketingSeason",
-        // "listing.reviewOrderType",
-        // "listing.status",
-        // "listing.assets",
-        // "listing.isVerified",
-        // "jurisdiction.id",
-        // "jurisdiction.name",
-        // "reservedCommunityType.id",
-        // "reservedCommunityType.name",
-        // "property.id",
-        // ...getBaseAddressSelect(["buildingAddress"]),
-        // "listingImages.ordinal",
-        // "listingImagesImage.id",
-        // "listingImagesImage.fileId",
-        // "listingImagesImage.label",
-        // "features.id",
-        // "features.elevator",
-        // "features.wheelchairRamp",
-        // "features.serviceAnimalsAllowed",
-        // "features.accessibleParking",
-        // "features.parkingOnSite",
-        // "features.inUnitWasherDryer",
-        // "features.barrierFreeEntrance",
-        // "features.rollInShower",
-        // "features.grabBars",
-        // "features.heatingInUnit",
-        // "features.acInUnit",
-        // "features.laundryInBuilding",
-        // "features.barrierFreeUnitEntrance",
-        // "features.loweredLightSwitch",
-        // "features.barrierFreeBathroom",
-        // "features.wideDoorways",
-        // "features.loweredCabinets",
-        // "listingPrograms.ordinal",
-        // "listingsProgramsProgram.id",
-        // "listingsProgramsProgram.title",
-        // "summaryUnitType.numBedrooms",
       ])
       .leftJoin("listing.reservedCommunityType", "reservedCommunityType")
       .leftJoin("listing.neighborhoodAmenities", "neighborhoodAmenities")
@@ -449,6 +408,7 @@ export class ListingsService {
       .leftJoin("listing.unitGroups", "unitGroups")
       .leftJoin("listing.listingPrograms", "listingPrograms")
       .leftJoin("listingPrograms.program", "listingProgramsProgram")
+      .leftJoin("listing.events", "listingEvents")
 
       .leftJoin("listing.features", "features")
       .leftJoin("listing.leasingAgentAddress", "leasingAgentAddress")
