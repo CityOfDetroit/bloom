@@ -517,7 +517,8 @@ export const ListingView = (props: ListingProps) => {
               <a
                 href={googleMapsHref}
                 target="_blank"
-                aria-label={`${t("t.viewOnMap")} (${t("t.opensInNewWindow")})`}
+                rel="noreferrer noopener"
+                aria-label={t("t.viewOnMap")}
               >
                 {t("t.viewOnMap")}
               </a>
@@ -793,7 +794,7 @@ export const ListingView = (props: ListingProps) => {
                   href={googleMapsHref}
                   target="_blank"
                   rel="noreferrer noopener"
-                  aria-label={`${t("t.viewOnMap")} (${t("t.opensInNewWindow")})`}
+                  aria-label={t("t.viewOnMap")}
                 >
                   {t("t.viewOnMap")}
                 </a>
