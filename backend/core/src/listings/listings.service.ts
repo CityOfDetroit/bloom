@@ -374,8 +374,8 @@ export class ListingsService {
         //which of two below for "waitlist" column?
         "listing.isWaitlistOpen",
         "listing.displayWaitlistSize",
-        "listing.waitlistCurrentSize",
         "listing.waitlistMaxSize",
+        "listing.waitlistCurrentSize",
         "listing.waitlistOpenSpots",
         "listing.marketingType",
         "listing.marketingDate",

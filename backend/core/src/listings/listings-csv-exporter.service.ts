@@ -8,7 +8,6 @@ import { capAndSplit } from "../shared/utils/cap-and-split"
 import { AddressCreateDto } from "../shared/dto/address.dto"
 import Listing from "./entities/listing.entity"
 import { map } from "rxjs"
-import { formatDateTime } from "../../../../shared-helpers/src/DateFormat"
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
@@ -84,15 +83,15 @@ export class ListingsCsvExporterService {
         Important_Program_Rules: listing.programRules,
         Special_Notes: listing.specialNotes,
         Review_Order: listing.reviewOrderType,
-        Lottery_Date: formatDateTime(listing.events?.startTime, false),
-        Lottery_Start: formatDateTime(listing.events?.startTime, true),
-        Lotter_End: formatDateTime(listing.events?.endTime, true),
+        Lottery_Date: dayjs(listing.events?.startTime).format("MM-DD-YYYY"),
+        Lottery_Start: dayjs(listing.events?.startTime).format("MM-DD-YYYY h:mm:ssA"),
+        Lotter_End: dayjs(listing.events?.endTime).format("MM-DD-YYYY h:mm:ssA"),
         Lottery_Notes: listing.events?.note,
-        //       Application Due Date
-        //       	Waitlist
-        //         Max Waitlist Size
-        //         How many people on the current list?
-        //         How many open spots on the waitlist?
+        Application_Due_Date: listing.applicationDueDate,
+        Waitlist: listing.isWaitlistOpen,
+        Max_Waitlist_Size: listing.waitlistMaxSize,
+        How_many_people_on_the_current_list: listing.waitlistCurrentSize,
+        How_many_open_spots_on_the_waitlist: listing.waitlistOpenSpots,
         //         Marketing Status
         //         Marketing Season
         //         Marketing Date
