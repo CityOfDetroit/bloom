@@ -62,12 +62,12 @@ const Layout = (props) => {
     menuLinks.push({
       title: t("nav.signIn"),
       href: "/sign-in",
-      class: "navbar-link__sign-in",
+      className: "navbar-link__sign-in",
     })
     menuLinks.push({
       title: t("nav.signUp"),
       href: "/create-account",
-      class: "navbar-link__sign-up",
+      className: "navbar-link__sign-up",
     })
   }
 
