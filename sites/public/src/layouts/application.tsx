@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useRef } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import Head from "next/head"
@@ -10,6 +10,7 @@ import Markdown from "markdown-to-jsx"
 
 const Layout = (props) => {
   const { profile, signOut } = useContext(AuthContext)
+  const resetFocus = useRef(null)
   const router = useRouter()
 
   const languages =
@@ -70,10 +71,13 @@ const Layout = (props) => {
       class: "navbar-link__sign-up",
     })
   }
+  useEffect(() => {
+    resetFocus.current?.focus()
+  }, [router.asPath])
 
   return (
     <div className="site-wrapper">
-      <div className="site-content">
+      <div ref={resetFocus} className="site-content">
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
