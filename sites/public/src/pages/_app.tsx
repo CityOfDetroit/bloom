@@ -84,8 +84,11 @@ function BloomApp({ Component, router, pageProps }: AppProps) {
     } else {
       document.body.setAttribute("dir", "ltr")
     }
-    resetFocus.current?.focus()
   }, [locale, router.events])
+
+  useEffect(() => {
+    resetFocus.current?.focus()
+  }, [router.asPath])
 
   return (
     <NavigationContext.Provider
