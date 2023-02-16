@@ -48,12 +48,6 @@ module.exports = {
       "./layouts/**/*.tsx",
       "../../detroit-ui-components/src/**/*.tsx",
     ],
-    safelist: [
-      { pattern: /grid-cols-/ },
-      {
-        pattern: /col-span-/,
-        variants: ["md"],
-      },
-    ],
+    safelist: [/grid-cols-/, /md:col-span-/],
   },
 }
