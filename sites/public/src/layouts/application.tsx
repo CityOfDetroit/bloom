@@ -77,7 +77,7 @@ const Layout = (props) => {
 
   return (
     <div className="site-wrapper">
-      <div ref={resetFocus} className="site-content">
+      <div ref={resetFocus} tabIndex={-1} className="site-content">
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
