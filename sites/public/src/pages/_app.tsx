@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import type { AppProps } from "next/app"
 import { addTranslation, GenericRouter, NavigationContext } from "@bloom-housing/ui-components"
 import {
@@ -27,6 +27,8 @@ import "../../styles/overrides.scss"
 
 function BloomApp({ Component, router, pageProps }: AppProps) {
   const { locale } = router
+  const resetFocus = useRef(null)
+
   //  const initialized = useState(true)
   const [application, setApplication] = useState(() => {
     return loadApplicationFromAutosave() || { ...blankApplication }
@@ -82,6 +84,7 @@ function BloomApp({ Component, router, pageProps }: AppProps) {
     } else {
       document.body.setAttribute("dir", "ltr")
     }
+    resetFocus.current?.focus()
   }, [locale, router.events])
 
   return (
@@ -104,7 +107,7 @@ function BloomApp({ Component, router, pageProps }: AppProps) {
           <ConfigProvider apiUrl={process.env.backendApiBase}>
             <AuthProvider>
               <LoggedInUserIdleTimeout onTimeout={() => conductor.reset()} />
-              <Component {...pageProps} />
+              <Component tabIndex={-1} ref={resetFocus} {...pageProps} />
             </AuthProvider>
           </ConfigProvider>
         </EligibilityContext.Provider>
