@@ -116,7 +116,9 @@ const ListingCard = (props: ListingCardProps) => {
               contentProps?.tableHeader?.priority ?? 3,
               "tableHeader"
             )}
-            <p className="table-subheader"> {contentProps?.tableSubheader?.text}</p>
+            <p className="table-subheader" aria-roledescription="subtitle">
+              {contentProps?.tableSubheader?.text}
+            </p>
             {cardTags && cardTags?.length > 0 && (
               <div className={"inline-flex flex-wrap justify-start w-full"}>
                 {cardTags?.map((cardTag, index) => {
