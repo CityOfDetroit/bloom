@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import Head from "next/head"
@@ -12,6 +12,7 @@ const Layout = (props) => {
   const { profile, signOut } = useContext(AuthContext)
   const resetFocus = useRef(null)
   const router = useRouter()
+  const [announcement, setAnnouncement] = useState<string>("")
 
   const languages =
     router?.locales?.map((item) => ({
@@ -72,8 +73,7 @@ const Layout = (props) => {
     })
   }
   useEffect(() => {
-    resetFocus.current.focus()
-    console.log("testing")
+    setAnnouncement("New Page " + document.querySelector("h1").innerText)
   }, [router.asPath])
 
   return (
@@ -83,7 +83,7 @@ const Layout = (props) => {
           <title>{t("nav.siteTitle")}</title>
         </Head>
         <div ref={resetFocus} tabIndex={-1} className={"hide-element"}>
-          New Page
+          {announcement}
         </div>
         <SiteHeader
           logoSrc="/images/detroit-logo.png"
