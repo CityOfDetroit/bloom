@@ -27,7 +27,6 @@ import "../../styles/overrides.scss"
 
 function BloomApp({ Component, router, pageProps }: AppProps) {
   const { locale } = router
-
   //  const initialized = useState(true)
   const [application, setApplication] = useState(() => {
     return loadApplicationFromAutosave() || { ...blankApplication }
