@@ -73,7 +73,7 @@ const Layout = (props) => {
     })
   }
   useEffect(() => {
-    setAnnouncement("New Page " + document.querySelector("h1").innerText)
+    setAnnouncement("Navigated to " + document.querySelector("h1").innerText)
   }, [router.asPath])
 
   return (
@@ -82,7 +82,7 @@ const Layout = (props) => {
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
-        <div ref={resetFocus} tabIndex={-1} className={"hide-element"}>
+        <div ref={resetFocus} tabIndex={-1} role="alert" className={"visually-hidden"}>
           {announcement}
         </div>
         <SiteHeader
