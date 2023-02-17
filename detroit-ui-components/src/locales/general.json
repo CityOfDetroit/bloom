@@ -1592,5 +1592,7 @@
   "publicFilter.communityTypes": "Community Types",
   "publicFilter.waitlist.open": "Open Waitlist",
   "publicFilter.waitlist.closed": "Closed Waitlist",
-  "account.noFavorites": "It looks like you haven't favorited any listings yet."
+  "account.noFavorites": "It looks like you haven't favorited any listings yet.",
+  "srAnnouncement.navigatedTo": "Navigated to ",
+  "srAnnouncement.newPage": "new page"
 }

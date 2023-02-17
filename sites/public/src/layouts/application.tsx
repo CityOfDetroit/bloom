@@ -10,9 +10,9 @@ import Markdown from "markdown-to-jsx"
 
 const Layout = (props) => {
   const { profile, signOut } = useContext(AuthContext)
-  const resetFocus = useRef(null)
+  const navigationHelper = useRef(null)
+  const [srAnnouncement, setSRAnnouncement] = useState<string>()
   const router = useRouter()
-  const [announcement, setAnnouncement] = useState<string>("")
 
   const languages =
     router?.locales?.map((item) => ({
@@ -73,8 +73,9 @@ const Layout = (props) => {
     })
   }
   useEffect(() => {
-    setAnnouncement("Navigated to " + document.querySelector("h1").innerText)
-  }, [router.asPath])
+    const pageName = document?.querySelector("h1")?.innerText ?? t("srAnnouncement.newPage")
+    setSRAnnouncement(t("srAnnouncement.navigatedTo") + pageName)
+  }, [router.asPath, router.locale])
 
   return (
     <div className="site-wrapper">
@@ -82,9 +83,11 @@ const Layout = (props) => {
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
-        <div ref={resetFocus} tabIndex={-1} role="alert" className={"visually-hidden"}>
-          {announcement}
-        </div>
+        {srAnnouncement && (
+          <div ref={navigationHelper} tabIndex={-1} role="alert" className={"sr-only"}>
+            {srAnnouncement}
+          </div>
+        )}
         <SiteHeader
           logoSrc="/images/detroit-logo.png"
           homeURL="/"
