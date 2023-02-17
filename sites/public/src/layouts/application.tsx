@@ -72,15 +72,19 @@ const Layout = (props) => {
     })
   }
   useEffect(() => {
-    resetFocus.current?.focus()
+    resetFocus.current.focus()
+    console.log("testing")
   }, [router.asPath])
 
   return (
     <div className="site-wrapper">
-      <div ref={resetFocus} tabIndex={-1} className="site-content">
+      <div className="site-content">
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
+        <div ref={resetFocus} tabIndex={-1} className={"hide-element"}>
+          New Page
+        </div>
         <SiteHeader
           logoSrc="/images/detroit-logo.png"
           homeURL="/"
