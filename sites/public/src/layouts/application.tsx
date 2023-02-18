@@ -84,7 +84,7 @@ const Layout = (props) => {
           <title>{t("nav.siteTitle")}</title>
         </Head>
         {srAnnouncement && (
-          <div ref={navigationHelper} tabIndex={-1} className={"sr-only"}>
+          <div ref={navigationHelper} tabIndex={-1} role="alert" className={"sr-only"}>
             {srAnnouncement}
           </div>
         )}
