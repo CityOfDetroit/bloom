@@ -10,7 +10,7 @@ import Markdown from "markdown-to-jsx"
 
 const Layout = (props) => {
   const { profile, signOut } = useContext(AuthContext)
-  const navigationHelper = useRef(null)
+  const srAnnouncement = useRef(null)
   const router = useRouter()
 
   const languages =
@@ -72,7 +72,7 @@ const Layout = (props) => {
     })
   }
   useEffect(() => {
-    navigationHelper.current.focus()
+    srAnnouncement.current.focus()
   }, [router.asPath, router.locale])
 
   return (
@@ -81,8 +81,8 @@ const Layout = (props) => {
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
-        <div ref={navigationHelper} tabIndex={-1} className={"sr-only"}>
-          {t("srNavigationMessage")}
+        <div ref={srAnnouncement} tabIndex={-1} className={"sr-only"}>
+          {t("srNewPage")}
         </div>
         <SiteHeader
           logoSrc="/images/detroit-logo.png"
