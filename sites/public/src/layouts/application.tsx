@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import Head from "next/head"
@@ -11,7 +11,6 @@ import Markdown from "markdown-to-jsx"
 const Layout = (props) => {
   const { profile, signOut } = useContext(AuthContext)
   const navigationHelper = useRef(null)
-  const [srAnnouncement, setSRAnnouncement] = useState<string>()
   const router = useRouter()
 
   const languages =
@@ -73,8 +72,7 @@ const Layout = (props) => {
     })
   }
   useEffect(() => {
-    const pageName = document?.querySelector("h1")?.innerText ?? t("srAnnouncement.newPage")
-    setSRAnnouncement(t("srAnnouncement.navigatedTo") + pageName)
+    navigationHelper.current.focus()
   }, [router.asPath, router.locale])
 
   return (
@@ -83,11 +81,9 @@ const Layout = (props) => {
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
-        {srAnnouncement && (
-          <div ref={navigationHelper} tabIndex={-1} role="alert" className={"sr-only"}>
-            {srAnnouncement}
-          </div>
-        )}
+        <div ref={navigationHelper} tabIndex={-1} role="alert" className={"sr-only"}>
+          {t("srNavigationMessage")}
+        </div>
         <SiteHeader
           logoSrc="/images/detroit-logo.png"
           homeURL="/"

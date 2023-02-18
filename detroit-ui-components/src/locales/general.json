@@ -1593,6 +1593,5 @@
   "publicFilter.waitlist.open": "Open Waitlist",
   "publicFilter.waitlist.closed": "Closed Waitlist",
   "account.noFavorites": "It looks like you haven't favorited any listings yet.",
-  "srAnnouncement.navigatedTo": "Navigated to ",
-  "srAnnouncement.newPage": "new page"
+  "srNavigationMessage": "Navigated to a new page"
 }
