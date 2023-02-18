@@ -81,7 +81,7 @@ const Layout = (props) => {
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
-        <div ref={navigationHelper} tabIndex={-1} role="alert" className={"sr-only"}>
+        <div ref={navigationHelper} tabIndex={-1} className={"sr-only"}>
           {t("srNavigationMessage")}
         </div>
         <SiteHeader
