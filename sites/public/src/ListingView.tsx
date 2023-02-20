@@ -796,7 +796,7 @@ export const ListingView = (props: ListingProps) => {
                   rel="noreferrer noopener"
                   aria-label={t("t.viewOnMap")}
                 >
-                  {t("t.viewOnMap")}
+                  {t("t.getDirections")}
                 </a>
               </p>
             </div>
