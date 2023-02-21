@@ -2,7 +2,7 @@
   .site-header {
     --base-align-items: center;
     --base-desktop-padding: 0 12px;
-    --base-desktop-width: 100%;
+    --base-desktop-width: 100% !important;
     --base-height: auto;
     --base-max-height: none;
     --base-mobile-padding: var(--bloom-s6) var(--bloom-s3) var(--bloom-s6) var(--bloom-s4);
@@ -15,36 +15,45 @@
     --link-hover-bottom-border: none;
     --link-padding: 1rem;
     --link-text-color: var(--bloom-color-primary);
-    --link-text-size: 0.95rem;
+    --link-text-desktop-color: var(--bloom-color-gray-650);
+    --link-font-size: 0.95rem;
     --link-text-transform: none;
     --logo-container-min-width: fit-content;
     --logo-content-display: flex;
     --logo-content-padding: 0;
-    --logo-height: 100%;
-    --logo-image-desktop-display: none;
-    --logo-image-height: 57px;
-    --logo-image-margin: 0;
+    --logo-mobile-height: 100%;
+    --logo-image-mobile-display: none;
     --logo-image-mobile-height: 57px;
-    --logo-image-mobile-margin: -12px 0 0 -4px;
-    --logo-image-mobile-max-height: 6rem;
+    --logo-image-mobile-margin: 0;
+    --logo-image-desktop-height: 57px;
+    --logo-image-desktop-margin: -12px 0 0 -4px;
+    --logo-image-desktop-max-height: 6rem;
     --logo-margin: 0;
-    --logo-padding: 0;
+    --logo-mobile-padding: 0;
     --logo-subtitle-desktop-font-size: var(--bloom-font-size-sm);
     --logo-subtitle-mobile-font-size: var(--bloom-font-size-sm);
     --logo-title-letter-spacing: normal;
     --logo-title-margin-desktop: 0 0 0 8px;
     --logo-title-text-align: left;
     --logo-title-text-color: var(--bloom-color-primary-dark);
-    --logo-title-text-size-desktop: var(--bloom-font-size-2xl);
-    --logo-title-text-size-mobile: var(--bloom-font-size-base);
+    --logo-title-font-size-desktop: var(--bloom-font-size-base);
+    --logo-title-font-size-mobile: var(--bloom-font-size-base);
     --logo-title-text-transform: none;
+
     --mobile-dropdown-margin: 0 0 1.5rem 0;
     --mobile-menu-button-margin: 0;
     --mobile-menu-button-padding: 0 var(--bloom-s1) 0 0;
     --navbar-menu-desktop-margin: 24px 0 24px;
     --navbar-menu-desktop-width: 100%;
-    --navbar-menu-height: 48px;
+    --navbar-menu-mobile-height: 48px;
+    --navbar-menu-desktop-height: 48px;
     --navbar-menu-mobile-width: 100%;
+    --notice-display: none;
+
+    --mobile-dropdown-item-font-size: 14px;
+    --mobile-menu-button-text-display: none;
+    --logo-desktop-padding: 0;
+    --logo-desktop-height: 100%;
   }
 
   .site-header__link {
@@ -53,23 +62,13 @@
     }
   }
 
-  .site-header__notice-hide {
-    display: none;
-  }
-
   .site-header__logo {
     margin: 0;
     box-shadow: none;
   }
 
   .site-header__logo-title {
-    @apply text-base;
-
     @media (min-width: $header-desktop-min-size) {
-      @apply text-2xl;
-    }
-
-    @screen xl {
       @apply text-2xl;
     }
   }
@@ -99,11 +98,7 @@
   }
 
   .site-header__logo-container {
-    @media (min-width: $header-desktop-min-size) {
-      padding: 36px 0 36px 32px;
-    }
-
-    @screen xl {
+    @screen lg {
       padding: 36px 0 36px 32px;
     }
   }

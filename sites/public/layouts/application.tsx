@@ -93,6 +93,7 @@ const Layout = (props) => {
           })}
           menuLinks={menuLinks}
           desktopMinWidth={1024}
+          noticeMobile
         />
         <main id="main-content" className="md:overflow-x-hidden">
           {props.children}

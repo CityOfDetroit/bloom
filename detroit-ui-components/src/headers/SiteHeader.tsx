@@ -427,7 +427,11 @@ const SiteHeader = (props: SiteHeaderProps) => {
             className={"site-header__mobile-menu-button"}
             unstyled
           >
-            {/* {mobileMenu ? props.strings?.close ?? t("t.close") : props.strings?.menu ?? t("t.menu")} */}
+            <span className={"site-header__mobile-menu-button-text"}>
+              {mobileMenu
+                ? props.strings?.close ?? t("t.close")
+                : props.strings?.menu ?? t("t.menu")}
+            </span>
           </Button>
         )}
       </>
