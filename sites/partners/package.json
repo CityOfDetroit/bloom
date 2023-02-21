@@ -66,6 +66,7 @@
     "cypress-file-upload": "^5.0.8",
     "jest": "^26.5.3",
     "js-levenshtein": "^1.1.6",
+    "msw": "^0.46.0",
     "next-transpile-modules": "^8.0.0",
     "nyc": "^15.1.0",
     "postcss": "^8.3.6",

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useContext, useMemo, useState } from "react"
 import Head from "next/head"
 import dayjs from "dayjs"
 import { t, SiteAlert } from "@bloom-housing/ui-components"
@@ -6,9 +6,11 @@ import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
 import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
 import { Drawer } from "../../../../../detroit-ui-components/src/overlays/Drawer"
 import { AgTable, useAgTable } from "../../../../../detroit-ui-components/src/tables/AgTable"
+import { AppearanceSizeType } from "../../../../../detroit-ui-components/src/global/AppearanceTypes"
 import { User } from "@bloom-housing/backend-core/types"
+import { AuthContext } from "@bloom-housing/shared-helpers"
 import Layout from "../../layouts"
-import { useUserList, useListingsData } from "../../lib/hooks"
+import { useUserList, useListingsData, useUsersExport } from "../../lib/hooks"
 import { FormUserManage } from "../../components/users/FormUserManage"
 
 type UserDrawerValue = {
@@ -34,9 +36,12 @@ const getRolesDisplay = ({ value }) => {
 
 const Users = () => {
   /* Add user drawer */
+  const { profile } = useContext(AuthContext)
   const [userDrawer, setUserDrawer] = useState<UserDrawerValue | null>(null)
 
   const tableOptions = useAgTable()
+
+  const { onExport, csvExportLoading } = useUsersExport()
 
   const columns = useMemo(() => {
     return [
@@ -138,21 +143,19 @@ const Users = () => {
     limit: "all",
   })
 
-  if (error) return "An error has occurred."
+  if (error) return <div>"An error has occurred."</div>
 
   return (
     <Layout>
       <Head>
         <title>{t("nav.siteTitlePartners")}</title>
       </Head>
-
       <PageHeader className={"relative md:pt-16"} title={t("nav.users")}>
         <div className="flex top-4 right-4 absolute z-50 flex-col items-center">
           <SiteAlert type="success" timeout={5000} dismissable />
           <SiteAlert type="alert" timeout={5000} dismissable />
         </div>
       </PageHeader>
-
       <section>
         <article className="flex-row flex-wrap relative max-w-screen-xl mx-auto py-8 px-4">
           <AgTable
@@ -178,10 +181,23 @@ const Users = () => {
             }}
             headerContent={
               <div className="flex-row">
+                {profile?.roles?.isAdmin && (
+                  <Button
+                    className="mx-1"
+                    size={AppearanceSizeType.small}
+                    onClick={() => onExport()}
+                    loading={csvExportLoading}
+                    dataTestId={"export-users"}
+                  >
+                    {t("t.export")}
+                  </Button>
+                )}
                 <Button
                   className="mx-1"
+                  size={AppearanceSizeType.small}
                   onClick={() => setUserDrawer({ type: "add" })}
                   disabled={!listingDtos}
+                  dataTestId={"add-user"}
                 >
                   {t("users.addUser")}
                 </Button>
