@@ -92,32 +92,33 @@ export class ListingsCsvExporterService {
         Max_Waitlist_Size: listing.waitlistMaxSize,
         How_many_people_on_the_current_list: listing.waitlistCurrentSize,
         How_many_open_spots_on_the_waitlist: listing.waitlistOpenSpots,
-        //         Marketing Status
-        //         Marketing Season
-        //         Marketing Date
-        //         Leasing Company
-        //         Leasing Email
-        //         Leasing Phone
-        //         Leasing Agent Title
-        //         Leasing Agent Company
-        //         Hours
-        //         Leasing Agency Website
-        //         Leasing Agency Street Address
-        //         Leasing Agency Street 2
-        //         	Leasing Agency City
-        //           Leasing Agency Zip
-        //           Leasing Agency Mailing Address
-        //           Leasing Agency Mailing Address Street 2
-        //           Leasing Agency Mailing Address City
-        //           Leasing Agency Mailing Address Zip
-        //           Leasing Agency Pickup Address
-        //           Leasing Agency Pickup Address Street 2
-        //            	Leasing Agency Pickup Address City
-        //             	Leasing Agency Pickup Address Zip
-        //               	leasing pick up office hours
-        //                 Postmark
-        //                 Digital Application
-        //                 Digital Application URL
+        Marketing_Status: listing.marketingStatus,
+        Marketing_Season: listing.marketingSeason,
+        Marketing_Date: listing.marketingDate,
+        Leasing_Company: listing.managementCompany,
+        Leasing_Email: listing.leasingAgentEmail,
+        Leasing_Phone: listing.leasingAgentPhone,
+        Leasing_Agent_Title: listing.leasingAgentTitle,
+        Leasing_Agent_Company_Hours: listing.leasingAgentOfficeHours,
+        Leasing_Agency_Website: listing.managementWebsite,
+        Leasing_Agency_Street_Address: listing.property.leasingAgentAddress?.street,
+        Leasing_Agency_Street_2: listing.property.leasingAgentAddress?.street2,
+        Leasing_Agency_City: listing.property.leasingAgentAddress?.city,
+        Leasing_Agency_Zip: listing.property.leasingAgentAddress?.zipCode,
+        Leasing_Agency_Mailing_Address: listing.property?.applicationMailingAddress?.street,
+        Leasing_Agency_Mailing_Address_Street_2:
+          listing.property?.applicationMailingAddress?.street2,
+        Leasing_Agency_Mailing_Address_City: listing.property?.applicationMailingAddress?.city,
+        Leasing_Agency_Mailing_Address_Zip: listing.property?.applicationMailingAddress?.zipCode,
+        Leasing_Agency_Pickup_Address: listing.property?.applicationPickupAddress?.street,
+        Leasing_Agency_Pickup_Address_Street_2: listing.property?.applicationPickUpAddress?.street2,
+        Leasing_Agency_Pickup_Address_City: listing.property?.applicationPickUpAddress?.city,
+        Leasing_Agency_Pickup_Address_Zip: listing.property?.applicationPickUpAddress?.zipCode,
+        Leasing_Pick_Up_Office_Hours: listing.applicationPickUpAddressOfficeHours,
+        Postmark: listing.postmarkedApplicationsReceivedByDate,
+        Digital_Application: listing.digitalApplication,
+        Digital_Application_URL: listing.applicationMethods?.externalReference,
+
         //                 Paper Application
         //                 Paper Application url
         //                  	Users who have access

@@ -397,6 +397,7 @@ export class ListingsService {
         "listing.applicationPickUpAddressOfficeHours",
         "listing.postmarkedApplicationsReceivedByDate",
         "listing.digitalApplication",
+        "applicationMethods.externalReference",
         "listing.paperApplication",
       ])
       .leftJoin("listing.reservedCommunityType", "reservedCommunityType")
@@ -415,6 +416,7 @@ export class ListingsService {
       .leftJoin("listing.applicationPickUpAddress", "applicationPickUpAddress")
       .leftJoin("listing.applicationMailingAddress", "applicationMailingAddress")
       .leftJoin("listing.applicationDropOffAddress", "applicationDropOffAddress")
+      .leftJoin("listing.applicationMethods", "applicationMethods")
 
       // .leftJoin("listings.leasingAgentAddress", "leasingAgentAddress")
       // .leftJoin("listings.applicationPickUpAddress", "applicationPickUpAddress")
