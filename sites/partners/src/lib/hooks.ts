@@ -442,6 +442,35 @@ const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
 
     setCsvExportLoading(false)
   }, [endpoint, fileName])
+  
+export const useListingZip = () => {
+  const { listingsService } = useContext(AuthContext)
+
+  const [csvExportLoading, setCsvExportLoading] = useState(false)
+  const [csvExportError, setCsvExportError] = useState(false)
+
+  const onExport = useCallback(async () => {
+    setCsvExportError(false)
+    setCsvExportLoading(true)
+
+    try {
+      const content = await listingsService.listAsCsv({ userID: "" })
+
+      const now = new Date()
+      const dateString = dayjs(now).format("YYYY-MM-DD_HH:mm:ss")
+
+      const blob = new Blob([content], { type: "text/csv" })
+      const fileLink = document.createElement("a")
+      fileLink.setAttribute("download", `applications-${listingId}-${dateString}.csv`)
+      fileLink.href = URL.createObjectURL(blob)
+      fileLink.click()
+    } catch (err) {
+      setCsvExportError(true)
+      setSiteAlertMessage(err.response.data.error, "alert")
+    }
+
+    setCsvExportLoading(false)
+  }, [applicationsService, includeDemographics, listingId])
 
   return {
     onExport,

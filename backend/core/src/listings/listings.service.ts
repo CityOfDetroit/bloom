@@ -397,8 +397,13 @@ export class ListingsService {
         "listing.applicationPickUpAddressOfficeHours",
         "listing.postmarkedApplicationsReceivedByDate",
         "listing.digitalApplication",
+        "applicationMethods.id",
         "applicationMethods.externalReference",
         "listing.paperApplication",
+        "paperApplications.id",
+        "paperApplicationFile.id",
+        //whyyyyy
+        "paperApplicationFile.fileId",
       ])
       .leftJoin("listing.reservedCommunityType", "reservedCommunityType")
       .leftJoin("listing.neighborhoodAmenities", "neighborhoodAmenities")
@@ -417,17 +422,46 @@ export class ListingsService {
       .leftJoin("listing.applicationMailingAddress", "applicationMailingAddress")
       .leftJoin("listing.applicationDropOffAddress", "applicationDropOffAddress")
       .leftJoin("listing.applicationMethods", "applicationMethods")
-
-      // .leftJoin("listings.leasingAgentAddress", "leasingAgentAddress")
-      // .leftJoin("listings.applicationPickUpAddress", "applicationPickUpAddress")
-      // .leftJoin("listings.applicationMailingAddress", "applicationMailingAddress")
-      // .leftJoin("listings.applicationDropOffAddress", "applicationDropOffAddress")
-
+      .leftJoin("applicationMethods.paperApplications", "paperApplications")
+      .leftJoin("paperApplications.file", "paperApplicationFile")
       .where("listing.id IN (:...listingIds)", { listingIds })
       .getMany()
 
+    const res = this.listingRepository
+      .createQueryBuilder("listing")
+      .select([
+        "listing.id",
+        "listing.name",
+        "unitGroups.id",
+        "unitGroups.totalCount",
+        "unitGroups.totalAvailable",
+        "unitGroups.openWaitlist",
+        "unitGroups.minOccupancy",
+        "unitGroups.maxOccupancy",
+        "unitGroups.sqFeetMin",
+        "unitGroups.sqFeetMax",
+        "unitGroups.floorMin",
+        "unitGroups.floorMax",
+        "unitGroups.bathroomMin",
+        "unitGroups.bathroomMax",
+        "summaryUnitType.id",
+        "summaryUnitType.name",
+        "unitGroupsAmiLevels.id",
+        "unitGroupsAmiLevels.amiPercentage",
+        "unitGroupsAmiLevels.monthlyRentDeterminationType",
+        "unitGroupsAmiLevels.flatRentValue",
+        "unitGroupsAmiLevelsCharts.id",
+        "unitGroupsAmiLevelsCharts.name",
+      ])
+      .leftJoin("listing.unitGroups", "unitGroups")
+      .leftJoin("unitGroups.amiLevels", "unitGroupsAmiLevels")
+      .leftJoin("unitGroupsAmiLevels.amiChart", "unitGroupsAmiLevelsCharts")
+      .leftJoin("unitGroups.unitType", "summaryUnitType")
+
+      .getMany()
+
     // generating the list of unit group listing data (parsed data)
-    return generalListingData
+    return res
   }
 
   private async addUnitSummaries(listing: Listing) {

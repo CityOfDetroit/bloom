@@ -7,7 +7,9 @@ import { capitalizeFirstLetter } from "../shared/utils/capitalize-first-letter"
 import { capAndSplit } from "../shared/utils/cap-and-split"
 import { AddressCreateDto } from "../shared/dto/address.dto"
 import Listing from "./entities/listing.entity"
-import { map } from "rxjs"
+import { mapTo } from "../shared/mapTo"
+import { PaperApplicationDto } from "../../src/paper-applications/dto/paper-application.dto"
+// import { UnitType } from "src/unit-types/entities/unit-type.entity"
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
@@ -117,16 +119,57 @@ export class ListingsCsvExporterService {
         Leasing_Pick_Up_Office_Hours: listing.applicationPickUpAddressOfficeHours,
         Postmark: listing.postmarkedApplicationsReceivedByDate,
         Digital_Application: listing.digitalApplication,
-        Digital_Application_URL: listing.applicationMethods?.externalReference,
-
-        //                 Paper Application
-        //                 Paper Application url
+        Digital_Application_URL: listing.applicationMethods[1]?.externalReference,
+        Paper_Application: listing.paperApplication,
+        //fix this!
+        Paper_Application_URL: mapTo(
+          PaperApplicationDto,
+          listing.applicationMethods[0]?.paperApplications ?? {}
+        ),
         //                  	Users who have access
       }
     })
 
     return this.csvBuilder.buildFromIdIndex(listingsObj)
   }
-}
 
-// 		Latitude	Longitude	Home Type	Accept Section 8? 	Unit Group	Number of Unit Groups		Community Types 	Application Fee	Deposit Min	Deposit Max	Deposit Helper	Costs Not Included	Utilities Included	Property Amenities	Additional Accessibility Details	Unit Amenities	Smoking Policy	Pets Policy	Services Offered	Accessibility Features 	Grocery Stores	Public Transportation	Schools	Parks and Community Centers	Pharmacies	Health Care Resources	Credit History	Rental History	Criminal Background	Building Selection Critera 	Required Documents	Imprtant Program Rules	Special Notes 	Review Order	Lottery Date	Lottery Start	Lottery End	Lottery Notes 	Application Due Date	Waitlist	Max Waitlist Size	How many people on the current list?	How many open spots on the waitlist?	Marketing Status	Marketing Season	Marketing Date	Leasing Company 	Leasing Email 	Leasing Phone	Leasing Agent Title	Leasing Agent Company Hours	Leasing Agency Website	Leasing Agency Street Address 	Leasing Agency Street 2 	Leasing Agency City	Leasing Agency Zip	Leasing Agency Mailing Address 	Leasing Agency Mailing Address Street 2 	Leasing Agency Mailing Address City	Leasing Agency Mailing Address Zip	Leasing Agency Pickup Address 	Leasing Agency Pickup Address Street 2 	Leasing Agency Pickup Address City	Leasing Agency Pickup Address Zip	leasing pick up office hours 	Postmark 	Digital Application	Digital Application URL	Paper Application 	Paper Application url 	Users who have access
+  exportUnitsFromObject(listings: any[]): string {
+    const reformattedListings = []
+    listings.forEach((listing) => {
+      listing.unitGroups.forEach((unitGroup) => {
+        reformattedListings.push({ id: listing.id, name: listing.name, unitGroup })
+      })
+    })
+    const listingsObj = reformattedListings.map((listing) => {
+      if (listing.name === "MLK Homes" && listing.unitGroup?.maxOccupancy === 4) {
+        console.log(listing.unitGroup)
+      }
+      console.log("-----------------------")
+      return {
+        Listing_ID: listing.id,
+        Listing_Name: listing.name,
+        Unit_Group_ID: listing.unitGroup?.id,
+        Unit_Types: listing.unitGroup?.unitType.map((type) => type.name).join(", "),
+        AMI_Chart: listing.unitGroup?.amiLevels[0]?.amiChart?.name,
+        AMI_Level: listing.unitGroup?.amiLevels[0]?.amiPercentage,
+        Rent_Type: listing.unitGroup?.amiLevels[0]?.monthlyRentDeterminationType,
+        Monthly_Rent: listing.unitGroup?.amiLevels[0]?.flatRentValue,
+        Affordable_Unit_Group_Quantity: listing.unitGroup?.totalCount,
+        Unit_Group_Vacancies: listing.unitGroup?.totalAvailable,
+        Waitlist_Status: listing.unitGroup?.openWaitlist,
+        Minimum_Occupancy: listing.unitGroup?.minOccupancy,
+        Maximum_Occupancy: listing.unitGroup?.maxOccupancy,
+        Minimum_Sq_ft: listing.unitGroup?.sqFeetMin,
+        Maximum_Sq_ft: listing.unitGroup?.sqFeetMax,
+        Minimum_Floor: listing.unitGroup?.floorMin,
+        Maximum_Floor: listing.unitGroup?.floorMax,
+        Minimum_Bathrooms: listing.unitGroup?.bathroomMin,
+        Maximum_Bathrooms: listing.unitGroup?.bathroomMax,
+      }
+    })
+
+    return this.csvBuilder.buildFromIdIndex(listingsObj)
+  }
+
+  // 		Latitude	Longitude	Home Type	Accept Section 8? 	Unit Group	Number of Unit Groups		Community Types 	Application Fee	Deposit Min	Deposit Max	Deposit Helper	Costs Not Included	Utilities Included	Property Amenities	Additional Accessibility Details	Unit Amenities	Smoking Policy	Pets Policy	Services Offered	Accessibility Features 	Grocery Stores	Public Transportation	Schools	Parks and Community Centers	Pharmacies	Health Care Resources	Credit History	Rental History	Criminal Background	Building Selection Critera 	Required Documents	Imprtant Program Rules	Special Notes 	Review Order	Lottery Date	Lottery Start	Lottery End	Lottery Notes 	Application Due Date	Waitlist	Max Waitlist Size	How many people on the current list?	How many open spots on the waitlist?	Marketing Status	Marketing Season	Marketing Date	Leasing Company 	Leasing Email 	Leasing Phone	Leasing Agent Title	Leasing Agent Company Hours	Leasing Agency Website	Leasing Agency Street Address 	Leasing Agency Street 2 	Leasing Agency City	Leasing Agency Zip	Leasing Agency Mailing Address 	Leasing Agency Mailing Address Street 2 	Leasing Agency Mailing Address City	Leasing Agency Mailing Address Zip	Leasing Agency Pickup Address 	Leasing Agency Pickup Address Street 2 	Leasing Agency Pickup Address City	Leasing Agency Pickup Address Zip	leasing pick up office hours 	Postmark 	Digital Application	Digital Application URL	Paper Application 	Paper Application url 	Users who have access
+}

@@ -35,7 +35,9 @@ import { ListingUpdateValidationPipe } from "./validation-pipes/listing-update-v
 import { ActivityLogInterceptor } from "../activity-log/interceptors/activity-log.interceptor"
 import { ActivityLogMetadata } from "../activity-log/decorators/activity-log-metadata.decorator"
 import { ListingsRetrieveDto } from "./dto/listings-retrieve-zip-params"
-import { ListingsCsvExporterService } from "./listings-csv-exporter.service"
+import { ListingsCsvExporterService } from "../listings/listings-csv-exporter.service"
+import { UnitsService } from "../units/units.service"
+import JSZip from "jszip"
 
 @Controller("listings")
 @ApiTags("listings")
@@ -82,13 +84,16 @@ export class ListingsController {
   async listAsCsv(
     @Query(new ValidationPipe(defaultValidationPipeOptions))
     queryParams: ListingsRetrieveDto
-  ): Promise<string> {
+  ): Promise<any> {
     const listings = await this.listingsService.rawListWithFlagged(queryParams.userId)
+    const zip = new JSZip()
+
     // const formattedListings = listings.map((listing) => {
     //   return JSON.stringify(listing) + `\n\n`
     // })
     // return formattedListings.join()
-    return this.listingsCsvExporter.exportFromObject(listings)
+    return this.listingsCsvExporter.exportUnitsFromObject(listings)
+    // return listings
   }
 
   @Get(`:id`)
