@@ -73,7 +73,7 @@ const Layout = (props) => {
     })
   }
   useEffect(() => {
-    const pageName = document?.querySelector("h4")?.innerText
+    const pageName = document?.querySelector("h1")?.innerText
     pageName
       ? setSRAnnouncementMessage(t("srPageTitle") + pageName)
       : setSRAnnouncementMessage(t("srNewPage"))
