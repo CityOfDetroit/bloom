@@ -494,7 +494,7 @@ const SiteHeader = (props: SiteHeaderProps) => {
       <nav className="site-header__container" role="navigation" aria-label="main navigation">
         <div
           className={`site-header__base ${
-            props.siteHeaderWidth === "wide" ? "site-header__width-wide" : "side-header__width-base"
+            props.siteHeaderWidth === "wide" ? "site-header__width-wide" : ""
           }`}
         >
           {getLogo()}

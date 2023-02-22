@@ -25,15 +25,16 @@
   --background-color: var(--bloom-color-white);
   --base-align-items: inherit;
   --base-desktop-padding: inherit;
-  --base-desktop-width: inherit;
+  --base-desktop-width: 1025px;
   --base-height: 75px;
   --base-max-height: 75px;
   --base-mobile-padding: inherit;
-  --base-mobile-width: inherit;
+  --base-mobile-width: 1025px;
   --border-color: var(--bloom-color-gray-450);
   --container-border: none;
   --notice-text-font-size: var(--bloom-font-size-xs);
-  --notice-display: block;
+  --notice-display-mobile: block;
+  --notice-display-desktop: block;
 
   // Logo
   --logo-background-color: var(--bloom-color-white);
@@ -87,8 +88,7 @@
   --link-padding: var(--bloom-s1) var(--bloom-s3) var(--bloom-s4) var(--bloom-s3);
   --link-text-color: var(--bloom-color-gray-750);
   --link-text-hover-color: var(--bloom-color-gray-750);
-  --link-text-hover-color: var(--link-text-color);
-  --link-text-desktop-color: var(--link-text-color);
+  --link-text-desktop-color: var(--bloom-color-gray-750);
   --link-text-transform: uppercase;
 
   // Dropdown
@@ -99,6 +99,7 @@
   --dropdown-item-flex: inherit;
   --dropdown-item-font-size: var(--bloom-font-size-sm);
   --mobile-dropdown-item-font-size: var(--bloom-font-size-sm);
+  --mobile-dropdown-item-hover-bg-color: var(--bloom-color-gray-400);
   --mobile-dropdown-margin: auto;
   --mobile-menu-button-border: 2px var(--bloom-color-primary);
   --mobile-menu-button-display: inline-block;
@@ -490,7 +491,15 @@
 
   &:hover,
   &:focus {
-    background-color: var(--bloom-color-gray-350);
+    background-color: var(--bloom-color-gray-400);
+  }
+}
+
+.site-header__notice-hide {
+  display: none;
+
+  @media (min-width: $screen-md) {
+    display: block;
   }
 }
 
@@ -500,18 +509,11 @@
 
   @media (min-width: $screen-md) {
     text-align: right;
+    display: var(--notice-display-desktop);
   }
   text-align: left;
   color: var(--bloom-color-white);
-  display: var(--notice-display);
-}
-
-.site-header__notice-hide {
-  display: none;
-
-  @media (min-width: $screen-md) {
-    display: block;
-  }
+  display: var(--notice-display-mobile);
 }
 
 .site-header__notice-text {
@@ -589,10 +591,6 @@
 
 .site-header__icon-spacing {
   padding-left: var(--bloom-s2);
-}
-
-.site-header__width-base {
-  width: 1025px;
 }
 
 .site-header__width-wide {
