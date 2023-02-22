@@ -269,20 +269,17 @@ export class ListingsService {
   }
 
   async rawListWithFlagged() {
-    // verify user has access to get the list of listings
-    console.log(this.req.user)
-    await this.authzService.canOrThrow(this.req.user as User, "listing", authzActions.create)
-    // const userAccess = await this.userRepository
-    //   .createQueryBuilder("user")
-    //   .select("user.id")
-    //   .leftJoin("user.roles", "userRole")
-    //   // .where("user.id = :id", { id: this.req.user?.id })
-    //   // .andWhere("userRole.is_admin = :is_admin", { is_admin: true })
-    //   .getOne()
+    const userAccess = await this.userRepository
+      .createQueryBuilder("user")
+      .select("user.id")
+      .leftJoin("user.roles", "userRole")
+      .where("user.id = :id", { id: (this.req.user as User)?.id })
+      .andWhere("userRole.is_admin = :is_admin", { is_admin: true })
+      .getOne()
 
-    // if (!userAccess) {
-    //   throw new UnauthorizedException()
-    // }
+    if (!userAccess) {
+      throw new UnauthorizedException()
+    }
 
     // generated out list of permissioned listings
     const permissionedListings = await this.listingRepository
@@ -437,7 +434,7 @@ export class ListingsService {
       .where("listing.id IN (:...listingIds)", { listingIds })
       .getMany()
 
-    const res = await this.listingRepository
+    const generalUnitData = await this.listingRepository
       .createQueryBuilder("listing")
       .select([
         "listing.id",
@@ -471,7 +468,7 @@ export class ListingsService {
       .getMany()
 
     // generating the list of unit group listing data (parsed data)
-    return { unitData: res, listingData: generalListingData }
+    return { unitData: generalUnitData, listingData: generalListingData }
   }
 
   private async addUnitSummaries(listing: Listing) {
