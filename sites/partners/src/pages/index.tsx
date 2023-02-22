@@ -1,14 +1,14 @@
 import React, { useMemo, useContext } from "react"
 import Head from "next/head"
 import { ListingStatus } from "@bloom-housing/backend-core/types"
-import { t, LocalizedLink } from "@bloom-housing/ui-components"
+import { t, LocalizedLink, AppearanceSizeType } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import { Button } from "../../../../detroit-ui-components/src/actions/Button"
 import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
 import { AgTable, useAgTable } from "../../../../detroit-ui-components/src/tables/AgTable"
 import dayjs from "dayjs"
 import { ColDef, ColGroupDef } from "ag-grid-community"
-import { useListingsData } from "../lib/hooks"
+import { useListingsData, useListingZip } from "../lib/hooks"
 import Layout from "../layouts"
 import { MetaTags } from "../components/shared/MetaTags"
 
@@ -55,6 +55,8 @@ export default function ListingsList() {
   const isAdmin = profile?.roles?.isAdmin || false
 
   const tableOptions = useAgTable()
+
+  const { onExport } = useListingZip()
 
   const gridComponents = {
     formatLinkCell,
@@ -174,11 +176,16 @@ export default function ListingsList() {
             headerContent={
               <div className="flex-row">
                 {isAdmin && (
-                  <LocalizedLink href={`/listings/add`}>
-                    <Button className="mx-1" onClick={() => false}>
-                      {t("listings.addListing")}
+                  <div className="flex-row">
+                    <LocalizedLink href={`/listings/add`}>
+                      <Button className="mx-1" onClick={() => false}>
+                        {t("listings.addListing")}
+                      </Button>
+                    </LocalizedLink>
+                    <Button className="mx-1" onClick={() => onExport()}>
+                      {t("t.export")}
                     </Button>
-                  </LocalizedLink>
+                  </div>
                 )}
               </div>
             }

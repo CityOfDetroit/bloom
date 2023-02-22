@@ -37,7 +37,6 @@ import { ActivityLogMetadata } from "../activity-log/decorators/activity-log-met
 import { ListingsRetrieveDto } from "./dto/listings-retrieve-zip-params"
 import { ListingsCsvExporterService } from "../listings/listings-csv-exporter.service"
 import { UnitsService } from "../units/units.service"
-import JSZip from "jszip"
 
 @Controller("listings")
 @ApiTags("listings")
@@ -81,18 +80,16 @@ export class ListingsController {
   @Get(`zip`)
   @ApiOperation({ summary: "Retrieve listings and units as csv", operationId: "listAsZip" })
   // @Header("Content-Type", "string")
-  async listAsCsv(
-    @Query(new ValidationPipe(defaultValidationPipeOptions))
-    queryParams: ListingsRetrieveDto
-  ): Promise<any> {
-    const listings = await this.listingsService.rawListWithFlagged(queryParams.userId)
-    const zip = new JSZip()
+  async listAsCsv(): Promise<any> {
+    const data = await this.listingsService.rawListWithFlagged()
+    const listingCSV = this.listingsCsvExporter.exportFromObject(data?.listingData)
+    const unitsCSV = this.listingsCsvExporter.exportUnitsFromObject(data?.unitData)
 
     // const formattedListings = listings.map((listing) => {
     //   return JSON.stringify(listing) + `\n\n`
     // })
     // return formattedListings.join()
-    return this.listingsCsvExporter.exportUnitsFromObject(listings)
+    return { listingCSV, unitsCSV }
     // return listings
   }
 

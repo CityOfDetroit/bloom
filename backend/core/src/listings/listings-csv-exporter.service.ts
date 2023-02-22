@@ -16,16 +16,6 @@ export class ListingsCsvExporterService {
 
   exportFromObject(listings: any[]): string {
     const listingsObj = listings.map((listing) => {
-      if (listing.name === "MLK Homes") {
-        console.log("-----------------------")
-        console.log(listing)
-        console.log(
-          Object.entries(listing.utilities ?? {})
-            .filter((entry) => entry[1] === true)
-            .map((entry) => entry[0])
-            .join(",")
-        )
-      }
       return {
         ID: listing.id,
         Created_At_Date: listing.createdAt.toString(),
@@ -170,6 +160,4 @@ export class ListingsCsvExporterService {
 
     return this.csvBuilder.buildFromIdIndex(listingsObj)
   }
-
-  // 		Latitude	Longitude	Home Type	Accept Section 8? 	Unit Group	Number of Unit Groups		Community Types 	Application Fee	Deposit Min	Deposit Max	Deposit Helper	Costs Not Included	Utilities Included	Property Amenities	Additional Accessibility Details	Unit Amenities	Smoking Policy	Pets Policy	Services Offered	Accessibility Features 	Grocery Stores	Public Transportation	Schools	Parks and Community Centers	Pharmacies	Health Care Resources	Credit History	Rental History	Criminal Background	Building Selection Critera 	Required Documents	Imprtant Program Rules	Special Notes 	Review Order	Lottery Date	Lottery Start	Lottery End	Lottery Notes 	Application Due Date	Waitlist	Max Waitlist Size	How many people on the current list?	How many open spots on the waitlist?	Marketing Status	Marketing Season	Marketing Date	Leasing Company 	Leasing Email 	Leasing Phone	Leasing Agent Title	Leasing Agent Company Hours	Leasing Agency Website	Leasing Agency Street Address 	Leasing Agency Street 2 	Leasing Agency City	Leasing Agency Zip	Leasing Agency Mailing Address 	Leasing Agency Mailing Address Street 2 	Leasing Agency Mailing Address City	Leasing Agency Mailing Address Zip	Leasing Agency Pickup Address 	Leasing Agency Pickup Address Street 2 	Leasing Agency Pickup Address City	Leasing Agency Pickup Address Zip	leasing pick up office hours 	Postmark 	Digital Application	Digital Application URL	Paper Application 	Paper Application url 	Users who have access
 }

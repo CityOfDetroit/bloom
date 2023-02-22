@@ -13,6 +13,8 @@ import {
   OrderDirEnum,
 } from "@bloom-housing/backend-core/types"
 import dayjs from "dayjs"
+import JSZip from "jszip"
+import { setSiteAlertMessage } from "@bloom-housing/ui-components"
 
 interface PaginationProps {
   page?: number
@@ -454,23 +456,27 @@ export const useListingZip = () => {
     setCsvExportLoading(true)
 
     try {
-      const content = await listingsService.listAsCsv({ userID: "" })
-
+      const content = await listingsService.listAsZip()
       const now = new Date()
       const dateString = dayjs(now).format("YYYY-MM-DD_HH:mm:ss")
-
-      const blob = new Blob([content], { type: "text/csv" })
-      const fileLink = document.createElement("a")
-      fileLink.setAttribute("download", `applications-${listingId}-${dateString}.csv`)
-      fileLink.href = URL.createObjectURL(blob)
-      fileLink.click()
+      const zip = new JSZip()
+      console.log(content.listingData)
+      console.log(content.unitData)
+      zip.file(dateString + "_listing_data.csv", content?.listingCSV)
+      zip.file(dateString + "_unit_data.csv", content?.unitsCSV)
+      await zip.generateAsync({ type: "blob" }).then(function (blob) {
+        const fileLink = document.createElement("a")
+        fileLink.setAttribute("download", `hello.zip`)
+        fileLink.href = URL.createObjectURL(blob)
+        fileLink.click()
+      })
     } catch (err) {
       setCsvExportError(true)
       setSiteAlertMessage(err.response.data.error, "alert")
     }
 
     setCsvExportLoading(false)
-  }, [applicationsService, includeDemographics, listingId])
+  }, [listingsService])
 
   return {
     onExport,

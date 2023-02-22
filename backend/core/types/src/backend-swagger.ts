@@ -1318,6 +1318,21 @@ export class ListingsService {
     })
   }
   /**
+   * Retrieve listings and units as csv
+   */
+  listAsZip(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/listings/zip"
+
+      const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * Get listing by id
    */
   retrieve(
@@ -4788,6 +4803,9 @@ export interface ListingFilterParams {
 
   /**  */
   section8Acceptance?: boolean
+
+  /**  */
+  homeType?: string
 }
 
 export interface MinMax {
@@ -5667,6 +5685,9 @@ export interface Listing {
   isVerified?: boolean
 
   /**  */
+  verifiedAt?: Date
+
+  /**  */
   temporaryListingId?: number
 
   /**  */
@@ -6135,6 +6156,9 @@ export interface ListingCreate {
 
   /**  */
   isVerified?: boolean
+
+  /**  */
+  verifiedAt?: Date
 
   /**  */
   temporaryListingId?: number
@@ -6627,6 +6651,9 @@ export interface ListingUpdate {
 
   /**  */
   isVerified?: boolean
+
+  /**  */
+  verifiedAt?: Date
 
   /**  */
   temporaryListingId?: number

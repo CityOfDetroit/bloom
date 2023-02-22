@@ -1,6 +1,7 @@
 import {
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -31,6 +32,10 @@ import { Program } from "../program/entities/program.entity"
 import { ListingSeasonEnum } from "./types/listing-season-enum"
 import { User } from "../auth/entities/user.entity"
 import { getBaseAddressSelect } from "../../src/views/base.view"
+import { REQUEST } from "@nestjs/core"
+import { Request as ExpressRequest } from "express"
+import { AuthzService } from "../auth/services/authz.service"
+import { authzActions } from "../auth/enum/authz-actions.enum"
 
 @Injectable()
 export class ListingsService {
@@ -41,6 +46,9 @@ export class ListingsService {
     @InjectRepository(UnitType) private readonly unitTypeRepository: Repository<UnitType>,
     @InjectRepository(Program) private readonly programRepository: Repository<Program>,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @Inject(REQUEST) private req: ExpressRequest,
+    //is this needed since no sub role?
+    private readonly authzService: AuthzService,
     private readonly translationService: TranslationsService
   ) {}
 
@@ -260,19 +268,21 @@ export class ListingsService {
     return result
   }
 
-  async rawListWithFlagged(userId) {
+  async rawListWithFlagged() {
     // verify user has access to get the list of listings
-    const userAccess = await this.userRepository
-      .createQueryBuilder("user")
-      .select("user.id")
-      .leftJoin("user.roles", "userRole")
-      .where("user.id = :id", { id: userId })
-      .andWhere("userRole.is_admin = :is_admin", { is_admin: true })
-      .getOne()
+    console.log(this.req.user)
+    await this.authzService.canOrThrow(this.req.user as User, "listing", authzActions.create)
+    // const userAccess = await this.userRepository
+    //   .createQueryBuilder("user")
+    //   .select("user.id")
+    //   .leftJoin("user.roles", "userRole")
+    //   // .where("user.id = :id", { id: this.req.user?.id })
+    //   // .andWhere("userRole.is_admin = :is_admin", { is_admin: true })
+    //   .getOne()
 
-    if (!userAccess) {
-      throw new UnauthorizedException()
-    }
+    // if (!userAccess) {
+    //   throw new UnauthorizedException()
+    // }
 
     // generated out list of permissioned listings
     const permissionedListings = await this.listingRepository
@@ -427,7 +437,7 @@ export class ListingsService {
       .where("listing.id IN (:...listingIds)", { listingIds })
       .getMany()
 
-    const res = this.listingRepository
+    const res = await this.listingRepository
       .createQueryBuilder("listing")
       .select([
         "listing.id",
@@ -461,7 +471,7 @@ export class ListingsService {
       .getMany()
 
     // generating the list of unit group listing data (parsed data)
-    return res
+    return { unitData: res, listingData: generalListingData }
   }
 
   private async addUnitSummaries(listing: Listing) {
