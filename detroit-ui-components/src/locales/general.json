@@ -1593,5 +1593,6 @@
   "publicFilter.waitlist.open": "Open Waitlist",
   "publicFilter.waitlist.closed": "Closed Waitlist",
   "account.noFavorites": "It looks like you haven't favorited any listings yet.",
-  "srNewPage": "New Page"
+  "srNewPage": "New Page",
+  "srPageTitle": "Page Title "
 }
