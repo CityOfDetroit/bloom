@@ -6,6 +6,8 @@ export enum ListingViewEnum {
   full = "full",
   partnerList = "partnerList",
   publicListings = "publicListings",
+  listingsExport = "listingsExport",
+  unitsExport = "unitsExport",
 }
 
 export type Views = {

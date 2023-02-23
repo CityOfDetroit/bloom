@@ -31,11 +31,9 @@ import { UnitType } from "../unit-types/entities/unit-type.entity"
 import { Program } from "../program/entities/program.entity"
 import { ListingSeasonEnum } from "./types/listing-season-enum"
 import { User } from "../auth/entities/user.entity"
-import { getBaseAddressSelect } from "../../src/views/base.view"
 import { REQUEST } from "@nestjs/core"
 import { Request as ExpressRequest } from "express"
 import { AuthzService } from "../auth/services/authz.service"
-import { authzActions } from "../auth/enum/authz-actions.enum"
 
 @Injectable()
 export class ListingsService {
@@ -292,179 +290,22 @@ export class ListingsService {
     const listingIds = permissionedListings.map((listing) => listing.id)
 
     // generating the list of general listing data
-    const generalListingData = await this.listingRepository
-      .createQueryBuilder("listing")
-      .select([
-        "listing.id",
-        "listing.createdAt",
-        "listing.status",
-        "listing.publishedAt",
-        "listing.isVerified",
-        "listing.verifiedAt",
-        "listing.updatedAt",
-        "listing.name",
-        "property.developer",
-        "reservedCommunityType.id",
-        "reservedCommunityType.name",
-        "property.id",
-        ...getBaseAddressSelect(["buildingAddress"]),
-        "property.yearBuilt",
-        "property.neighborhood",
-        "property.region",
-        "listing.homeType",
-        "listing.section8Acceptance",
-        //double check this formatting
-        "unitGroups.totalCount",
-        //community type comma separated
-        "listingPrograms.ordinal",
-        "listingProgramsProgram.id",
-        "listingProgramsProgram.title",
 
-        "listing.applicationFee",
-        "listing.depositMin",
-        "listing.depositMax",
-        "listing.depositHelperText",
-        "listing.costsNotIncluded",
-        "utilities.id",
-        "utilities.water",
-        "utilities.gas",
-        "utilities.trash",
-        "utilities.sewer",
-        "utilities.electricity",
-        "utilities.cable",
-        "utilities.phone",
-        "utilities.internet",
-        "property.amenities",
-        "property.accessibility",
-        "property.unitAmenities",
-        "property.smokingPolicy",
-        "property.petPolicy",
-        "property.servicesOffered",
-        "features.id",
-        "features.elevator",
-        "features.wheelchairRamp",
-        "features.serviceAnimalsAllowed",
-        "features.accessibleParking",
-        "features.parkingOnSite",
-        "features.inUnitWasherDryer",
-        "features.laundryInBuilding",
-        "features.barrierFreeEntrance",
-        "features.rollInShower",
-        "features.grabBars",
-        "features.heatingInUnit",
-        "features.acInUnit",
-        "features.hearing",
-        "features.visual",
-        "features.mobility",
-        "features.loweredLightSwitch",
-        "features.barrierFreeBathroom",
-        "features.wideDoorways",
-        "features.loweredCabinets",
-        "neighborhoodAmenities.groceryStores",
-        "neighborhoodAmenities.pharmacies",
-        "neighborhoodAmenities.healthCareResources",
-        "neighborhoodAmenities.parksAndCommunityCenters",
-        "neighborhoodAmenities.schools",
-        "neighborhoodAmenities.publicTransportation",
-        "listing.creditHistory",
-        "listing.rentalHistory",
-        "listing.criminalBackground",
-        "listing.buildingSelectionCriteria",
-        "listing.requiredDocuments",
-        "listing.programRules",
-        "listing.specialNotes",
-        "listing.reviewOrderType",
-        "listingEvents.startTime",
-        "listingEvents.endTime",
-        "listingEvents.note",
-        "listing.applicationDueDate",
-        //which of two below for "waitlist" column?
-        "listing.isWaitlistOpen",
-        "listing.displayWaitlistSize",
-        "listing.waitlistMaxSize",
-        "listing.waitlistCurrentSize",
-        "listing.waitlistOpenSpots",
-        "listing.marketingType",
-        "listing.marketingDate",
-        "listing.marketingSeason",
-        //is below leasing company
-        "listing.managementCompany",
-        "listing.managementWebsite",
-        "listing.leasingAgentEmail",
-        "listing.leasingAgentName",
-        "listing.leasingAgentOfficeHours",
-        "listing.leasingAgentPhone",
-        "listing.leasingAgentTitle",
-        ...getBaseAddressSelect([
-          "leasingAgentAddress",
-          "applicationPickUpAddress",
-          "applicationMailingAddress",
-          "applicationDropOffAddress",
-        ]),
-        "listing.applicationPickUpAddressOfficeHours",
-        "listing.postmarkedApplicationsReceivedByDate",
-        "listing.digitalApplication",
-        "applicationMethods.id",
-        "applicationMethods.externalReference",
-        "listing.paperApplication",
-        "paperApplications.id",
-        "paperApplicationFile.id",
-        //whyyyyy
-        "paperApplicationFile.fileId",
-      ])
-      .leftJoin("listing.reservedCommunityType", "reservedCommunityType")
-      .leftJoin("listing.neighborhoodAmenities", "neighborhoodAmenities")
+    const listingsQb = getView(
+      this.listingRepository.createQueryBuilder("listing"),
+      "listingsExport"
+    ).getViewQb()
 
-      .leftJoin("listing.property", "property")
-      .leftJoin("property.buildingAddress", "buildingAddress")
-      .leftJoin("listing.utilities", "utilities")
-      .leftJoin("listing.unitGroups", "unitGroups")
-      .leftJoin("listing.listingPrograms", "listingPrograms")
-      .leftJoin("listingPrograms.program", "listingProgramsProgram")
-      .leftJoin("listing.events", "listingEvents")
-
-      .leftJoin("listing.features", "features")
-      .leftJoin("listing.leasingAgentAddress", "leasingAgentAddress")
-      .leftJoin("listing.applicationPickUpAddress", "applicationPickUpAddress")
-      .leftJoin("listing.applicationMailingAddress", "applicationMailingAddress")
-      .leftJoin("listing.applicationDropOffAddress", "applicationDropOffAddress")
-      .leftJoin("listing.applicationMethods", "applicationMethods")
-      .leftJoin("applicationMethods.paperApplications", "paperApplications")
-      .leftJoin("paperApplications.file", "paperApplicationFile")
+    const generalListingData = await listingsQb
       .where("listing.id IN (:...listingIds)", { listingIds })
       .getMany()
 
-    const generalUnitData = await this.listingRepository
-      .createQueryBuilder("listing")
-      .select([
-        "listing.id",
-        "listing.name",
-        "unitGroups.id",
-        "unitGroups.totalCount",
-        "unitGroups.totalAvailable",
-        "unitGroups.openWaitlist",
-        "unitGroups.minOccupancy",
-        "unitGroups.maxOccupancy",
-        "unitGroups.sqFeetMin",
-        "unitGroups.sqFeetMax",
-        "unitGroups.floorMin",
-        "unitGroups.floorMax",
-        "unitGroups.bathroomMin",
-        "unitGroups.bathroomMax",
-        "summaryUnitType.id",
-        "summaryUnitType.name",
-        "unitGroupsAmiLevels.id",
-        "unitGroupsAmiLevels.amiPercentage",
-        "unitGroupsAmiLevels.monthlyRentDeterminationType",
-        "unitGroupsAmiLevels.flatRentValue",
-        "unitGroupsAmiLevelsCharts.id",
-        "unitGroupsAmiLevelsCharts.name",
-      ])
-      .leftJoin("listing.unitGroups", "unitGroups")
-      .leftJoin("unitGroups.amiLevels", "unitGroupsAmiLevels")
-      .leftJoin("unitGroupsAmiLevels.amiChart", "unitGroupsAmiLevelsCharts")
-      .leftJoin("unitGroups.unitType", "summaryUnitType")
-
+    const unitsQb = getView(
+      this.listingRepository.createQueryBuilder("listing"),
+      "unitsExport"
+    ).getViewQb()
+    const generalUnitData = await unitsQb
+      .where("listing.id IN (:...listingIds)", { listingIds })
       .getMany()
 
     // generating the list of unit group listing data (parsed data)
