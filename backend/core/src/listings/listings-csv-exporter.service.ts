@@ -1,12 +1,6 @@
 import { Injectable, Scope } from "@nestjs/common"
 import dayjs from "dayjs"
-import { CsvBuilder, KeyNumber } from "../applications/services/csv-builder.service"
-import { getBirthday } from "../shared/utils/get-birthday"
-import { formatBoolean } from "../shared/utils/format-boolean"
-import { capitalizeFirstLetter } from "../shared/utils/capitalize-first-letter"
-import { capAndSplit } from "../shared/utils/cap-and-split"
-import { AddressCreateDto } from "../shared/dto/address.dto"
-import Listing from "./entities/listing.entity"
+import { CsvBuilder } from "../applications/services/csv-builder.service"
 import { mapTo } from "../shared/mapTo"
 import { PaperApplicationDto } from "../../src/paper-applications/dto/paper-application.dto"
 // import { UnitType } from "src/unit-types/entities/unit-type.entity"
@@ -77,35 +71,35 @@ export class ListingsCsvExporterService {
         Review_Order: listing.reviewOrderType,
         Lottery_Date: dayjs(listing.events?.startTime).format("MM-DD-YYYY"),
         Lottery_Start: dayjs(listing.events?.startTime).format("MM-DD-YYYY h:mm:ssA"),
-        Lotter_End: dayjs(listing.events?.endTime).format("MM-DD-YYYY h:mm:ssA"),
-        Lottery_Notes: listing.events?.note,
+        Lottery_End: dayjs(listing.events?.endTime).format("MM-DD-YYYY h:mm:ssA"),
+        Lottery_Notes: listing.events[0]?.note,
         Application_Due_Date: listing.applicationDueDate,
         Waitlist: listing.isWaitlistOpen,
         Max_Waitlist_Size: listing.waitlistMaxSize,
         How_many_people_on_the_current_list: listing.waitlistCurrentSize,
         How_many_open_spots_on_the_waitlist: listing.waitlistOpenSpots,
-        Marketing_Status: listing.marketingStatus,
+        Marketing_Status: listing.marketingType,
         Marketing_Season: listing.marketingSeason,
-        Marketing_Date: listing.marketingDate,
+        Marketing_Date: dayjs(listing.marketingDate).format("YYYY"),
         Leasing_Company: listing.managementCompany,
         Leasing_Email: listing.leasingAgentEmail,
         Leasing_Phone: listing.leasingAgentPhone,
         Leasing_Agent_Title: listing.leasingAgentTitle,
         Leasing_Agent_Company_Hours: listing.leasingAgentOfficeHours,
         Leasing_Agency_Website: listing.managementWebsite,
-        Leasing_Agency_Street_Address: listing.property.leasingAgentAddress?.street,
-        Leasing_Agency_Street_2: listing.property.leasingAgentAddress?.street2,
-        Leasing_Agency_City: listing.property.leasingAgentAddress?.city,
-        Leasing_Agency_Zip: listing.property.leasingAgentAddress?.zipCode,
+        Leasing_Agency_Street_Address: listing.leasingAgentAddress?.street,
+        Leasing_Agency_Street_2: listing.leasingAgentAddress?.street2,
+        Leasing_Agency_City: listing.leasingAgentAddress?.city,
+        Leasing_Agency_Zip: listing.leasingAgentAddress?.zipCode,
         Leasing_Agency_Mailing_Address: listing.property?.applicationMailingAddress?.street,
         Leasing_Agency_Mailing_Address_Street_2:
           listing.property?.applicationMailingAddress?.street2,
-        Leasing_Agency_Mailing_Address_City: listing.property?.applicationMailingAddress?.city,
-        Leasing_Agency_Mailing_Address_Zip: listing.property?.applicationMailingAddress?.zipCode,
-        Leasing_Agency_Pickup_Address: listing.property?.applicationPickupAddress?.street,
-        Leasing_Agency_Pickup_Address_Street_2: listing.property?.applicationPickUpAddress?.street2,
-        Leasing_Agency_Pickup_Address_City: listing.property?.applicationPickUpAddress?.city,
-        Leasing_Agency_Pickup_Address_Zip: listing.property?.applicationPickUpAddress?.zipCode,
+        Leasing_Agency_Mailing_Address_City: listing.applicationMailingAddress?.city,
+        Leasing_Agency_Mailing_Address_Zip: listing.applicationMailingAddress?.zipCode,
+        Leasing_Agency_Pickup_Address: listing.applicationPickupAddress?.street,
+        Leasing_Agency_Pickup_Address_Street_2: listing.applicationPickUpAddress?.street2,
+        Leasing_Agency_Pickup_Address_City: listing.applicationPickUpAddress?.city,
+        Leasing_Agency_Pickup_Address_Zip: listing.applicationPickUpAddress?.zipCode,
         Leasing_Pick_Up_Office_Hours: listing.applicationPickUpAddressOfficeHours,
         Postmark: listing.postmarkedApplicationsReceivedByDate,
         Digital_Application: listing.digitalApplication,

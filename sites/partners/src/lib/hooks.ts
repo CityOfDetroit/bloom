@@ -458,6 +458,7 @@ export const useListingZip = () => {
     try {
       const content = await listingsService.listAsZip()
       const now = new Date()
+      console.log(content?.listingCSV)
       const dateString = dayjs(now).format("YYYY-MM-DD_HH:mm:ss")
       const zip = new JSZip()
       zip.file(dateString + "_listing_data.csv", content?.listingCSV)
@@ -470,7 +471,7 @@ export const useListingZip = () => {
       })
     } catch (err) {
       setCsvExportError(true)
-      setSiteAlertMessage(err.response.data.error, "alert")
+      setSiteAlertMessage(err.response?.data?.error, "alert")
     }
 
     setCsvExportLoading(false)
