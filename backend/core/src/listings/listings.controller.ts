@@ -82,7 +82,7 @@ export class ListingsController {
   // @Header("Content-Type", "string")
   async listAsCsv(): Promise<any> {
     const data = await this.listingsService.rawListWithFlagged()
-    const listingCSV = this.listingsCsvExporter.exportFromObject(data?.listingData)
+    const listingCSV = this.listingsCsvExporter.exportFromObject(data?.listingData, data?.userData)
     const unitsCSV = this.listingsCsvExporter.exportUnitsFromObject(data?.unitData)
 
     // const formattedListings = listings.map((listing) => {

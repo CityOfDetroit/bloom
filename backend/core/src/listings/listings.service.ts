@@ -33,7 +33,7 @@ import { ListingSeasonEnum } from "./types/listing-season-enum"
 import { User } from "../auth/entities/user.entity"
 import { REQUEST } from "@nestjs/core"
 import { Request as ExpressRequest } from "express"
-import { AuthzService } from "../auth/services/authz.service"
+import { UserService } from "../auth/services/user.service"
 
 @Injectable()
 export class ListingsService {
@@ -46,7 +46,6 @@ export class ListingsService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @Inject(REQUEST) private req: ExpressRequest,
     //is this needed since no sub role?
-    private readonly authzService: AuthzService,
     private readonly translationService: TranslationsService
   ) {}
 
@@ -307,8 +306,31 @@ export class ListingsService {
       .where("listing.id IN (:...listingIds)", { listingIds })
       .getMany()
 
+    const userAccessData = await this.userRepository
+      .createQueryBuilder("user")
+      .select([
+        "user.id",
+        "user.firstName",
+        "user.lastName",
+        "userRoles.isAdmin",
+        "userRoles.isPartner",
+        "leasingAgentInListings.id",
+      ])
+      .leftJoin("user.leasingAgentInListings", "leasingAgentInListings")
+      .leftJoin("user.jurisdictions", "jurisdictions")
+      .leftJoin("user.roles", "userRoles")
+      .where("userRoles.is_partner = :is_partner", { is_partner: true })
+      .getMany()
+
+    console.log(userAccessData)
+    console.log("((((((((((((((((((")
+
     // generating the list of unit group listing data (parsed data)
-    return { unitData: generalUnitData, listingData: generalListingData }
+    return {
+      unitData: generalUnitData,
+      listingData: generalListingData,
+      userData: userAccessData,
+    }
   }
 
   private async addUnitSummaries(listing: Listing) {

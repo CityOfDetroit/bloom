@@ -142,6 +142,7 @@ const Users = () => {
     limit: tableOptions.pagination.itemsPerPage,
     search: tableOptions.filter.filterValue,
   })
+  console.log(userList)
   /* Fetch listings */
   const { listingDtos } = useListingsData({
     limit: "all",

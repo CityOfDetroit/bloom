@@ -1,18 +1,31 @@
 import { Injectable, Scope } from "@nestjs/common"
 import dayjs from "dayjs"
 import { CsvBuilder } from "../applications/services/csv-builder.service"
-import { mapTo } from "../shared/mapTo"
-import { PaperApplicationDto } from "../../src/paper-applications/dto/paper-application.dto"
-// import { UnitType } from "src/unit-types/entities/unit-type.entity"
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
 
-  exportFromObject(listings: any[]): string {
+  exportFromObject(listings: any[], users: any[]): string {
+    const partnerAccessHelper = {}
+    const adminList = []
+    users.forEach((user) => {
+      const userName = `${user.firstName} ${user.lastName}`
+      if (!user.roles?.isAdmin) {
+        user.leasingAgentInListings.forEach((listing) => {
+          partnerAccessHelper[listing.id]
+            ? partnerAccessHelper[listing.id].push(userName)
+            : (partnerAccessHelper[listing.id] = [userName])
+        })
+      } else {
+        adminList.push(userName)
+      }
+    })
+    console.log(adminList, partnerAccessHelper)
+
     const listingsObj = listings.map((listing) => {
       if (listing.name === "MLK Homes") {
         console.log("++++++++++")
-        console.log(listing.applicationMethods[0].paperApplications[0].file?.fileId)
+        console.log(adminList.concat(partnerAccessHelper[listing.id]).join(", "))
       }
       return {
         ID: listing.id,
@@ -106,14 +119,14 @@ export class ListingsCsvExporterService {
         Leasing_Agency_Pickup_Address_Zip: listing.applicationPickUpAddress?.zipCode,
         Leasing_Pick_Up_Office_Hours: listing.applicationPickUpAddressOfficeHours,
         Postmark: listing.postmarkedApplicationsReceivedByDate
-          ? dayjs(listing.postmarkedApplicationsReceivedByDate ?? "").format("MM-DD-YYYY h:mm:ssA")
+          ? dayjs(listing.postmarkedApplicationsReceivedByDate).format("MM-DD-YYYY h:mm:ssA")
           : "",
         Digital_Application: listing.digitalApplication,
         Digital_Application_URL: listing.applicationMethods[1]?.externalReference,
         Paper_Application: listing.paperApplication,
         //fix this!
-        Paper_Application_URL: listing.applicationMethods[0].paperApplications[0].file?.fileId,
-        Users_Who_Have_Access: listing,
+        Paper_Application_URL: listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId,
+        Users_Who_Have_Access: adminList.concat(partnerAccessHelper[listing.id]).join(", "),
       }
     })
 
