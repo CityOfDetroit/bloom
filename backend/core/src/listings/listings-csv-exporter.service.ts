@@ -10,6 +10,10 @@ export class ListingsCsvExporterService {
 
   exportFromObject(listings: any[]): string {
     const listingsObj = listings.map((listing) => {
+      if (listing.name === "MLK Homes") {
+        console.log("++++++++++")
+        console.log(listing.applicationMethods[0].paperApplications[0].file?.fileId)
+      }
       return {
         ID: listing.id,
         Created_At_Date: listing.createdAt.toString(),
@@ -91,9 +95,9 @@ export class ListingsCsvExporterService {
         Leasing_Agency_Street_2: listing.leasingAgentAddress?.street2,
         Leasing_Agency_City: listing.leasingAgentAddress?.city,
         Leasing_Agency_Zip: listing.leasingAgentAddress?.zipCode,
-        Leasing_Agency_Mailing_Address: listing.property?.applicationMailingAddress?.street,
-        Leasing_Agency_Mailing_Address_Street_2:
-          listing.property?.applicationMailingAddress?.street2,
+        // check the ones below
+        Leasing_Agency_Mailing_Address: listing.applicationMailingAddress?.street,
+        Leasing_Agency_Mailing_Address_Street_2: listing.applicationMailingAddress?.street2,
         Leasing_Agency_Mailing_Address_City: listing.applicationMailingAddress?.city,
         Leasing_Agency_Mailing_Address_Zip: listing.applicationMailingAddress?.zipCode,
         Leasing_Agency_Pickup_Address: listing.applicationPickupAddress?.street,
@@ -101,16 +105,15 @@ export class ListingsCsvExporterService {
         Leasing_Agency_Pickup_Address_City: listing.applicationPickUpAddress?.city,
         Leasing_Agency_Pickup_Address_Zip: listing.applicationPickUpAddress?.zipCode,
         Leasing_Pick_Up_Office_Hours: listing.applicationPickUpAddressOfficeHours,
-        Postmark: listing.postmarkedApplicationsReceivedByDate,
+        Postmark: listing.postmarkedApplicationsReceivedByDate
+          ? dayjs(listing.postmarkedApplicationsReceivedByDate ?? "").format("MM-DD-YYYY h:mm:ssA")
+          : "",
         Digital_Application: listing.digitalApplication,
         Digital_Application_URL: listing.applicationMethods[1]?.externalReference,
         Paper_Application: listing.paperApplication,
         //fix this!
-        Paper_Application_URL: mapTo(
-          PaperApplicationDto,
-          listing.applicationMethods[0]?.paperApplications ?? {}
-        ),
-        //                  	Users who have access
+        Paper_Application_URL: listing.applicationMethods[0].paperApplications[0].file?.fileId,
+        Users_Who_Have_Access: listing,
       }
     })
 
@@ -125,10 +128,11 @@ export class ListingsCsvExporterService {
       })
     })
     const listingsObj = reformattedListings.map((listing) => {
-      if (listing.name === "MLK Homes" && listing.unitGroup?.maxOccupancy === 4) {
-        console.log(listing.unitGroup)
-      }
-      console.log("-----------------------")
+      // if (listing.name === "MLK Homes" && listing.unitGroup?.maxOccupancy === 4) {
+      //   console.log(listing.unitGroup)
+      // }
+      // console.log("-----------------------")
+      return
       return {
         Listing_ID: listing.id,
         Listing_Name: listing.name,
@@ -152,6 +156,7 @@ export class ListingsCsvExporterService {
       }
     })
 
-    return this.csvBuilder.buildFromIdIndex(listingsObj)
+    // return this.csvBuilder.buildFromIdIndex(listingsObj)
+    return ""
   }
 }

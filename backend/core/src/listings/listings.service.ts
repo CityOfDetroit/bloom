@@ -299,7 +299,6 @@ export class ListingsService {
     const generalListingData = await listingsQb
       .where("listing.id IN (:...listingIds)", { listingIds })
       .getMany()
-    console.log(generalListingData)
     const unitsQb = getView(
       this.listingRepository.createQueryBuilder("listing"),
       "unitsExport"

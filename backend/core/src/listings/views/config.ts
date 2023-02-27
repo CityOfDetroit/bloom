@@ -422,6 +422,7 @@ views.listingsExport = {
     { join: "listing.applicationMethods", alias: "applicationMethods" },
     { join: "applicationMethods.paperApplications", alias: "paperApplications" },
     { join: "paperApplications.file", alias: "paperApplicationFile" },
+    { joing: "users" },
   ],
 }
 

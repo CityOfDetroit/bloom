@@ -146,6 +146,7 @@ const Users = () => {
   const { listingDtos } = useListingsData({
     limit: "all",
   })
+  console.log(userList)
 
   if (error) return <div>An error has occurred.</div>
 
