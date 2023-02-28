@@ -34,9 +34,7 @@ import { ListingCreateValidationPipe } from "./validation-pipes/listing-create-v
 import { ListingUpdateValidationPipe } from "./validation-pipes/listing-update-validation-pipe"
 import { ActivityLogInterceptor } from "../activity-log/interceptors/activity-log.interceptor"
 import { ActivityLogMetadata } from "../activity-log/decorators/activity-log-metadata.decorator"
-import { ListingsRetrieveDto } from "./dto/listings-retrieve-zip-params"
 import { ListingsCsvExporterService } from "../listings/listings-csv-exporter.service"
-import { UnitsService } from "../units/units.service"
 
 @Controller("listings")
 @ApiTags("listings")
@@ -77,20 +75,16 @@ export class ListingsController {
     return mapTo(ListingDto, listing)
   }
 
-  @Get(`zip`)
-  @ApiOperation({ summary: "Retrieve listings and units as csv", operationId: "listAsZip" })
-  // @Header("Content-Type", "string")
-  async listAsCsv(): Promise<any> {
+  @Get(`csv`)
+  @ApiOperation({ summary: "Retrieve listings and units in csv", operationId: "listAsCsv" })
+  async listAsCsv(): Promise<{ listingCsv: string; unitCsv: string }> {
     const data = await this.listingsService.rawListWithFlagged()
-    const listingCSV = this.listingsCsvExporter.exportFromObject(data?.listingData, data?.userData)
-    const unitsCSV = this.listingsCsvExporter.exportUnitsFromObject(data?.unitData)
-
-    // const formattedListings = listings.map((listing) => {
-    //   return JSON.stringify(listing) + `\n\n`
-    // })
-    // return formattedListings.join()
-    return { listingCSV, unitsCSV }
-    // return listings
+    const listingCsv = this.listingsCsvExporter.exportListingsFromObject(
+      data?.listingData,
+      data?.userAccessData
+    )
+    const unitCsv = this.listingsCsvExporter.exportUnitsFromObject(data?.unitData)
+    return { listingCsv, unitCsv }
   }
 
   @Get(`:id`)

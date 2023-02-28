@@ -33,7 +33,6 @@ import { ListingSeasonEnum } from "./types/listing-season-enum"
 import { User } from "../auth/entities/user.entity"
 import { REQUEST } from "@nestjs/core"
 import { Request as ExpressRequest } from "express"
-import { UserService } from "../auth/services/user.service"
 
 @Injectable()
 export class ListingsService {
@@ -282,30 +281,21 @@ export class ListingsService {
     const permissionedListings = await this.listingRepository
       .createQueryBuilder("listing")
       .select("listing.id")
-      // should we include draft listings (or listings that aren't live on the site atm)
       .getMany()
 
     // pulled out on the ids
     const listingIds = permissionedListings.map((listing) => listing.id)
 
-    // generating the list of general listing data
-
+    // Building and excecuting query for listings csv
     const listingsQb = getView(
       this.listingRepository.createQueryBuilder("listing"),
       "listingsExport"
     ).getViewQb()
-
-    const generalListingData = await listingsQb
-      .where("listing.id IN (:...listingIds)", { listingIds })
-      .getMany()
-    const unitsQb = getView(
-      this.listingRepository.createQueryBuilder("listing"),
-      "unitsExport"
-    ).getViewQb()
-    const generalUnitData = await unitsQb
+    const listingData = await listingsQb
       .where("listing.id IN (:...listingIds)", { listingIds })
       .getMany()
 
+    // User data to determine listing access for csv
     const userAccessData = await this.userRepository
       .createQueryBuilder("user")
       .select([
@@ -322,14 +312,17 @@ export class ListingsService {
       .where("userRoles.is_partner = :is_partner", { is_partner: true })
       .getMany()
 
-    console.log(userAccessData)
-    console.log("((((((((((((((((((")
+    // Building and excecuting query for units csv
+    const unitsQb = getView(
+      this.listingRepository.createQueryBuilder("listing"),
+      "unitsExport"
+    ).getViewQb()
+    const unitData = await unitsQb.where("listing.id IN (:...listingIds)", { listingIds }).getMany()
 
-    // generating the list of unit group listing data (parsed data)
     return {
-      unitData: generalUnitData,
-      listingData: generalListingData,
-      userData: userAccessData,
+      unitData,
+      listingData,
+      userAccessData,
     }
   }
 

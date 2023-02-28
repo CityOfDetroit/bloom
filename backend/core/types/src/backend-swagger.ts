@@ -1318,11 +1318,11 @@ export class ListingsService {
     })
   }
   /**
-   * Retrieve listings and units as csv
+   * Retrieve listings and units in csv
    */
-  listAsZip(options: IRequestOptions = {}): Promise<any> {
+  listAsCsv(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/listings/zip"
+      let url = basePath + "/listings/csv"
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
 

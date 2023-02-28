@@ -5,7 +5,8 @@ import { CsvBuilder } from "../applications/services/csv-builder.service"
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
 
-  exportFromObject(listings: any[], users: any[]): string {
+  exportListingsFromObject(listings: any[], users: any[]): string {
+    // restructure user information to listingId->user rather than user->listingId
     const partnerAccessHelper = {}
     const adminList = []
     users.forEach((user) => {
@@ -20,18 +21,12 @@ export class ListingsCsvExporterService {
         adminList.push(userName)
       }
     })
-    console.log(adminList, partnerAccessHelper)
 
-    const listingsObj = listings.map((listing) => {
-      if (listing.name === "MLK Homes") {
-        console.log("++++++++++")
-        console.log(adminList.concat(partnerAccessHelper[listing.id]).join(", "))
-      }
+    const listingObj = listings.map((listing) => {
       return {
         ID: listing.id,
         Created_At_Date: listing.createdAt.toString(),
         Listing_Status: listing.status,
-        //need to add to seed
         Publish_Date: listing.publishedAt?.toString(),
         Verified: listing.isVerified,
         Verified_Date: listing.verifiedAt?.toString(),
@@ -108,7 +103,6 @@ export class ListingsCsvExporterService {
         Leasing_Agency_Street_2: listing.leasingAgentAddress?.street2,
         Leasing_Agency_City: listing.leasingAgentAddress?.city,
         Leasing_Agency_Zip: listing.leasingAgentAddress?.zipCode,
-        // check the ones below
         Leasing_Agency_Mailing_Address: listing.applicationMailingAddress?.street,
         Leasing_Agency_Mailing_Address_Street_2: listing.applicationMailingAddress?.street2,
         Leasing_Agency_Mailing_Address_City: listing.applicationMailingAddress?.city,
@@ -124,13 +118,12 @@ export class ListingsCsvExporterService {
         Digital_Application: listing.digitalApplication,
         Digital_Application_URL: listing.applicationMethods[1]?.externalReference,
         Paper_Application: listing.paperApplication,
-        //fix this!
         Paper_Application_URL: listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId,
         Users_Who_Have_Access: adminList.concat(partnerAccessHelper[listing.id]).join(", "),
       }
     })
 
-    return this.csvBuilder.buildFromIdIndex(listingsObj)
+    return this.csvBuilder.buildFromIdIndex(listingObj)
   }
 
   exportUnitsFromObject(listings: any[]): string {
@@ -140,12 +133,7 @@ export class ListingsCsvExporterService {
         reformattedListings.push({ id: listing.id, name: listing.name, unitGroup })
       })
     })
-    const listingsObj = reformattedListings.map((listing) => {
-      // if (listing.name === "MLK Homes" && listing.unitGroup?.maxOccupancy === 4) {
-      //   console.log(listing.unitGroup)
-      // }
-      // console.log("-----------------------")
-      return
+    const unitsObj = reformattedListings.map((listing) => {
       return {
         Listing_ID: listing.id,
         Listing_Name: listing.name,
@@ -169,7 +157,6 @@ export class ListingsCsvExporterService {
       }
     })
 
-    // return this.csvBuilder.buildFromIdIndex(listingsObj)
-    return ""
+    return this.csvBuilder.buildFromIdIndex(unitsObj)
   }
 }
