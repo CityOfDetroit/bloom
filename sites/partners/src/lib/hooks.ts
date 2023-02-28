@@ -456,19 +456,18 @@ export const useListingZip = () => {
     setCsvExportLoading(true)
 
     try {
-      const content = await listingsService.listAsZip()
+      const content = await listingsService.listAsCsv()
       const now = new Date()
-      console.log(content?.listingCSV)
       const dateString = dayjs(now).format("YYYY-MM-DD_HH:mm:ss")
-      // const zip = new JSZip()
-      // zip.file(dateString + "_listing_data.csv", content?.listingCSV)
-      // zip.file(dateString + "_unit_data.csv", content?.unitsCSV)
-      // await zip.generateAsync({ type: "blob" }).then(function (blob) {
-      //   const fileLink = document.createElement("a")
-      //   fileLink.setAttribute("download", `hello.zip`)
-      //   fileLink.href = URL.createObjectURL(blob)
-      //   fileLink.click()
-      // })
+      const zip = new JSZip()
+      zip.file(dateString + "_listing_data.csv", content?.listingCSV)
+      zip.file(dateString + "_unit_data.csv", content?.unitsCSV)
+      await zip.generateAsync({ type: "blob" }).then(function (blob) {
+        const fileLink = document.createElement("a")
+        fileLink.setAttribute("download", `hello.zip`)
+        fileLink.href = URL.createObjectURL(blob)
+        fileLink.click()
+      })
     } catch (err) {
       setCsvExportError(true)
       setSiteAlertMessage(err.response?.data?.error, "alert")
