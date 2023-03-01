@@ -64,7 +64,7 @@ export class ListingsCsvExporterService {
         Pets_Policy: listing.property.petPolicy,
         Services_Offered: listing.property.servicesOffered,
         Accessibility_Features: Object.entries(listing.features ?? {})
-          .filter((entry) => entry[1] === true)
+          ?.filter((entry) => entry[1] === true)
           .map((entry) => entry[0])
           .join(", "),
         Grocery_Stores: listing.neighborhoodAmenities?.groceryStores,
@@ -118,7 +118,8 @@ export class ListingsCsvExporterService {
         Digital_Application: listing.digitalApplication,
         Digital_Application_URL: listing.applicationMethods[1]?.externalReference,
         Paper_Application: listing.paperApplication,
-        Paper_Application_URL: listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId,
+        Paper_Application_Filename:
+          listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId,
         Users_Who_Have_Access: adminList.concat(partnerAccessHelper[listing.id]).join(", "),
       }
     })

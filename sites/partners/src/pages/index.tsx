@@ -210,6 +210,7 @@ export default function ListingsList() {
                     </LocalizedLink>
                     <Button
                       className="mx-1"
+                      dataTestId="export-listings"
                       onClick={() => onExport()}
                       icon={!csvExportLoading ? faFileExport : null}
                       iconSize="medium"
