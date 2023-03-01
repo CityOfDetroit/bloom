@@ -14,7 +14,6 @@ import {
 } from "@bloom-housing/backend-core/types"
 import dayjs from "dayjs"
 import JSZip from "jszip"
-import { setSiteAlertMessage } from "@bloom-housing/ui-components"
 
 interface PaginationProps {
   page?: number
@@ -450,9 +449,11 @@ export const useListingZip = () => {
 
   const [csvExportLoading, setCsvExportLoading] = useState(false)
   const [csvExportError, setCsvExportError] = useState(false)
+  const [csvCompleted, setCsvCompleted] = useState(false)
 
   const onExport = useCallback(async () => {
     setCsvExportError(false)
+    setCsvCompleted(false)
     setCsvExportLoading(true)
 
     try {
@@ -470,14 +471,14 @@ export const useListingZip = () => {
       })
     } catch (err) {
       setCsvExportError(true)
-      setSiteAlertMessage(err.response?.data?.error, "alert")
     }
-
+    setCsvCompleted(true)
     setCsvExportLoading(false)
   }, [listingsService])
 
   return {
     onExport,
+    csvCompleted,
     csvExportLoading,
     csvExportError,
     csvExportSuccess,

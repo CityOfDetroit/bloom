@@ -323,6 +323,7 @@
   "t.endTime": "End Time",
   "t.enterAmount": "Enter amount",
   "t.export": "Export",
+  "t.exportToCSV": "Export to CSV",
   "t.fileName": "File Name",
   "t.filter": "Filter",
   "t.invite": "Invite",
