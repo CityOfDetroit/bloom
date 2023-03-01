@@ -15,8 +15,6 @@ before_script:
 - cp backend/core/.env.template backend/core/.env
 jobs:
   include:
-  - script: yarn test:shared:ui
-    name: UI components tests
   - script: yarn build:app:public
     name: Build public site
   - script: yarn build:app:partners
@@ -25,7 +23,7 @@ jobs:
     name: Backend unit tests
   - script: yarn test:e2e:backend:core
     name: Backend e2e tests
-  - script: yarn test:public:unit-tests
+  - script: yarn test:app:public:unit
     name: Public site unit tests
   - stage: longer tests
     name: Partners site Cypress tests

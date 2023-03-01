@@ -1,3 +1,5 @@
+/** Overlays */
+
 .modal {
   border-radius: 0;
   height: 100%;
@@ -12,7 +14,8 @@
   }
 
   .modal__title {
-    @apply text-lg font-bold;
+    @apply text-lg;
+    @apply font-bold;
     @screen sm {
       @apply text-3xl font-bold;
     }
@@ -37,7 +40,8 @@
 
   .filter-section label,
   .filter-header {
-    @apply text-base font-bold;
+    @apply text-base;
+    @apply font-bold;
   }
 
   .checkbox-filter-group {

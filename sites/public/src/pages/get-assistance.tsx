@@ -1,6 +1,7 @@
 import React from "react"
 import Markdown from "markdown-to-jsx"
-import { MarkdownSection, t, PageHeader } from "@bloom-housing/ui-components"
+import { MarkdownSection, t } from "@bloom-housing/ui-components"
+import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
 import Layout from "../layouts/application"
 import RenderIf from "../RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"
@@ -40,11 +41,11 @@ export default function GetAssistance() {
               <Markdown
                 options={{
                   overrides: {
-                    h4: {
+                    h3: {
                       component: ({ children, ...props }) => (
-                        <h4 {...props} className="text-caps-underline">
+                        <h3 {...props} className="text-tiny text-caps-underline">
                           {children}
-                        </h4>
+                        </h3>
                       ),
                     },
                     RenderIf,

@@ -5,13 +5,17 @@ import {
   useCatchNetworkError,
   NetworkStatusType,
   NetworkStatusContent,
+  AuthContext,
 } from "@bloom-housing/shared-helpers"
 import {
-  AuthContext,
   FormSignIn,
   useMutate,
   t,
   ResendConfirmationModal,
+  RequestType,
+  FormSignInMFACode,
+  FormSignInAddPhone,
+  FormSignInMFAType,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../layouts/forms"
 import {
@@ -25,9 +29,6 @@ import {
   onSubmitMfaCodeWithPhone,
   onSubmitMfaCode,
 } from "../lib/users/signInHelpers"
-import { FormSignInMFAType } from "../components/users/FormSignInMFAType"
-import { FormSignInMFACode } from "../components/users/FormSignInMFACode"
-import { FormSignInAddPhone } from "../components/users/FormSignInAddPhone"
 
 const SignIn = () => {
   const { login, requestMfaCode, userService } = useContext(AuthContext)
@@ -38,7 +39,7 @@ const SignIn = () => {
   const router = useRouter()
   const [email, setEmail] = useState<string | undefined>(undefined)
   const [password, setPassword] = useState<string | undefined>(undefined)
-  const [mfaType, setMfaType] = useState<EnumRequestMfaCodeMfaType | undefined>(undefined)
+  const [mfaType, setMfaType] = useState<RequestType | undefined>(undefined)
   const [renderStep, setRenderStep] = useState<EnumRenderStep | undefined>(
     EnumRenderStep.emailAndPassword
   )
@@ -168,6 +169,8 @@ const SignIn = () => {
           setPhoneNumber,
           resetNetworkError
         )}
+        emailOnClick={() => setValue("mfaType", EnumRequestMfaCodeMfaType.email)}
+        smsOnClick={() => setValue("mfaType", EnumRequestMfaCodeMfaType.sms)}
         control={{ register, errors, handleSubmit, setValue }}
         networkError={{
           content: { ...networkError, error: !!networkError?.error },

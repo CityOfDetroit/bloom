@@ -2,16 +2,10 @@ import React, { useContext } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import Head from "next/head"
-import {
-  SiteHeader,
-  SiteFooter,
-  FooterNav,
-  FooterSection,
-  MenuLink,
-  t,
-  AuthContext,
-  setSiteAlertMessage,
-} from "@bloom-housing/ui-components"
+import { SiteFooter, FooterSection, t, setSiteAlertMessage } from "@bloom-housing/ui-components"
+import { AuthContext } from "@bloom-housing/shared-helpers"
+import { SiteHeader, MenuLink } from "../../../../detroit-ui-components/src/headers/SiteHeader"
+import { FooterNav } from "../../../../detroit-ui-components/src/navigation/FooterNav"
 import Markdown from "markdown-to-jsx"
 
 const Layout = (props) => {
@@ -113,7 +107,7 @@ const Layout = (props) => {
               <div className="flex pb-7">
                 <img src="/images/detroit-logo-white.png" alt="City of Detroit logo" />
                 <div className="flex flex-col justify-center text-white ml-2">
-                  <h4 className="text-left text-base font-bold md:text-lg">{t("footer.header")}</h4>
+                  <p className="text-left text-base font-bold md:text-lg">{t("footer.header")}</p>
                   <a
                     className="text-left text-xs md:text-base"
                     href="https://detroitmi.gov/departments/housing-and-revitalization-department"
@@ -129,14 +123,14 @@ const Layout = (props) => {
           </div>
           <div className="footer-info text-white">
             <FooterSection small={true}>
-              <h5 className="text-base font-bold text-left mb-3">
+              <p className="text-base font-bold text-left mb-3">
                 {t("footer.forListingQuestions")}
-              </h5>
+              </p>
               <p className="text-left">{t("footer.pleaseContact")}</p>
 
-              <h5 className="text-base font-bold text-left mb-3">
+              <p className="text-base font-bold text-left mb-3">
                 {t("footer.forGeneralInquiries")}
-              </h5>
+              </p>
               <p className="text-left">
                 <Markdown>{t("footer.contactInfo")}</Markdown>
               </p>

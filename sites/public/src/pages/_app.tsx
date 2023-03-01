@@ -1,16 +1,14 @@
-import "@bloom-housing/ui-components/src/global/css-imports.scss"
-import "@bloom-housing/ui-components/src/global/app-css.scss"
 import { useEffect, useMemo, useState } from "react"
 import type { AppProps } from "next/app"
+import { addTranslation, GenericRouter, NavigationContext } from "@bloom-housing/ui-components"
 import {
-  addTranslation,
-  GenericRouter,
-  NavigationContext,
+  blankApplication,
   AuthProvider,
   ConfigProvider,
   LoggedInUserIdleTimeout,
-} from "@bloom-housing/ui-components"
-import { blankApplication } from "@bloom-housing/shared-helpers"
+} from "@bloom-housing/shared-helpers"
+import "../../../../detroit-ui-components/src/global/css-imports.scss"
+import "../../../../detroit-ui-components/src/global/app-css.scss"
 import { pageChangeHandler, gaLoadScript, gaCaptureScript, uaScript } from "../lib/customScripts"
 import { AppSubmissionContext } from "../lib/applications/AppSubmissionContext"
 import ApplicationConductor, {

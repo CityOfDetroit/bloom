@@ -1,3 +1,5 @@
+/** Forms */
+
 .progress-nav {
   padding-top: 1rem;
   padding-bottom: 1.5rem;
@@ -25,10 +27,13 @@ li.progress-nav__item {
     @apply bg-primary-dark;
   }
   &.is-disabled:before {
-    @apply bg-white border-2 border-primary;
+    @apply bg-white;
+    @apply border-2;
+    @apply border-primary;
   }
   &:before {
-    @apply bg-primary border-0;
+    @apply bg-primary;
+    @apply border-0;
   }
   &:after {
     @apply bg-primary;

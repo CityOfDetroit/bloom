@@ -12,35 +12,36 @@ import {
   ListingEventType,
 } from "@bloom-housing/backend-core/types"
 import {
-  AdditionalFees,
   Contact,
-  Description,
   EventSection,
   EventType,
-  FavoriteButton,
-  ExpandableText,
-  GroupedTable,
-  Heading,
-  ImageCard,
-  InfoCard,
   ListSection,
-  ListingDetailItem,
-  ListingDetails,
   ListingMap,
-  ListingUpdated,
   OneLineAddress,
   ReferralApplication,
-  StandardTable,
-  WhatToExpect,
   QuantityRowSection,
   t,
+  ExpandableText,
 } from "@bloom-housing/ui-components"
+import { InfoCard } from "../../../../../detroit-ui-components/src/blocks/InfoCard"
+import { ImageCard } from "../../../../../detroit-ui-components/src/blocks/ImageCard"
+import { Heading } from "../../../../../detroit-ui-components/src/headers/Heading"
+import { WhatToExpect } from "../../../../../detroit-ui-components/src/page_components/listing/listing_sidebar/WhatToExpect"
+import { AdditionalFees } from "../../../../../detroit-ui-components/src/page_components/listing/AdditionalFees"
+import {
+  ListingDetails,
+  ListingDetailItem,
+} from "../../../../../detroit-ui-components/src/page_components/listing/ListingDetails"
+import { StandardTable } from "../../../../../detroit-ui-components/src/tables/StandardTable"
+import { GroupedTable } from "../../../../../detroit-ui-components/src/tables/GroupedTable"
+import { Description } from "../../../../../detroit-ui-components/src/text/Description"
 import {
   cloudinaryPdfFromId,
   imageUrlFromListing,
   occupancyTable,
   getTimeRangeString,
   getPostmarkString,
+  FavoriteButton,
 } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { ErrorPage } from "../../pages/_error"
@@ -85,7 +86,11 @@ export const ListingProcess = (props: ListingProcessProps) => {
 
   return (
     <aside className="w-full static md:me-8 md:ms-2 md:border-r md:border-l md:border-b border-gray-400 bg-white text-gray-750">
-      <ListingUpdated listingUpdated={listing.updatedAt} />
+      <section className="aside-block">
+        <p className="text-tiny text-gray-750">
+          {`${t("listings.listingUpdated")}: ${dayjs(listing.updatedAt).format("MMMM DD, YYYY")}`}
+        </p>
+      </section>
       {openHouseEvents && (
         <EventSection events={openHouseEvents} headerText={t("listings.openHouseEvent.header")} />
       )}
@@ -124,7 +129,9 @@ export const ListingProcess = (props: ListingProcessProps) => {
             listing.referralApplication.externalReference ||
             t("application.referralApplication.instructions")
           }
-          title={t("application.referralApplication.furtherInformation")}
+          strings={{
+            title: t("application.referralApplication.furtherInformation"),
+          }}
         />
       )}
       {openHouseEvents && (
@@ -363,7 +370,6 @@ export const ListingView = (props: ListingProps) => {
         applicationPickUpAddressOfficeHours={listing.applicationPickUpAddressOfficeHours}
         applicationPickUpAddress={getAddress(listing.applicationPickUpAddressType, "pickUp")}
         preview={props.preview}
-        listingStatus={listing.status}
       />
       <SubmitApplication
         applicationMailingAddress={getAddress(listing.applicationMailingAddressType, "mailIn")}
@@ -433,6 +439,15 @@ export const ListingView = (props: ListingProps) => {
 
   const accessibilityFeatures = getAccessibilityFeatures()
 
+  const showEligibilitySection =
+    !!listing.creditHistory ||
+    !!listing.rentalHistory ||
+    !!listing.criminalBackground ||
+    !!buildingSelectionCriteria ||
+    !!hmiData?.length ||
+    !!occupancyData?.length ||
+    !!listing.listingPrograms?.length
+
   const getUtilitiesIncluded = () => {
     let utilitiesExist = false
     const utilitiesIncluded = Object.keys(listing?.utilities ?? {}).reduce(
@@ -500,7 +515,7 @@ export const ListingView = (props: ListingProps) => {
             </Heading>
             <p className="text-gray-750 text-base mb-1">{listing.developer}</p>
             <p className="text-base">
-              <a href={googleMapsHref} target="_blank" aria-label="Opens in new window">
+              <a href={googleMapsHref} target="_blank" rel="noreferrer noopener">
                 {t("t.viewOnMap")}
               </a>
             </p>
@@ -555,7 +570,7 @@ export const ListingView = (props: ListingProps) => {
             </div>
           </ListingDetailItem>
 
-          {hmiData?.length || occupancyData?.length || listing.listingPrograms?.length ? (
+          {showEligibilitySection && (
             <ListingDetailItem
               imageAlt={t("listings.eligibilityNotebook")}
               imageSrc="/images/listing-eligibility.svg"
@@ -626,32 +641,50 @@ export const ListingView = (props: ListingProps) => {
                     </p>
                   </ListSection>
                 )}
-                {(listing.creditHistory ||
-                  listing.rentalHistory ||
-                  listing.criminalBackground ||
-                  buildingSelectionCriteria) && (
+                {(!!listing.creditHistory ||
+                  !!listing.rentalHistory ||
+                  !!listing.criminalBackground ||
+                  !!buildingSelectionCriteria) && (
                   <ListSection
                     title={t("listings.sections.additionalEligibilityTitle")}
                     subtitle={t("listings.sections.additionalEligibilitySubtitle")}
                   >
                     <>
-                      {listing.creditHistory && (
+                      {!!listing.creditHistory && (
                         <InfoCard title={t("listings.creditHistory")}>
-                          <ExpandableText className="text-sm text-gray-700">
+                          <ExpandableText
+                            className="text-sm text-gray-700"
+                            strings={{
+                              readMore: t("t.more"),
+                              readLess: t("t.less"),
+                            }}
+                          >
                             {listing.creditHistory}
                           </ExpandableText>
                         </InfoCard>
                       )}
-                      {listing.rentalHistory && (
+                      {!!listing.rentalHistory && (
                         <InfoCard title={t("listings.rentalHistory")}>
-                          <ExpandableText className="text-sm text-gray-700">
+                          <ExpandableText
+                            className="text-sm text-gray-700"
+                            strings={{
+                              readMore: t("t.more"),
+                              readLess: t("t.less"),
+                            }}
+                          >
                             {listing.rentalHistory}
                           </ExpandableText>
                         </InfoCard>
                       )}
-                      {listing.criminalBackground && (
+                      {!!listing.criminalBackground && (
                         <InfoCard title={t("listings.criminalBackground")}>
-                          <ExpandableText className="text-sm text-gray-700">
+                          <ExpandableText
+                            className="text-sm text-gray-700"
+                            strings={{
+                              readMore: t("t.more"),
+                              readLess: t("t.less"),
+                            }}
+                          >
                             {listing.criminalBackground}
                           </ExpandableText>
                         </InfoCard>
@@ -662,7 +695,7 @@ export const ListingView = (props: ListingProps) => {
                 )}
               </ul>
             </ListingDetailItem>
-          ) : null}
+          )}
 
           <ListingDetailItem
             imageAlt={t("listings.featuresCards")}
@@ -757,7 +790,7 @@ export const ListingView = (props: ListingProps) => {
                   href={googleMapsHref}
                   target="_blank"
                   rel="noreferrer noopener"
-                  aria-label="Opens in new window"
+                  aria-label={t("t.viewOnMap")}
                 >
                   {t("t.getDirections")}
                 </a>

@@ -2,10 +2,10 @@ import React, { useState, useMemo, useEffect } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { AgGridReact } from "ag-grid-react"
-
+import { t, AG_PER_PAGE_OPTIONS } from "@bloom-housing/ui-components"
+import { AgPagination } from "../../../../../../../detroit-ui-components/src/global/vendor/AgPagination"
 import { useFlaggedApplicationsList, useSingleListingData } from "../../../..//lib/hooks"
 import Layout from "../../../../layouts/index"
-import { t, AgPagination, AG_PER_PAGE_OPTIONS } from "@bloom-housing/ui-components"
 import { getFlagSetCols } from "../../../../components/flags/flagSetCols"
 import { ApplicationSecondaryNav } from "../../../../components/applications/ApplicationSecondaryNav"
 

@@ -1,6 +1,7 @@
 import * as React from "react"
 import Markdown from "markdown-to-jsx"
-import { Address, Heading, OrDivider, ContactAddress } from "@bloom-housing/ui-components"
+import { Address, OrDivider, ContactAddress } from "@bloom-housing/ui-components"
+import { Heading } from "../../../../../detroit-ui-components/src/headers/Heading"
 
 export interface ApplicationAddressesProps {
   /** The dropoff address for paper applications */

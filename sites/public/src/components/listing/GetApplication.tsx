@@ -2,15 +2,15 @@ import React, { useState } from "react"
 import {
   t,
   Button,
-  LinkButton,
   AppearanceStyleType,
   OrDivider,
   Address,
   ContactAddress,
-  Heading,
 } from "@bloom-housing/ui-components"
 import { ListingStatus } from "@bloom-housing/backend-core"
 import Markdown from "markdown-to-jsx"
+import { LinkButton } from "../../../../../detroit-ui-components/src/actions/LinkButton"
+import { Heading } from "../../../../../detroit-ui-components/src/headers/Heading"
 
 export interface PaperApplication {
   fileURL: string

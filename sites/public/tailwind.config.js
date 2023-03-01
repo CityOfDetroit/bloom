@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const cloneDeep = require("clone-deep")
-const bloomTheme = cloneDeep(require("@bloom-housing/ui-components/tailwind.config.js"))
+const bloomTheme = cloneDeep(require("../../detroit-ui-components/tailwind.config.js"))
 
 // Detroit style overrides.
 // See the [Detroit style guide](https://detroitmi.gov/departments/department-innovation-and-technology/style-guide)
@@ -46,8 +46,8 @@ module.exports = {
       "./pages/**/*.tsx",
       "./src/**/*.tsx",
       "./layouts/**/*.tsx",
-      "../../ui-components/src/**/*.tsx",
+      "../../detroit-ui-components/src/**/*.tsx",
     ],
-    safelist: [/grid-cols-/],
+    safelist: [/grid-cols-/, /md:col-span-/],
   },
 }

@@ -2,21 +2,21 @@ import React, { useEffect, useState, useCallback, useMemo } from "react"
 import {
   t,
   GridSection,
-  ViewItem,
   GridCell,
   Field,
   Select,
   AppearanceStyleType,
   AppearanceBorderType,
-  FieldGroup,
-  Button,
   Form,
   numberOptions,
   MinimalTable,
   AppearanceSizeType,
-  Drawer,
-  Modal,
 } from "@bloom-housing/ui-components"
+import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
+import { ViewItem } from "../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
+import { Drawer } from "../../../../../../detroit-ui-components/src/overlays/Drawer"
+import { Modal } from "../../../../../../detroit-ui-components/src/overlays/Modal"
 import { useForm, useFormContext } from "react-hook-form"
 import { TempUnitsSummary, TempAmiLevel } from "../../../lib/listings/formTypes"
 
@@ -361,7 +361,7 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(8, 1, true)}
+                    options={numberOptions(8, 1)}
                     error={errors?.minOccupancy !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxOccupancyError")}
                     validation={{ max: maxOccupancy || minOccupancy }}
@@ -384,7 +384,7 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(8, 1, true)}
+                    options={numberOptions(8, 1)}
                     error={errors?.maxOccupancy !== undefined}
                     errorMessage={t("errors.maxLessThanMinOccupancyError")}
                     validation={{ min: minOccupancy }}
@@ -457,7 +457,7 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(10, 1, true)}
+                    options={numberOptions(10, 1)}
                     error={errors?.floorMin !== undefined}
                     errorMessage={t("errors.minGreaterThanMaxFloorError")}
                     validation={{ max: floorMax || floorMin }}
@@ -480,7 +480,7 @@ const UnitsSummaryForm = ({
                     labelClassName="sr-only"
                     register={register}
                     controlClassName="control"
-                    options={numberOptions(10, 1, true)}
+                    options={numberOptions(10, 1)}
                     error={errors?.floorMax !== undefined}
                     errorMessage={t("errors.maxLessThanMinFloorError")}
                     validation={{ min: floorMin }}
