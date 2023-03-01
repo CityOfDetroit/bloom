@@ -470,10 +470,10 @@ export const useListingZip = () => {
         fileLink.href = URL.createObjectURL(blob)
         fileLink.click()
       })
+      setZipCompleted(true)
     } catch (err) {
       setZipExportError(true)
     }
-    setZipCompleted(true)
     setZipExportLoading(false)
   }, [listingsService])
 
