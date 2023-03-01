@@ -443,23 +443,24 @@ const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
 
     setCsvExportLoading(false)
   }, [endpoint, fileName])
-  
+}
+
 export const useListingZip = () => {
   const { listingsService } = useContext(AuthContext)
 
-  const [csvExportLoading, setCsvExportLoading] = useState(false)
-  const [csvExportError, setCsvExportError] = useState(false)
-  const [csvCompleted, setCsvCompleted] = useState(false)
+  const [zipExportLoading, setZipExportLoading] = useState(false)
+  const [zipExportError, setZipExportError] = useState(false)
+  const [zipCompleted, setZipCompleted] = useState(false)
 
   const onExport = useCallback(async () => {
-    setCsvExportError(false)
-    setCsvCompleted(false)
-    setCsvExportLoading(true)
+    setZipExportError(false)
+    setZipCompleted(false)
+    setZipExportLoading(true)
 
     try {
       const content = await listingsService.listAsCsv()
       const now = new Date()
-      const dateString = dayjs(now).format("YYYY-MM-DD_HH:mm:ss")
+      const dateString = dayjs(now).format("YYYY-MM-DD_HH-mm-ss")
       const zip = new JSZip()
       zip.file(dateString + "_listing_data.csv", content?.listingCsv)
       zip.file(dateString + "_unit_data.csv", content?.unitsCsv)
@@ -470,17 +471,16 @@ export const useListingZip = () => {
         fileLink.click()
       })
     } catch (err) {
-      setCsvExportError(true)
+      setZipExportError(true)
     }
-    setCsvCompleted(true)
-    setCsvExportLoading(false)
+    setZipCompleted(true)
+    setZipExportLoading(false)
   }, [listingsService])
 
   return {
     onExport,
-    csvCompleted,
-    csvExportLoading,
-    csvExportError,
-    csvExportSuccess,
+    zipCompleted,
+    zipExportLoading,
+    zipExportError,
   }
 }

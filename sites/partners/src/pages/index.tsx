@@ -58,10 +58,10 @@ export default function ListingsList() {
 
   const tableOptions = useAgTable()
 
-  const { onExport, csvCompleted, csvExportLoading, csvExportError } = useListingZip()
+  const { onExport, zipCompleted, zipExportLoading, zipExportError } = useListingZip()
   useEffect(() => {
-    setErrorAlert(csvExportError)
-  }, [csvExportError])
+    setErrorAlert(zipExportError)
+  }, [zipExportError])
 
   const gridComponents = {
     formatLinkCell,
@@ -151,7 +151,7 @@ export default function ListingsList() {
       </Head>
       <MetaTags title={t("nav.siteTitlePartners")} description={metaDescription} />
       <PageHeader title={t("nav.listings")} className={"realtive md:pt-16"}>
-        {csvCompleted && (
+        {zipCompleted && (
           <div className="flex absolute right-4 z-50 flex-col items-center">
             <SiteAlert
               dismissable
@@ -212,10 +212,10 @@ export default function ListingsList() {
                       className="mx-1"
                       dataTestId="export-listings"
                       onClick={() => onExport()}
-                      icon={!csvExportLoading ? faFileExport : null}
+                      icon={!zipExportLoading ? faFileExport : null}
                       iconSize="medium"
                       iconPlacement="right"
-                      loading={csvExportLoading}
+                      loading={zipExportLoading}
                     >
                       {t("t.exportToCSV")}
                     </Button>

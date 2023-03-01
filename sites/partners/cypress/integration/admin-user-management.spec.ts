@@ -7,7 +7,7 @@ describe("Admin User Mangement Tests", () => {
     cy.signOut()
   })
 
-  it("as admin user, should be able to download listings export", () => {
+  it("as admin user, should be able to download listings export zip", () => {
     cy.visit("/")
     cy.getByTestId("export-listings").click()
     const now = new Date()
@@ -15,8 +15,9 @@ describe("Admin User Mangement Tests", () => {
     const dayString = now.getDate()
     const timeString = `${now.getUTCHours()}-${now.getUTCMinutes()}-${now.getSeconds()}`
     const monthString = month < 10 ? `0${month}` : `${month}`
+
     cy.readFile(
-      `cypress/downloads/${now.getFullYear()}-${monthString}-${dayString}_${timeString}-complete-listing-data.csv`
+      `cypress/downloads/${now.getFullYear()}-${monthString}-${dayString}_${timeString}-complete-listing-data.zip`
     )
   })
 })
