@@ -24,9 +24,15 @@ describe("Admin User Mangement Tests", () => {
     cy.visit("/")
     cy.getByTestId("Users-1").click()
     cy.getByTestId("export-users").click()
+    const convertToString = (value: number) => {
+      return value < 10 ? `0${value}` : `${value}`
+    }
     const now = new Date()
     const month = now.getMonth() + 1
-    const monthString = month < 10 ? `0${month}` : `${month}`
-    cy.readFile(`cypress/downloads/users-${now.getFullYear()}-${monthString}-${now.getDate()}.csv`)
+    cy.readFile(
+      `cypress/downloads/users-${now.getFullYear()}-${convertToString(month)}-${convertToString(
+        now.getDate()
+      )}_${convertToString(now.getHours())}_${convertToString(now.getMinutes())}.csv`
+    )
   })
 })
