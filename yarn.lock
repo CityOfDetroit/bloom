@@ -5485,9 +5485,9 @@
     set-cookie-parser "^2.4.6"
 
 "@mswjs/interceptors@^0.17.2":
-  version "0.17.7"
-  resolved "https://registry.yarnpkg.com/@mswjs/interceptors/-/interceptors-0.17.7.tgz#3a41c6a56ddf236eddc0afd513026559ae4a1e5c"
-  integrity sha512-dPInyLEF6ybLxfKGY99euI+mbT6ls4PVO9qPgGIsRk3+2VZVfT7fo9Sq6Q8eKT9W38QtUyhG74hN7xMtKWioGw==
+  version "0.17.8"
+  resolved "https://registry.yarnpkg.com/@mswjs/interceptors/-/interceptors-0.17.8.tgz#2a4654b5076d0481b212d6c88f985bdbba09ce60"
+  integrity sha512-hjS5dy8u+Baa5r/SVAQyWZYQr8YZzpeGldNXJlZQBPjt7FQL7Acd1BnXJWmIhl62s5uh0WJNAcUMfAAcnqTchA==
   dependencies:
     "@open-draft/until" "^1.0.3"
     "@types/debug" "^4.1.7"
@@ -11724,14 +11724,7 @@ debug@^3.1.0:
   dependencies:
     ms "^2.1.1"
 
-debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
-  integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
-  dependencies:
-    ms "^2.1.1"
-
-debug@^4.3.3, debug@^4.3.4:
+debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.3, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
