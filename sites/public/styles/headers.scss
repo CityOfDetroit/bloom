@@ -1,244 +1,124 @@
-/** Headers */
-
 .site-header {
-  .navbar-notice-hide {
-    display: none;
+  --base-align-items: center;
+  --base-desktop-padding: 0 12px;
+  --base-desktop-width: 100% !important;
+  --base-height: auto;
+  --base-max-height: none;
+  --base-mobile-padding: var(--bloom-s6) var(--bloom-s3) var(--bloom-s6) var(--bloom-s4);
+  --base-mobile-width: 100%;
+  --dropdown-item-font-size: 14px;
+  --link-align-items: center;
+  --link-bottom-border: none;
+  --link-font-weight: 700;
+  --link-height: 40px;
+  --link-hover-bottom-border: none;
+  --link-padding: 1rem;
+  --link-text-color: var(--bloom-color-primary);
+  --link-text-desktop-color: var(--bloom-color-gray-650);
+  --link-font-size: 0.95rem;
+  --link-text-transform: none;
+  --logo-container-min-width: fit-content;
+  --logo-content-display: flex;
+  --logo-content-padding: 0;
+  --logo-mobile-height: 100%;
+  --logo-image-mobile-display: none;
+  --logo-image-mobile-height: 57px;
+  --logo-image-mobile-margin: 0;
+  --logo-image-desktop-height: 57px;
+  --logo-image-desktop-margin: -12px 0 0 -4px;
+  --logo-image-desktop-max-height: 6rem;
+  --logo-margin: 0;
+  --logo-mobile-padding: 0;
+  --logo-subtitle-desktop-font-size: var(--bloom-font-size-sm);
+  --logo-subtitle-mobile-font-size: var(--bloom-font-size-sm);
+  --logo-title-letter-spacing: normal;
+  --logo-title-margin-desktop: 0 0 0 8px;
+  --logo-title-text-align: left;
+  --logo-title-text-color: var(--bloom-color-primary-dark);
+  --logo-title-font-size-desktop: var(--bloom-font-size-base);
+  --logo-title-font-size-mobile: var(--bloom-font-size-base);
+  --logo-title-text-transform: none;
+
+  --mobile-dropdown-margin: 0 0 1.5rem 0;
+  --mobile-menu-button-margin: 0;
+  --mobile-menu-button-padding: 0 var(--bloom-s1) 0 0;
+  --navbar-menu-desktop-margin: 24px 0 24px;
+  --navbar-menu-desktop-width: 100%;
+  --navbar-menu-mobile-height: 48px;
+  --navbar-menu-desktop-height: 48px;
+  --navbar-menu-mobile-width: 100%;
+  --notice-display: none;
+
+  --mobile-dropdown-item-font-size: 14px;
+  --mobile-menu-button-text-display: none;
+  --logo-desktop-padding: 0;
+  --logo-desktop-height: 100%;
+}
+
+.site-header__link {
+  @screen lg {
+    font-size: 1.125rem;
+  }
+}
+
+.site-header__logo {
+  margin: 0;
+  box-shadow: none;
+}
+
+.site-header__logo-title {
+  @media (min-width: $header-desktop-min-size) {
+    @apply text-2xl;
+  }
+}
+
+.site-header__logo-image {
+  @media (min-width: $header-desktop-min-size) {
+    height: 77px;
   }
 
-  .navbar-container {
-    border: none;
-
-    .navbar {
-      align-items: center;
-      height: auto;
-      max-height: none;
-      padding: var(--bloom-s6) 0;
-
-      @media (min-width: $header-desktop-min-size) {
-        padding: 0 12px;
-        width: 100%;
-      }
-
-      @screen lg {
-        padding: 0 50px;
-        width: 100%;
-      }
-
-      @screen xl {
-        justify-content: center;
-      }
-
-      .navbar-menu {
-        height: 48px;
-        margin-right: 12px;
-        min-width: 48px;
-        width: 48px;
-
-        @media (min-width: $header-desktop-min-size) {
-          margin: 40px 0 24px;
-          width: 100%;
-        }
-
-        @screen xl {
-          margin: 48px 0 32px;
-        }
-
-        .button.navbar-mobile-menu-button {
-          align-items: center;
-          justify-content: center;
-          margin: 0;
-          padding: 0;
-        }
-
-        .button {
-          width: 60px;
-        }
-
-        .button__content {
-          display: none;
-        }
-
-        .button__icon {
-          margin: 0;
-        }
-
-        .ui-base svg {
-          height: 18px;
-          width: 21px;
-        }
-
-        .navbar-link {
-          @apply text-primary;
-          align-items: center;
-          display: flex;
-          font-size: 0.95rem;
-          @screen lg {
-            font-size: 1.125rem;
-          }
-          font-weight: 700;
-          height: 40px;
-          padding: 1rem;
-          text-transform: none;
-          border: none;
-        }
-
-        .navbar-link__sign-in {
-          margin-inline-start: 1rem;
-          padding-inline-start: 2rem;
-          position: relative;
-          min-width: max-content;
-        }
-
-        // This is a little hacky to get the divider line to the left of the "sign in" link, but
-        // this is the simplest way to do it without making significant changes to the SiteHeader
-        // component
-        .navbar-link__sign-in:before {
-          border-inline-start: 3px solid $tailwind-primary;
-          content: "";
-          height: 18px;
-          inset-inline-start: 0;
-          position: absolute;
-        }
-
-        .navbar-link__sign-up {
-          border: 2px solid $tailwind-primary;
-          border-radius: 44px;
-          min-width: max-content;
-        }
-
-        .navbar-link.navbar-link__sign-up:hover {
-          @apply text-white;
-          background-color: $tailwind-primary;
-          border: 2px solid $tailwind-primary;
-          border-radius: 44px;
-        }
-
-        .navbar-link:hover {
-          @apply text-primary-dark;
-          border: none;
-        }
-
-        .navbar-dropdown-container {
-          display: flex;
-          margin-left: 0px;
-          border-top: 1px transparent;
-          margin-top: 7px;
-          width: auto;
-          .navbar-dropdown {
-            .navbar-dropdown-item-container {
-              display: flex;
-            }
-            .navbar-dropdown-item {
-              flex: 1 1 auto;
-              font-size: 0.75rem;
-            }
-          }
-        }
-
-        .navbar-mobile-menu-button {
-          @apply flex;
-          border: none;
-          margin: 2.75rem 0.5rem 0;
-          padding: 0 0.5rem 0.75rem;
-        }
-
-        .ui-icon svg rect {
-          fill: $tailwind-primary;
-        }
-      }
-
-      .navbar-logo {
-        @media (min-width: $header-desktop-min-size) {
-          padding: 48px 0 32px 0;
-        }
-
-        @screen xl {
-          padding: 48px 0 32px;
-        }
-
-        .logo {
-          background-color: initial;
-          box-shadow: none;
-          height: 100%;
-          margin: 0;
-          max-height: 15rem;
-          max-width: 100%;
-          padding: 0;
-          width: 100%;
-
-          .logo-content {
-            align-items: center;
-            display: flex;
-            padding: 0;
-          }
-
-          .logo__title {
-            @apply text-primary-dark;
-            @apply text-base;
-            letter-spacing: initial;
-            margin-left: 4px;
-            text-align: left;
-            text-transform: none;
-
-            @media (min-width: $header-desktop-min-size) {
-              @apply text-2xl;
-              margin-left: 8px;
-            }
-
-            @screen xl {
-              @apply text-2xl;
-            }
-          }
-
-          .logo__subtitle {
-            font-size: 0.625rem;
-            font-weight: 400;
-
-            @media (min-width: $header-desktop-min-size) {
-              @apply text-sm;
-            }
-          }
-
-          .logo__image {
-            height: 57px;
-            margin: -12px 0 0 12px;
-            // The header logo should allow for a larger maximum height than the default
-            // logo.
-            max-height: 5rem;
-
-            @media (min-width: $header-desktop-min-size) {
-              height: 77px;
-              // Negative margin to center around the shield
-              margin: -16px 0 0;
-              max-height: 6rem;
-            }
-
-            @screen xl {
-              max-height: 7rem;
-            }
-          }
-        }
-
-        .navbar-custom-width {
-          align-items: initial;
-          display: initial;
-          flex-direction: initial;
-          justify-content: initial;
-        }
-      }
-    }
+  @screen xl {
+    height: 77px;
   }
-  .navbar-mobile-dropdown {
-    margin-bottom: 1.5rem;
+}
+
+.site-header__navbar-menu {
+  @media (min-width: $header-desktop-min-size) {
+    margin: 48px 0 32px;
   }
 
-  .navbar-mobile-dropdown-container .navbar-mobile-dropdown .navbar-mobile-dropdown-item {
-    @screen md {
-      @apply text-primary;
-      font-size: 1.125rem;
-      font-weight: 700;
-      text-transform: none;
-    }
+  @screen md {
+    padding: 0 0 0 32px;
+  }
+
+  @screen lg {
+    padding: 0 32px;
+  }
+}
+
+.site-header__logo-container {
+  @screen lg {
+    padding: 36px 0 36px 32px;
+  }
+}
+
+.site-header__logo-title {
+  @media (min-width: $header-desktop-min-size) {
+    margin-left: 16px;
+  }
+}
+
+.site-header__logo-image {
+  @media (min-width: $header-desktop-min-size) {
+    margin: -16px 0 0;
+  }
+}
+
+.site-header__mobile-menu-button {
+  svg {
+    height: 18px;
+    width: 21px;
+    fill: var(--bloom-color-primary);
   }
 }
 
