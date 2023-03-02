@@ -1,21 +1,21 @@
 /* Overrides the default ui-components styles with Detroit-specific styles. */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700");
 
-.navbar-logo .logo .logo__image {
-  min-height: 4rem;
-  max-height: 5rem;
-  @screen md {
-    min-height: 6rem;
-    max-height: 7rem;
-  }
-}
+#__next {
+  .site-header {
+    --logo-title-font-size-desktop: var(--bloom-font-size-tiny);
+    --logo-title-font-size-mobile: var(--bloom-font-size-sm);
+    --logo-image-desktop-max-height: 5rem;
+    --logo-image-desktop-min-height: 5rem;
+    --mobile-menu-font-size: var(--bloom-font-size-sm);
+    --logo-image-mobile-display: none;
+    --notice-display-mobile: none;
 
-.navbar-logo .logo {
-  max-height: 15rem;
-  max-width: 100%;
-
-  .logo__title {
-    @apply text-sm;
+    a {
+      &:hover {
+        color: var(--bloom-gray-950);
+      }
+    }
   }
 }
 

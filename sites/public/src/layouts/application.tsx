@@ -2,9 +2,15 @@ import React, { useContext } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import Head from "next/head"
-import { SiteFooter, FooterSection, t, setSiteAlertMessage } from "@bloom-housing/ui-components"
+import {
+  SiteFooter,
+  FooterSection,
+  t,
+  setSiteAlertMessage,
+  SiteHeader,
+  MenuLink,
+} from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { SiteHeader, MenuLink } from "../../../../detroit-ui-components/src/headers/SiteHeader"
 import { FooterNav } from "../../../../detroit-ui-components/src/navigation/FooterNav"
 import Markdown from "markdown-to-jsx"
 
@@ -62,12 +68,12 @@ const Layout = (props) => {
     menuLinks.push({
       title: t("nav.signIn"),
       href: "/sign-in",
-      class: "navbar-link__sign-in",
+      className: "navbar-link__sign-in",
     })
     menuLinks.push({
       title: t("nav.signUp"),
       href: "/create-account",
-      class: "navbar-link__sign-up",
+      className: "navbar-link__sign-up",
     })
   }
 
@@ -92,7 +98,15 @@ const Layout = (props) => {
             }
           })}
           menuLinks={menuLinks}
+          strings={{
+            skipToMainContent: "Skip to main content",
+            menu: "Menu",
+            close: "Close",
+            logoAriaLable: "Aria label",
+          }}
           desktopMinWidth={1024}
+          noticeMobile
+          mainContentId={"main-content"}
         />
         <main id="main-content" className="md:overflow-x-hidden">
           {props.children}
