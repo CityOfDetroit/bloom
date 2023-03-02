@@ -24,7 +24,15 @@ declare const expect: jest.Expect
 
 describe("UserService", () => {
   let service: UserService
-  const mockUserRepo = { findOne: jest.fn(), save: jest.fn() }
+  const mockUserRepoOrig = { findOne: jest.fn(), save: jest.fn() }
+  const mockUserRepo = {
+    findOne: jest.fn(),
+    save: jest.fn(),
+    createQueryBuilder: jest.fn(),
+    findByEmail: jest.fn(),
+    findByResetToken: jest.fn(),
+  }
+
   const mockApplicationRepo = {
     createQueryBuilder: jest.fn(),
     save: jest.fn(),
@@ -38,7 +46,7 @@ describe("UserService", () => {
         UserRepository,
         {
           provide: getRepositoryToken(User),
-          useValue: mockUserRepo,
+          useValue: mockUserRepoOrig,
         },
         {
           provide: getRepositoryToken(UserRepository),
@@ -259,7 +267,7 @@ describe("UserService", () => {
 
   describe("forgotPassword", () => {
     it("should return undefined if email is not found", async () => {
-      mockUserRepo.findOne = jest.fn().mockResolvedValue(null)
+      mockUserRepo.findByEmail = jest.fn().mockResolvedValue(null)
       await expect(service.forgotPassword({ email: "abc@xyz.com" })).resolves.toBeUndefined()
     })
 
