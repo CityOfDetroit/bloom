@@ -93,14 +93,16 @@
     margin-right: var(--bloom-s3);
   }
 
-  @media (min-width: $header-desktop-min-size) {
-    margin: var(--bloom-s12) 0 var(--bloom-s8);
+  padding: 0 0 0 var(--bloom-s8);
+  [dir="rtl"] & {
+    padding-left: 0;
   }
 
-  @screen md {
+  @media (min-width: $header-desktop-min-size) {
+    margin: var(--bloom-s12) 0 var(--bloom-s8);
     padding: 0 var(--bloom-s2) 0 var(--bloom-s8);
     [dir="rtl"] & {
-      padding: 0 var(--bloom-s8) 0 var(--bloom-s4);
+      padding-left: var(--bloom-s4);
     }
   }
 
@@ -121,7 +123,7 @@
   }
 
   @screen lg {
-    padding-right: 2.875rem;
+    padding-right: var(--bloom-s12);
   }
 }
 
