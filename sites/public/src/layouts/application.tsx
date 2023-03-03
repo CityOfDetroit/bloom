@@ -75,8 +75,8 @@ const Layout = (props) => {
   useEffect(() => {
     const pageName = document?.querySelector("h1")?.innerText
     pageName
-      ? setSRAnnouncementMessage(t("srPageTitle") + pageName)
-      : setSRAnnouncementMessage(t("srNewPage"))
+      ? setSRAnnouncementMessage(`${t("sr.pageTitle")} ${pageName}`)
+      : setSRAnnouncementMessage(t("t.newPage"))
     srAnnouncement.current.focus()
   }, [router.asPath, router.locale])
 
