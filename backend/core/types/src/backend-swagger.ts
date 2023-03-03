@@ -824,7 +824,7 @@ export class UserService {
     })
   }
   /**
-   * Resend partner confirmation
+   * Resend confirmation
    */
   resendPartnerConfirmation(
     params: {
@@ -4773,6 +4773,9 @@ export interface ListingFilterParams {
 
   /**  */
   section8Acceptance?: boolean
+
+  /**  */
+  homeType?: string
 }
 
 export interface MinMax {
@@ -5652,6 +5655,9 @@ export interface Listing {
   isVerified?: boolean
 
   /**  */
+  verifiedAt?: Date
+
+  /**  */
   temporaryListingId?: number
 
   /**  */
@@ -6120,6 +6126,9 @@ export interface ListingCreate {
 
   /**  */
   isVerified?: boolean
+
+  /**  */
+  verifiedAt?: Date
 
   /**  */
   temporaryListingId?: number
@@ -6612,6 +6621,9 @@ export interface ListingUpdate {
 
   /**  */
   isVerified?: boolean
+
+  /**  */
+  verifiedAt?: Date
 
   /**  */
   temporaryListingId?: number
