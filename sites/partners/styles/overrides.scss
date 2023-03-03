@@ -11,12 +11,9 @@
     --mobile-dropdown-item-font-size: var(--bloom-font-size-tiny);
     --logo-image-mobile-display: none;
     --notice-display-mobile: none;
-
-    a {
-      &:hover {
-        color: var(--bloom-gray-950);
-      }
-    }
+    --link-text-hover-color: var(--bloom-color-gray-750);
+    --link-text-color: var(--bloom-color-gray-750);
+    --link-font-size: var(--bloom-font-size-sm);
 
     .button {
       text-transform: uppercase;
