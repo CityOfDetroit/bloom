@@ -22,18 +22,14 @@ export interface ModalProps extends Omit<OverlayProps, "children"> {
 
 const ModalHeader = (props: { title: string; uniqueId?: string; className?: string }) => {
   const modalHeader = useRef<HTMLHeadingElement>(null)
-  useEffect(() => {
-    if (modalHeader.current && props.title) {
-      modalHeader?.current?.focus()
-    }
-  }, [props.title])
+  useEffect(() => modalHeader?.current?.focus(), [props.title])
 
   const classNames = ["modal__title"]
   if (props.className) classNames.push(props.className)
   return (
     <>
       <header className="modal__header">
-        <h1 ref={modalHeader} tabIndex={-1} className={classNames.join(" ")}>
+        <h1 ref={modalHeader} tabIndex={-1} className={classNames.join(" ")} id={props.uniqueId}>
           {props.title}
         </h1>
       </header>
