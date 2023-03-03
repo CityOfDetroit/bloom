@@ -1,60 +1,58 @@
 .site-header {
   --base-align-items: center;
-  --base-desktop-padding: 0 0 0 12px;
+  --base-desktop-padding: 0 0 0 var(--bloom-s3);
   --base-desktop-width: 100% !important;
   --base-height: auto;
   --base-max-height: none;
   --base-mobile-padding: var(--bloom-s6) 0 var(--bloom-s6) var(--bloom-s4);
   --base-mobile-width: 100%;
-  --dropdown-item-font-size: 14px;
+  --dropdown-item-font-size: var(--bloom-s3_5);
   --link-align-items: center;
   --link-bottom-border: none;
-  --link-font-weight: 700;
-  --link-height: 40px;
-  --link-hover-bottom-border: none;
-  --link-padding: 1rem;
-  --link-text-color: var(--bloom-color-primary);
-  --link-text-hover-color: var(--bloom-color-primary-dark);
-  --link-text-desktop-color: var(--bloom-color-gray-650);
   --link-font-size: 0.95rem;
+  --link-font-weight: 700;
+  --link-height: var(--bloom-s10);
+  --link-hover-bottom-border: none;
+  --link-padding: var(--bloom-s4);
+  --link-text-color: var(--bloom-color-primary);
+  --link-text-desktop-color: var(--bloom-color-gray-750);
+  --link-text-hover-color: var(--bloom-color-primary-dark);
   --link-text-transform: none;
   --logo-container-min-width: fit-content;
   --logo-content-display: flex;
   --logo-content-padding: 0;
-  --logo-mobile-height: 100%;
+  --logo-desktop-height: 100%;
+  --logo-desktop-padding: 0;
+  --logo-image-desktop-height: 57px;
+  --logo-image-desktop-margin: -0.75rem 0 0 -0.25rem;
+  --logo-image-desktop-max-height: 6rem;
   --logo-image-mobile-display: none;
   --logo-image-mobile-height: 57px;
   --logo-image-mobile-margin: 0;
-  --logo-image-desktop-height: 57px;
-  --logo-image-desktop-margin: -12px 0 0 -4px;
-  --logo-image-desktop-max-height: 6rem;
   --logo-margin: 0;
+  --logo-mobile-height: 100%;
   --logo-mobile-padding: 0;
   --logo-subtitle-desktop-font-size: var(--bloom-font-size-sm);
   --logo-subtitle-mobile-font-size: var(--bloom-font-size-sm);
-  --logo-title-letter-spacing: normal;
-  --logo-title-margin-desktop: 0 0 0 8px;
-  --logo-title-text-align: left;
-  --logo-title-text-color: var(--bloom-color-primary-dark);
   --logo-title-font-size-desktop: var(--bloom-font-size-base);
   --logo-title-font-size-mobile: var(--bloom-font-size-base);
+  --logo-title-letter-spacing: normal;
+  --logo-title-margin-desktop: 0 0 0 var(--bloom-s2);
+  --logo-title-text-align: left;
+  --logo-title-text-color: var(--bloom-color-primary-dark);
   --logo-title-text-transform: none;
-
-  --mobile-dropdown-margin: 0 0 1.5rem 0;
+  --mobile-dropdown-item-font-size: var(--bloom-s3_5);
+  --mobile-dropdown-margin: 0 0 var(--bloom-s6) 0;
   --mobile-menu-button-margin: 0;
   --mobile-menu-button-padding: 0 var(--bloom-s1) 0 0;
-  --navbar-menu-desktop-margin: 24px 0 24px;
+  --mobile-menu-button-text-display: none;
+  --navbar-menu-desktop-height: var(--bloom-s12);
+  --navbar-menu-desktop-margin: var(--bloom-s6) 0 var(--bloom-s6);
   --navbar-menu-desktop-width: 100%;
-  --navbar-menu-mobile-height: 48px;
-  --navbar-menu-desktop-height: 48px;
+  --navbar-menu-mobile-height: var(--bloom-s12);
   --navbar-menu-mobile-width: 100%;
   --notice-display-desktop: none;
   --notice-display-mobile: none;
-
-  --mobile-dropdown-item-font-size: 14px;
-  --mobile-menu-button-text-display: none;
-  --logo-desktop-padding: 0;
-  --logo-desktop-height: 100%;
 }
 
 .site-header__link {
@@ -70,7 +68,10 @@
 
 .site-header__logo-title {
   @media (min-width: $header-desktop-min-size) {
-    @apply text-2xl;
+    font-size: var(--bloom-font-size-2xl);
+  }
+  [dir="rtl"] & {
+    margin-right: var(--bloom-s4);
   }
 }
 
@@ -86,22 +87,25 @@
 
 .site-header__navbar-menu {
   .button {
-    padding: 0 4px 0 12px;
-    height: 48px;
+    padding: 0 var(--bloom-s1) 0 var(--bloom-s3);
+    height: var(--bloom-s12);
     margin-top: 0;
-    margin-right: 12px;
+    margin-right: var(--bloom-s3);
   }
 
   @media (min-width: $header-desktop-min-size) {
-    margin: 48px 0 32px;
+    margin: var(--bloom-s12) 0 var(--bloom-s8);
   }
 
   @screen md {
-    padding: 0 0 0 32px;
+    padding: 0 var(--bloom-s2) 0 var(--bloom-s8);
+    [dir="rtl"] & {
+      padding: 0 var(--bloom-s8) 0 var(--bloom-s4);
+    }
   }
 
   @screen lg {
-    padding: 0 32px;
+    padding: 0 var(--bloom-s10) var(--bloom-s8);
   }
 }
 
@@ -109,44 +113,53 @@
   max-width: inherit;
   padding-right: 0;
   @screen md {
-    padding-right: 12px;
+    padding-right: var(--bloom-s3);
+
+    [dir="rtl"] & {
+      padding-left: var(--bloom-s3);
+    }
   }
 
   @screen lg {
-    padding-right: 46px;
+    padding-right: 2.875rem;
   }
 }
 
 .site-header__logo-container {
   @screen lg {
-    padding: 36px 0 36px 32px;
+    padding: var(--bloom-s9) 0 var(--bloom-s9) var(--bloom-s8);
   }
 }
 
 .site-header__logo-title {
   @media (min-width: $header-desktop-min-size) {
-    margin-left: 16px;
+    margin-left: var(--bloom-s4);
   }
 }
 
 .site-header__logo-image {
   @media (min-width: $header-desktop-min-size) {
-    margin: -16px 0 0;
+    margin: -1rem 0 0;
   }
 }
 
 .site-header__base {
+  [dir="rtl"] & {
+    padding-right: var(--bloom-s3);
+    padding-left: 0;
+  }
+
   @media (min-width: $header-desktop-min-size) {
-    padding-right: 10px;
+    padding-right: var(--bloom-s2_5);
   }
 
   @screen xl {
-    padding-right: 8px;
+    padding-right: var(--bloom-s2);
   }
 }
 
 .site-header__mobile-dropdown-item {
-  color: var(--bloom-color-gray-650);
+  color: var(--bloom-color-gray-750);
 }
 
 .site-header__mobile-menu-button {
@@ -154,9 +167,26 @@
     rect {
       fill: var(--bloom-color-primary);
     }
-    height: 18px;
-    width: 21px;
+    height: 1.125rem;
+    width: 1.313rem;
   }
+}
+
+// This is a little hacky to get the divider line to the left of the "sign in" link, but
+// this is the simplest way to do it without making significant changes to the SiteHeader
+// component
+.navbar-link__sign-in:before {
+  border-inline-start: 3px solid $tailwind-primary;
+  content: "";
+  height: 1.125rem;
+  inset-inline-start: 0;
+  padding-right: var(--bloom-s8);
+}
+
+.navbar-link__sign-up {
+  border: var(--bloom-s0_5) solid $tailwind-primary;
+  border-radius: var(--bloom-s11);
+  min-width: max-content;
 }
 
 .hero {
