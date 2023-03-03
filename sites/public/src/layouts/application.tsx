@@ -100,10 +100,10 @@ const Layout = (props) => {
           menuLinks={menuLinks}
           desktopMinWidth={1024}
           strings={{
-            skipToMainContent: "Skip to main content",
-            menu: "Menu",
-            close: "Close",
-            logoAriaLable: "Logo aria label",
+            skipToMainContent: t("nav.skip"),
+            menu: t("t.menu"),
+            close: t("t.close"),
+            logoAriaLable: "City of Detroit logo",
           }}
           mainContentId={"main-content"}
         />

@@ -55,10 +55,10 @@ const Layout = (props) => {
           homeURL={"/"}
           logoClass={"md:h-36 md:mt-0"}
           strings={{
-            skipToMainContent: "Skip to main content",
-            menu: "Menu",
-            close: "Close",
-            logoAriaLable: "Logo aria label",
+            skipToMainContent: t("nav.skip"),
+            menu: t("t.menu"),
+            close: t("t.close"),
+            logoAriaLable: "City of Detroit logo",
           }}
           mainContentId={"main-content"}
         />

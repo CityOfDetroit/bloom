@@ -5,8 +5,8 @@
   .site-header {
     --logo-title-font-size-desktop: var(--bloom-font-size-tiny);
     --logo-title-font-size-mobile: var(--bloom-font-size-sm);
-    --logo-image-desktop-max-height: 5rem;
-    --logo-image-desktop-min-height: 5rem;
+    --logo-image-desktop-max-height: var(--bloom-s20);
+    --logo-image-desktop-min-height: var(--bloom-s20);
     --mobile-menu-font-size: var(--bloom-font-size-sm);
     --logo-image-mobile-display: none;
     --notice-display-mobile: none;
