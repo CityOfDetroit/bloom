@@ -252,3 +252,74 @@
     @apply mx-4;
   }
 }
+
+.hero__title {
+  @apply text-3xl;
+  @apply text-primary-dark;
+  @apply tracking-normal;
+  @apply leading-tight;
+  @apply mb-5;
+
+  @screen sm {
+    @apply text-6xl;
+  }
+}
+
+.hero__inner {
+  // https://github.com/tailwindlabs/tailwindcss/issues/1692
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.hero__subtitle {
+  @apply mb-5;
+  color: black;
+  font-size: unset;
+  font-weight: normal;
+  text-shadow: none;
+}
+
+.hero__button {
+  display: inline-block;
+  font-size: large;
+  max-width: 100%;
+  padding: 12px;
+  padding: 0.875rem 2.25rem;
+  width: auto;
+  margin-top: 1rem;
+  border-radius: 40px;
+
+  @screen sm {
+    margin-top: 0;
+  }
+}
+
+.hero__rentals-button {
+  color: black;
+  background-color: #ffbe42;
+
+  &:hover {
+    @apply bg-primary;
+    color: white;
+  }
+}
+.hero__finder-button {
+  color: var(--bloom-color-white);
+  background-color: var(--bloom-color-primary-dark);
+  &:hover {
+    color: var(--bloom-color-white);
+    box-shadow: 0 0 0 var(--bloom-s0_5) var(--bloom-color-primary-dark) inset;
+    background-color: var(--bloom-color-black);
+  }
+}
+
+.page-header__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  @screen md {
+    font-size: 1.75rem;
+  }
+}
+
+.page-header__lead {
+  @apply mt-4;
+}
