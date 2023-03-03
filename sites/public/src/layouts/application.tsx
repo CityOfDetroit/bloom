@@ -99,7 +99,6 @@ const Layout = (props) => {
           })}
           menuLinks={menuLinks}
           desktopMinWidth={1024}
-          noticeMobile
           strings={{
             skipToMainContent: "Skip to main content",
             menu: "Menu",
