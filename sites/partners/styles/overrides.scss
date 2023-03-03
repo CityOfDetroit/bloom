@@ -8,12 +8,26 @@
     --logo-image-desktop-max-height: var(--bloom-s20);
     --logo-image-desktop-min-height: var(--bloom-s20);
     --mobile-menu-font-size: var(--bloom-font-size-sm);
+    --mobile-dropdown-item-font-size: var(--bloom-font-size-tiny);
     --logo-image-mobile-display: none;
     --notice-display-mobile: none;
 
     a {
       &:hover {
         color: var(--bloom-gray-950);
+      }
+    }
+
+    .button {
+      text-transform: uppercase;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: var(--bloom-letter-spacing-widest);
+      font-size: var(--bloom-font-size-sm);
+      svg {
+        rect {
+          fill: var(--bloom-color-primary);
+        }
       }
     }
   }
