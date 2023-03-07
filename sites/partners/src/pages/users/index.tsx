@@ -143,7 +143,7 @@ const Users = () => {
     limit: "all",
   })
 
-  if (error) return <div>"An error has occurred."</div>
+  if (error) return <div>An error has occurred.</div>
 
   return (
     <Layout>

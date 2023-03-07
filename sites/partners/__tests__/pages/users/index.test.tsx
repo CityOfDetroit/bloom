@@ -1,9 +1,13 @@
-import { AuthProvider, ConfigProvider } from "@bloom-housing/shared-helpers"
+import {
+  ACCESS_TOKEN_LOCAL_STORAGE_KEY,
+  AuthProvider,
+  ConfigProvider,
+} from "@bloom-housing/shared-helpers"
 import { render } from "@testing-library/react"
 import { rest } from "msw"
 import { setupServer } from "msw/node"
 import React from "react"
-import Users from "../../../pages/users"
+import Users from "../../../src/pages/users"
 import { user } from "../../testHelpers"
 
 const server = setupServer()
@@ -12,7 +16,10 @@ beforeAll(() => {
   server.listen()
 })
 
-afterEach(() => server.resetHandlers())
+afterEach(() => {
+  server.resetHandlers()
+  window.sessionStorage.clear()
+})
 
 afterAll(() => server.close())
 
@@ -55,7 +62,7 @@ describe("users", () => {
       </ConfigProvider>
     )
 
-    const header = await findByText("Partners Portal")
+    const header = await findByText("Detroit Partner Portal")
     expect(header).toBeInTheDocument()
     expect(getByText("Users")).toBeInTheDocument()
     expect(getByText("Filter")).toBeInTheDocument()
@@ -71,6 +78,11 @@ describe("users", () => {
   })
 
   it("should render Export when user is admin", async () => {
+    // set a logged in token
+    jest.useFakeTimers()
+    const fakeToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZTMxODNhOC0yMGFiLTRiMDYtYTg4MC0xMmE5NjYwNmYwOWMiLCJpYXQiOjE2Nzc2MDAxNDIsImV4cCI6MjM5NzkwMDc0Mn0.ve1U5tAardpFjNyJ_b85QZLtu12MoMTa2aM25E8D1BQ"
+    window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, fakeToken)
     server.use(
       rest.get("http://localhost:3100/listings", (_req, res, ctx) => {
         return res(ctx.json([]))
@@ -85,13 +97,13 @@ describe("users", () => {
     )
     const { findByText, getByText } = render(
       <ConfigProvider apiUrl={"http://localhost:3100"}>
-        <AuthProvider isTesting={true}>
+        <AuthProvider>
           <Users />
         </AuthProvider>
       </ConfigProvider>
     )
 
-    const header = await findByText("Partners Portal")
+    const header = await findByText("Detroit Partner Portal")
     expect(header).toBeInTheDocument()
     expect(getByText("Add User")).toBeInTheDocument()
     expect(getByText("Export")).toBeInTheDocument()
