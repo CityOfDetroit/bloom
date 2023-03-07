@@ -460,7 +460,7 @@ export const useListingZip = () => {
     try {
       const content = await listingsService.listAsCsv()
       const now = new Date()
-      const dateString = dayjs(now).format("YYYY-MM-DD_HH-mm-ss")
+      const dateString = dayjs(now).format("YYYY-MM-DD_HH-mm")
       const zip = new JSZip()
       zip.file(dateString + "_listing_data.csv", content?.listingCsv)
       zip.file(dateString + "_unit_data.csv", content?.unitsCsv)

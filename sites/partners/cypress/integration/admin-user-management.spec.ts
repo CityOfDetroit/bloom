@@ -8,16 +8,19 @@ describe("Admin User Mangement Tests", () => {
   })
 
   it("as admin user, should be able to download listings export zip", () => {
+    const convertToString = (value: number) => {
+      return value < 10 ? `0${value}` : `${value}`
+    }
     cy.visit("/")
     cy.getByTestId("export-listings").click()
     const now = new Date()
-    const month = now.getMonth() + 1
-    const dayString = now.getDate()
-    const timeString = `${now.getUTCHours()}-${now.getUTCMinutes()}-${now.getSeconds()}`
-    const monthString = month < 10 ? `0${month}` : `${month}`
-
-    cy.readFile(
-      `cypress/downloads/${now.getFullYear()}-${monthString}-${dayString}_${timeString}-complete-listing-data.zip`
-    )
+    const dateString = `${now.getFullYear()}-${convertToString(
+      now.getMonth() + 1
+    )}-${convertToString(now.getDate())}`
+    const timeString = `${convertToString(now.getHours())}-${convertToString(now.getMinutes())}`
+    const zipName = `${dateString}_${timeString}-complete-listing-data.zip`
+    const downloadFolder = Cypress.config("downloadsFolder")
+    const completeZipPath = `${downloadFolder}/${zipName}`
+    cy.readFile(completeZipPath)
   })
 })

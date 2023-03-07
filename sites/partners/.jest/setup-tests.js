@@ -1,4 +1,3 @@
-// Future home of additional Jest config
 import { addTranslation } from "@bloom-housing/ui-components"
 import generalTranslations from "../../../detroit-ui-components/src/locales/general.json"
 import { configure } from "@testing-library/dom"
