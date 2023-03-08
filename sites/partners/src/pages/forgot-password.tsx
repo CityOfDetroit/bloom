@@ -18,6 +18,7 @@ const ForgotPassword = () => {
 
   const onSubmit = async (data: { email: string }) => {
     const { email } = data
+
     try {
       await forgotPassword(email)
     } catch (error) {
