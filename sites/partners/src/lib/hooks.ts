@@ -1,7 +1,6 @@
 import { useCallback, useContext, useState } from "react"
 import useSWR, { mutate } from "swr"
 import qs from "qs"
-
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import {
   EnumApplicationsApiExtraModelOrder,
@@ -14,7 +13,7 @@ import {
   OrderDirEnum,
 } from "@bloom-housing/backend-core/types"
 import dayjs from "dayjs"
-import { setSiteAlertMessage } from "@bloom-housing/ui-components"
+import { setSiteAlertMessage, t } from "@bloom-housing/ui-components"
 
 interface PaginationProps {
   page?: number
@@ -437,7 +436,7 @@ const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
       fileLink.click()
     } catch (err) {
       setCsvExportError(true)
-      setSiteAlertMessage("User Export Failed", "alert")
+      setSiteAlertMessage(t("users.exportFailed"), "alert")
     }
 
     setCsvExportLoading(false)

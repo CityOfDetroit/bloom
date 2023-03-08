@@ -41,7 +41,7 @@ const Users = () => {
 
   const tableOptions = useAgTable()
 
-  const { onExport, csvExportLoading } = useUsersExport()
+  const { onExport, csvExportLoading, csvExportError } = useUsersExport()
 
   const columns = useMemo(() => {
     return [
@@ -153,7 +153,7 @@ const Users = () => {
       <PageHeader className={"relative md:pt-16"} title={t("nav.users")}>
         <div className="flex top-4 right-4 absolute z-50 flex-col items-center">
           <SiteAlert type="success" timeout={5000} dismissable />
-          <SiteAlert type="alert" timeout={5000} dismissable />
+          {csvExportError && <SiteAlert type="alert" timeout={5000} dismissable />}
         </div>
       </PageHeader>
       <section>
