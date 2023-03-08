@@ -435,7 +435,7 @@ export class UserService {
   }
 
   public async forgotPassword(dto: ForgotPasswordDto) {
-    const user = await this.userRepository.findByEmail(dto.email)
+    const user = await this.findByEmail(dto.email)
     if (user) {
       // Token expires in 1 hour
       const payload = { id: user.id, exp: Number.parseInt(dayjs().add(1, "hour").format("X")) }
