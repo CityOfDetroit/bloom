@@ -27,6 +27,12 @@
         }
       }
     }
+
+    .site-header__logo-container {
+      a:hover {
+        color: var(--bloom-color-gray-950);
+      }
+    }
   }
 }
 
