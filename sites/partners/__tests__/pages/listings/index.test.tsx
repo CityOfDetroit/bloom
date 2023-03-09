@@ -11,6 +11,24 @@ import ListingsList from "../../../src/pages/index"
 import React from "react"
 import { listing } from "../../testHelpers"
 
+const mockFile = jest.fn()
+let mockFolder: jest.Mock
+
+const mockJszip = () => {
+  mockFolder = mockFolder ?? jest.fn(mockJszip)
+  return {
+    folder: mockFolder,
+    file: mockFile,
+  }
+}
+
+jest.mock("jszip", () => {
+  return {
+    __esModule: true,
+    default: mockJszip,
+  }
+})
+
 const server = setupServer()
 
 beforeAll(() => {
