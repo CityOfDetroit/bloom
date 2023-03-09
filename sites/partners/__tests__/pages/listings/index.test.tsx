@@ -19,6 +19,11 @@ const mockJszip = () => {
   return {
     folder: mockFolder,
     file: mockFile,
+    generateAsync: jest.fn().mockImplementation(() => {
+      const blob = {}
+      const response = { blob }
+      return Promise.resolve(response)
+    }),
   }
 }
 
