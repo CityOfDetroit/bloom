@@ -43,39 +43,41 @@ export interface FinderQuestion {
   subtitle: string
 }
 
-const ProgressHeader = forwardRef((props: ProgressHeaderProps, ref: any) => {
-  console.log(ref)
-  return (
-    <div className="flex flex-col w-full pb-8 px-2 lg:px-0 sm:pb-0">
-      <div className="flex flex-row flex-wrap justify-between gap-y-4 gap-x-0.5">
-        <h1 className="text-base md:text-lg capitalize font-bold">
-          {t("listingFilters.buttonTitleExtended")}
-        </h1>
-        <div tabIndex={-1} ref={ref}>
-          {!props.isDisclaimer && (
-            <StepHeader
-              currentStep={props.sectionNumber}
-              totalSteps={3}
-              stepPreposition={t("finder.progress.stepPreposition")}
-              stepLabeling={props.stepLabels}
-              priority={2}
-            />
-          )}
+const ProgressHeader = forwardRef(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (props: ProgressHeaderProps, ref: React.MutableRefObject<any>) => {
+    return (
+      <div className="flex flex-col w-full pb-8 px-2 lg:px-0 sm:pb-0">
+        <div className="flex flex-row flex-wrap justify-between gap-y-4 gap-x-0.5">
+          <h1 className="text-base md:text-lg capitalize font-bold">
+            {t("listingFilters.buttonTitleExtended")}
+          </h1>
+          <div tabIndex={-1} ref={ref}>
+            {!props.isDisclaimer && (
+              <StepHeader
+                currentStep={props.sectionNumber}
+                totalSteps={3}
+                stepPreposition={t("finder.progress.stepPreposition")}
+                stepLabeling={props.stepLabels}
+                priority={2}
+              />
+            )}
+          </div>
+        </div>
+        <div className="hidden sm:block">
+          <ProgressNav
+            currentPageSection={props.sectionNumber}
+            completedSections={props.sectionNumber - 1}
+            labels={props.stepLabels}
+            mounted={true}
+            style="bar"
+            removeSrHeader
+          />
         </div>
       </div>
-      <div className="hidden sm:block">
-        <ProgressNav
-          currentPageSection={props.sectionNumber}
-          completedSections={props.sectionNumber - 1}
-          labels={props.stepLabels}
-          mounted={true}
-          style="bar"
-          removeSrHeader
-        />
-      </div>
-    </div>
-  )
-})
+    )
+  }
+)
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -246,16 +248,19 @@ const Finder = () => {
         })
       }
       setFormData(formCopy)
+      // check for disclaimer case
       if (questionIndex >= formData.length - 1) {
         setIsDisclaimer(true)
         setQuestionIndex(questionIndex + 1)
         finderSectionQuestion.current.focus()
-      } else if (
-        formData[questionIndex]?.formSection !== formData[questionIndex + 1]?.formSection
-      ) {
+      }
+      // set focus on stepheader if section change
+      else if (formData[questionIndex]?.formSection !== formData[questionIndex + 1]?.formSection) {
         setQuestionIndex(questionIndex + 1)
         finderSectionHeader.current.focus()
-      } else {
+      }
+      // otherwise set focus on question
+      else {
         setQuestionIndex(questionIndex + 1)
         finderSectionQuestion.current.focus()
       }
@@ -263,10 +268,13 @@ const Finder = () => {
   }
   const previousQuestion = () => {
     setIsDisclaimer(false)
+    // set focus on stepheader if section change
     if (formData[questionIndex]?.formSection !== formData[questionIndex - 1]?.formSection) {
       setQuestionIndex(questionIndex - 1)
       finderSectionHeader.current.focus()
-    } else {
+    }
+    // otherwise set focus on question
+    else {
       setQuestionIndex(questionIndex - 1)
       finderSectionQuestion.current.focus()
     }
