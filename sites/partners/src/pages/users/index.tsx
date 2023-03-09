@@ -6,9 +6,13 @@ import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
 import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
 import { Drawer } from "../../../../../detroit-ui-components/src/overlays/Drawer"
 import { AgTable, useAgTable } from "../../../../../detroit-ui-components/src/tables/AgTable"
-import { AppearanceSizeType } from "../../../../../detroit-ui-components/src/global/AppearanceTypes"
+import {
+  AppearanceSizeType,
+  AppearanceStyleType,
+} from "../../../../../detroit-ui-components/src/global/AppearanceTypes"
 import { User } from "@bloom-housing/backend-core/types"
 import { AuthContext } from "@bloom-housing/shared-helpers"
+import { faFileExport } from "@fortawesome/free-solid-svg-icons"
 import Layout from "../../layouts"
 import { useUserList, useListingsData, useUsersExport } from "../../lib/hooks"
 import { FormUserManage } from "../../components/users/FormUserManage"
@@ -41,7 +45,7 @@ const Users = () => {
 
   const tableOptions = useAgTable()
 
-  const { onExport, csvExportLoading, csvExportError } = useUsersExport()
+  const { onExport, csvExportLoading, csvExportError, csvExportSuccess } = useUsersExport()
 
   const columns = useMemo(() => {
     return [
@@ -153,11 +157,25 @@ const Users = () => {
       <PageHeader className={"relative md:pt-16"} title={t("nav.users")}>
         <div className="flex top-4 right-4 absolute z-50 flex-col items-center">
           <SiteAlert type="success" timeout={5000} dismissable />
-          {csvExportError && <SiteAlert type="alert" timeout={5000} dismissable />}
+          {csvExportSuccess && (
+            <SiteAlert
+              timeout={5000}
+              dismissable
+              sticky={true}
+              alertMessage={{ message: t("users.exportSuccess"), type: "success" }}
+            />
+          )}{" "}
         </div>
       </PageHeader>
       <section>
         <article className="flex-row flex-wrap relative max-w-screen-xl mx-auto py-8 px-4">
+          {csvExportError && (
+            <SiteAlert
+              dismissable
+              className="mb-4"
+              alertMessage={{ message: t("errors.alert.exportFailed"), type: "alert" }}
+            />
+          )}
           <AgTable
             id="users-table"
             pagination={{
@@ -181,10 +199,21 @@ const Users = () => {
             }}
             headerContent={
               <div className="flex-row">
+                <Button
+                  className="mx-1"
+                  size={AppearanceSizeType.small}
+                  styleType={AppearanceStyleType.primary}
+                  onClick={() => setUserDrawer({ type: "add" })}
+                  disabled={!listingDtos}
+                  dataTestId={"add-user"}
+                >
+                  {t("users.addUser")}
+                </Button>
                 {profile?.roles?.isAdmin && (
                   <Button
                     className="mx-1"
                     size={AppearanceSizeType.small}
+                    icon={faFileExport}
                     onClick={() => onExport()}
                     loading={csvExportLoading}
                     dataTestId={"export-users"}
@@ -192,15 +221,6 @@ const Users = () => {
                     {t("t.export")}
                   </Button>
                 )}
-                <Button
-                  className="mx-1"
-                  size={AppearanceSizeType.small}
-                  onClick={() => setUserDrawer({ type: "add" })}
-                  disabled={!listingDtos}
-                  dataTestId={"add-user"}
-                >
-                  {t("users.addUser")}
-                </Button>
               </div>
             }
           />

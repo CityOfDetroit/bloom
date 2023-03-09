@@ -13,7 +13,6 @@ import {
   OrderDirEnum,
 } from "@bloom-housing/backend-core/types"
 import dayjs from "dayjs"
-import { setSiteAlertMessage, t } from "@bloom-housing/ui-components"
 
 interface PaginationProps {
   page?: number
@@ -421,9 +420,11 @@ export const useUsersExport = () => {
 const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
   const [csvExportLoading, setCsvExportLoading] = useState(false)
   const [csvExportError, setCsvExportError] = useState(false)
+  const [csvExportSuccess, setCsvExportSuccess] = useState(false)
 
   const onExport = useCallback(async () => {
     setCsvExportError(false)
+    setCsvExportSuccess(false)
     setCsvExportLoading(true)
 
     try {
@@ -434,9 +435,9 @@ const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
       fileLink.setAttribute("download", fileName)
       fileLink.href = URL.createObjectURL(blob)
       fileLink.click()
+      setCsvExportSuccess(true)
     } catch (err) {
       setCsvExportError(true)
-      setSiteAlertMessage(t("users.exportFailed"), "alert")
     }
 
     setCsvExportLoading(false)
@@ -446,5 +447,6 @@ const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
     onExport,
     csvExportLoading,
     csvExportError,
+    csvExportSuccess,
   }
 }
