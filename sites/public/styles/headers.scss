@@ -185,6 +185,11 @@
   padding-right: var(--bloom-s8);
 }
 
+.navbar-link__sign-in {
+  padding-left: 0;
+  margin-left: var(--bloom-s4);
+}
+
 .navbar-link__sign-up {
   border: var(--bloom-s0_5) solid $tailwind-primary;
   border-radius: var(--bloom-s11);
