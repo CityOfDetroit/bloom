@@ -4,13 +4,12 @@ import {
   ConfigProvider,
 } from "@bloom-housing/shared-helpers"
 
-import { render } from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
+import { fireEvent, render } from "@testing-library/react"
 import { rest } from "msw"
 import { setupServer } from "msw/node"
 import ListingsList from "../../../src/pages/index"
 import React from "react"
-import { listing, user } from "../../testHelpers"
+import { listing } from "../../testHelpers"
 
 const server = setupServer()
 
@@ -80,7 +79,7 @@ describe("listings", () => {
     expect(exportButton).not.toBeInTheDocument()
   })
 
-  it("should render Export to CSV pt 2 when user is Admin", async () => {
+  it("should render the error text when listings csv api call fails", async () => {
     jest.useFakeTimers()
     const fakeToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZTMxODNhOC0yMGFiLTRiMDYtYTg4MC0xMmE5NjYwNmYwOWMiLCJpYXQiOjE2Nzc2MDAxNDIsImV4cCI6MjM5NzkwMDc0Mn0.ve1U5tAardpFjNyJ_b85QZLtu12MoMTa2aM25E8D1BQ"
@@ -90,26 +89,68 @@ describe("listings", () => {
         return res(ctx.json({ items: [listing], meta: { totalItems: 1, totalPages: 1 } }))
       }),
       rest.get("http://localhost:3100/listings/csv", (_req, res, ctx) => {
-        return res(ctx.json({}))
+        return res(ctx.status(500), ctx.json(""))
       }),
       rest.get("http://localhost:3100/user", (_req, res, ctx) => {
         return res(ctx.json({ id: "user1", roles: { id: "user1", isAdmin: true } }))
       })
     )
 
-    const { findByText } = render(
+    const { findByText, getByText } = render(
       <ConfigProvider apiUrl={"http://localhost:3100"}>
         <AuthProvider>
           <ListingsList />
         </AuthProvider>
       </ConfigProvider>
     )
-    const exportButton = await findByText("Export to CSV")
+    const header = await findByText("Detroit Partner Portal")
+    expect(header).toBeInTheDocument()
+    const exportButton = getByText("Export to CSV")
     expect(exportButton).toBeInTheDocument()
-    await userEvent.click(exportButton)
+    fireEvent.click(exportButton)
+    jest.clearAllTimers()
     const error = await findByText(
-      "Export failed. Please try again later. If the problem persists, please email supportbloom@exygy.com"
+      "Export failed. Please try again later. If the problem persists, please email supportbloom@exygy.com",
+      {
+        exact: false,
+      }
     )
     expect(error).toBeInTheDocument()
+  })
+
+  it.only("should render the success text when listings csv api call succeeds", async () => {
+    window.URL.createObjectURL = jest.fn()
+    jest.useFakeTimers()
+    const fakeToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZTMxODNhOC0yMGFiLTRiMDYtYTg4MC0xMmE5NjYwNmYwOWMiLCJpYXQiOjE2Nzc2MDAxNDIsImV4cCI6MjM5NzkwMDc0Mn0.ve1U5tAardpFjNyJ_b85QZLtu12MoMTa2aM25E8D1BQ"
+    window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, fakeToken)
+    server.use(
+      rest.get("http://localhost:3100/listings", (_req, res, ctx) => {
+        return res(ctx.json({ items: [listing], meta: { totalItems: 1, totalPages: 1 } }))
+      }),
+
+      rest.get("http://localhost:3100/listings/csv", (_req, res, ctx) => {
+        return res(ctx.json({ listingCSV: "", unitsCSV: "" }))
+      }),
+      rest.get("http://localhost:3100/user", (_req, res, ctx) => {
+        return res(ctx.json({ id: "user1", roles: { id: "user1", isAdmin: true } }))
+      })
+    )
+
+    const { findByText, getByText } = render(
+      <ConfigProvider apiUrl={"http://localhost:3100"}>
+        <AuthProvider>
+          <ListingsList />
+        </AuthProvider>
+      </ConfigProvider>
+    )
+    const header = await findByText("Detroit Partner Portal")
+    expect(header).toBeInTheDocument()
+    const exportButton = getByText("Export to CSV")
+    expect(exportButton).toBeInTheDocument()
+    fireEvent.click(exportButton)
+    jest.clearAllTimers()
+    const success = await findByText("The file has been exported")
+    expect(success).toBeInTheDocument()
   })
 })
