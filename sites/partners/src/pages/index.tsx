@@ -155,7 +155,7 @@ export default function ListingsList() {
           <div className="flex absolute right-4 z-50 flex-col items-center">
             <SiteAlert
               dismissable
-              // timeout={5000}
+              timeout={5000}
               alertMessage={{ message: t("listings.exportSuccess"), type: "success" }}
             />
           </div>
