@@ -11,11 +11,11 @@ import ListingsList from "../../../src/pages/index"
 import React from "react"
 import { listing } from "../../testHelpers"
 
+//Mock the jszip package used for Export
 const mockFile = jest.fn()
 let mockFolder: jest.Mock
-
-const mockJszip = () => {
-  mockFolder = mockFolder ?? jest.fn(mockJszip)
+function mockJszip() {
+  mockFolder = jest.fn(mockJszip)
   return {
     folder: mockFolder,
     file: mockFile,
@@ -26,7 +26,6 @@ const mockJszip = () => {
     }),
   }
 }
-
 jest.mock("jszip", () => {
   return {
     __esModule: true,
@@ -35,7 +34,6 @@ jest.mock("jszip", () => {
 })
 
 const server = setupServer()
-
 beforeAll(() => {
   server.listen()
 })
@@ -141,8 +139,10 @@ describe("listings", () => {
     expect(error).toBeInTheDocument()
   })
 
-  it.only("should render the success text when listings csv api call succeeds", async () => {
+  it("should render the success text when listings csv api call succeeds", async () => {
     window.URL.createObjectURL = jest.fn()
+    //Prevent error from clicking anchor tag within test
+    HTMLAnchorElement.prototype.click = jest.fn()
     jest.useFakeTimers()
     const fakeToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZTMxODNhOC0yMGFiLTRiMDYtYTg4MC0xMmE5NjYwNmYwOWMiLCJpYXQiOjE2Nzc2MDAxNDIsImV4cCI6MjM5NzkwMDc0Mn0.ve1U5tAardpFjNyJ_b85QZLtu12MoMTa2aM25E8D1BQ"
