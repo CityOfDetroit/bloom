@@ -306,9 +306,7 @@ views.listingsExport = {
     "property.region",
     "listing.homeType",
     "listing.section8Acceptance",
-    //double check this formatting
     "unitGroups.totalCount",
-    //community type comma separated
     "listingPrograms.ordinal",
     "listingProgramsProgram.id",
     "listingProgramsProgram.title",
@@ -370,16 +368,13 @@ views.listingsExport = {
     "listingEvents.endTime",
     "listingEvents.note",
     "listing.applicationDueDate",
-    //which of two below for "waitlist" column?
     "listing.isWaitlistOpen",
-    "listing.displayWaitlistSize",
     "listing.waitlistMaxSize",
     "listing.waitlistCurrentSize",
     "listing.waitlistOpenSpots",
     "listing.marketingType",
     "listing.marketingDate",
     "listing.marketingSeason",
-    //is below leasing company
     "listing.managementCompany",
     "listing.managementWebsite",
     "listing.leasingAgentEmail",
@@ -401,7 +396,6 @@ views.listingsExport = {
     "listing.paperApplication",
     "paperApplications.id",
     "paperApplicationFile.id",
-    //whyyyyy
     "paperApplicationFile.fileId",
   ],
   leftJoins: [

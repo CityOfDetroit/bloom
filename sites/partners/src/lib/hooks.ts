@@ -463,7 +463,7 @@ export const useListingZip = () => {
       const dateString = dayjs(now).format("YYYY-MM-DD_HH-mm")
       const zip = new JSZip()
       zip.file(dateString + "_listing_data.csv", content?.listingCsv)
-      zip.file(dateString + "_unit_data.csv", content?.unitsCsv)
+      zip.file(dateString + "_unit_data.csv", content?.unitCsv)
       await zip.generateAsync({ type: "blob" }).then(function (blob) {
         const fileLink = document.createElement("a")
         fileLink.setAttribute("download", `${dateString}-complete-listing-data.zip`)

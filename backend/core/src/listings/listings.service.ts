@@ -44,7 +44,6 @@ export class ListingsService {
     @InjectRepository(Program) private readonly programRepository: Repository<Program>,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @Inject(REQUEST) private req: ExpressRequest,
-    //is this needed since no sub role?
     private readonly translationService: TranslationsService
   ) {}
 

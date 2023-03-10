@@ -62,13 +62,15 @@ describe("listings", () => {
       })
     )
 
-    const { queryByText } = render(
+    const { findByText, queryByText } = render(
       <ConfigProvider apiUrl={"http://localhost:3100"}>
         <AuthProvider>
           <ListingsList />
         </AuthProvider>
       </ConfigProvider>
     )
+    const header = await findByText("Detroit Partner Portal")
+    expect(header).toBeInTheDocument()
     const exportButton = queryByText("Export to CSV")
     expect(exportButton).not.toBeInTheDocument()
   })
@@ -126,7 +128,7 @@ describe("listings", () => {
       }),
 
       rest.get("http://localhost:3100/listings/csv", (_req, res, ctx) => {
-        return res(ctx.json({ listingCSV: "", unitsCSV: "" }))
+        return res(ctx.json({ listingCSV: "", unitCSV: "" }))
       }),
       rest.get("http://localhost:3100/user", (_req, res, ctx) => {
         return res(ctx.json({ id: "user1", roles: { id: "user1", isAdmin: true } }))
