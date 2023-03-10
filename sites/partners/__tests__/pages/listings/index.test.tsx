@@ -46,34 +46,7 @@ afterEach(() => {
 afterAll(() => server.close())
 
 describe("listings", () => {
-  it("should render Export to CSV when user is Admin", async () => {
-    jest.useFakeTimers()
-    const fakeToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZTMxODNhOC0yMGFiLTRiMDYtYTg4MC0xMmE5NjYwNmYwOWMiLCJpYXQiOjE2Nzc2MDAxNDIsImV4cCI6MjM5NzkwMDc0Mn0.ve1U5tAardpFjNyJ_b85QZLtu12MoMTa2aM25E8D1BQ"
-    window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, fakeToken)
-    server.use(
-      rest.get("http://localhost:3100/listings", (_req, res, ctx) => {
-        return res(ctx.json({ items: [listing], meta: { totalItems: 1, totalPages: 1 } }))
-      }),
-
-      rest.get("http://localhost:3100/user", (_req, res, ctx) => {
-        return res(ctx.json({ id: "user1", roles: { id: "user1", isAdmin: true } }))
-      })
-    )
-
-    const { findByText } = render(
-      <ConfigProvider apiUrl={"http://localhost:3100"}>
-        <AuthProvider>
-          <ListingsList />
-        </AuthProvider>
-      </ConfigProvider>
-    )
-
-    const exportButton = await findByText("Export to CSV")
-    expect(exportButton).toBeInTheDocument()
-  })
-
-  it("should not render Export to CSV when user is not Admin", async () => {
+  it("should not render Export to CSV when user is not admin", async () => {
     jest.useFakeTimers()
     const fakeToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZTMxODNhOC0yMGFiLTRiMDYtYTg4MC0xMmE5NjYwNmYwOWMiLCJpYXQiOjE2Nzc2MDAxNDIsImV4cCI6MjM5NzkwMDc0Mn0.ve1U5tAardpFjNyJ_b85QZLtu12MoMTa2aM25E8D1BQ"
@@ -139,7 +112,7 @@ describe("listings", () => {
     expect(error).toBeInTheDocument()
   })
 
-  it("should render the success text when listings csv api call succeeds", async () => {
+  it("should render Export to CSV when user is admin and success message when clicked", async () => {
     window.URL.createObjectURL = jest.fn()
     //Prevent error from clicking anchor tag within test
     HTMLAnchorElement.prototype.click = jest.fn()
