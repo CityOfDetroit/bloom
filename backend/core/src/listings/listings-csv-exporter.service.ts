@@ -1,9 +1,15 @@
 import { Injectable, Scope } from "@nestjs/common"
 import dayjs from "dayjs"
 import { CsvBuilder } from "../applications/services/csv-builder.service"
+
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
+
+  cloudinaryUrlFromId = (publicId: string, size = 400) => {
+    const cloudName = process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME
+    return `https://res.cloudinary.com/${cloudName}/image/upload/w_${size},c_limit,q_65/${publicId}.jpg`
+  }
 
   exportListingsFromObject(listings: any[], users: any[]): string {
     // restructure user information to listingId->user rather than user->listingId
@@ -23,6 +29,7 @@ export class ListingsCsvExporterService {
     })
 
     const listingObj = listings.map((listing) => {
+      console.log(listing.name)
       return {
         ID: listing.id,
         Created_At_Date: listing.createdAt.toString(),
@@ -81,9 +88,15 @@ export class ListingsCsvExporterService {
         Important_Program_Rules: listing.programRules,
         Special_Notes: listing.specialNotes,
         Review_Order: listing.reviewOrderType,
-        Lottery_Date: dayjs(listing.events?.startTime).format("MM-DD-YYYY"),
-        Lottery_Start: dayjs(listing.events?.startTime).format("MM-DD-YYYY h:mm:ssA"),
-        Lottery_End: dayjs(listing.events?.endTime).format("MM-DD-YYYY h:mm:ssA"),
+        Lottery_Date: listing.events?.startTime
+          ? dayjs(listing.events?.startTime).format("MM-DD-YYYY")
+          : "",
+        Lottery_Start: listing.events?.startTime
+          ? dayjs(listing.events?.startTime).format("MM-DD-YYYY hh:mm:ssA")
+          : "",
+        Lottery_End: listing.events?.endTime
+          ? dayjs(listing.events?.endTime).format("MM-DD-YYYY hh:mm:ssA")
+          : "",
         Lottery_Notes: listing.events[0]?.note,
         Application_Due_Date: listing.applicationDueDate,
         Waitlist: listing.isWaitlistOpen,
@@ -92,7 +105,7 @@ export class ListingsCsvExporterService {
         How_many_open_spots_on_the_waitlist: listing.waitlistOpenSpots,
         Marketing_Status: listing.marketingType,
         Marketing_Season: listing.marketingSeason,
-        Marketing_Date: dayjs(listing.marketingDate).format("YYYY"),
+        Marketing_Date: listing.marketingDate ? dayjs(listing.marketingDate).format("YYYY") : "",
         Leasing_Company: listing.managementCompany,
         Leasing_Email: listing.leasingAgentEmail,
         Leasing_Phone: listing.leasingAgentPhone,
@@ -113,13 +126,16 @@ export class ListingsCsvExporterService {
         Leasing_Agency_Pickup_Address_Zip: listing.applicationPickUpAddress?.zipCode,
         Leasing_Pick_Up_Office_Hours: listing.applicationPickUpAddressOfficeHours,
         Postmark: listing.postmarkedApplicationsReceivedByDate
-          ? dayjs(listing.postmarkedApplicationsReceivedByDate).format("MM-DD-YYYY h:mm:ssA")
+          ? dayjs(listing.postmarkedApplicationsReceivedByDate).format("MM-DD-YYYY hh:mm:ssA")
           : "",
         Digital_Application: listing.digitalApplication,
         Digital_Application_URL: listing.applicationMethods[1]?.externalReference,
         Paper_Application: listing.paperApplication,
-        Paper_Application_Filename:
-          listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId,
+        Paper_Application_URL: listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
+          ? this.cloudinaryUrlFromId(
+              listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
+            )
+          : "",
         Users_Who_Have_Access: adminList.concat(partnerAccessHelper[listing.id]).join(", "),
       }
     })
