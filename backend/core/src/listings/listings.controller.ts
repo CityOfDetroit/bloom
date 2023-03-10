@@ -13,6 +13,7 @@ import {
   ValidationPipe,
   ClassSerializerInterceptor,
   Headers,
+  Header,
 } from "@nestjs/common"
 import { ListingsService } from "./listings.service"
 import { ApiBearerAuth, ApiExtraModels, ApiOperation, ApiTags } from "@nestjs/swagger"
@@ -76,7 +77,9 @@ export class ListingsController {
   }
 
   @Get(`csv`)
+  @UseGuards(OptionalAuthGuard, AuthzGuard)
   @ApiOperation({ summary: "Retrieve listings and units in csv", operationId: "listAsCsv" })
+  @Header("Content-Type", "text/csv")
   async listAsCsv(): Promise<{ listingCsv: string; unitCsv: string }> {
     const data = await this.listingsService.rawListWithFlagged()
     const listingCsv = this.listingsCsvExporter.exportListingsFromObject(
