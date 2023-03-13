@@ -443,6 +443,13 @@ const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
 
     setCsvExportLoading(false)
   }, [endpoint, fileName])
+
+  return {
+    onExport,
+    csvExportLoading,
+    csvExportError,
+    csvExportSuccess,
+  }
 }
 
 export const useListingZip = () => {
