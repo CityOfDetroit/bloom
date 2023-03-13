@@ -29,7 +29,6 @@ export class ListingsCsvExporterService {
     })
 
     const listingObj = listings.map((listing) => {
-      console.log(listing.name)
       return {
         ID: listing.id,
         "Created At Date": listing.createdAt.toString(),
