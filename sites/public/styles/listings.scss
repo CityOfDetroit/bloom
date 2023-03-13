@@ -146,3 +146,8 @@
     border-radius: 24px 24px 0 0;
   }
 }
+
+.column-definition-list {
+  --body-font-size: var(--bloom-font-size-tiny);
+  --last-row-grid: auto;
+}
