@@ -6,9 +6,9 @@ import { CsvBuilder } from "../applications/services/csv-builder.service"
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
 
-  cloudinaryUrlFromId = (publicId: string, size = 400) => {
+  cloudinaryPdfFromId = (publicId: string) => {
     const cloudName = process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME
-    return `https://res.cloudinary.com/${cloudName}/image/upload/w_${size},c_limit,q_65/${publicId}.jpg`
+    return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.pdf`
   }
 
   exportListingsFromObject(listings: any[], users: any[]): string {
@@ -29,6 +29,7 @@ export class ListingsCsvExporterService {
     })
 
     const listingObj = listings.map((listing) => {
+      listing.name === "MLK Homes" && console.log(listing)
       return {
         ID: listing.id,
         "Created At Date": listing.createdAt.toString(),
@@ -82,19 +83,21 @@ export class ListingsCsvExporterService {
         "Credit History": listing.creditHistory,
         "Rental History": listing.rentalHistory,
         "Criminal Background": listing.criminalBackground,
-        "Building Selection Critera": listing.buildingSelectionCriteria,
+        "Building Selection Criteria": listing.buildingSelectionCriteriaFile
+          ? this.cloudinaryPdfFromId(listing.buildingSelectionCriteriaFile.fileId)
+          : listing.buildingSelectionCriteria,
         "Required Documents": listing.requiredDocuments,
         "Important Program Rules": listing.programRules,
         "Special Notes": listing.specialNotes,
         "Review Order": listing.reviewOrderType,
-        "Lottery Date": listing.events?.startTime
-          ? dayjs(listing.events?.startTime).format("MM-DD-YYYY")
+        "Lottery Date": listing.events[0]?.startTime
+          ? dayjs(listing.events[0]?.startTime).format("MM-DD-YYYY")
           : "",
-        "Lottery Start": listing.events?.startTime
-          ? dayjs(listing.events?.startTime).format("MM-DD-YYYY hh:mm:ssA")
+        "Lottery Start": listing.events[0]?.startTime
+          ? dayjs(listing.events[0]?.startTime).format("hh:mmA")
           : "",
-        "Lottery End": listing.events?.endTime
-          ? dayjs(listing.events?.endTime).format("MM-DD-YYYY hh:mm:ssA")
+        "Lottery End": listing.events[0]?.endTime
+          ? dayjs(listing.events[0]?.endTime).format("hh:mmA")
           : "",
         "Lottery Notes": listing.events[0]?.note,
         "Application Due Date": listing.applicationDueDate,
@@ -131,7 +134,7 @@ export class ListingsCsvExporterService {
         "Digital Application URL": listing.applicationMethods[1]?.externalReference,
         "Paper Application": listing.paperApplication,
         "Paper Application URL": listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
-          ? this.cloudinaryUrlFromId(
+          ? this.cloudinaryPdfFromId(
               listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
             )
           : "",

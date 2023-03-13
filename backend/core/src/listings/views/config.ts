@@ -360,6 +360,8 @@ views.listingsExport = {
     "listing.rentalHistory",
     "listing.criminalBackground",
     "listing.buildingSelectionCriteria",
+    "buildingSelectionCriteriaFile.id",
+    "buildingSelectionCriteriaFile.fileId",
     "listing.requiredDocuments",
     "listing.programRules",
     "listing.specialNotes",
@@ -399,6 +401,7 @@ views.listingsExport = {
     "paperApplicationFile.fileId",
   ],
   leftJoins: [
+    { join: "listing.buildingSelectionCriteriaFile", alias: "buildingSelectionCriteriaFile" },
     { join: "listing.reservedCommunityType", alias: "reservedCommunityType" },
     { join: "listing.neighborhoodAmenities", alias: "neighborhoodAmenities" },
     { join: "listing.property", alias: "property" },
