@@ -25,7 +25,7 @@
     color: var(--title-text-color);
     margin-bottom: var(--bloom-s1);
     clear: left;
-    height: max-content;
+    height: auto;
     width: 100%;
 
     @media (min-width: $screen-md) {
