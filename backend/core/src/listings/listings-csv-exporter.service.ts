@@ -10,6 +10,42 @@ export class ListingsCsvExporterService {
     const cloudName = process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME
     return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.pdf`
   }
+  // unitsSummaryTableData = (unitsSummaries, unitTypeOptions) =>
+  //   unitsSummaries?.map((summary) => {
+  //     const types = unitTypeOptions.filter((option) =>
+  //       summary.unitType.some((type) => option.id === type.toString() || option.id === type.id)
+  //     )
+  //     let amiRange: MinMax, rentRange: MinMax, percentIncomeRange: MinMax
+  //     summary?.amiLevels?.forEach((ami) => {
+  //       if (ami.amiPercentage) {
+  //         amiRange = minMaxFinder(amiRange, ami.amiPercentage)
+  //       }
+  //       if (
+  //         ami.flatRentValue &&
+  //         ami.monthlyRentDeterminationType === MonthlyRentDeterminationType.flatRent
+  //       ) {
+  //         rentRange = minMaxFinder(rentRange, ami.flatRentValue)
+  //       }
+  //       if (
+  //         ami.percentageOfIncomeValue &&
+  //         ami.monthlyRentDeterminationType === MonthlyRentDeterminationType.percentageOfIncome
+  //       ) {
+  //         percentIncomeRange = minMaxFinder(percentIncomeRange, ami.percentageOfIncomeValue)
+  //       }
+  //     })
+
+  //     return {
+  //       unitType: { content: types.map((option) => option.label).join(", ") },
+  //       units: { content: summary.totalCount },
+  //       amiRange: { content: amiRange && formatRange(amiRange.min, amiRange.max, "", "%") },
+  //       rentRange: { content: formatRentRange(rentRange, percentIncomeRange) },
+  //       occupancyRange: {
+  //         content: formatRange(summary.minOccupancy, summary.maxOccupancy, "", ""),
+  //       },
+  //       sqFeetRange: { content: formatRange(summary.sqFeetMin, summary.sqFeetMax, "", "") },
+  //       bathRange: { content: formatRange(summary.bathroomMin, summary.bathroomMax, "", "") },
+  //     }
+  //   })
 
   exportListingsFromObject(listings: any[], users: any[]): string {
     // restructure user information to listingId->user rather than user->listingId
@@ -29,7 +65,7 @@ export class ListingsCsvExporterService {
     })
 
     const listingObj = listings.map((listing) => {
-      listing.name === "MLK Homes" && console.log(listing)
+      listing.name === "MLK Homes" && console.log(listing.applicationPickUpAddress?.street)
       return {
         ID: listing.id,
         "Created At Date": listing.createdAt.toString(),
@@ -122,7 +158,7 @@ export class ListingsCsvExporterService {
         "Leasing Agency Mailing Address Street 2": listing.applicationMailingAddress?.street2,
         "Leasing Agency Mailing Address City": listing.applicationMailingAddress?.city,
         "Leasing Agency Mailing Address Zip": listing.applicationMailingAddress?.zipCode,
-        "Leasing Agency Pickup Address": listing.applicationPickupAddress?.street,
+        "Leasing Agency Pickup Address": listing.applicationPickUpAddress?.street,
         "Leasing Agency Pickup Address Street 2": listing.applicationPickUpAddress?.street2,
         "Leasing Agency Pickup Address City": listing.applicationPickUpAddress?.city,
         "Leasing Agency Pickup Address Zip": listing.applicationPickUpAddress?.zipCode,
@@ -153,6 +189,18 @@ export class ListingsCsvExporterService {
       })
     })
     const unitsObj = reformattedListings.map((listing) => {
+      console.log(listing.unitGroup?.amiLevels)
+      // const { data: unitTypesData = [] } = useUnitTypeList()
+
+      // const unitTypeOptions = unitTypesData.map((unitType) => {
+      //   return {
+      //     id: unitType.id,
+      //     label: t(`listings.unitsSummary.${unitType.name}`),
+      //     value: unitType.id,
+      //   }
+      // })
+
+      // console.log(this.unitsSummaryTableData(listing.unitGroup))
       return {
         "Listing ID": listing.id,
         "Listing Name": listing.name,

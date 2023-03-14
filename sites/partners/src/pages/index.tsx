@@ -156,6 +156,7 @@ export default function ListingsList() {
             <SiteAlert
               dismissable
               timeout={5000}
+              sticky={true}
               alertMessage={{ message: t("listings.exportSuccess"), type: "success" }}
             />
           </div>
