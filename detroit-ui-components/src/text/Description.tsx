@@ -5,23 +5,27 @@ import Markdown from "markdown-to-jsx"
 export interface DescriptionProps {
   term: string
   description: string | React.ReactNode
+  dtClassName?: string
   markdown?: boolean
 }
 
 export const Description = (props: DescriptionProps) => {
+  const dtClasses = ["description__body"]
+  if (props.dtClassName) dtClasses.push(props.dtClassName)
+
   return (
-    <div className={"description__container"}>
-      <dd className="description__title">{props.term}</dd>
+    <>
+      <dt className="description__title">{props.term}</dt>
       {props.markdown ? (
-        <dt className="description__body">
+        <dd className={dtClasses.join(" ")}>
           <Markdown
             options={{ disableParsingRawHTML: true }}
             children={props.description as string}
           />
-        </dt>
+        </dd>
       ) : (
-        <dt className="description__body">{props.description}</dt>
+        <dd className={dtClasses.join(" ")}>{props.description}</dd>
       )}
-    </div>
+    </>
   )
 }
