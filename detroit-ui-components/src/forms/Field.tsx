@@ -27,6 +27,7 @@ export interface FieldProps {
   prepend?: string
   inputProps?: Record<string, unknown>
   describedBy?: string
+  ariaLabel?: string
   getValues?: UseFormMethods["getValues"]
   setValue?: UseFormMethods["setValue"]
   dataTestId?: string
@@ -116,6 +117,7 @@ const Field = (props: FieldProps) => {
         <input
           aria-describedby={props.describedBy ? props.describedBy : `${idOrName}`}
           aria-invalid={!!props.error || false}
+          aria-label={props.ariaLabel}
           className="input"
           type={type}
           id={idOrName}
