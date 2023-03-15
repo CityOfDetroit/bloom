@@ -1,19 +1,19 @@
 import React, { useMemo } from "react"
 import { HouseholdMember, Member } from "@bloom-housing/backend-core/types"
 import {
-  t,
-  GridSection,
-  GridCell,
+  AppearanceBorderType,
+  AppearanceStyleType,
+  Button,
   DOBField,
   Field,
-  Select,
-  AppearanceStyleType,
-  AppearanceBorderType,
   Form,
   FormAddress,
+  GridCell,
+  GridSection,
+  Select,
+  t,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { ViewItem } from "../../../../../../detroit-ui-components/src/blocks/ViewItem"
 import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { relationshipKeys, stateKeys } from "@bloom-housing/shared-helpers"
 import { useForm } from "react-hook-form"

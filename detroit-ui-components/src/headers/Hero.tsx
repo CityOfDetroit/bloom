@@ -1,6 +1,5 @@
 import * as React from "react"
-import { LinkButton } from "../actions/LinkButton"
-import { t } from "@bloom-housing/ui-components"
+import { LinkButton, t } from "@bloom-housing/ui-components"
 import "./Hero.scss"
 
 export interface HeroProps {

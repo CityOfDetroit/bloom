@@ -1,8 +1,7 @@
 /*
 2.5 Household Student
 */
-import { AppearanceStyleType, Form, t } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
+import { AppearanceStyleType, Form, t, Button } from "@bloom-housing/ui-components"
 import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
 import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"

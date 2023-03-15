@@ -15,18 +15,18 @@ import {
   HomeTypeEnum,
 } from "@bloom-housing/backend-core/types"
 import {
-  t,
+  AppearanceShadeType,
+  AppearanceStyleType,
+  ApplicationStatusType,
   IconFillColors,
+  ImageTag,
+  LinkButton,
   StandardTableData,
   StatusBarType,
-  ApplicationStatusType,
-  AppearanceShadeType,
+  t,
   UniversalIconType,
 } from "@bloom-housing/ui-components"
-import { LinkButton } from "../../../../detroit-ui-components/src/actions/LinkButton"
 import { Tooltip } from "../../../../detroit-ui-components/src/blocks/Tooltip"
-import { AppearanceStyleType } from "../../../../detroit-ui-components/src/global/AppearanceTypes"
-import { ImageTag } from "../../../../detroit-ui-components/src/blocks/ImageCard"
 import { TableHeaders } from "../../../../detroit-ui-components/src/tables/StandardTable"
 import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
 import { faPersonDigging } from "@fortawesome/free-solid-svg-icons"
@@ -166,7 +166,7 @@ export const getListingTags = (
 export const getListingTag = (tag: CardTag) => {
   return (
     <Tag
-      styleType={tag.styleType ?? AppearanceStyleType.accentLight}
+      styleType={tag.styleType ?? AppearanceStyleType.accentWarm}
       shade={tag?.shadeType}
       className={"me-2 mb-2 font-bold px-3 py-2"}
       key={tag.text}
@@ -201,7 +201,7 @@ export const getImageCardTag = (listing: Listing): ImageTag[] => {
           styleType:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? AppearanceStyleType.closed
-              : AppearanceStyleType.accentLight,
+              : AppearanceStyleType.accentWarm,
           tooltip:
             listing?.isVerified && listing?.marketingType !== ListingMarketingTypeEnum.comingSoon // show tooltip only for confirmed badge
               ? {

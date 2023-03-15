@@ -15,17 +15,17 @@ import {
   Contact,
   EventSection,
   EventType,
-  ListSection,
-  ListingMap,
-  OneLineAddress,
-  ReferralApplication,
-  QuantityRowSection,
-  t,
   ExpandableText,
   AlertBox,
+  ImageCard,
+  InfoCard,
+  ListingMap,
+  ListSection,
+  OneLineAddress,
+  QuantityRowSection,
+  ReferralApplication,
+  t,
 } from "@bloom-housing/ui-components"
-import { InfoCard } from "../../../../../detroit-ui-components/src/blocks/InfoCard"
-import { ImageCard } from "../../../../../detroit-ui-components/src/blocks/ImageCard"
 import { Heading } from "../../../../../detroit-ui-components/src/headers/Heading"
 import { WhatToExpect } from "../../../../../detroit-ui-components/src/page_components/listing/listing_sidebar/WhatToExpect"
 import { AdditionalFees } from "../../../../../detroit-ui-components/src/page_components/listing/AdditionalFees"

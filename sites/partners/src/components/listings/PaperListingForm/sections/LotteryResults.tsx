@@ -1,15 +1,15 @@
 import React, { useState } from "react"
 import { useFormContext } from "react-hook-form"
 import {
-  t,
   AppearanceBorderType,
   AppearanceStyleType,
+  Button,
   Dropzone,
   MinimalTable,
-  TableThumbnail,
   StandardTableData,
+  t,
+  TableThumbnail,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../../detroit-ui-components/src/actions/Button"
 import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
 import {
   ListingEvent,

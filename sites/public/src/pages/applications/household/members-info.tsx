@@ -3,8 +3,7 @@
 A notice regarding adding household members
 */
 import { useRouter } from "next/router"
-import { AppearanceStyleType, Form, t } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
+import { AppearanceStyleType, Form, t, Button } from "@bloom-housing/ui-components"
 import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
 import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
 import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"

@@ -5,12 +5,12 @@ https://github.com/bloom-housing/bloom/issues/266
 */
 import {
   AppearanceStyleType,
+  Button,
   ErrorMessage,
+  FieldSingle,
   Form,
   t,
-  FieldSingle,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
 import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
 import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"

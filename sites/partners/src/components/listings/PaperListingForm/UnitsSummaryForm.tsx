@@ -11,12 +11,12 @@ import {
   numberOptions,
   MinimalTable,
   AppearanceSizeType,
+  Button,
+  ViewItem,
+  Modal,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { ViewItem } from "../../../../../../detroit-ui-components/src/blocks/ViewItem"
 import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { Drawer } from "../../../../../../detroit-ui-components/src/overlays/Drawer"
-import { Modal } from "../../../../../../detroit-ui-components/src/overlays/Modal"
 import { useForm, useFormContext } from "react-hook-form"
 import { TempUnitsSummary, TempAmiLevel } from "../../../lib/listings/formTypes"
 

@@ -6,13 +6,13 @@ https://github.com/bloom-housing/bloom/issues/255
 import React, { useContext, useEffect, useState } from "react"
 import {
   AppearanceStyleType,
+  Button,
   DOBField,
   Field,
   Form,
   t,
   emailRegex,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
 import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
 import { Icon, IconFillColors } from "../../../../../../detroit-ui-components/src/icons/Icon"
 import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"

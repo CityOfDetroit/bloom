@@ -2,8 +2,7 @@
 3.1 Vouchers Subsidies
 Question asks if anyone on the application receives a housing voucher or subsidy.
 */
-import { AppearanceStyleType, Form, t } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
+import { AppearanceStyleType, Button, Form, t } from "@bloom-housing/ui-components"
 import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
 import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"

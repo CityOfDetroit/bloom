@@ -1,13 +1,14 @@
 import Head from "next/head"
 import {
-  AppearanceSizeType,
-  t,
-  LoadingOverlay,
+  ActionBlock,
   AG_PER_PAGE_OPTIONS,
+  AppearanceSizeType,
+  Button,
+  Heading,
+  LinkButton,
+  LoadingOverlay,
+  t,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
-import { LinkButton } from "../../../../../detroit-ui-components/src/actions/LinkButton"
-import { ActionBlock } from "../../../../../detroit-ui-components/src/blocks/ActionBlock"
 import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
 import { Icon } from "../../../../../detroit-ui-components/src/icons/Icon"
 import { Drawer } from "../../../../../detroit-ui-components/src/overlays/Drawer"
@@ -179,7 +180,7 @@ const FilteredListingsPage = () => {
                 className={"p-8 has-bold-header"}
                 background="primary-lighter"
                 icon={<Icon size="2xl" symbol="house" />}
-                header={t("listingFilters.noResults")}
+                header={<Heading priority={2}>{t("listingFilters.noResults")}</Heading>}
                 subheader={t("listingFilters.noResultsSubtitle")}
               />
             </div>

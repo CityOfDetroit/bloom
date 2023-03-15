@@ -1,15 +1,15 @@
 import React, { useState } from "react"
 import {
-  t,
-  Button,
-  AppearanceStyleType,
-  OrDivider,
   Address,
+  AppearanceStyleType,
+  Button,
   ContactAddress,
+  LinkButton,
+  OrDivider,
+  t,
 } from "@bloom-housing/ui-components"
 import { ListingStatus } from "@bloom-housing/backend-core"
 import Markdown from "markdown-to-jsx"
-import { LinkButton } from "../../../../../detroit-ui-components/src/actions/LinkButton"
 import { Heading } from "../../../../../detroit-ui-components/src/headers/Heading"
 
 export interface PaperApplication {
@@ -69,9 +69,7 @@ const GetApplication = (props: ApplicationsProps) => {
               className="w-full mb-2"
               href={props.onlineApplicationURL}
               dataTestId={"listing-view-apply-button"}
-              linkProps={{
-                target: "_blank",
-              }}
+              newTab={true}
             >
               {t("listings.apply.applyOnline")}
             </LinkButton>

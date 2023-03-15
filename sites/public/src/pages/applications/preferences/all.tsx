@@ -1,9 +1,16 @@
 import React, { useMemo, useState, useEffect, useContext } from "react"
 import { useForm } from "react-hook-form"
-import { Form, Field, t, AppearanceStyleType, resolveObject } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
+import {
+  Form,
+  Field,
+  t,
+  AppearanceStyleType,
+  resolveObject,
+  Button,
+  ExpandableContent,
+  Order,
+} from "@bloom-housing/ui-components"
 import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ExpandableContent } from "../../../../../../detroit-ui-components/src/actions/ExpandableContent"
 import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
 import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
 import {
@@ -228,7 +235,10 @@ const ApplicationPreferencesAll = () => {
 
         {!(description === false) && (
           <div className="ml-8 -mt-3 mb-5">
-            <ExpandableContent>
+            <ExpandableContent
+              strings={{ readLess: t("t.readLess"), readMore: t("t.readMore") }}
+              order={Order.below}
+            >
               <p className="field-note mb-8">
                 {t(
                   `application.preferences.${preference.formMetadata.key}.${optionKey}.description`,

@@ -2,8 +2,14 @@
 1.4 - Alternate Contact
 Type of alternate contact
 */
-import { AppearanceStyleType, Form, Field, t, emailRegex } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
+import {
+  AppearanceStyleType,
+  Button,
+  Form,
+  Field,
+  t,
+  emailRegex,
+} from "@bloom-housing/ui-components"
 import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
 import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
 import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"

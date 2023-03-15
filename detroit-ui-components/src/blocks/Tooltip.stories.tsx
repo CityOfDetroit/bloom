@@ -1,5 +1,5 @@
 import React from "react"
-import { Button } from "../.."
+import { Button } from "@bloom-housing/ui-components"
 import { Tooltip } from "./Tooltip"
 
 export default {

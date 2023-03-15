@@ -111,6 +111,12 @@
   .alert-box.primary {
     background-color: var(--bloom-color-gray-400);
   }
+
+  .filter-form {
+    .view-item__label {
+      --label-text-color: var(--bloom-color-gray-750);
+    }
+  }
 }
 
 :root {

@@ -10,13 +10,13 @@ import {
   SiteAlert,
   passwordRegex,
   PhoneField,
+  Button,
+  Modal,
+  LinkButton,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../detroit-ui-components/src/actions/Button"
-import { LinkButton } from "../../../../detroit-ui-components/src/actions/LinkButton"
 import { FormCard } from "../../../../detroit-ui-components/src/blocks/FormCard"
 import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
 import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
-import { Modal } from "../../../../detroit-ui-components/src/overlays/Modal"
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
 dayjs.extend(customParseFormat)

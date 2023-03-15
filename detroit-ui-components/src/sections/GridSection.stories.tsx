@@ -1,10 +1,8 @@
 import React from "react"
 import { useForm } from "react-hook-form"
-import { MinimalTable } from "@bloom-housing/ui-components"
-import { ViewItem } from "../blocks/ViewItem"
+import { MinimalTable, Button, ViewItem } from "@bloom-housing/ui-components"
 import { GridSection, GridCell } from "./GridSection"
 import { Field } from "../forms/Field"
-import { Button } from "../actions/Button"
 import { AppearanceStyleType } from "../global/AppearanceTypes"
 import { mockData, mockHeaders } from "../tables/StandardTable.stories"
 

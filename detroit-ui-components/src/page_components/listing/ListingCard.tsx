@@ -1,7 +1,12 @@
 import * as React from "react"
-import { ImageCard, ImageCardProps, ImageTag } from "../../blocks/ImageCard"
-import { LinkButton } from "../../actions/LinkButton"
-import { StackedTable, StackedTableProps } from "@bloom-housing/ui-components"
+import {
+  ImageCard,
+  ImageCardProps,
+  ImageTag,
+  LinkButton,
+  StackedTable,
+  StackedTableProps,
+} from "@bloom-housing/ui-components"
 import { StandardTable, StandardTableProps } from "../../tables/StandardTable"
 import { HeaderType, Heading } from "../../headers/Heading"
 import { Tag } from "../../text/Tag"

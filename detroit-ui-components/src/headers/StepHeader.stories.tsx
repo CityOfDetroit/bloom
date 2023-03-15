@@ -1,8 +1,8 @@
 import { useState } from "@storybook/addons"
 import * as React from "react"
 import { BADGES } from "../../.storybook/constants"
+import { Button } from "@bloom-housing/ui-components"
 import { StepHeader } from "./StepHeader"
-import { Button } from "../actions/Button"
 import { AppearanceSizeType } from "../.."
 import StepHeaderDocumentation from "./StepHeader.docs.mdx"
 

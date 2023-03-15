@@ -1,7 +1,6 @@
 import * as React from "react"
 import Markdown from "markdown-to-jsx"
-import { t } from "@bloom-housing/ui-components"
-import { ExpandableContent } from "../../../actions/ExpandableContent"
+import { ExpandableContent, Order, t } from "@bloom-housing/ui-components"
 
 interface WhatToExpectProps {
   content: string
@@ -17,7 +16,10 @@ const WhatToExpect = ({ content, expandableContent }: WhatToExpectProps) => {
         <Markdown options={{ disableParsingRawHTML: false }}>{content}</Markdown>
         {expandableContent && (
           <div className={"mt-2"}>
-            <ExpandableContent>
+            <ExpandableContent
+              strings={{ readLess: t("t.readLess"), readMore: t("t.readMore") }}
+              order={Order.below}
+            >
               <Markdown options={{ disableParsingRawHTML: false }}>{expandableContent}</Markdown>
             </ExpandableContent>
           </div>

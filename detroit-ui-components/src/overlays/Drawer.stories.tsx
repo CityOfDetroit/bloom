@@ -1,11 +1,9 @@
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
-
+import { ViewItem, Button } from "@bloom-housing/ui-components"
 import { Drawer, DrawerSide } from "./Drawer"
 import { GridSection } from "../sections/GridSection"
-import { ViewItem } from "../blocks/ViewItem"
 import { Field } from "../forms/Field"
-import { Button } from "../actions/Button"
 import { AppearanceBorderType, AppearanceStyleType } from "../global/AppearanceTypes"
 
 export default {

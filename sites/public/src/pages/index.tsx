@@ -1,9 +1,7 @@
 import React, { useState } from "react"
 import Head from "next/head"
 import Link from "next/link"
-import { t, SiteAlert } from "@bloom-housing/ui-components"
-import { LinkButton } from "../../../../detroit-ui-components/src/actions/LinkButton"
-import { ActionBlock } from "../../../../detroit-ui-components/src/blocks/ActionBlock"
+import { t, SiteAlert, Heading, LinkButton, ActionBlock } from "@bloom-housing/ui-components"
 import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
 import { Hero } from "../../../../detroit-ui-components/src/headers/Hero"
 import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
@@ -169,7 +167,7 @@ export default function Home({ latestListings, underConstructionListings }) {
         <div className="action-blocks mt-4 mb-4 w-full">
           <ActionBlock
             className="flex-1 has-bold-header"
-            header={t("welcome.signUp")}
+            header={<Heading priority={2}>{t("welcome.signUp")}</Heading>}
             icon={<Icon size="2xl" symbol="envelopeThin" />}
             actions={[
               <LinkButton
@@ -177,9 +175,7 @@ export default function Home({ latestListings, underConstructionListings }) {
                 href={
                   "https://public.govdelivery.com/accounts/MIDETROIT/subscriber/new?topic_id=MIDETROIT_415"
                 }
-                linkProps={{
-                  target: "_blank",
-                }}
+                newTab={true}
               >
                 {t("welcome.signUpToday")}
               </LinkButton>,
@@ -187,7 +183,7 @@ export default function Home({ latestListings, underConstructionListings }) {
           />
           <ActionBlock
             className="flex-1 has-bold-header"
-            header={t("welcome.seeMoreOpportunitiesTruncated")}
+            header={<Heading priority={2}>{t("welcome.seeMoreOpportunitiesTruncated")}</Heading>}
             icon={<Icon size="2xl" symbol="houseThin" />}
             actions={[
               <LinkButton href="/additional-resources" key={"additional-resources"}>
@@ -197,7 +193,7 @@ export default function Home({ latestListings, underConstructionListings }) {
           />
           <ActionBlock
             className="flex-1 has-bold-header"
-            header={t("welcome.learnHousingBasics")}
+            header={<Heading priority={2}>{t("welcome.learnHousingBasics")}</Heading>}
             icon={<Icon size="2xl" symbol={"circleQuestionThin"} />}
             actions={[
               <LinkButton href="/housing-basics" key={"housing-basics"}>

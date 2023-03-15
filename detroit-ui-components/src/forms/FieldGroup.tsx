@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react"
-import { ExpandableContent } from "../actions/ExpandableContent"
-import { ErrorMessage, t } from "@bloom-housing/ui-components"
+import { ErrorMessage, ExpandableContent, Order, t } from "@bloom-housing/ui-components"
 import { UseFormMethods, RegisterOptions } from "react-hook-form"
 import { Field } from "./Field"
 
@@ -102,7 +101,10 @@ const FieldGroup = ({
 
         {item.description && (
           <div className="ml-8 -mt-1 mb-5">
-            <ExpandableContent>
+            <ExpandableContent
+              strings={{ readLess: t("t.readLess"), readMore: t("t.readMore") }}
+              order={Order.below}
+            >
               <p className="field-note mb-2 -mt-2">{item.description}</p>
             </ExpandableContent>
           </div>

@@ -3,8 +3,7 @@
 Display a summary of application fields with edit links per section
 */
 import React, { useContext, useEffect } from "react"
-import { AppearanceStyleType, t, Form } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
+import { AppearanceStyleType, t, Form, Button } from "@bloom-housing/ui-components"
 import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
 import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
 import FormsLayout from "../../../layouts/forms"
