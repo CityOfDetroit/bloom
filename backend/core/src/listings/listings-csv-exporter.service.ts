@@ -1,15 +1,11 @@
 import { Injectable, Scope } from "@nestjs/common"
 import dayjs from "dayjs"
 import { CsvBuilder } from "../applications/services/csv-builder.service"
-
+import { cloudinaryPdfFromId, formatRange, formatRentRange, getUniqueElements } from "./helpers"
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
 
-  cloudinaryPdfFromId = (publicId: string) => {
-    const cloudName = process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME
-    return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.pdf`
-  }
   // unitsSummaryTableData = (unitsSummaries, unitTypeOptions) =>
   //   unitsSummaries?.map((summary) => {
   //     const types = unitTypeOptions.filter((option) =>
@@ -65,7 +61,11 @@ export class ListingsCsvExporterService {
     })
 
     const listingObj = listings.map((listing) => {
-      listing.name === "MLK Homes" && console.log(listing.applicationPickUpAddress?.street)
+      // if (listing.name === "MLK Homes") {
+      //   console.log("____________________")
+      //   console.log(listing?.unitSummaries.unitGroupSummary)
+      //   console.log("____________________")
+      // }
       return {
         ID: listing.id,
         "Created At Date": listing.createdAt.toString(),
@@ -120,7 +120,7 @@ export class ListingsCsvExporterService {
         "Rental History": listing.rentalHistory,
         "Criminal Background": listing.criminalBackground,
         "Building Selection Criteria": listing.buildingSelectionCriteriaFile
-          ? this.cloudinaryPdfFromId(listing.buildingSelectionCriteriaFile.fileId)
+          ? cloudinaryPdfFromId(listing.buildingSelectionCriteriaFile.fileId)
           : listing.buildingSelectionCriteria,
         "Required Documents": listing.requiredDocuments,
         "Important Program Rules": listing.programRules,
@@ -169,11 +169,9 @@ export class ListingsCsvExporterService {
         "Digital Application": listing.digitalApplication,
         "Digital Application URL": listing.applicationMethods[1]?.externalReference,
         "Paper Application": listing.paperApplication,
-        "Paper Application URL": listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
-          ? this.cloudinaryPdfFromId(
-              listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
-            )
-          : "",
+        "Paper Application URL": cloudinaryPdfFromId(
+          listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
+        ),
         "Users Who Have Access": adminList.concat(partnerAccessHelper[listing.id]).join(", "),
       }
     })
@@ -184,32 +182,41 @@ export class ListingsCsvExporterService {
   exportUnitsFromObject(listings: any[]): string {
     const reformattedListings = []
     listings.forEach((listing) => {
-      listing.unitGroups.forEach((unitGroup) => {
-        reformattedListings.push({ id: listing.id, name: listing.name, unitGroup })
+      listing.unitGroups.forEach((unitGroup, idx) => {
+        reformattedListings.push({
+          id: listing.id,
+          name: listing.name,
+          unitGroup,
+          unitGroupSummary: listing.unitSummaries.unitGroupSummary[idx],
+        })
       })
     })
-    const unitsObj = reformattedListings.map((listing) => {
-      console.log(listing.unitGroup?.amiLevels)
-      // const { data: unitTypesData = [] } = useUnitTypeList()
-
-      // const unitTypeOptions = unitTypesData.map((unitType) => {
-      //   return {
-      //     id: unitType.id,
-      //     label: t(`listings.unitsSummary.${unitType.name}`),
-      //     value: unitType.id,
-      //   }
-      // })
-
-      // console.log(this.unitsSummaryTableData(listing.unitGroup))
+    let index = 0
+    const unitsFormatted = reformattedListings.map((listing, idx) => {
+      if (listing.name === "MLK Homes") {
+        index = idx
+        console.log(listing.unitGroupSummary)
+      }
       return {
         "Listing ID": listing.id,
         "Listing Name": listing.name,
-        "Unit Group ID": listing.unitGroup?.id,
-        "Unit Types": listing.unitGroup?.unitType.map((type) => type.name).join(", "),
-        "AMI Chart": listing.unitGroup?.amiLevels[0]?.amiChart?.name,
-        "AMI Level": listing.unitGroup?.amiLevels[0]?.amiPercentage,
-        "Rent Type": listing.unitGroup?.amiLevels[0]?.monthlyRentDeterminationType,
-        "Monthly Rent": listing.unitGroup?.amiLevels[0]?.flatRentValue,
+        "Unit Group ID": listing.unitGroup.id,
+        "Unit Types": listing.unitGroupSummary?.unitTypes.join(", "),
+        "AMI Chart": listing.unitGroup?.amiLevels.map((level) => level.amiChart?.name).join(", "),
+        "AMI Level": formatRange(
+          listing.unitGroupSummary?.amiPercentageRange?.min,
+          listing.unitGroupSummary?.amiPercentageRange?.max,
+          "",
+          "%"
+        ),
+        "Rent Type": getUniqueElements(
+          listing.unitGroup?.amiLevels,
+          "monthlyRentDeterminationType"
+        ),
+        "Monthly Rent": formatRentRange(
+          listing.unitGroupSummary.rentRange,
+          listing.unitGroupSummary.rentAsPercentIncomeRange
+        ),
         "Affordable Unit Group Quantity": listing.unitGroup?.totalCount,
         "Unit Group Vacancies": listing.unitGroup?.totalAvailable,
         "Waitlist Status": listing.unitGroup?.openWaitlist,
@@ -224,6 +231,8 @@ export class ListingsCsvExporterService {
       }
     })
 
-    return this.csvBuilder.buildFromIdIndex(unitsObj)
+    console.log(unitsFormatted[index])
+
+    return this.csvBuilder.buildFromIdIndex(unitsFormatted)
   }
 }

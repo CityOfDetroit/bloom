@@ -316,7 +316,10 @@ export class ListingsService {
       this.listingRepository.createQueryBuilder("listing"),
       "unitsExport"
     ).getViewQb()
-    const unitData = await unitsQb.where("listing.id IN (:...listingIds)", { listingIds }).getMany()
+    const unitDataRaw = await unitsQb
+      .where("listing.id IN (:...listingIds)", { listingIds })
+      .getMany()
+    const unitData = await this.addUnitSummariesToListings(unitDataRaw)
 
     return {
       unitData,
