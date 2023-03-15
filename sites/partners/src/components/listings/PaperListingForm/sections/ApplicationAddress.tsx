@@ -1,16 +1,16 @@
 import React, { useEffect } from "react"
 import { useFormContext, useWatch } from "react-hook-form"
 import {
-  t,
-  GridSection,
-  Textarea,
+  DateField,
   Field,
   GridCell,
+  GridSection,
   Select,
-  DateField,
+  t,
+  Textarea,
   TimeField,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
 import { FieldGroup } from "../../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { stateKeys } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"

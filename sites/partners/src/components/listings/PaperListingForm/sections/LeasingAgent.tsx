@@ -2,15 +2,15 @@ import React, { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
 import { isURL } from "class-validator"
 import {
-  t,
-  GridSection,
-  Textarea,
   Field,
-  PhoneField,
   GridCell,
+  GridSection,
+  PhoneField,
   Select,
+  t,
+  Textarea,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
 import { fieldMessage, fieldHasError } from "../../../../lib/helpers"
 import { stateKeys } from "@bloom-housing/shared-helpers"
 

@@ -34,6 +34,15 @@
       }
     }
   }
+
+  .button {
+    --inline-font-size: var(--bloom-font-size-tiny);
+    --unstyled-inline-font-size: var(--bloom-font-size-tiny);
+  }
+
+  .view-item {
+    --label-font-size: var(--bloom-font-size-tiny);
+  }
 }
 
 // Listing table Detroit styles
