@@ -1,15 +1,23 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import Head from "next/head"
-import { SiteFooter, FooterSection, t, setSiteAlertMessage } from "@bloom-housing/ui-components"
+import {
+  SiteFooter,
+  FooterSection,
+  t,
+  setSiteAlertMessage,
+  SiteHeader,
+  MenuLink,
+} from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { SiteHeader, MenuLink } from "../../../../detroit-ui-components/src/headers/SiteHeader"
 import { FooterNav } from "../../../../detroit-ui-components/src/navigation/FooterNav"
 import Markdown from "markdown-to-jsx"
 
 const Layout = (props) => {
   const { profile, signOut } = useContext(AuthContext)
+  const srAnnouncement = useRef(null)
+  const [srAnnouncementMessage, setSRAnnouncementMessage] = useState<string>()
   const router = useRouter()
 
   const languages =
@@ -62,14 +70,21 @@ const Layout = (props) => {
     menuLinks.push({
       title: t("nav.signIn"),
       href: "/sign-in",
-      class: "navbar-link__sign-in",
+      className: "navbar-link__sign-in",
     })
     menuLinks.push({
       title: t("nav.signUp"),
       href: "/create-account",
-      class: "navbar-link__sign-up",
+      className: "navbar-link__sign-up",
     })
   }
+  useEffect(() => {
+    const pageName = document?.querySelector("h1")?.innerText
+    pageName
+      ? setSRAnnouncementMessage(`${t("sr.pageTitle")} ${pageName}`)
+      : setSRAnnouncementMessage(t("t.newPage"))
+    srAnnouncement.current.focus()
+  }, [router.asPath, router.locale])
 
   return (
     <div className="site-wrapper">
@@ -77,6 +92,9 @@ const Layout = (props) => {
         <Head>
           <title>{t("nav.siteTitle")}</title>
         </Head>
+        <div ref={srAnnouncement} tabIndex={-1} className={"sr-only"}>
+          {srAnnouncementMessage}
+        </div>
         <SiteHeader
           logoSrc="/images/detroit-logo.png"
           homeURL="/"
@@ -93,6 +111,13 @@ const Layout = (props) => {
           })}
           menuLinks={menuLinks}
           desktopMinWidth={1024}
+          strings={{
+            skipToMainContent: t("nav.skip"),
+            menu: t("t.menu"),
+            close: t("t.close"),
+            logoAriaLable: "City of Detroit logo",
+          }}
+          mainContentId={"main-content"}
         />
         <main id="main-content" className="md:overflow-x-hidden">
           {props.children}
