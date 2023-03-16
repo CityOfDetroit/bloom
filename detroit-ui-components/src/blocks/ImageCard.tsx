@@ -101,6 +101,19 @@ const ImageCard = (props: ImageCardProps) => {
     return props.images?.slice(0, 3)
   }, [props.images])
 
+  const altText = (index: number, displayedImages?: ImageItem[], description?: string) => {
+    if (description) {
+      return description
+    }
+    if (displayedImages && displayedImages.length > 1) {
+      return t("listings.multipleImagesAltWithName", {
+        name: props.description,
+        number: index + 1,
+      })
+    }
+    return props.description
+  }
+
   const image = (
     <>
       <div className="image-card">
@@ -133,11 +146,7 @@ const ImageCard = (props: ImageCardProps) => {
               <img
                 key={index}
                 src={image.thumbnailUrl || image.mobileUrl || image.url}
-                alt={
-                  image.description
-                    ? image.description
-                    : `${props.description || ""} - photo ${index + 1}`
-                }
+                alt={altText(index, displayedImages, image.description)}
               />
             ))
           ) : (
@@ -189,14 +198,7 @@ const ImageCard = (props: ImageCardProps) => {
             <p key={index} className="mb-7">
               <picture>
                 {image.mobileUrl && <source media="(max-width: 767px)" srcSet={image.mobileUrl} />}
-                <img
-                  src={image.url}
-                  alt={
-                    image.description
-                      ? image.description
-                      : `${props.description || ""} - photo ${index + 1}`
-                  }
-                />
+                <img src={image.url} alt={altText(index, props.images, image.description)} />
               </picture>
             </p>
           ))}
