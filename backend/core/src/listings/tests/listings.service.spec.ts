@@ -15,6 +15,7 @@ import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
 import { UnitType } from "../../unit-types/entities/unit-type.entity"
 import { Program } from "../../program/entities/program.entity"
 import { BullModule, getQueueToken } from "@nestjs/bull"
+import { User } from "../../../src/auth/entities/user.entity"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -144,6 +145,7 @@ describe("ListingsService", () => {
           provide: TranslationsService,
           useValue: { translateListing: jest.fn() },
         },
+        { provide: getRepositoryToken(User), useValue: jest.fn() },
       ],
       imports: [BullModule.registerQueue({ name: "listings-notifications" })],
     })
