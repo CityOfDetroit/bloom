@@ -1,7 +1,7 @@
 import React, { useMemo, useContext, useState, useEffect } from "react"
 import Head from "next/head"
 import { ListingStatus } from "@bloom-housing/backend-core/types"
-import { t, LocalizedLink, SiteAlert } from "@bloom-housing/ui-components"
+import { t, LocalizedLink, SiteAlert, AppearanceStyleType } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import { Button } from "../../../../detroit-ui-components/src/actions/Button"
 import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
@@ -205,7 +205,11 @@ export default function ListingsList() {
                 {isAdmin && (
                   <div className="flex-row">
                     <LocalizedLink href={`/listings/add`}>
-                      <Button className="mx-1" onClick={() => false}>
+                      <Button
+                        className="mx-1"
+                        styleType={AppearanceStyleType.primary}
+                        onClick={() => false}
+                      >
                         {t("listings.addListing")}
                       </Button>
                     </LocalizedLink>
