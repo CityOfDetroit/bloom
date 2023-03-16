@@ -1,7 +1,18 @@
 import { Injectable, Scope } from "@nestjs/common"
 import dayjs from "dayjs"
 import { CsvBuilder } from "../applications/services/csv-builder.service"
-import { cloudinaryPdfFromId, formatRange, formatRentRange, getUniqueElements } from "./helpers"
+import {
+  cloudinaryPdfFromId,
+  formatCurrency,
+  formatDate,
+  formatRange,
+  formatRentRange,
+  formatStatus,
+  formatYesNo,
+  getRentTypes,
+  convertToTitleCase,
+  formatBedroom,
+} from "./helpers"
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
@@ -59,21 +70,23 @@ export class ListingsCsvExporterService {
         adminList.push(userName)
       }
     })
+    let index = 0
+    const listingObj = listings.map((listing, idx) => {
+      if (listing.name === "MLK Homes") {
+        index = idx
 
-    const listingObj = listings.map((listing) => {
-      // if (listing.name === "MLK Homes") {
-      //   console.log("____________________")
-      //   console.log(listing?.unitSummaries.unitGroupSummary)
-      //   console.log("____________________")
-      // }
+        //   console.log("____________________")
+        //   console.log(listing?.unitSummaries.unitGroupSummary)
+        //   console.log("____________________")
+      }
       return {
         ID: listing.id,
-        "Created At Date": listing.createdAt.toString(),
-        "Listing Status": listing.status,
-        "Publish Date": listing.publishedAt?.toString(),
-        Verified: listing.isVerified,
-        "Verified Date": listing.verifiedAt?.toString(),
-        "Last Updated": listing.updatedAt?.toString(),
+        "Created At Date": formatDate(listing.createdAt, "MM-DD-YYYY hh:mm:ssA"),
+        "Listing Status": formatStatus[listing.status],
+        "Publish Date": formatDate(listing.publishedAt, "MM-DD-YYYY hh:mm:ssA"),
+        Verified: formatYesNo(listing.isVerified),
+        "Verified Date": formatDate(listing.verifiedAt, "MM-DD-YYYY hh:mm:ssA"),
+        "Last Updated": formatDate(listing.updatedAt, "MM-DD-YYYY hh:mm:ssA"),
         "Listing Name": listing.name,
         "Developer Property Owner": listing.property.developer,
         "Street Address": listing.property.buildingAddress?.street,
@@ -86,19 +99,19 @@ export class ListingsCsvExporterService {
         Latitude: listing.property.buildingAddress?.latitude,
         Longitude: listing.property.buildingAddress?.longitude,
         "Home Type": listing.homeType,
-        "Accept Section 8": listing.section8Acceptance,
+        "Accept Section 8": formatYesNo(listing.section8Acceptance),
         "Number Of Unit Groups": listing.unitGroups?.length,
         "Community Types": listing.listingPrograms
           ?.map((listingProgram) => listingProgram.program.title)
           .join(", "),
-        "Application Fee": listing.applicationFee,
-        "Deposit Min": listing.depositMin,
-        "Deposit Max": listing.depositMax,
+        "Application Fee": formatCurrency(listing.applicationFee),
+        "Deposit Min": formatCurrency(listing.depositMin),
+        "Deposit Max": formatCurrency(listing.depositMax),
         "Deposit Helper": listing.depositHelperText,
         "Costs Not Included": listing.costsNotIncluded,
         "Utilities Included": Object.entries(listing.utilities ?? {})
           .filter((entry) => entry[1] === true)
-          .map((entry) => entry[0])
+          .map((entry) => convertToTitleCase(entry[0]))
           .join(", "),
         "Property Amenities": listing.property.amenities,
         "Additional Accessibility Details": listing.property.accessibility,
@@ -108,7 +121,7 @@ export class ListingsCsvExporterService {
         "Services Offered": listing.property.servicesOffered,
         "Accessibility Features": Object.entries(listing.features ?? {})
           ?.filter((entry) => entry[1] === true)
-          .map((entry) => entry[0])
+          .map((entry) => convertToTitleCase(entry[0]))
           .join(", "),
         "Grocery Stores": listing.neighborhoodAmenities?.groceryStores,
         "Public Transportation": listing.neighborhoodAmenities?.publicTransportation,
@@ -119,31 +132,24 @@ export class ListingsCsvExporterService {
         "Credit History": listing.creditHistory,
         "Rental History": listing.rentalHistory,
         "Criminal Background": listing.criminalBackground,
-        "Building Selection Criteria": listing.buildingSelectionCriteriaFile
-          ? cloudinaryPdfFromId(listing.buildingSelectionCriteriaFile.fileId)
-          : listing.buildingSelectionCriteria,
+        "Building Selection Criteria": cloudinaryPdfFromId(
+          listing.buildingSelectionCriteriaFile?.fileId
+        ),
         "Required Documents": listing.requiredDocuments,
         "Important Program Rules": listing.programRules,
         "Special Notes": listing.specialNotes,
-        "Review Order": listing.reviewOrderType,
-        "Lottery Date": listing.events[0]?.startTime
-          ? dayjs(listing.events[0]?.startTime).format("MM-DD-YYYY")
-          : "",
-        "Lottery Start": listing.events[0]?.startTime
-          ? dayjs(listing.events[0]?.startTime).format("hh:mmA")
-          : "",
-        "Lottery End": listing.events[0]?.endTime
-          ? dayjs(listing.events[0]?.endTime).format("hh:mmA")
-          : "",
+        "Review Order": convertToTitleCase(listing.reviewOrderType),
+        "Lottery Date": formatDate(listing.events[0]?.startTime, "MM-DD-YYYY"),
+        "Lottery Start": formatDate(listing.events[0]?.startTime, "hh:mmA"),
+        "Lottery End": formatDate(listing.events[0]?.endTime, "hh:mmA"),
         "Lottery Notes": listing.events[0]?.note,
-        "Application Due Date": listing.applicationDueDate,
         Waitlist: listing.isWaitlistOpen,
         "Max Waitlist Size": listing.waitlistMaxSize,
         "How many people on the current list": listing.waitlistCurrentSize,
         "How many open spots on the waitlist": listing.waitlistOpenSpots,
-        "Marketing Status": listing.marketingType,
-        "Marketing Season": listing.marketingSeason,
-        "Marketing Date": listing.marketingDate ? dayjs(listing.marketingDate).format("YYYY") : "",
+        "Marketing Status": convertToTitleCase(listing.marketingType),
+        "Marketing Season": convertToTitleCase(listing.marketingSeason),
+        "Marketing Date": formatDate(listing.marketingDate, "YYYY"),
         "Leasing Company": listing.managementCompany,
         "Leasing Email": listing.leasingAgentEmail,
         "Leasing Phone": listing.leasingAgentPhone,
@@ -163,18 +169,18 @@ export class ListingsCsvExporterService {
         "Leasing Agency Pickup Address City": listing.applicationPickUpAddress?.city,
         "Leasing Agency Pickup Address Zip": listing.applicationPickUpAddress?.zipCode,
         "Leasing Pick Up Office Hours": listing.applicationPickUpAddressOfficeHours,
-        Postmark: listing.postmarkedApplicationsReceivedByDate
-          ? dayjs(listing.postmarkedApplicationsReceivedByDate).format("MM-DD-YYYY hh:mm:ssA")
-          : "",
-        "Digital Application": listing.digitalApplication,
+        Postmark: formatDate(listing.postmarkedApplicationsReceivedByDate, "MM-DD-YYYY hh:mm:ssA"),
+        "Digital Application": formatYesNo(listing.digitalApplication),
         "Digital Application URL": listing.applicationMethods[1]?.externalReference,
-        "Paper Application": listing.paperApplication,
+        "Paper Application": formatYesNo(listing.paperApplication),
         "Paper Application URL": cloudinaryPdfFromId(
           listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
         ),
         "Users Who Have Access": adminList.concat(partnerAccessHelper[listing.id]).join(", "),
       }
     })
+    console.log("___________________________________________")
+    console.log(listingObj[index])
 
     return this.csvBuilder.buildFromIdIndex(listingObj)
   }
@@ -191,17 +197,18 @@ export class ListingsCsvExporterService {
         })
       })
     })
-    let index = 0
-    const unitsFormatted = reformattedListings.map((listing, idx) => {
+
+    const unitsFormatted = reformattedListings.map((listing) => {
       if (listing.name === "MLK Homes") {
-        index = idx
         console.log(listing.unitGroupSummary)
       }
       return {
         "Listing ID": listing.id,
         "Listing Name": listing.name,
         "Unit Group ID": listing.unitGroup.id,
-        "Unit Types": listing.unitGroupSummary?.unitTypes.join(", "),
+        "Unit Types": listing.unitGroupSummary?.unitTypes
+          .map((unitType) => formatBedroom[unitType])
+          .join(", "),
         "AMI Chart": listing.unitGroup?.amiLevels.map((level) => level.amiChart?.name).join(", "),
         "AMI Level": formatRange(
           listing.unitGroupSummary?.amiPercentageRange?.min,
@@ -209,10 +216,7 @@ export class ListingsCsvExporterService {
           "",
           "%"
         ),
-        "Rent Type": getUniqueElements(
-          listing.unitGroup?.amiLevels,
-          "monthlyRentDeterminationType"
-        ),
+        "Rent Type": getRentTypes(listing.unitGroup?.amiLevels, "monthlyRentDeterminationType"),
         "Monthly Rent": formatRentRange(
           listing.unitGroupSummary.rentRange,
           listing.unitGroupSummary.rentAsPercentIncomeRange
@@ -230,8 +234,6 @@ export class ListingsCsvExporterService {
         "Maximum Bathrooms": listing.unitGroup?.bathroomMax,
       }
     })
-
-    console.log(unitsFormatted[index])
 
     return this.csvBuilder.buildFromIdIndex(unitsFormatted)
   }

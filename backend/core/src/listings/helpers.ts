@@ -14,12 +14,44 @@ export const formatDate = (rawDate: any, format: string): string => {
   } else return ""
 }
 
-export const getUniqueElements = (nestedArr: any[], objKey: string): string => {
+export const getRentTypes = (nestedArr: any[], objKey: string): string => {
   const uniqueArr = []
   nestedArr?.forEach((elem) => {
     if (!uniqueArr.includes(elem[objKey])) uniqueArr.push(elem[objKey])
   })
-  return uniqueArr.join(", ")
+  const formattedResults = uniqueArr.map((elem) => convertToTitleCase(elem)).join(", ")
+  return formattedResults
+}
+
+export const formatYesNo = (value: boolean | null) => {
+  if (value === null || typeof value == "undefined") return ""
+  else if (value) return "Yes"
+  else return "No"
+}
+
+export const formatStatus = {
+  active: "Public",
+  pending: "Draft",
+}
+
+export const formatBedroom = {
+  oneBdrm: "1 BR",
+  twoBdrm: "2 BR",
+  threeBdrm: "3 BR",
+  fourBdrm: "4 BR",
+  fiveBdrm: "5 BR",
+  studio: "Studio",
+}
+
+export const formatCurrency = (value: string): string => {
+  return value ? `$${value}` : ""
+}
+
+export const convertToTitleCase = (value: string): string => {
+  if (!value) return ""
+  const spacedValue = value.replace(/([A-Z])/g, (match) => ` ${match}`)
+  const result = spacedValue.charAt(0).toUpperCase() + spacedValue.slice(1)
+  return result
 }
 
 export function formatRange(
