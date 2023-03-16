@@ -1,29 +1,36 @@
 import dayjs from "dayjs"
 import { MinMax } from "@bloom-housing/backend-core/types"
+import { UnitGroupAmiLevelDto } from "../../src/units-summary/dto/unit-group-ami-level.dto"
+
+export const isDefined = (item: number | string): boolean => {
+  return item !== null && item !== undefined && item !== ""
+}
 
 export const cloudinaryPdfFromId = (publicId: string): string => {
-  if (publicId) {
+  if (isDefined(publicId)) {
     const cloudName = process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME
     return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.pdf`
   } else return ""
 }
 
-export const formatDate = (rawDate: any, format: string): string => {
+export const formatDate = (rawDate: string, format: string): string => {
   if (isDefined(rawDate)) {
     return dayjs(rawDate).format(format)
   } else return ""
 }
 
-export const getRentTypes = (nestedArr: any[], objKey: string): string => {
-  const uniqueArr = []
-  nestedArr?.forEach((elem) => {
-    if (!uniqueArr.includes(elem[objKey])) uniqueArr.push(elem[objKey])
+export const getRentTypes = (amiLevels: UnitGroupAmiLevelDto[]): string => {
+  if (!amiLevels || amiLevels?.length === 0) return ""
+  const uniqueTypes = []
+  amiLevels?.forEach((elem) => {
+    if (!uniqueTypes.includes(elem.monthlyRentDeterminationType))
+      uniqueTypes.push(elem.monthlyRentDeterminationType)
   })
-  const formattedResults = uniqueArr.map((elem) => convertToTitleCase(elem)).join(", ")
+  const formattedResults = uniqueTypes.map((elem) => convertToTitleCase(elem)).join(", ")
   return formattedResults
 }
 
-export const formatYesNo = (value: boolean | null) => {
+export const formatYesNo = (value: boolean | null): string => {
   if (value === null || typeof value == "undefined") return ""
   else if (value) return "Yes"
   else return "No"
@@ -48,18 +55,18 @@ export const formatCurrency = (value: string): string => {
 }
 
 export const convertToTitleCase = (value: string): string => {
-  if (!value) return ""
+  if (!isDefined(value)) return ""
   const spacedValue = value.replace(/([A-Z])/g, (match) => ` ${match}`)
   const result = spacedValue.charAt(0).toUpperCase() + spacedValue.slice(1)
   return result
 }
 
-export function formatRange(
+export const formatRange = (
   min: string | number,
   max: string | number,
   prefix: string,
   postfix: string
-): string {
+): string => {
   if (!isDefined(min) && !isDefined(max)) return ""
   if (min == max || !isDefined(max)) return `${prefix}${min}${postfix}`
   if (!isDefined(min)) return `${prefix}${max}${postfix}`
@@ -78,8 +85,4 @@ export function formatRentRange(rent: MinMax, percent: MinMax): string {
     toReturn += formatRange(percent.min, percent.max, "", "%")
   }
   return toReturn
-}
-
-export function isDefined(item: number | string): boolean {
-  return item !== null && item !== undefined && item !== ""
 }

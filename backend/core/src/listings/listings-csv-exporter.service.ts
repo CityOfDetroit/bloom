@@ -1,5 +1,4 @@
 import { Injectable, Scope } from "@nestjs/common"
-import dayjs from "dayjs"
 import { CsvBuilder } from "../applications/services/csv-builder.service"
 import {
   cloudinaryPdfFromId,
@@ -17,43 +16,6 @@ import {
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
 
-  // unitsSummaryTableData = (unitsSummaries, unitTypeOptions) =>
-  //   unitsSummaries?.map((summary) => {
-  //     const types = unitTypeOptions.filter((option) =>
-  //       summary.unitType.some((type) => option.id === type.toString() || option.id === type.id)
-  //     )
-  //     let amiRange: MinMax, rentRange: MinMax, percentIncomeRange: MinMax
-  //     summary?.amiLevels?.forEach((ami) => {
-  //       if (ami.amiPercentage) {
-  //         amiRange = minMaxFinder(amiRange, ami.amiPercentage)
-  //       }
-  //       if (
-  //         ami.flatRentValue &&
-  //         ami.monthlyRentDeterminationType === MonthlyRentDeterminationType.flatRent
-  //       ) {
-  //         rentRange = minMaxFinder(rentRange, ami.flatRentValue)
-  //       }
-  //       if (
-  //         ami.percentageOfIncomeValue &&
-  //         ami.monthlyRentDeterminationType === MonthlyRentDeterminationType.percentageOfIncome
-  //       ) {
-  //         percentIncomeRange = minMaxFinder(percentIncomeRange, ami.percentageOfIncomeValue)
-  //       }
-  //     })
-
-  //     return {
-  //       unitType: { content: types.map((option) => option.label).join(", ") },
-  //       units: { content: summary.totalCount },
-  //       amiRange: { content: amiRange && formatRange(amiRange.min, amiRange.max, "", "%") },
-  //       rentRange: { content: formatRentRange(rentRange, percentIncomeRange) },
-  //       occupancyRange: {
-  //         content: formatRange(summary.minOccupancy, summary.maxOccupancy, "", ""),
-  //       },
-  //       sqFeetRange: { content: formatRange(summary.sqFeetMin, summary.sqFeetMax, "", "") },
-  //       bathRange: { content: formatRange(summary.bathroomMin, summary.bathroomMax, "", "") },
-  //     }
-  //   })
-
   exportListingsFromObject(listings: any[], users: any[]): string {
     // restructure user information to listingId->user rather than user->listingId
     const partnerAccessHelper = {}
@@ -70,15 +32,7 @@ export class ListingsCsvExporterService {
         adminList.push(userName)
       }
     })
-    let index = 0
-    const listingObj = listings.map((listing, idx) => {
-      if (listing.name === "MLK Homes") {
-        index = idx
-
-        //   console.log("____________________")
-        //   console.log(listing?.unitSummaries.unitGroupSummary)
-        //   console.log("____________________")
-      }
+    const listingObj = listings.map((listing) => {
       return {
         ID: listing.id,
         "Created At Date": formatDate(listing.createdAt, "MM-DD-YYYY hh:mm:ssA"),
@@ -98,7 +52,7 @@ export class ListingsCsvExporterService {
         Region: listing.property.region,
         Latitude: listing.property.buildingAddress?.latitude,
         Longitude: listing.property.buildingAddress?.longitude,
-        "Home Type": listing.homeType,
+        "Home Type": convertToTitleCase(listing.homeType),
         "Accept Section 8": formatYesNo(listing.section8Acceptance),
         "Number Of Unit Groups": listing.unitGroups?.length,
         "Community Types": listing.listingPrograms
@@ -143,7 +97,7 @@ export class ListingsCsvExporterService {
         "Lottery Start": formatDate(listing.events[0]?.startTime, "hh:mmA"),
         "Lottery End": formatDate(listing.events[0]?.endTime, "hh:mmA"),
         "Lottery Notes": listing.events[0]?.note,
-        Waitlist: listing.isWaitlistOpen,
+        Waitlist: formatYesNo(listing.isWaitlistOpen),
         "Max Waitlist Size": listing.waitlistMaxSize,
         "How many people on the current list": listing.waitlistCurrentSize,
         "How many open spots on the waitlist": listing.waitlistOpenSpots,
@@ -179,9 +133,6 @@ export class ListingsCsvExporterService {
         "Users Who Have Access": adminList.concat(partnerAccessHelper[listing.id]).join(", "),
       }
     })
-    console.log("___________________________________________")
-    console.log(listingObj[index])
-
     return this.csvBuilder.buildFromIdIndex(listingObj)
   }
 
@@ -199,9 +150,6 @@ export class ListingsCsvExporterService {
     })
 
     const unitsFormatted = reformattedListings.map((listing) => {
-      if (listing.name === "MLK Homes") {
-        console.log(listing.unitGroupSummary)
-      }
       return {
         "Listing ID": listing.id,
         "Listing Name": listing.name,
@@ -216,14 +164,14 @@ export class ListingsCsvExporterService {
           "",
           "%"
         ),
-        "Rent Type": getRentTypes(listing.unitGroup?.amiLevels, "monthlyRentDeterminationType"),
+        "Rent Type": getRentTypes(listing.unitGroup?.amiLevels),
         "Monthly Rent": formatRentRange(
           listing.unitGroupSummary.rentRange,
           listing.unitGroupSummary.rentAsPercentIncomeRange
         ),
         "Affordable Unit Group Quantity": listing.unitGroup?.totalCount,
         "Unit Group Vacancies": listing.unitGroup?.totalAvailable,
-        "Waitlist Status": listing.unitGroup?.openWaitlist,
+        "Waitlist Status": formatYesNo(listing.unitGroup?.openWaitlist),
         "Minimum Occupancy": listing.unitGroup?.minOccupancy,
         "Maximum Occupancy": listing.unitGroup?.maxOccupancy,
         "Minimum Sq ft": listing.unitGroup?.sqFeetMin,
@@ -234,7 +182,6 @@ export class ListingsCsvExporterService {
         "Maximum Bathrooms": listing.unitGroup?.bathroomMax,
       }
     })
-
     return this.csvBuilder.buildFromIdIndex(unitsFormatted)
   }
 }
