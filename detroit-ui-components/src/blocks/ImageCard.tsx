@@ -101,7 +101,7 @@ const ImageCard = (props: ImageCardProps) => {
     return props.images?.slice(0, 3)
   }, [props.images])
 
-  const altText = (index: number, displayedImages?: ImageItem[], description?: string) => {
+  const getAltText = (index: number, displayedImages?: ImageItem[], description?: string) => {
     if (description) {
       return description
     }
@@ -111,7 +111,7 @@ const ImageCard = (props: ImageCardProps) => {
         number: index + 1,
       })
     }
-    return props.description
+    return props.description || ""
   }
 
   const image = (
@@ -146,7 +146,7 @@ const ImageCard = (props: ImageCardProps) => {
               <img
                 key={index}
                 src={image.thumbnailUrl || image.mobileUrl || image.url}
-                alt={altText(index, displayedImages, image.description)}
+                alt={getAltText(index, displayedImages, image.description)}
               />
             ))
           ) : (
@@ -198,7 +198,7 @@ const ImageCard = (props: ImageCardProps) => {
             <p key={index} className="mb-7">
               <picture>
                 {image.mobileUrl && <source media="(max-width: 767px)" srcSet={image.mobileUrl} />}
-                <img src={image.url} alt={altText(index, props.images, image.description)} />
+                <img src={image.url} alt={getAltText(index, props.images, image.description)} />
               </picture>
             </p>
           ))}
