@@ -4021,6 +4021,51 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@bloom-housing/ui-components@^10.0.1":
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/@bloom-housing/ui-components/-/ui-components-10.0.1.tgz#6a57867a6a85615a40099bc169d0846d5a800c81"
+  integrity sha512-N/M1QhYty993ZgXe3n9ppaYoupjGySlFwrbHGm5tOL4wbG/YDSQUtAVQCGNhOGlzZZfB9s6s2sUUfOpmBx9ZYA==
+  dependencies:
+    "@fortawesome/fontawesome-svg-core" "^6.1.1"
+    "@fortawesome/free-regular-svg-icons" "^6.1.1"
+    "@fortawesome/free-solid-svg-icons" "^6.1.1"
+    "@fortawesome/react-fontawesome" "^0.1.18"
+    "@mapbox/mapbox-sdk" "^0.13.0"
+    "@types/jwt-decode" "^2.2.1"
+    "@types/mdx" "^2.0.1"
+    "@types/node" "^12.12.67"
+    "@types/node-polyglot" "^2.4.1"
+    "@types/react-beautiful-dnd" "^13.1.1"
+    "@types/react-dom" "^16.9.5"
+    "@types/react-text-mask" "^5.4.6"
+    "@types/react-transition-group" "^4.4.0"
+    ag-grid-community "^26.0.0"
+    ag-grid-react "^26.0.0"
+    aria-autocomplete "^1.4.0"
+    axios "0.21.2"
+    dayjs "^1.10.7"
+    jwt-decode "^2.2.0"
+    markdown-to-jsx "7.1.8"
+    nanoid "^3.1.12"
+    node-polyglot "^2.4.0"
+    react "^17.0.2"
+    react-accessible-accordion "^3.3.5"
+    react-beautiful-dnd "^13.1.0"
+    react-dom "^17.0.2"
+    react-dropzone "^11.3.2"
+    react-focus-lock "^2.5.2"
+    react-hook-form "^6.15.5"
+    react-map-gl "^6.1.16"
+    react-media "^1.10.0"
+    react-remove-scroll "2.5.4"
+    react-tabs "^3.2.2"
+    react-text-mask "^5.4.3"
+    react-transition-group "^4.4.1"
+    tailwindcss "2.2.10"
+    tailwindcss-rtl "^0.9.0"
+    ts-jest "^26.4.1"
+    typesafe-actions "^5.1.0"
+
 "@bloom-housing/ui-components@^8.2.0":
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/@bloom-housing/ui-components/-/ui-components-8.2.0.tgz#bf36c24ec11eba64e13ed3b62bb2e8d30a76758c"
@@ -24799,6 +24844,11 @@ tailwindcss-rtl@^0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/tailwindcss-rtl/-/tailwindcss-rtl-0.7.3.tgz#d8d3236e446fd7504d9240366aea8a5987e66c12"
   integrity sha512-4lOuA5HJj/a9qBmnPmzdxJybqmQUKhA4/iDBiGs7YZqJ7eqSziKR035er3ZhGOl08s3FaKwlgNPlgQ13vMs/Tw==
+
+tailwindcss-rtl@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/tailwindcss-rtl/-/tailwindcss-rtl-0.9.0.tgz#270da04492081620478ebf73819fc285fe724a54"
+  integrity sha512-y7yC8QXjluDBEFMSX33tV6xMYrf0B3sa+tOB5JSQb6/G6laBU313a+Z+qxu55M1Qyn8tDMttjomsA8IsJD+k+w==
 
 tailwindcss@2.2.10, "tailwindcss@npm:@tailwindcss/postcss7-compat@2.2.10":
   version "2.2.10"
