@@ -12,30 +12,28 @@ import {
   ListingEventType,
 } from "@bloom-housing/backend-core/types"
 import {
+  AdditionalFees,
   Contact,
+  Description,
   EventSection,
   EventType,
+  ExpandableSection,
   ExpandableText,
   AlertBox,
+  GroupedTable,
+  Heading,
   ImageCard,
   InfoCard,
+  ListingDetailItem,
+  ListingDetails,
   ListingMap,
   ListSection,
   OneLineAddress,
   QuantityRowSection,
   ReferralApplication,
+  StandardTable,
   t,
 } from "@bloom-housing/ui-components"
-import { Heading } from "../../../../../detroit-ui-components/src/headers/Heading"
-import { WhatToExpect } from "../../../../../detroit-ui-components/src/page_components/listing/listing_sidebar/WhatToExpect"
-import { AdditionalFees } from "../../../../../detroit-ui-components/src/page_components/listing/AdditionalFees"
-import {
-  ListingDetails,
-  ListingDetailItem,
-} from "../../../../../detroit-ui-components/src/page_components/listing/ListingDetails"
-import { StandardTable } from "../../../../../detroit-ui-components/src/tables/StandardTable"
-import { GroupedTable } from "../../../../../detroit-ui-components/src/tables/GroupedTable"
-import { Description } from "../../../../../detroit-ui-components/src/text/Description"
 import {
   cloudinaryPdfFromId,
   imageUrlFromListing,
@@ -43,6 +41,7 @@ import {
   getTimeRangeString,
   getPostmarkString,
   FavoriteButton,
+  getCurrencyRange,
 } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { ErrorPage } from "../../pages/_error"
@@ -141,9 +140,14 @@ export const ListingProcess = (props: ListingProcessProps) => {
           <EventSection events={openHouseEvents} headerText={t("listings.openHouseEvent.header")} />
         </div>
       )}
-      <WhatToExpect
+      <ExpandableSection
         content={listing.whatToExpect}
         expandableContent={listing.whatToExpectAdditionalText}
+        strings={{
+          title: t("whatToExpect.label"),
+          readMore: t("t.readMore"),
+          readLess: t("t.readLess"),
+        }}
       />
 
       {!appOpenInFuture &&
@@ -520,10 +524,10 @@ export const ListingView = (props: ListingProps) => {
             modalCloseLabel={t("t.backToListing")}
           />
           <div className="py-3 mx-3">
-            <Heading priority={1} style={"cardHeader"}>
+            <Heading priority={1} styleType={"largePrimary"}>
               {listing.name}
             </Heading>
-            <Heading priority={2} style={"cardSubheader"} className={"mb-1"}>
+            <Heading priority={2} styleType={"mediumNormal"} className={"mb-1"}>
               {oneLineAddress}
             </Heading>
             <p className="text-gray-750 text-base mb-1">{listing.developer}</p>
@@ -785,11 +789,22 @@ export const ListingView = (props: ListingProps) => {
                 /> */}
                 </dl>
                 <AdditionalFees
-                  depositMin={listing.depositMin}
-                  depositMax={listing.depositMax}
-                  applicationFee={listing.applicationFee}
+                  deposit={getCurrencyRange(
+                    parseInt(listing.depositMin),
+                    parseInt(listing.depositMax)
+                  )}
+                  applicationFee={listing.applicationFee ? `$${listing.applicationFee}` : undefined}
                   footerContent={getFooterContent()}
-                  containerClass={"mt-4"}
+                  strings={{
+                    sectionHeader: t("listings.sections.additionalFees"),
+                    applicationFee: t("listings.applicationFee"),
+                    deposit: t("t.deposit"),
+                    applicationFeeSubtext: [
+                      t("listings.applicationPerApplicantAgeDescription"),
+                      t("listings.applicationFeeDueAt"),
+                    ],
+                    depositSubtext: [listing.depositHelperText],
+                  }}
                 />
               </div>
             )}

@@ -1,7 +1,6 @@
 import React, { useMemo } from "react"
 import { useFormContext } from "react-hook-form"
-import { t, GridSection, Textarea, ViewItem } from "@bloom-housing/ui-components"
-import { FieldGroup } from "../../../../../../../detroit-ui-components/src/forms/FieldGroup"
+import { t, GridSection, Textarea, ViewItem, FieldGroup } from "@bloom-housing/ui-components"
 import { listingFeatures } from "@bloom-housing/shared-helpers"
 import { ListingFeatures } from "@bloom-housing/backend-core/types"
 

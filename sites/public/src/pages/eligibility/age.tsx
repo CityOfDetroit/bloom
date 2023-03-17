@@ -2,8 +2,7 @@
 Age
 Prompts the user for their age to filter for properties that are age dependent.
 */
-import { t } from "@bloom-housing/ui-components"
-import { FieldGroup } from "../../../../../detroit-ui-components/src/forms/FieldGroup"
+import { FieldGroup, t } from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import styles from "./EligibilityAge.module.scss"
 import React, { useContext } from "react"

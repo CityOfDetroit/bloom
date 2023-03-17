@@ -1,9 +1,13 @@
 import React, { useEffect, useContext, useState } from "react"
 import Head from "next/head"
-import { AppearanceSizeType, Button, t } from "@bloom-housing/ui-components"
-import { Drawer } from "../../../../detroit-ui-components/src/overlays/Drawer"
-import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
-import { AgPagination } from "../../../../detroit-ui-components/src/global/vendor/AgPagination"
+import {
+  AppearanceSizeType,
+  Button,
+  t,
+  Drawer,
+  PageHeader,
+  AgPagination,
+} from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { MetaTags } from "../components/shared/MetaTags"
 import { useRouter } from "next/router"

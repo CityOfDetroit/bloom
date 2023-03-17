@@ -4,13 +4,13 @@ import {
   AppearanceStyleType,
   Button,
   ContactAddress,
+  Heading,
   LinkButton,
   OrDivider,
   t,
 } from "@bloom-housing/ui-components"
 import { ListingStatus } from "@bloom-housing/backend-core"
 import Markdown from "markdown-to-jsx"
-import { Heading } from "../../../../../detroit-ui-components/src/headers/Heading"
 
 export interface PaperApplication {
   fileURL: string
@@ -109,7 +109,7 @@ const GetApplication = (props: ApplicationsProps) => {
           {props.applicationsOpen && (props.onlineApplicationURL || props.paperMethod) && (
             <OrDivider bgColor="white" />
           )}
-          <Heading priority={3} style={"sidebarSubHeader"}>
+          <Heading priority={3} styleType={"capsWeighted"}>
             {t("listings.apply.pickUpAnApplication")}
           </Heading>
           <ContactAddress
@@ -118,7 +118,7 @@ const GetApplication = (props: ApplicationsProps) => {
           />
           {props.applicationPickUpAddressOfficeHours && (
             <>
-              <Heading priority={3} style={"sidebarSubHeader"}>
+              <Heading priority={3} styleType={"capsWeighted"}>
                 {t("leasingAgent.officeHours")}
               </Heading>
               <p className="text-gray-800 text-tiny markdown">

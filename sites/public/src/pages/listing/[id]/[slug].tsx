@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from "react"
 import Head from "next/head"
 import axios from "axios"
 import { t } from "@bloom-housing/ui-components"
-import { ListingDividerLine } from "../../../../../../detroit-ui-components/src/page_components/listing/ListingDividerLine"
 import { Listing, ListingMetadata } from "@bloom-housing/backend-core/types"
 import {
   imageUrlFromListing,

@@ -13,10 +13,10 @@ import {
   Button,
   Modal,
   LinkButton,
+  FormCard,
+  Icon,
+  AlertBox,
 } from "@bloom-housing/ui-components"
-import { FormCard } from "../../../../detroit-ui-components/src/blocks/FormCard"
-import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
-import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
 dayjs.extend(customParseFormat)

@@ -3,16 +3,16 @@
 Type of alternate contact
 */
 import {
+  AlertBox,
   AppearanceStyleType,
   Button,
-  Form,
-  Field,
-  t,
   emailRegex,
+  Field,
+  Form,
+  FormCard,
+  ProgressNav,
+  t,
 } from "@bloom-housing/ui-components"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
 import FormsLayout from "../../../layouts/forms"
 import { useForm } from "react-hook-form"
 import { Select } from "@bloom-housing/ui-components/src/forms/Select"

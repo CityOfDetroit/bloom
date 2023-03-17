@@ -1,11 +1,16 @@
 import React, { useMemo, useState, useContext } from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
-import { AppearanceStyleType, t, SiteAlert } from "@bloom-housing/ui-components"
-import { AuthContext, Button } from "@bloom-housing/shared-helpers"
-import { PageHeader } from "../../../../../../detroit-ui-components/src/headers/PageHeader"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
-import { Tag } from "../../../../../../detroit-ui-components/src/text/Tag"
+import {
+  AppearanceStyleType,
+  t,
+  SiteAlert,
+  Button,
+  PageHeader,
+  AlertBox,
+  Tag,
+} from "@bloom-housing/ui-components"
+import { AuthContext } from "@bloom-housing/shared-helpers"
 import { useSingleApplicationData } from "../../../lib/hooks"
 import Layout from "../../../layouts"
 import { ApplicationStatus } from "@bloom-housing/backend-core/types"

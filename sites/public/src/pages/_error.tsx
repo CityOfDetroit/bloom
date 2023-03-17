@@ -1,8 +1,7 @@
 import React, { useEffect, useContext } from "react"
 import Layout from "../layouts/application"
 import Head from "next/head"
-import { LinkButton, MarkdownSection, t } from "@bloom-housing/ui-components"
-import { Hero } from "../../../../detroit-ui-components/src/headers/Hero"
+import { Hero, LinkButton, MarkdownSection, t } from "@bloom-housing/ui-components"
 import { PageView, pushGtmEvent, AuthContext } from "@bloom-housing/shared-helpers"
 import { UserStatus } from "../lib/constants"
 

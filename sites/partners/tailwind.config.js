@@ -43,12 +43,7 @@ module.exports = {
   ...bloomTheme,
   purge: {
     enabled: process.env.NODE_ENV !== "development",
-    content: [
-      "./pages/**/*.tsx",
-      "./src/**/*.tsx",
-      "./layouts/**/*.tsx",
-      "../../detroit-ui-components/src/**/*.tsx",
-    ],
+    content: ["./pages/**/*.tsx", "./src/**/*.tsx", "./layouts/**/*.tsx"],
     safelist: [/grid-cols-/],
   },
 }

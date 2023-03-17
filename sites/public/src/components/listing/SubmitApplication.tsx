@@ -1,7 +1,6 @@
 import * as React from "react"
 import Markdown from "markdown-to-jsx"
-import { Address, OrDivider, ContactAddress } from "@bloom-housing/ui-components"
-import { Heading } from "../../../../../detroit-ui-components/src/headers/Heading"
+import { Address, Heading, OrDivider, ContactAddress } from "@bloom-housing/ui-components"
 
 export interface ApplicationAddressesProps {
   /** The dropoff address for paper applications */
@@ -36,7 +35,7 @@ const SubmitApplication = ({
         <div className="text-serif-lg">{strings.sectionHeader}</div>
         {applicationMailingAddress && (
           <>
-            <Heading priority={3} style={"sidebarSubHeader"}>
+            <Heading priority={3} styleType={"capsWeighted"}>
               {strings.mailHeader}
             </Heading>
             <>
@@ -49,13 +48,13 @@ const SubmitApplication = ({
         {applicationDropOffAddress && (
           <>
             {applicationMailingAddress && <OrDivider bgColor="gray-100" />}
-            <Heading priority={3} style={"sidebarSubHeader"}>
+            <Heading priority={3} styleType={"capsWeighted"}>
               {strings.dropOffHeader}
             </Heading>
             <ContactAddress address={applicationDropOffAddress} mapString={strings.mapString} />
             {applicationDropOffAddressOfficeHours && (
               <>
-                <Heading priority={3} style={"sidebarSubHeader"}>
+                <Heading priority={3} styleType={"capsWeighted"}>
                   {strings.officeHoursHeader}
                 </Heading>
                 <p className="mt-4 text-tiny text-gray-750">

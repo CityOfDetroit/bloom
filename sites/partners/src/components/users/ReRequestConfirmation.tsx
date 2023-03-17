@@ -5,10 +5,10 @@ import {
   Button,
   Field,
   Form,
+  FormCard,
   t,
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { FormCard } from "../../../../../detroit-ui-components/src/blocks/FormCard"
 import { useForm } from "react-hook-form"
 
 type FormFields = {

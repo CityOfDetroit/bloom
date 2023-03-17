@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react"
 import { useFormContext, useWatch } from "react-hook-form"
 import {
   Field,
+  FieldGroup,
   GridCell,
+  GridSection,
   LatitudeLongitude,
   ListingMap,
   Select,
@@ -10,8 +12,6 @@ import {
   t,
   ViewItem,
 } from "@bloom-housing/ui-components"
-import { FieldGroup } from "../../../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { GridSection } from "../../../../../../../detroit-ui-components/src/sections/GridSection"
 import { stateKeys, neighborhoodRegions } from "@bloom-housing/shared-helpers"
 import { FormListing } from "../../../../lib/listings/formTypes"
 import GeocodeService, {

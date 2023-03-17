@@ -5,6 +5,7 @@ import Head from "next/head"
 import {
   AG_PER_PAGE_OPTIONS,
   AgPagination,
+  AlertBox,
   Button,
   debounce,
   Field,
@@ -15,7 +16,6 @@ import {
   t,
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { AlertBox } from "../../../../../../../detroit-ui-components/src/notifications/AlertBox"
 import {
   useSingleListingData,
   useFlaggedApplicationsList,

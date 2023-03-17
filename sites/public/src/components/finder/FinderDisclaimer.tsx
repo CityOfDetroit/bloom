@@ -1,5 +1,4 @@
-import { t } from "@bloom-housing/ui-components"
-import { AlertBox } from "../../../../../detroit-ui-components/src/notifications/AlertBox"
+import { AlertBox, t } from "@bloom-housing/ui-components"
 
 const FinderDisclaimer = () => (
   <div>

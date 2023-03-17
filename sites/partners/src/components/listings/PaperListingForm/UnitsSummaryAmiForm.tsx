@@ -4,6 +4,7 @@ import {
   AppearanceStyleType,
   Button,
   Field,
+  FieldGroup,
   Form,
   GridCell,
   GridSection,
@@ -12,7 +13,6 @@ import {
   t,
   ViewItem,
 } from "@bloom-housing/ui-components"
-import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { useForm } from "react-hook-form"
 import { TempAmiLevel } from "../../../lib/listings/formTypes"
 import { AmiChart, MonthlyRentDeterminationType } from "@bloom-housing/backend-core/types"

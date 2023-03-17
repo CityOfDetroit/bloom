@@ -3,6 +3,7 @@ import { useFormContext, useWatch } from "react-hook-form"
 import {
   DateField,
   Field,
+  FieldGroup,
   GridCell,
   GridSection,
   Select,
@@ -11,7 +12,6 @@ import {
   TimeField,
   ViewItem,
 } from "@bloom-housing/ui-components"
-import { FieldGroup } from "../../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { stateKeys } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { YesNoAnswer, isNullOrUndefined, fieldHasError } from "../../../../lib/helpers"

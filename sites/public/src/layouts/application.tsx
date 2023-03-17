@@ -3,15 +3,15 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import Head from "next/head"
 import {
-  SiteFooter,
+  FooterNav,
   FooterSection,
-  t,
-  setSiteAlertMessage,
-  SiteHeader,
   MenuLink,
+  setSiteAlertMessage,
+  SiteFooter,
+  SiteHeader,
+  t,
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { FooterNav } from "../../../../detroit-ui-components/src/navigation/FooterNav"
 import Markdown from "markdown-to-jsx"
 
 const Layout = (props) => {

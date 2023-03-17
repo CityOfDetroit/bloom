@@ -4,8 +4,10 @@ import {
   AppearanceBorderType,
   AppearanceStyleType,
   Button,
+  Drawer,
   Dropzone,
   Field,
+  FieldGroup,
   GridCell,
   GridSection,
   MinimalTable,
@@ -13,9 +15,6 @@ import {
   StandardTableData,
   t,
 } from "@bloom-housing/ui-components"
-
-import { FieldGroup } from "../../../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
 import {
   cloudinaryFileUploader,
   fieldMessage,

@@ -9,11 +9,11 @@ import {
   t,
   SiteAlert,
   setSiteAlertMessage,
+  FormCard,
+  Icon,
+  AlertBox,
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { FormCard } from "../../../../detroit-ui-components/src/blocks/FormCard"
-import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
-import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
 import FormsLayout from "../layouts/forms"
 
 const ResetPassword = () => {

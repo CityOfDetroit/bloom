@@ -3,14 +3,14 @@ import {
   AppearanceBorderType,
   AppearanceStyleType,
   Button,
-  ViewItem,
+  Field,
+  FieldGroup,
   Form,
   GridCell,
+  GridSection,
   t,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { Field } from "../../../../../detroit-ui-components/src/forms/Field"
-import { FieldGroup } from "../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { GridSection } from "../../../../../detroit-ui-components/src/sections/GridSection"
 import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
 import axios from "axios"

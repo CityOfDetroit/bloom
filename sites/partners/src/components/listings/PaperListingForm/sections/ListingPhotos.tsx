@@ -3,6 +3,7 @@ import { useFieldArray, useFormContext } from "react-hook-form"
 import {
   AppearanceStyleType,
   Button,
+  Drawer,
   Dropzone,
   GridCell,
   GridSection,
@@ -12,7 +13,6 @@ import {
   t,
   TableThumbnail,
 } from "@bloom-housing/ui-components"
-import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
 import { getUrlForListingImage, CLOUDINARY_BUILDING_LABEL } from "@bloom-housing/shared-helpers"
 
 import { cloudinaryFileUploader, fieldHasError } from "../../../../lib/helpers"

@@ -8,11 +8,11 @@ import {
   LinkButton,
   LoadingOverlay,
   t,
+  PageHeader,
+  Icon,
+  Drawer,
+  AgPagination,
 } from "@bloom-housing/ui-components"
-import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
-import { Icon } from "../../../../../detroit-ui-components/src/icons/Icon"
-import { Drawer } from "../../../../../detroit-ui-components/src/overlays/Drawer"
-import { AgPagination } from "../../../../../detroit-ui-components/src/global/vendor/AgPagination"
 import {
   encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,

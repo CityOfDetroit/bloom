@@ -2,15 +2,16 @@ import React, { useMemo, useContext, useState, useEffect } from "react"
 import Head from "next/head"
 import { ListingStatus } from "@bloom-housing/backend-core/types"
 import {
-  Button,
-  t,
-  LocalizedLink,
   SiteAlert,
   AppearanceStyleType,
+  AgTable,
+  Button,
+  LocalizedLink,
+  PageHeader,
+  t,
+  useAgTable,
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
-import { AgTable, useAgTable } from "../../../../detroit-ui-components/src/tables/AgTable"
 import dayjs from "dayjs"
 import { ColDef, ColGroupDef } from "ag-grid-community"
 import { useListingsData, useListingZip } from "../lib/hooks"

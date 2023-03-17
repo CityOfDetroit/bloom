@@ -7,8 +7,8 @@ import {
   Video,
   InfoCardGrid,
   Modal,
+  PageHeader,
 } from "@bloom-housing/ui-components"
-import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
 import Layout from "../layouts/application"
 import RenderIf from "../RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"

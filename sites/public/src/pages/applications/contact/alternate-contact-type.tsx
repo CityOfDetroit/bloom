@@ -4,16 +4,16 @@ Type of alternate contact
 */
 import React, { Fragment, useContext, useEffect } from "react"
 import {
+  AlertBox,
   AppearanceStyleType,
   Button,
   ErrorMessage,
   Field,
   Form,
+  FormCard,
+  ProgressNav,
   t,
 } from "@bloom-housing/ui-components"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
 import {
   altContactRelationshipKeys,
   OnClientSide,

@@ -1,10 +1,16 @@
 import React, { useState } from "react"
 import Head from "next/head"
 import Link from "next/link"
-import { t, SiteAlert, Heading, LinkButton, ActionBlock } from "@bloom-housing/ui-components"
-import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
-import { Hero } from "../../../../detroit-ui-components/src/headers/Hero"
-import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
+import {
+  t,
+  SiteAlert,
+  Heading,
+  LinkButton,
+  ActionBlock,
+  Hero,
+  Icon,
+  AlertBox,
+} from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { ConfirmationModal } from "../components/account/ConfirmationModal"
 import { MetaTags } from "../components/shared/MetaTags"

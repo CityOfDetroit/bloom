@@ -4,6 +4,7 @@ import {
   AppearanceBorderType,
   AppearanceStyleType,
   Button,
+  Drawer,
   Dropzone,
   Field,
   FieldGroup,
@@ -14,7 +15,6 @@ import {
   t,
   TableThumbnail,
 } from "@bloom-housing/ui-components"
-import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
 import { cloudinaryUrlFromId } from "@bloom-housing/shared-helpers"
 import { cloudinaryFileUploader } from "../../../../lib/helpers"
 

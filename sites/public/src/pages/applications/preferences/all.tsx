@@ -9,10 +9,10 @@ import {
   Button,
   ExpandableContent,
   Order,
+  FormCard,
+  ProgressNav,
+  AlertBox,
 } from "@bloom-housing/ui-components"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
 import {
   stateKeys,
   OnClientSide,

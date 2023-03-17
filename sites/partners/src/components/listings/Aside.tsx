@@ -5,12 +5,12 @@ import {
   AppearanceStyleType,
   Button,
   GridCell,
+  Icon,
   LinkButton,
   LocalizedLink,
   StatusMessages,
   t,
 } from "@bloom-housing/ui-components"
-import { Icon } from "../../../../../detroit-ui-components/src/icons/Icon"
 import { pdfUrlFromListingEvents, AuthContext } from "@bloom-housing/shared-helpers"
 import { ListingContext } from "./ListingContext"
 import { ListingEventType, ListingStatus } from "@bloom-housing/backend-core/types"

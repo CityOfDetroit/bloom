@@ -5,9 +5,14 @@ https://github.com/bloom-housing/bloom/issues/277
 */
 import axios from "axios"
 import { useRouter } from "next/router"
-import { Button, ImageCard, LinkButton, t } from "@bloom-housing/ui-components"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
+import {
+  Button,
+  ImageCard,
+  LinkButton,
+  t,
+  ProgressNav,
+  FormCard,
+} from "@bloom-housing/ui-components"
 import {
   imageUrlFromListing,
   OnClientSide,

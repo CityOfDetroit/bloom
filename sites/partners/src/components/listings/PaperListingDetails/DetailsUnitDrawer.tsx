@@ -1,6 +1,12 @@
 import React from "react"
-import { AppearanceStyleType, Button, GridSection, t, ViewItem } from "@bloom-housing/ui-components"
-import { Drawer } from "../../../../../../detroit-ui-components/src/overlays/Drawer"
+import {
+  AppearanceStyleType,
+  Button,
+  Drawer,
+  GridSection,
+  t,
+  ViewItem,
+} from "@bloom-housing/ui-components"
 import { Unit } from "@bloom-housing/backend-core/types"
 import { getRentType } from "../../../lib/helpers"
 import { useSingleAmiChartData } from "../../../lib/hooks"

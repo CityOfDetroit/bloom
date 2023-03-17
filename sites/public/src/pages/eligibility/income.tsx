@@ -3,8 +3,7 @@ Income
 Prompts the user for their annual income.
 */
 import React, { useContext } from "react"
-import { t } from "@bloom-housing/ui-components"
-import { FieldGroup } from "../../../../../detroit-ui-components/src/forms/FieldGroup"
+import { FieldGroup, t } from "@bloom-housing/ui-components"
 import { FieldValues, useForm } from "react-hook-form"
 import { EligibilityContext } from "../../lib/applications/EligibilityContext"
 import EligibilityLayout from "../../layouts/eligibility"

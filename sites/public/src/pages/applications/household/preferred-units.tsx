@@ -2,11 +2,16 @@
 2.3.2 - Preferred Unit Size
 Applicant can designate which unit sizes they prefer
 */
-import { AppearanceStyleType, Form, t, Button } from "@bloom-housing/ui-components"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
+import {
+  AppearanceStyleType,
+  Form,
+  t,
+  Button,
+  FormCard,
+  FieldGroup,
+  ProgressNav,
+  AlertBox,
+} from "@bloom-housing/ui-components"
 import FormsLayout from "../../../layouts/forms"
 import { useForm } from "react-hook-form"
 import {

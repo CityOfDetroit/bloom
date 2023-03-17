@@ -9,10 +9,10 @@ import {
   t,
   SiteAlert,
   setSiteAlertMessage,
+  FormCard,
+  Icon,
+  AlertBox,
 } from "@bloom-housing/ui-components"
-import { FormCard } from "../../../../detroit-ui-components/src/blocks/FormCard"
-import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
-import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
 import { PageView, pushGtmEvent, AuthContext } from "@bloom-housing/shared-helpers"
 import { UserStatus } from "../lib/constants"
 import FormsLayout from "../layouts/forms"

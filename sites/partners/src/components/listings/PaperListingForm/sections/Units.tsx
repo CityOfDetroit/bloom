@@ -1,19 +1,19 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react"
 import {
-  t,
-  GridSection,
-  MinimalTable,
+  AppearanceBorderType,
   AppearanceSizeType,
   AppearanceStyleType,
-  AppearanceBorderType,
-  GridCell,
-  Select,
   Button,
-  ViewItem,
+  Drawer,
+  FieldGroup,
+  GridCell,
+  GridSection,
+  MinimalTable,
   Modal,
+  Select,
+  t,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { FieldGroup } from "../../../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
 import { useFormContext } from "react-hook-form"
 import UnitsSummaryForm from "../UnitsSummaryForm"
 import { FormListing, TempUnit, TempUnitsSummary } from "../../../../lib/listings/formTypes"

@@ -4,9 +4,14 @@ If all preferences are opted out the applicant is shown a screen confirming thei
 */
 import React, { useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import { AppearanceStyleType, t, Form, Button } from "@bloom-housing/ui-components"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
+import {
+  AppearanceStyleType,
+  t,
+  Form,
+  Button,
+  FormCard,
+  ProgressNav,
+} from "@bloom-housing/ui-components"
 import FormsLayout from "../../../layouts/forms"
 import FormBackLink from "../../../components/applications/FormBackLink"
 import { useFormConductor } from "../../../lib/hooks"

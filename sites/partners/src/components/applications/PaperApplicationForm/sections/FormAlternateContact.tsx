@@ -1,16 +1,16 @@
 import React, { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
 import {
-  t,
-  GridSection,
-  Select,
-  GridCell,
-  Field,
   emailRegex,
-  PhoneField,
+  Field,
   FormAddress,
+  GridCell,
+  GridSection,
+  PhoneField,
+  Select,
+  t,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
 import { altContactRelationshipKeys, stateKeys } from "@bloom-housing/shared-helpers"
 
 const FormAlternateContact = () => {

@@ -2,12 +2,16 @@ import React, { useMemo, useState } from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
 import axios from "axios"
-import { AppearanceStyleType, Button, t, SiteAlert } from "@bloom-housing/ui-components"
-import { PageHeader } from "../../../../../../detroit-ui-components/src/headers/PageHeader"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
-import { Tag } from "../../../../../../detroit-ui-components/src/text/Tag"
+import {
+  AlertBox,
+  AppearanceStyleType,
+  Button,
+  PageHeader,
+  SiteAlert,
+  t,
+  Tag,
+} from "@bloom-housing/ui-components"
 import { Listing, ListingStatus } from "@bloom-housing/backend-core/types"
-
 import ListingGuard from "../../../components/shared/ListingGuard"
 import Layout from "../../../layouts"
 import Aside from "../../../components/listings/Aside"

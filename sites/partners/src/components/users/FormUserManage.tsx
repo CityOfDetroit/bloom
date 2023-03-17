@@ -1,25 +1,25 @@
 import React, { useMemo, useContext, useState, useCallback } from "react"
 import { useForm } from "react-hook-form"
 import {
-  t,
-  Form,
-  GridSection,
-  GridCell,
-  Field,
-  Select,
-  useMutate,
-  AppearanceStyleType,
   AppearanceBorderType,
-  emailRegex,
-  setSiteAlertMessage,
   AppearanceSizeType,
+  AppearanceStyleType,
   Button,
-  ViewItem,
+  emailRegex,
+  Field,
+  FieldGroup,
+  Form,
+  GridCell,
+  GridSection,
   Modal,
+  Select,
+  setSiteAlertMessage,
+  t,
+  Tag,
+  useMutate,
+  ViewItem,
 } from "@bloom-housing/ui-components"
 import { AuthContext, RoleOption, roleKeys } from "@bloom-housing/shared-helpers"
-import { FieldGroup } from "../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { Tag } from "../../../../../detroit-ui-components/src/text/Tag"
 import { Listing, User, UserRolesCreate } from "@bloom-housing/backend-core/types"
 import router from "next/router"
 

@@ -10,7 +10,6 @@ import {
   t,
   TableThumbnail,
 } from "@bloom-housing/ui-components"
-import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
 import {
   ListingEvent,
   ListingEventCreate,

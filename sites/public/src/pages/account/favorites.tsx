@@ -1,8 +1,11 @@
-import { t, AG_PER_PAGE_OPTIONS } from "@bloom-housing/ui-components"
-import { LinkButton } from "../../../../../detroit-ui-components/src/actions/LinkButton"
-import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
-import { AgPagination } from "../../../../../detroit-ui-components/src/global/vendor/AgPagination"
-import { LoadingOverlay } from "../../../../../detroit-ui-components/src/overlays/LoadingOverlay"
+import {
+  AG_PER_PAGE_OPTIONS,
+  AgPagination,
+  LinkButton,
+  LoadingOverlay,
+  PageHeader,
+  t,
+} from "@bloom-housing/ui-components"
 import { ListingFilterState, AuthContext, RequireLogin } from "@bloom-housing/shared-helpers"
 import Layout from "../../layouts/application"
 import React, { useEffect, useState, useContext, useMemo } from "react"
@@ -64,9 +67,7 @@ const FavoritedListingsPage = () => {
           quantityLabel={t("listings.totalListings")}
           setCurrentPage={setCurrentPage}
           setItemsPerPage={setItemsPerPage}
-          onPerPageChange={() => setCurrentPage(1)}
-          includeBorder={false}
-          matchListingCardWidth={true}
+          onPerPageChange={() => setCurrentPage(1)} //TODO this might be a problem
         />
       </div>
     )

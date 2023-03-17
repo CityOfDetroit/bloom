@@ -1,21 +1,21 @@
 import React, { useRef, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import {
-  t,
-  Form,
-  Field,
-  passwordRegex,
+  AlertBox,
   AppearanceStyleType,
-  setSiteAlertMessage,
-  useMutate,
   Button,
+  Field,
+  FieldGroup,
+  Form,
+  FormCard,
+  Icon,
   Modal,
+  passwordRegex,
+  setSiteAlertMessage,
+  t,
+  useMutate,
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { FormCard } from "../../../../../detroit-ui-components/src/blocks/FormCard"
-import { FieldGroup } from "../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { Icon } from "../../../../../detroit-ui-components/src/icons/Icon"
-import { AlertBox } from "../../../../../detroit-ui-components/src/notifications/AlertBox"
 import { useForm } from "react-hook-form"
 import { LoginResponse } from "@bloom-housing/backend-core/types"
 import Markdown from "markdown-to-jsx"

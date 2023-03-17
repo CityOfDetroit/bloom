@@ -6,6 +6,7 @@ import {
   Button,
   DOBField,
   Field,
+  FieldGroup,
   Form,
   FormAddress,
   GridCell,
@@ -14,7 +15,6 @@ import {
   t,
   ViewItem,
 } from "@bloom-housing/ui-components"
-import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { relationshipKeys, stateKeys } from "@bloom-housing/shared-helpers"
 import { useForm } from "react-hook-form"
 import { YesNoAnswer } from "../../../lib/helpers"
