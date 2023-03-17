@@ -1,5 +1,5 @@
 import dayjs from "dayjs"
-import { MinMax } from "@bloom-housing/backend-core/types"
+import { MinMax } from "../../types"
 import { UnitGroupAmiLevelDto } from "../../src/units-summary/dto/unit-group-ami-level.dto"
 
 export const isDefined = (item: number | string): boolean => {
