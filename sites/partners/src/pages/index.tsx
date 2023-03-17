@@ -219,7 +219,6 @@ export default function ListingsList() {
                       onClick={() => onExport()}
                       icon={!zipExportLoading ? faFileExport : null}
                       iconSize="medium"
-                      iconPlacement="right"
                       loading={zipExportLoading}
                     >
                       {t("t.exportToCSV")}
