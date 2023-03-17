@@ -67,7 +67,7 @@ describe("users", () => {
     expect(getByText("Users")).toBeInTheDocument()
     expect(getByText("Filter")).toBeInTheDocument()
     expect(getByText("Add User")).toBeInTheDocument()
-    expect(queryAllByText("Export")).toHaveLength(0)
+    expect(queryAllByText("Export to CSV")).toHaveLength(0)
 
     const name = await findByText("First Last")
     expect(name).toBeInTheDocument()
@@ -77,7 +77,7 @@ describe("users", () => {
     expect(getByText("Confirmed")).toBeInTheDocument()
   })
 
-  it("should render Export when user is admin and success when clicked", async () => {
+  it("should render Export to CSV when user is admin and success when clicked", async () => {
     window.URL.createObjectURL = jest.fn()
     // set a logged in token
     jest.useFakeTimers()
@@ -110,8 +110,8 @@ describe("users", () => {
     const header = await findByText("Detroit Partner Portal")
     expect(header).toBeInTheDocument()
     expect(getByText("Add User")).toBeInTheDocument()
-    expect(getByText("Export")).toBeInTheDocument()
-    fireEvent.click(getByText("Export"))
+    expect(getByText("Export to CSV")).toBeInTheDocument()
+    fireEvent.click(getByText("Export to CSV"))
     jest.clearAllTimers()
     const successMessage = await findByText("The File has been exported")
     expect(successMessage).toBeInTheDocument()
@@ -148,7 +148,7 @@ describe("users", () => {
 
     const header = await findByText("Detroit Partner Portal")
     expect(header).toBeInTheDocument()
-    fireEvent.click(getByText("Export"))
+    fireEvent.click(getByText("Export to CSV"))
     jest.clearAllTimers()
     const errorMessage = await findByText("Export failed. Please try again later.", {
       exact: false,
