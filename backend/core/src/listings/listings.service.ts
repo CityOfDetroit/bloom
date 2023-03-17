@@ -309,6 +309,7 @@ export class ListingsService {
       .leftJoin("user.jurisdictions", "jurisdictions")
       .leftJoin("user.roles", "userRoles")
       .where("userRoles.is_partner = :is_partner", { is_partner: true })
+      .orWhere("userRoles.is_admin = :is_admin", { is_admin: true })
       .getMany()
 
     // Building and excecuting query for units csv
