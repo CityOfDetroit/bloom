@@ -1,4 +1,11 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common"
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Pagination } from "nestjs-typeorm-paginate"
 import { In, Repository, SelectQueryBuilder } from "typeorm"
@@ -23,6 +30,9 @@ import { ListingMetadataDto } from "./dto/listings-metadata.dto"
 import { UnitType } from "../unit-types/entities/unit-type.entity"
 import { Program } from "../program/entities/program.entity"
 import { ListingSeasonEnum } from "./types/listing-season-enum"
+import { User } from "../auth/entities/user.entity"
+import { REQUEST } from "@nestjs/core"
+import { Request as ExpressRequest } from "express"
 
 @Injectable()
 export class ListingsService {
@@ -32,6 +42,8 @@ export class ListingsService {
     @InjectRepository(UnitGroup) private readonly unitGroupRepository: Repository<UnitGroup>,
     @InjectRepository(UnitType) private readonly unitTypeRepository: Repository<UnitType>,
     @InjectRepository(Program) private readonly programRepository: Repository<Program>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @Inject(REQUEST) private req: ExpressRequest,
     private readonly translationService: TranslationsService
   ) {}
 
@@ -249,6 +261,71 @@ export class ListingsService {
 
     await this.addUnitSummaries(result)
     return result
+  }
+
+  async rawListWithFlagged() {
+    const userAccess = await this.userRepository
+      .createQueryBuilder("user")
+      .select("user.id")
+      .leftJoin("user.roles", "userRole")
+      .where("user.id = :id", { id: (this.req.user as User)?.id })
+      .andWhere("userRole.is_admin = :is_admin", { is_admin: true })
+      .getOne()
+
+    if (!userAccess) {
+      throw new UnauthorizedException()
+    }
+
+    // generated out list of permissioned listings
+    const permissionedListings = await this.listingRepository
+      .createQueryBuilder("listing")
+      .select("listing.id")
+      .getMany()
+
+    // pulled out on the ids
+    const listingIds = permissionedListings.map((listing) => listing.id)
+
+    // Building and excecuting query for listings csv
+    const listingsQb = getView(
+      this.listingRepository.createQueryBuilder("listing"),
+      "listingsExport"
+    ).getViewQb()
+    const listingData = await listingsQb
+      .where("listing.id IN (:...listingIds)", { listingIds })
+      .getMany()
+
+    // User data to determine listing access for csv
+    const userAccessData = await this.userRepository
+      .createQueryBuilder("user")
+      .select([
+        "user.id",
+        "user.firstName",
+        "user.lastName",
+        "userRoles.isAdmin",
+        "userRoles.isPartner",
+        "leasingAgentInListings.id",
+      ])
+      .leftJoin("user.leasingAgentInListings", "leasingAgentInListings")
+      .leftJoin("user.jurisdictions", "jurisdictions")
+      .leftJoin("user.roles", "userRoles")
+      .where("userRoles.is_partner = :is_partner", { is_partner: true })
+      .getMany()
+
+    // Building and excecuting query for units csv
+    const unitsQb = getView(
+      this.listingRepository.createQueryBuilder("listing"),
+      "unitsExport"
+    ).getViewQb()
+    const unitDataRaw = await unitsQb
+      .where("listing.id IN (:...listingIds)", { listingIds })
+      .getMany()
+    const unitData = await this.addUnitSummariesToListings(unitDataRaw)
+
+    return {
+      unitData,
+      listingData,
+      userAccessData,
+    }
   }
 
   private async addUnitSummaries(listing: Listing) {

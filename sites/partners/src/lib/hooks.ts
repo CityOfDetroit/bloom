@@ -13,6 +13,7 @@ import {
   OrderDirEnum,
 } from "@bloom-housing/backend-core/types"
 import dayjs from "dayjs"
+import JSZip from "jszip"
 
 interface PaginationProps {
   page?: number
@@ -448,5 +449,45 @@ const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
     csvExportLoading,
     csvExportError,
     csvExportSuccess,
+  }
+}
+
+export const useListingZip = () => {
+  const { listingsService } = useContext(AuthContext)
+
+  const [zipExportLoading, setZipExportLoading] = useState(false)
+  const [zipExportError, setZipExportError] = useState(false)
+  const [zipCompleted, setZipCompleted] = useState(false)
+
+  const onExport = useCallback(async () => {
+    setZipExportError(false)
+    setZipCompleted(false)
+    setZipExportLoading(true)
+
+    try {
+      const content = await listingsService.listAsCsv()
+      const now = new Date()
+      const dateString = dayjs(now).format("YYYY-MM-DD_HH-mm")
+      const zip = new JSZip()
+      zip.file(dateString + "_listing_data.csv", content?.listingCsv)
+      zip.file(dateString + "_unit_data.csv", content?.unitCsv)
+      await zip.generateAsync({ type: "blob" }).then(function (blob) {
+        const fileLink = document.createElement("a")
+        fileLink.setAttribute("download", `${dateString}-complete-listing-data.zip`)
+        fileLink.href = URL.createObjectURL(blob)
+        fileLink.click()
+      })
+      setZipCompleted(true)
+    } catch (err) {
+      setZipExportError(true)
+    }
+    setZipExportLoading(false)
+  }, [listingsService])
+
+  return {
+    onExport,
+    zipCompleted,
+    zipExportLoading,
+    zipExportError,
   }
 }

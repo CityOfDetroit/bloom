@@ -18,6 +18,8 @@ import { UnitGroup } from "../units-summary/entities/unit-group.entity"
 import { UnitType } from "../unit-types/entities/unit-type.entity"
 import { Program } from "../program/entities/program.entity"
 import { ListingUtilities } from "./entities/listing-utilities.entity"
+import { ListingsCsvExporterService } from "./listings-csv-exporter.service"
+import { CsvBuilder } from "../../src/applications/services/csv-builder.service"
 
 @Module({
   imports: [
@@ -39,7 +41,12 @@ import { ListingUtilities } from "./entities/listing-utilities.entity"
     SmsModule,
     ActivityLogModule,
   ],
-  providers: [ListingsService, ListingsNotificationsConsumer],
+  providers: [
+    ListingsService,
+    ListingsNotificationsConsumer,
+    CsvBuilder,
+    ListingsCsvExporterService,
+  ],
   exports: [ListingsService],
   controllers: [ListingsController],
 })
