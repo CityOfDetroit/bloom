@@ -6,10 +6,7 @@ import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
 import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
 import { Drawer } from "../../../../../detroit-ui-components/src/overlays/Drawer"
 import { AgTable, useAgTable } from "../../../../../detroit-ui-components/src/tables/AgTable"
-import {
-  AppearanceSizeType,
-  AppearanceStyleType,
-} from "../../../../../detroit-ui-components/src/global/AppearanceTypes"
+import { AppearanceStyleType } from "../../../../../detroit-ui-components/src/global/AppearanceTypes"
 import { User } from "@bloom-housing/backend-core/types"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import { faFileExport } from "@fortawesome/free-solid-svg-icons"
@@ -201,7 +198,6 @@ const Users = () => {
               <div className="flex-row">
                 <Button
                   className="mx-1"
-                  size={AppearanceSizeType.small}
                   styleType={AppearanceStyleType.primary}
                   onClick={() => setUserDrawer({ type: "add" })}
                   disabled={!listingDtos}
@@ -212,13 +208,13 @@ const Users = () => {
                 {profile?.roles?.isAdmin && (
                   <Button
                     className="mx-1"
-                    size={AppearanceSizeType.small}
                     icon={faFileExport}
+                    iconSize="medium"
                     onClick={() => onExport()}
                     loading={csvExportLoading}
                     dataTestId={"export-users"}
                   >
-                    {t("t.export")}
+                    {t("t.exportToCSV")}
                   </Button>
                 )}
               </div>

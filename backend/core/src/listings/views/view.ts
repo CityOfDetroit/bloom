@@ -14,6 +14,10 @@ export function getView(qb: SelectQueryBuilder<Listing>, view?: string) {
       return new PublicListingsView(qb)
     case views.partnerList:
       return new PartnerListView(qb)
+    case views.listingsExport:
+      return new ListingsExportView(qb)
+    case views.unitsExport:
+      return new UnitsExportView(qb)
     case views.full:
     default:
       return new FullView(qb)
@@ -65,6 +69,20 @@ export class PartnerListView extends BaseListingView {
   constructor(qb: SelectQueryBuilder<Listing>) {
     super(qb)
     this.view = views.partnerList
+  }
+}
+
+export class ListingsExportView extends BaseListingView {
+  constructor(qb: SelectQueryBuilder<Listing>) {
+    super(qb)
+    this.view = views.listingsExport
+  }
+}
+
+export class UnitsExportView extends BaseListingView {
+  constructor(qb: SelectQueryBuilder<Listing>) {
+    super(qb)
+    this.view = views.unitsExport
   }
 }
 
