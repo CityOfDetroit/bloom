@@ -29,6 +29,7 @@ const FinderRentalCosts = (props: {
               type="number"
               placeholder={t(`finder.rentalCosts.${isMin ? "min" : "max"}Placeholder`)}
               label={field.translation}
+              ariaLabel={t(`publicFilter.rentRange${isMin ? "Min" : "Max"}Reader`)}
               register={props.register}
               prepend={dollarSign && "$"}
               defaultValue={typeof field?.value != "boolean" && field?.value}
