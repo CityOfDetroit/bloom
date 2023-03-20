@@ -4021,10 +4021,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloom-housing/ui-components@^10.0.1":
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/@bloom-housing/ui-components/-/ui-components-10.0.1.tgz#6a57867a6a85615a40099bc169d0846d5a800c81"
-  integrity sha512-N/M1QhYty993ZgXe3n9ppaYoupjGySlFwrbHGm5tOL4wbG/YDSQUtAVQCGNhOGlzZZfB9s6s2sUUfOpmBx9ZYA==
+"@bloom-housing/ui-components@^10.0.9":
+  version "10.0.9"
+  resolved "https://registry.yarnpkg.com/@bloom-housing/ui-components/-/ui-components-10.0.9.tgz#6b3c62a6ec2865f9b032dbe24459f8284a52f6d4"
+  integrity sha512-J4vifJeol1kVuznKDPqFZLU97X9GwEWUH64DvCjsWJTAbgZJWcHAgQwxlYeHKWRfKdB6WD7T6amOhFSV3ldVsg==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.1.1"
     "@fortawesome/free-regular-svg-icons" "^6.1.1"
@@ -4063,50 +4063,6 @@
     react-transition-group "^4.4.1"
     tailwindcss "2.2.10"
     tailwindcss-rtl "^0.9.0"
-    ts-jest "^26.4.1"
-    typesafe-actions "^5.1.0"
-
-"@bloom-housing/ui-components@^8.2.0":
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/@bloom-housing/ui-components/-/ui-components-8.2.0.tgz#bf36c24ec11eba64e13ed3b62bb2e8d30a76758c"
-  integrity sha512-1RsscXxOynumWXCBKGKlHkvtHhLwSncP+kM3xpHb+Fr5lX+T7sPcGdeMAmkPY12IT3CudtPScj8sX0Od19wDMQ==
-  dependencies:
-    "@fortawesome/fontawesome-svg-core" "^6.1.1"
-    "@fortawesome/free-regular-svg-icons" "^6.1.1"
-    "@fortawesome/free-solid-svg-icons" "^6.1.1"
-    "@fortawesome/react-fontawesome" "^0.1.18"
-    "@mapbox/mapbox-sdk" "^0.13.0"
-    "@types/jwt-decode" "^2.2.1"
-    "@types/mdx" "^2.0.1"
-    "@types/node" "^12.12.67"
-    "@types/node-polyglot" "^2.4.1"
-    "@types/react-beautiful-dnd" "^13.1.1"
-    "@types/react-dom" "^16.9.5"
-    "@types/react-text-mask" "^5.4.6"
-    "@types/react-transition-group" "^4.4.0"
-    ag-grid-community "^26.0.0"
-    ag-grid-react "^26.0.0"
-    aria-autocomplete "^1.4.0"
-    axios "0.21.2"
-    dayjs "^1.10.7"
-    jwt-decode "^2.2.0"
-    markdown-to-jsx "7.1.8"
-    nanoid "^3.1.12"
-    node-polyglot "^2.4.0"
-    react "^17.0.2"
-    react-accessible-accordion "^3.3.5"
-    react-beautiful-dnd "^13.1.0"
-    react-dom "^17.0.2"
-    react-dropzone "^11.3.2"
-    react-focus-lock "^2.5.2"
-    react-hook-form "^6.15.5"
-    react-map-gl "^6.1.16"
-    react-media "^1.10.0"
-    react-remove-scroll "2.5.4"
-    react-tabs "^3.2.2"
-    react-text-mask "^5.4.3"
-    react-transition-group "^4.4.1"
-    tailwindcss "2.2.10"
     ts-jest "^26.4.1"
     typesafe-actions "^5.1.0"
 
