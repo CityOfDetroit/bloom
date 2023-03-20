@@ -170,7 +170,6 @@ describe("Listing Management Tests", () => {
     cy.get(".p-4 > .is-primary").contains("Save").click()
     cy.get(".text-right > .button").contains("Application Process").click()
     cy.get("#reviewOrderFCFS").check()
-    cy.get("#dueDateQuestionNo").check()
     cy.get("#waitlistOpenNo").check()
     cy.get("#digitalApplicationChoiceYes").check()
     cy.get("#paperApplicationNo").check()

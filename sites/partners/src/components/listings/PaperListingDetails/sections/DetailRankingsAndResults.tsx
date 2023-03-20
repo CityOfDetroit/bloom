@@ -54,13 +54,6 @@ const DetailRankingsAndResults = () => {
           </GridSection>
         </>
       )}
-      {getReviewOrderType() === ListingReviewOrder.firstComeFirstServe && (
-        <GridSection columns={2}>
-          <ViewItem id="dueDateQuestion" label={t("listings.dueDateQuestion")}>
-            {listing.applicationDueDate ? t("t.yes") : t("t.no")}
-          </ViewItem>
-        </GridSection>
-      )}
       <GridSection columns={2}>
         <ViewItem id="waitlist.openQuestion" label={t("listings.waitlist.openQuestion")}>
           {getDetailBoolean(listing.isWaitlistOpen)}
