@@ -125,7 +125,7 @@ export class ListingsCsvExporterService {
         "Paper Application URL": cloudinaryPdfFromId(
           listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
         ),
-        "Partners Who Have Access": partnerAccessHelper[listing.id].join(", "),
+        "Partners Who Have Access": partnerAccessHelper[listing.id]?.join(", "),
       }
     })
     return this.csvBuilder.buildFromIdIndex(listingObj)
