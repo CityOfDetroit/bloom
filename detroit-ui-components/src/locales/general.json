@@ -810,8 +810,6 @@
   "listings.bath": "bath",
   "listings.browseListings": "Browse Listings",
   "listings.buildingImageAltText": "A picture of the building",
-  "listings.imageAltWithName": "%{name} - image",
-  "listings.multipleImagesAltWithName": "%{name} - %{number}",
   "listings.buildingSelectionCriteria": "Building Criteria Selection",
   "listings.closedListings": "Closed Listings",
   "listings.comingSoon": "Coming Soon",

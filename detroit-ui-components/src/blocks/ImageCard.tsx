@@ -106,10 +106,7 @@ const ImageCard = (props: ImageCardProps) => {
       return description
     }
     if (displayedImages && displayedImages.length > 1) {
-      return t("listings.multipleImagesAltWithName", {
-        name: props.description,
-        number: index + 1,
-      })
+      return `${props.description} - ${index + 1}`
     }
     return props.description || ""
   }
