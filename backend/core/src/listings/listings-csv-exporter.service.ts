@@ -19,18 +19,13 @@ export class ListingsCsvExporterService {
   exportListingsFromObject(listings: any[], users: any[]): string {
     // restructure user information to listingId->user rather than user->listingId
     const partnerAccessHelper = {}
-    const adminList = []
     users.forEach((user) => {
       const userName = `${user.firstName} ${user.lastName}`
-      if (!user.roles?.isAdmin) {
-        user.leasingAgentInListings.forEach((listing) => {
-          partnerAccessHelper[listing.id]
-            ? partnerAccessHelper[listing.id].push(userName)
-            : (partnerAccessHelper[listing.id] = [userName])
-        })
-      } else {
-        adminList.push(userName)
-      }
+      user.leasingAgentInListings.forEach((listing) => {
+        partnerAccessHelper[listing.id]
+          ? partnerAccessHelper[listing.id].push(userName)
+          : (partnerAccessHelper[listing.id] = [userName])
+      })
     })
     const listingObj = listings.map((listing) => {
       return {
@@ -130,7 +125,7 @@ export class ListingsCsvExporterService {
         "Paper Application URL": cloudinaryPdfFromId(
           listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
         ),
-        "Users Who Have Access": adminList.concat(partnerAccessHelper[listing.id]).join(", "),
+        "Partners Who Have Access": partnerAccessHelper[listing.id]?.join(", "),
       }
     })
     return this.csvBuilder.buildFromIdIndex(listingObj)
