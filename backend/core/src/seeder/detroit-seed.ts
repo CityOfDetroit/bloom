@@ -177,7 +177,7 @@ async function seed() {
     )
 
     await userRepo.save(admin)
-    const roles: UserRoles = { user: admin, isPartner: true, isAdmin: true }
+    const roles: UserRoles = { user: admin, isPartner: false, isAdmin: true }
     await rolesRepo.save(roles)
     await userService.confirm({ token: admin.confirmationToken })
   }
