@@ -18,7 +18,7 @@ global.beforeEach(() => {
   })
 })
 
-configure({ testIdAttribute: "data-test-id" })
+configure({ testIdAttribute: "data-testid" })
 
 // Need to set __next on base div to handle the overlay
 const portalRoot = document.createElement("div")

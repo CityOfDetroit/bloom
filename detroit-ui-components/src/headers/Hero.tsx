@@ -45,7 +45,7 @@ const Hero = (props: HeroProps) => {
   }
 
   return (
-    <div className={heroClasses.join(" ")} style={styles} data-test-id="hero-component">
+    <div className={heroClasses.join(" ")} style={styles} data-testid="hero-component">
       <div className={innerClasses.join(" ")}>
         <h1
           className={`hero__title 

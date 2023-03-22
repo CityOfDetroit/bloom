@@ -18,7 +18,7 @@ const LinkButton = (props: LinkButtonProps) => {
       <a
         href={props.href}
         className={buttonClasses.join(" ")}
-        data-test-id={props.dataTestId}
+        data-testid={props.dataTestId}
         {...props.linkProps}
       >
         {buttonInner(props)}
@@ -29,7 +29,7 @@ const LinkButton = (props: LinkButtonProps) => {
       <LinkComponent
         href={props.href}
         className={buttonClasses.join(" ")}
-        data-test-id={props.dataTestId}
+        data-testid={props.dataTestId}
       >
         {buttonInner(props)}
       </LinkComponent>

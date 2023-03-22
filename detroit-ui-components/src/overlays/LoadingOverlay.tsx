@@ -19,7 +19,7 @@ const LoadingOverlay = ({ isLoading, children, classNames }: LoadingOverlayProps
     }
 
     return (
-      <div className={className} data-test-id="loading-overlay">
+      <div className={className} data-testid="loading-overlay">
         <Icon size="3xl" symbol="spinner" className="loading-overlay__spinner" />
         {children}
       </div>

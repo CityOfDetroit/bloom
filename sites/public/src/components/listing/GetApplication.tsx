@@ -60,7 +60,7 @@ const GetApplication = (props: ApplicationsProps) => {
       {props.applicationsOpen && props.onlineApplicationURL && (
         <>
           {props.preview ? (
-            <Button disabled className="w-full mb-2" data-test-id={"listing-view-apply-button"}>
+            <Button disabled className="w-full mb-2" data-testid={"listing-view-apply-button"}>
               {t("listings.apply.applyOnline")}
             </Button>
           ) : (

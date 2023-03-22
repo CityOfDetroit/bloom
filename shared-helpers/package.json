@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@bloom-housing/backend-core": "^4.4.0",
-    "@bloom-housing/ui-components": "^10.0.9",
+    "@bloom-housing/ui-components": "^12.0.0",
     "axios": "0.21.2"
   },
   "devDependencies": {
@@ -25,12 +25,12 @@
     "@testing-library/react": "^11.2.5",
     "@types/jest": "^26.0.14",
     "@types/node-polyglot": "^2.4.1",
-    "@types/react-dom": "^16.9.5",
-    "@types/react-test-renderer": "^16.9.3",
+    "@types/react-dom": "18.0.11",
+    "@types/react-test-renderer": "18.0.0",
     "jest": "^26.5.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-test-renderer": "^17.0.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-test-renderer": "18.2.0",
     "ts-jest": "^26.4.1",
     "ts-loader": "^8.0.4",
     "typescript": "^4.5.5"
