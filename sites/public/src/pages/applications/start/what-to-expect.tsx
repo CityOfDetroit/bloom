@@ -5,11 +5,11 @@ A notice regarding application process and rules
 import React, { useEffect, useContext } from "react"
 import {
   AppearanceStyleType,
-  t,
-  Form,
   Button,
+  Form,
   FormCard,
   ProgressNav,
+  t,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../../../layouts/forms"
 import { useForm } from "react-hook-form"

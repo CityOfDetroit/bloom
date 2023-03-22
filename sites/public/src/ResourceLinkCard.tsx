@@ -1,8 +1,8 @@
 import React from "react"
-import { Icon, IconTypes, LinkButton } from "@bloom-housing/ui-components"
+import { Icon, UniversalIconType, LinkButton } from "@bloom-housing/ui-components"
 
 interface ResourceLinkCardProps {
-  iconSymbol: IconTypes
+  iconSymbol: UniversalIconType
   title: string
   subtitle: string
   linkUrl: string
@@ -19,9 +19,9 @@ const ResourceLinkCard = (props: ResourceLinkCardProps) => {
           fill="black"
           size="xlarge"
           symbol={iconSymbol}
-          className="ml-2 px-2 info-cards__title"
+          className="ml-2 px-2 pb-5 info-cards__title border-b-4 border-primary"
         />
-        <h2 className="font-semibold mt-0">{title}</h2>
+        <h2 className="font-semibold mt-8">{title}</h2>
         <div className="mb-4">{subtitle}</div>
         <LinkButton unstyled className="bg-opacity-0 ms-0" href={linkUrl}>
           {linkLabel}

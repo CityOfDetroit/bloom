@@ -3,24 +3,24 @@
 
 #__next {
   .site-header {
-    --logo-title-font-size-desktop: var(--bloom-font-size-tiny);
-    --logo-title-font-size-mobile: var(--bloom-font-size-sm);
+    --logo-title-font-size-desktop: var(--bloom-font-size-sm);
+    --logo-title-font-size-mobile: var(--bloom-font-size-xs);
     --logo-image-desktop-max-height: var(--bloom-s20);
     --logo-image-desktop-min-height: var(--bloom-s20);
-    --mobile-menu-font-size: var(--bloom-font-size-sm);
-    --mobile-dropdown-item-font-size: var(--bloom-font-size-tiny);
+    --mobile-menu-font-size: var(--bloom-font-size-xs);
+    --mobile-dropdown-item-font-size: var(--bloom-font-size-sm);
     --logo-image-mobile-display: none;
     --notice-display-mobile: none;
     --link-text-hover-color: var(--bloom-color-gray-750);
     --link-text-color: var(--bloom-color-gray-750);
-    --link-font-size: var(--bloom-font-size-sm);
+    --link-font-size: var(--bloom-font-size-xs);
 
     .button {
       text-transform: uppercase;
       font-weight: 700;
       text-decoration: none;
       letter-spacing: var(--bloom-letter-spacing-widest);
-      font-size: var(--bloom-font-size-sm);
+      font-size: var(--bloom-font-size-xs);
       svg {
         rect {
           fill: var(--bloom-color-primary);
@@ -36,12 +36,12 @@
   }
 
   .button {
-    --inline-font-size: var(--bloom-font-size-tiny);
-    --unstyled-inline-font-size: var(--bloom-font-size-tiny);
+    --inline-font-size: var(--bloom-font-size-sm);
+    --unstyled-inline-font-size: var(--bloom-font-size-sm);
   }
 
   .view-item {
-    --label-font-size: var(--bloom-font-size-tiny);
+    --label-font-size: var(--bloom-font-size-sm);
   }
 }
 
@@ -61,12 +61,12 @@
     "sans-serif" ];
   --bloom-color-accent-cool: #297e73;
   --bloom-color-gray-700: #000000;
-  --bloom-color-gray-800: #18252A;
+  --bloom-color-gray-800: #18252a;
   --bloom-color-gray-950: #000000;
   --bloom-color-lush: #feb70d;
   --bloom-color-primary-dark: rgb(0, 68, 69);
   --bloom-color-primary-darker: #004445;
-  --bloom-color-primary-light: #F2F2F2;
+  --bloom-color-primary-light: #f2f2f2;
   --bloom-color-primary-lighter: #f2f2f2;
   --bloom-color-primary: rgb(41, 126, 115);
   --bloom-color-warn: #feb70d;

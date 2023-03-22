@@ -1,13 +1,14 @@
 import React, { useState } from "react"
 import Markdown from "markdown-to-jsx"
 import {
-  MarkdownSection,
-  t,
-  MediaCard,
-  Video,
+  Heading,
   InfoCardGrid,
+  MarkdownSection,
+  MediaCard,
   Modal,
   PageHeader,
+  t,
+  Video,
 } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import RenderIf from "../RenderIf"
@@ -98,9 +99,14 @@ export default function HousingBasics() {
                   overrides: {
                     h3: {
                       component: ({ children, ...props }) => (
-                        <h3 {...props} className="text-tiny text-caps-underline">
+                        <Heading
+                          {...props}
+                          priority={3}
+                          styleType={"underlineWeighted"}
+                          className={"text-sm"}
+                        >
                           {children}
-                        </h3>
+                        </Heading>
                       ),
                     },
                     RenderIf,

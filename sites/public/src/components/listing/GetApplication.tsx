@@ -49,7 +49,9 @@ const GetApplication = (props: ApplicationsProps) => {
 
   return (
     <section className="aside-block">
-      <h2 className="text-caps-underline">{t("listings.apply.howToApply")}</h2>
+      <Heading priority={2} styleType={"underlineWeighted"}>
+        {t("listings.apply.howToApply")}
+      </Heading>
       {!props.applicationsOpen && (
         <p className="mb-5 text-gray-700">
           {t("listings.apply.applicationWillBeAvailableOn", {

@@ -49,14 +49,14 @@
 .detail-header__title {
   @apply font-alt-sans;
   @apply uppercase;
-  @apply text-tiny;
+  @apply text-sm;
   @apply tracking-widest;
   @apply text-primary-darker;
 
   @screen md {
     @apply text-black;
     @apply font-serif;
-    @apply text-3xl;
+    @apply text-2xl;
     @apply normal-case;
     @apply tracking-normal;
     @apply text-gray-900;
@@ -64,7 +64,7 @@
 }
 
 .detail-header__subtitle {
-  @apply text-tiny;
+  @apply text-sm;
 
   @screen md {
     @apply text-gray-700;
@@ -81,6 +81,6 @@
 }
 .toggle-header-content {
   @apply font-sans;
-  @apply text-tiny;
+  @apply text-sm;
   @apply text-gray-800;
 }

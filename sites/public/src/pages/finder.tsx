@@ -4,8 +4,17 @@ import {
   listingFeatures,
   Region,
 } from "@bloom-housing/shared-helpers"
-import { Button, ButtonGroup, Card, Form, t } from "@bloom-housing/ui-components"
-import { AppearanceStyleType, StepHeader, ProgressNav } from "../../../../detroit-ui-components"
+import {
+  AppearanceStyleType,
+  Button,
+  ButtonGroup,
+  Card,
+  Form,
+  Heading,
+  ProgressNav,
+  StepHeader,
+  t,
+} from "@bloom-housing/ui-components"
 import axios from "axios"
 import router from "next/router"
 
@@ -44,9 +53,9 @@ const ProgressHeader = forwardRef(
     return (
       <div className="flex flex-col w-full pb-8 px-2 lg:px-0 sm:pb-0">
         <div className="flex flex-row flex-wrap justify-between gap-y-4 gap-x-0.5">
-          <h1 className="text-base md:text-lg capitalize font-bold">
+          <Heading priority={1} className="text-base md:text-xl capitalize font-bold">
             {t("listingFilters.buttonTitleExtended")}
-          </h1>
+          </Heading>
           <div tabIndex={-1} ref={ref}>
             {!props.isDisclaimer && (
               <StepHeader
@@ -333,11 +342,7 @@ const Finder = () => {
                     <ButtonGroup
                       columns={[
                         questionIndex > 0 && (
-                          <Button
-                            type="button"
-                            onClick={previousQuestion}
-                            styleType={AppearanceStyleType.accentLight}
-                          >
+                          <Button type="button" onClick={previousQuestion}>
                             {t("t.previous")}
                           </Button>
                         ),

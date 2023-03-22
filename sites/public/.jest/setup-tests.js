@@ -1,11 +1,9 @@
-
 import { addTranslation } from "@bloom-housing/ui-components"
-import general from "../../../detroit-ui-components/src/locales/general.json"
+import general from "@bloom-housing/ui-components/src/locales/general.json"
 import general_overrides from "../src/page_content/locale_overrides/general.json"
 import { serviceOptions } from "@bloom-housing/backend-core"
 import axios from "axios"
 import "@testing-library/jest-dom/extend-expect"
-
 
 addTranslation(general)
 addTranslation(general_overrides)

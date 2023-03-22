@@ -1,8 +1,15 @@
 import * as React from "react"
-import { AppearanceSizeType, Button, Icon, IconFillColors } from "@bloom-housing/ui-components"
+import {
+  AppearanceSizeType,
+  Button,
+  Icon,
+  IconFillColors,
+  UniversalIconType,
+} from "@bloom-housing/ui-components"
 import { t } from "@bloom-housing/ui-components"
-import { AuthContext } from "./AuthContext"
+import { AuthContext } from "@bloom-housing/shared-helpers"
 import { useContext, useEffect, useState } from "react"
+import { faHeart } from "@fortawesome/pro-solid-svg-icons"
 
 export interface FavoriteButtonProps {
   id: string
@@ -83,10 +90,10 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
             ariaLabel={t("t.unfavorite")}
           >
             <Icon
-              symbol={"likeFill"}
+              symbol={faHeart as UniversalIconType}
               size={"md-large"}
               fill={IconFillColors.white}
-              iconClass={"favorited-fill mt-0"}
+              iconClass={"mt-0"}
             />
           </Button>
           <a
@@ -106,7 +113,7 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
             onClick={() => addFavorite()}
             ariaLabel={t("t.favorite")}
           >
-            <Icon symbol={"like"} size={"md-large"} iconClass={"mt-0"} />
+            <Icon symbol={faHeart as UniversalIconType} size={"md-large"} iconClass={"mt-0"} />
           </Button>
           <a
             role="button"

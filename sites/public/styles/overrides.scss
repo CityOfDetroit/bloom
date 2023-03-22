@@ -1,5 +1,15 @@
 /* Overrides the default ui-components styles with Detroit-specific styles. */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700");
+@import "@bloom-housing/ui-components/src/global/tokens/fonts.scss";
+@import "@bloom-housing/ui-components/src/global/tokens/borders.scss";
+@import "@bloom-housing/ui-components/src/global/tokens/colors.scss";
+@import "@bloom-housing/ui-components/src/global/tokens/screens.scss";
+@import "@bloom-housing/ui-components/src/global/tokens/sizes.scss";
+@import "@bloom-housing/ui-components/src/global/mixins.scss";
+@import "@bloom-housing/ui-components/src/global/text.scss";
+@import "@bloom-housing/ui-components/src/global/markdown.scss";
+@import "@bloom-housing/ui-components/src/global/lists.scss";
+
 #__next {
   // Certain SVG icons should be green.
   // NOTE: might not need, could delete. -JW
@@ -38,9 +48,6 @@
           border-left-width: 0;
           border-inline-width: 1px;
         }
-        .action-block__header {
-          font-size: (var(--bloom-font-size-base-alt));
-        }
       }
     }
   }
@@ -70,6 +77,7 @@
     --normal-font-size: var(--bloom-font-size-base);
     --label-letter-spacing: normal;
     --label-transform: none;
+    --unstyled-inline-font-size: var(--bloom-font-size-sm);
     &:hover {
       svg {
         fill: var(--bloom-color-white);
@@ -83,10 +91,8 @@
   }
 
   .action-block {
-    .action-block__actions .button {
-      @media (max-width: 640px) {
-        @apply text-sm;
-      }
+    h3 {
+      font-size: var(--bloom-font-size-lg);
     }
   }
 
@@ -117,6 +123,47 @@
       --label-text-color: var(--bloom-color-gray-750);
     }
   }
+
+  .drawer {
+    --content-padding: 0;
+    --content-height: 100%;
+  }
+
+  .page-header {
+    --inverse-background-color: var(--bloom-color-primary-darker);
+    --title-font-size-desktop: 1.75rem;
+    --title-font-size-mobile: 1.5rem;
+    h1 {
+      // TODO remove, + in uic
+      // margin-bottom: var(--bloom-s4);
+      font-weight: 700;
+    }
+  }
+
+  .footer-sock {
+    --background-color: var(--bloom-color-black);
+    --copyright-text-color: var(--bloom-color-gray-600);
+  }
+
+  .button-group {
+    --background-color: var(--bloom-color-gray-300);
+  }
+
+  .details {
+    --desktop-width: auto;
+  }
+
+  .markdown {
+    h3 {
+      margin-bottom: var(--bloom-s2);
+      margin-top: var(--bloom-s8);
+    }
+    h4 {
+      font-size: var(--bloom-font-size-2xl);
+      margin-bottom: var(--bloom-s2);
+      margin-top: var(--bloom-s8);
+    }
+  }
 }
 
 :root {
@@ -127,13 +174,13 @@
   --bloom-font-alt-sans: var(--detroit-font-sans);
   --bloom-color-accent-cool: #297e73;
   --bloom-color-gray-700: #000000;
-  --bloom-color-gray-800: #18252A;
+  --bloom-color-gray-800: #18252a;
   --bloom-color-gray-950: #000000;
   --bloom-color-lush: #feb70d;
   --bloom-color-primary-dark: rgb(0, 68, 69);
   --bloom-color-primary-darker: #004445;
-  --bloom-color-primary-light: #F2F2F2;
-  --bloom-color-primary-lighter: #F2F2F2;
+  --bloom-color-primary-light: #f2f2f2;
+  --bloom-color-primary-lighter: #f2f2f2;
   --bloom-color-primary: rgb(41, 126, 115);
   --bloom-color-warn: #feb70d;
   --bloom-font-serif: var(--detroit-font-serif);

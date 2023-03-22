@@ -2,8 +2,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const cloneDeep = require("clone-deep")
-const bloomTheme = cloneDeep(require("../../detroit-ui-components/tailwind.config.js"))
+const bloomTheme = cloneDeep(require("@bloom-housing/ui-components/tailwind.config.js"))
 
+// TODO I feel like we should remove all of these
 // Detroit style overrides.
 // See the [Detroit style guide](https://detroitmi.gov/departments/department-innovation-and-technology/style-guide)
 // and the [Detroit color scheme](https://detroitmi.gov/sites/detroitmi.localhost/files/2021-06/DetroitOpportunity_12.01%20%282%29.pdf?#page=14)
@@ -46,7 +47,6 @@ module.exports = {
       "./pages/**/*.tsx",
       "./src/**/*.tsx",
       "./layouts/**/*.tsx",
-      "../../detroit-ui-components/src/**/*.tsx",
       "../../shared-helpers/src/**/*.tsx",
       "../../node_modules/@bloom-housing/ui-components/src/**/*.tsx",
     ],

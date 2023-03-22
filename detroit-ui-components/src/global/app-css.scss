@@ -1,10 +1,3 @@
-/* Design Tokens: */
-@import "tokens/borders.scss";
-@import "tokens/colors.scss";
-@import "tokens/fonts.scss";
-@import "tokens/screens.scss";
-@import "tokens/sizes.scss";
-
 html {
   @apply antialiased;
 }
@@ -52,14 +45,10 @@ main {
 }
 
 @import "mixins.scss";
-@import "markdown.scss";
-@import "text.scss";
 @import "headers.scss";
-@import "blocks.scss";
 @import "accordion.scss";
 @import "custom_counter.scss";
 @import "forms.scss";
-@import "lists.scss";
 @import "tables.scss";
 @import "homepage.scss";
 @import "print.scss";

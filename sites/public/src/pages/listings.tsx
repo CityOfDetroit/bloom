@@ -61,7 +61,6 @@ const ListingsPage = ({ initialListings }) => {
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
-        contentAreaClassName={"px-0 pt-0 pb-0 h-full"}
       >
         <FilterForm
           onSubmit={(data) => onSubmit(/*page=*/ 1, 8, data)}
@@ -71,9 +70,7 @@ const ListingsPage = ({ initialListings }) => {
 
       <div className={"bg-gray-300"}>
         <div className="max-w-5xl flex sm:flex-row flex-col justify-between container mx-auto px-4 py-8  gap-y-2">
-          <h2 className="text-3xl text-primary-darker font-bold">
-            {t("listingFilters.allRentals")}
-          </h2>
+          <h2 className="text-primary-darker font-bold">{t("listingFilters.allRentals")}</h2>
           <Button
             className="bg-lush border-lush text-black"
             size={AppearanceSizeType.normal}

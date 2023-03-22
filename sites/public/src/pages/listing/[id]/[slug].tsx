@@ -70,7 +70,7 @@ export default function ListingPage(props: ListingProps) {
       </Head>
       <MetaTags title={listing.name} image={metaImage} description={metaDescription} />
       <span className="hidden md:block">
-        <ListingDividerLine />
+        <section className="w-full border-b border-gray-400 h-0" />
       </span>
       <ListingView listing={listing} allowFavoriting={true} listingMetadata={listingMetadata} />
     </Layout>

@@ -1,6 +1,14 @@
 import React from "react"
 import Markdown from "markdown-to-jsx"
-import { PageHeader, MarkdownSection, t } from "@bloom-housing/ui-components"
+import {
+  Heading,
+  PageHeader,
+  MarkdownSection,
+  t,
+  UniversalIconType,
+} from "@bloom-housing/ui-components"
+import { faCircleQuestion, faHouseChimney } from "@fortawesome/pro-light-svg-icons"
+
 import Layout from "../layouts/application"
 import RenderIf from "../RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"
@@ -19,7 +27,7 @@ export default function GetAssistance() {
           <div className="pt-4 md:w-8/12 md:py-0 serif-paragraphs">
             <div className="md:me-8">
               <ResourceLinkCard
-                iconSymbol="questionThin"
+                iconSymbol={faCircleQuestion as UniversalIconType}
                 title={t("resources.affordableHousingTitle")}
                 subtitle={t("resources.affordableHousingSubtitle")}
                 linkLabel={t("resources.affordableHousingLinkLabel")}
@@ -27,7 +35,7 @@ export default function GetAssistance() {
               />
 
               <ResourceLinkCard
-                iconSymbol="house"
+                iconSymbol={faHouseChimney as UniversalIconType}
                 title={t("resources.housingResourcesTitle")}
                 subtitle={t("resources.housingResourcesSubtitle")}
                 linkLabel={t("resources.housingResourcesLinkLabel")}
@@ -42,9 +50,14 @@ export default function GetAssistance() {
                   overrides: {
                     h3: {
                       component: ({ children, ...props }) => (
-                        <h3 {...props} className="text-tiny text-caps-underline">
+                        <Heading
+                          {...props}
+                          priority={3}
+                          styleType={"underlineWeighted"}
+                          className={"text-sm"}
+                        >
                           {children}
-                        </h3>
+                        </Heading>
                       ),
                     },
                     RenderIf,

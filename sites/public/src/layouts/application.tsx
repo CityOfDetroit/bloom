@@ -132,7 +132,7 @@ const Layout = (props) => {
               <div className="flex pb-7">
                 <img src="/images/detroit-logo-white.png" alt="City of Detroit logo" />
                 <div className="flex flex-col justify-center text-white ml-2">
-                  <p className="text-left text-base font-bold md:text-lg">{t("footer.header")}</p>
+                  <p className="text-left text-base font-bold md:text-xl">{t("footer.header")}</p>
                   <a
                     className="text-left text-xs md:text-base"
                     href="https://detroitmi.gov/departments/housing-and-revitalization-department"

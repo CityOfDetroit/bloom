@@ -13,6 +13,7 @@ import {
   Field,
   Form,
   FormCard,
+  Heading,
   Icon,
   IconFillColors,
   ProgressNav,
@@ -73,7 +74,7 @@ const ApplicationName = () => {
 
   return (
     <FormsLayout>
-      <FormCard header={listing?.name}>
+      <FormCard header={<Heading priority={1}>{listing?.name}</Heading>}>
         <ProgressNav
           currentPageSection={currentPageSection}
           completedSections={application.completedSections}

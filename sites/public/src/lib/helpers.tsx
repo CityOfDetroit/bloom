@@ -4,6 +4,10 @@ import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
 import dayjs from "dayjs"
+import { faCalendar, faUniversalAccess } from "@fortawesome/pro-solid-svg-icons"
+import { faCheck } from "@fortawesome/free-solid-svg-icons"
+import { faCircleInfo } from "@fortawesome/pro-thin-svg-icons"
+
 import {
   Address,
   Listing,
@@ -36,7 +40,8 @@ import {
 } from "../../../../detroit-ui-components/src/page_components/listing/ListingCard"
 import { Tag } from "../../../../detroit-ui-components/src/text/Tag"
 
-import { imageUrlFromListing, FavoriteButton } from "@bloom-housing/shared-helpers"
+import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
+import { FavoriteButton } from "../components/listing/FavoriteButton"
 
 export const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -149,7 +154,7 @@ export const getListingTags = (
   if (accessibilityFeaturesExist(listingFeatures)) {
     tags.push({
       text: t("listings.reservedCommunityTypes.specialNeeds"),
-      iconType: "universalAccess" as UniversalIconType,
+      iconType: faUniversalAccess as UniversalIconType,
       iconColor: AppearanceStyleType.primary,
     })
   }
@@ -231,6 +236,7 @@ export const getListings = (listings) => {
     rent: "t.rent",
     availability: "t.availability",
   }
+  console.log("before map")
 
   return listings.map((listing: Listing, index) => (
     <ListingCard
@@ -250,11 +256,11 @@ export const getListings = (listings) => {
         ariaLabel: `${listing.name} ${t("t.unitInformation")}`,
       }}
       contentProps={{
-        contentHeader: { text: listing.name, priority: 3 },
-        contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
-        tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
+        contentHeader: { content: listing.name, priority: 3 },
+        contentSubheader: { content: getListingCardSubtitle(listing.buildingAddress) },
+        tableHeader: { content: listing.showWaitlist ? t("listings.waitlist.open") : null },
       }}
-      cardTags={getListingTags(listing.listingPrograms, listing.features, listing.homeType, true)}
+      // cardTags={getListingTags(listing.listingPrograms, listing.features, listing.homeType, true)}
       footerContent={
         <div className={"flex justify-between items-center"}>
           <FavoriteButton name={listing.name} id={listing.id} />
@@ -284,17 +290,18 @@ interface UnitSummaryTable {
 
 export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
   const groupedUnitHeaders: TableHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
+    unitType: { name: t("t.unitType") },
+    rent: { name: t("t.rent") },
+    availability: { name: t("t.availability") },
     ami: {
       name: "ami",
       className: "ami-header",
-      icon: (
-        <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
-          <Icon size="medium" symbol="info" tabIndex={0} />
-        </Tooltip>
-      ),
+      // TODO
+      // icon: (
+      //   <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
+      //     <Icon size="medium" symbol={faCircleInfo as UniversalIconType} tabIndex={0} />
+      //   </Tooltip>
+      // ),
     },
   }
   let groupedUnitData: StandardTableData = null

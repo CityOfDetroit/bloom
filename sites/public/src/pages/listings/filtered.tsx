@@ -2,16 +2,17 @@ import Head from "next/head"
 import {
   ActionBlock,
   AG_PER_PAGE_OPTIONS,
+  AgPagination,
   AppearanceSizeType,
   Button,
+  Drawer,
   Heading,
+  Icon,
   LinkButton,
   LoadingOverlay,
-  t,
   PageHeader,
-  Icon,
-  Drawer,
-  AgPagination,
+  t,
+  UniversalIconType,
 } from "@bloom-housing/ui-components"
 import {
   encodeToFrontendFilterString,
@@ -28,6 +29,7 @@ import { EnumListingFilterParamsStatus, OrderByFieldsEnum } from "@bloom-housing
 import FilterForm from "../../components/filters/FilterForm"
 import { getListings } from "../../lib/helpers"
 import { faSliders } from "@fortawesome/free-solid-svg-icons"
+import { faHouseChimney } from "@fortawesome/pro-light-svg-icons"
 
 const FilteredListingsPage = () => {
   const router = useRouter()
@@ -115,7 +117,6 @@ const FilteredListingsPage = () => {
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
-        contentAreaClassName={"px-0 pt-0 pb-0 h-full"}
       >
         <FilterForm
           onSubmit={(data) => onSubmit(1, itemsPerPage, data)}
@@ -179,7 +180,7 @@ const FilteredListingsPage = () => {
                 ]}
                 className={"p-8 has-bold-header"}
                 background="primary-lighter"
-                icon={<Icon size="2xl" symbol="house" />}
+                icon={<Icon size="2xl" symbol={faHouseChimney as UniversalIconType} />}
                 header={<Heading priority={2}>{t("listingFilters.noResults")}</Heading>}
                 subheader={t("listingFilters.noResultsSubtitle")}
               />

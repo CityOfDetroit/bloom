@@ -40,7 +40,6 @@ import {
   occupancyTable,
   getTimeRangeString,
   getPostmarkString,
-  FavoriteButton,
   getCurrencyRange,
 } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
@@ -55,6 +54,7 @@ import {
   getUnitGroupSummary,
   openInFuture,
 } from "../../lib/helpers"
+import { FavoriteButton } from "./FavoriteButton"
 
 import { GetApplication } from "./GetApplication"
 import { SubmitApplication } from "./SubmitApplication"
@@ -181,7 +181,9 @@ export const ListingProcess = (props: ListingProcessProps) => {
         )}
       {listing.neighborhood && (
         <section className="hidden md:block aside-block">
-          <h4 className="text-caps-underline">{t("listings.sections.neighborhoodTitle")}</h4>
+          <Heading styleType={"underlineWeighted"} priority={4}>
+            {t("listings.sections.neighborhoodTitle")}
+          </Heading>
           <p>{listing.neighborhood}</p>
         </section>
       )}
@@ -413,7 +415,9 @@ export const ListingView = (props: ListingProps) => {
   const additionalInformationCard = (cardTitle: string, cardData: string) => {
     return (
       <div className="info-card">
-        <h3 className="text-serif-lg">{cardTitle}</h3>
+        <Heading className={"text-xl mb-4"} priority={3}>
+          {cardTitle}
+        </Heading>
         <p className="text-sm text-gray-700 break-words">
           <Markdown children={cardData} options={{ disableParsingRawHTML: true }} />
         </p>
@@ -552,7 +556,7 @@ export const ListingView = (props: ListingProps) => {
         <div className="w-full md:mt-6 md:mb-6 md:px-3 md:pe-8">
           {groupedUnitData?.length > 0 && (
             <>
-              <GroupedTable
+              <GroupedTable // TODO
                 headers={groupedUnitHeaders}
                 data={[{ data: groupedUnitData }]}
                 responsiveCollapse={true}
@@ -660,7 +664,7 @@ export const ListingView = (props: ListingProps) => {
                           {program.program.description}
                         </InfoCard>
                       ))}
-                    <p className="text-gray-700 text-tiny">
+                    <p className="text-gray-700 text-sm">
                       {t("listings.sections.publicProgramNote")}
                     </p>
                   </ListSection>
@@ -732,7 +736,7 @@ export const ListingView = (props: ListingProps) => {
               t("errors.noData")
             ) : (
               <div className="listing-detail-panel">
-                <dl className="column-definition-list">
+                <dl className="column-definition-list mb-4">
                   {listing.neighborhood && (
                     <Description term={t("t.neighborhood")} description={listing.neighborhood} />
                   )}
@@ -836,9 +840,9 @@ export const ListingView = (props: ListingProps) => {
                 <header className="detail-header pt-0 ps-0 md:ps-4 pb-6 border-none flex justify-start">
                   <div className="flex justify-between w-full">
                     <hgroup className="detail-header__hgroup ps-0 md:ps-4">
-                      <h2 className="detail-header__title">
+                      <Heading priority={2} className="detail-header__title">
                         {t("listings.sections.neighborhoodAmenitiesPublicTitle")}
-                      </h2>
+                      </Heading>
                       <span className="detail-header__subtitle">
                         {t("listings.sections.neighborhoodAmenitiesPublicSubtitle")}
                       </span>

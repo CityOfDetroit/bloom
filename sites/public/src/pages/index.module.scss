@@ -20,13 +20,6 @@
   }
   svg {
     padding: 0 0.5rem 0 0;
-    fill: $tailwind-primary;
-    height: 2rem;
-    width: 2rem;
-    @screen sm {
-      height: 2.5rem;
-      width: 2.5rem;
-    }
   }
 }
 
@@ -94,3 +87,9 @@
 .latest-listings {
   padding: 24px 0 0 0;
 }
+
+// .action-block-header {
+//   h3 {
+//     font-size: var(--bloom-font-size-xl);
+//   }
+// }

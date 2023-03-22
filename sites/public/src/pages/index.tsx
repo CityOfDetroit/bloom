@@ -2,6 +2,16 @@ import React, { useState } from "react"
 import Head from "next/head"
 import Link from "next/link"
 import {
+  faClockThree,
+  faLocationDot,
+  faEnvelope,
+  faHouseChimney,
+  faCircleQuestion,
+} from "@fortawesome/pro-thin-svg-icons"
+import axios from "axios"
+import qs from "qs"
+import moment from "moment"
+import {
   t,
   SiteAlert,
   Heading,
@@ -10,26 +20,26 @@ import {
   Hero,
   Icon,
   AlertBox,
+  UniversalIconType,
 } from "@bloom-housing/ui-components"
-import Layout from "../layouts/application"
-import { ConfirmationModal } from "../components/account/ConfirmationModal"
-import { MetaTags } from "../components/shared/MetaTags"
-import { HorizontalScrollSection } from "../lib/applications/HorizontalScrollSection"
-import axios from "axios"
-import qs from "qs"
-import styles from "./index.module.scss"
-import {
-  EnumListingFilterParamsComparison,
-  EnumListingFilterParamsStatus,
-  Listing,
-} from "@bloom-housing/backend-core/types"
-import { getListings } from "../lib/helpers"
-import moment from "moment"
 import {
   Region,
   regionImageUrls,
   encodeToFrontendFilterString,
 } from "@bloom-housing/shared-helpers"
+import {
+  EnumListingFilterParamsComparison,
+  EnumListingFilterParamsStatus,
+  Listing,
+} from "@bloom-housing/backend-core/types"
+import Layout from "../layouts/application"
+import { ConfirmationModal } from "../components/account/ConfirmationModal"
+import { MetaTags } from "../components/shared/MetaTags"
+import { HorizontalScrollSection } from "../lib/applications/HorizontalScrollSection"
+
+import styles from "./index.module.scss"
+
+import { getListings } from "../lib/helpers"
 
 export default function Home({ latestListings, underConstructionListings }) {
   const showLatestListings = false // Disabled for now
@@ -122,7 +132,7 @@ export default function Home({ latestListings, underConstructionListings }) {
       <Hero
         title={heroTitle}
         backgroundImage={"/images/hero-main.jpg"}
-        heroInset={heroInset}
+        customActions={heroInset}
         innerClassName="max-w-2xl mx-auto p-8 rounded-xl"
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
@@ -158,7 +168,13 @@ export default function Home({ latestListings, underConstructionListings }) {
         <div className={styles["section-container"]}>
           <section className={styles.regions}>
             <div className={`${styles["title"]}`}>
-              <Icon size="xlarge" symbol={"map"} className={styles.icon} ariaHidden={true} />
+              <Icon
+                size="xlarge"
+                symbol={faLocationDot as UniversalIconType}
+                fill={"var(--bloom-color-primary)"}
+                className={styles.icon}
+                ariaHidden={true}
+              />
               <h2>{t("welcome.cityRegions")}</h2>
             </div>
             <div className={styles["cards-container"]}>
@@ -172,9 +188,9 @@ export default function Home({ latestListings, underConstructionListings }) {
       <section className="homepage-extra">
         <div className="action-blocks mt-4 mb-4 w-full">
           <ActionBlock
-            className="flex-1 has-bold-header"
-            header={<Heading priority={2}>{t("welcome.signUp")}</Heading>}
-            icon={<Icon size="2xl" symbol="envelopeThin" />}
+            className="flex-1 has-bold-header action-block-header"
+            header={<Heading priority={3}>{t("welcome.signUp")}</Heading>}
+            icon={<Icon size="2xl" symbol={faEnvelope as UniversalIconType} />}
             actions={[
               <LinkButton
                 key={"sign-up"}
@@ -189,8 +205,8 @@ export default function Home({ latestListings, underConstructionListings }) {
           />
           <ActionBlock
             className="flex-1 has-bold-header"
-            header={<Heading priority={2}>{t("welcome.seeMoreOpportunitiesTruncated")}</Heading>}
-            icon={<Icon size="2xl" symbol="houseThin" />}
+            header={<Heading priority={3}>{t("welcome.seeMoreOpportunitiesTruncated")}</Heading>}
+            icon={<Icon size="2xl" symbol={faHouseChimney as UniversalIconType} />}
             actions={[
               <LinkButton href="/additional-resources" key={"additional-resources"}>
                 {t("welcome.viewAdditionalHousingTruncated")}
@@ -199,8 +215,8 @@ export default function Home({ latestListings, underConstructionListings }) {
           />
           <ActionBlock
             className="flex-1 has-bold-header"
-            header={<Heading priority={2}>{t("welcome.learnHousingBasics")}</Heading>}
-            icon={<Icon size="2xl" symbol={"circleQuestionThin"} />}
+            header={<Heading priority={3}>{t("welcome.learnHousingBasics")}</Heading>}
+            icon={<Icon size="2xl" symbol={faCircleQuestion as UniversalIconType} />}
             actions={[
               <LinkButton href="/housing-basics" key={"housing-basics"}>
                 {t("welcome.learnMore")}
