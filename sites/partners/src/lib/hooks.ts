@@ -14,6 +14,7 @@ import {
 } from "@bloom-housing/backend-core/types"
 import dayjs from "dayjs"
 import JSZip from "jszip"
+import { setSiteAlertMessage, t } from "@bloom-housing/ui-components"
 
 interface PaginationProps {
   page?: number
@@ -437,6 +438,7 @@ const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
       fileLink.href = URL.createObjectURL(blob)
       fileLink.click()
       setCsvExportSuccess(true)
+      setSiteAlertMessage(t("users.exportSuccess"), "success")
     } catch (err) {
       setCsvExportError(true)
     }
@@ -478,6 +480,7 @@ export const useListingZip = () => {
         fileLink.click()
       })
       setZipCompleted(true)
+      setSiteAlertMessage(t("users.exportSuccess"), "success")
     } catch (err) {
       setZipExportError(true)
     }
