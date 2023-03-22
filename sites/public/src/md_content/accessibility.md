@@ -10,7 +10,7 @@ This is an accessibility statement from the City of Detroit Housing and Revitali
 
 The [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/) defines best practices for designers and developers to improve accessibility of websites for people with disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA. Our goal is to deliver a web experience that achieves “Level AA” conformance according to the Web Content Accessibility Guidelines v2.1 (WCAG 2.1). We hope to continually iterate and improve Detroit Home Connect even beyond full WCAG conformance.
 
-##### Feedback
+### Feedback
 
 We welcome your feedback on the accessibility of Detroit Home Connect. Please let us know if you encounter accessibility barriers while using this website by contacting us at the email below:
 <div class="bull-list">
@@ -37,10 +37,11 @@ These technologies are relied upon for conformance with the accessibility standa
 Despite our best efforts to ensure the accessibility of Detroit Home Connect, there may be some limitations. Below is a description of some accessibility challenges that we are aware of on our site, and what we are doing to address those challenges.
 
 Known accessibility challenges for Detroit Home Connect:
-
-1. **Alternative image text**: Alt text on listing images is automatically generated, which means that it might not exactly match the uploaded image. The images are uploaded by those that own the listing, so we cannot ensure they match the alternative text. We will remind property managers to upload images of the buildings to ensure consistency between the alternative text and image. Please reach out to the property manager, or the Detroit Home Connect support email if you encounter an issue with a listing image. 
-2. **“Additional Housing Resources” page**: Some of the linked pages may not be accessible, because the linked resources are third party sites, and we do not have control over their accessibility standards. Please reach out to the property manager or the Detroit Home Connect support email if you encounter an issue with the resources pages.
-3. **Heading elements**: Some heading elements are not consistent.
+<div class="bull-list">
+- **Alternative image text**: Alt text on listing images is automatically generated, which means that it might not exactly match the uploaded image. The images are uploaded by those that own the listing, so we cannot ensure they match the alternative text. We will remind property managers to upload images of the buildings to ensure consistency between the alternative text and image. Please reach out to the property manager, or the Detroit Home Connect support email if you encounter an issue with a listing image. 
+- **“Additional Housing Resources” page**: Some of the linked pages may not be accessible, because the linked resources are third party sites, and we do not have control over their accessibility standards. Please reach out to the property manager or the Detroit Home Connect support email if you encounter an issue with the resources pages.
+- **Heading elements**: Some heading elements are not consistent.
+</div>
 
 ### Assessment approach
 
