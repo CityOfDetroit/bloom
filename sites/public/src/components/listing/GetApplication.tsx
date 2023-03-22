@@ -81,7 +81,7 @@ const GetApplication = (props: ApplicationsProps) => {
       {props.applicationsOpen && props.paperMethod && (
         <>
           {props.onlineApplicationURL && <OrDivider bgColor="white" />}
-          <div className="text-serif-lg">{t("listings.apply.getAPaperApplication")}</div>
+          <div className="text-xl mb-4">{t("listings.apply.getAPaperApplication")}</div>
           <Button
             styleType={
               !props.preview && props.onlineApplicationURL ? AppearanceStyleType.primary : undefined

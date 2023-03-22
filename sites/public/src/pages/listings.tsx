@@ -6,7 +6,7 @@ import {
   t,
   Drawer,
   PageHeader,
-  AgPagination,
+  IconFillColors,
 } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { MetaTags } from "../components/shared/MetaTags"
@@ -21,6 +21,7 @@ import {
   ListingFilterState,
   AuthContext,
 } from "@bloom-housing/shared-helpers"
+import { ListingPagination } from "../components/listing/ListingPagination"
 import { UserStatus } from "../lib/constants"
 
 const ListingsPage = ({ initialListings }) => {
@@ -72,13 +73,12 @@ const ListingsPage = ({ initialListings }) => {
         <div className="max-w-5xl flex sm:flex-row flex-col justify-between container mx-auto px-4 py-8  gap-y-2">
           <h2 className="text-primary-darker font-bold">{t("listingFilters.allRentals")}</h2>
           <Button
-            className="bg-lush border-lush text-black"
+            className="bg-lush border-lush text-black icon-black"
             size={AppearanceSizeType.normal}
             icon="search"
             iconPlacement="left"
             iconSize="md-large"
             onClick={() => setFilterModalVisible(true)}
-            passToIconClass={"ui-icon__filledBlack"}
           >
             {t("listingFilters.buttonTitleExtended")}
           </Button>
@@ -95,7 +95,7 @@ const ListingsPage = ({ initialListings }) => {
       {initialListings?.meta?.totalItems > 0 && (
         <div>
           {initialListings?.meta?.totalItems > 0 && getListings(initialListings?.items)}
-          <AgPagination
+          <ListingPagination
             totalItems={initialListings?.meta.totalItems}
             totalPages={initialListings?.meta.totalPages}
             currentPage={1}
@@ -103,8 +103,6 @@ const ListingsPage = ({ initialListings }) => {
             quantityLabel={t("listings.totalListings")}
             setCurrentPage={(page) => onSubmit(page, 8, {})}
             setItemsPerPage={(limit) => onSubmit(1, Number(limit), {})}
-            includeBorder={false}
-            matchListingCardWidth={true}
           />
         </div>
       )}

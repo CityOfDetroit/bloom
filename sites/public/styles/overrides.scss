@@ -164,6 +164,33 @@
       margin-top: var(--bloom-s8);
     }
   }
+
+  .icon-black {
+    &:hover {
+      svg {
+        fill: var(--bloom-color-black);
+      }
+    }
+    svg {
+      fill: var(--bloom-color-black);
+    }
+  }
+
+  .drawer__header {
+    h1 {
+      font-size: 1.375rem;
+    }
+  }
+
+  .field {
+    .prepend {
+      font-size: var(--bloom-font-size-xl);
+    }
+  }
+
+  .info-card {
+    font-size: var(--bloom-font-size-sm);
+  }
 }
 
 :root {

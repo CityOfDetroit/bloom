@@ -27,6 +27,7 @@ import { useRouter } from "next/router"
 import { useListingsData } from "../../lib/hooks"
 import { EnumListingFilterParamsStatus, OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
 import FilterForm from "../../components/filters/FilterForm"
+import ListingPagination from "../../components/listing/ListingPagination"
 import { getListings } from "../../lib/helpers"
 import { faSliders } from "@fortawesome/free-solid-svg-icons"
 import { faHouseChimney } from "@fortawesome/pro-light-svg-icons"
@@ -189,7 +190,7 @@ const FilteredListingsPage = () => {
           {!listingsLoading && listingsData?.meta.totalItems > 0 && (
             <div>
               {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
-              <AgPagination
+              <ListingPagination
                 totalItems={listingsData?.meta.totalItems}
                 totalPages={listingsData?.meta.totalPages}
                 currentPage={currentPage}

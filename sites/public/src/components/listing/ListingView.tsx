@@ -558,7 +558,7 @@ export const ListingView = (props: ListingProps) => {
             <>
               <GroupedTable // TODO
                 headers={groupedUnitHeaders}
-                data={[{ data: groupedUnitData }]}
+                data={groupedUnitData}
                 responsiveCollapse={true}
                 ariaLabel={t("t.unitInformation")}
               />

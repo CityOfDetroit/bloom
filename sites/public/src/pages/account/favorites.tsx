@@ -1,6 +1,5 @@
 import {
   AG_PER_PAGE_OPTIONS,
-  AgPagination,
   LinkButton,
   LoadingOverlay,
   PageHeader,
@@ -13,6 +12,7 @@ import { useRouter } from "next/router"
 import { useListingsData } from "../../lib/hooks"
 import { OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
 import { getListings } from "../../lib/helpers"
+import { ListingPagination } from "../../components/listing/ListingPagination"
 
 const FavoritedListingsPage = () => {
   const router = useRouter()
@@ -59,7 +59,7 @@ const FavoritedListingsPage = () => {
     return (
       <div>
         {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
-        <AgPagination
+        <ListingPagination
           totalItems={listingsData?.meta.totalItems}
           totalPages={listingsData?.meta.totalPages}
           currentPage={currentPage}
@@ -67,7 +67,7 @@ const FavoritedListingsPage = () => {
           quantityLabel={t("listings.totalListings")}
           setCurrentPage={setCurrentPage}
           setItemsPerPage={setItemsPerPage}
-          onPerPageChange={() => setCurrentPage(1)} //TODO this might be a problem
+          onPerPageChange={() => setCurrentPage(1)}
         />
       </div>
     )

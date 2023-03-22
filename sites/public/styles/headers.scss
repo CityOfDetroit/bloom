@@ -194,6 +194,10 @@
   border: var(--bloom-s0_5) solid $tailwind-primary;
   border-radius: var(--bloom-s11);
   min-width: max-content;
+  &:hover {
+    background-color: var(--bloom-color-primary);
+    color: var(--bloom-color-white);
+  }
 }
 
 .hero {

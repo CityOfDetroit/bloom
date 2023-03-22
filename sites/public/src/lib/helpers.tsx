@@ -171,7 +171,7 @@ export const getListingTags = (
 export const getListingTag = (tag: CardTag) => {
   return (
     <Tag
-      styleType={tag.styleType ?? AppearanceStyleType.accentWarm}
+      styleType={tag.styleType ?? AppearanceStyleType.info}
       shade={tag?.shadeType}
       className={"me-2 mb-2 font-bold px-3 py-2"}
       key={tag.text}
