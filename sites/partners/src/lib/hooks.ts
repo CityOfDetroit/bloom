@@ -438,7 +438,7 @@ const useCsvExport = (endpoint: () => Promise<string>, fileName: string) => {
       fileLink.href = URL.createObjectURL(blob)
       fileLink.click()
       setCsvExportSuccess(true)
-      setSiteAlertMessage(t("users.exportSuccess"), "success")
+      setSiteAlertMessage(t("t.exportSuccess"), "success")
     } catch (err) {
       setCsvExportError(true)
     }
@@ -480,7 +480,7 @@ export const useListingZip = () => {
         fileLink.click()
       })
       setZipCompleted(true)
-      setSiteAlertMessage(t("users.exportSuccess"), "success")
+      setSiteAlertMessage(t("t.exportSuccess"), "success")
     } catch (err) {
       setZipExportError(true)
     }
