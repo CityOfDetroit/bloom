@@ -11,6 +11,7 @@ import {
   getRentTypes,
   convertToTitleCase,
   formatBedroom,
+  getPaperAppUrls,
 } from "./helpers"
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
@@ -122,9 +123,7 @@ export class ListingsCsvExporterService {
         "Digital Application": formatYesNo(listing.digitalApplication),
         "Digital Application URL": listing.applicationMethods[1]?.externalReference,
         "Paper Application": formatYesNo(listing.paperApplication),
-        "Paper Application URL": listing.applicationMethods[0]?.paperApplications
-          .map((paperApplication) => cloudinaryPdfFromId(paperApplication.file?.fileId))
-          .join(", "),
+        "Paper Application URL": getPaperAppUrls(listing.applicationMethods[0]?.paperApplications),
         "Partners Who Have Access": partnerAccessHelper[listing.id]?.join(", "),
       }
     })

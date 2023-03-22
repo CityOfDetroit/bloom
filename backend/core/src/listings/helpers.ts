@@ -1,6 +1,7 @@
 import dayjs from "dayjs"
 import { MinMax } from "../../types"
 import { UnitGroupAmiLevelDto } from "../../src/units-summary/dto/unit-group-ami-level.dto"
+import { PaperApplication } from "../../src/paper-applications/entities/paper-application.entity"
 
 export const isDefined = (item: number | string): boolean => {
   return item !== null && item !== undefined && item !== ""
@@ -17,6 +18,13 @@ export const formatDate = (rawDate: string, format: string): string => {
   if (isDefined(rawDate)) {
     return dayjs(rawDate).format(format)
   } else return ""
+}
+
+export const getPaperAppUrls = (paperApps: PaperApplication[]) => {
+  if (!paperApps || paperApps?.length === 0) return ""
+  return paperApps
+    .map((paperApplication) => cloudinaryPdfFromId(paperApplication.file?.fileId))
+    .join(", ")
 }
 
 export const getRentTypes = (amiLevels: UnitGroupAmiLevelDto[]): string => {
