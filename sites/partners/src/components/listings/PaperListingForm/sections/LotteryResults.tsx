@@ -4,6 +4,7 @@ import {
   AppearanceBorderType,
   AppearanceStyleType,
   Button,
+  Drawer,
   Dropzone,
   MinimalTable,
   StandardTableData,

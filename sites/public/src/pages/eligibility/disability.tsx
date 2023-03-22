@@ -2,7 +2,7 @@
 Disability
 Whether the applicant has accessibility needs.
 */
-import { FieldGroup } from "@bloom-housing/ui-components"
+import { FieldGroup, t } from "@bloom-housing/ui-components"
 import { FieldValues, useForm } from "react-hook-form"
 import React, { useContext } from "react"
 import { EligibilityContext } from "../../lib/applications/EligibilityContext"

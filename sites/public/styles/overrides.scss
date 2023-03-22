@@ -191,6 +191,12 @@
   .info-card {
     font-size: var(--bloom-font-size-sm);
   }
+
+  .favorites-layout {
+    .loading-overlay {
+      --padding: var(--bloom-s8) 0 var(--bloom-s14) 0;
+    }
+  }
 }
 
 :root {

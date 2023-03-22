@@ -52,7 +52,7 @@
     "db:reseed": "cd backend/core && yarn db:reseed",
     "install:all": "yarn install && cd backend/core && yarn install",
     "setup": "yarn install:all && yarn db:reseed",
-    "clean": "rm -rf backend/core/dist/ backend/core/node_modules/ node_modules/ sites/partners/.next/ sites/partners/node_modules/ sites/public/.next/ sites/public/node_modules/ detroit-ui-components/node_modules/"
+    "clean": "rm -rf backend/core/dist/ backend/core/node_modules/ node_modules/ sites/partners/.next/ sites/partners/node_modules/ sites/public/.next/ sites/public/node_modules/"
   },
   "dependencies": {
     "react-remove-scroll": "2.5.4",
