@@ -317,7 +317,7 @@ const Edit = () => {
             )}
             <div className="form-card__group border-b">
               <fieldset>
-                <legend className="field-label--caps">
+                <legend className="field-label--caps text-gray-800">
                   {t("authentication.createAccount.password")}
                 </legend>
                 <p className="field-note mb-4">{t("account.settings.passwordRemember")}</p>
