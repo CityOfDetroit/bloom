@@ -22,9 +22,11 @@ export const formatDate = (rawDate: string, format: string): string => {
 
 export const getPaperAppUrls = (paperApps: PaperApplication[]) => {
   if (!paperApps || paperApps?.length === 0) return ""
-  return paperApps
-    .map((paperApplication) => cloudinaryPdfFromId(paperApplication.file?.fileId))
-    .join(", ")
+  const urlArr = paperApps.map((paperApplication) =>
+    cloudinaryPdfFromId(paperApplication.file?.fileId)
+  )
+  const formattedResults = urlArr.join(", ")
+  return formattedResults
 }
 
 export const getRentTypes = (amiLevels: UnitGroupAmiLevelDto[]): string => {
