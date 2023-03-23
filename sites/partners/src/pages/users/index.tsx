@@ -153,15 +153,9 @@ const Users = () => {
       </Head>
       <PageHeader className={"relative md:pt-16"} title={t("nav.users")}>
         <div className="flex top-4 right-4 absolute z-50 flex-col items-center">
-          <SiteAlert type="success" timeout={5000} dismissable />
           {csvExportSuccess && (
-            <SiteAlert
-              timeout={5000}
-              dismissable
-              sticky={true}
-              alertMessage={{ message: t("users.exportSuccess"), type: "success" }}
-            />
-          )}{" "}
+            <SiteAlert type="success" timeout={5000} dismissable sticky={true} />
+          )}
         </div>
       </PageHeader>
       <section>
@@ -208,7 +202,7 @@ const Users = () => {
                 {profile?.roles?.isAdmin && (
                   <Button
                     className="mx-1"
-                    icon={faFileExport}
+                    icon={!csvExportLoading ? faFileExport : null}
                     iconSize="medium"
                     onClick={() => onExport()}
                     loading={csvExportLoading}

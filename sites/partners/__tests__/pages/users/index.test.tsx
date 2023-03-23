@@ -113,7 +113,7 @@ describe("users", () => {
     expect(getByText("Export to CSV")).toBeInTheDocument()
     fireEvent.click(getByText("Export to CSV"))
     jest.clearAllTimers()
-    const successMessage = await findByText("The File has been exported")
+    const successMessage = await findByText("The file has been exported")
     expect(successMessage).toBeInTheDocument()
   })
 

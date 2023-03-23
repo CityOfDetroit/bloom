@@ -833,7 +833,6 @@
   "listings.dueDateQuestion": "Is there an application due date?",
   "listings.editPreferences": "Edit Preferences",
   "listings.enterLotteryForWaitlist": "Submit an application for an open slot on the waitlist for %{units} units.",
-  "listings.exportSuccess": "The file has been exported",
   "listings.firstComeFirstServe": "First come first serve",
   "listings.forIncomeCalculations": "To determine your eligibility for this property, choose your household size (include yourself in that calculation). For each type of unit, your household cannot make more than the income limit shown below.",
   "listings.forIncomeCalculationsBMR": "Income calculations are based on unit type",
