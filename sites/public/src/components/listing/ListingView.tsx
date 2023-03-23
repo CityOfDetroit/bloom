@@ -499,6 +499,7 @@ export const ListingView = (props: ListingProps) => {
                 }
               }
             )}
+            description={listing.name}
             tags={getImageCardTag(listing)}
             moreImagesLabel={t("listings.moreImagesLabel")}
             moreImagesDescription={t("listings.moreImagesAltDescription", {
