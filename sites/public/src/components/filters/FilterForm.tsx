@@ -118,7 +118,16 @@ const FilterForm = (props: FilterFormProps) => {
   // This is causing a linting issue with unbound-method, see issue:
   // https://github.com/react-hook-form/react-hook-form/issues/2887
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { handleSubmit, errors, register, reset, trigger, watch: formWatch } = useForm()
+  const {
+    handleSubmit,
+    errors,
+    register,
+    reset,
+    trigger,
+    watch: formWatch,
+    setValue,
+    getValues,
+  } = useForm()
   const minRent = formWatch("minRent")
   const maxRent = formWatch("maxRent")
 
@@ -247,10 +256,12 @@ const FilterForm = (props: FilterFormProps) => {
             <Field
               id={"minRent"}
               name={FrontendListingFilterStateKeys.minRent}
-              type="number"
+              type="currency"
               placeholder={t("publicFilter.rentRangeMin")}
               label={t("publicFilter.rentRangeMinReader")}
               register={register}
+              setValue={setValue}
+              getValues={getValues}
               prepend={"$"}
               defaultValue={localFilterState?.minRent}
               error={errors?.minRent !== undefined}
@@ -273,11 +284,13 @@ const FilterForm = (props: FilterFormProps) => {
           <GridCell span={1}>
             <Field
               id={"maxRent"}
-              type="number"
+              type="currency"
               name={FrontendListingFilterStateKeys.maxRent}
               placeholder={t("publicFilter.rentRangeMax")}
               label={t("publicFilter.rentRangeMaxReader")}
               register={register}
+              setValue={setValue}
+              getValues={getValues}
               prepend={"$"}
               defaultValue={localFilterState?.maxRent}
               error={errors?.maxRent !== undefined}
