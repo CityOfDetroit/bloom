@@ -89,7 +89,7 @@ export default function Home({ latestListings, comingSoonListings }) {
         availability: "comingSoon",
       })}`}
     >
-      {t("welcome.comingSoonButton")}
+      {t("welcome.underConstructionButton")}
     </LinkButton>
   )
 
@@ -139,7 +139,7 @@ export default function Home({ latestListings, comingSoonListings }) {
           <section className={`coming-soon-listings`}>
             <div className={`${styles["title"]}`}>
               <Icon size="xlarge" symbol="clock" ariaHidden={true} />
-              <h2>{t("listings.comingSoon")}</h2>
+              <h2>{t("listings.underConstruction")}</h2>
             </div>
             <div className={`${styles["cards-container"]}`}>
               {getListings(comingSoonListings?.items)}

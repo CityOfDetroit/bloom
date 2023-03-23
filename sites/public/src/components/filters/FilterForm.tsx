@@ -62,7 +62,7 @@ const FilterForm = (props: FilterFormProps) => {
     { value: "vacantUnits", label: t("listings.vacantUnits") },
     { value: "openWaitlist", label: t("publicFilter.waitlist.open") },
     { value: "closedWaitlist", label: t("publicFilter.waitlist.closed") },
-    { value: "comingSoon", label: t("listings.comingSoon") },
+    { value: "underConstruction", label: t("listings.underConstruction") },
   ]
 
   useEffect(() => {

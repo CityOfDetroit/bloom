@@ -124,7 +124,7 @@ export const accessibilityFeaturesExist = (features: ListingFeatures) => {
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
   if (listing?.marketingType === ListingMarketingTypeEnum.comingSoon) {
-    let label = t("listings.comingSoon")
+    let label = t("listings.underConstruction")
     if (listing?.marketingSeason) {
       label = label.concat(` ${t(`seasons.${listing.marketingSeason}`)}`)
     }
@@ -332,7 +332,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
     let availability = null
 
     if (listing.marketingType && listing.marketingType === ListingMarketingTypeEnum.comingSoon) {
-      availability = <strong>{t("listings.comingSoon")}</strong>
+      availability = <strong>{t("listings.underConstruction")}</strong>
     } else {
       if (group.unitVacancies > 0) {
         availability = (

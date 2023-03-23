@@ -41,7 +41,7 @@ const ApplicationDates = ({ listing }: ApplicationDatesProps) => {
                 listing?.marketingType === ListingMarketingTypeEnum.marketing,
             },
             {
-              label: t("listings.comingSoon"),
+              label: t("listings.underConstruction"),
               value: "comingSoon",
               id: "marketingStatusComingSoon",
               defaultChecked: !listing?.marketingType
