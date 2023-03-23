@@ -172,7 +172,7 @@ export class UserController {
     const users = await this.userService.list(
       {
         page: 1,
-        limit: "all",
+        limit: 300,
         filter: [
           {
             isPortalUser: true,

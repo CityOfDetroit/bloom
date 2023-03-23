@@ -153,12 +153,7 @@ export default function ListingsList() {
       <PageHeader title={t("nav.listings")} className={"realtive md:pt-16"}>
         {zipCompleted && (
           <div className="flex absolute right-4 z-50 flex-col items-center">
-            <SiteAlert
-              dismissable
-              timeout={5000}
-              sticky={true}
-              alertMessage={{ message: t("listings.exportSuccess"), type: "success" }}
-            />
+            <SiteAlert dismissable timeout={5000} sticky={true} type="success" />
           </div>
         )}
       </PageHeader>
