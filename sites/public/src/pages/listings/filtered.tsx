@@ -2,18 +2,17 @@ import Head from "next/head"
 import {
   ActionBlock,
   AG_PER_PAGE_OPTIONS,
-  AgPagination,
   AppearanceSizeType,
   Button,
   Drawer,
   Heading,
-  Icon,
   LinkButton,
   LoadingOverlay,
   PageHeader,
   t,
-  UniversalIconType,
 } from "@bloom-housing/ui-components"
+import { faSliders } from "@fortawesome/free-solid-svg-icons"
+import { Icon } from "../../components/core/Icon"
 import {
   encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,
@@ -29,8 +28,6 @@ import { EnumListingFilterParamsStatus, OrderByFieldsEnum } from "@bloom-housing
 import FilterForm from "../../components/filters/FilterForm"
 import ListingPagination from "../../components/listing/ListingPagination"
 import { getListings } from "../../lib/helpers"
-import { faSliders } from "@fortawesome/free-solid-svg-icons"
-import { faHouseChimney } from "@fortawesome/pro-light-svg-icons"
 
 const FilteredListingsPage = () => {
   const router = useRouter()
@@ -181,7 +178,7 @@ const FilteredListingsPage = () => {
                 ]}
                 className={"p-8 has-bold-header"}
                 background="primary-lighter"
-                icon={<Icon size="2xl" symbol={faHouseChimney as UniversalIconType} />}
+                icon={<Icon size="2xl" symbol={"houseThin"} />}
                 header={<Heading priority={2}>{t("listingFilters.noResults")}</Heading>}
                 subheader={t("listingFilters.noResultsSubtitle")}
               />

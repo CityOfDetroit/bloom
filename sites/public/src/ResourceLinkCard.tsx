@@ -1,8 +1,10 @@
 import React from "react"
-import { Icon, UniversalIconType, LinkButton } from "@bloom-housing/ui-components"
+import { LinkButton } from "@bloom-housing/ui-components"
+import { DetroitIconTypes } from "@bloom-housing/shared-helpers"
+import { Icon } from "../src/components/core/Icon"
 
 interface ResourceLinkCardProps {
-  iconSymbol: UniversalIconType
+  iconSymbol: DetroitIconTypes
   title: string
   subtitle: string
   linkUrl: string

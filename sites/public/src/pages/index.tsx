@@ -1,13 +1,6 @@
 import React, { useState } from "react"
 import Head from "next/head"
 import Link from "next/link"
-import {
-  faClockThree,
-  faLocationDot,
-  faEnvelope,
-  faHouseChimney,
-  faCircleQuestion,
-} from "@fortawesome/pro-thin-svg-icons"
 import axios from "axios"
 import qs from "qs"
 import moment from "moment"
@@ -18,7 +11,6 @@ import {
   LinkButton,
   ActionBlock,
   Hero,
-  Icon,
   AlertBox,
   UniversalIconType,
 } from "@bloom-housing/ui-components"
@@ -35,6 +27,7 @@ import {
 import Layout from "../layouts/application"
 import { ConfirmationModal } from "../components/account/ConfirmationModal"
 import { MetaTags } from "../components/shared/MetaTags"
+import { Icon } from "../components/core/Icon"
 import { HorizontalScrollSection } from "../lib/applications/HorizontalScrollSection"
 
 import styles from "./index.module.scss"
@@ -170,7 +163,7 @@ export default function Home({ latestListings, underConstructionListings }) {
             <div className={`${styles["title"]}`}>
               <Icon
                 size="xlarge"
-                symbol={faLocationDot as UniversalIconType}
+                symbol={"map"}
                 fill={"var(--bloom-color-primary)"}
                 className={styles.icon}
                 ariaHidden={true}
@@ -190,7 +183,7 @@ export default function Home({ latestListings, underConstructionListings }) {
           <ActionBlock
             className="flex-1 has-bold-header action-block-header"
             header={<Heading priority={3}>{t("welcome.signUp")}</Heading>}
-            icon={<Icon size="2xl" symbol={faEnvelope as UniversalIconType} />}
+            icon={<Icon size="2xl" symbol={"envelopeThin"} />}
             actions={[
               <LinkButton
                 key={"sign-up"}
@@ -206,7 +199,7 @@ export default function Home({ latestListings, underConstructionListings }) {
           <ActionBlock
             className="flex-1 has-bold-header"
             header={<Heading priority={3}>{t("welcome.seeMoreOpportunitiesTruncated")}</Heading>}
-            icon={<Icon size="2xl" symbol={faHouseChimney as UniversalIconType} />}
+            icon={<Icon size="2xl" symbol={"houseThin"} />}
             actions={[
               <LinkButton href="/additional-resources" key={"additional-resources"}>
                 {t("welcome.viewAdditionalHousingTruncated")}
@@ -216,7 +209,7 @@ export default function Home({ latestListings, underConstructionListings }) {
           <ActionBlock
             className="flex-1 has-bold-header"
             header={<Heading priority={3}>{t("welcome.learnHousingBasics")}</Heading>}
-            icon={<Icon size="2xl" symbol={faCircleQuestion as UniversalIconType} />}
+            icon={<Icon size="2xl" symbol={"circleQuestionThin"} />}
             actions={[
               <LinkButton href="/housing-basics" key={"housing-basics"}>
                 {t("welcome.learnMore")}

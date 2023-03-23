@@ -4,9 +4,7 @@ import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
 import dayjs from "dayjs"
-import { faCalendar, faUniversalAccess } from "@fortawesome/pro-solid-svg-icons"
-import { faCheck } from "@fortawesome/free-solid-svg-icons"
-import { faCircleInfo } from "@fortawesome/pro-thin-svg-icons"
+import { faCalendar, faCheck } from "@fortawesome/free-solid-svg-icons"
 
 import {
   Address,
@@ -22,6 +20,10 @@ import {
   AppearanceShadeType,
   AppearanceStyleType,
   ApplicationStatusType,
+<<<<<<< HEAD
+=======
+  CardTag,
+>>>>>>> 41eef381d (fix: more alignment)
   IconFillColors,
   ImageTag,
   LinkButton,
@@ -42,6 +44,7 @@ import { Tag } from "../../../../detroit-ui-components/src/text/Tag"
 
 import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
 import { FavoriteButton } from "../components/listing/FavoriteButton"
+import { Icon } from "../components/core/Icon"
 
 export const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -154,7 +157,7 @@ export const getListingTags = (
   if (accessibilityFeaturesExist(listingFeatures)) {
     tags.push({
       text: t("listings.reservedCommunityTypes.specialNeeds"),
-      iconType: faUniversalAccess as UniversalIconType,
+      // iconType: "universalAccess" as UniversalIconType, // TODO icon
       iconColor: AppearanceStyleType.primary,
     })
   }

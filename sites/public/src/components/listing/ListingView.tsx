@@ -793,11 +793,11 @@ export const ListingView = (props: ListingProps) => {
                 /> */}
                 </dl>
                 <AdditionalFees
-                  deposit={getCurrencyRange(
-                    parseInt(listing.depositMin),
-                    parseInt(listing.depositMax)
-                  )}
-                  applicationFee={listing.applicationFee ? `$${listing.applicationFee}` : undefined}
+                  // deposit={getCurrencyRange(
+                  //   parseInt(listing.depositMin),
+                  //   parseInt(listing.depositMax)
+                  // )}
+                  // applicationFee={listing.applicationFee ? `$${listing.applicationFee}` : undefined}
                   footerContent={getFooterContent()}
                   strings={{
                     sectionHeader: t("listings.sections.additionalFees"),
