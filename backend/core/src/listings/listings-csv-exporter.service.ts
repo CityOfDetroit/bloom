@@ -11,6 +11,7 @@ import {
   getRentTypes,
   convertToTitleCase,
   formatBedroom,
+  getPaperAppUrls,
 } from "./helpers"
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
@@ -37,7 +38,7 @@ export class ListingsCsvExporterService {
         "Verified Date": formatDate(listing.verifiedAt, "MM-DD-YYYY hh:mm:ssA"),
         "Last Updated": formatDate(listing.updatedAt, "MM-DD-YYYY hh:mm:ssA"),
         "Listing Name": listing.name,
-        "Developer Property Owner": listing.property.developer,
+        "Developer/Property Owner": listing.property.developer,
         "Street Address": listing.property.buildingAddress?.street,
         City: listing.property.buildingAddress?.city,
         State: listing.property.buildingAddress?.state,
@@ -99,7 +100,7 @@ export class ListingsCsvExporterService {
         "Marketing Status": convertToTitleCase(listing.marketingType),
         "Marketing Season": convertToTitleCase(listing.marketingSeason),
         "Marketing Date": formatDate(listing.marketingDate, "YYYY"),
-        "Leasing Company": listing.managementCompany,
+        "Leasing Company": listing.leasingAgentName,
         "Leasing Email": listing.leasingAgentEmail,
         "Leasing Phone": listing.leasingAgentPhone,
         "Leasing Agent Title": listing.leasingAgentTitle,
@@ -122,9 +123,7 @@ export class ListingsCsvExporterService {
         "Digital Application": formatYesNo(listing.digitalApplication),
         "Digital Application URL": listing.applicationMethods[1]?.externalReference,
         "Paper Application": formatYesNo(listing.paperApplication),
-        "Paper Application URL": cloudinaryPdfFromId(
-          listing.applicationMethods[0]?.paperApplications[0]?.file?.fileId
-        ),
+        "Paper Application URL": getPaperAppUrls(listing.applicationMethods[0]?.paperApplications),
         "Partners Who Have Access": partnerAccessHelper[listing.id]?.join(", "),
       }
     })
@@ -152,7 +151,9 @@ export class ListingsCsvExporterService {
         "Unit Types": listing.unitGroupSummary?.unitTypes
           .map((unitType) => formatBedroom[unitType])
           .join(", "),
-        "AMI Chart": listing.unitGroup?.amiLevels.map((level) => level.amiChart?.name).join(", "),
+        "AMI Chart": [
+          ...new Set(listing.unitGroup?.amiLevels.map((level) => level.amiChart?.name)),
+        ].join(", "),
         "AMI Level": formatRange(
           listing.unitGroupSummary?.amiPercentageRange?.min,
           listing.unitGroupSummary?.amiPercentageRange?.max,
