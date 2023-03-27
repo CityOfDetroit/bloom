@@ -1,8 +1,3 @@
-<style>
-    .bull-list ul{
-        list-style-type: disc;
-    }
-</style>
 <RenderIf language="en">
 
 This is an accessibility statement from the City of Detroit Housing and Revitalization Department. 
@@ -16,7 +11,6 @@ The [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standar
 We welcome your feedback on the accessibility of Detroit Home Connect. Please let us know if you encounter accessibility barriers while using this website by contacting us at the email below:
 
 - E-mail: <detroithomeconnect@detroitmi.gov>
-</div>
 
 ### Compatibility With Browsers and Assistive Technology
 
@@ -27,12 +21,10 @@ In keeping with the most current industry best practice, Detroit Home Connect is
 ### Technical Specifications
 Accessibility of Detroit Home Connect relies on the following technologies to work with the particular combination of web browser and any assistive technologies or plugins installed on your computer:
 
-<div class="bull-list">
 - HTML
 - WAI-ARIA
 - CSS
 - JavaScript
-</div>
 
 These technologies are relied upon for conformance with the accessibility standards used.
 
@@ -41,20 +33,16 @@ Despite our best efforts to ensure the accessibility of Detroit Home Connect, th
 
 Known accessibility challenges for Detroit Home Connect:
 
-<div class="bull-list">
 - **Alternative Image Text**: Alt text on listing images is automatically generated, which means that it might not exactly match the uploaded image. The images are uploaded by those that own the listing, so we cannot ensure they match the alternative text. We will remind property managers to upload images of the buildings to ensure consistency between the alternative text and image. Please reach out to the property manager, or the Detroit Home Connect support email if you encounter an issue with a listing image. 
 - **“Additional Housing Resources” Page**: Some of the linked pages may not be accessible, because the linked resources are third party sites, and we do not have control over their accessibility standards. Please reach out to the property manager or the Detroit Home Connect support email if you encounter an issue with the resources pages.
 - **Heading elements**: Some heading elements are not consistent.
-</div>
 
 ### Assessment Approach
 
 The developer of Detroit Home Connect, Exygy, assessed the accessibility of Detroit Home Connect by the following approaches:
 
-<div class="bull-list">
 - Self-evaluation.
 - External evaluation, which included a review from accessibility expert testers with disabilities. 
-</div>
 
 ---
 
@@ -75,9 +63,7 @@ Las [Pautas de Accesibilidad al Contenido Web (WCAG)](https://www.w3.org/WAI/sta
 
 Agradecemos sus comentarios sobre la accesibilidad de Detroit Home Connect. Háganos saber si encuentra barreras de accesibilidad mientras utiliza este sitio web comunicándose con nosotros al siguiente correo electrónico:
 
-<div class="bull-list">
 - Correo electrónico: <detroithomeconnect@detroitmi.gov>
-</div>
 
 ### Compatibilidad Con Navegadores y Tecnología de Asistencia
 
@@ -88,12 +74,10 @@ De acuerdo con las mejores prácticas más actuales de la industria, Detroit Hom
 ### Especificaciones Técnicas
 La accesibilidad de Detroit Home Connect se basa en las siguientes tecnologías para funcionar con la combinación particular de navegador web y cualquier tecnología de asistencia o complemento instalado en su computadora:
 
-<div class="bull-list">
 - HTML
 - WAI-ARIA
 - CSS
 - JavaScript
-</div>
 
 Se confía en estas tecnologías para cumplir con los estándares de accesibilidad utilizados.
 
@@ -102,20 +86,16 @@ A pesar de nuestros mejores esfuerzos para garantizar la accesibilidad de Detroi
 
 Desafíos de accesibilidad conocidos para Detroit Home Connect:
 
-<div class="bull-list">
 - **Texto de imagen alternativo**: el texto alternativo en las imágenes de la lista se genera automáticamente, lo que significa que es posible que no coincida exactamente con la imagen cargada. Las imágenes las cargan los propietarios de la lista, por lo que no podemos garantizar que coincidan con el texto alternativo. Recordaremos a los administradores de propiedades que carguen imágenes de los edificios para garantizar la coherencia entre el texto alternativo y la imagen. Comuníquese con el administrador de la propiedad o el correo electrónico de soporte de Detroit Home Connect si encuentra un problema con una imagen de listado.
 - **Página “Recursos adicionales de vivienda”**: Es posible que no se pueda acceder a algunas de las páginas vinculadas, ya que los recursos vinculados son sitios de terceros y no tenemos control sobre sus estándares de accesibilidad. Comuníquese con el administrador de la propiedad o con el correo electrónico de soporte de Detroit Home Connect si tiene algún problema con las páginas de recursos.
 - **Elementos de encabezado**: algunos elementos de encabezado no son consistentes.
-</div>
 
 ### Enfoque de Evaluación
 
 El desarrollador de Detroit Home Connect, Exygy, evaluó la accesibilidad de Detroit Home Connect mediante los siguientes enfoques:
 
-<div class="bull-list">
 - Autoevaluación.
 - Evaluación externa, que incluyó la revisión de testers expertos en accesibilidad con discapacidad. 
-</div>
 
 ---
 
@@ -134,9 +114,7 @@ Esta declaración se actualizó el 21 de marzo de 2023.
 ### تعليق
 نرحب بتعليقاتك حول إمكانية الوصول إلى Detroit Home Connect. يرجى إعلامنا إذا واجهت حواجز الوصول أثناء استخدام هذا الموقع عن طريق الاتصال بنا على البريد الإلكتروني أدناه:
 
-<div class="bull-list">
 - البريد الإلكتروني: <detroithomeconnect@detroitmi.gov>
-</div>
 
 ### التوافق مع المتصفحات والتكنولوجيا المساعدة
 
@@ -147,12 +125,10 @@ Esta declaración se actualizó el 21 de marzo de 2023.
 ### المواصفات الفنية
 تعتمد إمكانية الوصول إلى Detroit Home Connect على التقنيات التالية للعمل مع مجموعة معينة من مستعرض الويب وأي تقنيات مساعدة أو مكونات إضافية مثبتة على جهاز الكمبيوتر الخاص بك:
 
-<div class="bull-list">
 - لغة البرمجة
 - WAI-ARIA
 - CSS
 - جافا سكريبت
-</div>
 
 يتم الاعتماد على هذه التقنيات للتوافق مع معايير الوصول المستخدمة.
 
@@ -161,20 +137,16 @@ Esta declaración se actualizó el 21 de marzo de 2023.
 
 تحديات الوصول المعروفة لـ Detroit Home Connect:
 
-<div class="bull-list">
 - **نص الصورة البد**: يتم إنشاء النص البديل تلقائيًا في قائمة الصور ، مما يعني أنه قد لا يتطابق تمامًا مع الصورة التي تم تحميلها. يتم تحميل الصور من قبل أولئك الذين يملكون القائمة ، لذلك لا يمكننا التأكد من تطابقها مع النص البديل. سنذكر مديري العقارات بتحميل صور المباني لضمان الاتساق بين النص والصورة البديلين. يرجى التواصل مع مدير الممتلكات ، أو البريد الإلكتروني الخاص بدعم Detroit Home Connect إذا واجهت مشكلة في صورة قائمة.
 - **صفحة "موارد الإسكان الإضافية"**: قد لا يمكن الوصول إلى بعض الصفحات المرتبطة ، لأن الموارد المرتبطة هي مواقع تابعة لجهات خارجية ، ولا نتحكم في معايير الوصول الخاصة بها. يرجى التواصل مع مدير الممتلكات أو البريد الإلكتروني الخاص بدعم Detroit Home Connect إذا واجهت مشكلة في صفحات الموارد.
 - **عناصر العنوان**: بعض عناصر العنوان غير متسقة.
-</div>
 
 ### نهج التقييم
 
 قام مطور Detroit Home Connect ، Exygy ، بتقييم إمكانية الوصول إلى Detroit Home Connect من خلال الأساليب التالية:
 
-<div class="bull-list">
 - التقييم الذاتي.
 - التقييم الخارجي ، والذي تضمن مراجعة من مختبرين ذوي إعاقات ذوي خبرة في إمكانية الوصول.
-</div>
 
 ---
 
@@ -193,9 +165,7 @@ Esta declaración se actualizó el 21 de marzo de 2023.
 
 আমরা ডেট্রয়েট হোম কানেক্টের অ্যাক্সেসযোগ্যতার বিষয়ে আপনার মতামতকে স্বাগত জানাই। নীচের ইমেলে আমাদের সাথে যোগাযোগ করে এই ওয়েবসাইটটি ব্যবহার করার সময় আপনি অ্যাক্সেসযোগ্যতার বাধার সম্মুখীন হলে দয়া করে আমাদের জানান:
 
-<div class="bull-list">
 ই-মেইল: <detroithomeconnect@detroitmi.gov>
-</div>
 
 ### ব্রাউজার এবং সহায়ক প্রযুক্তির সাথে সামঞ্জস্য
 
@@ -207,12 +177,10 @@ Detroit Home Connect PC-এ NVDA এবং JAWS এবং Mac-এ VoiceOver-এ�
 ডেট্রয়েট হোম কানেক্টের অ্যাক্সেসিবিলিটি ওয়েব ব্রাউজার এবং আপনার কম্পিউটারে ইনস্টল করা যেকোনো সহায়ক প্রযুক্তি বা প্লাগইনগুলির বিশেষ সমন্বয়ের সাথে কাজ করার জন্য নিম্নলিখিত প্রযুক্তিগুলির উপর নির্ভর করে:
 
 
-<div class="bull-list">
 - এইচটিএমএল
 - WAI-ARIA
 - সিএসএস
 - জাভাস্ক্রিপ্ট
-</div>
 
 এই প্রযুক্তিগুলি ব্যবহার করা অ্যাক্সেসযোগ্যতার মানগুলির সাথে সামঞ্জস্যের জন্য নির্ভর করা হয়।
 
@@ -221,20 +189,16 @@ Detroit Home Connect PC-এ NVDA এবং JAWS এবং Mac-এ VoiceOver-এ�
 
 ডেট্রয়েট হোম কানেক্টের জন্য পরিচিত অ্যাক্সেসিবিলিটি চ্যালেঞ্জ:
 
-<div class="bull-list">
 - **বিকল্প চিত্র পাঠ্য**: তালিকাভুক্ত চিত্রগুলিতে Alt পাঠ্য স্বয়ংক্রিয়ভাবে তৈরি হয়, যার অর্থ এটি আপলোড করা চিত্রের সাথে ঠিক মেলে না। চিত্রগুলি তাদের দ্বারা আপলোড করা হয়েছে যারা তালিকার মালিক, তাই আমরা নিশ্চিত করতে পারি না যে সেগুলি বিকল্প পাঠ্যের সাথে মেলে৷ বিকল্প পাঠ্য এবং চিত্রের মধ্যে সামঞ্জস্যতা নিশ্চিত করতে আমরা সম্পত্তি পরিচালকদের বিল্ডিংয়ের ছবি আপলোড করার জন্য মনে করিয়ে দেব। যদি আপনি একটি তালিকা চিত্রের সাথে কোনো সমস্যার সম্মুখীন হন তাহলে অনুগ্রহ করে সম্পত্তি ব্যবস্থাপকের সাথে যোগাযোগ করুন বা ডেট্রয়েট হোম কানেক্ট সমর্থন ইমেলের সাথে যোগাযোগ করুন৷
 - **"অতিরিক্ত আবাসন সংস্থান" পৃষ্ঠা**: লিঙ্ক করা কিছু পৃষ্ঠা অ্যাক্সেসযোগ্য নাও হতে পারে, কারণ লিঙ্ক করা সংস্থানগুলি তৃতীয় পক্ষের সাইট, এবং তাদের অ্যাক্সেসযোগ্যতার মানগুলির উপর আমাদের নিয়ন্ত্রণ নেই৷ সম্পদের পৃষ্ঠাগুলিতে যদি আপনি কোনও সমস্যার সম্মুখীন হন তাহলে অনুগ্রহ করে সম্পত্তি ব্যবস্থাপক বা ডেট্রয়েট হোম কানেক্ট সমর্থন ইমেলের সাথে যোগাযোগ করুন।
 - **শিরোনাম উপাদান**: কিছু শিরোনাম উপাদান সামঞ্জস্যপূর্ণ নয়।
-</div>
 
 ### মূল্যায়ন পদ্ধতি
 
 ডেট্রয়েট হোম কানেক্টের বিকাশকারী, এক্সিজি, নিম্নলিখিত পদ্ধতির মাধ্যমে ডেট্রয়েট হোম কানেক্টের অ্যাক্সেসযোগ্যতা মূল্যায়ন করেছেন:
 
-<div class="bull-list">
 - স্ব মূল্যায়ন.
 - বাহ্যিক মূল্যায়ন, যার মধ্যে অক্ষমতা সহ অ্যাক্সেসিবিলিটি বিশেষজ্ঞ পরীক্ষকদের কাছ থেকে একটি পর্যালোচনা অন্তর্ভুক্ত।
-</div>
 
 ---
 
