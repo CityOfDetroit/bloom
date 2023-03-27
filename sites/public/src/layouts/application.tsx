@@ -172,6 +172,9 @@ const Layout = (props) => {
           <Link href="/terms">
             <a>{t("pageTitle.terms")}</a>
           </Link>
+          <Link href="/accessibility">
+            <a>{t("pageTitle.accessibilityStatement")}</a>
+          </Link>
         </FooterNav>
       </SiteFooter>
     </div>
