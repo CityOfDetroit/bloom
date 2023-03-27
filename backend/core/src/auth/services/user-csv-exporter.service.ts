@@ -22,7 +22,7 @@ export class UserCsvExporterService {
         "Last Name": user.lastName,
         Email: user.email,
         Role: status.join(", "),
-        "Date Created": dayjs(user.createdAt).format("MM-DD-YYYY hh:mmA"),
+        "Date Created (UTC)": dayjs(user.createdAt).format("MM-DD-YYYY hh:mmA"),
         Status: user.confirmedAt ? "Confirmed" : "Unconfirmed",
         "Listing Names":
           user.leasingAgentInListings?.map((listing) => listing.name).join(", ") || "",
