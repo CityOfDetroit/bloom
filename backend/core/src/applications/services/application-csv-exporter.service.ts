@@ -148,8 +148,8 @@ export class ApplicationCsvExporterService {
             app.application_submission_type === "electronical"
               ? "electronic"
               : app.application_submission_type,
-          "Application Submission Date": dayjs(app.application_submission_date).format(
-            "MM-DD-YYYY h:mm:ssA"
+          "Application Submission Date (UTC)": dayjs(app.application_submission_date).format(
+            "MM-DD-YYYY hh:mm:ssA"
           ),
           "Primary Applicant First Name": app.applicant_first_name,
           "Primary Applicant Middle Name": app.applicant_middle_name,
