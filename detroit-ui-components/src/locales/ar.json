@@ -595,6 +595,7 @@
   "listings.applicationsClosed": "التطبيقات مغلقة",
   "listings.applicationDropOffQuestion": "هل يمكن إسقاط الطلبات؟",
   "listings.apply.applicationsMustBeReceivedByDeadline": "يجب استلام الطلبات بحلول الموعد النهائي ولن يتم النظر في العلامات البريدية.",
+  "listings.apply.applicationSeason": "يجب على السكان التقديم في",
   "listings.apply.applicationWillBeAvailableOn": "سيكون التطبيق متاحًا للتنزيل والاستلام في٪ {openDate}",
   "listings.apply.applyOnline": "يقدم طلب على الإنترنت",
   "listings.apply.downloadApplication": "تحميل التطبيق",

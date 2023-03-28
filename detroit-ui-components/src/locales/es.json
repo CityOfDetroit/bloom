@@ -412,6 +412,7 @@
   "listings.applicationOpenPeriod": "Solicitudes abiertas",
   "listings.applicationPerApplicantAgeDescription": "por solicitante de 18 años o más",
   "listings.applicationsClosed": "Solicitudes cerradas",
+  "listings.apply.applicationSeason": "Los residentes deben aplicar en",
   "listings.apply.applicationWillBeAvailableOn": "La solicitud podrá ser descargada y recogida el %{openDate}",
   "listings.apply.applyOnline": "Haga su solicitud por Internet",
   "listings.apply.downloadApplication": "Descargar la Solicitud",
