@@ -1025,6 +1025,21 @@ export class UserService {
     })
   }
   /**
+   * List users in CSV
+   */
+  listAsCsv(options: IRequestOptions = {}): Promise<string> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user/csv"
+
+      const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * Invite user
    */
   invite(
@@ -1297,6 +1312,21 @@ export class ListingsService {
       const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
 
       let data = params.body
+
+      configs.data = data
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Retrieve listings and units in csv
+   */
+  listAsCsv(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/listings/csv"
+
+      const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
+
+      let data = null
 
       configs.data = data
       axios(configs, resolve, reject)
@@ -4773,6 +4803,9 @@ export interface ListingFilterParams {
 
   /**  */
   section8Acceptance?: boolean
+
+  /**  */
+  homeType?: string
 }
 
 export interface MinMax {
@@ -5652,6 +5685,9 @@ export interface Listing {
   isVerified?: boolean
 
   /**  */
+  verifiedAt?: Date
+
+  /**  */
   temporaryListingId?: number
 
   /**  */
@@ -6120,6 +6156,9 @@ export interface ListingCreate {
 
   /**  */
   isVerified?: boolean
+
+  /**  */
+  verifiedAt?: Date
 
   /**  */
   temporaryListingId?: number
@@ -6612,6 +6651,9 @@ export interface ListingUpdate {
 
   /**  */
   isVerified?: boolean
+
+  /**  */
+  verifiedAt?: Date
 
   /**  */
   temporaryListingId?: number

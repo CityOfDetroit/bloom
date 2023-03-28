@@ -1,16 +1,18 @@
-import React, { useMemo, useContext } from "react"
+import React, { useMemo, useContext, useState, useEffect } from "react"
 import Head from "next/head"
 import { ListingStatus } from "@bloom-housing/backend-core/types"
-import { t, LocalizedLink } from "@bloom-housing/ui-components"
+import { t, LocalizedLink, SiteAlert, AppearanceStyleType } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import { Button } from "../../../../detroit-ui-components/src/actions/Button"
 import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
 import { AgTable, useAgTable } from "../../../../detroit-ui-components/src/tables/AgTable"
 import dayjs from "dayjs"
 import { ColDef, ColGroupDef } from "ag-grid-community"
-import { useListingsData } from "../lib/hooks"
+import { useListingsData, useListingZip } from "../lib/hooks"
 import Layout from "../layouts"
-import { MetaTags } from "../components/shared/MetaTags"
+import { MetaTags } from "../../src/components/shared/MetaTags"
+import { faFileExport } from "@fortawesome/free-solid-svg-icons"
+import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
 
 class formatLinkCell {
   link: HTMLAnchorElement
@@ -50,11 +52,16 @@ class ListingsLink extends formatLinkCell {
 
 export default function ListingsList() {
   const metaDescription = t("pageDescription.welcome", { regionName: t("region.name") })
-
+  const [errorAlert, setErrorAlert] = useState(false)
   const { profile } = useContext(AuthContext)
   const isAdmin = profile?.roles?.isAdmin || false
 
   const tableOptions = useAgTable()
+
+  const { onExport, zipCompleted, zipExportLoading, zipExportError } = useListingZip()
+  useEffect(() => {
+    setErrorAlert(zipExportError)
+  }, [zipExportError])
 
   const gridComponents = {
     formatLinkCell,
@@ -143,9 +150,26 @@ export default function ListingsList() {
         <title>{t("nav.siteTitlePartners")}</title>
       </Head>
       <MetaTags title={t("nav.siteTitlePartners")} description={metaDescription} />
-      <PageHeader title={t("nav.listings")} className={"md:pt-16"} />
+      <PageHeader title={t("nav.listings")} className={"realtive md:pt-16"}>
+        {zipCompleted && (
+          <div className="flex absolute right-4 z-50 flex-col items-center">
+            <SiteAlert dismissable timeout={5000} sticky={true} type="success" />
+          </div>
+        )}
+      </PageHeader>
       <section>
         <article className="flex-row flex-wrap relative max-w-screen-xl mx-auto py-8 px-4">
+          {errorAlert && (
+            <AlertBox
+              className="mb-8"
+              onClose={() => setErrorAlert(false)}
+              closeable
+              type="alert"
+              inverted
+            >
+              {t("errors.alert.exportFailed")}
+            </AlertBox>
+          )}
           <AgTable
             id="listings-table"
             pagination={{
@@ -174,11 +198,27 @@ export default function ListingsList() {
             headerContent={
               <div className="flex-row">
                 {isAdmin && (
-                  <LocalizedLink href={`/listings/add`}>
-                    <Button className="mx-1" onClick={() => false}>
-                      {t("listings.addListing")}
+                  <div className="flex-row">
+                    <LocalizedLink href={`/listings/add`}>
+                      <Button
+                        className="mx-1"
+                        styleType={AppearanceStyleType.primary}
+                        onClick={() => false}
+                      >
+                        {t("listings.addListing")}
+                      </Button>
+                    </LocalizedLink>
+                    <Button
+                      className="mx-1"
+                      dataTestId="export-listings"
+                      onClick={() => onExport()}
+                      icon={!zipExportLoading ? faFileExport : null}
+                      iconSize="medium"
+                      loading={zipExportLoading}
+                    >
+                      {t("t.exportToCSV")}
                     </Button>
-                  </LocalizedLink>
+                  </div>
                 )}
               </div>
             }

@@ -5,6 +5,7 @@ import { ListingsService } from "./listings.service"
 import { AuthzService } from "../auth/services/authz.service"
 import { CacheModule } from "@nestjs/common"
 import { ActivityLogService } from "../activity-log/services/activity-log.service"
+import { ListingsCsvExporterService } from "./listings-csv-exporter.service"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
 // expect here so we need to re-declare it.
@@ -27,6 +28,7 @@ describe("Listings Controller", () => {
         { provide: AuthzService, useValue: {} },
         { provide: ListingsService, useValue: {} },
         { provide: ActivityLogService, useValue: {} },
+        { provide: ListingsCsvExporterService, useValue: {} },
       ],
       controllers: [ListingsController],
     }).compile()

@@ -234,12 +234,15 @@ export const getListings = (listings) => {
         imageUrl: imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize))[0],
         href: `/listing/${listing.id}/${listing.urlSlug}`,
         tags: getImageCardTag(listing),
+        description: listing.name,
       }}
       tableProps={{
         headers: unitSummariesHeaders,
         data: getUnitGroupSummary(listing).data,
         responsiveCollapse: true,
         cellClassName: "px-5 py-3",
+        id: listing.name,
+        ariaLabel: `${listing.name} ${t("t.unitInformation")}`,
       }}
       contentProps={{
         contentHeader: { text: listing.name, priority: 3 },

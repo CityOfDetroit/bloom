@@ -1,14 +1,17 @@
-import React, { useMemo, useState } from "react"
+import React, { useContext, useEffect, useMemo, useState } from "react"
 import Head from "next/head"
 import dayjs from "dayjs"
-import { t, SiteAlert } from "@bloom-housing/ui-components"
+import { t, SiteAlert, AlertBox } from "@bloom-housing/ui-components"
 import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
 import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
 import { Drawer } from "../../../../../detroit-ui-components/src/overlays/Drawer"
 import { AgTable, useAgTable } from "../../../../../detroit-ui-components/src/tables/AgTable"
+import { AppearanceStyleType } from "../../../../../detroit-ui-components/src/global/AppearanceTypes"
 import { User } from "@bloom-housing/backend-core/types"
+import { AuthContext } from "@bloom-housing/shared-helpers"
+import { faFileExport } from "@fortawesome/free-solid-svg-icons"
 import Layout from "../../layouts"
-import { useUserList, useListingsData } from "../../lib/hooks"
+import { useUserList, useListingsData, useUsersExport } from "../../lib/hooks"
 import { FormUserManage } from "../../components/users/FormUserManage"
 
 type UserDrawerValue = {
@@ -34,9 +37,16 @@ const getRolesDisplay = ({ value }) => {
 
 const Users = () => {
   /* Add user drawer */
+  const { profile } = useContext(AuthContext)
   const [userDrawer, setUserDrawer] = useState<UserDrawerValue | null>(null)
+  const [errorAlert, setErrorAlert] = useState(false)
 
   const tableOptions = useAgTable()
+
+  const { onExport, csvExportLoading, csvExportError, csvExportSuccess } = useUsersExport()
+  useEffect(() => {
+    setErrorAlert(csvExportError)
+  }, [csvExportError])
 
   const columns = useMemo(() => {
     return [
@@ -138,23 +148,33 @@ const Users = () => {
     limit: "all",
   })
 
-  if (error) return "An error has occurred."
+  if (error) return <div>An error has occurred.</div>
 
   return (
     <Layout>
       <Head>
         <title>{t("nav.siteTitlePartners")}</title>
       </Head>
-
       <PageHeader className={"relative md:pt-16"} title={t("nav.users")}>
         <div className="flex top-4 right-4 absolute z-50 flex-col items-center">
-          <SiteAlert type="success" timeout={5000} dismissable />
-          <SiteAlert type="alert" timeout={5000} dismissable />
+          {csvExportSuccess && (
+            <SiteAlert type="success" timeout={5000} dismissable sticky={true} />
+          )}
         </div>
       </PageHeader>
-
       <section>
         <article className="flex-row flex-wrap relative max-w-screen-xl mx-auto py-8 px-4">
+          {errorAlert && (
+            <AlertBox
+              className="mb-8"
+              onClose={() => setErrorAlert(false)}
+              closeable
+              type="alert"
+              inverted
+            >
+              {t("errors.alert.exportFailed")}
+            </AlertBox>
+          )}
           <AgTable
             id="users-table"
             pagination={{
@@ -180,11 +200,25 @@ const Users = () => {
               <div className="flex-row">
                 <Button
                   className="mx-1"
+                  styleType={AppearanceStyleType.primary}
                   onClick={() => setUserDrawer({ type: "add" })}
                   disabled={!listingDtos}
+                  dataTestId={"add-user"}
                 >
                   {t("users.addUser")}
                 </Button>
+                {profile?.roles?.isAdmin && (
+                  <Button
+                    className="mx-1"
+                    icon={!csvExportLoading ? faFileExport : null}
+                    iconSize="medium"
+                    onClick={() => onExport()}
+                    loading={csvExportLoading}
+                    dataTestId={"export-users"}
+                  >
+                    {t("t.exportToCSV")}
+                  </Button>
+                )}
               </div>
             }
           />

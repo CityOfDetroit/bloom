@@ -81,7 +81,7 @@ const ProgressHeader = forwardRef(
 
 const Finder = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, trigger, errors, watch } = useForm()
+  const { register, handleSubmit, trigger, errors, watch, setValue, getValues } = useForm()
   const [questionIndex, setQuestionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FinderQuestion[]>([])
   const [isDisclaimer, setIsDisclaimer] = useState<boolean>(false)
@@ -324,6 +324,8 @@ const Finder = () => {
                           trigger={trigger}
                           minRent={minRent}
                           maxRent={maxRent}
+                          setValue={setValue}
+                          getValues={getValues}
                         />
                       )}
                     </>

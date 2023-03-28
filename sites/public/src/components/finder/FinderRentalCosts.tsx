@@ -12,6 +12,8 @@ const FinderRentalCosts = (props: {
   trigger: UseFormMethods["trigger"]
   minRent: number
   maxRent: number
+  getValues?: UseFormMethods["getValues"]
+  setValue?: UseFormMethods["setValue"]
 }) => {
   const dollarSign = useRouter().locale !== "ar"
   const numericFields = props.activeQuestion?.fields.filter((field) => field.type === "number")
@@ -26,10 +28,13 @@ const FinderRentalCosts = (props: {
             <Field
               id={field.label}
               name={FrontendListingFilterStateKeys[field.label]}
-              type="number"
+              type="currency"
               placeholder={t(`finder.rentalCosts.${isMin ? "min" : "max"}Placeholder`)}
               label={field.translation}
+              ariaLabel={t(`publicFilter.rentRange${isMin ? "Min" : "Max"}Reader`)}
               register={props.register}
+              setValue={props.setValue}
+              getValues={props.getValues}
               prepend={dollarSign && "$"}
               defaultValue={typeof field?.value != "boolean" && field?.value}
               error={

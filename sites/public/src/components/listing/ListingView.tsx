@@ -499,6 +499,7 @@ export const ListingView = (props: ListingProps) => {
                 }
               }
             )}
+            description={listing.name}
             tags={getImageCardTag(listing)}
             moreImagesLabel={t("listings.moreImagesLabel")}
             moreImagesDescription={t("listings.moreImagesAltDescription", {
@@ -539,6 +540,7 @@ export const ListingView = (props: ListingProps) => {
                 headers={groupedUnitHeaders}
                 data={[{ data: groupedUnitData }]}
                 responsiveCollapse={true}
+                ariaLabel={t("t.unitInformation")}
               />
               {listing?.section8Acceptance && (
                 <div className="text-sm leading-5 mt-4 invisible md:visible">
@@ -605,7 +607,12 @@ export const ListingView = (props: ListingProps) => {
                         )}
                       </hgroup>
                     </header>
-                    <StandardTable headers={hmiHeaders} data={hmiData} responsiveCollapse={false} />
+                    <StandardTable
+                      headers={hmiHeaders}
+                      data={hmiData}
+                      responsiveCollapse={false}
+                      ariaLabel={t("listings.householdMaximumIncome")}
+                    />
                   </li>
                 )}
                 {occupancyData.length > 0 && (
@@ -617,6 +624,7 @@ export const ListingView = (props: ListingProps) => {
                       headers={occupancyHeaders}
                       data={occupancyData}
                       responsiveCollapse={false}
+                      ariaLabel={t("t.occupancy")}
                     />
                   </ListSection>
                 )}

@@ -170,7 +170,6 @@ describe("Listing Management Tests", () => {
     cy.get(".p-4 > .is-primary").contains("Save").click()
     cy.get(".text-right > .button").contains("Application Process").click()
     cy.get("#reviewOrderFCFS").check()
-    cy.get("#dueDateQuestionNo").check()
     cy.get("#waitlistOpenNo").check()
     cy.get("#digitalApplicationChoiceYes").check()
     cy.get("#paperApplicationNo").check()
@@ -264,5 +263,22 @@ describe("Listing Management Tests", () => {
       cy.getByTestId("listingIsAlreadyLiveButton").contains("Save").click()
       cy.getByTestId("page-header-text").should("have.text", `${listing["name"]} (Edited)`)
     })
+  })
+
+  it("as admin user, should be able to download listings export zip", () => {
+    const convertToString = (value: number) => {
+      return value < 10 ? `0${value}` : `${value}`
+    }
+    cy.visit("/")
+    cy.getByTestId("export-listings").click()
+    const now = new Date()
+    const dateString = `${now.getFullYear()}-${convertToString(
+      now.getMonth() + 1
+    )}-${convertToString(now.getDate())}`
+    const timeString = `${convertToString(now.getHours())}-${convertToString(now.getMinutes())}`
+    const zipName = `${dateString}_${timeString}-complete-listing-data.zip`
+    const downloadFolder = Cypress.config("downloadsFolder")
+    const completeZipPath = `${downloadFolder}/${zipName}`
+    cy.readFile(completeZipPath)
   })
 })

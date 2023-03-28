@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { ChangeEvent, useMemo } from "react"
 import { ErrorMessage } from "@bloom-housing/ui-components"
 import { UseFormMethods, RegisterOptions } from "react-hook-form"
 
@@ -27,6 +27,7 @@ export interface FieldProps {
   prepend?: string
   inputProps?: Record<string, unknown>
   describedBy?: string
+  ariaLabel?: string
   getValues?: UseFormMethods["getValues"]
   setValue?: UseFormMethods["setValue"]
   dataTestId?: string
@@ -58,20 +59,21 @@ const Field = (props: FieldProps) => {
   if (props.bordered && (props.type === "radio" || props.type === "checkbox"))
     controlClasses.push("field-border")
 
-  const formatValue = () => {
-    if (props.getValues && props.setValue) {
-      const currencyValue = props.getValues(props.name)
-      const numericIncome = parseFloat(currencyValue)
-      if (!isNaN(numericIncome)) {
-        props.setValue(props.name, numericIncome.toFixed(2))
-      }
+  const filterNumbers = (e: ChangeEvent<HTMLInputElement>) => {
+    if (props.setValue) {
+      props.setValue(props.name, e.target.value.replace(/[a-z]|[A-Z]/g, "").match(/^\d*\.?\d?\d?/g))
     }
   }
 
   let inputProps = { ...props.inputProps }
-  if (props.type === "currency") inputProps = { ...inputProps, step: 0.01, onBlur: formatValue }
+  if (props.type === "currency") {
+    inputProps = {
+      ...inputProps,
+      onChange: filterNumbers,
+    }
+  }
 
-  const type = (props.type === "currency" && "number") || props.type || "text"
+  const type = (props.type === "currency" && "text") || props.type || "text"
   const isRadioOrCheckbox = ["radio", "checkbox"].includes(type)
 
   const label = useMemo(() => {
@@ -116,6 +118,7 @@ const Field = (props: FieldProps) => {
         <input
           aria-describedby={props.describedBy ? props.describedBy : `${idOrName}`}
           aria-invalid={!!props.error || false}
+          aria-label={props.ariaLabel}
           className="input"
           type={type}
           id={idOrName}
