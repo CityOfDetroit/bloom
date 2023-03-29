@@ -16,6 +16,7 @@ import {
 import { cloudinaryUrlFromId } from "@bloom-housing/shared-helpers"
 
 import { cloudinaryFileUploader, fieldHasError } from "../../../../lib/helpers"
+import { AppearanceSizeType } from "../../../../../../../detroit-ui-components/src/global/AppearanceTypes"
 
 /**
  *
@@ -206,6 +207,7 @@ const ListingPhoto = () => {
             }}
             styleType={AppearanceStyleType.primary}
             data-testid={!cloudinaryData.url ? "listing-photo-empty" : "listing-photo-uploaded"}
+            size={AppearanceSizeType.small}
           >
             Save
           </Button>,

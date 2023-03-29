@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { SWRConfig } from "swr"
 import type { AppProps } from "next/app"
 import { addTranslation, NavigationContext, GenericRouter } from "@bloom-housing/ui-components"
@@ -13,8 +13,6 @@ import "ag-grid-community/dist/styles/ag-grid.css"
 import "ag-grid-community/dist/styles/ag-theme-alpine.css"
 // Note: import overrides.scss last so that it overrides styles defined in imports above
 import "../../styles/overrides.scss"
-import { useState } from "react"
-import { useEffect } from "react"
 
 const signInMessage = "Login is required to view this page."
 
