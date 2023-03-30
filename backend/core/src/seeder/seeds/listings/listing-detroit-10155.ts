@@ -103,7 +103,7 @@ const listingSeed: ListingSeedType = {
   listingPreferences: [],
   jurisdictionName: "Detroit",
   marketingType: ListingMarketingTypeEnum.ComingSoon,
-  whatToExpect: `This property is still under development by the property owners. If you sign up for notifications through Detroit Home Connect, we will send you updates when this property has opened up applications for residents. You can also check back later to this page for updates.`,
+  whatToExpect: `This property is still under construction by the property owners. If you sign up for notifications through Detroit Home Connect, we will send you updates when this property has opened up applications for residents. You can also check back later to this page for updates.`,
   whatToExpectAdditionalText: null,
 }
 

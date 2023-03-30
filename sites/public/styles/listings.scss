@@ -152,3 +152,16 @@
   --last-row-grid: auto;
   --title-font-size-desktop: var(--bloom-font-size-lg);
 }
+
+.desktop-only {
+  display: none;
+  @screen md {
+    display: block;
+  }
+}
+
+.mobile-only {
+  @screen md {
+    display: none;
+  }
+}

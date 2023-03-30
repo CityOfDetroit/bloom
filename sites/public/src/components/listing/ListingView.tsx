@@ -22,6 +22,7 @@ import {
   QuantityRowSection,
   t,
   ExpandableText,
+  AlertBox,
 } from "@bloom-housing/ui-components"
 import { InfoCard } from "../../../../../detroit-ui-components/src/blocks/InfoCard"
 import { ImageCard } from "../../../../../detroit-ui-components/src/blocks/ImageCard"
@@ -46,6 +47,7 @@ import {
 import dayjs from "dayjs"
 import { ErrorPage } from "../../pages/_error"
 import {
+  getApplicationSeason,
   getGenericAddress,
   getHmiSummary,
   getImageCardTag,
@@ -86,11 +88,11 @@ export const ListingProcess = (props: ListingProcessProps) => {
 
   return (
     <aside className="w-full static md:me-8 md:ms-2 md:border-r md:border-l md:border-b border-gray-400 bg-white text-gray-750">
-      <section className="aside-block">
-        <p className="text-tiny text-gray-750">
-          {`${t("listings.listingUpdated")}: ${dayjs(listing.updatedAt).format("MMMM DD, YYYY")}`}
-        </p>
-      </section>
+      {listing.marketingDate && (
+        <AlertBox className="warn desktop-only" customIcon="info">
+          {getApplicationSeason(listing)}
+        </AlertBox>
+      )}
       {openHouseEvents && (
         <EventSection events={openHouseEvents} headerText={t("listings.openHouseEvent.header")} />
       )}
@@ -179,6 +181,11 @@ export const ListingProcess = (props: ListingProcessProps) => {
           <p>{listing.neighborhood}</p>
         </section>
       )}
+      <section className="aside-block">
+        <p className="text-tiny text-gray-750">
+          {`${t("listings.listingUpdated")}: ${dayjs(listing.updatedAt).format("MMMM DD, YYYY")}`}
+        </p>
+      </section>
     </aside>
   )
 }
@@ -490,6 +497,11 @@ export const ListingView = (props: ListingProps) => {
   return (
     <article className="flex flex-wrap relative max-w-5xl m-auto">
       <div className="w-full md:w-2/3">
+        {listing.marketingDate && (
+          <AlertBox className="warn mobile-only" customIcon="info">
+            {getApplicationSeason(listing)}
+          </AlertBox>
+        )}
         <header className="image-card--leader">
           <ImageCard
             images={imageUrlFromListing(listing, parseInt(process.env.listingPhotoSize)).map(
