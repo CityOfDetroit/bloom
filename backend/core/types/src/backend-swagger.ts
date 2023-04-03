@@ -1320,9 +1320,16 @@ export class ListingsService {
   /**
    * Retrieve listings and units in csv
    */
-  listAsCsv(options: IRequestOptions = {}): Promise<any> {
+  listAsCsv(
+    params: {
+      /**  */
+      tz: string
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/listings/csv"
+      let url = basePath + "/listings/csv/{tz}"
+      url = url.replace("{tz}", params["tz"] + "")
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
 

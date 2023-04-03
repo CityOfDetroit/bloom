@@ -1,4 +1,10 @@
 import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+import tz from "dayjs/plugin/timezone"
+import advanced from "dayjs/plugin/advancedFormat"
+dayjs.extend(utc)
+dayjs.extend(tz)
+dayjs.extend(advanced)
 import { MinMax } from "../../types"
 import { UnitGroupAmiLevelDto } from "../../src/units-summary/dto/unit-group-ami-level.dto"
 import { PaperApplication } from "../../src/paper-applications/entities/paper-application.entity"
@@ -14,9 +20,9 @@ export const cloudinaryPdfFromId = (publicId: string): string => {
   } else return ""
 }
 
-export const formatDate = (rawDate: string, format: string): string => {
+export const formatDate = (rawDate: string, format: string, timeZone?: string): string => {
   if (isDefined(rawDate)) {
-    return dayjs(rawDate).format(format)
+    return dayjs.utc(rawDate).tz(timeZone.replace("-", "/")).format(format)
   } else return ""
 }
 

@@ -76,15 +76,16 @@ export class ListingsController {
     return mapTo(ListingDto, listing)
   }
 
-  @Get(`csv`)
+  @Get(`csv/:tz`)
   @UseGuards(OptionalAuthGuard, AuthzGuard)
   @ApiOperation({ summary: "Retrieve listings and units in csv", operationId: "listAsCsv" })
   @Header("Content-Type", "text/csv")
-  async listAsCsv(): Promise<{ listingCsv: string; unitCsv: string }> {
+  async listAsCsv(@Param("tz") timeZone: string): Promise<{ listingCsv: string; unitCsv: string }> {
     const data = await this.listingsService.rawListWithFlagged()
     const listingCsv = this.listingsCsvExporter.exportListingsFromObject(
       data?.listingData,
-      data?.userAccessData
+      data?.userAccessData,
+      timeZone
     )
     const unitCsv = this.listingsCsvExporter.exportUnitsFromObject(data?.unitData)
     return { listingCsv, unitCsv }
