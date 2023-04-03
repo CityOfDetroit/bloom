@@ -77,7 +77,7 @@ export interface StandardTableProps {
   ariaLabel?: string
 }
 
-const headerName = (header: string | TableHeadersOptions) => {
+const headerName = (header: string | TableHeadersOptions): string => {
   if (typeof header === "string") {
     return header
   } else {
@@ -99,9 +99,11 @@ export const StandardTable = (props: StandardTableProps) => {
 
   const headerLabels = Object.values(headers)?.map((header, index) => {
     const uniqKey = process.env.NODE_ENV === "test" ? `header-${index}` : nanoid()
+    const headerCellChild =
+      header && header !== "" ? getTranslationWithArguments(headerName(header)) : header
     return (
       <HeaderCell key={uniqKey} className={headerClassName(header)}>
-        {header && header !== "" ? getTranslationWithArguments(headerName(header)) : header}
+        {headerCellChild as string}
       </HeaderCell>
     )
   })

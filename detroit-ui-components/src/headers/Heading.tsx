@@ -26,7 +26,11 @@ const Heading = (props: HeadingProps) => {
   if (props.style) classNames.push(HeaderStyleMap[props.style])
   if (props.className) classNames.push(props.className)
 
-  return <Tag className={classNames.join(" ")}>{props.children}</Tag>
+  return (
+    <Tag className={classNames.join(" ")}>
+      <>{props.children}</>
+    </Tag>
+  )
 }
 
 export { Heading as default, Heading }

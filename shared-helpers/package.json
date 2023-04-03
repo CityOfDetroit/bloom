@@ -24,7 +24,6 @@
     "@testing-library/react": "14.0.0",
     "@types/jest": "^26.0.14",
     "@types/node-polyglot": "^2.4.1",
-    "@types/react-dom": "18.0.11",
     "@types/react-tabs": "^2.3.2",
     "@types/react-test-renderer": "18.0.0",
     "@types/react-transition-group": "^4.4.0",
