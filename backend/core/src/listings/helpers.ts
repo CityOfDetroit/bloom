@@ -4,10 +4,9 @@ import { PaperApplication } from "../../src/paper-applications/entities/paper-ap
 import { isEmpty } from "../shared/utils/is-empty"
 
 export const cloudinaryPdfFromId = (publicId: string): string => {
-  if (!isEmpty(publicId)) {
-    const cloudName = process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME
-    return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.pdf`
-  } else return ""
+  if (isEmpty(publicId)) return ""
+  const cloudName = process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.pdf`
 }
 
 export const getPaperAppUrls = (paperApps: PaperApplication[]) => {
