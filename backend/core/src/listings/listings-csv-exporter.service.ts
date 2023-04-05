@@ -31,12 +31,12 @@ export class ListingsCsvExporterService {
     const listingObj = listings.map((listing) => {
       return {
         ID: listing.id,
-        "Created At Date (UTC)": formatDate(listing.createdAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
+        "Created At Date": formatDate(listing.createdAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
         "Listing Status": formatStatus[listing.status],
-        "Publish Date (UTC)": formatDate(listing.publishedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
+        "Publish Date": formatDate(listing.publishedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
         Verified: formatYesNo(listing.isVerified),
-        "Verified Date (UTC)": formatDate(listing.verifiedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
-        "Last Updated (UTC)": formatDate(listing.updatedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
+        "Verified Date": formatDate(listing.verifiedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
+        "Last Updated": formatDate(listing.updatedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
         "Listing Name": listing.name,
         "Developer/Property Owner": listing.property.developer,
         "Street Address": listing.property.buildingAddress?.street,
@@ -90,8 +90,8 @@ export class ListingsCsvExporterService {
         "Special Notes": listing.specialNotes,
         "Review Order": convertToTitleCase(listing.reviewOrderType),
         "Lottery Date": formatDate(listing.events[0]?.startTime, "MM-DD-YYYY z", timeZone),
-        "Lottery Start (UTC)": formatDate(listing.events[0]?.startTime, "hh:mmA z", timeZone),
-        "Lottery End (UTC)": formatDate(listing.events[0]?.endTime, "hh:mmA z", timeZone),
+        "Lottery Start": formatDate(listing.events[0]?.startTime, "hh:mmA z", timeZone),
+        "Lottery End": formatDate(listing.events[0]?.endTime, "hh:mmA z", timeZone),
         "Lottery Notes": listing.events[0]?.note,
         Waitlist: formatYesNo(listing.isWaitlistOpen),
         "Max Waitlist Size": listing.waitlistMaxSize,
@@ -119,7 +119,7 @@ export class ListingsCsvExporterService {
         "Leasing Agency Pickup Address City": listing.applicationPickUpAddress?.city,
         "Leasing Agency Pickup Address Zip": listing.applicationPickUpAddress?.zipCode,
         "Leasing Pick Up Office Hours": listing.applicationPickUpAddressOfficeHours,
-        "Postmark (UTC)": formatDate(
+        Postmark: formatDate(
           listing.postmarkedApplicationsReceivedByDate,
           "MM-DD-YYYY hh:mm:ssA z",
           timeZone
