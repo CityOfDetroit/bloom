@@ -27,7 +27,7 @@ import {
   encodeToFrontendFilterString,
 } from "@bloom-housing/shared-helpers"
 
-export default function Home({ latestListings, comingSoonListings }) {
+export default function Home({ latestListings, underConstructionListings }) {
   const showLatestListings = false // Disabled for now
   const blankAlertInfo = {
     alertMessage: null,
@@ -83,13 +83,13 @@ export default function Home({ latestListings, comingSoonListings }) {
     </a>
   )
 
-  const ComingSoonButton = () => (
+  const UnderConstructionButton = () => (
     <LinkButton
       href={`/listings/filtered?page=1${encodeToFrontendFilterString({
         availability: "comingSoon",
       })}`}
     >
-      {t("welcome.comingSoonButton")}
+      {t("welcome.underConstructionButton")}
     </LinkButton>
   )
 
@@ -134,18 +134,18 @@ export default function Home({ latestListings, comingSoonListings }) {
           {getListings(latestListings.items)}
         </HorizontalScrollSection>
       )}
-      {comingSoonListings?.items?.length > 0 && (
+      {underConstructionListings?.items?.length > 0 && (
         <div className={styles["section-container"]}>
           <section className={`coming-soon-listings`}>
             <div className={`${styles["title"]}`}>
               <Icon size="xlarge" symbol="clock" ariaHidden={true} />
-              <h2>{t("listings.comingSoon")}</h2>
+              <h2>{t("listings.underConstruction")}</h2>
             </div>
             <div className={`${styles["cards-container"]}`}>
-              {getListings(comingSoonListings?.items)}
+              {getListings(underConstructionListings?.items)}
             </div>
             <div className={`${styles["title"]}`}>
-              <ComingSoonButton />
+              <UnderConstructionButton />
             </div>
           </section>
         </div>
@@ -217,7 +217,7 @@ export default function Home({ latestListings, comingSoonListings }) {
 
 export async function getStaticProps() {
   let latestListings = []
-  let comingSoonListings = []
+  let underConstructionListings = []
   try {
     const latestResponse = await axios.get(process.env.listingServiceUrl, {
       params: {
@@ -242,7 +242,7 @@ export async function getStaticProps() {
   }
 
   try {
-    const comingSoonResponse = await axios.get(process.env.listingServiceUrl, {
+    const underConstructionResponse = await axios.get(process.env.listingServiceUrl, {
       params: {
         limit: 3,
         view: "base",
@@ -259,10 +259,13 @@ export async function getStaticProps() {
         return qs.stringify(params)
       },
     })
-    comingSoonListings = comingSoonResponse.data
+    underConstructionListings = underConstructionResponse.data
   } catch (error) {
     console.error(error)
   }
 
-  return { props: { latestListings, comingSoonListings }, revalidate: process.env.cacheRevalidate }
+  return {
+    props: { latestListings, underConstructionListings },
+    revalidate: process.env.cacheRevalidate,
+  }
 }

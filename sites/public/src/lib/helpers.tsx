@@ -29,6 +29,7 @@ import { AppearanceStyleType } from "../../../../detroit-ui-components/src/globa
 import { ImageTag } from "../../../../detroit-ui-components/src/blocks/ImageCard"
 import { TableHeaders } from "../../../../detroit-ui-components/src/tables/StandardTable"
 import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
+import { faPersonDigging } from "@fortawesome/free-solid-svg-icons"
 import {
   ListingCard,
   CardTag,
@@ -124,14 +125,7 @@ export const accessibilityFeaturesExist = (features: ListingFeatures) => {
 
 export const getImageTagLabelFromListing = (listing: Listing) => {
   if (listing?.marketingType === ListingMarketingTypeEnum.comingSoon) {
-    let label = t("listings.comingSoon")
-    if (listing?.marketingSeason) {
-      label = label.concat(` ${t(`seasons.${listing.marketingSeason}`)}`)
-    }
-    if (listing?.marketingDate) {
-      label = label.concat(` ${dayjs(listing.marketingDate).year()}`)
-    }
-    return label
+    return t("listings.underConstruction")
   }
   return listing?.isVerified ? t("listings.verifiedListing") : undefined
 }
@@ -198,7 +192,7 @@ export const getImageCardTag = (listing: Listing): ImageTag[] => {
           text: tag,
           iconType:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-              ? ("calendarBlock" as UniversalIconType)
+              ? faPersonDigging
               : ("badgeCheck" as UniversalIconType),
           iconColor:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
@@ -218,6 +212,17 @@ export const getImageCardTag = (listing: Listing): ImageTag[] => {
         },
       ]
     : null
+}
+
+export const getApplicationSeason = (listing: Listing) => {
+  let label = t("listings.apply.applicationSeason")
+  if (listing?.marketingSeason) {
+    label = label.concat(` ${t(`seasons.${listing.marketingSeason}`)}`)
+  }
+  if (listing?.marketingDate) {
+    label = label.concat(` ${dayjs(listing.marketingDate).year()}`)
+  }
+  return label
 }
 
 export const getListings = (listings) => {
@@ -332,7 +337,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
     let availability = null
 
     if (listing.marketingType && listing.marketingType === ListingMarketingTypeEnum.comingSoon) {
-      availability = <strong>{t("listings.comingSoon")}</strong>
+      availability = <strong>{t("listings.underConstruction")}</strong>
     } else {
       if (group.unitVacancies > 0) {
         availability = (
