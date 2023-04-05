@@ -95,7 +95,7 @@ describe("users", () => {
       rest.get("http://localhost:3100/user", (_req, res, ctx) => {
         return res(ctx.json({ id: "user1", roles: { id: "user1", isAdmin: true } }))
       }),
-      rest.get("http://localhost:3100/user/csv", (_req, res, ctx) => {
+      rest.get("http://localhost:3100/user/csv/UTC", (_req, res, ctx) => {
         return res(ctx.json(""))
       })
     )
@@ -134,7 +134,7 @@ describe("users", () => {
       rest.get("http://localhost:3100/user", (_req, res, ctx) => {
         return res(ctx.json({ id: "user1", roles: { id: "user1", isAdmin: true } }))
       }),
-      rest.get("http://localhost:3100/user/csv", (_req, res, ctx) => {
+      rest.get("http://localhost:3100/user/csv/UTC", (_req, res, ctx) => {
         return res(ctx.status(500), ctx.json(""))
       })
     )
