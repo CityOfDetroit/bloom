@@ -156,11 +156,11 @@ export class UserController {
     )
   }
 
-  @Get("/csv")
+  @Get("/csv/:tz")
   @UseGuards(OptionalAuthGuard, AuthzGuard)
   @ApiOperation({ summary: "List users in CSV", operationId: "listAsCsv" })
   @Header("Content-Type", "text/csv")
-  async listAsCsv(@Request() req: ExpressRequest): Promise<string> {
+  async listAsCsv(@Request() req: ExpressRequest, @Param("tz") timeZone: string): Promise<string> {
     const users = await this.userService.list(
       {
         page: 1,
@@ -174,7 +174,7 @@ export class UserController {
       },
       new AuthContext(req.user as User)
     )
-    return this.userCsvExporter.exportFromObject(users)
+    return this.userCsvExporter.exportFromObject(users, timeZone)
   }
 
   @Post("/invite")

@@ -412,9 +412,10 @@ export const createDateStringFromNow = (format = "YYYY-MM-DD_HH:mm:ss"): string 
 
 export const useUsersExport = () => {
   const { userService } = useContext(AuthContext)
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replace("/", "-")
 
   return useCsvExport(
-    () => userService.listAsCsv(),
+    () => userService.listAsCsv({ tz: timeZone }),
     `users-${createDateStringFromNow("YYYY-MM-DD_HH:mm")}.csv`
   )
 }

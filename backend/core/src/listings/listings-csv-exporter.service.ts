@@ -3,7 +3,6 @@ import { CsvBuilder } from "../applications/services/csv-builder.service"
 import {
   cloudinaryPdfFromId,
   formatCurrency,
-  formatDate,
   formatRange,
   formatRentRange,
   formatStatus,
@@ -13,6 +12,7 @@ import {
   formatBedroom,
   getPaperAppUrls,
 } from "./helpers"
+import { formatLocalDate } from "../shared/utils/format-local-date"
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
@@ -31,12 +31,12 @@ export class ListingsCsvExporterService {
     const listingObj = listings.map((listing) => {
       return {
         ID: listing.id,
-        "Created At Date": formatDate(listing.createdAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
+        "Created At Date": formatLocalDate(listing.createdAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
         "Listing Status": formatStatus[listing.status],
-        "Publish Date": formatDate(listing.publishedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
+        "Publish Date": formatLocalDate(listing.publishedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
         Verified: formatYesNo(listing.isVerified),
-        "Verified Date": formatDate(listing.verifiedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
-        "Last Updated": formatDate(listing.updatedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
+        "Verified Date": formatLocalDate(listing.verifiedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
+        "Last Updated": formatLocalDate(listing.updatedAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
         "Listing Name": listing.name,
         "Developer/Property Owner": listing.property.developer,
         "Street Address": listing.property.buildingAddress?.street,
@@ -89,9 +89,9 @@ export class ListingsCsvExporterService {
         "Important Program Rules": listing.programRules,
         "Special Notes": listing.specialNotes,
         "Review Order": convertToTitleCase(listing.reviewOrderType),
-        "Lottery Date": formatDate(listing.events[0]?.startTime, "MM-DD-YYYY z", timeZone),
-        "Lottery Start": formatDate(listing.events[0]?.startTime, "hh:mmA z", timeZone),
-        "Lottery End": formatDate(listing.events[0]?.endTime, "hh:mmA z", timeZone),
+        "Lottery Date": formatLocalDate(listing.events[0]?.startTime, "MM-DD-YYYY", timeZone),
+        "Lottery Start": formatLocalDate(listing.events[0]?.startTime, "hh:mmA z", timeZone),
+        "Lottery End": formatLocalDate(listing.events[0]?.endTime, "hh:mmA z", timeZone),
         "Lottery Notes": listing.events[0]?.note,
         Waitlist: formatYesNo(listing.isWaitlistOpen),
         "Max Waitlist Size": listing.waitlistMaxSize,
@@ -99,7 +99,7 @@ export class ListingsCsvExporterService {
         "How many open spots on the waitlist": listing.waitlistOpenSpots,
         "Marketing Status": convertToTitleCase(listing.marketingType),
         "Marketing Season": convertToTitleCase(listing.marketingSeason),
-        "Marketing Date": formatDate(listing.marketingDate, "YYYY"),
+        "Marketing Date": formatLocalDate(listing.marketingDate, "YYYY"),
         "Leasing Company": listing.leasingAgentName,
         "Leasing Email": listing.leasingAgentEmail,
         "Leasing Phone": listing.leasingAgentPhone,
@@ -119,7 +119,7 @@ export class ListingsCsvExporterService {
         "Leasing Agency Pickup Address City": listing.applicationPickUpAddress?.city,
         "Leasing Agency Pickup Address Zip": listing.applicationPickUpAddress?.zipCode,
         "Leasing Pick Up Office Hours": listing.applicationPickUpAddressOfficeHours,
-        Postmark: formatDate(
+        Postmark: formatLocalDate(
           listing.postmarkedApplicationsReceivedByDate,
           "MM-DD-YYYY hh:mm:ssA z",
           timeZone

@@ -1027,9 +1027,16 @@ export class UserService {
   /**
    * List users in CSV
    */
-  listAsCsv(options: IRequestOptions = {}): Promise<string> {
+  listAsCsv(
+    params: {
+      /**  */
+      tz: string
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<string> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/user/csv"
+      let url = basePath + "/user/csv/{tz}"
+      url = url.replace("{tz}", params["tz"] + "")
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
 
