@@ -20,7 +20,7 @@ export const cloudinaryPdfFromId = (publicId: string): string => {
   } else return ""
 }
 
-export const formatDate = (rawDate: string, format: string, timeZone: string): string => {
+export const formatDate = (rawDate: string, format: string, timeZone?: string): string => {
   if (isDefined(rawDate)) {
     const utcDate = dayjs.utc(rawDate)
     if (isDefined(timeZone)) return utcDate.tz(timeZone.replace("-", "/")).format(format)

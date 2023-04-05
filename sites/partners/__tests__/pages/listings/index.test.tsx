@@ -84,7 +84,7 @@ describe("listings", () => {
       rest.get("http://localhost:3100/listings", (_req, res, ctx) => {
         return res(ctx.json({ items: [listing], meta: { totalItems: 1, totalPages: 1 } }))
       }),
-      rest.get("http://localhost:3100/listings/csv", (_req, res, ctx) => {
+      rest.get("http://localhost:3100/listings/csv/UTC", (_req, res, ctx) => {
         return res(ctx.status(500), ctx.json(""))
       }),
       rest.get("http://localhost:3100/user", (_req, res, ctx) => {
@@ -127,7 +127,7 @@ describe("listings", () => {
         return res(ctx.json({ items: [listing], meta: { totalItems: 1, totalPages: 1 } }))
       }),
 
-      rest.get("http://localhost:3100/listings/csv", (_req, res, ctx) => {
+      rest.get("http://localhost:3100/listings/csv/UTC", (_req, res, ctx) => {
         return res(ctx.json({ listingCSV: "", unitCSV: "" }))
       }),
       rest.get("http://localhost:3100/user", (_req, res, ctx) => {

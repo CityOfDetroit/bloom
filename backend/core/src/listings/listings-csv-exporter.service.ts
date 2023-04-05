@@ -99,7 +99,7 @@ export class ListingsCsvExporterService {
         "How many open spots on the waitlist": listing.waitlistOpenSpots,
         "Marketing Status": convertToTitleCase(listing.marketingType),
         "Marketing Season": convertToTitleCase(listing.marketingSeason),
-        "Marketing Date": formatDate(listing.marketingDate, "YYYY", timeZone),
+        "Marketing Date": formatDate(listing.marketingDate, "YYYY"),
         "Leasing Company": listing.leasingAgentName,
         "Leasing Email": listing.leasingAgentEmail,
         "Leasing Phone": listing.leasingAgentPhone,
