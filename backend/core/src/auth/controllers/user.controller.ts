@@ -48,6 +48,7 @@ import { ActivityLogInterceptor } from "../../activity-log/interceptors/activity
 import { IdDto } from "../../shared/dto/id.dto"
 import { UserCsvExporterService } from "../services/user-csv-exporter.service"
 import { Compare } from "../../shared/dto/filter.dto"
+import { UnitsCsvQueryParams } from "../../../src/units/dto/units-csv-query-params"
 
 @Controller("user")
 @ApiBearerAuth()
@@ -156,11 +157,15 @@ export class UserController {
     )
   }
 
-  @Get("/csv/:tz")
+  @Get("/csv")
   @UseGuards(OptionalAuthGuard, AuthzGuard)
   @ApiOperation({ summary: "List users in CSV", operationId: "listAsCsv" })
   @Header("Content-Type", "text/csv")
-  async listAsCsv(@Request() req: ExpressRequest, @Param("tz") timeZone: string): Promise<string> {
+  async listAsCsv(
+    @Request() req: ExpressRequest,
+    @Query(new ValidationPipe(defaultValidationPipeOptions))
+    queryParams: UnitsCsvQueryParams
+  ): Promise<string> {
     const users = await this.userService.list(
       {
         page: 1,
@@ -174,7 +179,7 @@ export class UserController {
       },
       new AuthContext(req.user as User)
     )
-    return this.userCsvExporter.exportFromObject(users, timeZone)
+    return this.userCsvExporter.exportFromObject(users, queryParams.timeZone)
   }
 
   @Post("/invite")
