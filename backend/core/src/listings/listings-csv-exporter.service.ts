@@ -13,6 +13,7 @@ import {
   formatBedroom,
   getPaperAppUrls,
 } from "./helpers"
+import { summarizeUnits } from "../../src/shared/units-transformations"
 @Injectable({ scope: Scope.REQUEST })
 export class ListingsCsvExporterService {
   constructor(private readonly csvBuilder: CsvBuilder) {}
@@ -134,53 +135,57 @@ export class ListingsCsvExporterService {
   }
 
   exportUnitsFromObject(listings: any[]): string {
-    const reformattedListings = []
+    const unitGroupsFinal = []
     listings.forEach((listing) => {
+      const unitGroupRaw = []
+      listing.unitSummaries = summarizeUnits(listing.unitGroups, [])
       listing.unitGroups.forEach((unitGroup, idx) => {
-        reformattedListings.push({
+        unitGroupRaw.push({
           id: listing.id,
           name: listing.name,
           unitGroup,
           unitGroupSummary: listing.unitSummaries.unitGroupSummary[idx],
         })
       })
+      const unitGroupsFormatted = unitGroupRaw.map((formattedUnitGroup) => {
+        return {
+          "Listing ID": formattedUnitGroup.id,
+          "Listing Name": formattedUnitGroup.name,
+          "Unit Group ID": formattedUnitGroup.unitGroup.id,
+          "Unit Types": formattedUnitGroup.unitGroupSummary?.unitTypes
+            .map((unitType) => formatBedroom[unitType])
+            .join(", "),
+          "AMI Chart": [
+            ...new Set(
+              formattedUnitGroup.unitGroup?.amiLevels.map((level) => level.amiChart?.name)
+            ),
+          ].join(", "),
+          "AMI Level": formatRange(
+            formattedUnitGroup.unitGroupSummary?.amiPercentageRange?.min,
+            formattedUnitGroup.unitGroupSummary?.amiPercentageRange?.max,
+            "",
+            "%"
+          ),
+          "Rent Type": getRentTypes(formattedUnitGroup.unitGroup?.amiLevels),
+          "Monthly Rent": formatRentRange(
+            formattedUnitGroup.unitGroupSummary.rentRange,
+            formattedUnitGroup.unitGroupSummary.rentAsPercentIncomeRange
+          ),
+          "Affordable Unit Group Quantity": formattedUnitGroup.unitGroup?.totalCount,
+          "Unit Group Vacancies": formattedUnitGroup.unitGroup?.totalAvailable,
+          "Waitlist Status": formatYesNo(formattedUnitGroup.unitGroup?.openWaitlist),
+          "Minimum Occupancy": formattedUnitGroup.unitGroup?.minOccupancy,
+          "Maximum Occupancy": formattedUnitGroup.unitGroup?.maxOccupancy,
+          "Minimum Sq ft": formattedUnitGroup.unitGroup?.sqFeetMin,
+          "Maximum Sq ft": formattedUnitGroup.unitGroup?.sqFeetMax,
+          "Minimum Floor": formattedUnitGroup.unitGroup?.floorMin,
+          "Maximum Floor": formattedUnitGroup.unitGroup?.floorMax,
+          "Minimum Bathrooms": formattedUnitGroup.unitGroup?.bathroomMin,
+          "Maximum Bathrooms": formattedUnitGroup.unitGroup?.bathroomMax,
+        }
+      })
+      unitGroupsFinal.push(...unitGroupsFormatted)
     })
-
-    const unitsFormatted = reformattedListings.map((listing) => {
-      return {
-        "Listing ID": listing.id,
-        "Listing Name": listing.name,
-        "Unit Group ID": listing.unitGroup.id,
-        "Unit Types": listing.unitGroupSummary?.unitTypes
-          .map((unitType) => formatBedroom[unitType])
-          .join(", "),
-        "AMI Chart": [
-          ...new Set(listing.unitGroup?.amiLevels.map((level) => level.amiChart?.name)),
-        ].join(", "),
-        "AMI Level": formatRange(
-          listing.unitGroupSummary?.amiPercentageRange?.min,
-          listing.unitGroupSummary?.amiPercentageRange?.max,
-          "",
-          "%"
-        ),
-        "Rent Type": getRentTypes(listing.unitGroup?.amiLevels),
-        "Monthly Rent": formatRentRange(
-          listing.unitGroupSummary.rentRange,
-          listing.unitGroupSummary.rentAsPercentIncomeRange
-        ),
-        "Affordable Unit Group Quantity": listing.unitGroup?.totalCount,
-        "Unit Group Vacancies": listing.unitGroup?.totalAvailable,
-        "Waitlist Status": formatYesNo(listing.unitGroup?.openWaitlist),
-        "Minimum Occupancy": listing.unitGroup?.minOccupancy,
-        "Maximum Occupancy": listing.unitGroup?.maxOccupancy,
-        "Minimum Sq ft": listing.unitGroup?.sqFeetMin,
-        "Maximum Sq ft": listing.unitGroup?.sqFeetMax,
-        "Minimum Floor": listing.unitGroup?.floorMin,
-        "Maximum Floor": listing.unitGroup?.floorMax,
-        "Minimum Bathrooms": listing.unitGroup?.bathroomMin,
-        "Maximum Bathrooms": listing.unitGroup?.bathroomMax,
-      }
-    })
-    return this.csvBuilder.buildFromIdIndex(unitsFormatted)
+    return this.csvBuilder.buildFromIdIndex(unitGroupsFinal)
   }
 }
