@@ -103,7 +103,7 @@ export const StandardTable = (props: StandardTableProps) => {
       header && header !== "" ? getTranslationWithArguments(headerName(header)) : header
     return (
       <HeaderCell key={uniqKey} className={headerClassName(header)}>
-        {headerCellChild as string}
+        <>{headerCellChild}</>
       </HeaderCell>
     )
   })
