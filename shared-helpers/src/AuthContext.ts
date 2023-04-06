@@ -180,7 +180,7 @@ const reducer = createReducer(
 )
 
 export const AuthContext = createContext<Partial<ContextProps>>({})
-export const AuthProvider: FunctionComponent = ({ children }) => {
+export const AuthProvider: FunctionComponent<React.PropsWithChildren> = ({ children }) => {
   const { apiUrl, storageType } = useContext(ConfigContext)
   const { router } = useContext(NavigationContext)
   const [state, dispatch] = useReducer(reducer, {
