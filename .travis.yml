@@ -1,8 +1,6 @@
 language: node_js
 node_js:
   - 18
-cache:
-  yarn: true
 services:
   - redis-server
 before_install:
@@ -51,6 +49,7 @@ jobs:
         - yarn start -p 3000 &
         - yarn wait-on "http-get://localhost:3000" && yarn cypress run
         - kill $(jobs -p) || true
+dist: focal
 addons:
   postgresql: "11"
   apt:
