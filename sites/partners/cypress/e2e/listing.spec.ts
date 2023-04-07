@@ -1,5 +1,5 @@
 describe("Listing Management Tests", () => {
-  before(() => {
+  beforeEach(() => {
     cy.login()
   })
 
