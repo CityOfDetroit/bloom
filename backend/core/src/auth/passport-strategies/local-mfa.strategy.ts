@@ -106,6 +106,7 @@ export class LocalMfaStrategy extends PassportStrategy(Strategy, "localMfa") {
         user.failedLoginAttemptsCount += 1
       }
 
+      user.lastLoginAt = new Date()
       await this.userRepository.save(user)
 
       if (validPassword && mfaAuthSuccessful) {
