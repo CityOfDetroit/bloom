@@ -1,29 +1,32 @@
 const path = require("path")
-const { resolve } = require("path")
-const bloomTheme = require("../tailwind.config.js")
-const tailwindVars = require("../tailwind.tosass.js")(bloomTheme)
-const { NormalModuleReplacementPlugin } = require("webpack")
+const bloomTheme = require("../tailwind.config.js");
+const tailwindVars = require("../tailwind.tosass.js")(bloomTheme);
 
 module.exports = {
-  stories: ["../src/**/*.stories.@(tsx|mdx)"],
+  stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: [
-    "@storybook/addon-actions",
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
     "@storybook/addon-docs",
     "@storybook/addon-a11y",
-    "@storybook/addon-viewport",
     "@storybook/addon-knobs",
     "@geometricpanda/storybook-addon-badges",
-  ],
-  typescript: {
-    check: false,
-    checkOptions: {},
-    reactDocgen: "react-docgen-typescript",
-    reactDocgenTypescriptOptions: {
-      shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+    {
+      /**
+       * Fix Storybook issue with PostCSS@8
+       * @see https://github.com/storybookjs/storybook/issues/12668#issuecomment-773958085
+       */
+      name: "@storybook/addon-postcss",
+      options: {
+        postcssLoaderOptions: {
+          implementation: require("postcss"),
+        },
+      },
     },
+  ],
+  core: {
+    builder: "webpack5",
   },
-  // In trouble? try https://storybook.js.org/docs/configurations/custom-webpack-config/#debug-the-default-webpack-config
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.
@@ -51,7 +54,8 @@ module.exports = {
           },
         },
       ],
-    })
+      include: path.resolve(__dirname, "../"),
+    });
 
     config.module.rules.push({
       test: /\.(ts|tsx)$/,
@@ -63,9 +67,9 @@ module.exports = {
           },
         },
       ],
-    })
+    });
 
-    config.resolve.extensions.push(".ts", ".tsx")
-    return config
+    config.resolve.extensions.push(".ts", ".tsx");
+    return config;
   },
-}
+};
