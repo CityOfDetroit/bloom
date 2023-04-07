@@ -41,8 +41,11 @@ describe("<EligibilityDisability>", () => {
   })
 
   it("Clicks the Next button", async () => {
-    await act(async () => {
+    act(() => {
       render(<EligibilityDisability />)
+    })
+
+    await act(async () => {
       fireEvent.click(screen.getByText("No"))
       fireEvent.click(screen.getByText("Next"))
     })
@@ -52,8 +55,11 @@ describe("<EligibilityDisability>", () => {
   })
 
   it("Clicks the See results now button", async () => {
-    await act(async () => {
+    act(() => {
       render(<EligibilityDisability />)
+    })
+
+    await act(async () => {
       fireEvent.click(screen.getByText("See results now"))
     })
 

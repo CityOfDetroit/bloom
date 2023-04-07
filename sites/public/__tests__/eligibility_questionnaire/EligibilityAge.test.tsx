@@ -39,19 +39,23 @@ describe("<EligibilityAge>", () => {
   })
 
   it("Clicks the Next button", async () => {
-    await act(async () => {
+    act(() => {
       render(<EligibilityAge />)
+    })
+
+    await act(async () => {
       fireEvent.click(screen.getByText("55 - 61"))
       fireEvent.click(screen.getByText("Next"))
     })
-
     expect(mockRouter.push.mock.calls.length).toBe(1)
     expect(mockRouter.push.mock.calls[0][0]).toBe("/eligibility/disability")
   })
 
   it("Clicks the See results now button", async () => {
-    await act(async () => {
+    act(() => {
       render(<EligibilityAge />)
+    })
+    await act(async () => {
       fireEvent.click(screen.getByText("See results now"))
     })
 

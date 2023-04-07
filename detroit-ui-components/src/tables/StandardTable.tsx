@@ -20,7 +20,7 @@ export const Row = (props: { id?: string; className?: string; children: React.Re
   </tr>
 )
 
-export const HeaderCell = (props: { children: React.ReactNode; className?: string }) => (
+export const HeaderCell = (props: { children?: React.ReactNode; className?: string }) => (
   <th className={props.className}>{props.children}</th>
 )
 
@@ -99,11 +99,9 @@ export const StandardTable = (props: StandardTableProps) => {
 
   const headerLabels = Object.values(headers)?.map((header, index) => {
     const uniqKey = process.env.NODE_ENV === "test" ? `header-${index}` : nanoid()
-    const headerCellChild =
-      header && header !== "" ? getTranslationWithArguments(headerName(header)) : header
     return (
       <HeaderCell key={uniqKey} className={headerClassName(header)}>
-        <>{headerCellChild}</>
+        {header && header !== "" ? getTranslationWithArguments(headerName(header)) : undefined}
       </HeaderCell>
     )
   })

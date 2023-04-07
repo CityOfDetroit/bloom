@@ -22,8 +22,11 @@ describe("<EligibilityWelcome>", () => {
   })
 
   it("Click Next button", async () => {
-    await act(async () => {
+    act(() => {
       render(<EligibilityWelcome />)
+    })
+
+    await act(async () => {
       fireEvent.click(screen.getByText("Next"))
     })
 
