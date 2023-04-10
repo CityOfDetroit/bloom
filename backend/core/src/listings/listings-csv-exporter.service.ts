@@ -29,7 +29,6 @@ export class ListingsCsvExporterService {
       })
     })
     const listingObj = listings.map((listing) => {
-      console.log(listing.createdAt)
       return {
         ID: listing.id,
         "Created At Date": formatLocalDate(listing.createdAt, "MM-DD-YYYY hh:mm:ssA z", timeZone),
