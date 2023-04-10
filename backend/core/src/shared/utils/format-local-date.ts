@@ -15,6 +15,7 @@ export const formatLocalDate = (
   if (!isEmpty(rawDate)) {
     const utcDate = dayjs.utc(rawDate)
     if (!isEmpty(timeZone)) return utcDate.tz(timeZone.replace("-", "/")).format(format)
-    else return utcDate.format(format)
-  } else return ""
+    return utcDate.format(format)
+  }
+  return ""
 }
