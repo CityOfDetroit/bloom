@@ -1027,12 +1027,18 @@ export class UserService {
   /**
    * List users in CSV
    */
-  listAsCsv(options: IRequestOptions = {}): Promise<string> {
+  listAsCsv(
+    params: {
+      /**  */
+      timeZone?: string
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<string> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/user/csv"
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
-
+      configs.params = { timeZone: params["timeZone"] }
       let data = null
 
       configs.data = data
@@ -1320,12 +1326,18 @@ export class ListingsService {
   /**
    * Retrieve listings and units in csv
    */
-  listAsCsv(options: IRequestOptions = {}): Promise<any> {
+  listAsCsv(
+    params: {
+      /**  */
+      timeZone?: string
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + "/listings/csv"
 
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
-
+      configs.params = { timeZone: params["timeZone"] }
       let data = null
 
       configs.data = data
