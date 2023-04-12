@@ -13,9 +13,6 @@ import {
   t,
   ResendConfirmationModal,
   RequestType,
-  FormSignInMFACode,
-  FormSignInAddPhone,
-  FormSignInMFAType,
 } from "@bloom-housing/ui-components"
 import FormsLayout from "../layouts/forms"
 import {
@@ -29,6 +26,9 @@ import {
   onSubmitMfaCodeWithPhone,
   onSubmitMfaCode,
 } from "../lib/users/signInHelpers"
+import { FormSignInAddPhone } from "../components/users/FormSignInAddPhone"
+import { FormSignInMFACode } from "../components/users/FormSignInMFACode"
+import { FormSignInMFAType } from "../components/users/FormSignInMFAType"
 
 const SignIn = () => {
   const { login, requestMfaCode, userService } = useContext(AuthContext)
