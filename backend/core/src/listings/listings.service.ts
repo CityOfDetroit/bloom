@@ -175,6 +175,7 @@ export class ListingsService {
   async create(listingDto: ListingCreateDto): Promise<Listing> {
     const listing = this.listingRepository.create({
       ...listingDto,
+      verifiedAt: listingDto.isVerified === true ? new Date() : null,
       publishedAt: listingDto.status === ListingStatus.active ? new Date() : null,
       closedAt: listingDto.status === ListingStatus.closed ? new Date() : null,
       property: plainToClass(PropertyCreateDto, listingDto),
