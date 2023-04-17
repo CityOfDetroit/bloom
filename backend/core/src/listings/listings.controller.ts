@@ -36,6 +36,7 @@ import { ListingUpdateValidationPipe } from "./validation-pipes/listing-update-v
 import { ActivityLogInterceptor } from "../activity-log/interceptors/activity-log.interceptor"
 import { ActivityLogMetadata } from "../activity-log/decorators/activity-log-metadata.decorator"
 import { ListingsCsvExporterService } from "../listings/listings-csv-exporter.service"
+import { ListingsZipQueryParams } from "./dto/listings-zip-query-params"
 
 @Controller("listings")
 @ApiTags("listings")
@@ -80,11 +81,15 @@ export class ListingsController {
   @UseGuards(OptionalAuthGuard, AuthzGuard)
   @ApiOperation({ summary: "Retrieve listings and units in csv", operationId: "listAsCsv" })
   @Header("Content-Type", "text/csv")
-  async listAsCsv(): Promise<{ listingCsv: string; unitCsv: string }> {
+  async listAsCsv(
+    @Query(new ValidationPipe(defaultValidationPipeOptions))
+    queryParams: ListingsZipQueryParams
+  ): Promise<{ listingCsv: string; unitCsv: string }> {
     const data = await this.listingsService.rawListWithFlagged()
     const listingCsv = this.listingsCsvExporter.exportListingsFromObject(
       data?.listingData,
-      data?.userAccessData
+      data?.userAccessData,
+      queryParams.timeZone
     )
     const unitCsv = this.listingsCsvExporter.exportUnitsFromObject(data?.unitData)
     return { listingCsv, unitCsv }

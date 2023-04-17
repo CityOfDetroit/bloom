@@ -412,9 +412,10 @@ export const createDateStringFromNow = (format = "YYYY-MM-DD_HH:mm:ss"): string 
 
 export const useUsersExport = () => {
   const { userService } = useContext(AuthContext)
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replace("/", "-")
 
   return useCsvExport(
-    () => userService.listAsCsv(),
+    () => userService.listAsCsv({ timeZone }),
     `users-${createDateStringFromNow("YYYY-MM-DD_HH:mm")}.csv`
   )
 }
@@ -465,9 +466,10 @@ export const useListingZip = () => {
     setZipExportError(false)
     setZipCompleted(false)
     setZipExportLoading(true)
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replace("/", "-")
 
     try {
-      const content = await listingsService.listAsCsv()
+      const content = await listingsService.listAsCsv({ timeZone })
       const now = new Date()
       const dateString = dayjs(now).format("YYYY-MM-DD_HH-mm")
       const zip = new JSZip()

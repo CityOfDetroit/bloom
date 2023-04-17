@@ -175,6 +175,7 @@ export class ListingsService {
   async create(listingDto: ListingCreateDto): Promise<Listing> {
     const listing = this.listingRepository.create({
       ...listingDto,
+      verifiedAt: listingDto.isVerified === true ? new Date() : null,
       publishedAt: listingDto.status === ListingStatus.active ? new Date() : null,
       closedAt: listingDto.status === ListingStatus.closed ? new Date() : null,
       property: plainToClass(PropertyCreateDto, listingDto),
@@ -316,10 +317,12 @@ export class ListingsService {
       this.listingRepository.createQueryBuilder("listing"),
       "unitsExport"
     ).getViewQb()
-    const unitDataRaw = await unitsQb
-      .where("listing.id IN (:...listingIds)", { listingIds })
-      .getMany()
-    const unitData = await this.addUnitSummariesToListings(unitDataRaw)
+
+    const unitData = await unitsQb.where("listing.id IN (:...listingIds)", { listingIds }).getMany()
+
+    unitData.forEach((listing) => {
+      listing.unitSummaries = summarizeUnits(listing.unitGroups, [])
+    })
 
     return {
       unitData,

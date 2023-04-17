@@ -1,27 +1,16 @@
-import dayjs from "dayjs"
 import { MinMax } from "../../types"
 import { UnitGroupAmiLevelDto } from "../../src/units-summary/dto/unit-group-ami-level.dto"
 import { PaperApplication } from "../../src/paper-applications/entities/paper-application.entity"
-
-export const isDefined = (item: number | string): boolean => {
-  return item !== null && item !== undefined && item !== ""
-}
+import { isEmpty } from "../shared/utils/is-empty"
 
 export const cloudinaryPdfFromId = (publicId: string): string => {
-  if (isDefined(publicId)) {
-    const cloudName = process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME
-    return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.pdf`
-  } else return ""
-}
-
-export const formatDate = (rawDate: string, format: string): string => {
-  if (isDefined(rawDate)) {
-    return dayjs(rawDate).format(format)
-  } else return ""
+  if (isEmpty(publicId)) return ""
+  const cloudName = process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.pdf`
 }
 
 export const getPaperAppUrls = (paperApps: PaperApplication[]) => {
-  if (!paperApps || paperApps?.length === 0) return ""
+  if (isEmpty(paperApps)) return ""
   const urlArr = paperApps.map((paperApplication) =>
     cloudinaryPdfFromId(paperApplication.file?.fileId)
   )
@@ -30,7 +19,7 @@ export const getPaperAppUrls = (paperApps: PaperApplication[]) => {
 }
 
 export const getRentTypes = (amiLevels: UnitGroupAmiLevelDto[]): string => {
-  if (!amiLevels || amiLevels?.length === 0) return ""
+  if (isEmpty(amiLevels)) return ""
   const uniqueTypes = []
   amiLevels?.forEach((elem) => {
     if (!uniqueTypes.includes(elem.monthlyRentDeterminationType))
@@ -65,7 +54,7 @@ export const formatCurrency = (value: string): string => {
 }
 
 export const convertToTitleCase = (value: string): string => {
-  if (!isDefined(value)) return ""
+  if (isEmpty(value)) return ""
   const spacedValue = value.replace(/([A-Z])/g, (match) => ` ${match}`)
   const result = spacedValue.charAt(0).toUpperCase() + spacedValue.slice(1)
   return result
@@ -77,9 +66,9 @@ export const formatRange = (
   prefix: string,
   postfix: string
 ): string => {
-  if (!isDefined(min) && !isDefined(max)) return ""
-  if (min == max || !isDefined(max)) return `${prefix}${min}${postfix}`
-  if (!isDefined(min)) return `${prefix}${max}${postfix}`
+  if (isEmpty(min) && isEmpty(max)) return ""
+  if (min == max || isEmpty(max)) return `${prefix}${min}${postfix}`
+  if (isEmpty(min)) return `${prefix}${max}${postfix}`
   return `${prefix}${min}${postfix} - ${prefix}${max}${postfix}`
 }
 
