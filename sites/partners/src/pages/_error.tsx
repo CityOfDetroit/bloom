@@ -11,7 +11,7 @@ const Error = () => {
       <Head>
         <title>{pageTitle}</title>
       </Head>
-      <Hero title={pageTitle} buttonTitle={t("welcome.seeRentalListings")} buttonLink="/listings">
+      <Hero title={pageTitle} buttonTitle={t("welcome.seeRentalListings")} buttonLink="/">
         {t("errors.notFound.message")}
       </Hero>
       <div className="homepage-extra">
