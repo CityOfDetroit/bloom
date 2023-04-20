@@ -20,7 +20,7 @@ export const Row = (props: { id?: string; className?: string; children: React.Re
   </tr>
 )
 
-export const HeaderCell = (props: { children: React.ReactNode; className?: string }) => (
+export const HeaderCell = (props: { children?: React.ReactNode; className?: string }) => (
   <th className={props.className}>{props.children}</th>
 )
 
@@ -77,7 +77,7 @@ export interface StandardTableProps {
   ariaLabel?: string
 }
 
-const headerName = (header: string | TableHeadersOptions) => {
+const headerName = (header: string | TableHeadersOptions): string => {
   if (typeof header === "string") {
     return header
   } else {
@@ -101,7 +101,7 @@ export const StandardTable = (props: StandardTableProps) => {
     const uniqKey = process.env.NODE_ENV === "test" ? `header-${index}` : nanoid()
     return (
       <HeaderCell key={uniqKey} className={headerClassName(header)}>
-        {header && header !== "" ? getTranslationWithArguments(headerName(header)) : header}
+        {header && header !== "" ? getTranslationWithArguments(headerName(header)) : undefined}
       </HeaderCell>
     )
   })

@@ -67,7 +67,7 @@ const AgPagination = ({
               {t("t.show")}
             </label>
             <select
-              data-test-id="ag-page-size"
+              data-testid="ag-page-size"
               name="page-size"
               id="page-size"
               value={itemsPerPage}
@@ -86,7 +86,7 @@ const AgPagination = ({
               {t("t.jumpTo")}
             </label>
             <select
-              data-test-id="ag-page-select"
+              data-testid="ag-page-select"
               name="page-jump"
               id="page-jump"
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -112,7 +112,7 @@ const AgPagination = ({
       <div className="w-full md:w-auto flex justify-between mt-5 md:mt-0 ">
         <div className="md:hidden">
           <Button
-            data-test-id="ag-btn-prev"
+            data-testid="ag-btn-prev"
             className="data-pager__previous data-pager__control"
             onClick={onPrevClick}
             disabled={currentPage === 1}
@@ -122,7 +122,7 @@ const AgPagination = ({
         </div>
 
         <Button
-          data-test-id="ag-btn-next"
+          data-testid="ag-btn-next"
           className="data-pager__next data-pager__control"
           onClick={onNextClick}
           disabled={totalPages === currentPage || totalPages === 0}

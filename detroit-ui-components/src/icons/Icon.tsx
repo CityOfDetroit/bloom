@@ -200,7 +200,7 @@ const Icon = (props: IconProps) => {
     <span
       className={wrapperClasses.join(" ")}
       aria-hidden={props.ariaHidden}
-      data-test-id={props.dataTestId ?? null}
+      data-testid={props.dataTestId ?? null}
       tabIndex={props.tabIndex}
     >
       <SpecificIcon
@@ -212,7 +212,7 @@ const Icon = (props: IconProps) => {
     <span
       className={wrapperClasses.join(" ")}
       aria-hidden={props.ariaHidden}
-      data-test-id={props.dataTestId ?? null}
+      data-testid={props.dataTestId ?? null}
       style={{ color: props.fill }}
     >
       {SpecificIcon}

@@ -166,7 +166,7 @@ const ImageCard = (props: ImageCardProps) => {
                   props.moreImagesDescription &&
                   `${props.images.length - 2} ${props.moreImagesDescription}`
                 }
-                data-test-id="open-modal-button"
+                data-testid="open-modal-button"
                 onClick={() => {
                   setShowModal(true)
                 }}

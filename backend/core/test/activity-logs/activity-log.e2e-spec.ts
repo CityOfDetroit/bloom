@@ -26,7 +26,7 @@ import { Listing } from "../../src/listings/entities/listing.entity"
 declare const expect: jest.Expect
 jest.setTimeout(30000)
 
-describe.skip("Programs", () => {
+describe.skip("Activity", () => {
   let app: INestApplication
   let adminId: string
   let adminAccessToken: string

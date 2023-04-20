@@ -24,7 +24,7 @@ const ViewItem = (props: ViewItemProps) => {
   if (props.truncated) valueClassName += " is-truncated"
 
   return (
-    <div id={props.id} className={viewItemClasses.join(" ")} data-test-id={props.dataTestId}>
+    <div id={props.id} className={viewItemClasses.join(" ")} data-testid={props.dataTestId}>
       {props.label && (
         <span
           className={`view-item__label ${props.labelStyling} ${
@@ -35,7 +35,7 @@ const ViewItem = (props: ViewItemProps) => {
         </span>
       )}
       {props.children && (
-        <span className={valueClassName} data-test-id={props.dataTestId}>
+        <span className={valueClassName} data-testid={props.dataTestId}>
           {props.children}
         </span>
       )}
