@@ -77,7 +77,7 @@ describe("users", () => {
     expect(getByText("Confirmed")).toBeInTheDocument()
   })
 
-  it.skip("should render Export to CSV when user is admin and success when clicked", async () => {
+  it("should render Export to CSV when user is admin and success when clicked", async () => {
     window.URL.createObjectURL = jest.fn()
     // set a logged in token
     const fakeToken =
@@ -112,8 +112,9 @@ describe("users", () => {
     const header = await findByText("Detroit Partner Portal")
     expect(header).toBeInTheDocument()
     expect(getByText("Add User")).toBeInTheDocument()
-    expect(getByText("Export to CSV")).toBeInTheDocument()
-    fireEvent.click(getByText("Export to CSV"))
+    const exportButton = await findByText("Export to CSV")
+    expect(exportButton).toBeInTheDocument()
+    fireEvent.click(exportButton)
     const successMessage = await findByText("The file has been exported")
     expect(successMessage).toBeInTheDocument()
   })
