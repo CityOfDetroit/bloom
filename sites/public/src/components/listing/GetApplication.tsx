@@ -78,7 +78,7 @@ const GetApplication = (props: ApplicationsProps) => {
           )}
         </>
       )}
-      {props.applicationsOpen && props.paperMethod && (
+      {props.applicationsOpen && props.paperApplications?.length > 0 && (
         <>
           {props.onlineApplicationURL && <OrDivider bgColor="white" />}
           <div className="text-serif-lg">{t("listings.apply.getAPaperApplication")}</div>
@@ -108,9 +108,10 @@ const GetApplication = (props: ApplicationsProps) => {
         ))}
       {props.applicationPickUpAddress && (
         <>
-          {props.applicationsOpen && (props.onlineApplicationURL || props.paperMethod) && (
-            <OrDivider bgColor="white" />
-          )}
+          {props.applicationsOpen &&
+            (props.onlineApplicationURL || props.paperApplications?.length > 0) && (
+              <OrDivider bgColor="white" />
+            )}
           <Heading priority={3} style={"sidebarSubHeader"}>
             {t("listings.apply.pickUpAnApplication")}
           </Heading>
