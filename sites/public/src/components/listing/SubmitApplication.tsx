@@ -30,6 +30,7 @@ const SubmitApplication = ({
   applicationOrganization,
   strings,
 }: ApplicationAddressesProps) => {
+  if (!applicationMailingAddress && !applicationDropOffAddress) return null
   return (
     <>
       <section className="aside-block is-tinted bg-gray-100">

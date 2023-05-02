@@ -43,7 +43,14 @@ const GetApplication = (props: ApplicationsProps) => {
   const [showDownload, setShowDownload] = useState(false)
   const toggleDownload = () => setShowDownload(!showDownload)
 
-  if (props.listingStatus === ListingStatus.closed) {
+  if (
+    props.listingStatus === ListingStatus.closed ||
+    !(
+      props.paperApplications?.length > 0 ||
+      props.onlineApplicationURL ||
+      props.applicationPickUpAddress
+    )
+  ) {
     return null
   }
 
