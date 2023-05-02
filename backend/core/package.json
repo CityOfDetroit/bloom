@@ -46,7 +46,7 @@
   "dependencies": {
     "@anchan828/nest-sendgrid": "^0.3.25",
     "@google-cloud/translate": "^6.2.6",
-    "@nestjs/bull": "^0.4.2",
+    "@nestjs/bull": "^0.6.3",
     "@types/mapbox": "^1.6.42",
     "bull": "^4.1.0",
     "@nestjs/cli": "^8.2.1",
