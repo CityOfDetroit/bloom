@@ -369,7 +369,7 @@ export const ListingView = (props: ListingProps) => {
         applicationsOpen={!appOpenInFuture}
         applicationsOpenDate={getDateString(listing.applicationOpenDate, "MMMM D, YYYY")}
         paperApplications={getPaperApplications()}
-        paperMethod={!!getMethod(listing.applicationMethods, ApplicationMethodType.FileDownload)}
+        paperMethod={getPaperApplications()?.length > 0}
         postmarkedApplicationsReceivedByDate={getDateString(
           listing.postmarkedApplicationsReceivedByDate,
           `MMM DD, YYYY [${t("t.at")}] hh:mm A`
