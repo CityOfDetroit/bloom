@@ -36,11 +36,6 @@ In some cases the sites diverge slightly to accomodate jurisdictional customizat
 - `shared-helpers` contains types and functions intended for shared use between the public and partners sites.
 - Visit [shared-helpers/README](https://github.com/bloom-housing/bloom/blob/dev/shared-helpers/README.md) for more details.
 
----
-
-- `detroit-ui-components` contains our internal component library based on our internal design system. It is comprised of React components that we consume internally and also build to be configurable for outside consumers. We use [Storybook](https://storybook.js.org/), an environment that renders each of our components to provide documentation and display iterations.
-- Visit [ui-components/README](https://github.com/bloom-housing/bloom/blob/dev/ui-components/README.md) for more details and view our [published Storybook](https://storybook.bloom.exygy.dev/).
-
 ## Getting Started for Developers
 
 If this is your first time working with Bloom, please be sure to check out the `sites/public`, `sites/partners` and `backend/core` README files for important configuration information specific to those pieces.

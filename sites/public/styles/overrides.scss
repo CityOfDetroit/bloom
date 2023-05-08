@@ -198,6 +198,10 @@
       --padding: var(--bloom-s8) 0 var(--bloom-s14) 0;
     }
   }
+
+  .hero__inner {
+    --inner-background-color: rgba(255, 255, 255, 0.9);
+  }
 }
 
 :root {

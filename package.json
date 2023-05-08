@@ -8,8 +8,7 @@
       "sites/public",
       "sites/partners",
       "backend/core",
-      "shared-helpers",
-      "detroit-ui-components"
+      "shared-helpers"
     ],
     "nohoist": [
       "**/@anchan828/nest-sendgrid"
@@ -39,8 +38,6 @@
     "dev:partners": "concurrently \"yarn dev:backend\" \"yarn dev:app:partners\"",
     "dev:public": "concurrently \"yarn dev:backend\" \"yarn dev:app:public\"",
     "test:shared:helpers": "cd shared-helpers && yarn && yarn test",
-    "test:shared:ui": "cd detroit-ui-components && yarn && yarn test",
-    "test:shared:ui:a11y": "cd detroit-ui-components && yarn && yarn test:a11y",
     "test:backend:core:dbsetup": "cd backend/core && yarn db:migration:run && yarn db:seed",
     "test:backend:core:testdbsetup": "cd backend/core && yarn test:db:setup",
     "test:backend:core": "cd backend/core && yarn test",

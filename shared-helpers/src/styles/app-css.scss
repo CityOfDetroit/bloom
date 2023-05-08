@@ -52,7 +52,4 @@ main {
 @import "tables.scss";
 @import "homepage.scss";
 @import "print.scss";
-@import "vendor/ag_grid.scss";
-/* ***********/
-/* Additional stylesheets are contained within individual component folders */
-/* ***********/
+@import "ag_grid.scss";

@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useFormContext } from "react-hook-form"
 import {
   t,
+  AppearanceSizeType,
   AppearanceStyleType,
   AppearanceBorderType,
   Button,
@@ -16,7 +17,6 @@ import {
 import { cloudinaryUrlFromId } from "@bloom-housing/shared-helpers"
 
 import { cloudinaryFileUploader, fieldHasError } from "../../../../lib/helpers"
-import { AppearanceSizeType } from "../../../../../../../detroit-ui-components/src/global/AppearanceTypes"
 
 /**
  *

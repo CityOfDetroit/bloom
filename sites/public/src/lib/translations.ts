@@ -1,7 +1,7 @@
-import generalTranslations from "../../../../detroit-ui-components/src/locales/general.json"
-import spanishTranslations from "../../../../detroit-ui-components/src/locales/es.json"
-import arabicTranslations from "../../../../detroit-ui-components/src/locales/ar.json"
-import bengaliTranslations from "../../../../detroit-ui-components/src/locales/bn.json"
+import generalTranslations from "@bloom-housing/shared-helpers/src/locales/general.json"
+import spanishTranslations from "@bloom-housing/shared-helpers/src/locales/es.json"
+import arabicTranslations from "@bloom-housing/shared-helpers/src/locales/ar.json"
+import bengaliTranslations from "@bloom-housing/shared-helpers/src/locales/bn.json"
 
 import additionalGeneralTranslations from "../page_content/locale_overrides/general.json"
 import additionalSpanishTranslations from "../page_content/locale_overrides/es.json"

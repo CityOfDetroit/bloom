@@ -7,8 +7,8 @@ import {
   ConfigProvider,
   LoggedInUserIdleTimeout,
 } from "@bloom-housing/shared-helpers"
-import "../../../../detroit-ui-components/src/global/css-imports.scss"
-import "../../../../detroit-ui-components/src/global/app-css.scss"
+import "@bloom-housing/shared-helpers/src/styles/css-imports.scss"
+import "@bloom-housing/shared-helpers/src/styles/app-css.scss"
 import { pageChangeHandler, gaLoadScript, gaCaptureScript, uaScript } from "../lib/customScripts"
 import { AppSubmissionContext } from "../lib/applications/AppSubmissionContext"
 import ApplicationConductor, {

@@ -4,7 +4,6 @@ import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
 import dayjs from "dayjs"
-import { faCalendar, faCheck } from "@fortawesome/free-solid-svg-icons"
 
 import {
   Address,
@@ -20,10 +19,6 @@ import {
   AppearanceShadeType,
   AppearanceStyleType,
   ApplicationStatusType,
-<<<<<<< HEAD
-=======
-  CardTag,
->>>>>>> 41eef381d (fix: more alignment)
   IconFillColors,
   ImageTag,
   LinkButton,
@@ -31,16 +26,13 @@ import {
   StatusBarType,
   t,
   UniversalIconType,
-} from "@bloom-housing/ui-components"
-import { Tooltip } from "../../../../detroit-ui-components/src/blocks/Tooltip"
-import { TableHeaders } from "../../../../detroit-ui-components/src/tables/StandardTable"
-import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
-import { faPersonDigging } from "@fortawesome/free-solid-svg-icons"
-import {
+  TableHeaders,
   ListingCard,
   CardTag,
-} from "../../../../detroit-ui-components/src/page_components/listing/ListingCard"
-import { Tag } from "../../../../detroit-ui-components/src/text/Tag"
+  Tag,
+} from "@bloom-housing/ui-components"
+
+import { faPersonDigging } from "@fortawesome/free-solid-svg-icons"
 
 import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
 import { FavoriteButton } from "../components/listing/FavoriteButton"

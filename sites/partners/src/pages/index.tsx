@@ -3,6 +3,7 @@ import Head from "next/head"
 import { ListingStatus } from "@bloom-housing/backend-core/types"
 import {
   SiteAlert,
+  AlertBox,
   AppearanceStyleType,
   AgTable,
   Button,
@@ -18,7 +19,6 @@ import { useListingsData, useListingZip } from "../lib/hooks"
 import Layout from "../layouts"
 import { MetaTags } from "../../src/components/shared/MetaTags"
 import { faFileExport } from "@fortawesome/free-solid-svg-icons"
-import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
 
 class formatLinkCell {
   link: HTMLAnchorElement
@@ -47,14 +47,6 @@ class formatWaitlistStatus {
 
   getGui() {
     return this.text
-  }
-}
-
-class ApplicationsLink extends formatLinkCell {
-  init(params) {
-    super.init(params)
-    this.link.setAttribute("href", `/listings/${params.data.id}/applications`)
-    this.link.setAttribute("data-testid", "listing-status-cell")
   }
 }
 
