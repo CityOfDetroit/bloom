@@ -1,6 +1,5 @@
 import * as React from "react"
-import { AppearanceSizeType, Button, IconFillColors } from "@bloom-housing/ui-components"
-import { t } from "@bloom-housing/ui-components"
+import { AppearanceSizeType, Button, IconFillColors, t } from "@bloom-housing/ui-components"
 import { Icon } from "../core/Icon"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import { useContext, useEffect, useState } from "react"
