@@ -164,18 +164,10 @@ const Layout = (props) => {
           </div>
         </div>
         <FooterNav copyright={t("footer.copyright")}>
-          <Link href="/feedback">
-            <a>{t("pageTitle.feedback")}</a>
-          </Link>
-          <Link href="/privacy">
-            <a>{t("pageTitle.privacy")}</a>
-          </Link>
-          <Link href="/terms">
-            <a>{t("pageTitle.terms")}</a>
-          </Link>
-          <Link href="/accessibility">
-            <a>{t("pageTitle.accessibilityStatement")}</a>
-          </Link>
+          <Link href="/feedback">{t("pageTitle.feedback")}</Link>
+          <Link href="/privacy">{t("pageTitle.privacy")}</Link>
+          <Link href="/terms">{t("pageTitle.terms")}</Link>
+          <Link href="/accessibility">{t("pageTitle.accessibilityStatement")}</Link>
         </FooterNav>
       </SiteFooter>
     </div>

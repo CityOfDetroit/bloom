@@ -80,9 +80,8 @@
 }
 
 :root {
-  --bloom-font-sans: [ "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif" ];
-  --bloom-font-alt-sans: [ "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana",
-    "sans-serif" ];
+  --bloom-font-sans: "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif";
+  --bloom-font-alt-sans: "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif";
   --bloom-color-accent-cool: #297e73;
   --bloom-color-gray-700: #000000;
   --bloom-color-gray-800: #18252a;
