@@ -205,8 +205,8 @@
 }
 
 :root {
-  --detroit-font-sans: [ "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif" ];
-  --detroit-font-serif: [ "Montserrat", "Droid Serif", "Georgia", "Times", "serif" ];
+  --detroit-font-sans: "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif";
+  --detroit-font-serif: "Montserrat", "Droid Serif", "Georgia", "Times", "serif";
 
   --bloom-font-sans: var(--detroit-font-sans);
   --bloom-font-alt-sans: var(--detroit-font-sans);

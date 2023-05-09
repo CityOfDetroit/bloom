@@ -1,3 +1,4 @@
+import localFont from "next/font/local"
 import { useEffect, useMemo, useState } from "react"
 import type { AppProps } from "next/app"
 import { addTranslation, GenericRouter, NavigationContext } from "@bloom-housing/ui-components"
@@ -23,6 +24,13 @@ import {
 } from "../lib/applications/EligibilityContext"
 
 // Note: import overrides.scss last so that it overrides styles defined in imports above
+
+// const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" })
+const myFont = localFont({
+  src: "../fonts/Montserrat-Regular.ttf",
+  weight: "400",
+  style: "normal",
+})
 import "../../styles/overrides.scss"
 
 function BloomApp({ Component, router, pageProps }: AppProps) {
@@ -104,7 +112,14 @@ function BloomApp({ Component, router, pageProps }: AppProps) {
           <ConfigProvider apiUrl={process.env.backendApiBase}>
             <AuthProvider>
               <LoggedInUserIdleTimeout onTimeout={() => conductor.reset()} />
-              <Component {...pageProps} />
+              {/* <style jsx global>
+                {`
+                  :root {
+                    --montserrat-font: ${montserrat.style.fontFamily};
+                  }
+                `}
+              </style> */}
+              <Component className={myFont.className} {...pageProps} />
             </AuthProvider>
           </ConfigProvider>
         </EligibilityContext.Provider>
