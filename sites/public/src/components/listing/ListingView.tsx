@@ -39,6 +39,7 @@ import {
   occupancyTable,
   getTimeRangeString,
   getPostmarkString,
+  getCurrencyRange,
 } from "@bloom-housing/shared-helpers"
 import dayjs from "dayjs"
 import { ErrorPage } from "../../pages/_error"
@@ -554,7 +555,7 @@ export const ListingView = (props: ListingProps) => {
         <div className="w-full md:mt-6 md:mb-6 md:px-3 md:pe-8">
           {groupedUnitData?.length > 0 && (
             <>
-              <StandardTable // TODO
+              <StandardTable
                 headers={groupedUnitHeaders}
                 data={groupedUnitData}
                 responsiveCollapse={true}
@@ -791,11 +792,11 @@ export const ListingView = (props: ListingProps) => {
                 /> */}
                 </dl>
                 <AdditionalFees
-                  // deposit={getCurrencyRange(
-                  //   parseInt(listing.depositMin),
-                  //   parseInt(listing.depositMax)
-                  // )}
-                  // applicationFee={listing.applicationFee ? `$${listing.applicationFee}` : undefined}
+                  deposit={getCurrencyRange(
+                    parseInt(listing.depositMin),
+                    parseInt(listing.depositMax)
+                  )}
+                  applicationFee={listing.applicationFee ? `$${listing.applicationFee}` : undefined}
                   footerContent={getFooterContent()}
                   strings={{
                     sectionHeader: t("listings.sections.additionalFees"),
