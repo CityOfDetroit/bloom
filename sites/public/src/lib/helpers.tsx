@@ -144,6 +144,7 @@ export const getListingTags = (
           text: translate
             ? t(`listingFilters.program.${program.program.title}`)
             : program.program.title,
+          styleType: AppearanceStyleType.info,
         }
       }) ?? []
   if (accessibilityFeaturesExist(listingFeatures)) {
