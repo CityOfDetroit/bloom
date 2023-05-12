@@ -242,12 +242,12 @@
 }
 
 .hero__rentals-button {
-  color: black;
-  background-color: #ffbe42;
+  color: var(--bloom-color-black);
+  background-color: var(--bloom-color-lush);
 
   &:hover {
-    @apply bg-primary;
-    color: white;
+    background-color: var(--bloom-color-primary);
+    color: var(--bloom-color-white);
   }
 }
 .hero__finder-button {

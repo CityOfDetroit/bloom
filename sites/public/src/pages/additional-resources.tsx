@@ -93,7 +93,7 @@ const AdditionalResources = () => {
                           {...props}
                           priority={3}
                           styleType={"underlineWeighted"}
-                          className={"text-sm"}
+                          className={"text-sm mt-0 mb-5"}
                         >
                           {children}
                         </Heading>

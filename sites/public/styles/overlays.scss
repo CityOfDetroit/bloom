@@ -14,10 +14,9 @@
   }
 
   .modal__title {
-    @apply text-lg;
     @apply font-bold;
     @screen sm {
-      @apply text-3xl font-bold;
+      @apply font-bold;
     }
   }
 

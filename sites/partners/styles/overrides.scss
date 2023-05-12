@@ -1,5 +1,5 @@
 /* Overrides the default ui-components styles with Detroit-specific styles. */
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700");
+@import "../public/static/fonts/Montserrat.css";
 @import "@bloom-housing/ui-components/src/global/tokens/fonts.scss";
 @import "@bloom-housing/ui-components/src/global/tokens/borders.scss";
 @import "@bloom-housing/ui-components/src/global/tokens/colors.scss";
@@ -80,8 +80,12 @@
 }
 
 :root {
-  --bloom-font-sans: "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif";
-  --bloom-font-alt-sans: "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif";
+  --detroit-font-sans: "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif";
+  --detroit-font-serif: "Montserrat", "Droid Serif", "Georgia", "Times", "serif";
+
+  --bloom-font-sans: var(--detroit-font-sans);
+  --bloom-font-alt-sans: var(--detroit-font-sans);
+  --bloom-font-serif: var(--detroit-font-serif);
   --bloom-color-accent-cool: #297e73;
   --bloom-color-gray-700: #000000;
   --bloom-color-gray-800: #18252a;
@@ -93,7 +97,6 @@
   --bloom-color-primary-lighter: #f2f2f2;
   --bloom-color-primary: rgb(41, 126, 115);
   --bloom-color-warn: #feb70d;
-  --bloom-font-serif: var(--detroit-font-serif);
   --primary-appearance-hover-background-color: white;
   --primary-appearance-hover-label-color: var(--bloom-color-primary);
   --primary-appearance-hover-border-color: var(--bloom-color-primary);

@@ -118,7 +118,7 @@ const Layout = (props) => {
             logoAriaLable: "City of Detroit logo",
           }}
           mainContentId={"main-content"}
-          dropdownItemClassName={"font-semibold"}
+          // dropdownItemClassName={"font-semibold"}
         />
         <main id="main-content" className="md:overflow-x-hidden">
           {props.children}

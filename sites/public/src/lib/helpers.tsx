@@ -32,7 +32,7 @@ import {
   Tag,
 } from "@bloom-housing/ui-components"
 
-import { faPersonDigging } from "@fortawesome/free-solid-svg-icons"
+import { faPersonDigging, faUniversalAccess } from "@fortawesome/free-solid-svg-icons"
 
 import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
 import { FavoriteButton } from "../components/listing/FavoriteButton"
@@ -149,8 +149,9 @@ export const getListingTags = (
   if (accessibilityFeaturesExist(listingFeatures)) {
     tags.push({
       text: t("listings.reservedCommunityTypes.specialNeeds"),
-      // iconType: "universalAccess" as UniversalIconType, // TODO icon
+      iconType: faUniversalAccess,
       iconColor: AppearanceStyleType.primary,
+      styleType: AppearanceStyleType.info,
     })
   }
   if (homeType) {
@@ -231,7 +232,6 @@ export const getListings = (listings) => {
     rent: "t.rent",
     availability: "t.availability",
   }
-  console.log("before map")
 
   return listings.map((listing: Listing, index) => (
     <ListingCard
@@ -255,7 +255,7 @@ export const getListings = (listings) => {
         contentSubheader: { content: getListingCardSubtitle(listing.buildingAddress) },
         tableHeader: { content: listing.showWaitlist ? t("listings.waitlist.open") : null },
       }}
-      // cardTags={getListingTags(listing.listingPrograms, listing.features, listing.homeType, true)}
+      cardTags={getListingTags(listing.listingPrograms, listing.features, listing.homeType, true)}
       footerContent={
         <div className={"flex justify-between items-center"}>
           <FavoriteButton name={listing.name} id={listing.id} />

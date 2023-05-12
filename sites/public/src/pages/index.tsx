@@ -12,7 +12,6 @@ import {
   ActionBlock,
   Hero,
   AlertBox,
-  UniversalIconType,
 } from "@bloom-housing/ui-components"
 import {
   Region,
@@ -102,7 +101,7 @@ export default function Home({ latestListings, underConstructionListings }) {
   const metaImage = "" // TODO: replace with hero image
   const alertClasses = "flex-grow mt-6 max-w-6xl w-full"
   return (
-    <Layout>
+    <Layout className={"home-page"}>
       <Head>
         <title>{t("nav.siteTitle")}</title>
       </Head>
@@ -124,7 +123,7 @@ export default function Home({ latestListings, underConstructionListings }) {
         title={heroTitle}
         backgroundImage={"/images/hero-main.jpg"}
         customActions={heroInset}
-        innerClassName="max-w-2xl mx-auto p-8 rounded-xl"
+        innerClassName="home-page-hero max-w-2xl mx-auto p-8 rounded-xl"
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
@@ -143,7 +142,12 @@ export default function Home({ latestListings, underConstructionListings }) {
         <div className={styles["section-container"]}>
           <section className={`coming-soon-listings`}>
             <div className={`${styles["title"]}`}>
-              <Icon size="xlarge" symbol="clock" ariaHidden={true} />
+              <Icon
+                size="xlarge"
+                symbol="clock"
+                ariaHidden={true}
+                fill={"var(--bloom-color-primary"}
+              />
               <h2>{t("listings.underConstruction")}</h2>
             </div>
             <div className={`${styles["cards-container"]}`}>

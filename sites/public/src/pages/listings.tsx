@@ -6,7 +6,7 @@ import {
   t,
   Drawer,
   PageHeader,
-  IconFillColors,
+  AppearanceStyleType,
 } from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { MetaTags } from "../components/shared/MetaTags"
@@ -70,11 +70,12 @@ const ListingsPage = ({ initialListings }) => {
       </Drawer>
 
       <div className={"bg-gray-300"}>
-        <div className="max-w-5xl flex sm:flex-row flex-col justify-between container mx-auto px-4 py-8  gap-y-2">
+        <div className="max-w-5xl flex sm:flex-row flex-col justify-between container mx-auto px-4 py-8  gap-y-2 listings-header">
           <h2 className="text-primary-darker font-bold">{t("listingFilters.allRentals")}</h2>
           <Button
-            className="bg-lush border-lush text-black icon-black"
+            className="find-rentals-button icon-black"
             size={AppearanceSizeType.normal}
+            styleType={AppearanceStyleType.primary}
             icon="search"
             iconPlacement="left"
             iconSize="md-large"

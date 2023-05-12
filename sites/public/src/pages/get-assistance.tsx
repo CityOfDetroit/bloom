@@ -1,12 +1,6 @@
 import React from "react"
 import Markdown from "markdown-to-jsx"
-import {
-  Heading,
-  PageHeader,
-  MarkdownSection,
-  t,
-  UniversalIconType,
-} from "@bloom-housing/ui-components"
+import { Heading, PageHeader, MarkdownSection, t } from "@bloom-housing/ui-components"
 
 import Layout from "../layouts/application"
 import RenderIf from "../RenderIf"
@@ -53,7 +47,7 @@ export default function GetAssistance() {
                           {...props}
                           priority={3}
                           styleType={"underlineWeighted"}
-                          className={"text-sm"}
+                          className={"text-sm mt-0 mb-5"}
                         >
                           {children}
                         </Heading>
