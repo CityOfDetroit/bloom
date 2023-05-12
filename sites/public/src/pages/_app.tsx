@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
 import type { AppProps } from "next/app"
-import { Montserrat } from "next/font/google"
-
 import { addTranslation, GenericRouter, NavigationContext } from "@bloom-housing/ui-components"
 import {
   blankApplication,
@@ -26,13 +24,6 @@ import {
 
 // Note: import overrides.scss last so that it overrides styles defined in imports above
 import "../../styles/overrides.scss"
-
-const customFont = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-montserrat",
-})
-
-console.log(customFont)
 
 function BloomApp({ Component, router, pageProps }: AppProps) {
   const { locale } = router
@@ -113,9 +104,7 @@ function BloomApp({ Component, router, pageProps }: AppProps) {
           <ConfigProvider apiUrl={process.env.backendApiBase}>
             <AuthProvider>
               <LoggedInUserIdleTimeout onTimeout={() => conductor.reset()} />
-              <div className={`${customFont.variable}`}>
-                <Component {...pageProps} />
-              </div>
+              <Component {...pageProps} />
             </AuthProvider>
           </ConfigProvider>
         </EligibilityContext.Provider>

@@ -1,4 +1,5 @@
 /* Overrides the default ui-components styles with Detroit-specific styles. */
+@import "../public/static/fonts/Montserrat.css";
 @import "@bloom-housing/ui-components/src/global/tokens/fonts.scss";
 @import "@bloom-housing/ui-components/src/global/tokens/borders.scss";
 @import "@bloom-housing/ui-components/src/global/tokens/colors.scss";
@@ -21,8 +22,8 @@
   // The UIC fonts.scss import at the top would technically override these if it was put in the wrong place but the right one is in the browser so it shouldn't matter
   // If I look in the network tab for fonts, prod is fetching it and dev/local build are not
 
-  --detroit-font-sans: var(--font-montserrat);
-  --detroit-font-serif: var(--font-montserrat);
+  --detroit-font-sans: "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif";
+  --detroit-font-serif: "Montserrat", "Droid Serif", "Georgia", "Times", "serif";
 
   --bloom-font-sans: var(--detroit-font-sans);
   --bloom-font-alt-sans: var(--detroit-font-sans);
