@@ -52,19 +52,19 @@ export default function ListingDetail(props: ListingProps) {
     switch (listing?.status) {
       case ListingStatus.active:
         return (
-          <Tag styleType={AppearanceStyleType.success} pillStyle>
+          <Tag styleType={AppearanceStyleType.success} pillStyle fillContainer>
             {t(`listings.listingStatus.active`)}
           </Tag>
         )
       case ListingStatus.closed:
         return (
-          <Tag pillStyle styleType={AppearanceStyleType.closed}>
+          <Tag pillStyle styleType={AppearanceStyleType.closed} fillContainer>
             {t(`listings.listingStatus.closed`)}
           </Tag>
         )
       default:
         return (
-          <Tag styleType={AppearanceStyleType.primary} pillStyle>
+          <Tag styleType={AppearanceStyleType.primary} pillStyle fillContainer>
             {t(`listings.listingStatus.pending`)}
           </Tag>
         )

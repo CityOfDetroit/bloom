@@ -67,6 +67,10 @@
       font-size: 1.375rem;
     }
   }
+
+  .page-header {
+    --padding-desktop: var(--bloom-s14) 0 var(--bloom-s10) 0;
+  }
 }
 
 // Listing table Detroit styles
