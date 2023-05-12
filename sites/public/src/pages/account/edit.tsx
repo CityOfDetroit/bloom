@@ -298,7 +298,6 @@ const Edit = () => {
                 controlClassName="control"
                 control={control}
                 defaultValue={profile?.phoneNumber ? intlToUsPhone(profile.phoneNumber) : null}
-                labelClassName={"field-label--caps"}
               />
 
               <div className="text-center">
