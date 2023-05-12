@@ -7,8 +7,9 @@ import {
   ConfigProvider,
   LoggedInUserIdleTimeout,
 } from "@bloom-housing/shared-helpers"
-import "../../styles/uic-overrides/css-imports.scss"
-import "../../styles/uic-overrides/app-css.scss"
+
+import "@bloom-housing/shared-helpers/src/styles/css-imports.scss"
+import "@bloom-housing/shared-helpers/src/styles/app-css.scss"
 import { pageChangeHandler, gaLoadScript, gaCaptureScript, uaScript } from "../lib/customScripts"
 import { AppSubmissionContext } from "../lib/applications/AppSubmissionContext"
 import ApplicationConductor, {
