@@ -101,7 +101,7 @@ export default function Home({ latestListings, underConstructionListings }) {
   const metaImage = "" // TODO: replace with hero image
   const alertClasses = "flex-grow mt-6 max-w-6xl w-full"
   return (
-    <Layout className={"home-page"}>
+    <Layout>
       <Head>
         <title>{t("nav.siteTitle")}</title>
       </Head>
