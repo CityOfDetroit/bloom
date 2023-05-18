@@ -590,7 +590,6 @@ export const ListingView = (props: ListingProps) => {
               />
             </div>
           </ListingDetailItem>
-
           {showEligibilitySection && (
             <ListingDetailItem
               imageAlt={t("listings.eligibilityNotebook")}
@@ -723,7 +722,6 @@ export const ListingView = (props: ListingProps) => {
               </ul>
             </ListingDetailItem>
           )}
-
           <ListingDetailItem
             imageAlt={t("listings.featuresCards")}
             imageSrc="/images/listing-features.svg"
@@ -780,16 +778,6 @@ export const ListingView = (props: ListingProps) => {
                       description={listing.accessibility}
                     />
                   )}
-                  {/* <Description
-                  term={t("t.unitFeatures")}
-                  description={
-                    <UnitTables
-                      units={listing.units}
-                      unitSummaries={listing?.unitSummaries?.unitGroupSummary}
-                      disableAccordion={listing.disableUnitsAccordion}
-                    />
-                  }
-                /> */}
                 </dl>
                 <AdditionalFees
                   deposit={getCurrencyRange(

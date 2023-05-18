@@ -9,7 +9,7 @@ import {
 } from "@bloom-housing/ui-components"
 import { OnClientSide } from "@bloom-housing/shared-helpers"
 import Layout from "./application"
-import styles from "./Eligibility.module.scss"
+import styles from "./eligibility.module.scss"
 import { ApplicationTimeout } from "../components/applications/ApplicationTimeout"
 import { EligibilityContext } from "../lib/applications/EligibilityContext"
 import { ELIGIBILITY_SECTIONS } from "../lib/constants"

@@ -292,7 +292,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
     availability: { name: t("t.availability") },
     ami: {
       name: "ami",
-      className: "ami-header",
+      className: "ami-header p-5",
       icon: (
         <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
           <Icon size="medium" symbol={faCircleInfo} tabIndex={0} />
