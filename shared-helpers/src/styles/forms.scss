@@ -106,7 +106,6 @@
     }
 
     .prepend + input[aria-invalid="false"] {
-      @apply pl-8;
       padding-left: var(--bloom-s8);
       padding-right: 0;
       [dir="rtl"] & {
