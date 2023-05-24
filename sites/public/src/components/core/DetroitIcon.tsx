@@ -1,7 +1,7 @@
 import * as React from "react"
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import styles from "./Icon.module.scss"
+import styles from "./DetroitIcon.module.scss"
 import {
   Accessible,
   Application,

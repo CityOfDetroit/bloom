@@ -1,7 +1,7 @@
 import React from "react"
 import { LinkButton } from "@bloom-housing/ui-components"
 import { DetroitIconTypes } from "@bloom-housing/shared-helpers"
-import { Icon } from "../src/components/core/Icon"
+import DetroitIcon from "./components/core/DetroitIcon"
 
 interface ResourceLinkCardProps {
   iconSymbol: DetroitIconTypes
@@ -17,7 +17,7 @@ const ResourceLinkCard = (props: ResourceLinkCardProps) => {
   return (
     <div className="border-b">
       <div className="py-6 px-5 md:py-8">
-        <Icon
+        <DetroitIcon
           fill="black"
           size="xlarge"
           symbol={iconSymbol}

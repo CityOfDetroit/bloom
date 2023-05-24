@@ -33,11 +33,16 @@ import {
   Tooltip,
 } from "@bloom-housing/ui-components"
 
-import { faPersonDigging, faUniversalAccess, faCircleInfo } from "@fortawesome/free-solid-svg-icons"
+import {
+  faPersonDigging,
+  faUniversalAccess,
+  faCircleInfo,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons"
 
 import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
 import { FavoriteButton } from "../components/listing/FavoriteButton"
-import { Icon } from "../components/core/Icon"
+import DetroitIcon from "../components/core/DetroitIcon"
 
 export const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -175,7 +180,7 @@ export const getListingTag = (tag: CardTag) => {
       key={tag.text}
     >
       {tag.iconType && (
-        <Icon
+        <DetroitIcon
           size={"medium"}
           symbol={tag.iconType}
           fill={tag.iconColor ?? IconFillColors.primary}
@@ -196,7 +201,7 @@ export const getImageCardTag = (listing: Listing): ImageTag[] => {
           iconType:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? faPersonDigging
-              : ("badgeCheck" as UniversalIconType),
+              : faCheck,
           iconColor:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? IconFillColors.white
@@ -204,7 +209,7 @@ export const getImageCardTag = (listing: Listing): ImageTag[] => {
           styleType:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? AppearanceStyleType.closed
-              : AppearanceStyleType.accentCool,
+              : AppearanceStyleType.info,
           tooltip:
             listing?.isVerified && listing?.marketingType !== ListingMarketingTypeEnum.comingSoon // show tooltip only for confirmed badge
               ? {
@@ -295,7 +300,7 @@ export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
       className: "ami-header",
       icon: (
         <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
-          <Icon size="medium" symbol={faCircleInfo} tabIndex={0} />
+          <DetroitIcon size="medium" symbol={faCircleInfo} tabIndex={0} />
         </Tooltip>
       ),
     },

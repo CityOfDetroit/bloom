@@ -26,7 +26,7 @@ import {
 import Layout from "../layouts/application"
 import { ConfirmationModal } from "../components/account/ConfirmationModal"
 import { MetaTags } from "../components/shared/MetaTags"
-import { Icon } from "../components/core/Icon"
+import DetroitIcon from "../components/core/DetroitIcon"
 import { HorizontalScrollSection } from "../lib/applications/HorizontalScrollSection"
 
 import styles from "./index.module.scss"
@@ -142,7 +142,7 @@ export default function Home({ latestListings, underConstructionListings }) {
         <div className={styles["section-container"]}>
           <section className={`coming-soon-listings`}>
             <div className={`${styles["title"]}`}>
-              <Icon
+              <DetroitIcon
                 size="xlarge"
                 symbol="clock"
                 ariaHidden={true}
@@ -163,7 +163,7 @@ export default function Home({ latestListings, underConstructionListings }) {
         <div className={styles["section-container"]}>
           <section className={styles.regions}>
             <div className={`${styles["title"]}`}>
-              <Icon
+              <DetroitIcon
                 size="xlarge"
                 symbol={"map"}
                 fill={"var(--bloom-color-primary)"}
@@ -185,7 +185,7 @@ export default function Home({ latestListings, underConstructionListings }) {
           <ActionBlock
             className="flex-1 has-bold-header action-block-header"
             header={<Heading priority={3}>{t("welcome.signUp")}</Heading>}
-            icon={<Icon size="2xl" symbol={"envelopeThin"} />}
+            icon={<DetroitIcon size="2xl" symbol={"envelopeThin"} />}
             actions={[
               <LinkButton
                 key={"sign-up"}
@@ -201,7 +201,7 @@ export default function Home({ latestListings, underConstructionListings }) {
           <ActionBlock
             className="flex-1 has-bold-header"
             header={<Heading priority={3}>{t("welcome.seeMoreOpportunitiesTruncated")}</Heading>}
-            icon={<Icon size="2xl" symbol={"houseThin"} />}
+            icon={<DetroitIcon size="2xl" symbol={"houseThin"} />}
             actions={[
               <LinkButton href="/additional-resources" key={"additional-resources"}>
                 {t("welcome.viewAdditionalHousingTruncated")}
@@ -211,7 +211,7 @@ export default function Home({ latestListings, underConstructionListings }) {
           <ActionBlock
             className="flex-1 has-bold-header"
             header={<Heading priority={3}>{t("welcome.learnHousingBasics")}</Heading>}
-            icon={<Icon size="2xl" symbol={"circleQuestionThin"} />}
+            icon={<DetroitIcon size="2xl" symbol={"circleQuestionThin"} />}
             actions={[
               <LinkButton href="/housing-basics" key={"housing-basics"}>
                 {t("welcome.learnMore")}
