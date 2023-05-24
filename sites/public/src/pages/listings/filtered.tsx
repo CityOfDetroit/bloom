@@ -12,7 +12,7 @@ import {
   t,
 } from "@bloom-housing/ui-components"
 import { faSliders } from "@fortawesome/free-solid-svg-icons"
-import { Icon } from "../../components/core/Icon"
+import DetroitIcon from "../../components/core/DetroitIcon"
 import {
   encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,
@@ -178,7 +178,7 @@ const FilteredListingsPage = () => {
                 ]}
                 className={"p-8 has-bold-header"}
                 background="primary-lighter"
-                icon={<Icon size="2xl" symbol={"houseThin"} />}
+                icon={<DetroitIcon size="2xl" symbol={"houseThin"} />}
                 header={<Heading priority={2}>{t("listingFilters.noResults")}</Heading>}
                 subheader={t("listingFilters.noResultsSubtitle")}
               />

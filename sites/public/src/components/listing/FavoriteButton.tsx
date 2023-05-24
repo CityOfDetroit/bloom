@@ -1,6 +1,6 @@
 import * as React from "react"
 import { AppearanceSizeType, Button, IconFillColors, t } from "@bloom-housing/ui-components"
-import { Icon } from "../core/Icon"
+import DetroitIcon from "../core/DetroitIcon"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import { useContext, useEffect, useState } from "react"
 
@@ -82,7 +82,7 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
             onClick={() => removeFavorite()}
             ariaLabel={t("t.unfavorite")}
           >
-            <Icon
+            <DetroitIcon
               symbol={"likeFill"}
               size={"md-large"}
               fill={IconFillColors.white}
@@ -106,7 +106,7 @@ const FavoriteButton = ({ id, name }: FavoriteButtonProps) => {
             onClick={() => addFavorite()}
             ariaLabel={t("t.favorite")}
           >
-            <Icon symbol={"like"} size={"md-large"} iconClass={"mt-0"} />
+            <DetroitIcon symbol={"like"} size={"md-large"} iconClass={"mt-0"} />
           </Button>
           <a
             role="button"

@@ -70,7 +70,7 @@ const ListingsPage = ({ initialListings }) => {
       </Drawer>
 
       <div className={"bg-gray-300"}>
-        <div className="max-w-5xl flex sm:flex-row flex-col justify-between container mx-auto px-4 py-8  gap-y-2 listings-header">
+        <div className="max-w-5xl flex sm:flex-row flex-col justify-between container mx-auto px-4 py-8 gap-y-2 listings-header">
           <h2 className="text-primary-darker font-bold">{t("listingFilters.allRentals")}</h2>
           <Button
             className="icon-black"
