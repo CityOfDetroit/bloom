@@ -200,8 +200,8 @@ export const getImageCardTag = (listing: Listing): ImageTag[] => {
           text: tag,
           iconType:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
-              ? (faPersonDigging as UniversalIconType)
-              : (faCheck as UniversalIconType),
+              ? faPersonDigging
+              : faCheck,
           iconColor:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? IconFillColors.white
