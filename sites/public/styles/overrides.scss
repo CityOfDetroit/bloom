@@ -13,17 +13,6 @@
 @import "@bloom-housing/ui-components/src/global/accordion.scss";
 
 :root {
-  // Notes
-  // Removed the tailwind config overrides but it already wasn't working so that wasn't the problem
-  // It doesn't like when they're in an array
-  // Some of these work, and some of them don't? The colors seem to work, the fonts not so much
-  // But the font IS getting applied if I use a built-in font so it seems like Montserrat is just not loading - aka if I override them both with just "Verdana"
-  // But nothing that I can tell so far was removed that would allow Montserrat to work
-  // The configs are the same
-  // The font style exists correctly in the browser / it's using the detroit-etc flavor
-  // The UIC fonts.scss import at the top would technically override these if it was put in the wrong place but the right one is in the browser so it shouldn't matter
-  // If I look in the network tab for fonts, prod is fetching it and dev/local build are not
-
   --detroit-font-sans: "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif";
   --detroit-font-serif: "Montserrat", "Droid Serif", "Georgia", "Times", "serif";
 
