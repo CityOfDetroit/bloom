@@ -2,9 +2,7 @@ import React, { useEffect, useContext } from "react"
 import Head from "next/head"
 import Markdown from "markdown-to-jsx"
 import Layout from "../layouts/application"
-import { t, MarkdownSection } from "@bloom-housing/ui-components"
-import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
-import { InfoCardGrid } from "../../../../detroit-ui-components/src/sections/InfoCardGrid"
+import { PageHeader, t, MarkdownSection, InfoCardGrid, Heading } from "@bloom-housing/ui-components"
 import { UserStatus } from "../lib/constants"
 import { PageView, pushGtmEvent, AuthContext } from "@bloom-housing/shared-helpers"
 import Resource from "../Resource"
@@ -91,9 +89,14 @@ const AdditionalResources = () => {
                   overrides: {
                     h3: {
                       component: ({ children, ...props }) => (
-                        <h3 {...props} className="text-tiny text-caps-underline">
+                        <Heading
+                          {...props}
+                          priority={3}
+                          styleType={"underlineWeighted"}
+                          className={"text-sm mt-0 mb-5"}
+                        >
                           {children}
-                        </h3>
+                        </Heading>
                       ),
                     },
                     RenderIf,

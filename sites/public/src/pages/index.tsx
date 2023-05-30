@@ -1,31 +1,37 @@
 import React, { useState } from "react"
 import Head from "next/head"
 import Link from "next/link"
-import { t, SiteAlert } from "@bloom-housing/ui-components"
-import { LinkButton } from "../../../../detroit-ui-components/src/actions/LinkButton"
-import { ActionBlock } from "../../../../detroit-ui-components/src/blocks/ActionBlock"
-import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
-import { Hero } from "../../../../detroit-ui-components/src/headers/Hero"
-import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
-import Layout from "../layouts/application"
-import { ConfirmationModal } from "../components/account/ConfirmationModal"
-import { MetaTags } from "../components/shared/MetaTags"
-import { HorizontalScrollSection } from "../lib/applications/HorizontalScrollSection"
 import axios from "axios"
 import qs from "qs"
-import styles from "./index.module.scss"
-import {
-  EnumListingFilterParamsComparison,
-  EnumListingFilterParamsStatus,
-  Listing,
-} from "@bloom-housing/backend-core/types"
-import { getListings } from "../lib/helpers"
 import moment from "moment"
+import {
+  t,
+  SiteAlert,
+  Heading,
+  LinkButton,
+  ActionBlock,
+  Hero,
+  AlertBox,
+} from "@bloom-housing/ui-components"
 import {
   Region,
   regionImageUrls,
   encodeToFrontendFilterString,
 } from "@bloom-housing/shared-helpers"
+import {
+  EnumListingFilterParamsComparison,
+  EnumListingFilterParamsStatus,
+  Listing,
+} from "@bloom-housing/backend-core/types"
+import Layout from "../layouts/application"
+import { ConfirmationModal } from "../components/account/ConfirmationModal"
+import { MetaTags } from "../components/shared/MetaTags"
+import DetroitIcon from "../components/core/DetroitIcon"
+import { HorizontalScrollSection } from "../lib/applications/HorizontalScrollSection"
+
+import styles from "./index.module.scss"
+
+import { getListings } from "../lib/helpers"
 
 export default function Home({ latestListings, underConstructionListings }) {
   const showLatestListings = false // Disabled for now
@@ -39,14 +45,12 @@ export default function Home({ latestListings, underConstructionListings }) {
 
   const heroInset: React.ReactNode = (
     <div className="flex flex-wrap justify-center gap-2">
-      <Link href="/listings">
-        <a className="hero__button hero__rentals-button">{t("welcome.seeRentalListings")}</a>
+      <Link href="/listings" className="hero__button hero__rentals-button">
+        {t("welcome.seeRentalListings")}
       </Link>
       {process.env.showFinder && (
-        <Link href="/finder">
-          <a className="hero__button hero__finder-button">
-            {t("listingFilters.buttonTitleExtended")}
-          </a>
+        <Link href="/finder" className="hero__button hero__finder-button">
+          {t("listingFilters.buttonTitleExtended")}
         </Link>
       )}
     </div>
@@ -118,8 +122,8 @@ export default function Home({ latestListings, underConstructionListings }) {
       <Hero
         title={heroTitle}
         backgroundImage={"/images/hero-main.jpg"}
-        heroInset={heroInset}
-        innerClassName="max-w-2xl mx-auto p-8 rounded-xl"
+        customActions={heroInset}
+        innerClassName="home-page-hero max-w-2xl mx-auto p-8 rounded-xl"
       >
         <p className="max-w-md mx-auto">{t("welcome.heroText")}</p>
       </Hero>
@@ -138,7 +142,12 @@ export default function Home({ latestListings, underConstructionListings }) {
         <div className={styles["section-container"]}>
           <section className={`coming-soon-listings`}>
             <div className={`${styles["title"]}`}>
-              <Icon size="xlarge" symbol="clock" ariaHidden={true} />
+              <DetroitIcon
+                size="xlarge"
+                symbol="clock"
+                ariaHidden={true}
+                fill={"var(--bloom-color-primary"}
+              />
               <h2>{t("listings.underConstruction")}</h2>
             </div>
             <div className={`${styles["cards-container"]}`}>
@@ -154,7 +163,13 @@ export default function Home({ latestListings, underConstructionListings }) {
         <div className={styles["section-container"]}>
           <section className={styles.regions}>
             <div className={`${styles["title"]}`}>
-              <Icon size="xlarge" symbol={"map"} className={styles.icon} ariaHidden={true} />
+              <DetroitIcon
+                size="xlarge"
+                symbol={"map"}
+                fill={"var(--bloom-color-primary)"}
+                className={styles.icon}
+                ariaHidden={true}
+              />
               <h2>{t("welcome.cityRegions")}</h2>
             </div>
             <div className={styles["cards-container"]}>
@@ -168,18 +183,16 @@ export default function Home({ latestListings, underConstructionListings }) {
       <section className="homepage-extra">
         <div className="action-blocks mt-4 mb-4 w-full">
           <ActionBlock
-            className="flex-1 has-bold-header"
-            header={t("welcome.signUp")}
-            icon={<Icon size="2xl" symbol="envelopeThin" />}
+            className="flex-1 has-bold-header action-block-header"
+            header={<Heading priority={3}>{t("welcome.signUp")}</Heading>}
+            icon={<DetroitIcon size="2xl" symbol={"envelopeThin"} />}
             actions={[
               <LinkButton
                 key={"sign-up"}
                 href={
                   "https://public.govdelivery.com/accounts/MIDETROIT/subscriber/new?topic_id=MIDETROIT_415"
                 }
-                linkProps={{
-                  target: "_blank",
-                }}
+                newTab={true}
               >
                 {t("welcome.signUpToday")}
               </LinkButton>,
@@ -187,8 +200,8 @@ export default function Home({ latestListings, underConstructionListings }) {
           />
           <ActionBlock
             className="flex-1 has-bold-header"
-            header={t("welcome.seeMoreOpportunitiesTruncated")}
-            icon={<Icon size="2xl" symbol="houseThin" />}
+            header={<Heading priority={3}>{t("welcome.seeMoreOpportunitiesTruncated")}</Heading>}
+            icon={<DetroitIcon size="2xl" symbol={"houseThin"} />}
             actions={[
               <LinkButton href="/additional-resources" key={"additional-resources"}>
                 {t("welcome.viewAdditionalHousingTruncated")}
@@ -197,8 +210,8 @@ export default function Home({ latestListings, underConstructionListings }) {
           />
           <ActionBlock
             className="flex-1 has-bold-header"
-            header={t("welcome.learnHousingBasics")}
-            icon={<Icon size="2xl" symbol={"circleQuestionThin"} />}
+            header={<Heading priority={3}>{t("welcome.learnHousingBasics")}</Heading>}
+            icon={<DetroitIcon size="2xl" symbol={"circleQuestionThin"} />}
             actions={[
               <LinkButton href="/housing-basics" key={"housing-basics"}>
                 {t("welcome.learnMore")}

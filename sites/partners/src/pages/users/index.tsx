@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useMemo, useState } from "react"
 import Head from "next/head"
 import dayjs from "dayjs"
-import { t, SiteAlert, AlertBox } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
-import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
-import { Drawer } from "../../../../../detroit-ui-components/src/overlays/Drawer"
-import { AgTable, useAgTable } from "../../../../../detroit-ui-components/src/tables/AgTable"
-import { AppearanceStyleType } from "../../../../../detroit-ui-components/src/global/AppearanceTypes"
+import {
+  t,
+  SiteAlert,
+  AlertBox,
+  Button,
+  PageHeader,
+  Drawer,
+  AgTable,
+  useAgTable,
+  AppearanceStyleType,
+} from "@bloom-housing/ui-components"
 import { User } from "@bloom-housing/backend-core/types"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import { faFileExport } from "@fortawesome/free-solid-svg-icons"

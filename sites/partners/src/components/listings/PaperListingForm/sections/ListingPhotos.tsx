@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useFieldArray, useFormContext } from "react-hook-form"
 import {
-  t,
   AppearanceStyleType,
+  Button,
+  Drawer,
   Dropzone,
-  GridSection,
   GridCell,
+  GridSection,
   MinimalTable,
-  TableThumbnail,
-  StandardTableData,
   StandardTableCell,
+  StandardTableData,
+  t,
+  TableThumbnail,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../../detroit-ui-components/src/actions/Button"
-import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
 import { getUrlForListingImage, CLOUDINARY_BUILDING_LABEL } from "@bloom-housing/shared-helpers"
 
 import { cloudinaryFileUploader, fieldHasError } from "../../../../lib/helpers"

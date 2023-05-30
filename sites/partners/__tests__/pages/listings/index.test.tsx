@@ -10,6 +10,7 @@ import { setupServer } from "msw/node"
 import ListingsList from "../../../src/pages/index"
 import React from "react"
 import { listing } from "../../testHelpers"
+import { mockNextRouter } from "../../testUtils"
 
 //Mock the jszip package used for Export
 const mockFile = jest.fn()
@@ -36,6 +37,7 @@ jest.mock("jszip", () => {
 const server = setupServer()
 beforeAll(() => {
   server.listen()
+  mockNextRouter()
 })
 
 afterEach(() => {

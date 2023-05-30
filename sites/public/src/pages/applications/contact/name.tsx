@@ -5,18 +5,20 @@ https://github.com/bloom-housing/bloom/issues/255
 */
 import React, { useContext, useEffect, useState } from "react"
 import {
+  AlertBox,
   AppearanceStyleType,
+  Button,
   DOBField,
+  emailRegex,
   Field,
   Form,
+  FormCard,
+  Heading,
+  Icon,
+  IconFillColors,
+  ProgressNav,
   t,
-  emailRegex,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { Icon, IconFillColors } from "../../../../../../detroit-ui-components/src/icons/Icon"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
 import { OnClientSide, PageView, pushGtmEvent, AuthContext } from "@bloom-housing/shared-helpers"
 import FormsLayout from "../../../layouts/forms"
 import { useForm } from "react-hook-form"
@@ -72,7 +74,7 @@ const ApplicationName = () => {
 
   return (
     <FormsLayout>
-      <FormCard header={listing?.name}>
+      <FormCard header={<Heading priority={1}>{listing?.name}</Heading>}>
         <ProgressNav
           currentPageSection={currentPageSection}
           completedSections={application.completedSections}

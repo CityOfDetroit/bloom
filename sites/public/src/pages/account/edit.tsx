@@ -6,21 +6,21 @@ import customParseFormat from "dayjs/plugin/customParseFormat"
 dayjs.extend(customParseFormat)
 import { useForm } from "react-hook-form"
 import {
-  Field,
-  Form,
-  emailRegex,
-  t,
-  SiteAlert,
-  passwordRegex,
+  AlertBox,
+  AlertTypes,
+  Button,
   DOBField,
   DOBFieldValues,
+  emailRegex,
+  Field,
+  Form,
+  FormCard,
+  Icon,
+  passwordRegex,
   PhoneField,
+  SiteAlert,
+  t,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../detroit-ui-components/src/blocks/FormCard"
-import { Icon } from "../../../../../detroit-ui-components/src/icons/Icon"
-import { AlertBox } from "../../../../../detroit-ui-components/src/notifications/AlertBox"
-import { AlertTypes } from "../../../../../detroit-ui-components/src/notifications/alertTypes"
 import Link from "next/link"
 import { PageView, pushGtmEvent, AuthContext, RequireLogin } from "@bloom-housing/shared-helpers"
 import { UserStatus } from "../../lib/constants"
@@ -184,7 +184,7 @@ const Edit = () => {
                 {nameAlert.message}
               </AlertBox>
             )}
-            <div className="form-card__group border-b">
+            <div className="form-card__group border-b text-color-gray-950">
               <label className="field-label--caps" htmlFor="firstName">
                 {t("application.name.yourName")}
               </label>
@@ -269,6 +269,7 @@ const Edit = () => {
                 errorMessage={`${t("errors.emailAddressError")}`}
                 register={register}
                 defaultValue={profile ? profile.email : null}
+                labelClassName={"field-label--caps"}
               />
               <div className="text-center">
                 <Button className={"items-center"}>{t("account.settings.update")}</Button>
@@ -317,7 +318,7 @@ const Edit = () => {
             )}
             <div className="form-card__group border-b">
               <fieldset>
-                <legend className="field-label--caps">
+                <legend className="field-label--caps text-gray-800">
                   {t("authentication.createAccount.password")}
                 </legend>
                 <p className="field-note mb-4">{t("account.settings.passwordRemember")}</p>
@@ -332,11 +333,10 @@ const Edit = () => {
                     error={errors.currentPassword}
                     register={register}
                     className={"mb-1"}
+                    labelClassName={"field-label--caps"}
                   />
-                  <div className="float-left text-tiny font-semibold">
-                    <Link href="/forgot-password">
-                      <a>{t("authentication.signIn.forgotPassword")}</a>
-                    </Link>
+                  <div className="float-left text-sm font-semibold">
+                    <Link href="/forgot-password">{t("authentication.signIn.forgotPassword")}</Link>
                   </div>
                 </div>
 
@@ -355,6 +355,7 @@ const Edit = () => {
                     errorMessage={t("authentication.signIn.passwordError")}
                     register={register}
                     className={"mb-1"}
+                    labelClassName={"field-label--caps"}
                   />
                 </div>
 
@@ -373,6 +374,7 @@ const Edit = () => {
                     errorMessage={t("authentication.createAccount.errors.passwordMismatch")}
                     register={register}
                     className={"mb-1"}
+                    labelClassName={"field-label--caps"}
                   />
                 </div>
 

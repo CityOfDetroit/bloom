@@ -3,15 +3,15 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import Head from "next/head"
 import {
-  SiteFooter,
+  FooterNav,
   FooterSection,
-  t,
-  setSiteAlertMessage,
-  SiteHeader,
   MenuLink,
+  setSiteAlertMessage,
+  SiteFooter,
+  SiteHeader,
+  t,
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { FooterNav } from "../../../../detroit-ui-components/src/navigation/FooterNav"
 import Markdown from "markdown-to-jsx"
 
 const Layout = (props) => {
@@ -132,7 +132,7 @@ const Layout = (props) => {
               <div className="flex pb-7">
                 <img src="/images/detroit-logo-white.png" alt="City of Detroit logo" />
                 <div className="flex flex-col justify-center text-white ml-2">
-                  <p className="text-left text-base font-bold md:text-lg">{t("footer.header")}</p>
+                  <p className="text-left text-base font-bold md:text-xl">{t("footer.header")}</p>
                   <a
                     className="text-left text-xs md:text-base"
                     href="https://detroitmi.gov/departments/housing-and-revitalization-department"
@@ -163,18 +163,10 @@ const Layout = (props) => {
           </div>
         </div>
         <FooterNav copyright={t("footer.copyright")}>
-          <Link href="/feedback">
-            <a>{t("pageTitle.feedback")}</a>
-          </Link>
-          <Link href="/privacy">
-            <a>{t("pageTitle.privacy")}</a>
-          </Link>
-          <Link href="/terms">
-            <a>{t("pageTitle.terms")}</a>
-          </Link>
-          <Link href="/accessibility">
-            <a>{t("pageTitle.accessibilityStatement")}</a>
-          </Link>
+          <Link href="/feedback">{t("pageTitle.feedback")}</Link>
+          <Link href="/privacy">{t("pageTitle.privacy")}</Link>
+          <Link href="/terms">{t("pageTitle.terms")}</Link>
+          <Link href="/accessibility">{t("pageTitle.accessibilityStatement")}</Link>
         </FooterNav>
       </SiteFooter>
     </div>

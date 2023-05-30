@@ -1,7 +1,6 @@
 import * as React from "react"
 import Markdown from "markdown-to-jsx"
-import { Address, OrDivider, ContactAddress } from "@bloom-housing/ui-components"
-import { Heading } from "../../../../../detroit-ui-components/src/headers/Heading"
+import { Address, Heading, OrDivider, ContactAddress } from "@bloom-housing/ui-components"
 
 export interface ApplicationAddressesProps {
   /** The dropoff address for paper applications */
@@ -34,32 +33,32 @@ const SubmitApplication = ({
   return (
     <>
       <section className="aside-block is-tinted bg-gray-100">
-        <div className="text-serif-lg">{strings.sectionHeader}</div>
+        <div className="text-xl mb-4">{strings.sectionHeader}</div>
         {applicationMailingAddress && (
           <>
-            <Heading priority={3} style={"sidebarSubHeader"}>
+            <Heading priority={3} styleType={"capsWeighted"}>
               {strings.mailHeader}
             </Heading>
             <>
               <p className="text-gray-700">{applicationOrganization}</p>
               <ContactAddress address={applicationMailingAddress} mapString={strings.mapString} />
             </>
-            {strings.postmark && <p className="mt-4 text-tiny text-gray-750">{strings.postmark}</p>}
+            {strings.postmark && <p className="mt-4 text-sm text-gray-750">{strings.postmark}</p>}
           </>
         )}
         {applicationDropOffAddress && (
           <>
             {applicationMailingAddress && <OrDivider bgColor="gray-100" />}
-            <Heading priority={3} style={"sidebarSubHeader"}>
+            <Heading priority={3} styleType={"capsWeighted"}>
               {strings.dropOffHeader}
             </Heading>
             <ContactAddress address={applicationDropOffAddress} mapString={strings.mapString} />
             {applicationDropOffAddressOfficeHours && (
               <>
-                <Heading priority={3} style={"sidebarSubHeader"}>
+                <Heading priority={3} styleType={"capsWeighted"}>
                   {strings.officeHoursHeader}
                 </Heading>
-                <p className="mt-4 text-tiny text-gray-750">
+                <p className="mt-4 text- text-gray-750">
                   <Markdown
                     children={applicationDropOffAddressOfficeHours}
                     options={{ disableParsingRawHTML: true }}

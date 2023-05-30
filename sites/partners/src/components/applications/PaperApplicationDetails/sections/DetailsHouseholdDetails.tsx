@@ -1,6 +1,5 @@
 import React, { useContext, Fragment } from "react"
-import { t, GridSection, GridCell } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { t, GridSection, GridCell, ViewItem } from "@bloom-housing/ui-components"
 import { sortUnitTypes } from "@bloom-housing/shared-helpers"
 import { ApplicationContext } from "../../ApplicationContext"
 

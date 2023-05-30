@@ -2,13 +2,16 @@ import React, { useMemo, useState } from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
 import axios from "axios"
-import { AppearanceStyleType, t, SiteAlert } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { PageHeader } from "../../../../../../detroit-ui-components/src/headers/PageHeader"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
-import { Tag } from "../../../../../../detroit-ui-components/src/text/Tag"
+import {
+  AlertBox,
+  AppearanceStyleType,
+  Button,
+  PageHeader,
+  SiteAlert,
+  t,
+  Tag,
+} from "@bloom-housing/ui-components"
 import { Listing, ListingStatus } from "@bloom-housing/backend-core/types"
-
 import ListingGuard from "../../../components/shared/ListingGuard"
 import Layout from "../../../layouts"
 import Aside from "../../../components/listings/Aside"
@@ -49,19 +52,19 @@ export default function ListingDetail(props: ListingProps) {
     switch (listing?.status) {
       case ListingStatus.active:
         return (
-          <Tag styleType={AppearanceStyleType.success} pillStyle>
+          <Tag styleType={AppearanceStyleType.success} pillStyle fillContainer>
             {t(`listings.listingStatus.active`)}
           </Tag>
         )
       case ListingStatus.closed:
         return (
-          <Tag pillStyle styleType={AppearanceStyleType.closed}>
+          <Tag pillStyle styleType={AppearanceStyleType.closed} fillContainer>
             {t(`listings.listingStatus.closed`)}
           </Tag>
         )
       default:
         return (
-          <Tag styleType={AppearanceStyleType.primary} pillStyle>
+          <Tag styleType={AppearanceStyleType.primary} pillStyle fillContainer>
             {t(`listings.listingStatus.pending`)}
           </Tag>
         )

@@ -4,18 +4,18 @@ Primary applicant contact information
 https://github.com/bloom-housing/bloom/issues/256
 */
 import {
+  AlertBox,
   AppearanceStyleType,
+  Button,
   ErrorMessage,
   Field,
+  FieldGroup,
   Form,
+  FormCard,
   mergeDeep,
+  ProgressNav,
   t,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
 import FormsLayout from "../../../layouts/forms"
 import { useContext, useEffect, useState, useMemo, useCallback } from "react"
 import { useForm } from "react-hook-form"
