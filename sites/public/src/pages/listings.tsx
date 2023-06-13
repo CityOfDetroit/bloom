@@ -73,7 +73,7 @@ const ListingsPage = ({ initialListings }) => {
         <div className="max-w-5xl flex sm:flex-row flex-col justify-between container mx-auto px-4 py-8  gap-y-2 listings-header">
           <h2 className="text-primary-darker font-bold">{t("listingFilters.allRentals")}</h2>
           <Button
-            className="find-rentals-button icon-black"
+            className="icon-black"
             size={AppearanceSizeType.normal}
             styleType={AppearanceStyleType.primary}
             icon="search"
