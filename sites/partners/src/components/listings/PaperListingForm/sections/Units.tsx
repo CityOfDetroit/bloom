@@ -40,7 +40,7 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
   const [summaryDeleteModal, setSummaryDeleteModal] = useState<number | null>(null)
   const formMethods = useFormContext()
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { errors, clearErrors, register, reset, getValues } = formMethods
+  const { errors, clearErrors, register, setValue, getValues } = formMethods
   const { data: unitTypesData = [] } = useUnitTypeList()
 
   const unitTypeOptions = unitTypesData.map((unitType) => {
@@ -72,7 +72,12 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
     },
   ]
   useEffect(() => {
-    reset({ ...getValues(), disableUnitsAccordion: disableUnitsAccordion ? "true" : "false" })
+    if (
+      getValues("disableUnitsAccordion") === undefined ||
+      getValues("disableUnitsAccordion") === null
+    ) {
+      setValue("disableUnitsAccordion", disableUnitsAccordion ? "true" : "false")
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
