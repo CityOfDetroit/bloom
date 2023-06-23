@@ -13,6 +13,7 @@ import {
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import Markdown from "markdown-to-jsx"
+import styles from "./application.module.scss"
 
 const Layout = (props) => {
   const { profile, signOut } = useContext(AuthContext)
@@ -131,7 +132,7 @@ const Layout = (props) => {
             <FooterSection small={true}>
               <div className="flex pb-7">
                 <img src="/images/detroit-logo-white.png" alt="City of Detroit logo" />
-                <div className="flex flex-col justify-center text-white ml-2">
+                <div className={styles["footer-jurisdiction"]}>
                   <p className="text-left text-base font-bold md:text-xl">{t("footer.header")}</p>
                   <a
                     className="text-left text-xs md:text-base"

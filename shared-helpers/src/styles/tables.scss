@@ -34,6 +34,9 @@ https://www.cssscript.com/pure-html5-css3-responsive-table-solution/ */
       @apply uppercase;
       content: attr(data-label);
       text-align: left;
+      [dir="rtl"] & {
+        text-align: right;
+      }
       width: 50%;
     }
 

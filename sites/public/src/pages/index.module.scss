@@ -20,6 +20,9 @@
   }
   svg {
     padding: 0 0.5rem 0 0;
+    [dir="rtl"] & {
+      padding: 0 0 0 0.5rem;
+    }
   }
 }
 
