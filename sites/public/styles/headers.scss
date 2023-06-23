@@ -75,6 +75,12 @@
   }
 }
 
+.site-header__logo__subtitle {
+  [dir="rtl"] & {
+    text-align: initial;
+  }
+}
+
 .site-header__logo-image {
   @media (min-width: $header-desktop-min-size) {
     height: 77px;
@@ -253,6 +259,7 @@
 .hero__finder-button {
   color: var(--bloom-color-white);
   background-color: var(--bloom-color-primary-dark);
+  text-align: center;
   &:hover {
     color: var(--bloom-color-white);
     box-shadow: 0 0 0 var(--bloom-s0_5) var(--bloom-color-primary-dark) inset;
