@@ -75,6 +75,12 @@ const UnitsSummaryAmiForm = ({
   )
 
   useEffect(() => {
+    if (amiChartId) {
+      void fetchAmiChart(amiChartId)
+    }
+  }, [amiChartId, fetchAmiChart])
+
+  useEffect(() => {
     const amilevel = amiLevels.find((summary) => summary.tempId === currentTempId)
     if (!amilevel?.amiChartId) {
       setAmiPercentageOptions([])
@@ -139,13 +145,6 @@ const UnitsSummaryAmiForm = ({
                 register={register}
                 controlClassName="control"
                 options={amiCharOptions}
-                inputProps={{
-                  onChange: () => {
-                    if (amiChartId) {
-                      void fetchAmiChart(amiChartId)
-                    }
-                  },
-                }}
                 dataTestId="amiChartId"
               />
             </ViewItem>

@@ -1,10 +1,4 @@
-import {
-  render,
-  fireEvent,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from "@testing-library/react"
+import { render, fireEvent, screen } from "@testing-library/react"
 import EligibilityHouseholdSize from "../../src/pages/eligibility/household"
 import React from "react"
 import { act } from "react-dom/test-utils"
@@ -32,8 +26,10 @@ describe("<EligibilityHouseholdSize>", () => {
   })
 
   it("Clicks the Next button", async () => {
-    await act(async () => {
+    act(() => {
       render(<EligibilityHouseholdSize />)
+    })
+    await act(async () => {
       userEvent.selectOptions(screen.getByLabelText("Household Size"), "two")
       fireEvent.click(screen.getByText("Next"))
     })
@@ -43,8 +39,10 @@ describe("<EligibilityHouseholdSize>", () => {
   })
 
   it("Clicks the See results now button", async () => {
-    await act(async () => {
+    act(() => {
       render(<EligibilityHouseholdSize />)
+    })
+    await act(async () => {
       userEvent.selectOptions(screen.getByLabelText("Household Size"), "two")
       fireEvent.click(screen.getByText("See results now"))
     })

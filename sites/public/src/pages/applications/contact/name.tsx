@@ -92,7 +92,7 @@ const ApplicationName = () => {
         )}
 
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
-          <div className="form-card__group border-b" data-test-id={"application-initial-page"}>
+          <div className="form-card__group border-b" data-testid={"application-initial-page"}>
             <fieldset>
               <legend className="field-label--caps">
                 {t("application.name.yourName")}
@@ -211,7 +211,7 @@ const ApplicationName = () => {
                   conductor.returnToReview = false
                   conductor.setNavigatedBack(false)
                 }}
-                data-test-id={"app-next-step-button"}
+                data-testid={"app-next-step-button"}
               >
                 {t("t.next")}
               </Button>

@@ -22,7 +22,7 @@ export interface ButtonProps extends AppearanceProps {
   loading?: boolean
   ariaLabel?: string
   dataTestId?: string
-  "data-test-id"?: string
+  "data-testid"?: string
   iconClass?: string
   passToIconClass?: string
 }
@@ -91,7 +91,7 @@ const Button = (props: ButtonProps) => {
       onClick={props.onClick}
       disabled={props.disabled || props.loading}
       aria-label={props.ariaLabel}
-      data-test-id={props.dataTestId || props["data-test-id"]}
+      data-testid={props.dataTestId || props["data-testid"]}
     >
       {buttonInner(props)}
     </button>

@@ -84,7 +84,7 @@ export default function ListingDetail(props: ListingProps) {
               title={
                 <>
                   <p
-                    data-test-id="page-header-text"
+                    data-testid="page-header-text"
                     className="font-sans font-semibold uppercase text-3xl"
                   >
                     {listing.name}

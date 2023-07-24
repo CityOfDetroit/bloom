@@ -27,7 +27,7 @@ const PageHeader = (props: PageHeaderProps) => {
     <header className={classNames.join(" ")}>
       <hgroup className="page-header__group">
         {props.title && (
-          <h1 data-test-id="page_header" className="page-header__title">
+          <h1 data-testid="page_header" className="page-header__title">
             {props.title}
           </h1>
         )}

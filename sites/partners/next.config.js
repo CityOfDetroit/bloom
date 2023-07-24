@@ -37,7 +37,6 @@ const tailwindVars = require("../../detroit-ui-components/tailwind.tosass.js")(b
 // https://www.npmjs.com/package/next-transpile-modules
 module.exports = withBundleAnalyzer(
   withTM({
-    target: "serverless",
     env: {
       backendApiBase: BACKEND_API_BASE,
       backendProxyBase: BACKEND_PROXY_BASE,

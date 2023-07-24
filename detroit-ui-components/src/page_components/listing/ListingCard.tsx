@@ -174,7 +174,7 @@ const ListingCard = (props: ListingCardProps) => {
   }
 
   return (
-    <article className="listings-row" data-test-id={"listing-card-component"}>
+    <article className="listings-row" data-testid={"listing-card-component"}>
       <div className="listings-row_figure">
         <ImageCard {...imageCardProps} />
       </div>

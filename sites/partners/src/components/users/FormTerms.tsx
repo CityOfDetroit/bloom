@@ -81,7 +81,7 @@ const FormTerms = () => {
 
         <div className="form-card__pager">
           <div className="form-card__pager-row primary">
-            <Button styleType={AppearanceStyleType.primary} data-test-id="form-submit">
+            <Button styleType={AppearanceStyleType.primary} data-testid="form-submit">
               {t("t.submit")}
             </Button>
           </div>
