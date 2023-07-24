@@ -1,7 +1,6 @@
 import React from "react"
 import { useFormContext } from "react-hook-form"
-import { t, GridSection, GridCell, Field } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { t, GridSection, GridCell, Field, ViewItem } from "@bloom-housing/ui-components"
 import { YesNoAnswer } from "../../../../lib/helpers"
 
 const FormTerms = () => {

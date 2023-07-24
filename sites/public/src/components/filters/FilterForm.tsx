@@ -1,16 +1,16 @@
 import { EnumListingFilterParamsStatus } from "@bloom-housing/backend-core/types"
 import {
-  t,
-  Form,
-  AppearanceStyleType,
-  GridCell,
   AppearanceBorderType,
+  AppearanceStyleType,
+  Button,
+  Field,
+  FieldGroup,
+  Form,
+  GridCell,
+  GridSection,
+  t,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
-import { ViewItem } from "../../../../../detroit-ui-components/src/blocks/ViewItem"
-import { Field } from "../../../../../detroit-ui-components/src/forms/Field"
-import { FieldGroup } from "../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { GridSection } from "../../../../../detroit-ui-components/src/sections/GridSection"
 import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -134,7 +134,7 @@ const FilterForm = (props: FilterFormProps) => {
   return (
     <Form
       onSubmit={handleSubmit(props.onSubmit)}
-      className={"flex flex-col justify-between h-full"}
+      className={"flex flex-col justify-between h-full filter-form"}
     >
       <div>
         <GridSection columns={1} className={"px-4"}>
@@ -147,11 +147,7 @@ const FilterForm = (props: FilterFormProps) => {
               defaultValue={EnumListingFilterParamsStatus.active}
               hidden={true}
             />
-            <ViewItem
-              className={"font-bold"}
-              label={t("publicFilter.confirmedListings")}
-              labelStyling={"text-gray-750"}
-            />
+            <ViewItem className={"font-bold"} label={t("publicFilter.confirmedListings")} />
             <Field
               id="isVerified"
               name={FrontendListingFilterStateKeys.isVerified}
@@ -167,11 +163,7 @@ const FilterForm = (props: FilterFormProps) => {
         </GridSection>
         <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
           <GridCell span={3}>
-            <ViewItem
-              className={"font-bold"}
-              label={t("t.availability")}
-              labelStyling={"text-gray-750"}
-            />
+            <ViewItem className={"font-bold"} label={t("t.availability")} />
             <FieldGroup
               name="availability"
               type="checkbox"
@@ -192,11 +184,7 @@ const FilterForm = (props: FilterFormProps) => {
         </GridSection>
         <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
           <GridCell span={3}>
-            <ViewItem
-              className={"font-bold"}
-              label={t("listings.homeType")}
-              labelStyling={"text-gray-750"}
-            />
+            <ViewItem className={"font-bold"} label={t("listings.homeType")} />
             <FieldGroup
               name="homeType"
               type="checkbox"
@@ -217,11 +205,7 @@ const FilterForm = (props: FilterFormProps) => {
         </GridSection>
         <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
           <GridCell span={3}>
-            <ViewItem
-              className={"font-bold"}
-              label={t("publicFilter.bedRoomSize")}
-              labelStyling={"text-gray-750"}
-            />
+            <ViewItem className={"font-bold"} label={t("publicFilter.bedRoomSize")} />
             <FieldGroup
               name="bedRoomSize"
               type="checkbox"
@@ -246,11 +230,7 @@ const FilterForm = (props: FilterFormProps) => {
         </GridSection>
         <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
           <GridCell span={3}>
-            <ViewItem
-              className={"font-bold"}
-              label={t("publicFilter.rentRange")}
-              labelStyling={"text-gray-750"}
-            />
+            <ViewItem className={"font-bold"} label={t("publicFilter.rentRange")} />
           </GridCell>
           <GridCell span={1}>
             <Field
@@ -323,11 +303,7 @@ const FilterForm = (props: FilterFormProps) => {
         </GridSection>
         <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-4"}>
           <GridCell span={3}>
-            <ViewItem
-              className={"font-bold"}
-              label={t("publicFilter.communityTypes")}
-              labelStyling={"text-gray-750"}
-            />
+            <ViewItem className={"font-bold"} label={t("publicFilter.communityTypes")} />
             <FieldGroup
               name="communityPrograms"
               type="checkbox"
@@ -350,11 +326,7 @@ const FilterForm = (props: FilterFormProps) => {
         </GridSection>
         <GridSection columns={3} separator={true} className={"px-4"} wrapperClassName={"pt-4 mt-2"}>
           <GridCell span={3}>
-            <ViewItem
-              className={"font-bold"}
-              label={t("t.region")}
-              labelStyling={"text-gray-750"}
-            />
+            <ViewItem className={"font-bold"} label={t("t.region")} />
             <FieldGroup
               name="region"
               type="checkbox"
@@ -380,11 +352,7 @@ const FilterForm = (props: FilterFormProps) => {
           wrapperClassName={"pt-4 mt-2 border-b pb-2 -mb-1"}
         >
           <GridCell span={3}>
-            <ViewItem
-              className={"font-bold"}
-              label={t("eligibility.accessibility.title")}
-              labelStyling={"text-gray-750"}
-            />
+            <ViewItem className={"font-bold"} label={t("eligibility.accessibility.title")} />
             <FieldGroup
               name="accessibility"
               type="checkbox"

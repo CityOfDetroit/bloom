@@ -1,6 +1,5 @@
 import * as React from "react"
-import { t } from "@bloom-housing/ui-components"
-import { StandardTableData } from "../../detroit-ui-components/src/tables/StandardTable"
+import { t, StandardTableData } from "@bloom-housing/ui-components"
 import { Listing, UnitType } from "@bloom-housing/backend-core/types"
 
 // Differs from core due to unit groups

@@ -1,8 +1,10 @@
-import { t, AG_PER_PAGE_OPTIONS } from "@bloom-housing/ui-components"
-import { LinkButton } from "../../../../../detroit-ui-components/src/actions/LinkButton"
-import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
-import { AgPagination } from "../../../../../detroit-ui-components/src/global/vendor/AgPagination"
-import { LoadingOverlay } from "../../../../../detroit-ui-components/src/overlays/LoadingOverlay"
+import {
+  AG_PER_PAGE_OPTIONS,
+  LinkButton,
+  LoadingOverlay,
+  PageHeader,
+  t,
+} from "@bloom-housing/ui-components"
 import { ListingFilterState, AuthContext, RequireLogin } from "@bloom-housing/shared-helpers"
 import Layout from "../../layouts/application"
 import React, { useEffect, useState, useContext, useMemo } from "react"
@@ -10,6 +12,7 @@ import { useRouter } from "next/router"
 import { useListingsData } from "../../lib/hooks"
 import { OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
 import { getListings } from "../../lib/helpers"
+import { ListingPagination } from "../../components/listing/ListingPagination"
 
 const FavoritedListingsPage = () => {
   const router = useRouter()
@@ -56,7 +59,7 @@ const FavoritedListingsPage = () => {
     return (
       <div>
         {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
-        <AgPagination
+        <ListingPagination
           totalItems={listingsData?.meta.totalItems}
           totalPages={listingsData?.meta.totalPages}
           currentPage={currentPage}
@@ -65,8 +68,6 @@ const FavoritedListingsPage = () => {
           setCurrentPage={setCurrentPage}
           setItemsPerPage={setItemsPerPage}
           onPerPageChange={() => setCurrentPage(1)}
-          includeBorder={false}
-          matchListingCardWidth={true}
         />
       </div>
     )
@@ -83,11 +84,9 @@ const FavoritedListingsPage = () => {
 
   return (
     <RequireLogin signInPath="/sign-in" signInMessage={t("t.loginIsRequired")}>
-      <Layout>
+      <Layout className={"favorites-layout"}>
         <PageHeader className="listings-title" title={t("account.myFavorites")} inverse={true} />
-        <LoadingOverlay classNames="pt-8 pb-14" isLoading={listingsLoading || !profile}>
-          {content}
-        </LoadingOverlay>
+        <LoadingOverlay isLoading={listingsLoading || !profile}>{content}</LoadingOverlay>
       </Layout>
     </RequireLogin>
   )

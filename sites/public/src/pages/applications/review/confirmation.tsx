@@ -6,10 +6,14 @@ import React, { useContext, useEffect, useMemo } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import dayjs from "dayjs"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
 import Markdown from "markdown-to-jsx"
-import { AppearanceStyleType, t, ApplicationTimeline } from "@bloom-housing/ui-components"
+import {
+  AppearanceStyleType,
+  ApplicationTimeline,
+  Button,
+  FormCard,
+  t,
+} from "@bloom-housing/ui-components"
 import { ListingReviewOrder } from "@bloom-housing/backend-core/types"
 import {
   imageUrlFromListing,

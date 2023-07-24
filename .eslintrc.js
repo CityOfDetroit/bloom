@@ -45,7 +45,6 @@ module.exports = {
   },
   ignorePatterns: [
     "node_modules",
-    "storybook-static",
     ".next",
     "dist",
     "migration/",

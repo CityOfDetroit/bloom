@@ -6,8 +6,8 @@ import { ConfigProvider, AuthProvider, RequireLogin } from "@bloom-housing/share
 import LinkComponent from "../components/core/LinkComponent"
 import { translations, overrideTranslations } from "../lib/translations"
 
-import "../../../../detroit-ui-components/src/global/css-imports.scss"
-import "../../../../detroit-ui-components/src/global/app-css.scss"
+import "@bloom-housing/shared-helpers/src/styles/css-imports.scss"
+import "@bloom-housing/shared-helpers/src/styles/app-css.scss"
 // TODO: Make these not-global
 import "ag-grid-community/dist/styles/ag-grid.css"
 import "ag-grid-community/dist/styles/ag-theme-alpine.css"

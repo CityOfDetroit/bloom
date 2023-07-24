@@ -9,11 +9,13 @@ import { setupServer } from "msw/node"
 import React from "react"
 import Users from "../../../src/pages/users"
 import { user } from "../../testHelpers"
+import { mockNextRouter } from "../../testUtils"
 
 const server = setupServer()
 
 beforeAll(() => {
   server.listen()
+  mockNextRouter()
 })
 
 afterEach(() => {

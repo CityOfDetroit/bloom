@@ -1,8 +1,13 @@
 import React, { useMemo } from "react"
 import { useFormContext } from "react-hook-form"
-import { t, GridSection, GridCell, Select } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
-import { FieldGroup } from "../../../../../../../detroit-ui-components/src/forms/FieldGroup"
+import {
+  FieldGroup,
+  GridCell,
+  GridSection,
+  Select,
+  t,
+  ViewItem,
+} from "@bloom-housing/ui-components"
 import { ethnicityKeys, raceKeys, howDidYouHear } from "@bloom-housing/shared-helpers"
 import { Demographics } from "@bloom-housing/backend-core/types"
 

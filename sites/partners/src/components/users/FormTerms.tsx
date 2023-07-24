@@ -5,13 +5,13 @@ import {
   Field,
   Form,
   FormCard,
+  Icon,
   MarkdownSection,
   t,
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import Markdown from "markdown-to-jsx"
 import { useForm } from "react-hook-form"
-import Icon from "../../../../../detroit-ui-components/src/icons/Icon"
 
 type FormTermsInValues = {
   agree: boolean

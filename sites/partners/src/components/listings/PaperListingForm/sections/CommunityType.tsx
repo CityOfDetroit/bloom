@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
-import { t, GridSection, GridCell, Select, Textarea } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { t, GridSection, GridCell, Select, Textarea, ViewItem } from "@bloom-housing/ui-components"
 import { useReservedCommunityTypeList } from "../../../../lib/hooks"
 import { arrayToFormOptions } from "../../../../lib/helpers"
 import { ReservedCommunityType } from "@bloom-housing/backend-core/types"

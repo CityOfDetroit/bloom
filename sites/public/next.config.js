@@ -4,7 +4,6 @@
 const withTM = require("next-transpile-modules")([
   "@bloom-housing/shared-helpers",
   "@bloom-housing/ui-components",
-  "@bloom-housing/detroit-ui-components",
   "@bloom-housing/backend-core",
 ])
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
@@ -32,8 +31,7 @@ const HOUSING_COUNSELOR_SERVICE_URL = process.env.HOUSING_COUNSELOR_SERVICE_URL
 
 // Load the Tailwind theme and set up SASS vars
 const bloomTheme = require("./tailwind.config.js")
-const tailwindVars = require("../../detroit-ui-components/tailwind.tosass.js")(bloomTheme)
-// Tell webpack to compile the ui components package
+const tailwindVars = require("@bloom-housing/ui-components/tailwind.tosass.js")(bloomTheme) // Tell webpack to compile the ui components package
 // https://www.npmjs.com/package/next-transpile-modules
 module.exports = withBundleAnalyzer(
   withTM({

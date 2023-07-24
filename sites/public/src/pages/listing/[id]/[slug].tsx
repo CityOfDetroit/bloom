@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from "react"
 import Head from "next/head"
 import axios from "axios"
 import { t } from "@bloom-housing/ui-components"
-import { ListingDividerLine } from "../../../../../../detroit-ui-components/src/page_components/listing/ListingDividerLine"
 import { Listing, ListingMetadata } from "@bloom-housing/backend-core/types"
 import {
   imageUrlFromListing,
@@ -71,7 +70,7 @@ export default function ListingPage(props: ListingProps) {
       </Head>
       <MetaTags title={listing.name} image={metaImage} description={metaDescription} />
       <span className="hidden md:block">
-        <ListingDividerLine />
+        <section className="w-full border-b border-gray-400 h-0" />
       </span>
       <ListingView listing={listing} allowFavoriting={true} listingMetadata={listingMetadata} />
     </Layout>

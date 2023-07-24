@@ -1,14 +1,14 @@
 import React, { useEffect } from "react"
 import {
-  t,
-  GridSection,
-  Select,
-  TimeField,
   DateField,
   DateFieldValues,
+  GridSection,
+  Select,
+  t,
+  TimeField,
+  ViewItem,
 } from "@bloom-housing/ui-components"
 import { applicationLanguageKeys } from "@bloom-housing/shared-helpers"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
 import { useFormContext } from "react-hook-form"
 
 const FormApplicationData = () => {

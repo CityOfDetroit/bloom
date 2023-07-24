@@ -1,6 +1,5 @@
 import React, { useContext, useMemo } from "react"
-import { t, GridSection, MinimalTable } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { t, GridSection, MinimalTable, ViewItem } from "@bloom-housing/ui-components"
 import { ListingContext } from "../../ListingContext"
 
 const DetailPrograms = () => {

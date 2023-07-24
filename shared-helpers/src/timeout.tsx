@@ -8,8 +8,8 @@ import {
   t,
   AppearanceStyleType,
   NavigationContext,
+  Modal,
 } from "@bloom-housing/ui-components"
-import { Modal } from "../../detroit-ui-components/src/overlays/Modal"
 
 const PROMPT_TIMEOUT = 60000
 const events = ["mousemove", "keypress", "scroll"]

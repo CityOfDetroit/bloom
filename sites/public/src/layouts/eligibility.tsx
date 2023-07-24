@@ -1,8 +1,12 @@
 import React, { useContext } from "react"
-import { AppearanceStyleType, Form, t } from "@bloom-housing/ui-components"
-import { Button } from "../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../detroit-ui-components/src/navigation/ProgressNav"
+import {
+  AppearanceStyleType,
+  Button,
+  Form,
+  FormCard,
+  ProgressNav,
+  t,
+} from "@bloom-housing/ui-components"
 import { OnClientSide } from "@bloom-housing/shared-helpers"
 import Layout from "./application"
 import styles from "./Eligibility.module.scss"

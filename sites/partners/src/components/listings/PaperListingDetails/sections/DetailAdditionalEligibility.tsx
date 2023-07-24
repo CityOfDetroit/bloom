@@ -1,12 +1,12 @@
 import React, { useContext } from "react"
 import {
-  t,
-  GridSection,
   GridCell,
+  GridSection,
   MinimalTable,
+  t,
   TableThumbnail,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
 import { cloudinaryUrlFromId } from "@bloom-housing/shared-helpers"
 import { ListingContext } from "../../ListingContext"
 import { getDetailFieldString } from "./helpers"

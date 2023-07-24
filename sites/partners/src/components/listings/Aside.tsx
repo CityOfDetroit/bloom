@@ -1,17 +1,16 @@
 import React, { useContext, useMemo } from "react"
 import dayjs from "dayjs"
 import {
-  t,
-  GridCell,
-  AppearanceStyleType,
   AppearanceBorderType,
-  StatusMessages,
+  AppearanceStyleType,
+  Button,
+  GridCell,
+  Icon,
+  LinkButton,
   LocalizedLink,
+  StatusMessages,
+  t,
 } from "@bloom-housing/ui-components"
-
-import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
-import { LinkButton } from "../../../../../detroit-ui-components/src/actions/LinkButton"
-import { Icon } from "../../../../../detroit-ui-components/src/icons/Icon"
 import { pdfUrlFromListingEvents, AuthContext } from "@bloom-housing/shared-helpers"
 import { ListingContext } from "./ListingContext"
 import { ListingEventType, ListingStatus } from "@bloom-housing/backend-core/types"

@@ -1,6 +1,12 @@
 import React, { useMemo } from "react"
-import { Field, t, GridSection, GridCell, SelectOption } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import {
+  Field,
+  GridCell,
+  GridSection,
+  SelectOption,
+  t,
+  ViewItem,
+} from "@bloom-housing/ui-components"
 import { useFormContext } from "react-hook-form"
 
 import {

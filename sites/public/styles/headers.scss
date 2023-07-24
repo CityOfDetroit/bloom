@@ -32,8 +32,8 @@
   --logo-margin: 0;
   --logo-mobile-height: 100%;
   --logo-mobile-padding: 0;
-  --logo-subtitle-desktop-font-size: var(--bloom-font-size-sm);
-  --logo-subtitle-mobile-font-size: var(--bloom-font-size-sm);
+  --logo-subtitle-desktop-font-size: var(--bloom-font-size-xs);
+  --logo-subtitle-mobile-font-size: var(--bloom-font-size-xs);
   --logo-title-font-size-desktop: var(--bloom-font-size-base);
   --logo-title-font-size-mobile: var(--bloom-font-size-base);
   --logo-title-letter-spacing: normal;
@@ -68,7 +68,7 @@
 
 .site-header__logo-title {
   @media (min-width: $header-desktop-min-size) {
-    font-size: var(--bloom-font-size-2xl);
+    font-size: 1.5rem;
   }
   [dir="rtl"] & {
     margin-right: var(--bloom-s4);
@@ -194,6 +194,10 @@
   border: var(--bloom-s0_5) solid $tailwind-primary;
   border-radius: var(--bloom-s11);
   min-width: max-content;
+  &:hover {
+    background-color: var(--bloom-color-primary);
+    color: var(--bloom-color-white);
+  }
 }
 
 .hero {
@@ -208,15 +212,10 @@
 }
 
 .hero__title {
-  @apply text-3xl;
   @apply text-primary-dark;
   @apply tracking-normal;
   @apply leading-tight;
   @apply mb-5;
-
-  @screen sm {
-    @apply text-6xl;
-  }
 }
 
 .hero__subtitle {
@@ -243,12 +242,12 @@
 }
 
 .hero__rentals-button {
-  color: black;
-  background-color: #ffbe42;
+  color: var(--bloom-color-black);
+  background-color: var(--bloom-color-lush);
 
   &:hover {
-    @apply bg-primary;
-    color: white;
+    background-color: var(--bloom-color-primary);
+    color: var(--bloom-color-white);
   }
 }
 .hero__finder-button {
@@ -259,16 +258,4 @@
     box-shadow: 0 0 0 var(--bloom-s0_5) var(--bloom-color-primary-dark) inset;
     background-color: var(--bloom-color-black);
   }
-}
-
-.page-header__title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  @screen md {
-    font-size: 1.75rem;
-  }
-}
-
-.page-header__lead {
-  @apply mt-4;
 }

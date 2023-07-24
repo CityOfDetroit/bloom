@@ -1,17 +1,18 @@
 import Head from "next/head"
 import {
-  AppearanceSizeType,
-  t,
-  LoadingOverlay,
+  ActionBlock,
   AG_PER_PAGE_OPTIONS,
+  AppearanceSizeType,
+  Button,
+  Drawer,
+  Heading,
+  LinkButton,
+  LoadingOverlay,
+  PageHeader,
+  t,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
-import { LinkButton } from "../../../../../detroit-ui-components/src/actions/LinkButton"
-import { ActionBlock } from "../../../../../detroit-ui-components/src/blocks/ActionBlock"
-import { PageHeader } from "../../../../../detroit-ui-components/src/headers/PageHeader"
-import { Icon } from "../../../../../detroit-ui-components/src/icons/Icon"
-import { Drawer } from "../../../../../detroit-ui-components/src/overlays/Drawer"
-import { AgPagination } from "../../../../../detroit-ui-components/src/global/vendor/AgPagination"
+import { faSliders } from "@fortawesome/free-solid-svg-icons"
+import DetroitIcon from "../../components/core/DetroitIcon"
 import {
   encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,
@@ -25,8 +26,8 @@ import { useRouter } from "next/router"
 import { useListingsData } from "../../lib/hooks"
 import { EnumListingFilterParamsStatus, OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
 import FilterForm from "../../components/filters/FilterForm"
+import ListingPagination from "../../components/listing/ListingPagination"
 import { getListings } from "../../lib/helpers"
-import { faSliders } from "@fortawesome/free-solid-svg-icons"
 
 const FilteredListingsPage = () => {
   const router = useRouter()
@@ -114,7 +115,6 @@ const FilteredListingsPage = () => {
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
-        contentAreaClassName={"px-0 pt-0 pb-0 h-full"}
       >
         <FilterForm
           onSubmit={(data) => onSubmit(1, itemsPerPage, data)}
@@ -178,8 +178,8 @@ const FilteredListingsPage = () => {
                 ]}
                 className={"p-8 has-bold-header"}
                 background="primary-lighter"
-                icon={<Icon size="2xl" symbol="house" />}
-                header={t("listingFilters.noResults")}
+                icon={<DetroitIcon size="2xl" symbol={"houseThin"} />}
+                header={<Heading priority={2}>{t("listingFilters.noResults")}</Heading>}
                 subheader={t("listingFilters.noResultsSubtitle")}
               />
             </div>
@@ -187,7 +187,7 @@ const FilteredListingsPage = () => {
           {!listingsLoading && listingsData?.meta.totalItems > 0 && (
             <div>
               {listingsData?.meta.totalItems > 0 && getListings(listingsData?.items)}
-              <AgPagination
+              <ListingPagination
                 totalItems={listingsData?.meta.totalItems}
                 totalPages={listingsData?.meta.totalPages}
                 currentPage={currentPage}

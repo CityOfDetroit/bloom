@@ -1,6 +1,5 @@
 import React, { useContext } from "react"
-import { t, GridSection, GridCell } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { t, GridSection, GridCell, ViewItem } from "@bloom-housing/ui-components"
 import { ApplicationContext } from "../../ApplicationContext"
 import { IncomePeriod } from "@bloom-housing/backend-core/types"
 import { formatIncome } from "../../../../lib/helpers"

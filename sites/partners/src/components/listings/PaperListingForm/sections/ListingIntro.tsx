@@ -1,7 +1,14 @@
 import React from "react"
 import { useFormContext } from "react-hook-form"
-import { t, GridSection, GridCell, Field, SelectOption, Select } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import {
+  Field,
+  GridCell,
+  GridSection,
+  Select,
+  SelectOption,
+  t,
+  ViewItem,
+} from "@bloom-housing/ui-components"
 import { fieldMessage, fieldHasError } from "../../../../lib/helpers"
 import { Jurisdiction } from "@bloom-housing/backend-core/types"
 
