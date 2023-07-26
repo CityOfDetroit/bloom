@@ -1,7 +1,6 @@
 **/*.hbs
 .github
 .travis.yml
-detroit-ui-components/CHANGELOG.md
 sites/public/CHANGELOG.md
 sites/public/src/md_content/*
 sites/partners/CHANGELOG.md

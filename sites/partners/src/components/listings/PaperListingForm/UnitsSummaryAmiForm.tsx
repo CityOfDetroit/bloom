@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useCallback } from "react"
 import {
-  t,
-  GridSection,
-  GridCell,
-  Field,
-  Select,
-  AppearanceStyleType,
   AppearanceBorderType,
+  AppearanceStyleType,
+  Button,
+  Field,
+  FieldGroup,
   Form,
+  GridCell,
+  GridSection,
+  Select,
   SelectOption,
+  t,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { ViewItem } from "../../../../../../detroit-ui-components/src/blocks/ViewItem"
-import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { useForm } from "react-hook-form"
 import { TempAmiLevel } from "../../../lib/listings/formTypes"
 import { AmiChart, MonthlyRentDeterminationType } from "@bloom-housing/backend-core/types"
@@ -73,6 +73,12 @@ const UnitsSummaryAmiForm = ({
     },
     [amiInfo, setAmiPercentageOptions]
   )
+
+  useEffect(() => {
+    if (amiChartId) {
+      void fetchAmiChart(amiChartId)
+    }
+  }, [amiChartId, fetchAmiChart])
 
   useEffect(() => {
     const amilevel = amiLevels.find((summary) => summary.tempId === currentTempId)
@@ -139,13 +145,6 @@ const UnitsSummaryAmiForm = ({
                 register={register}
                 controlClassName="control"
                 options={amiCharOptions}
-                inputProps={{
-                  onChange: () => {
-                    if (amiChartId) {
-                      void fetchAmiChart(amiChartId)
-                    }
-                  },
-                }}
                 dataTestId="amiChartId"
               />
             </ViewItem>

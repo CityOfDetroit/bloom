@@ -6,10 +6,14 @@ import React, { useContext, useEffect, useMemo } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import dayjs from "dayjs"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
 import Markdown from "markdown-to-jsx"
-import { AppearanceStyleType, t, ApplicationTimeline } from "@bloom-housing/ui-components"
+import {
+  AppearanceStyleType,
+  ApplicationTimeline,
+  Button,
+  FormCard,
+  t,
+} from "@bloom-housing/ui-components"
 import { ListingReviewOrder } from "@bloom-housing/backend-core/types"
 import {
   imageUrlFromListing,
@@ -77,7 +81,7 @@ const ApplicationConfirmation = () => {
           <p
             id="confirmationCode"
             className="font-serif text-3xl my-1"
-            data-test-id={"app-confirmation-id"}
+            data-testid={"app-confirmation-id"}
           >
             {application.confirmationCode || application.id}
           </p>
@@ -119,7 +123,7 @@ const ApplicationConfirmation = () => {
                 onClick={() => {
                   void router.push("/create-account")
                 }}
-                data-test-id={"app-confirmation-create-account"}
+                data-testid={"app-confirmation-create-account"}
               >
                 {t("account.createAccount")}
               </Button>
@@ -128,14 +132,14 @@ const ApplicationConfirmation = () => {
 
           <div className="form-card__pager-row py-6">
             <Link href="/listings">
-              <a data-test-id={"app-confirmation-browse"} className="lined text-tiny">
+              <a data-testid={"app-confirmation-browse"} className="lined text-tiny">
                 {t("application.review.confirmation.browseMore")}
               </a>
             </Link>
           </div>
 
           <div className="form-card__pager-row py-6 border-t">
-            <Link href="/applications/view" data-test-id={"app-confirmation-print"}>
+            <Link href="/applications/view" data-testid={"app-confirmation-print"}>
               <a className="lined text-tiny">{t("application.review.confirmation.print")}</a>
             </Link>
           </div>

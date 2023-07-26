@@ -4,6 +4,7 @@ import { ELIGIBILITY_ROUTE, ELIGIBILITY_SECTIONS } from "./constants"
 export const eligibilityRoute = (page: number) =>
   `/${ELIGIBILITY_ROUTE}/${ELIGIBILITY_SECTIONS[page]}`
 import dayjs from "dayjs"
+
 import {
   Address,
   Listing,
@@ -15,28 +16,32 @@ import {
   HomeTypeEnum,
 } from "@bloom-housing/backend-core/types"
 import {
-  t,
+  AppearanceShadeType,
+  AppearanceStyleType,
+  ApplicationStatusType,
   IconFillColors,
+  ImageTag,
+  LinkButton,
   StandardTableData,
   StatusBarType,
-  ApplicationStatusType,
-  AppearanceShadeType,
-  UniversalIconType,
-} from "@bloom-housing/ui-components"
-import { LinkButton } from "../../../../detroit-ui-components/src/actions/LinkButton"
-import { Tooltip } from "../../../../detroit-ui-components/src/blocks/Tooltip"
-import { AppearanceStyleType } from "../../../../detroit-ui-components/src/global/AppearanceTypes"
-import { ImageTag } from "../../../../detroit-ui-components/src/blocks/ImageCard"
-import { TableHeaders } from "../../../../detroit-ui-components/src/tables/StandardTable"
-import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
-import { faPersonDigging } from "@fortawesome/free-solid-svg-icons"
-import {
+  t,
+  TableHeaders,
   ListingCard,
   CardTag,
-} from "../../../../detroit-ui-components/src/page_components/listing/ListingCard"
-import { Tag } from "../../../../detroit-ui-components/src/text/Tag"
+  Tag,
+  Tooltip,
+} from "@bloom-housing/ui-components"
 
-import { imageUrlFromListing, FavoriteButton } from "@bloom-housing/shared-helpers"
+import {
+  faPersonDigging,
+  faUniversalAccess,
+  faCircleInfo,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons"
+
+import { imageUrlFromListing } from "@bloom-housing/shared-helpers"
+import { FavoriteButton } from "../components/listing/FavoriteButton"
+import DetroitIcon from "../components/core/DetroitIcon"
 
 export const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -144,13 +149,15 @@ export const getListingTags = (
           text: translate
             ? t(`listingFilters.program.${program.program.title}`)
             : program.program.title,
+          styleType: AppearanceStyleType.info,
         }
       }) ?? []
   if (accessibilityFeaturesExist(listingFeatures)) {
     tags.push({
       text: t("listings.reservedCommunityTypes.specialNeeds"),
-      iconType: "universalAccess" as UniversalIconType,
+      iconType: faUniversalAccess,
       iconColor: AppearanceStyleType.primary,
+      styleType: AppearanceStyleType.info,
     })
   }
   if (homeType) {
@@ -166,13 +173,13 @@ export const getListingTags = (
 export const getListingTag = (tag: CardTag) => {
   return (
     <Tag
-      styleType={tag.styleType ?? AppearanceStyleType.accentLight}
+      styleType={tag.styleType ?? AppearanceStyleType.info}
       shade={tag?.shadeType}
       className={"me-2 mb-2 font-bold px-3 py-2"}
       key={tag.text}
     >
       {tag.iconType && (
-        <Icon
+        <DetroitIcon
           size={"medium"}
           symbol={tag.iconType}
           fill={tag.iconColor ?? IconFillColors.primary}
@@ -193,7 +200,7 @@ export const getImageCardTag = (listing: Listing): ImageTag[] => {
           iconType:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? faPersonDigging
-              : ("badgeCheck" as UniversalIconType),
+              : faCheck,
           iconColor:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? IconFillColors.white
@@ -201,7 +208,7 @@ export const getImageCardTag = (listing: Listing): ImageTag[] => {
           styleType:
             listing?.marketingType === ListingMarketingTypeEnum.comingSoon
               ? AppearanceStyleType.closed
-              : AppearanceStyleType.accentLight,
+              : AppearanceStyleType.info,
           tooltip:
             listing?.isVerified && listing?.marketingType !== ListingMarketingTypeEnum.comingSoon // show tooltip only for confirmed badge
               ? {
@@ -250,9 +257,9 @@ export const getListings = (listings) => {
         ariaLabel: `${listing.name} ${t("t.unitInformation")}`,
       }}
       contentProps={{
-        contentHeader: { text: listing.name, priority: 3 },
-        contentSubheader: { text: getListingCardSubtitle(listing.buildingAddress) },
-        tableHeader: { text: listing.showWaitlist ? t("listings.waitlist.open") : null },
+        contentHeader: { content: listing.name, priority: 3 },
+        contentSubheader: { content: getListingCardSubtitle(listing.buildingAddress) },
+        tableHeader: { content: listing.showWaitlist ? t("listings.waitlist.open") : null },
       }}
       cardTags={getListingTags(listing.listingPrograms, listing.features, listing.homeType, true)}
       footerContent={
@@ -284,15 +291,15 @@ interface UnitSummaryTable {
 
 export const getUnitGroupSummary = (listing: Listing): UnitSummaryTable => {
   const groupedUnitHeaders: TableHeaders = {
-    unitType: t("t.unitType"),
-    rent: t("t.rent"),
-    availability: t("t.availability"),
+    unitType: { name: t("t.unitType") },
+    rent: { name: t("t.rent") },
+    availability: { name: t("t.availability") },
     ami: {
       name: "ami",
-      className: "ami-header",
+      className: "ami-header p-5",
       icon: (
         <Tooltip id="ami-info" className="ml-2" text={t("listings.areaMedianIncome")}>
-          <Icon size="medium" symbol="info" tabIndex={0} />
+          <DetroitIcon size="medium" symbol={faCircleInfo} tabIndex={0} />
         </Tooltip>
       ),
     },

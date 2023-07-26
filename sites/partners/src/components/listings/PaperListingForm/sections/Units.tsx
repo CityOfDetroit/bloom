@@ -1,19 +1,19 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react"
 import {
-  t,
-  GridSection,
-  MinimalTable,
+  AppearanceBorderType,
   AppearanceSizeType,
   AppearanceStyleType,
-  AppearanceBorderType,
+  Button,
+  Drawer,
+  FieldGroup,
   GridCell,
+  GridSection,
+  MinimalTable,
+  Modal,
   Select,
+  t,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../../detroit-ui-components/src/actions/Button"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
-import { FieldGroup } from "../../../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
-import { Modal } from "../../../../../../../detroit-ui-components/src/overlays/Modal"
 import { useFormContext } from "react-hook-form"
 import UnitsSummaryForm from "../UnitsSummaryForm"
 import { FormListing, TempUnit, TempUnitsSummary } from "../../../../lib/listings/formTypes"
@@ -40,7 +40,7 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
   const [summaryDeleteModal, setSummaryDeleteModal] = useState<number | null>(null)
   const formMethods = useFormContext()
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { errors, clearErrors, register, reset, getValues } = formMethods
+  const { errors, clearErrors, register, setValue, getValues } = formMethods
   const { data: unitTypesData = [] } = useUnitTypeList()
 
   const unitTypeOptions = unitTypesData.map((unitType) => {
@@ -72,7 +72,12 @@ const FormUnits = ({ listing, unitsSummaries, setSummaries, disableUnitsAccordio
     },
   ]
   useEffect(() => {
-    reset({ ...getValues(), disableUnitsAccordion: disableUnitsAccordion ? "true" : "false" })
+    if (
+      getValues("disableUnitsAccordion") === undefined ||
+      getValues("disableUnitsAccordion") === null
+    ) {
+      setValue("disableUnitsAccordion", disableUnitsAccordion ? "true" : "false")
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

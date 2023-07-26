@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { SWRConfig } from "swr"
 import type { AppProps } from "next/app"
 import { addTranslation, NavigationContext, GenericRouter } from "@bloom-housing/ui-components"
@@ -6,8 +6,8 @@ import { ConfigProvider, AuthProvider, RequireLogin } from "@bloom-housing/share
 import LinkComponent from "../components/core/LinkComponent"
 import { translations, overrideTranslations } from "../lib/translations"
 
-import "../../../../detroit-ui-components/src/global/css-imports.scss"
-import "../../../../detroit-ui-components/src/global/app-css.scss"
+import "@bloom-housing/shared-helpers/src/styles/css-imports.scss"
+import "@bloom-housing/shared-helpers/src/styles/app-css.scss"
 // TODO: Make these not-global
 import "ag-grid-community/dist/styles/ag-grid.css"
 import "ag-grid-community/dist/styles/ag-theme-alpine.css"
@@ -19,6 +19,12 @@ const signInMessage = "Login is required to view this page."
 function BloomApp({ Component, router, pageProps }: AppProps) {
   const { locale } = router
   const skipLoginRoutes = ["/forgot-password", "/reset-password", "/users/confirm", "/users/terms"]
+
+  // fix for rehydation
+  const [hasMounted, setHasMounted] = useState(false)
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
 
   useMemo(() => {
     addTranslation(translations.general, true)
@@ -56,9 +62,7 @@ function BloomApp({ Component, router, pageProps }: AppProps) {
               signInMessage={signInMessage}
               skipForRoutes={skipLoginRoutes}
             >
-              <div suppressHydrationWarning>
-                {typeof window === "undefined" ? null : <Component {...pageProps} />}
-              </div>
+              {hasMounted && <Component {...pageProps} />}
             </RequireLogin>
           </AuthProvider>
         </ConfigProvider>

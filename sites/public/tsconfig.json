@@ -3,8 +3,9 @@
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "preserve",
-    "allowJs": true
+    "allowJs": true,
+    "incremental": true
   },
-  "exclude": ["node_modules", "cypress"],
+  "exclude": ["node_modules", "cypress", "cypress.config.ts"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

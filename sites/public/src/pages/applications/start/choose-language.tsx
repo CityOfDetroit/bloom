@@ -5,12 +5,14 @@ https://github.com/bloom-housing/bloom/issues/277
 */
 import axios from "axios"
 import { useRouter } from "next/router"
-import { t } from "@bloom-housing/ui-components"
-import { LinkButton } from "../../../../../../detroit-ui-components/src/actions/LinkButton"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ImageCard } from "../../../../../../detroit-ui-components/src/blocks/ImageCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
+import {
+  Button,
+  ImageCard,
+  LinkButton,
+  t,
+  ProgressNav,
+  FormCard,
+} from "@bloom-housing/ui-components"
 import {
   imageUrlFromListing,
   OnClientSide,
@@ -138,7 +140,7 @@ const ApplicationChooseLanguage = () => {
                       onLanguageSelect(lang)
                     }}
                     key={index}
-                    data-test-id={"app-choose-language-button"}
+                    data-testid={"app-choose-language-button"}
                   >
                     {t(`applications.begin.${lang}`)}
                   </Button>

@@ -1,0 +1,13 @@
+.footer-jurisdiction {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--bloom-color-white);
+  margin-left: var(--bloom-s2);
+  margin-right: 0;
+
+  [dir="rtl"] & {
+    margin-left: 0;
+    margin-right: var(--bloom-s2);
+  }
+}

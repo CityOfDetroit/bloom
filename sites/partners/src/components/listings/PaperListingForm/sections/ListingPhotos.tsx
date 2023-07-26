@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useFieldArray, useFormContext } from "react-hook-form"
 import {
-  t,
   AppearanceStyleType,
+  Button,
+  Drawer,
   Dropzone,
-  GridSection,
   GridCell,
+  GridSection,
   MinimalTable,
-  TableThumbnail,
-  StandardTableData,
   StandardTableCell,
+  StandardTableData,
+  t,
+  TableThumbnail,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../../detroit-ui-components/src/actions/Button"
-import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
 import { getUrlForListingImage, CLOUDINARY_BUILDING_LABEL } from "@bloom-housing/shared-helpers"
 
 import { cloudinaryFileUploader, fieldHasError } from "../../../../lib/helpers"
@@ -223,7 +223,7 @@ const ListingPhotos = () => {
         <GridSection columns={1} tinted inset>
           <GridCell>
             {listingFormPhotos.length > 0 && (
-              <div className="mb-5" data-test-id="photos-table">
+              <div className="mb-5" data-testid="photos-table">
                 <MinimalTable
                   headers={photoTableHeaders}
                   data={listingPhotoTableRows}
@@ -239,7 +239,7 @@ const ListingPhotos = () => {
                 setDrawerImages([...listingFormPhotos])
                 clearErrors("images")
               }}
-              data-test-id="add-photos-button"
+              data-testid="add-photos-button"
             >
               {t(listingFormPhotos.length > 0 ? "listings.editPhotos" : "listings.addPhoto")}
             </Button>
@@ -260,7 +260,7 @@ const ListingPhotos = () => {
         <section className="border rounded-md p-8 bg-white">
           <h2 className="text-lg mb-8">{t("listings.listingPhoto")}</h2>
           {drawerImages.length > 0 && (
-            <div className="mb-10" data-test-id="drawer-photos-table">
+            <div className="mb-10" data-testid="drawer-photos-table">
               <span className={"text-tiny text-gray-800 block mb-2"}>{t("t.photos")}</span>
               <MinimalTable
                 draggable={true}
@@ -302,7 +302,7 @@ const ListingPhotos = () => {
             resetDrawerState()
           }}
           styleType={AppearanceStyleType.primary}
-          data-test-id={drawerImages.length > 0 ? "listing-photo-uploaded" : "listing-photo-empty"}
+          data-testid={drawerImages.length > 0 ? "listing-photo-uploaded" : "listing-photo-empty"}
         >
           {t("t.save")}
         </Button>

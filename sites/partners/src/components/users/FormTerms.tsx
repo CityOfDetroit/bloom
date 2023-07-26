@@ -5,13 +5,13 @@ import {
   Field,
   Form,
   FormCard,
+  Icon,
   MarkdownSection,
   t,
 } from "@bloom-housing/ui-components"
 import { AuthContext } from "@bloom-housing/shared-helpers"
 import Markdown from "markdown-to-jsx"
 import { useForm } from "react-hook-form"
-import Icon from "../../../../../detroit-ui-components/src/icons/Icon"
 
 type FormTermsInValues = {
   agree: boolean
@@ -81,7 +81,7 @@ const FormTerms = () => {
 
         <div className="form-card__pager">
           <div className="form-card__pager-row primary">
-            <Button styleType={AppearanceStyleType.primary} data-test-id="form-submit">
+            <Button styleType={AppearanceStyleType.primary} data-testid="form-submit">
               {t("t.submit")}
             </Button>
           </div>

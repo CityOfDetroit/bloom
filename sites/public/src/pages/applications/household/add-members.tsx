@@ -4,10 +4,14 @@ Add household members
 */
 import { useContext, useEffect } from "react"
 import { useRouter } from "next/router"
-import { AppearanceStyleType, t, Form } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
+import {
+  AppearanceStyleType,
+  Button,
+  Form,
+  FormCard,
+  ProgressNav,
+  t,
+} from "@bloom-housing/ui-components"
 import FormsLayout from "../../../layouts/forms"
 import { useForm } from "react-hook-form"
 import FormBackLink from "../../../components/applications/FormBackLink"
@@ -126,7 +130,7 @@ const ApplicationAddMembers = () => {
             <Button
               id="btn-add-member"
               onClick={onAddMember}
-              data-test-id={"app-add-household-member-button"}
+              data-testid={"app-add-household-member-button"}
               type={"button"}
             >
               {t("application.household.addMembers.addHouseholdMember")}
@@ -143,7 +147,7 @@ const ApplicationAddMembers = () => {
                 conductor.returnToReview = false
                 void handleSubmit(onSubmit)()
               }}
-              data-test-id={"app-done-household-members-button"}
+              data-testid={"app-done-household-members-button"}
             >
               {t("application.household.addMembers.done")}
             </Button>

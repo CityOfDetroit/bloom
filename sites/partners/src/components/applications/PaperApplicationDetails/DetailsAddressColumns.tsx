@@ -1,5 +1,4 @@
-import { t, GridCell } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { t, GridCell, ViewItem } from "@bloom-housing/ui-components"
 import {
   Application,
   HouseholdMemberUpdate,

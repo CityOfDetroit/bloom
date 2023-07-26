@@ -3,11 +3,17 @@
 Type of alternate contact
 */
 import React, { Fragment, useContext, useEffect } from "react"
-import { AppearanceStyleType, ErrorMessage, Field, Form, t } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
+import {
+  AlertBox,
+  AppearanceStyleType,
+  Button,
+  ErrorMessage,
+  Field,
+  Form,
+  FormCard,
+  ProgressNav,
+  t,
+} from "@bloom-housing/ui-components"
 import {
   altContactRelationshipKeys,
   OnClientSide,
@@ -143,7 +149,7 @@ const ApplicationAlternateContactType = () => {
               <Button
                 styleType={AppearanceStyleType.primary}
                 onClick={() => conductor.setNavigatedBack(false)}
-                data-test-id={"app-next-step-button"}
+                data-testid={"app-next-step-button"}
               >
                 {t("t.next")}
               </Button>

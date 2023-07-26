@@ -1,18 +1,18 @@
 import React, { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
 import {
-  t,
-  GridSection,
   DOBField,
-  Select,
-  GridCell,
-  Field,
   emailRegex,
-  PhoneField,
+  Field,
+  FieldGroup,
   FormAddress,
+  GridCell,
+  GridSection,
+  PhoneField,
+  Select,
+  t,
+  ViewItem,
 } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
-import { FieldGroup } from "../../../../../../../detroit-ui-components/src/forms/FieldGroup"
 import { phoneNumberKeys, contactPreferencesKeys, stateKeys } from "@bloom-housing/shared-helpers"
 import { YesNoAnswer } from "../../../../lib/helpers"
 

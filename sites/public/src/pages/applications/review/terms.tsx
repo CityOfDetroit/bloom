@@ -4,12 +4,16 @@ View of application terms with checkbox
 */
 import React, { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { AppearanceStyleType, t, Form } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
+import {
+  AppearanceStyleType,
+  t,
+  Form,
+  Button,
+  FormCard,
+  FieldGroup,
+  ProgressNav,
+  AlertBox,
+} from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
 import Markdown from "markdown-to-jsx"
 import { OnClientSide, PageView, pushGtmEvent, AuthContext } from "@bloom-housing/shared-helpers"
@@ -126,7 +130,7 @@ const ApplicationTerms = () => {
                 loading={submitting}
                 styleType={AppearanceStyleType.primary}
                 type="submit"
-                data-test-id={"app-terms-submit-button"}
+                data-testid={"app-terms-submit-button"}
               >
                 {t("t.submit")}
               </Button>

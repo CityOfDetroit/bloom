@@ -7,10 +7,10 @@ import {
   StatusMessages,
   LocalizedLink,
   AppearanceBorderType,
+  Button,
+  LinkButton,
+  Modal,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../detroit-ui-components/src/actions/Button"
-import { LinkButton } from "../../../../../detroit-ui-components/src/actions/LinkButton"
-import { Modal } from "../../../../../detroit-ui-components/src/overlays/Modal"
 import { ApplicationContext } from "./ApplicationContext"
 import { StatusAside } from "../shared/StatusAside"
 

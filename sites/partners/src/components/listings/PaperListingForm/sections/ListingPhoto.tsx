@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useFormContext } from "react-hook-form"
 import {
   t,
+  AppearanceSizeType,
   AppearanceStyleType,
   AppearanceBorderType,
   Button,
@@ -205,7 +206,8 @@ const ListingPhoto = () => {
               resetDrawerState()
             }}
             styleType={AppearanceStyleType.primary}
-            data-test-id={!cloudinaryData.url ? "listing-photo-empty" : "listing-photo-uploaded"}
+            data-testid={!cloudinaryData.url ? "listing-photo-empty" : "listing-photo-uploaded"}
+            size={AppearanceSizeType.small}
           >
             Save
           </Button>,

@@ -1,6 +1,6 @@
 <RenderIf language="en">
 
-This is an accessibility statement from the City of Detroit Housing and Revitalization Department. 
+This is an accessibility statement from the City of Detroit Housing and Revitalization Department.
 
 ### Conformance Status
 
@@ -16,9 +16,10 @@ We welcome your feedback on the accessibility of Detroit Home Connect. Please le
 
 Detroit Home Connect is compatible with NVDA and JAWS on PC and VoiceOver on Mac, and has been tested using those assistive technologies.
 
-In keeping with the most current industry best practice, Detroit Home Connect is not compatible with Internet Explorer, as this browser has been officially retired as of June 2022. 
+In keeping with the most current industry best practice, Detroit Home Connect is not compatible with Internet Explorer, as this browser has been officially retired as of June 2022.
 
 ### Technical Specifications
+
 Accessibility of Detroit Home Connect relies on the following technologies to work with the particular combination of web browser and any assistive technologies or plugins installed on your computer:
 
 - HTML
@@ -29,11 +30,12 @@ Accessibility of Detroit Home Connect relies on the following technologies to wo
 These technologies are relied upon for conformance with the accessibility standards used.
 
 ### Limitations and Alternatives
+
 Despite our best efforts to ensure the accessibility of Detroit Home Connect, there may be some limitations. Below is a description of some accessibility challenges that we are aware of on our site, and what we are doing to address those challenges.
 
 Known accessibility challenges for Detroit Home Connect:
 
-- **Alternative Image Text**: Alt text on listing images is automatically generated, which means that it might not exactly match the uploaded image. The images are uploaded by those that own the listing, so we cannot ensure they match the alternative text. We will remind property managers to upload images of the buildings to ensure consistency between the alternative text and image. Please reach out to the property manager, or the Detroit Home Connect support email if you encounter an issue with a listing image. 
+- **Alternative Image Text**: Alt text on listing images is automatically generated, which means that it might not exactly match the uploaded image. The images are uploaded by those that own the listing, so we cannot ensure they match the alternative text. We will remind property managers to upload images of the buildings to ensure consistency between the alternative text and image. Please reach out to the property manager, or the Detroit Home Connect support email if you encounter an issue with a listing image.
 - **“Additional Housing Resources” Page**: Some of the linked pages may not be accessible, because the linked resources are third party sites, and we do not have control over their accessibility standards. Please reach out to the property manager or the Detroit Home Connect support email if you encounter an issue with the resources pages.
 - **Heading elements**: Some heading elements are not consistent.
 
@@ -42,11 +44,12 @@ Known accessibility challenges for Detroit Home Connect:
 The developer of Detroit Home Connect, Exygy, assessed the accessibility of Detroit Home Connect by the following approaches:
 
 - Self-evaluation.
-- External evaluation, which included a review from accessibility expert testers with disabilities. 
+- External evaluation, which included a review from accessibility expert testers with disabilities.
 
 ---
 
 ### Date
+
 This statement was updated on 21 March 2023.
 
 </RenderIf>
@@ -72,6 +75,7 @@ Detroit Home Connect es compatible con NVDA y JAWS en PC y VoiceOver en Mac, y h
 De acuerdo con las mejores prácticas más actuales de la industria, Detroit Home Connect no es compatible con Internet Explorer, ya que este navegador se retiró oficialmente en junio de 2022.
 
 ### Especificaciones Técnicas
+
 La accesibilidad de Detroit Home Connect se basa en las siguientes tecnologías para funcionar con la combinación particular de navegador web y cualquier tecnología de asistencia o complemento instalado en su computadora:
 
 - HTML
@@ -82,6 +86,7 @@ La accesibilidad de Detroit Home Connect se basa en las siguientes tecnologías 
 Se confía en estas tecnologías para cumplir con los estándares de accesibilidad utilizados.
 
 ### Limitaciones y Alternativas
+
 A pesar de nuestros mejores esfuerzos para garantizar la accesibilidad de Detroit Home Connect, puede haber algunas limitaciones. A continuación se incluye una descripción de algunos desafíos de accesibilidad que conocemos en nuestro sitio y lo que estamos haciendo para abordar esos desafíos.
 
 Desafíos de accesibilidad conocidos para Detroit Home Connect:
@@ -95,11 +100,12 @@ Desafíos de accesibilidad conocidos para Detroit Home Connect:
 El desarrollador de Detroit Home Connect, Exygy, evaluó la accesibilidad de Detroit Home Connect mediante los siguientes enfoques:
 
 - Autoevaluación.
-- Evaluación externa, que incluyó la revisión de testers expertos en accesibilidad con discapacidad. 
+- Evaluación externa, que incluyó la revisión de testers expertos en accesibilidad con discapacidad.
 
 ---
 
 ### Fecha
+
 Esta declaración se actualizó el 21 de marzo de 2023.
 
 </RenderIf>
@@ -112,6 +118,7 @@ Esta declaración se actualizó el 21 de marzo de 2023.
 [تحدد إرشادات الوصول إلى محتوى الويب (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/) أفضل الممارسات للمصممين والمطورين لتحسين إمكانية الوصول إلى مواقع الويب للأشخاص ذوي الإعاقة. يحدد ثلاثة مستويات من المطابقة: المستوى A والمستوى AA والمستوى AAA. هدفنا هو تقديم تجربة ويب تحقق توافق "المستوى AA" وفقًا لإرشادات الوصول إلى محتوى الويب الإصدار 2.1 (WCAG 2.1). نأمل في تكرار وتحسين Detroit Home Connect باستمرار حتى بما يتجاوز توافق WCAG الكامل.
 
 ### تعليق
+
 نرحب بتعليقاتك حول إمكانية الوصول إلى Detroit Home Connect. يرجى إعلامنا إذا واجهت حواجز الوصول أثناء استخدام هذا الموقع عن طريق الاتصال بنا على البريد الإلكتروني أدناه:
 
 - البريد الإلكتروني: <detroithomeconnect@detroitmi.gov>
@@ -123,6 +130,7 @@ Esta declaración se actualizó el 21 de marzo de 2023.
 تمشيا مع أفضل الممارسات الحالية في الصناعة ، لا يتوافق Detroit Home Connect مع Internet Explorer ، حيث تم إيقاف هذا المتصفح رسميًا اعتبارًا من يونيو 2022.
 
 ### المواصفات الفنية
+
 تعتمد إمكانية الوصول إلى Detroit Home Connect على التقنيات التالية للعمل مع مجموعة معينة من مستعرض الويب وأي تقنيات مساعدة أو مكونات إضافية مثبتة على جهاز الكمبيوتر الخاص بك:
 
 - لغة البرمجة
@@ -133,6 +141,7 @@ Esta declaración se actualizó el 21 de marzo de 2023.
 يتم الاعتماد على هذه التقنيات للتوافق مع معايير الوصول المستخدمة.
 
 ### القيود والبدائل
+
 على الرغم من بذلنا قصارى جهدنا لضمان إمكانية الوصول إلى Detroit Home Connect ، فقد تكون هناك بعض القيود. فيما يلي وصف لبعض تحديات إمكانية الوصول التي ندركها على موقعنا ، وما نقوم به لمواجهة هذه التحديات.
 
 تحديات الوصول المعروفة لـ Detroit Home Connect:
@@ -151,6 +160,7 @@ Esta declaración se actualizó el 21 de marzo de 2023.
 ---
 
 ### تاريخ
+
 تم تحديث هذا البيان في 21 مارس 2023.
 
 </RenderIf>
@@ -174,8 +184,8 @@ Detroit Home Connect PC-এ NVDA এবং JAWS এবং Mac-এ VoiceOver-এ�
 সবচেয়ে বর্তমান শিল্পের সর্বোত্তম অনুশীলনের সাথে তাল মিলিয়ে, Detroit Home Connect ইন্টারনেট এক্সপ্লোরারের সাথে সামঞ্জস্যপূর্ণ নয়, কারণ এই ব্রাউজারটি জুন 2022 থেকে আনুষ্ঠানিকভাবে অবসর নেওয়া হয়েছে।
 
 ### প্রযুক্তিগত বিবরণ
-ডেট্রয়েট হোম কানেক্টের অ্যাক্সেসিবিলিটি ওয়েব ব্রাউজার এবং আপনার কম্পিউটারে ইনস্টল করা যেকোনো সহায়ক প্রযুক্তি বা প্লাগইনগুলির বিশেষ সমন্বয়ের সাথে কাজ করার জন্য নিম্নলিখিত প্রযুক্তিগুলির উপর নির্ভর করে:
 
+ডেট্রয়েট হোম কানেক্টের অ্যাক্সেসিবিলিটি ওয়েব ব্রাউজার এবং আপনার কম্পিউটারে ইনস্টল করা যেকোনো সহায়ক প্রযুক্তি বা প্লাগইনগুলির বিশেষ সমন্বয়ের সাথে কাজ করার জন্য নিম্নলিখিত প্রযুক্তিগুলির উপর নির্ভর করে:
 
 - এইচটিএমএল
 - WAI-ARIA
@@ -185,6 +195,7 @@ Detroit Home Connect PC-এ NVDA এবং JAWS এবং Mac-এ VoiceOver-এ�
 এই প্রযুক্তিগুলি ব্যবহার করা অ্যাক্সেসযোগ্যতার মানগুলির সাথে সামঞ্জস্যের জন্য নির্ভর করা হয়।
 
 ### সীমাবদ্ধতা এবং বিকল্প
+
 ডেট্রয়েট হোম কানেক্টের অ্যাক্সেসযোগ্যতা নিশ্চিত করার জন্য আমাদের সর্বোত্তম প্রচেষ্টা সত্ত্বেও, কিছু সীমাবদ্ধতা থাকতে পারে। নীচে কিছু অ্যাক্সেসিবিলিটি চ্যালেঞ্জগুলির একটি বিবরণ রয়েছে যা আমরা আমাদের সাইটে সচেতন এবং সেই চ্যালেঞ্জগুলি মোকাবেলায় আমরা কী করছি৷
 
 ডেট্রয়েট হোম কানেক্টের জন্য পরিচিত অ্যাক্সেসিবিলিটি চ্যালেঞ্জ:
@@ -203,7 +214,7 @@ Detroit Home Connect PC-এ NVDA এবং JAWS এবং Mac-এ VoiceOver-এ�
 ---
 
 ### তারিখ
+
 এই বিবৃতিটি 21 মার্চ 2023 তারিখে আপডেট করা হয়েছিল।
 
 </RenderIf>
-

@@ -20,12 +20,8 @@
   }
   svg {
     padding: 0 0.5rem 0 0;
-    fill: $tailwind-primary;
-    height: 2rem;
-    width: 2rem;
-    @screen sm {
-      height: 2.5rem;
-      width: 2.5rem;
+    [dir="rtl"] & {
+      padding: 0 0 0 0.5rem;
     }
   }
 }

@@ -4,7 +4,6 @@
 const withTM = require("next-transpile-modules")([
   "@bloom-housing/shared-helpers",
   "@bloom-housing/ui-components",
-  "@bloom-housing/detroit-ui-components",
   "@bloom-housing/backend-core",
 ])
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
@@ -31,13 +30,11 @@ const BACKEND_PROXY_BASE = process.env.BACKEND_PROXY_BASE
 const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN
 // Load the Tailwind theme and set up SASS vars
 const bloomTheme = require("./tailwind.config.js")
-const tailwindVars = require("../../detroit-ui-components/tailwind.tosass.js")(bloomTheme)
-
+const tailwindVars = require("@bloom-housing/ui-components/tailwind.tosass.js")(bloomTheme)
 // Tell webpack to compile the ui components package
 // https://www.npmjs.com/package/next-transpile-modules
 module.exports = withBundleAnalyzer(
   withTM({
-    target: "serverless",
     env: {
       backendApiBase: BACKEND_API_BASE,
       backendProxyBase: BACKEND_PROXY_BASE,

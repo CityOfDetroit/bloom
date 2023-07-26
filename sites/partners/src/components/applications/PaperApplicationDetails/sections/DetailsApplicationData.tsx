@@ -1,6 +1,5 @@
 import React, { useContext, useMemo } from "react"
-import { t, GridSection, GridCell } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { t, GridSection, GridCell, ViewItem } from "@bloom-housing/ui-components"
 import { ApplicationContext } from "../../ApplicationContext"
 import { convertDataToPst } from "../../../../lib/helpers"
 import { ApplicationSubmissionType } from "@bloom-housing/backend-core/types"

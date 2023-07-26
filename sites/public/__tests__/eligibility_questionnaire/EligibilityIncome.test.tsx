@@ -26,8 +26,11 @@ describe("<EligibilityIncome>", () => {
   })
 
   it("Clicks the See results now button", async () => {
-    await act(async () => {
+    act(() => {
       render(<EligibilityIncome />)
+    })
+
+    await act(async () => {
       fireEvent.click(screen.getByText("$10,000 - $19,999"))
       fireEvent.click(screen.getByText("See results now"))
     })

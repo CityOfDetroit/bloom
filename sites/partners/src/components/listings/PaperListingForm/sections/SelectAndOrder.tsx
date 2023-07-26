@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react"
 import {
-  t,
-  GridSection,
-  MinimalTable,
   AppearanceSizeType,
   AppearanceStyleType,
+  Button,
+  Drawer,
   Field,
+  GridSection,
+  MinimalTable,
   StandardTableData,
+  t,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../../detroit-ui-components/src/actions/Button"
-import { Drawer } from "../../../../../../../detroit-ui-components/src/overlays/Drawer"
 import { useFormContext } from "react-hook-form"
 import { Preference, Program } from "@bloom-housing/backend-core/types"
 

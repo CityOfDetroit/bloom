@@ -1,5 +1,4 @@
 <RenderIf language="default">
-
 ### [Affordable Housing Glossary](https://res.cloudinary.com/exygy/image/upload/v1660061018/Detroit_Affordable_Housing_Glossary_c1oel8.pdf)
 
 Learn more about common words and phrases that you may see or hear about as you search and apply for affordable housing.
@@ -7,7 +6,6 @@ Learn more about common words and phrases that you may see or hear about as you 
 </RenderIf>
 
 <RenderIf language="es">
-
 ### [Glosario de vivienda asequible](https://res.cloudinary.com/exygy/image/upload/v1660061018/Detroit_Affordable_Housing_Glossary_c1oel8.pdf)
 
 Obtenga más información sobre las palabras y frases comunes que puede ver o escuchar mientras busca y solicita una vivienda asequible.

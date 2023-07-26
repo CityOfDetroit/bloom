@@ -1,26 +1,36 @@
 /* Overrides the default ui-components styles with Detroit-specific styles. */
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700");
+@import "../public/static/fonts/Montserrat.css";
+@import "@bloom-housing/ui-components/src/global/tokens/fonts.scss";
+@import "@bloom-housing/ui-components/src/global/tokens/borders.scss";
+@import "@bloom-housing/ui-components/src/global/tokens/colors.scss";
+@import "@bloom-housing/ui-components/src/global/tokens/screens.scss";
+@import "@bloom-housing/ui-components/src/global/tokens/sizes.scss";
+@import "@bloom-housing/ui-components/src/global/mixins.scss";
+@import "@bloom-housing/ui-components/src/global/text.scss";
+@import "@bloom-housing/ui-components/src/global/markdown.scss";
+@import "@bloom-housing/ui-components/src/global/lists.scss";
+@import "@bloom-housing/ui-components/src/global/accordion.scss";
 
 #__next {
   .site-header {
-    --logo-title-font-size-desktop: var(--bloom-font-size-tiny);
-    --logo-title-font-size-mobile: var(--bloom-font-size-sm);
+    --logo-title-font-size-desktop: var(--bloom-font-size-sm);
+    --logo-title-font-size-mobile: var(--bloom-font-size-xs);
     --logo-image-desktop-max-height: var(--bloom-s20);
     --logo-image-desktop-min-height: var(--bloom-s20);
-    --mobile-menu-font-size: var(--bloom-font-size-sm);
-    --mobile-dropdown-item-font-size: var(--bloom-font-size-tiny);
+    --mobile-menu-font-size: var(--bloom-font-size-xs);
+    --mobile-dropdown-item-font-size: var(--bloom-font-size-sm);
     --logo-image-mobile-display: none;
     --notice-display-mobile: none;
     --link-text-hover-color: var(--bloom-color-gray-750);
     --link-text-color: var(--bloom-color-gray-750);
-    --link-font-size: var(--bloom-font-size-sm);
+    --link-font-size: var(--bloom-font-size-xs);
 
     .button {
       text-transform: uppercase;
       font-weight: 700;
       text-decoration: none;
       letter-spacing: var(--bloom-letter-spacing-widest);
-      font-size: var(--bloom-font-size-sm);
+      font-size: var(--bloom-font-size-xs);
       svg {
         rect {
           fill: var(--bloom-color-primary);
@@ -33,6 +43,34 @@
         color: var(--bloom-color-gray-950);
       }
     }
+  }
+
+  .button {
+    --inline-font-size: var(--bloom-font-size-sm);
+    --unstyled-inline-font-size: var(--bloom-font-size-sm);
+    --normal-font-size: var(--bloom-font-size-2xs);
+  }
+
+  .view-item {
+    --label-font-size: var(--bloom-font-size-sm);
+  }
+
+  .footer-sock {
+    --background-color: var(--bloom-color-black);
+  }
+
+  .grid-section__title {
+    font-size: 1.375rem;
+  }
+
+  .drawer__header {
+    h1 {
+      font-size: 1.375rem;
+    }
+  }
+
+  .page-header {
+    --padding-desktop: var(--bloom-s14) 0 var(--bloom-s10) 0;
   }
 }
 
@@ -47,21 +85,23 @@
 }
 
 :root {
-  --bloom-font-sans: [ "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif" ];
-  --bloom-font-alt-sans: [ "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana",
-    "sans-serif" ];
+  --detroit-font-sans: "Montserrat", "Open Sans", "Helvetica", "Arial", "Verdana", "sans-serif";
+  --detroit-font-serif: "Montserrat", "Droid Serif", "Georgia", "Times", "serif";
+
+  --bloom-font-sans: var(--detroit-font-sans);
+  --bloom-font-alt-sans: var(--detroit-font-sans);
+  --bloom-font-serif: var(--detroit-font-serif);
   --bloom-color-accent-cool: #297e73;
-  --bloom-color-gray-700: "#000000";
-  --bloom-color-gray-800: "#18252A";
-  --bloom-color-gray-950: "#000000";
-  --bloom-color-lush: "#feb70d";
+  --bloom-color-gray-700: #000000;
+  --bloom-color-gray-800: #18252a;
+  --bloom-color-gray-950: #000000;
+  --bloom-color-lush: #feb70d;
   --bloom-color-primary-dark: rgb(0, 68, 69);
-  --bloom-color-primary-darker: "#004445";
-  --bloom-color-primary-light: "#F2F2F2";
+  --bloom-color-primary-darker: #004445;
+  --bloom-color-primary-light: #f2f2f2;
   --bloom-color-primary-lighter: #f2f2f2;
   --bloom-color-primary: rgb(41, 126, 115);
-  --bloom-color-warn: "#feb70d";
-  --bloom-font-serif: var(--detroit-font-serif);
+  --bloom-color-warn: #feb70d;
   --primary-appearance-hover-background-color: white;
   --primary-appearance-hover-label-color: var(--bloom-color-primary);
   --primary-appearance-hover-border-color: var(--bloom-color-primary);

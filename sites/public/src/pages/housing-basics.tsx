@@ -1,9 +1,15 @@
 import React, { useState } from "react"
 import Markdown from "markdown-to-jsx"
-import { MarkdownSection, t, MediaCard, Video } from "@bloom-housing/ui-components"
-import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
-import { InfoCardGrid } from "../../../../detroit-ui-components/src/sections/InfoCardGrid"
-import { Modal } from "../../../../detroit-ui-components/src/overlays/Modal"
+import {
+  Heading,
+  InfoCardGrid,
+  MarkdownSection,
+  MediaCard,
+  Modal,
+  PageHeader,
+  t,
+  Video,
+} from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import RenderIf from "../RenderIf"
 import sidebarContent from "../page_content/resources/sidebar.md"
@@ -93,9 +99,14 @@ export default function HousingBasics() {
                   overrides: {
                     h3: {
                       component: ({ children, ...props }) => (
-                        <h3 {...props} className="text-tiny text-caps-underline">
+                        <Heading
+                          {...props}
+                          priority={3}
+                          styleType={"underlineWeighted"}
+                          className={"text-sm mt-0 mb-5"}
+                        >
                           {children}
-                        </h3>
+                        </Heading>
                       ),
                     },
                     RenderIf,

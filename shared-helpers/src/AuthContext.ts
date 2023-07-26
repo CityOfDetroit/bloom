@@ -180,7 +180,7 @@ const reducer = createReducer(
 )
 
 export const AuthContext = createContext<Partial<ContextProps>>({})
-export const AuthProvider: FunctionComponent = ({ children }) => {
+export const AuthProvider: FunctionComponent<React.PropsWithChildren> = ({ children }) => {
   const { apiUrl, storageType } = useContext(ConfigContext)
   const { router } = useContext(NavigationContext)
   const [state, dispatch] = useReducer(reducer, {
@@ -281,7 +281,9 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
         const response = await authService?.login({ body: { email, password, mfaCode, mfaType } })
         if (response) {
           dispatch(saveToken({ accessToken: response.accessToken, apiUrl, dispatch }))
-          const profile = await userService?.userControllerProfile()
+          const profile = await userService?.userControllerProfile({
+            headers: { Authorization: `Bearer ${response.accessToken}` },
+          })
           if (profile) {
             dispatch(saveProfile(profile))
             return profile

@@ -3,11 +3,15 @@
 Asks whether the applicant will be adding any additional household members
 */
 import React, { useContext, useEffect, useState } from "react"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
+import {
+  AppearanceSizeType,
+  Button,
+  Form,
+  FormCard,
+  ProgressNav,
+  t,
+} from "@bloom-housing/ui-components"
 import { useForm } from "react-hook-form"
-import { AppearanceSizeType, Form, t } from "@bloom-housing/ui-components"
 import FormsLayout from "../../../layouts/forms"
 import FormBackLink from "../../../components/applications/FormBackLink"
 import { useFormConductor } from "../../../lib/hooks"
@@ -84,7 +88,7 @@ const ApplicationLiveAlone = () => {
                   application.householdMembers = []
                   setValidateHousehold(true)
                 }}
-                data-test-id={"app-household-live-alone"}
+                data-testid={"app-household-live-alone"}
               >
                 {t("application.household.liveAlone.willLiveAlone")}
               </Button>
@@ -98,7 +102,7 @@ const ApplicationLiveAlone = () => {
                   if (application.householdSize === 1) application.householdSize = 0
                   setValidateHousehold(false)
                 }}
-                data-test-id={"app-household-live-with-others"}
+                data-testid={"app-household-live-with-others"}
               >
                 {t("application.household.liveAlone.liveWithOtherPeople")}
               </Button>

@@ -10,6 +10,7 @@ import { setupServer } from "msw/node"
 import ListingsList from "../../../src/pages/index"
 import React from "react"
 import { listing } from "../../testHelpers"
+import { mockNextRouter } from "../../testUtils"
 
 //Mock the jszip package used for Export
 const mockFile = jest.fn()
@@ -36,6 +37,7 @@ jest.mock("jszip", () => {
 const server = setupServer()
 beforeAll(() => {
   server.listen()
+  mockNextRouter()
 })
 
 afterEach(() => {
@@ -47,7 +49,6 @@ afterAll(() => server.close())
 
 describe("listings", () => {
   it("should not render Export to CSV when user is not admin", async () => {
-    jest.useFakeTimers()
     const fakeToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZTMxODNhOC0yMGFiLTRiMDYtYTg4MC0xMmE5NjYwNmYwOWMiLCJpYXQiOjE2Nzc2MDAxNDIsImV4cCI6MjM5NzkwMDc0Mn0.ve1U5tAardpFjNyJ_b85QZLtu12MoMTa2aM25E8D1BQ"
     window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, fakeToken)
@@ -59,6 +60,9 @@ describe("listings", () => {
         return res(
           ctx.json({ id: "user1", roles: { id: "user1", isAdmin: false, isPartner: true } })
         )
+      }),
+      rest.post("http://localhost:3100/auth/token", (_req, res, ctx) => {
+        return res(ctx.json(""))
       })
     )
 
@@ -76,7 +80,6 @@ describe("listings", () => {
   })
 
   it("should render the error text when listings csv api call fails", async () => {
-    jest.useFakeTimers()
     const fakeToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZTMxODNhOC0yMGFiLTRiMDYtYTg4MC0xMmE5NjYwNmYwOWMiLCJpYXQiOjE2Nzc2MDAxNDIsImV4cCI6MjM5NzkwMDc0Mn0.ve1U5tAardpFjNyJ_b85QZLtu12MoMTa2aM25E8D1BQ"
     window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, fakeToken)
@@ -89,6 +92,9 @@ describe("listings", () => {
       }),
       rest.get("http://localhost:3100/user", (_req, res, ctx) => {
         return res(ctx.json({ id: "user1", roles: { id: "user1", isAdmin: true } }))
+      }),
+      rest.post("http://localhost:3100/auth/token", (_req, res, ctx) => {
+        return res(ctx.json(""))
       })
     )
 
@@ -104,7 +110,6 @@ describe("listings", () => {
     const exportButton = getByText("Export to CSV")
     expect(exportButton).toBeInTheDocument()
     fireEvent.click(exportButton)
-    jest.clearAllTimers()
     const error = await findByText(
       "Export failed. Please try again later. If the problem persists, please email supportbloom@exygy.com",
       {
@@ -118,7 +123,6 @@ describe("listings", () => {
     window.URL.createObjectURL = jest.fn()
     //Prevent error from clicking anchor tag within test
     HTMLAnchorElement.prototype.click = jest.fn()
-    jest.useFakeTimers()
     const fakeToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZTMxODNhOC0yMGFiLTRiMDYtYTg4MC0xMmE5NjYwNmYwOWMiLCJpYXQiOjE2Nzc2MDAxNDIsImV4cCI6MjM5NzkwMDc0Mn0.ve1U5tAardpFjNyJ_b85QZLtu12MoMTa2aM25E8D1BQ"
     window.sessionStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, fakeToken)
@@ -132,6 +136,9 @@ describe("listings", () => {
       }),
       rest.get("http://localhost:3100/user", (_req, res, ctx) => {
         return res(ctx.json({ id: "user1", roles: { id: "user1", isAdmin: true } }))
+      }),
+      rest.post("http://localhost:3100/auth/token", (_req, res, ctx) => {
+        return res(ctx.json(""))
       })
     )
 
@@ -147,7 +154,6 @@ describe("listings", () => {
     const exportButton = getByText("Export to CSV")
     expect(exportButton).toBeInTheDocument()
     fireEvent.click(exportButton)
-    jest.clearAllTimers()
     const success = await findByText("The file has been exported")
     expect(success).toBeInTheDocument()
   })

@@ -10,13 +10,13 @@ import {
   SiteAlert,
   passwordRegex,
   PhoneField,
+  Button,
+  Modal,
+  LinkButton,
+  FormCard,
+  Icon,
+  AlertBox,
 } from "@bloom-housing/ui-components"
-import { Button } from "../../../../detroit-ui-components/src/actions/Button"
-import { LinkButton } from "../../../../detroit-ui-components/src/actions/LinkButton"
-import { FormCard } from "../../../../detroit-ui-components/src/blocks/FormCard"
-import { Icon } from "../../../../detroit-ui-components/src/icons/Icon"
-import { AlertBox } from "../../../../detroit-ui-components/src/notifications/AlertBox"
-import { Modal } from "../../../../detroit-ui-components/src/overlays/Modal"
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
 dayjs.extend(customParseFormat)
@@ -148,7 +148,7 @@ export default () => {
               errorMessage={t("authentication.signIn.loginError")}
               register={register}
             />
-            <p className="text text-gray-750 text-tiny">
+            <p className="text text-gray-750 text-sm">
               {t("authentication.createAccount.reEnterEmail")}
             </p>
             <Field
@@ -206,8 +206,9 @@ export default () => {
               error={errors.password}
               errorMessage={t("authentication.signIn.passwordError")}
               register={register}
+              className={"text-gray-750"}
             />
-            <p className="text text-gray-750 text-tiny">
+            <p className="text text-gray-750 text-sm">
               {t("authentication.createAccount.reEnterPassword")}
             </p>
             <Field

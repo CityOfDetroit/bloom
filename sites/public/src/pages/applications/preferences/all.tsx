@@ -1,11 +1,18 @@
 import React, { useMemo, useState, useEffect, useContext } from "react"
 import { useForm } from "react-hook-form"
-import { Form, Field, t, AppearanceStyleType, resolveObject } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ExpandableContent } from "../../../../../../detroit-ui-components/src/actions/ExpandableContent"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
-import { AlertBox } from "../../../../../../detroit-ui-components/src/notifications/AlertBox"
+import {
+  Form,
+  Field,
+  t,
+  AppearanceStyleType,
+  resolveObject,
+  Button,
+  ExpandableContent,
+  Order,
+  FormCard,
+  ProgressNav,
+  AlertBox,
+} from "@bloom-housing/ui-components"
 import {
   stateKeys,
   OnClientSide,
@@ -228,7 +235,10 @@ const ApplicationPreferencesAll = () => {
 
         {!(description === false) && (
           <div className="ml-8 -mt-3 mb-5">
-            <ExpandableContent>
+            <ExpandableContent
+              strings={{ readLess: t("t.readLess"), readMore: t("t.readMore") }}
+              order={Order.below}
+            >
               <p className="field-note mb-8">
                 {t(
                   `application.preferences.${preference.formMetadata.key}.${optionKey}.description`,
@@ -257,7 +267,7 @@ const ApplicationPreferencesAll = () => {
               errors={errors}
               hhMembersOptions={hhMmembersOptions}
               stateKeys={stateKeys}
-              data-test-id={"app-preference-extra-field"}
+              data-testid={"app-preference-extra-field"}
             />
           ))}
       </div>
@@ -375,7 +385,7 @@ const ApplicationPreferencesAll = () => {
                     conductor.returnToReview = false
                     conductor.setNavigatedBack(false)
                   }}
-                  data-test-id={"app-next-step-button"}
+                  data-testid={"app-next-step-button"}
                 >
                   {t("t.next")}
                 </Button>

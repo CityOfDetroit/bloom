@@ -1,6 +1,5 @@
 import React, { useContext, useMemo } from "react"
-import { t, GridSection, GridCell } from "@bloom-housing/ui-components"
-import { ViewItem } from "../../../../../../../detroit-ui-components/src/blocks/ViewItem"
+import { t, GridSection, GridCell, ViewItem } from "@bloom-housing/ui-components"
 import { ApplicationContext } from "../../ApplicationContext"
 import { InputType, AddressCreate } from "@bloom-housing/backend-core/types"
 import { DetailsAddressColumns, AddressColsType } from "../DetailsAddressColumns"
@@ -56,7 +55,7 @@ const DetailsPreferences = ({ listingId }: DetailsPreferencesProps) => {
                     if (extra.type === InputType.text)
                       return (
                         <ViewItem key={extra.key} label={t("t.name")}>
-                          {extra.value}
+                          <>{extra.value}</>
                         </ViewItem>
                       )
 

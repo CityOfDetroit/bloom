@@ -1,9 +1,13 @@
 import { useContext, useState, useEffect, useCallback } from "react"
 import { Application } from "@bloom-housing/backend-core/types"
-import { AppearanceStyleType, Form, t } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
+import {
+  AppearanceStyleType,
+  Button,
+  Form,
+  FormCard,
+  ProgressNav,
+  t,
+} from "@bloom-housing/ui-components"
 import {
   blankApplication,
   OnClientSide,
@@ -116,14 +120,14 @@ export default () => {
           hidePreferences={true}
         />
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-card__pager" data-test-id={"application-initial-page"}>
+          <div className="form-card__pager" data-testid={"application-initial-page"}>
             <div className="form-card__pager-row primary">
               <Button
                 styleType={AppearanceStyleType.primary}
                 onClick={() => {
                   useDetails = true
                 }}
-                data-test-id={"autofill-accept"}
+                data-testid={"autofill-accept"}
               >
                 {t("application.autofill.start")}
               </Button>

@@ -46,7 +46,7 @@
   "dependencies": {
     "@anchan828/nest-sendgrid": "^0.3.25",
     "@google-cloud/translate": "^6.2.6",
-    "@nestjs/bull": "^0.4.2",
+    "@nestjs/bull": "^0.6.3",
     "@types/mapbox": "^1.6.42",
     "bull": "^4.1.0",
     "@nestjs/cli": "^8.2.1",
@@ -107,8 +107,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@babel/core": "^7.21.3",
+    "@babel/plugin-proposal-decorators": "^7.21.0",
     "@nestjs/schematics": "^8.0.7",
     "@nestjs/testing": "^8.3.1",
     "@types/axios": "^0.14.0",
@@ -145,7 +145,7 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": "14",
+    "node": "18",
     "yarn": "^1.22"
   }
 }

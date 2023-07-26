@@ -3,7 +3,7 @@ name: Pre-release ui-components
 on:
   # Triggers the workflow on push only for the dev branch
   push:
-    branches: [ dev ]
+    branches: [dev]
 
 jobs:
   build:
@@ -21,18 +21,18 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
 
       - name: Version ui-components
         run: yarn version:prerelease:ui-components
         env:
           GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-        
+
       - name: Publish ui-components
         run: yarn publish:ui-components
         env:

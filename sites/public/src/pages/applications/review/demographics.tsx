@@ -3,11 +3,16 @@
 Optional demographic questions
 */
 import React, { useContext, useEffect } from "react"
-import { AppearanceStyleType, Form, Select, t } from "@bloom-housing/ui-components"
-import { Button } from "../../../../../../detroit-ui-components/src/actions/Button"
-import { FormCard } from "../../../../../../detroit-ui-components/src/blocks/FormCard"
-import { FieldGroup } from "../../../../../../detroit-ui-components/src/forms/FieldGroup"
-import { ProgressNav } from "../../../../../../detroit-ui-components/src/navigation/ProgressNav"
+import {
+  AppearanceStyleType,
+  Button,
+  FieldGroup,
+  Form,
+  FormCard,
+  ProgressNav,
+  Select,
+  t,
+} from "@bloom-housing/ui-components"
 import FormsLayout from "../../../layouts/forms"
 import { useForm } from "react-hook-form"
 import {
@@ -151,7 +156,7 @@ const ApplicationDemographics = () => {
 
           <div className="form-card__pager">
             <div className="form-card__pager-row primary">
-              <Button styleType={AppearanceStyleType.primary} data-test-id={"app-next-step-button"}>
+              <Button styleType={AppearanceStyleType.primary} data-testid={"app-next-step-button"}>
                 {t("t.next")}
               </Button>
             </div>

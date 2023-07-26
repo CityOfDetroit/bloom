@@ -1,10 +1,13 @@
 import React, { useEffect, useContext, useState } from "react"
 import Head from "next/head"
-import { AppearanceSizeType, t } from "@bloom-housing/ui-components"
-import { Button } from "../../../../detroit-ui-components/src/actions/Button"
-import { Drawer } from "../../../../detroit-ui-components/src/overlays/Drawer"
-import { PageHeader } from "../../../../detroit-ui-components/src/headers/PageHeader"
-import { AgPagination } from "../../../../detroit-ui-components/src/global/vendor/AgPagination"
+import {
+  AppearanceSizeType,
+  Button,
+  t,
+  Drawer,
+  PageHeader,
+  AppearanceStyleType,
+} from "@bloom-housing/ui-components"
 import Layout from "../layouts/application"
 import { MetaTags } from "../components/shared/MetaTags"
 import { useRouter } from "next/router"
@@ -18,6 +21,7 @@ import {
   ListingFilterState,
   AuthContext,
 } from "@bloom-housing/shared-helpers"
+import { ListingPagination } from "../components/listing/ListingPagination"
 import { UserStatus } from "../lib/constants"
 
 const ListingsPage = ({ initialListings }) => {
@@ -58,7 +62,6 @@ const ListingsPage = ({ initialListings }) => {
         open={filterModalVisible}
         title={t("listingFilters.modalTitle")}
         onClose={() => setFilterModalVisible(false)}
-        contentAreaClassName={"px-0 pt-0 pb-0 h-full"}
       >
         <FilterForm
           onSubmit={(data) => onSubmit(/*page=*/ 1, 8, data)}
@@ -67,18 +70,16 @@ const ListingsPage = ({ initialListings }) => {
       </Drawer>
 
       <div className={"bg-gray-300"}>
-        <div className="max-w-5xl flex sm:flex-row flex-col justify-between container mx-auto px-4 py-8  gap-y-2">
-          <h2 className="text-3xl text-primary-darker font-bold">
-            {t("listingFilters.allRentals")}
-          </h2>
+        <div className="max-w-5xl flex sm:flex-row flex-col justify-between container mx-auto px-4 py-8  gap-y-2 listings-header">
+          <h2 className="text-primary-darker font-bold">{t("listingFilters.allRentals")}</h2>
           <Button
-            className="bg-lush border-lush text-black"
+            className="icon-black"
             size={AppearanceSizeType.normal}
+            styleType={AppearanceStyleType.primary}
             icon="search"
             iconPlacement="left"
             iconSize="md-large"
             onClick={() => setFilterModalVisible(true)}
-            passToIconClass={"ui-icon__filledBlack"}
           >
             {t("listingFilters.buttonTitleExtended")}
           </Button>
@@ -95,7 +96,7 @@ const ListingsPage = ({ initialListings }) => {
       {initialListings?.meta?.totalItems > 0 && (
         <div>
           {initialListings?.meta?.totalItems > 0 && getListings(initialListings?.items)}
-          <AgPagination
+          <ListingPagination
             totalItems={initialListings?.meta.totalItems}
             totalPages={initialListings?.meta.totalPages}
             currentPage={1}
@@ -103,8 +104,6 @@ const ListingsPage = ({ initialListings }) => {
             quantityLabel={t("listings.totalListings")}
             setCurrentPage={(page) => onSubmit(page, 8, {})}
             setItemsPerPage={(limit) => onSubmit(1, Number(limit), {})}
-            includeBorder={false}
-            matchListingCardWidth={true}
           />
         </div>
       )}
