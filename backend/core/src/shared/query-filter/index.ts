@@ -89,10 +89,10 @@ export function addFilters<FilterParams extends Array<any>, FilterFieldMap>(
           addRegionFilter(qb, filterValue)
           continue
         case ListingFilterKeys.minRent:
-          addRentFilter(qb, filterValue, "<=", "minRent")
+          addRentFilter(qb, filterValue, ">=", "minRent")
           continue
         case ListingFilterKeys.maxRent:
-          addRentFilter(qb, filterValue, ">=", "maxRent")
+          addRentFilter(qb, filterValue, "<=", "maxRent")
           continue
         //custom user filters
         case UserFilterKeys.isPortalUser:
