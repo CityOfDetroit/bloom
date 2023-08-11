@@ -12,7 +12,7 @@ import Layout from "../layouts/application"
 import { MetaTags } from "../components/shared/MetaTags"
 import { useRouter } from "next/router"
 import FilterForm from "../components/filters/FilterForm"
-import { getListings } from "../lib/helpers"
+import { getListings, removeCommas } from "../lib/helpers"
 import { fetchBaseListingData } from "../lib/hooks"
 import {
   ListingList,
@@ -20,6 +20,7 @@ import {
   encodeToFrontendFilterString,
   ListingFilterState,
   AuthContext,
+  FrontendListingFilterStateKeys,
 } from "@bloom-housing/shared-helpers"
 import { ListingPagination } from "../components/listing/ListingPagination"
 import { UserStatus } from "../lib/constants"
@@ -35,6 +36,13 @@ const ListingsPage = ({ initialListings }) => {
   const metaImage = "" // TODO: replace with hero image
 
   const onSubmit = (page: number, limit: number, data: ListingFilterState) => {
+    data[FrontendListingFilterStateKeys.minRent] = removeCommas(
+      data[FrontendListingFilterStateKeys.minRent]
+    )
+    data[FrontendListingFilterStateKeys.maxRent] = removeCommas(
+      data[FrontendListingFilterStateKeys.maxRent]
+    )
+
     setFilterModalVisible(false)
     void router.push(
       `/listings/filtered?page=${page}&limit=${limit}${encodeToFrontendFilterString(data)}`

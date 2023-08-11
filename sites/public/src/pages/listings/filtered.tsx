@@ -14,10 +14,10 @@ import {
 import { faSliders } from "@fortawesome/free-solid-svg-icons"
 import DetroitIcon from "../../components/core/DetroitIcon"
 import {
-  encodeToFrontendFilterString,
   decodeFiltersFromFrontendUrl,
-  ListingFilterState,
+  encodeToFrontendFilterString,
   FrontendListingFilterStateKeys,
+  ListingFilterState,
 } from "@bloom-housing/shared-helpers"
 import Layout from "../../layouts/application"
 import { MetaTags } from "../../components/shared/MetaTags"
@@ -27,7 +27,7 @@ import { useListingsData } from "../../lib/hooks"
 import { EnumListingFilterParamsStatus, OrderByFieldsEnum } from "@bloom-housing/backend-core/types"
 import FilterForm from "../../components/filters/FilterForm"
 import ListingPagination from "../../components/listing/ListingPagination"
-import { getListings } from "../../lib/helpers"
+import { getListings, removeCommas } from "../../lib/helpers"
 
 const FilteredListingsPage = () => {
   const router = useRouter()
@@ -90,6 +90,12 @@ const FilteredListingsPage = () => {
   const onSubmit = (page: number, limit: number, data: ListingFilterState) => {
     // hide status filter
     delete data[FrontendListingFilterStateKeys.status]
+    data[FrontendListingFilterStateKeys.minRent] = removeCommas(
+      data[FrontendListingFilterStateKeys.minRent]
+    )
+    data[FrontendListingFilterStateKeys.maxRent] = removeCommas(
+      data[FrontendListingFilterStateKeys.maxRent]
+    )
     setFilterModalVisible(false)
     setQueryString(page, limit, data)
   }
