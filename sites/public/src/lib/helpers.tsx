@@ -45,6 +45,9 @@ import DetroitIcon from "../components/core/DetroitIcon"
 
 export const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
+export const removeCommas = (data: string | number) =>
+  typeof data === "string" ? data.replaceAll(",", "") : data
+
 export const getGenericAddress = (bloomAddress: Address) => {
   return bloomAddress
     ? {

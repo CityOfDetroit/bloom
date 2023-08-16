@@ -24,6 +24,7 @@ import Layout from "../layouts/application"
 import FinderDisclaimer from "../components/finder/FinderDisclaimer"
 import FinderMultiselect from "../components/finder/FinderMultiselect"
 import FinderRentalCosts from "../components/finder/FinderRentalCosts"
+import { removeCommas } from "../lib/helpers"
 
 interface FinderField {
   label: string
@@ -128,6 +129,16 @@ const Finder = () => {
         })
       }
     })
+    if (formSelections[FrontendListingFilterStateKeys.minRent]) {
+      formSelections[FrontendListingFilterStateKeys.minRent] = removeCommas(
+        formSelections[FrontendListingFilterStateKeys.minRent]
+      )
+    }
+    if (formSelections[FrontendListingFilterStateKeys.maxRent]) {
+      formSelections[FrontendListingFilterStateKeys.maxRent] = removeCommas(
+        formSelections[FrontendListingFilterStateKeys.maxRent]
+      )
+    }
     void router.push(
       `/listings/filtered?page=${1}&limit=${8}${encodeToFrontendFilterString(formSelections)}`
     )
