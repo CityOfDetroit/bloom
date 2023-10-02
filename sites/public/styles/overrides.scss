@@ -154,10 +154,9 @@
     }
   }
 
-  // .drawer {
-  //   --content-padding: 0;
-  //   --content-height: 100%;
-  // }
+  .drawer {
+    --content-padding: 0;
+  }
 
   .page-header {
     --inverse-background-color: var(--bloom-color-primary-darker);
