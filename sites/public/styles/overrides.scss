@@ -162,7 +162,7 @@
 
     @supports not (height: 100dvh) {
       .drawer__body {
-        padding-bottom: var(--bloom-s16);
+        padding-bottom: var(--bloom-s24);
         @screen md {
           padding-bottom: 0;
         }
