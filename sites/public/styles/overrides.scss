@@ -156,7 +156,14 @@
 
   .drawer {
     --content-padding: 0;
-    height: 100svh;
+
+    @supports (height: 100dvh) {
+      height: 100dvh;
+    }
+
+    @supports not (height: 100dvh) {
+      padding-bottom: var(--bloom-s8);
+    }
   }
 
   .page-header {
