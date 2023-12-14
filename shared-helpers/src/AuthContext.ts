@@ -118,7 +118,7 @@ const scheduleTokenRefresh = (accessToken: string, onRefresh: (accessToken: stri
     return null
   } else {
     // Queue up a refresh for ~1 minute before the token expires
-    return (setTimeout(() => {
+    return setTimeout(() => {
       const run = async () => {
         const reposne = await new AuthService().token()
         if (reposne) {
@@ -126,7 +126,7 @@ const scheduleTokenRefresh = (accessToken: string, onRefresh: (accessToken: stri
         }
       }
       void run()
-    }, Math.max(ttl - 60000, 0)) as unknown) as number
+    }, Math.max(ttl - 60000, 0)) as unknown as number
   }
 }
 const reducer = createReducer(
@@ -316,7 +316,10 @@ export const AuthProvider: FunctionComponent<React.PropsWithChildren> = ({ child
           },
         })
         if (response) {
-          dispatch(saveToken({ accessToken: response.accessToken, apiUrl, dispatch }))
+          await new Promise((resolve) => {
+            dispatch(saveToken({ accessToken: response.accessToken, apiUrl, dispatch }))
+            resolve(true)
+          })
           const profile = await userService?.userControllerProfile()
           if (profile) {
             dispatch(saveProfile(profile))
