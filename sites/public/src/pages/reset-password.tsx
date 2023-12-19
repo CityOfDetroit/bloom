@@ -40,9 +40,9 @@ const ResetPassword = () => {
     const { password, passwordConfirmation } = data
 
     try {
-      const user = await resetPassword(token.toString(), password, passwordConfirmation)
-      setSiteAlertMessage(t(`authentication.signIn.success`, { name: user.firstName }), "success")
-      await router.push("/account/dashboard")
+      await resetPassword(token.toString(), password, passwordConfirmation)
+      setSiteAlertMessage(t(`account.settings.passwordSuccess`), "notice")
+      await router.push("/sign-in")
     } catch (err) {
       const { status, data } = err.response || {}
       if (status === 400) {

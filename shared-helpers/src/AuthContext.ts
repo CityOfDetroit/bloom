@@ -317,11 +317,12 @@ export const AuthProvider: FunctionComponent<React.PropsWithChildren> = ({ child
         })
         if (response) {
           dispatch(saveToken({ accessToken: response.accessToken, apiUrl, dispatch }))
-          const profile = await userService?.userControllerProfile()
-          if (profile) {
-            dispatch(saveProfile(profile))
-            return profile
-          }
+          // 12/18 - Short-term error fix to allow user accesss
+          // const profile = await userService?.userControllerProfile()
+          // if (profile) {
+          //   dispatch(saveProfile(profile))
+          //   return profile
+          // }
         }
         return undefined
       } finally {
