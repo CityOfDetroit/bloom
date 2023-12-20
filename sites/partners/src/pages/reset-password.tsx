@@ -33,7 +33,7 @@ const ResetPassword = () => {
     try {
       await resetPassword(token.toString(), password, passwordConfirmation)
       setSiteAlertMessage(t(`account.settings.passwordSuccess`), "notice")
-      await router.push("/sign-in")
+      await router.push("/")
       window.scrollTo(0, 0)
     } catch (err) {
       const { status, data } = err.response || {}

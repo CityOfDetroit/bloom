@@ -276,6 +276,8 @@ export class UserService {
     }
 
     if (user.confirmationToken !== token) {
+      console.log(user.confirmationToken)
+      console.log(token)
       throw new HttpException(USER_ERRORS.TOKEN_MISSING.message, USER_ERRORS.TOKEN_MISSING.status)
     }
     user.hitConfirmationURL = new Date()
