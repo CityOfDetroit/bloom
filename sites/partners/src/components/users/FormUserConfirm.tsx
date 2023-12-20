@@ -58,9 +58,7 @@ const FormUserConfirm = () => {
   ]
 
   useEffect(() => {
-    console.log("In useEffect")
     if (!isTokenChecked && token) {
-      console.log("checking token")
       userService
         .isUserConfirmationTokenValid({ body: { token } })
         .then((res) => {
