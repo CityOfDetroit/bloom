@@ -296,7 +296,9 @@ export const AuthProvider: FunctionComponent<React.PropsWithChildren> = ({ child
     },
     loginWithToken: async (token: string) => {
       dispatch(saveToken({ accessToken: token, apiUrl, dispatch }))
-      const profile = await userService?.userControllerProfile()
+      const profile = await userService?.userControllerProfile({
+        headers: { Authorization: `Bearer ${token}` },
+      })
       if (profile) {
         dispatch(saveProfile(profile))
         return profile
@@ -317,12 +319,13 @@ export const AuthProvider: FunctionComponent<React.PropsWithChildren> = ({ child
         })
         if (response) {
           dispatch(saveToken({ accessToken: response.accessToken, apiUrl, dispatch }))
-          // 12/18 - Short-term error fix to allow user accesss
-          // const profile = await userService?.userControllerProfile()
-          // if (profile) {
-          //   dispatch(saveProfile(profile))
-          //   return profile
-          // }
+          const profile = await userService?.userControllerProfile({
+            headers: { Authorization: `Bearer ${response.accessToken}` },
+          })
+          if (profile) {
+            dispatch(saveProfile(profile))
+            return profile
+          }
         }
         return undefined
       } finally {
@@ -335,7 +338,9 @@ export const AuthProvider: FunctionComponent<React.PropsWithChildren> = ({ child
         const response = await userService?.confirm({ body: { token } })
         if (response) {
           dispatch(saveToken({ accessToken: response.accessToken, apiUrl, dispatch }))
-          const profile = await userService?.userControllerProfile()
+          const profile = await userService?.userControllerProfile({
+            headers: { Authorization: `Bearer ${response.accessToken}` },
+          })
           if (profile) {
             dispatch(saveProfile(profile))
             return profile
