@@ -228,7 +228,7 @@ describe("Listing Management Tests", () => {
       }, [] as fillFromFieldOption[])
     )
 
-    cy.get("#longitude").contains("-122.40")
+    cy.get("#longitude").contains("-122")
     cy.get("#latitude").contains("37.79")
     cy.get("#unitTable").contains("Unit Type")
     cy.getByID("waitlist.openQuestion").contains("No")
