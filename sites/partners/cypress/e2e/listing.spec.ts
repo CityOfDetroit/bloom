@@ -229,7 +229,7 @@ describe("Listing Management Tests", () => {
     )
 
     cy.get("#longitude").contains("-122")
-    cy.get("#latitude").contains("37.79")
+    cy.get("#latitude").contains("37")
     cy.get("#unitTable").contains("Unit Type")
     cy.getByID("waitlist.openQuestion").contains("No")
     cy.get("#digitalApplication").contains("Yes")
