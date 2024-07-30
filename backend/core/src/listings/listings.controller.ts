@@ -14,6 +14,7 @@ import {
   ClassSerializerInterceptor,
   Headers,
   Header,
+  ParseUUIDPipe,
 } from "@nestjs/common"
 import { ListingsService } from "./listings.service"
 import { ApiBearerAuth, ApiExtraModels, ApiOperation, ApiTags } from "@nestjs/swagger"
@@ -101,7 +102,7 @@ export class ListingsController {
   @UsePipes(new ValidationPipe(defaultValidationPipeOptions))
   async retrieve(
     @Headers("language") language: Language,
-    @Param("id") listingId: string,
+    @Param("id", new ParseUUIDPipe({ version: "4" })) listingId: string,
     @Query() queryParams: ListingsRetrieveQueryParams
   ): Promise<ListingDto> {
     if (listingId === undefined || listingId === "undefined") {
@@ -127,7 +128,7 @@ export class ListingsController {
   @Delete(`:id`)
   @ApiOperation({ summary: "Delete listing by id", operationId: "delete" })
   @UsePipes(new ValidationPipe(defaultValidationPipeOptions))
-  async delete(@Param("id") listingId: string) {
+  async delete(@Param("id", new ParseUUIDPipe({ version: "4" })) listingId: string) {
     await this.listingsService.delete(listingId)
   }
 }
