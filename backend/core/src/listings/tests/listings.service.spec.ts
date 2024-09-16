@@ -14,7 +14,6 @@ import { ContextIdFactory } from "@nestjs/core"
 import { UnitGroup } from "../../units-summary/entities/unit-group.entity"
 import { UnitType } from "../../unit-types/entities/unit-type.entity"
 import { Program } from "../../program/entities/program.entity"
-import { BullModule, getQueueToken } from "@nestjs/bull"
 import { User } from "../../../src/auth/entities/user.entity"
 
 // Cypress brings in Chai types for the global expect, but we want to use jest
@@ -108,8 +107,6 @@ const mockListingsRepo = {
   save: jest.fn(),
 }
 
-const mockListingsNotificationsQueue = { add: jest.fn() }
-
 describe("ListingsService", () => {
   beforeEach(async () => {
     process.env.APP_SECRET = "SECRET"
@@ -147,11 +144,7 @@ describe("ListingsService", () => {
         },
         { provide: getRepositoryToken(User), useValue: jest.fn() },
       ],
-      imports: [BullModule.registerQueue({ name: "listings-notifications" })],
-    })
-      .overrideProvider(getQueueToken("listings-notifications"))
-      .useValue(mockListingsNotificationsQueue)
-      .compile()
+    }).compile()
 
     const contextId = ContextIdFactory.create()
     jest.spyOn(ContextIdFactory, "getByRequest").mockImplementation(() => contextId)

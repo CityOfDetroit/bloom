@@ -6,7 +6,6 @@ executors:
   standard-node:
     docker:
       - image: "cimg/node:18.14.2"
-      - image: "circleci/redis:6.2.1-alpine"
       - image: "circleci/postgres:12.3-postgis"
         environment:
           POSTGRES_USER: bloom-ci
@@ -31,9 +30,6 @@ executors:
       DATABASE_URL: "postgres://bloom-ci@localhost:5432/bloom"
       # DB URL for the jest tests per ormconfig.test.ts
       TEST_DATABASE_URL: "postgres://bloom-ci@localhost:5432/bloom"
-      REDIS_TLS_URL: "rediss://localhost:6379/0"
-      REDIS_URL: "redis://localhost:6379/0"
-      REDIS_USE_TLS: "0"
       PARTNERS_PORTAL_URL: "http://localhost:3001"
 
 jobs:
@@ -83,9 +79,6 @@ jobs:
             DATABASE_URL: "postgres://bloom-ci@localhost:5432/bloom"
             # DB URL for the jest tests per ormconfig.test.ts
             TEST_DATABASE_URL: "postgres://bloom-ci@localhost:5432/bloom"
-            REDIS_TLS_URL: "rediss://localhost:6379/0"
-            REDIS_URL: "redis://localhost:6379/0"
-            REDIS_USE_TLS: "0"
             CLOUDINARY_SIGNED_PRESET: "fake_secret"
             CLOUDINARY_KEY: "fake_key"
             CLOUDINARY_CLOUD_NAME: "exygy"
