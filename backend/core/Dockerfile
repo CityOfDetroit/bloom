@@ -30,6 +30,6 @@ COPY --from=development /usr/src/app/dist ./dist
 EXPOSE ${PORT}
 
 # If you attempt to run this by itself, you'll need to pass in:
-# PORT, DATABASE_URL, REDIS_URL, REDIS_TLS_URL
+# PORT, DATABASE_URL
 # Typically via: docker run --env-file=".env" -t my-app
 CMD yarn start
