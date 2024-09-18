@@ -23,8 +23,6 @@ import { AmiChartsModule } from "./ami-charts/ami-charts.module"
 import { ApplicationFlaggedSetsModule } from "./application-flagged-sets/application-flagged-sets.module"
 import * as bodyParser from "body-parser"
 import { ThrottlerModule } from "@nestjs/throttler"
-import { ThrottlerStorageRedisService } from "nestjs-throttler-storage-redis"
-import Redis from "ioredis"
 import { SharedModule } from "./shared/shared.module"
 import { ConfigModule, ConfigService } from "@nestjs/config"
 import { TranslationsModule } from "./translations/translations.module"
@@ -40,7 +38,6 @@ import { PaperApplicationsModule } from "./paper-applications/paper-applications
 import { SmsModule } from "./sms/sms.module"
 import { ScheduleModule } from "@nestjs/schedule"
 import { CronModule } from "./cron/cron.module"
-import { BullModule } from "@nestjs/bull"
 import { ProgramsModule } from "./program/programs.module"
 import { ActivityLogModule } from "./activity-log/activity-log.module"
 import { logger } from "./shared/middlewares/logger.middleware"
@@ -64,27 +61,6 @@ export function applicationSetup(app: INestApplication) {
 })
 export class AppModule {
   static register(dbOptions): DynamicModule {
-    /**
-     * DEV NOTE:
-     * This configuration is required due to issues with
-     * self signed certificates in Redis 6.
-     *
-     * { rejectUnauthorized: false } option is intentional and required
-     *
-     * Read more:
-     * https://help.heroku.com/HC0F8CUS/redis-connection-issues
-     * https://devcenter.heroku.com/articles/heroku-redis#ioredis-module
-     */
-    const redis =
-      "0" === process.env.REDIS_USE_TLS
-        ? new Redis(process.env.REDIS_URL, { connectTimeout: 60000 })
-        : new Redis(process.env.REDIS_TLS_URL, {
-            tls: {
-              rejectUnauthorized: false,
-            },
-            connectTimeout: 60000,
-          })
-
     return {
       module: AppModule,
       imports: [
@@ -94,9 +70,6 @@ export class AppModule {
         ApplicationsModule,
         AssetsModule,
         AuthModule,
-        BullModule.forRoot({
-          redis: redis.options,
-        }),
         JurisdictionsModule,
         ListingsModule,
         CronModule,
@@ -121,7 +94,6 @@ export class AppModule {
           useFactory: (config: ConfigService) => ({
             ttl: config.get("THROTTLE_TTL"),
             limit: config.get("THROTTLE_LIMIT"),
-            storage: new ThrottlerStorageRedisService(redis),
           }),
         }),
         UnitsModule,

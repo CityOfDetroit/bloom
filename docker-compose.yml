@@ -77,21 +77,11 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       DATABASE_URL: "postgres://postgres:5432/bloom"
-      REDIS_TLS_URL: "redis://redis:6379/0"
-      REDIS_URL: "redis://redis:6379/0"
       PGUSER: "postgres"
       PGPASSWORD: "postgres"
       PGDATABASE: "bloom"
     depends_on:
-      - redis
       - postgres
-  redis:
-    container_name: redis
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    networks:
-      - backend
   postgres:
     container_name: postgres
     image: postgres:13
