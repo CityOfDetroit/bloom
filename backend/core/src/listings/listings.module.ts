@@ -3,7 +3,6 @@ import { TypeOrmModule } from "@nestjs/typeorm"
 import { ListingsService } from "./listings.service"
 import { ListingsController } from "./listings.controller"
 import { Listing } from "./entities/listing.entity"
-import { ListingsNotificationsConsumer } from "./listings-notifications"
 import { Unit } from "../units/entities/unit.entity"
 import { Preference } from "../preferences/entities/preference.entity"
 import { AuthModule } from "../auth/auth.module"
@@ -41,14 +40,8 @@ import { CsvBuilder } from "../../src/applications/services/csv-builder.service"
     SmsModule,
     ActivityLogModule,
   ],
-  providers: [
-    ListingsService,
-    ListingsNotificationsConsumer,
-    CsvBuilder,
-    ListingsCsvExporterService,
-  ],
+  providers: [ListingsService, CsvBuilder, ListingsCsvExporterService],
   exports: [ListingsService],
   controllers: [ListingsController],
 })
-// We have to manually disconnect from redis on app close
 export class ListingsModule {}
