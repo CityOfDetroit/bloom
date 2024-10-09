@@ -14,7 +14,7 @@ export const regionImageUrls: Map<Region, string> = new Map([
   ],
   [
     Region.Southwest,
-    "https://www.theneighborhoods.org/sites/the-neighborhoods/files/2020-10/Southwest-Mural_1.jpg",
+    "http://www.theneighborhoods.org/sites/the-neighborhoods/files/2020-10/Southwest-Mural_1.jpg",
   ],
   [
     Region.Westside,
