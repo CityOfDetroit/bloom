@@ -10,11 +10,11 @@ export const regionImageUrls: Map<Region, string> = new Map([
   [Region.GreaterDowntown, "https://pbs.twimg.com/media/DSzZwQKVAAASkw_?format=jpg&name=large"],
   [
     Region.Eastside,
-    "https://d12kp1agyyb87s.cloudfront.net/wp-content/uploads/2019/10/image001.jpg",
+    "https://res.cloudinary.com/exygy/image/upload/v1740007497/detroit/Detroit-Eastside_qzxx6n.jpg",
   ],
   [
     Region.Southwest,
-    "https://www.theneighborhoods.org/sites/the-neighborhoods/files/2020-10/Southwest-Mural_1.jpg",
+    "https://res.cloudinary.com/exygy/image/upload/v1740007258/detroit/Detroit-Southwest_wbx3nu.jpg",
   ],
   [
     Region.Westside,
