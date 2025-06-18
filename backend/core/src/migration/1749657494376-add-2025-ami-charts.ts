@@ -7,10 +7,11 @@ export class homeAmiChart1749657494376 implements MigrationInterface {
     const [{ id: juris }] = await queryRunner.query(
       `SELECT id FROM jurisdictions WHERE name = 'Detroit'`
     );
+    
     await queryRunner.query(`
                   INSERT INTO ami_chart
                   (name, items, jurisdiction_id)
-                  VALUES ('${amiHUD2025.name}', '${JSON.stringify(amiMSHDA2025.items)}', '${juris}')
+                  VALUES ('${amiHUD2025.name}', '${JSON.stringify(amiHUD2025.items)}', '${juris}')
               `);
     await queryRunner.query(`
                   INSERT INTO ami_chart
