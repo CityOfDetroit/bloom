@@ -37,6 +37,7 @@
   "account.settings.placeholders.month": "MM",
   "account.settings.placeholders.day": "DD",
   "account.settings.placeholders.year": "YYYY",
+  "alert.unavailable": "Detroit Home Connect may be temporarily unavailable the week of September 2nd, 2025 for a scheduled upgrade. We expect the site to be down for up to 48 hours during this period. For questions or concerns, please contact us at: <a href='mailto:Detroithomeconnect@detroitmi.gov' className='text-black lined'>Detroithomeconnect@detroitmi.gov</a>",
   "applications.begin.en": "Begin",
   "applications.begin.es": "Empezar",
   "applications.begin.zh": "開始",

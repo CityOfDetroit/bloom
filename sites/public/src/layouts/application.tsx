@@ -11,7 +11,7 @@ import {
   SiteHeader,
   t,
 } from "@bloom-housing/ui-components"
-import { AuthContext } from "@bloom-housing/shared-helpers"
+import { AuthContext, TransitionBanner } from "@bloom-housing/shared-helpers"
 import Markdown from "markdown-to-jsx"
 import styles from "./application.module.scss"
 
@@ -96,6 +96,7 @@ const Layout = (props) => {
         <div ref={srAnnouncement} tabIndex={-1} className={"sr-only"}>
           {srAnnouncementMessage}
         </div>
+        <TransitionBanner />
         <SiteHeader
           logoSrc="/images/detroit-logo.png"
           homeURL="/"

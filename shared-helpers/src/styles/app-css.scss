@@ -44,6 +44,19 @@ main {
   }
 }
 
+.site-banner-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-alert-banner-content {
+  padding-inline: 3rem;
+  padding-block: 1rem;
+  width: 100%;
+}
+
 @import "mixins.scss";
 @import "headers.scss";
 @import "custom_counter.scss";
