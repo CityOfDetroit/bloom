@@ -55,6 +55,10 @@ main {
   padding-inline: 3rem;
   padding-block: 1rem;
   width: 100%;
+
+  .alert-box__icon {
+    margin-inline-end: 0.75rem;
+  }
 }
 
 @import "mixins.scss";
