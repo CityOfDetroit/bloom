@@ -2,7 +2,12 @@ import React, { useEffect, useMemo, useState } from "react"
 import { SWRConfig } from "swr"
 import type { AppProps } from "next/app"
 import { addTranslation, NavigationContext, GenericRouter } from "@bloom-housing/ui-components"
-import { ConfigProvider, AuthProvider, RequireLogin } from "@bloom-housing/shared-helpers"
+import {
+  ConfigProvider,
+  AuthProvider,
+  RequireLogin,
+  TransitionBanner,
+} from "@bloom-housing/shared-helpers"
 import LinkComponent from "../components/core/LinkComponent"
 import { translations, overrideTranslations } from "../lib/translations"
 
@@ -62,7 +67,12 @@ function BloomApp({ Component, router, pageProps }: AppProps) {
               signInMessage={signInMessage}
               skipForRoutes={skipLoginRoutes}
             >
-              {hasMounted && <Component {...pageProps} />}
+              {hasMounted && (
+                <>
+                  <TransitionBanner />
+                  <Component {...pageProps} />
+                </>
+              )}
             </RequireLogin>
           </AuthProvider>
         </ConfigProvider>

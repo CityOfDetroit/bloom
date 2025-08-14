@@ -37,6 +37,7 @@
   "account.settings.placeholders.month": "এমএম",
   "account.settings.placeholders.day": "ডিডি",
   "account.settings.placeholders.year": "হ্যাঁ",
+  "alert.unavailable": "ডেট্রয়েট হোম কানেক্ট ২রা সেপ্টেম্বর, ২০২৫ তারিখের সপ্তাহে একটি নির্ধারিত আপগ্রেডের জন্য অস্থায়ীভাবে অনুপলব্ধ হতে পারে। আমরা আশা করছি এই সময়ের মধ্যে সাইটটি ৪৮ ঘন্টা পর্যন্ত বন্ধ থাকবে। কোন প্রশ্ন বা উদ্বেগ থাকলে, অনুগ্রহ করে আমাদের সাথে যোগাযোগ করুন: <a href='mailto:detroithomeconnect@detroitmi.gov' className='text-black lined'>detroithomeconnect@detroitmi.gov</a>",
   "applications.begin.en": "শুরু",
   "applications.begin.es": "শুরু করুন",
   "applications.begin.zh": "শুরু করুন",

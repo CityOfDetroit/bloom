@@ -37,6 +37,7 @@
   "account.settings.placeholders.month": "مم",
   "account.settings.placeholders.day": "DD",
   "account.settings.placeholders.year": "YYYY",
+  "alert.unavailable": "قد يكون موقع Detroit Home Connect غير متاح مؤقتًا خلال أسبوع 2 سبتمبر 2025 لإجراء ترقية مجدولة. نتوقع أن يظل الموقع معطلاً لمدة تصل إلى 48 ساعة خلال هذه الفترة. للاستفسارات أو الاستفسارات، يُرجى التواصل معنا عبر البريد الإلكتروني: <a href='mailto:detroithomeconnect@detroitmi.gov' className='text-black lined'>detroithomeconnect@detroitmi.gov</a>",
   "applications.begin.en": "يبدأ",
   "applications.begin.es": "يبدأ",
   "applications.begin.zh": "يبدأ",
