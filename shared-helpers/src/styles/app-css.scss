@@ -44,6 +44,27 @@ main {
   }
 }
 
+.site-banner-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-alert-banner-content {
+  padding-block: 1rem;
+  width: 100%;
+
+  .alert-box__icon {
+    margin-inline-end: 0.75rem;
+  }
+
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+}
+
 @import "mixins.scss";
 @import "headers.scss";
 @import "custom_counter.scss";
