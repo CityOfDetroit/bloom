@@ -3,6 +3,39 @@ UPDATE
 SET
   translations = jsonb_set(
     translations,
+    '{t,partnersPortal}',
+    '"Partners Portal"'
+  )
+WHERE
+  language = 'en';
+
+UPDATE
+  translations
+SET
+  translations = jsonb_set(
+    translations,
+    '{t,viewListing}',
+    '"View Listing"'
+  )
+WHERE
+  language = 'en';
+
+UPDATE
+  translations
+SET
+  translations = jsonb_set(
+    translations,
+    '{footer,thankYou}',
+    '"Thank you"'
+  )
+WHERE
+  language = 'en';
+
+UPDATE
+  translations
+SET
+  translations = jsonb_set(
+    translations,
     '{lotteryReleased}',
     '{
         "header": "Lottery results for %{listingName} are ready to be published",
@@ -25,6 +58,25 @@ SET
         "header": "Lottery results have been published for %{listingName}",
         "resultsPublished": "Lottery results for %{listingName} have been published to applicant accounts."
         }'
+  )
+WHERE
+  language = 'en';
+
+UPDATE
+  translations
+SET
+  translations = jsonb_set(
+    translations,
+    '{requestApproval}',
+    '{
+        "header": "Listing approval requested",
+        "partnerRequest":
+          "A Partner has submitted an approval request to publish the %{listingName} listing.",
+        "logInToReviewStart": "Please log into the",
+        "logInToReviewEnd": "and navigate to the listing detail page to review and publish.",
+        "accessListing":
+          "To access the listing after logging in, please click the link below"
+      }'
   )
 WHERE
   language = 'en';
