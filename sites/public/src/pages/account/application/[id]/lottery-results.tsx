@@ -9,7 +9,7 @@ import {
   MultiselectQuestionsApplicationSectionEnum,
   PublicLotteryResult,
 } from "@bloom-housing/shared-helpers/src/types/backend-swagger"
-import { Card, Button, Heading, Icon, Message } from "@bloom-housing/ui-seeds"
+import { Card, Button, Heading, Icon } from "@bloom-housing/ui-seeds"
 import FormsLayout from "../../../../layouts/forms"
 import {
   ApplicationError,
@@ -146,7 +146,8 @@ const LotteryResults = () => {
                     <div>
                       <p>{t("account.application.lottery.rawRank")}</p>
                     </div>
-                    <div>
+                    {/* There isn’t a page for raw rank in Detroit. */}
+                    {/* <div>
                       <Button
                         className={styles["section-button"]}
                         href={"https://www.exygy.com"} // NOTE: Update per jurisdiction
@@ -155,7 +156,7 @@ const LotteryResults = () => {
                       >
                         {t("account.application.lottery.rawRankButton")}
                       </Button>
-                    </div>
+                    </div> */}
                   </Card.Section>
                   {/* Hide all preference related stuff, as we're not using preferences here */}
                   {/* <Card.Section divider={"flush"} className={"border-none"}>
