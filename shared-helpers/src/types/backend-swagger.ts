@@ -2476,6 +2476,76 @@ export class ScriptRunnerService {
       axios(configs, resolve, reject)
     })
   }
+  /**
+   * A script to migrate MSQ data and options to refactored schema
+   */
+  migrateMultiselectDataToRefactor(options: IRequestOptions = {}): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/scriptRunner/migrateMultiselectDataToRefactor"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * A script to migrate application MSQ selections to refactored schema
+   */
+  migrateMultiselectApplicationDataToRefactor(
+    params: {
+      /** requestBody */
+      body?: PaginationDTO
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/scriptRunner/migrateMultiselectApplicationDataToRefactor"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * A script that sets the initial values for expire_after on applications
+   */
+  setInitialExpireAfterValues(options: IRequestOptions = {}): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/scriptRunner/setInitialExpireAfterValues"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * A script that sets is_newest field on application if newest application for applicant
+   */
+  setIsNewestApplicationValues(options: IRequestOptions = {}): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/scriptRunner/setIsNewestApplicationValues"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
 }
 
 export class FeatureFlagsService {
@@ -3813,6 +3883,15 @@ export interface UnitsSummary {
 
   /**  */
   totalAvailable?: number
+
+  /**  */
+  rentType?: string
+
+  /**  */
+  flatRentValueFrom?: number
+
+  /**  */
+  flatRentValueTo?: number
 }
 
 export interface ApplicationLotteryTotal {
@@ -3942,6 +4021,9 @@ export interface Listing {
 
   /**  */
   buildingSelectionCriteria?: string
+
+  /**  */
+  cocInfo?: string
 
   /**  */
   costsNotIncluded?: string
@@ -4465,6 +4547,15 @@ export interface UnitsSummaryCreate {
 
   /**  */
   totalAvailable?: number
+
+  /**  */
+  rentType?: string
+
+  /**  */
+  flatRentValueFrom?: number
+
+  /**  */
+  flatRentValueTo?: number
 }
 
 export interface ListingImageCreate {
@@ -4617,6 +4708,9 @@ export interface ListingCreate {
 
   /**  */
   buildingSelectionCriteria?: string
+
+  /**  */
+  cocInfo?: string
 
   /**  */
   costsNotIncluded?: string
@@ -4954,6 +5048,9 @@ export interface ListingUpdate {
 
   /**  */
   buildingSelectionCriteria?: string
+
+  /**  */
+  cocInfo?: string
 
   /**  */
   costsNotIncluded?: string
@@ -5863,6 +5960,9 @@ export interface JurisdictionCreate {
 
   /**  */
   requiredListingFields: []
+
+  /**  */
+  visibleNeighborhoodAmenities: NeighborhoodAmenitiesEnum[]
 }
 
 export interface JurisdictionUpdate {
@@ -5922,6 +6022,9 @@ export interface JurisdictionUpdate {
 
   /**  */
   requiredListingFields: []
+
+  /**  */
+  visibleNeighborhoodAmenities: NeighborhoodAmenitiesEnum[]
 }
 
 export interface FeatureFlag {
@@ -6016,6 +6119,9 @@ export interface Jurisdiction {
 
   /**  */
   requiredListingFields: []
+
+  /**  */
+  visibleNeighborhoodAmenities: NeighborhoodAmenitiesEnum[]
 }
 
 export interface MultiselectQuestionCreate {
@@ -7062,6 +7168,14 @@ export interface CommunityTypeDTO {
   description?: string
 }
 
+export interface PaginationDTO {
+  /**  */
+  page?: number
+
+  /**  */
+  pageSize?: number
+}
+
 export interface FeatureFlagAssociate {
   /**  */
   id: string
@@ -7180,6 +7294,7 @@ export enum EnumListingFilterParamsComparison {
   "NA" = "NA",
 }
 export enum ListingViews {
+  "address" = "address",
   "base" = "base",
   "csv" = "csv",
   "full" = "full",
@@ -7239,6 +7354,7 @@ export enum ReviewOrderTypeEnum {
   "lottery" = "lottery",
   "firstComeFirstServe" = "firstComeFirstServe",
   "waitlist" = "waitlist",
+  "waitlistLottery" = "waitlistLottery",
 }
 
 export enum LotteryStatusEnum {
@@ -7434,6 +7550,15 @@ export enum UserRoleEnum {
   "supportAdmin" = "supportAdmin",
 }
 
+export enum NeighborhoodAmenitiesEnum {
+  "groceryStores" = "groceryStores",
+  "publicTransportation" = "publicTransportation",
+  "schools" = "schools",
+  "parksAndCommunityCenters" = "parksAndCommunityCenters",
+  "pharmacies" = "pharmacies",
+  "healthCareResources" = "healthCareResources",
+}
+
 export enum FeatureFlagEnum {
   "disableCommonApplication" = "disableCommonApplication",
   "disableJurisdictionalAdmin" = "disableJurisdictionalAdmin",
@@ -7447,6 +7572,7 @@ export enum FeatureFlagEnum {
   "enableGeocodingPreferences" = "enableGeocodingPreferences",
   "enableGeocodingRadiusMethod" = "enableGeocodingRadiusMethod",
   "enableHomeType" = "enableHomeType",
+  "enableHousingDeveloperOwner" = "enableHousingDeveloperOwner",
   "enableIsVerified" = "enableIsVerified",
   "enableLimitedHowDidYouHear" = "enableLimitedHowDidYouHear",
   "enableListingFavoriting" = "enableListingFavoriting",
@@ -7467,6 +7593,8 @@ export enum FeatureFlagEnum {
   "enableUnitGroups" = "enableUnitGroups",
   "enableUtilitiesIncluded" = "enableUtilitiesIncluded",
   "enableWaitlistAdditionalFields" = "enableWaitlistAdditionalFields",
+  "enableWaitlistLottery" = "enableWaitlistLottery",
+  "enableWhatToExpectAdditionalField" = "enableWhatToExpectAdditionalField",
   "enableV2MSQ" = "enableV2MSQ",
   "example" = "example",
   "hideCloseListingButton" = "hideCloseListingButton",
