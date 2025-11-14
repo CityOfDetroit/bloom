@@ -521,89 +521,113 @@ export const unitGroup: UnitGroup = {
   ],
 }
 
+export const amiChart1 = {
+  id: "4e64914b-3169-4d6f-a8ef-d4b11b34ebcd",
+  createdAt: "2025-06-09T17:15:41.062Z",
+  updatedAt: "2025-06-09T17:15:41.062Z",
+  items: [
+    {
+      percentOfAmi: 10,
+      householdSize: 1,
+      income: 12000,
+    },
+    {
+      percentOfAmi: 10,
+      householdSize: 2,
+      income: 24000,
+    },
+    {
+      percentOfAmi: 10,
+      householdSize: 3,
+      income: 36000,
+    },
+    {
+      percentOfAmi: 10,
+      householdSize: 4,
+      income: 48000,
+    },
+    {
+      percentOfAmi: 10,
+      householdSize: 5,
+      income: 60000,
+    },
+    {
+      percentOfAmi: 20,
+      householdSize: 1,
+      income: 24000,
+    },
+    {
+      percentOfAmi: 20,
+      householdSize: 2,
+      income: 36000,
+    },
+    {
+      percentOfAmi: 20,
+      householdSize: 3,
+      income: 48000,
+    },
+    {
+      percentOfAmi: 20,
+      householdSize: 4,
+      income: 60000,
+    },
+    {
+      percentOfAmi: 20,
+      householdSize: 5,
+      income: 72000,
+    },
+    {
+      percentOfAmi: 30,
+      householdSize: 1,
+      income: 36000,
+    },
+    {
+      percentOfAmi: 30,
+      householdSize: 2,
+      income: 48000,
+    },
+    {
+      percentOfAmi: 30,
+      householdSize: 3,
+      income: 60000,
+    },
+    {
+      percentOfAmi: 30,
+      householdSize: 4,
+      income: 72000,
+    },
+    {
+      percentOfAmi: 30,
+      householdSize: 5,
+      income: 84000,
+    },
+  ],
+  name: "Mock AMI",
+  jurisdictions: {
+    id: "Uvbk5qurpB2WI9V6WnNdH",
+    name: "Test City",
+  },
+}
+
 export const amiCharts = [
+  amiChart1,
   {
-    id: "4e64914b-3169-4d6f-a8ef-d4b11b34ebcd",
+    id: "5f31548e-3169-4d6f-a8ef-d4b11b34ebcd",
     createdAt: "2025-06-09T17:15:41.062Z",
     updatedAt: "2025-06-09T17:15:41.062Z",
     items: [
       {
-        percentOfAmi: 10,
+        percentOfAmi: 45,
         householdSize: 1,
-        income: 12000,
+        income: 16000,
       },
       {
-        percentOfAmi: 10,
+        percentOfAmi: 45,
         householdSize: 2,
-        income: 24000,
-      },
-      {
-        percentOfAmi: 10,
-        householdSize: 3,
-        income: 36000,
-      },
-      {
-        percentOfAmi: 10,
-        householdSize: 4,
-        income: 48000,
-      },
-      {
-        percentOfAmi: 10,
-        householdSize: 5,
-        income: 60000,
-      },
-      {
-        percentOfAmi: 20,
-        householdSize: 1,
-        income: 24000,
-      },
-      {
-        percentOfAmi: 20,
-        householdSize: 2,
-        income: 36000,
-      },
-      {
-        percentOfAmi: 20,
-        householdSize: 3,
-        income: 48000,
-      },
-      {
-        percentOfAmi: 20,
-        householdSize: 4,
-        income: 60000,
-      },
-      {
-        percentOfAmi: 20,
-        householdSize: 5,
-        income: 72000,
-      },
-      {
-        percentOfAmi: 30,
-        householdSize: 1,
-        income: 36000,
-      },
-      {
-        percentOfAmi: 30,
-        householdSize: 2,
-        income: 48000,
-      },
-      {
-        percentOfAmi: 30,
-        householdSize: 3,
-        income: 60000,
-      },
-      {
-        percentOfAmi: 30,
-        householdSize: 4,
-        income: 72000,
-      },
-      {
-        percentOfAmi: 30,
-        householdSize: 5,
-        income: 84000,
+        income: 26000,
       },
     ],
-    name: "Mock AMI",
+    name: "Mock AMI 2",
     jurisdictions: {
       id: "Uvbk5qurpB2WI9V6WnNdH",
       name: "Test City",
@@ -860,6 +884,13 @@ export const listing: Listing = {
         text: "Preference 1",
         jurisdictions: [],
         applicationSection: MultiselectQuestionsApplicationSectionEnum.preferences,
+        options: [
+          {
+            name: "option_1",
+            text: "Option 1",
+            ordinal: 1,
+          },
+        ],
       },
     },
     {
@@ -871,6 +902,13 @@ export const listing: Listing = {
         text: "Preference 2",
         jurisdictions: [],
         applicationSection: MultiselectQuestionsApplicationSectionEnum.preferences,
+        options: [
+          {
+            name: "option_1",
+            text: "Option 1",
+            ordinal: 1,
+          },
+        ],
       },
     },
     {
@@ -882,6 +920,13 @@ export const listing: Listing = {
         text: "Families",
         jurisdictions: [],
         applicationSection: MultiselectQuestionsApplicationSectionEnum.programs,
+        options: [
+          {
+            name: "option_1",
+            text: "Option 1",
+            ordinal: 1,
+          },
+        ],
       },
     },
     {
@@ -893,6 +938,13 @@ export const listing: Listing = {
         text: "Veterans",
         jurisdictions: [],
         applicationSection: MultiselectQuestionsApplicationSectionEnum.programs,
+        options: [
+          {
+            name: "option_1",
+            text: "Option 1",
+            ordinal: 1,
+          },
+        ],
       },
     },
   ],

@@ -18,13 +18,13 @@
   },
   "dependencies": {
     "@bloom-housing/ui-components": "12.7.7",
-    "@bloom-housing/ui-seeds": "2.0.0",
+    "@bloom-housing/ui-seeds": "2.0.3",
     "@heroicons/react": "^2.1.1",
     "axios-cookiejar-support": "^5.0.5"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "5.17.0",
-    "@testing-library/react": "14.0.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "@types/jest": "^26.0.14",
     "@types/node-polyglot": "^2.5.0",
     "@types/react": "^18.0.33",

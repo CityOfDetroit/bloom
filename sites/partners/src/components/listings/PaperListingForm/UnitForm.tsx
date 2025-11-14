@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react"
 import { t, Field, Select, FieldGroup, Form, numberOptions } from "@bloom-housing/ui-components"
 import { Button, Card, Drawer, Grid } from "@bloom-housing/ui-seeds"
 import { AuthContext } from "@bloom-housing/shared-helpers"
-import { useForm, useWatch, useFormContext } from "react-hook-form"
+import { useWatch, useForm } from "react-hook-form"
 import { TempUnit } from "../../../lib/listings/formTypes"
 import {
   AmiChart,
@@ -10,7 +10,12 @@ import {
   UnitAccessibilityPriorityType,
   UnitType,
 } from "@bloom-housing/shared-helpers/src/types/backend-swagger"
-import { useAmiChartList, useUnitPriorityList, useUnitTypeList } from "../../../lib/hooks"
+import {
+  useAmiChartList,
+  useUnitPriorityList,
+  useUnitTypeList,
+  useWatchOnFormNumberFieldsChange,
+} from "../../../lib/hooks"
 import { arrayToFormOptions, getRentType, fieldHasError } from "../../../lib/helpers"
 import SectionWithGrid from "../../shared/SectionWithGrid"
 import styles from "./ListingForm.module.scss"
@@ -21,9 +26,17 @@ type UnitFormProps = {
   defaultUnit: TempUnit | undefined
   nextId: number
   draft: boolean
+  jurisdiction: string
 }
 
-const UnitForm = ({ onSubmit, onClose, defaultUnit, nextId, draft }: UnitFormProps) => {
+const UnitForm = ({
+  onSubmit,
+  onClose,
+  defaultUnit,
+  nextId,
+  draft,
+  jurisdiction,
+}: UnitFormProps) => {
   const { amiChartsService } = useContext(AuthContext)
 
   const [amiChartsOptions, setAmiChartsOptions] = useState([])
@@ -34,19 +47,26 @@ const UnitForm = ({ onSubmit, onClose, defaultUnit, nextId, draft }: UnitFormPro
   const [currentAmiChart, setCurrentAmiChart] = useState(null)
   const [amiChartPercentageOptions, setAmiChartPercentageOptions] = useState([])
 
-  const formMethods = useFormContext()
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { watch } = formMethods
-  const jurisdiction: string = watch("jurisdictions.id")
+  const {
+    register,
+    formState: { errors },
+    trigger,
+    getValues,
+    setValue,
+    control,
+    reset,
+    clearErrors,
+  } = useForm({
+    mode: "onChange",
+    shouldFocusError: false,
+  })
   /**
    * fetch form options
    */
   const { data: amiCharts = [] } = useAmiChartList(jurisdiction)
   const { data: unitPriorities = [] } = useUnitPriorityList()
   const { data: unitTypes = [] } = useUnitTypeList()
-
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, errors, trigger, getValues, setValue, control, reset, clearErrors } = useForm()
 
   const numberOccupancyOptions = 11
 
@@ -72,6 +92,12 @@ const UnitForm = ({ onSubmit, onClose, defaultUnit, nextId, draft }: UnitFormPro
     control,
     name: "maxOccupancy",
   })
+
+  const fieldsValuesToWatch = [minOccupancy, maxOccupancy]
+
+  const fieldsToTriggerWatch = ["minOccupancy", "maxOccupancy"]
+
+  useWatchOnFormNumberFieldsChange(fieldsValuesToWatch, fieldsToTriggerWatch, trigger)
 
   const maxAmiHouseholdSize = 8
 
@@ -458,12 +484,6 @@ const UnitForm = ({ onSubmit, onClose, defaultUnit, nextId, draft }: UnitFormPro
                       error={fieldHasError(errors?.minOccupancy)}
                       errorMessage={t("errors.minGreaterThanMaxOccupancyError")}
                       validation={{ max: maxOccupancy || numberOccupancyOptions }}
-                      inputProps={{
-                        onChange: () => {
-                          void trigger("minOccupancy")
-                          void trigger("maxOccupancy")
-                        },
-                      }}
                     />
                   </Grid.Cell>
                   <Grid.Cell>
@@ -478,12 +498,6 @@ const UnitForm = ({ onSubmit, onClose, defaultUnit, nextId, draft }: UnitFormPro
                       error={fieldHasError(errors?.maxOccupancy)}
                       errorMessage={t("errors.maxLessThanMinOccupancyError")}
                       validation={{ min: minOccupancy }}
-                      inputProps={{
-                        onChange: () => {
-                          void trigger("minOccupancy")
-                          void trigger("maxOccupancy")
-                        },
-                      }}
                     />
                   </Grid.Cell>
                 </Grid.Row>
