@@ -1,5 +1,6 @@
 import {
   ApplicationSubmissionTypeEnum,
+  NeighborhoodAmenitiesEnum,
   LanguagesEnum,
   MonthlyRentDeterminationTypeEnum,
   MultiselectQuestions,
@@ -63,23 +64,26 @@ export const stagingSeed = async (
         FeatureFlagEnum.enablePartnerSettings,
         FeatureFlagEnum.enableSection8Question,
         FeatureFlagEnum.enableSingleUseCode,
+        FeatureFlagEnum.enableSupportAdmin,
         FeatureFlagEnum.enableUtilitiesIncluded,
+        FeatureFlagEnum.enableWaitlistLottery,
+        FeatureFlagEnum.enableWhatToExpectAdditionalField,
       ],
       languages: Object.values(LanguagesEnum),
       requiredListingFields: [
-        'listingsBuildingAddress',
-        'name',
         'developer',
-        'listingImages',
+        'digitalApplication',
+        'jurisdictions',
         'leasingAgentEmail',
         'leasingAgentName',
         'leasingAgentPhone',
-        'jurisdictions',
-        'units',
-        'digitalApplication',
+        'listingImages',
+        'listingsBuildingAddress',
+        'name',
         'paperApplication',
         'referralOpportunity',
         'rentalAssistance',
+        'units',
       ],
     }),
   });
@@ -118,6 +122,7 @@ export const stagingSeed = async (
         FeatureFlagEnum.hideCloseListingButton,
         FeatureFlagEnum.swapCommunityTypeWithPrograms,
         FeatureFlagEnum.enableFullTimeStudentQuestion,
+        FeatureFlagEnum.enableWhatToExpectAdditionalField,
       ],
       requiredListingFields: ['name', 'listingsBuildingAddress'],
       languages: [
@@ -150,6 +155,38 @@ export const stagingSeed = async (
       requiredListingFields: ['name'],
     }),
   });
+  const angelopolisJurisdiction = await prismaClient.jurisdictions.create({
+    data: jurisdictionFactory('Angelopolis', {
+      featureFlags: [
+        FeatureFlagEnum.enableAccessibilityFeatures,
+        FeatureFlagEnum.enableHousingDeveloperOwner,
+        FeatureFlagEnum.enableListingFiltering,
+        FeatureFlagEnum.enableMarketingStatus,
+        FeatureFlagEnum.enableMarketingStatusMonths,
+        FeatureFlagEnum.enableNeighborhoodAmenities,
+        FeatureFlagEnum.enableNeighborhoodAmenitiesDropdown,
+      ],
+      visibleNeighborhoodAmenities: [
+        NeighborhoodAmenitiesEnum.groceryStores,
+        NeighborhoodAmenitiesEnum.pharmacies,
+      ],
+
+      requiredListingFields: [
+        'digitalApplication',
+        'jurisdictions',
+        'leasingAgentEmail',
+        'leasingAgentName',
+        'leasingAgentPhone',
+        'listingImages',
+        'listingsBuildingAddress',
+        'name',
+        'paperApplication',
+        'referralOpportunity',
+        'rentalAssistance',
+        'units',
+      ],
+    }),
+  });
   // create super admin user
   await prismaClient.userAccounts.create({
     data: await userFactory({
@@ -161,6 +198,7 @@ export const stagingSeed = async (
         lakeviewJurisdiction.id,
         bridgeBayJurisdiction.id,
         nadaHill.id,
+        angelopolisJurisdiction.id,
       ],
       acceptedTerms: true,
       password: 'abcdef',
@@ -177,6 +215,7 @@ export const stagingSeed = async (
         lakeviewJurisdiction.id,
         bridgeBayJurisdiction.id,
         nadaHill.id,
+        angelopolisJurisdiction.id,
       ],
       acceptedTerms: true,
       password: 'abcdef',
@@ -194,6 +233,7 @@ export const stagingSeed = async (
         lakeviewJurisdiction.id,
         bridgeBayJurisdiction.id,
         nadaHill.id,
+        angelopolisJurisdiction.id,
       ],
     }),
   });
@@ -269,6 +309,7 @@ export const stagingSeed = async (
         lakeviewJurisdiction.id,
         bridgeBayJurisdiction.id,
         nadaHill.id,
+        angelopolisJurisdiction.id,
       ],
       acceptedTerms: true,
     }),
