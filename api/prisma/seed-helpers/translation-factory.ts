@@ -74,6 +74,10 @@ const translations = (
             'Housing preferences, if applicable, will affect first come first serve order.',
           waitlistContact:
             'You may be contacted while on the waitlist to confirm that you wish to remain on the waitlist.',
+          lotteryPreference:
+            'Housing preferences, if applicable, will affect lottery rank order.',
+          waitlistPreference:
+            'Housing preferences, if applicable, will affect waitlist order.',
         },
         interview:
           'If you are contacted for an interview, you will be asked to fill out a more detailed application and provide supporting documents.',

@@ -196,8 +196,6 @@
   "listings.amiOverrideTitle": "Override for household size of %{householdSize}",
   "listings.appearsAsFirstPage": "Appears as first page of application",
   "listings.appearsInListing": "Appears in listing",
-  "listings.applicationAddress.mailApplication": "Can applications be mailed in?",
-  "listings.applicationAddress.mailApplicationType": "Where can applications be mailed in?",
   "listings.applicationDropOffQuestion": "Can applications be dropped off?",
   "listings.applicationDueTime": "Application due time",
   "listings.applicationDueDate": "Due date",
@@ -207,13 +205,9 @@
   "listings.applicationType.onlineApplication": "Online applications",
   "listings.applicationType.paperApplication": "Paper applications",
   "listings.applicationType.referral": "Referral",
-<<<<<<< HEAD
-=======
   "listings.applicationType.referralUnit": "Referral only units",
   "listings.applicationAddress.mailApplication": "Can applications be mailed in?",
   "listings.applicationAddress.mailApplicationType": "Where can applications be mailed in?",
->>>>>>> core/main
-  "listings.approval.approveAndPublish": "Approve & publish",
   "listings.approval.changeRequestSummary": "Change request summary",
   "listings.approval.listingClosed": "Listing closed",
   "listings.approval.listingNotes": "Listing notes",
@@ -266,7 +260,6 @@
   "listings.firstComeFirstServe": "First come first serve",
   "listings.getStarted": "Get started",
   "listings.housingDeveloperOwner": "Housing developer / owner",
-  "listings.includeCommunityDisclaimer": "Do you want to include a community type disclaimer as the first page of the application?",
   "listings.isDigitalApplication": "Is there a digital application?",
   "listings.isPaperApplication": "Is there a paper application?",
   "listings.isReferralOpportunity": "Is there a referral opportunity?",
@@ -365,7 +358,6 @@
   "listings.mapPinPosition": "Map pin position",
   "listings.mapPreview": "Map preview",
   "listings.mapPreviewNoAddress": "Enter an address to preview the map",
-  "listings.marketing": "Marketing",
   "listings.marketingSection.date": "Marketing start date",
   "listings.marketingSection.dateSubtitle": "When the opportunity becomes available to the public",
   "listings.marketingSection.month": "Month",
@@ -393,11 +385,8 @@
   "listings.reservedCommunityDescription": "Reserved community description",
   "listings.reservedCommunityDisclaimer": "Reserved community disclaimer",
   "listings.reservedCommunityDisclaimerTitle": "Reserved community disclaimer title",
-<<<<<<< HEAD
-=======
   "listings.seniorsOnly": "Is this unit for seniors only?",
   "listings.includeCommunityDisclaimer": "Do you want to include a community type disclaimer as the first page of the application?",
->>>>>>> core/main
   "listings.reviewOrderQuestion": "How is the application review order determined?",
   "listings.section8Title": "Do you accept Section 8 Housing Choice Vouchers?",
   "listings.sections.additionalDetails": "Additional details",
@@ -436,9 +425,7 @@
   "listings.sections.neighborhoodAmenitiesSubtitleAlt": "Please provide details about any nearby amenities.",
   "listings.sections.neighborhoodPlaceholder": "Select neighborhood",
   "listings.sections.openHouse": "Open house",
-<<<<<<< HEAD
   "listings.sections.photo.helperText": "Select JPEG or PNG file to upload. Please upload horizontal images only at approximately 1440px. Up to 10 uploaded images allowed.",
-=======
   "listings.sections.photo.helperTextBase": "Select JPEG or PNG file to upload. Please upload horizontal images only at approximately 1440px.",
   "listings.sections.photo.helperTextLimit": "Up to 10 uploaded images allowed.",
   "listings.sections.photo.helperTextLimits": "At least %{smart_count} image is required, and up to 10 images are allowed. |||| At least %{smart_count} images are required, and up to 10 images are allowed.",
@@ -449,9 +436,7 @@
   "listings.sections.photo.imageDescriptionAltText": "Image description (alt text)",
   "listings.sections.photo.imageDescriptionForListingPhoto": "Image description for listing photo",
   "listings.sections.photo.primaryPhoto": "Primary photo",
->>>>>>> core/main
   "listings.sections.photo.maximumUpload": "Note: the maximum of 10 images have been uploaded.",
-  "listings.sections.photo.primaryPhoto": "Primary photo",
   "listings.sections.photoSubtitle": "Upload an image for the listing that will be used as a preview.",
   "listings.sections.photosSubtitle": "Upload at least %{smart_count} image for the listing that will be used as a preview. |||| Upload at least %{smart_count} images for the listing that will be used as a preview.",
   "listings.sections.photoTitle": "Listing photos",
@@ -467,13 +452,6 @@
   "listings.selectPrograms": "Select programs",
   "listings.streetAddressOrPOBox": "Street address or PO box",
   "listings.totalListings": "Total listings",
-<<<<<<< HEAD
-  "listings.unit.%incomeRent": "Percentage of income rent",
-  "listings.unit.accessibilityPriorityType": "Accessibility priority type",
-  "listings.unit.add": "Add unit",
-  "listings.unit.affordableGroupQuantity": "Affordable unit group quantity",
-  "listings.unit.ami": "AMI",
-=======
   "listings.marketing": "Marketing",
   "listings.marketingFlyer.accessibleTitle": "Accessible marketing flyer",
   "listings.marketingFlyer.accessibleWebpageUrl": "Webpage URL to an accessible version",
@@ -493,13 +471,9 @@
   "listings.unit.amiChart": "AMI chart",
   "listings.unit.amiLevel": "AMI level",
   "listings.unit.amiPercentage": "Percentage of AMI",
->>>>>>> core/main
   "listings.unit.amiAdd": "Add AMI level",
-  "listings.unit.amiChart": "AMI chart",
   "listings.unit.amiDelete": "Delete this AMI level",
   "listings.unit.amiDeleteConf": "Do you really want to delete this AMI level?",
-  "listings.unit.amiLevel": "AMI level",
-  "listings.unit.amiPercentage": "Percentage of AMI",
   "listings.unit.bath": "Bath",
   "listings.unit.delete": "Delete this unit",
   "listings.unit.deleteConf": "Do you really want to delete this unit?",
@@ -603,17 +577,12 @@
   "settings.preferenceAlertCreated": "Preference created",
   "settings.preferenceAlertDeleted": "Preference removed",
   "settings.preferenceAlertUpdated": "Preference updated",
-  "settings.preferenceChangesRequired": "Changes required before deleting",
-  "settings.preferenceChangesRequiredEdit": "Changes required before editing",
   "settings.preferenceCollectAddress": "Do you want to collect address information?",
   "settings.preferenceCollectAddressHolderName": "Do you want to collect name of address holder?",
   "settings.preferenceCollectAddressHolderRelationship": "Do you want to collect relationship to address holder?",
   "settings.preferenceDelete": "Deleting a preference cannot be undone.",
-  "settings.preferenceDeleteConfirmation": "Deleting a preference cannot be undone.",
-  "settings.preferenceDeleteError": "This preference is currently added to listings and needs to be removed before being deleted.",
   "settings.preferenceDescription": "Preference description",
   "settings.preferenceEdit": "Edit preference",
-  "settings.preferenceEditError": "This preference is already attached to a listing and needs to be removed before it can be edited.",
   "settings.preferenceEditOption": "Edit option",
   "settings.preferenceExclusive": "Exclusive",
   "settings.preferenceExclusiveQuestion": "Is this option multi-select or exclusive?",
@@ -631,16 +600,13 @@
   "settings.preferenceValidatingAddress.howManyMiles": "How many miles is the qualifying geographic radius?",
   "settings.preferenceValidatingAddress.selectMapLayer": "Select a map layer",
   "settings.preferenceValidatingAddress.selectMapLayerDescription": "Select your map layer based on your district. If you don't see your map contact us",
-<<<<<<< HEAD
   "settings.preferenceValidatingAddress": "Do you need help validating the address?",
-=======
   "settings.preferenceDeleteConfirmation": "Deleting a preference cannot be undone.",
   "settings.preferenceChangesRequired": "Changes required before deleting",
   "settings.preferenceChangesRequiredEdit": "Changes required before editing",
   "settings.preferenceDeleteError": "This preference is currently added to listings and needs to be removed before being deleted.",
   "settings.preferenceEditError": "This preference is already attached to a listing and needs to be removed before it can be edited.",
   "settings.properties": "Properties",
->>>>>>> core/main
   "t.add": "Add",
   "t.addItem": "Add item",
   "t.addItemsToEdit": "Add items to edit",
