@@ -573,20 +573,24 @@ export class ScriptRunnerService {
         jurisInfo?.length ? jurisInfo[0].name : '',
         translations,
       );
-      await this.multiselectQuestionService.create({
-        text: pref.title,
-        subText: pref.subtitle,
-        description: pref.description,
-        links: pref.links ?? null,
-        hideFromListing: this.resolveHideFromListings(pref),
-        optOutText: optOutText ?? null,
-        options: options,
-        applicationSection:
-          MultiselectQuestionsApplicationSectionEnum.preferences,
-        jurisdictions: jurisInfo.map((juris) => {
-          return { id: juris.id };
-        }),
-      });
+      await this.multiselectQuestionService.create(
+        {
+          text: pref.title,
+          subText: pref.subtitle,
+          description: pref.description,
+          links: pref.links ?? null,
+          hideFromListing: this.resolveHideFromListings(pref),
+          optOutText: optOutText ?? null,
+          options: options,
+          applicationSection:
+            MultiselectQuestionsApplicationSectionEnum.preferences,
+          jurisdictions: jurisInfo.map((juris) => {
+            return { id: juris.id };
+          }),
+          status: 'draft',
+        },
+        requestingUser,
+      );
     }
 
     // begin migration from programs

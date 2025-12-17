@@ -90,10 +90,15 @@ export const getListingStackedTableData = (unitsSummarized: UnitsSummarized) => 
 
 export const getListingStackedGroupTableData = (
   unitGroupsSummarized: UnitGroupsSummarized,
-  isComingSoon?: boolean
+  isComingSoon?: boolean,
+  isNonRegulated?: boolean
 ) => {
   return unitGroupsSummarized !== undefined
-    ? getStackedGroupSummariesTable(unitGroupsSummarized.unitGroupSummary, isComingSoon)
+    ? getStackedGroupSummariesTable(
+        unitGroupsSummarized.unitGroupSummary,
+        isComingSoon,
+        isNonRegulated
+      )
     : []
 }
 
@@ -190,6 +195,7 @@ export const getStatusPrefix = (
       case ReviewOrderTypeEnum.lottery:
         return { label: t("listings.lottery"), variant: "primary" }
       case ReviewOrderTypeEnum.waitlist:
+      case ReviewOrderTypeEnum.waitlistLottery:
         return { label: t("listings.waitlist.open"), variant: "secondary" }
       default:
         return { label: t("listings.applicationFCFS"), variant: "primary" }

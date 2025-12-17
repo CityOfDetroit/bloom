@@ -1,27 +1,15 @@
 import React from "react"
-import { rest } from "msw"
 import { setupServer } from "msw/node"
-import { FormProvider, useForm } from "react-hook-form"
 import { screen } from "@testing-library/react"
 import RankingsAndResults from "../../../../../src/components/listings/PaperListingForm/sections/RankingsAndResults"
-import { formDefaults, FormListing } from "../../../../../src/lib/listings/formTypes"
-import { mockNextRouter, mockTipTapEditor, render } from "../../../../testUtils"
-import { FeatureFlagEnum } from "@bloom-housing/shared-helpers/src/types/backend-swagger"
+import { formDefaults } from "../../../../../src/lib/listings/formTypes"
+import {
+  FormProviderWrapper,
+  mockNextRouter,
+  mockTipTapEditor,
+  render,
+} from "../../../../testUtils"
 import userEvent from "@testing-library/user-event"
-
-const FormComponent = ({
-  children,
-  values,
-}: {
-  values?: FormListing
-  children: React.ReactNode
-}) => {
-  const formMethods = useForm<FormListing>({
-    defaultValues: { ...formDefaults, ...values },
-    shouldUnregister: false,
-  })
-  return <FormProvider {...formMethods}>{children}</FormProvider>
-}
 
 const server = setupServer()
 beforeAll(() => {
@@ -34,40 +22,10 @@ describe("RankingsAndResults", () => {
   describe("RankingsAndResults enableWaitlistLottery", () => {
     afterEach(() => server.resetHandlers())
     afterAll(() => server.close())
-    const userWithWaitlistLotteryFlag = {
-      jurisdictions: [
-        {
-          id: "jurisdiction1",
-          name: "jurisdictionWithWaitlistLottery",
-          featureFlags: [
-            {
-              name: FeatureFlagEnum.enableWaitlistLottery,
-              active: true,
-            },
-          ],
-        },
-      ],
-    }
-    const userWithoutWaitlistLotteryFlag = {
-      jurisdictions: [
-        {
-          id: "jurisdiction1",
-          name: "jurisdictionWithoutWaitlistLottery",
-          featureFlags: [],
-        },
-      ],
-    }
 
     it("should not show lottery fields when enableWaitlistLottery is false and waitlist is open", async () => {
-      document.cookie = "access-token-available=True"
-      server.use(
-        rest.get("http://localhost/api/adapter/user", (_req, res, ctx) => {
-          return res(ctx.json(userWithoutWaitlistLotteryFlag))
-        })
-      )
-
       render(
-        <FormComponent
+        <FormProviderWrapper
           values={{
             ...formDefaults,
             jurisdictions: { id: "jurisdiction1" },
@@ -78,8 +36,12 @@ describe("RankingsAndResults", () => {
             requiredFields={[]}
             whatToExpectEditor={null}
             whatToExpectAdditionalTextEditor={null}
+            enableUnitGroups={false}
+            enableWaitlistAdditionalFields={false}
+            enableWaitlistLottery={false}
+            enableWhatToExpectAdditionalField={false}
           />
-        </FormComponent>
+        </FormProviderWrapper>
       )
 
       await screen.findByText("Rankings & results")
@@ -97,15 +59,8 @@ describe("RankingsAndResults", () => {
     })
 
     it("should show review order options when waitlist is open and feature flag is enabled", async () => {
-      document.cookie = "access-token-available=True"
-      server.use(
-        rest.get("http://localhost/api/adapter/user", (_req, res, ctx) => {
-          return res(ctx.json(userWithWaitlistLotteryFlag))
-        })
-      )
-
       render(
-        <FormComponent
+        <FormProviderWrapper
           values={{
             ...formDefaults,
             jurisdictions: { id: "jurisdiction1" },
@@ -116,8 +71,12 @@ describe("RankingsAndResults", () => {
             requiredFields={[]}
             whatToExpectEditor={null}
             whatToExpectAdditionalTextEditor={null}
+            enableUnitGroups={false}
+            enableWaitlistAdditionalFields={false}
+            enableWaitlistLottery={true}
+            enableWhatToExpectAdditionalField={false}
           />
-        </FormComponent>
+        </FormProviderWrapper>
       )
 
       screen.getByRole("heading", { name: "Rankings & results" })
@@ -132,15 +91,8 @@ describe("RankingsAndResults", () => {
     })
 
     it("should show review order options when availabilityQuestion is availableUnits and enableWaitlistLottery is false", () => {
-      document.cookie = "access-token-available=True"
-      server.use(
-        rest.get("http://localhost/api/adapter/user", (_req, res, ctx) => {
-          return res(ctx.json(userWithoutWaitlistLotteryFlag))
-        })
-      )
-
       render(
-        <FormComponent
+        <FormProviderWrapper
           values={{
             ...formDefaults,
             jurisdictions: { id: "jurisdiction1" },
@@ -151,8 +103,12 @@ describe("RankingsAndResults", () => {
             requiredFields={[]}
             whatToExpectEditor={null}
             whatToExpectAdditionalTextEditor={null}
+            enableUnitGroups={false}
+            enableWaitlistAdditionalFields={false}
+            enableWaitlistLottery={false}
+            enableWhatToExpectAdditionalField={false}
           />
-        </FormComponent>
+        </FormProviderWrapper>
       )
 
       screen.getByRole("heading", { name: "Rankings & results" })
@@ -168,13 +124,17 @@ describe("RankingsAndResults", () => {
     it("should show proper message when selecting lottery as a non admin user", async () => {
       process.env.showLottery = "true"
       render(
-        <FormComponent>
+        <FormProviderWrapper>
           <RankingsAndResults
             requiredFields={[]}
             whatToExpectEditor={null}
             whatToExpectAdditionalTextEditor={null}
+            enableUnitGroups={false}
+            enableWaitlistAdditionalFields={false}
+            enableWaitlistLottery={false}
+            enableWhatToExpectAdditionalField={false}
           />
-        </FormComponent>
+        </FormProviderWrapper>
       )
 
       screen.getByRole("heading", { name: "Rankings & results" })
@@ -189,15 +149,19 @@ describe("RankingsAndResults", () => {
     it("should show proper message when selecting lottery as an admin user", async () => {
       process.env.showLottery = "true"
       render(
-        <FormComponent>
+        <FormProviderWrapper>
           <RankingsAndResults
             isAdmin={true}
             listing={null}
             requiredFields={[]}
             whatToExpectEditor={null}
             whatToExpectAdditionalTextEditor={null}
+            enableUnitGroups={false}
+            enableWaitlistAdditionalFields={false}
+            enableWaitlistLottery={false}
+            enableWhatToExpectAdditionalField={false}
           />
-        </FormComponent>
+        </FormProviderWrapper>
       )
 
       screen.getByRole("heading", { name: "Rankings & results" })
