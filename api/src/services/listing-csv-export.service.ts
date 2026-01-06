@@ -15,6 +15,7 @@ import {
 import {
   ApplicationMethodsTypeEnum,
   ListingEventsTypeEnum,
+  ListingTypeEnum,
   MarketingTypeEnum,
   NeighborhoodAmenitiesEnum,
 } from '@prisma/client';
@@ -47,6 +48,7 @@ import {
 } from '../utilities/unit-utilities';
 import { unitTypeToReadable } from '../utilities/application-export-helpers';
 import {
+  doAllJurisdictionHaveFeatureFlagSet,
   doAnyJurisdictionHaveFalsyFeatureFlagValue,
   doAnyJurisdictionHaveFeatureFlagSet,
 } from '../utilities/feature-flag-utilities';
@@ -91,6 +93,10 @@ export const formatCommunityType = {
   seniorVeterans: 'Senior Veteran',
   veteran: 'Veteran',
   schoolEmployee: 'School Employee',
+};
+
+export const formatCloudinaryPdfUrl = (fileId: string): string => {
+  return `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/${fileId}.pdf`;
 };
 
 @Injectable()
@@ -379,15 +385,35 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
     return value ? `$${value}` : '';
   }
 
-  cloudinaryPdfFromId(publicId: string, listing?: Listing): string {
-    if (publicId) {
-      const cloudName =
-        process.env.cloudinaryCloudName || process.env.CLOUDINARY_CLOUD_NAME;
-      return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.pdf`;
-    } else if (!publicId && listing?.buildingSelectionCriteria) {
-      return listing.buildingSelectionCriteria;
-    }
+  buildingSelectionCriteria(value: string, listing?: Listing): string {
+    if (value) return listing.buildingSelectionCriteria;
+    if (listing?.listingsBuildingSelectionCriteriaFile?.fileId)
+      return formatCloudinaryPdfUrl(
+        listing.listingsBuildingSelectionCriteriaFile?.fileId,
+      );
+    return '';
+  }
 
+  marketingFlyer(value: string, listing?: Listing): string {
+    if (value) return listing.marketingFlyer;
+    if (listing?.listingsMarketingFlyerFile?.fileId)
+      return formatCloudinaryPdfUrl(listing.listingsMarketingFlyerFile?.fileId);
+    return '';
+  }
+
+  accessibleMarketingFlyer(value: string, listing?: Listing): string {
+    if (value) return listing.accessibleMarketingFlyer;
+    if (listing?.listingsAccessibleMarketingFlyerFile?.fileId)
+      return formatCloudinaryPdfUrl(
+        listing.listingsAccessibleMarketingFlyerFile?.fileId,
+      );
+    return '';
+  }
+
+  cloudinaryPdfFromId(publicId: string): string {
+    if (publicId) {
+      return formatCloudinaryPdfUrl(publicId);
+    }
     return '';
   }
 
@@ -404,6 +430,11 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
   };
 
   async getCsvHeaders(user: User): Promise<CsvHeader[]> {
+    const enableNonRegulatedListings = doAnyJurisdictionHaveFeatureFlagSet(
+      user.jurisdictions,
+      FeatureFlagEnum.enableNonRegulatedListings,
+    );
+
     const headers: CsvHeader[] = [
       {
         path: 'id',
@@ -423,6 +454,23 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
         path: 'name',
         label: 'Listing Name',
       },
+      ...(enableNonRegulatedListings
+        ? [
+            {
+              path: 'listingType',
+              label: 'Listing Type',
+              format: (val: ListingTypeEnum) => {
+                if (!val) {
+                  return '';
+                }
+
+                return val === ListingTypeEnum.regulated
+                  ? 'Regulated'
+                  : 'Non-regulated';
+              },
+            },
+          ]
+        : []),
       {
         path: 'status',
         label: 'Listing Status',
@@ -457,8 +505,28 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
           FeatureFlagEnum.enableHousingDeveloperOwner,
         )
           ? 'Housing developer / owner'
-          : 'Developer',
+          : 'Housing Provider',
       },
+      ...(enableNonRegulatedListings
+        ? [
+            {
+              path: 'hasHudEbllClearance',
+              label: 'Has HUD EBLL Clearance',
+              format: this.formatYesNo,
+            },
+          ]
+        : []),
+      ...(doAnyJurisdictionHaveFeatureFlagSet(
+        user.jurisdictions,
+        FeatureFlagEnum.enableListingFileNumber,
+      )
+        ? [
+            {
+              path: 'listingFileNumber',
+              label: 'Listing File Number',
+            },
+          ]
+        : []),
       {
         path: 'listingsBuildingAddress.street',
         label: 'Building Street Address',
@@ -747,6 +815,15 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
           label: 'Deposit Helper Text',
         },
         {
+          path: 'depositType',
+          label: 'Deposit Type',
+        },
+        {
+          path: 'depositValue',
+          label: 'Deposit Value',
+          format: this.formatCurrency,
+        },
+        {
           path: 'depositMin',
           label: 'Deposit Min',
           format: this.formatCurrency,
@@ -757,28 +834,21 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
           format: this.formatCurrency,
         },
         {
-          path: 'depositType',
-          label: 'Deposit Type',
-        },
-        {
-          path: 'depositValue',
-          label: 'Deposit Value',
-          format: this.formatCurrency,
-        },
-        {
-          path: 'depositRangeMin',
-          label: 'Deposit Range Min',
-          format: this.formatCurrency,
-        },
-        {
-          path: 'depositRangeMax',
-          label: 'Deposit Range Max',
-          format: this.formatCurrency,
-        },
-        {
           path: 'costsNotIncluded',
           label: 'Costs Not Included',
         },
+        ...(doAnyJurisdictionHaveFeatureFlagSet(
+          user.jurisdictions,
+          FeatureFlagEnum.enableCreditScreeningFee,
+        )
+          ? [
+              {
+                path: 'creditScreeningFee',
+                label: 'Credit Screening Fee',
+                format: this.formatCurrency,
+              },
+            ]
+          : []),
         {
           path: 'amenities',
           label: 'Property Amenities',
@@ -792,16 +862,25 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
           label: 'Unit Amenities',
         },
         {
-          path: 'smokingPolicy',
-          label: 'Smoking Policy',
-        },
-        {
           path: 'petPolicy',
           label: 'Pets Policy',
         },
         {
           path: 'servicesOffered',
           label: 'Services Offered',
+        },
+        {
+          path: 'smokingPolicy',
+          label: 'Smoking Policy',
+          format: (val: string): string => {
+            const enableSmokingPolicyRadio =
+              doAllJurisdictionHaveFeatureFlagSet(
+                user.jurisdictions,
+                FeatureFlagEnum.enableSmokingPolicyRadio,
+              );
+            if (!val) return enableSmokingPolicyRadio ? 'Policy unknown' : '';
+            return val;
+          },
         },
       ],
     );
@@ -843,6 +922,30 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
           path: 'listingNeighborhoodAmenities.healthCareResources',
           label: 'Neighborhood Amenities - Health Care Resources',
         },
+        [NeighborhoodAmenitiesEnum.shoppingVenues]: {
+          path: 'listingNeighborhoodAmenities.shoppingVenues',
+          label: 'Neighborhood Amenities - Shopping Venues',
+        },
+        [NeighborhoodAmenitiesEnum.hospitals]: {
+          path: 'listingNeighborhoodAmenities.hospitals',
+          label: 'Neighborhood Amenities - Hospitals',
+        },
+        [NeighborhoodAmenitiesEnum.seniorCenters]: {
+          path: 'listingNeighborhoodAmenities.seniorCenters',
+          label: 'Neighborhood Amenities - Senior Centers',
+        },
+        [NeighborhoodAmenitiesEnum.recreationalFacilities]: {
+          path: 'listingNeighborhoodAmenities.recreationalFacilities',
+          label: 'Neighborhood Amenities - Recreational Facilities',
+        },
+        [NeighborhoodAmenitiesEnum.playgrounds]: {
+          path: 'listingNeighborhoodAmenities.playgrounds',
+          label: 'Neighborhood Amenities - Playgrounds',
+        },
+        [NeighborhoodAmenitiesEnum.busStops]: {
+          path: 'listingNeighborhoodAmenities.busStops',
+          label: 'Neighborhood Amenities - Bus Stops',
+        },
       };
 
       Object.keys(amenityHeaderMap).forEach((key) => {
@@ -870,11 +973,18 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
           path: 'rentalAssistance',
           label: 'Eligibility Rules - Rental Assistance',
         },
-        {
-          path: 'buildingSelectionCriteriaFileId',
-          label: 'Building Selection Criteria',
-          format: this.cloudinaryPdfFromId,
-        },
+        ...(doAnyJurisdictionHaveFalsyFeatureFlagValue(
+          user.jurisdictions,
+          FeatureFlagEnum.disableBuildingSelectionCriteria,
+        )
+          ? [
+              {
+                path: 'buildingSelectionCriteria',
+                label: 'Building Selection Criteria',
+                format: this.buildingSelectionCriteria,
+              },
+            ]
+          : []),
         {
           path: 'programRules',
           label: 'Important Program Rules',
@@ -920,32 +1030,51 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
         FeatureFlagEnum.enableMarketingStatus,
       )
     ) {
-      headers.push(
-        ...[
-          {
-            path: 'marketingType',
-            label: 'Marketing Status',
-            format: (val: string): string => {
-              if (!val) return '';
-              return val === MarketingTypeEnum.marketing
-                ? 'Marketing'
-                : 'Under Construction';
-            },
+      headers.push({
+        path: 'marketingType',
+        label: 'Marketing Status',
+        format: (val: string): string => {
+          if (!val) return '';
+          return val === MarketingTypeEnum.marketing
+            ? 'Marketing'
+            : 'Under Construction';
+        },
+      });
+
+      if (
+        doAnyJurisdictionHaveFeatureFlagSet(
+          user.jurisdictions,
+          FeatureFlagEnum.enableMarketingStatusMonths,
+        )
+      )
+        headers.push({
+          path: 'marketingMonth',
+          label: 'Marketing Month',
+          format: (val: string): string => {
+            if (!val) return '';
+            return val.charAt(0).toUpperCase() + val.slice(1);
           },
-          {
-            path: 'marketingSeason',
-            label: 'Marketing Season',
-            format: (val: string): string => {
-              if (!val) return '';
-              return val.charAt(0).toUpperCase() + val.slice(1);
-            },
+        });
+
+      if (
+        doAnyJurisdictionHaveFalsyFeatureFlagValue(
+          user.jurisdictions,
+          FeatureFlagEnum.enableMarketingStatusMonths,
+        )
+      )
+        headers.push({
+          path: 'marketingSeason',
+          label: 'Marketing Season',
+          format: (val: string): string => {
+            if (!val) return '';
+            return val.charAt(0).toUpperCase() + val.slice(1);
           },
-          {
-            path: 'marketingYear',
-            label: 'Marketing Year',
-          },
-        ],
-      );
+        });
+
+      headers.push({
+        path: 'marketingYear',
+        label: 'Marketing Year',
+      });
     }
     headers.push(
       ...[
@@ -1071,7 +1200,12 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
         },
         {
           path: 'referralOpportunity',
-          label: 'Referral Opportunity',
+          label: doAllJurisdictionHaveFeatureFlagSet(
+            user.jurisdictions,
+            FeatureFlagEnum.enableReferralQuestionUnits,
+          )
+            ? 'Referral Only Units'
+            : 'Referral Opportunity',
           format: this.formatYesNo,
         },
         {
@@ -1148,6 +1282,23 @@ export class ListingCsvExporterService implements CsvExporterServiceInterface {
               .join(', ');
           },
         },
+        ...(doAnyJurisdictionHaveFeatureFlagSet(
+          user.jurisdictions,
+          FeatureFlagEnum.enableMarketingFlyer,
+        )
+          ? [
+              {
+                path: 'marketingFlyer',
+                label: 'Marketing Flyer',
+                format: this.marketingFlyer,
+              },
+              {
+                path: 'accessibleMarketingFlyer',
+                label: 'Accessible Marketing Flyer',
+                format: this.accessibleMarketingFlyer,
+              },
+            ]
+          : []),
         {
           path: 'userAccounts',
           label: 'Partners Who Have Access',

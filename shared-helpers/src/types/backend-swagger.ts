@@ -1312,6 +1312,28 @@ export class MultiselectQuestionsService {
     })
   }
   /**
+   * Update multiselect question
+   */
+  update(
+    params: {
+      /** requestBody */
+      body?: MultiselectQuestionUpdate
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<MultiselectQuestion> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/multiselectQuestions"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * Delete multiselect question by id
    */
   delete(
@@ -1327,6 +1349,66 @@ export class MultiselectQuestionsService {
       const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
 
       let data = params.body
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Re-activate a multiselect question
+   */
+  reActivate(
+    params: {
+      /** requestBody */
+      body?: IdDTO
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/multiselectQuestions/reActivate"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Retire a multiselect question
+   */
+  retire(
+    params: {
+      /** requestBody */
+      body?: IdDTO
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/multiselectQuestions/retire"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = params.body
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Trigger the retirement of multiselect questions cron job
+   */
+  retireMultiselectQuestions(options: IRequestOptions = {}): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/multiselectQuestions/retireMultiselectQuestions"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = null
 
       configs.data = data
 
@@ -1350,28 +1432,6 @@ export class MultiselectQuestionsService {
       const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
 
       /** 适配ios13，get请求不允许带body */
-
-      axios(configs, resolve, reject)
-    })
-  }
-  /**
-   * Update multiselect question
-   */
-  update(
-    params: {
-      /** requestBody */
-      body?: MultiselectQuestionUpdate
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<MultiselectQuestion> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + "/multiselectQuestions/{multiselectQuestionId}"
-
-      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
-
-      let data = params.body
-
-      configs.data = data
 
       axios(configs, resolve, reject)
     })
@@ -1699,6 +1759,22 @@ export class ApplicationsService {
     })
   }
   /**
+   * trigger the remove PII cron job
+   */
+  removePiiCronJob(options: IRequestOptions = {}): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/applications/removePIICronJob"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
    * Update application by id
    */
   update(
@@ -1766,28 +1842,6 @@ export class UserService {
     })
   }
   /**
-   * Delete user by id
-   */
-  delete(
-    params: {
-      /** requestBody */
-      body?: IdDTO
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<SuccessDTO> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + "/user"
-
-      const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
-
-      let data = params.body
-
-      configs.data = data
-
-      axios(configs, resolve, reject)
-    })
-  }
-  /**
    * Creates a public only user
    */
   create(
@@ -1804,6 +1858,28 @@ export class UserService {
 
       const configs: IRequestConfig = getConfigs("post", "application/json", url, options)
       configs.params = { noWelcomeEmail: params["noWelcomeEmail"] }
+
+      let data = params.body
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * Delete user by id
+   */
+  delete(
+    params: {
+      /** requestBody */
+      body?: UserDeleteDTO
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user"
+
+      const configs: IRequestConfig = getConfigs("delete", "application/json", url, options)
 
       let data = params.body
 
@@ -1859,23 +1935,22 @@ export class UserService {
     })
   }
   /**
-   * Forgot Password
+   * Get the ids of the user favorites
    */
-  forgotPassword(
+  favoriteListings(
     params: {
-      /** requestBody */
-      body?: EmailAndAppUrl
+      /**  */
+      id: string
     } = {} as any,
     options: IRequestOptions = {}
-  ): Promise<SuccessDTO> {
+  ): Promise<IdDTO[]> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/user/forgot-password"
+      let url = basePath + "/user/favoriteListings/{id}"
+      url = url.replace("{id}", params["id"] + "")
 
-      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+      const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
 
-      let data = params.body
-
-      configs.data = data
+      /** 适配ios13，get请求不允许带body */
 
       axios(configs, resolve, reject)
     })
@@ -1991,22 +2066,23 @@ export class UserService {
     })
   }
   /**
-   * Get the ids of the user favorites
+   * Forgot Password
    */
-  favoriteListings(
+  forgotPassword(
     params: {
-      /**  */
-      id: string
+      /** requestBody */
+      body?: EmailAndAppUrl
     } = {} as any,
     options: IRequestOptions = {}
-  ): Promise<IdDTO[]> {
+  ): Promise<SuccessDTO> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/user/favoriteListings/{id}"
-      url = url.replace("{id}", params["id"] + "")
+      let url = basePath + "/user/forgot-password"
 
-      const configs: IRequestConfig = getConfigs("get", "application/json", url, options)
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
 
-      /** 适配ios13，get请求不允许带body */
+      let data = params.body
+
+      configs.data = data
 
       axios(configs, resolve, reject)
     })
@@ -2027,6 +2103,38 @@ export class UserService {
       const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
 
       let data = params.body
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * trigger the user warn of deletion cron job
+   */
+  userWarnCronJob(options: IRequestOptions = {}): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user/userWarnCronJob"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = null
+
+      configs.data = data
+
+      axios(configs, resolve, reject)
+    })
+  }
+  /**
+   * trigger the delete inactive users cron job
+   */
+  deleteInactiveUsersCronJob(options: IRequestOptions = {}): Promise<SuccessDTO> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/user/deleteInactiveUsersCronJob"
+
+      const configs: IRequestConfig = getConfigs("put", "application/json", url, options)
+
+      let data = null
 
       configs.data = data
 
@@ -2964,6 +3072,9 @@ export interface ListingFilterParams {
 
   /**  */
   zipCode?: string
+
+  /**  */
+  listingType?: ListingTypeEnum
 }
 
 export interface ListingsQueryBody {
@@ -3041,6 +3152,35 @@ export interface IdDTO {
   ordinal?: number
 }
 
+export interface ListingDocuments {
+  /**  */
+  socialSecurityCard?: boolean
+
+  /**  */
+  currentLandlordReference?: boolean
+
+  /**  */
+  birthCertificate?: boolean
+
+  /**  */
+  previousLandlordReference?: boolean
+
+  /**  */
+  governmentIssuedId?: boolean
+
+  /**  */
+  proofOfAssets?: boolean
+
+  /**  */
+  proofOfIncome?: boolean
+
+  /**  */
+  residencyDocuments?: boolean
+
+  /**  */
+  proofOfCustody?: boolean
+}
+
 export interface MultiselectLink {
   /**  */
   title: string
@@ -3050,6 +3190,15 @@ export interface MultiselectLink {
 }
 
 export interface MultiselectOption {
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
   /**  */
   collectAddress?: boolean
 
@@ -3100,6 +3249,9 @@ export interface MultiselectOption {
 
   /**  */
   text: string
+
+  /**  */
+  untranslatedName?: string
 
   /**  */
   untranslatedText?: string
@@ -3159,6 +3311,9 @@ export interface MultiselectQuestion {
 
   /**  */
   text: string
+
+  /**  */
+  untranslatedName?: string
 
   /**  */
   untranslatedText?: string
@@ -3317,9 +3472,21 @@ export interface ListingImage {
 
   /**  */
   ordinal?: number
+
+  /**  */
+  description?: string
 }
 
 export interface ListingFeatures {
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
   /**  */
   elevator?: boolean
 
@@ -3382,6 +3549,15 @@ export interface ListingFeatures {
 }
 
 export interface ListingUtilities {
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
   /**  */
   water?: boolean
 
@@ -3614,6 +3790,9 @@ export interface UnitGroup {
   flatRentValueTo?: number
 
   /**  */
+  monthlyRent?: number
+
+  /**  */
   floorMin?: number
 
   /**  */
@@ -3641,7 +3820,7 @@ export interface UnitGroup {
   sqFeetMax?: number
 
   /**  */
-  rentType?: string
+  rentType?: RentTypeEnum
 
   /**  */
   unitAccessibilityPriorityTypes?: UnitAccessibilityPriorityType
@@ -3885,13 +4064,16 @@ export interface UnitsSummary {
   totalAvailable?: number
 
   /**  */
-  rentType?: string
+  rentType?: RentTypeEnum
 
   /**  */
   flatRentValueFrom?: number
 
   /**  */
   flatRentValueTo?: number
+
+  /**  */
+  monthlyRent?: number
 }
 
 export interface ApplicationLotteryTotal {
@@ -3906,6 +4088,15 @@ export interface ApplicationLotteryTotal {
 }
 
 export interface ListingNeighborhoodAmenities {
+  /**  */
+  id: string
+
+  /**  */
+  createdAt: Date
+
+  /**  */
+  updatedAt: Date
+
   /**  */
   groceryStores?: string
 
@@ -3923,6 +4114,24 @@ export interface ListingNeighborhoodAmenities {
 
   /**  */
   healthCareResources?: string
+
+  /**  */
+  shoppingVenues?: string
+
+  /**  */
+  hospitals?: string
+
+  /**  */
+  seniorCenters?: string
+
+  /**  */
+  recreationalFacilities?: string
+
+  /**  */
+  playgrounds?: string
+
+  /**  */
+  busStops?: string
 }
 
 export interface Listing {
@@ -3961,6 +4170,9 @@ export interface Listing {
 
   /**  */
   developer?: string
+
+  /**  */
+  listingFileNumber?: string
 
   /**  */
   householdSizeMax?: number
@@ -4002,6 +4214,9 @@ export interface Listing {
   applicationFee?: string
 
   /**  */
+  creditScreeningFee?: string
+
+  /**  */
   applicationOrganization?: string
 
   /**  */
@@ -4021,6 +4236,12 @@ export interface Listing {
 
   /**  */
   buildingSelectionCriteria?: string
+
+  /**  */
+  marketingFlyer?: string
+
+  /**  */
+  accessibleMarketingFlyer?: string
 
   /**  */
   cocInfo?: string
@@ -4045,12 +4266,6 @@ export interface Listing {
 
   /**  */
   depositValue?: number
-
-  /**  */
-  depositRangeMin?: number
-
-  /**  */
-  depositRangeMax?: number
 
   /**  */
   depositHelperText?: string
@@ -4099,6 +4314,9 @@ export interface Listing {
 
   /**  */
   requiredDocuments?: string
+
+  /**  */
+  requiredDocumentsList?: ListingDocuments
 
   /**  */
   specialNotes?: string
@@ -4204,6 +4422,12 @@ export interface Listing {
 
   /**  */
   listingsBuildingSelectionCriteriaFile?: Asset
+
+  /**  */
+  listingsMarketingFlyerFile?: Asset
+
+  /**  */
+  listingsAccessibleMarketingFlyerFile?: Asset
 
   /**  */
   jurisdictions: IdDTO
@@ -4329,6 +4553,152 @@ export interface ListingMapMarker {
   lng: number
 }
 
+export interface AssetCreate {
+  /**  */
+  fileId: string
+
+  /**  */
+  label: string
+
+  /**  */
+  id?: string
+}
+
+export interface UnitsSummaryCreate {
+  /**  */
+  unitTypes: IdDTO
+
+  /**  */
+  monthlyRentMin?: number
+
+  /**  */
+  monthlyRentMax?: number
+
+  /**  */
+  monthlyRentAsPercentOfIncome?: string
+
+  /**  */
+  amiPercentage?: number
+
+  /**  */
+  minimumIncomeMin?: string
+
+  /**  */
+  minimumIncomeMax?: string
+
+  /**  */
+  maxOccupancy?: number
+
+  /**  */
+  minOccupancy?: number
+
+  /**  */
+  floorMin?: number
+
+  /**  */
+  floorMax?: number
+
+  /**  */
+  sqFeetMin?: string
+
+  /**  */
+  sqFeetMax?: string
+
+  /**  */
+  unitAccessibilityPriorityTypes?: IdDTO
+
+  /**  */
+  totalCount?: number
+
+  /**  */
+  totalAvailable?: number
+
+  /**  */
+  rentType?: RentTypeEnum
+
+  /**  */
+  flatRentValueFrom?: number
+
+  /**  */
+  flatRentValueTo?: number
+
+  /**  */
+  monthlyRent?: number
+}
+
+export interface ListingImageCreate {
+  /**  */
+  ordinal?: number
+
+  /**  */
+  assets: AssetCreate
+
+  /**  */
+  description?: string
+}
+
+export interface ListingFeaturesCreate {
+  /**  */
+  elevator?: boolean
+
+  /**  */
+  wheelchairRamp?: boolean
+
+  /**  */
+  serviceAnimalsAllowed?: boolean
+
+  /**  */
+  accessibleParking?: boolean
+
+  /**  */
+  parkingOnSite?: boolean
+
+  /**  */
+  inUnitWasherDryer?: boolean
+
+  /**  */
+  laundryInBuilding?: boolean
+
+  /**  */
+  barrierFreeEntrance?: boolean
+
+  /**  */
+  rollInShower?: boolean
+
+  /**  */
+  grabBars?: boolean
+
+  /**  */
+  heatingInUnit?: boolean
+
+  /**  */
+  acInUnit?: boolean
+
+  /**  */
+  hearing?: boolean
+
+  /**  */
+  visual?: boolean
+
+  /**  */
+  mobility?: boolean
+
+  /**  */
+  barrierFreeUnitEntrance?: boolean
+
+  /**  */
+  loweredLightSwitch?: boolean
+
+  /**  */
+  barrierFreeBathroom?: boolean
+
+  /**  */
+  wideDoorways?: boolean
+
+  /**  */
+  loweredCabinets?: boolean
+}
+
 export interface UnitAmiChartOverrideCreate {
   /**  */
   items: AmiChartItem[]
@@ -4424,6 +4794,9 @@ export interface UnitGroupCreate {
   flatRentValueTo?: number
 
   /**  */
+  monthlyRent?: number
+
+  /**  */
   floorMin?: number
 
   /**  */
@@ -4451,7 +4824,7 @@ export interface UnitGroupCreate {
   sqFeetMax?: number
 
   /**  */
-  rentType?: string
+  rentType?: RentTypeEnum
 
   /**  */
   unitAccessibilityPriorityTypes?: IdDTO
@@ -4461,17 +4834,6 @@ export interface UnitGroupCreate {
 
   /**  */
   unitGroupAmiLevels?: UnitGroupAmiLevelCreate[]
-}
-
-export interface AssetCreate {
-  /**  */
-  fileId: string
-
-  /**  */
-  label: string
-
-  /**  */
-  id?: string
 }
 
 export interface PaperApplicationCreate {
@@ -4500,73 +4862,6 @@ export interface ApplicationMethodCreate {
 
   /**  */
   paperApplications?: PaperApplicationCreate[]
-}
-
-export interface UnitsSummaryCreate {
-  /**  */
-  unitTypes: IdDTO
-
-  /**  */
-  monthlyRentMin?: number
-
-  /**  */
-  monthlyRentMax?: number
-
-  /**  */
-  monthlyRentAsPercentOfIncome?: string
-
-  /**  */
-  amiPercentage?: number
-
-  /**  */
-  minimumIncomeMin?: string
-
-  /**  */
-  minimumIncomeMax?: string
-
-  /**  */
-  maxOccupancy?: number
-
-  /**  */
-  minOccupancy?: number
-
-  /**  */
-  floorMin?: number
-
-  /**  */
-  floorMax?: number
-
-  /**  */
-  sqFeetMin?: string
-
-  /**  */
-  sqFeetMax?: string
-
-  /**  */
-  unitAccessibilityPriorityTypes?: IdDTO
-
-  /**  */
-  totalCount?: number
-
-  /**  */
-  totalAvailable?: number
-
-  /**  */
-  rentType?: string
-
-  /**  */
-  flatRentValueFrom?: number
-
-  /**  */
-  flatRentValueTo?: number
-}
-
-export interface ListingImageCreate {
-  /**  */
-  ordinal?: number
-
-  /**  */
-  assets: AssetCreate
 }
 
 export interface AddressCreate {
@@ -4624,6 +4919,70 @@ export interface ListingEventCreate {
   assets?: AssetCreate
 }
 
+export interface ListingUtilitiesCreate {
+  /**  */
+  water?: boolean
+
+  /**  */
+  gas?: boolean
+
+  /**  */
+  trash?: boolean
+
+  /**  */
+  sewer?: boolean
+
+  /**  */
+  electricity?: boolean
+
+  /**  */
+  cable?: boolean
+
+  /**  */
+  phone?: boolean
+
+  /**  */
+  internet?: boolean
+}
+
+export interface ListingNeighborhoodAmenitiesCreate {
+  /**  */
+  groceryStores?: string
+
+  /**  */
+  publicTransportation?: string
+
+  /**  */
+  schools?: string
+
+  /**  */
+  parksAndCommunityCenters?: string
+
+  /**  */
+  pharmacies?: string
+
+  /**  */
+  healthCareResources?: string
+
+  /**  */
+  shoppingVenues?: string
+
+  /**  */
+  hospitals?: string
+
+  /**  */
+  seniorCenters?: string
+
+  /**  */
+  recreationalFacilities?: string
+
+  /**  */
+  playgrounds?: string
+
+  /**  */
+  busStops?: string
+}
+
 export interface ListingCreate {
   /**  */
   additionalApplicationSubmissionNotes?: string
@@ -4651,6 +5010,9 @@ export interface ListingCreate {
 
   /**  */
   developer?: string
+
+  /**  */
+  listingFileNumber?: string
 
   /**  */
   householdSizeMax?: number
@@ -4692,6 +5054,9 @@ export interface ListingCreate {
   applicationFee?: string
 
   /**  */
+  creditScreeningFee?: string
+
+  /**  */
   applicationOrganization?: string
 
   /**  */
@@ -4711,6 +5076,12 @@ export interface ListingCreate {
 
   /**  */
   buildingSelectionCriteria?: string
+
+  /**  */
+  marketingFlyer?: string
+
+  /**  */
+  accessibleMarketingFlyer?: string
 
   /**  */
   cocInfo?: string
@@ -4735,12 +5106,6 @@ export interface ListingCreate {
 
   /**  */
   depositValue?: number
-
-  /**  */
-  depositRangeMin?: number
-
-  /**  */
-  depositRangeMax?: number
 
   /**  */
   depositHelperText?: string
@@ -4791,6 +5156,9 @@ export interface ListingCreate {
   requiredDocuments?: string
 
   /**  */
+  requiredDocumentsList?: ListingDocuments
+
+  /**  */
   specialNotes?: string
 
   /**  */
@@ -4893,22 +5261,10 @@ export interface ListingCreate {
   section8Acceptance?: boolean
 
   /**  */
-  listingNeighborhoodAmenities?: ListingNeighborhoodAmenities
-
-  /**  */
   lastUpdatedByUser?: IdDTO
 
   /**  */
   listingMultiselectQuestions?: IdDTO[]
-
-  /**  */
-  units?: UnitCreate[]
-
-  /**  */
-  unitGroups?: UnitGroupCreate[]
-
-  /**  */
-  applicationMethods?: ApplicationMethodCreate[]
 
   /**  */
   assets?: AssetCreate[]
@@ -4918,6 +5274,33 @@ export interface ListingCreate {
 
   /**  */
   listingImages?: ListingImageCreate[]
+
+  /**  */
+  listingsBuildingSelectionCriteriaFile?: AssetCreate
+
+  /**  */
+  listingsMarketingFlyerFile?: AssetCreate
+
+  /**  */
+  listingsAccessibleMarketingFlyerFile?: AssetCreate
+
+  /**  */
+  listingsResult?: AssetCreate
+
+  /**  */
+  listingFeatures?: ListingFeaturesCreate
+
+  /**  */
+  requestedChangesUser?: IdDTO
+
+  /**  */
+  units?: UnitCreate[]
+
+  /**  */
+  unitGroups?: UnitGroupCreate[]
+
+  /**  */
+  applicationMethods?: ApplicationMethodCreate[]
 
   /**  */
   listingsApplicationPickUpAddress?: AddressCreate
@@ -4935,22 +5318,13 @@ export interface ListingCreate {
   listingsBuildingAddress?: AddressCreate
 
   /**  */
-  listingsBuildingSelectionCriteriaFile?: AssetCreate
-
-  /**  */
-  listingsResult?: AssetCreate
-
-  /**  */
   listingEvents: ListingEventCreate[]
 
   /**  */
-  listingFeatures?: ListingFeatures
+  listingUtilities?: ListingUtilitiesCreate
 
   /**  */
-  listingUtilities?: ListingUtilities
-
-  /**  */
-  requestedChangesUser?: IdDTO
+  listingNeighborhoodAmenities?: ListingNeighborhoodAmenitiesCreate
 }
 
 export interface ListingDuplicate {
@@ -4962,6 +5336,385 @@ export interface ListingDuplicate {
 
   /**  */
   storedListing: IdDTO
+}
+
+export interface UnitAmiChartOverrideUpdate {
+  /**  */
+  items: AmiChartItem[]
+
+  /**  */
+  id?: string
+}
+
+export interface UnitUpdate {
+  /**  */
+  amiPercentage?: string
+
+  /**  */
+  annualIncomeMin?: string
+
+  /**  */
+  monthlyIncomeMin?: string
+
+  /**  */
+  floor?: number
+
+  /**  */
+  annualIncomeMax?: string
+
+  /**  */
+  maxOccupancy?: number
+
+  /**  */
+  minOccupancy?: number
+
+  /**  */
+  monthlyRent?: string
+
+  /**  */
+  numBathrooms?: number
+
+  /**  */
+  numBedrooms?: number
+
+  /**  */
+  number?: string
+
+  /**  */
+  sqFeet?: string
+
+  /**  */
+  monthlyRentAsPercentOfIncome?: string
+
+  /**  */
+  bmrProgramChart?: boolean
+
+  /**  */
+  id?: string
+
+  /**  */
+  unitTypes?: IdDTO
+
+  /**  */
+  amiChart?: IdDTO
+
+  /**  */
+  unitAccessibilityPriorityTypes?: IdDTO
+
+  /**  */
+  unitRentTypes?: IdDTO
+
+  /**  */
+  unitAmiChartOverrides?: UnitAmiChartOverrideUpdate
+}
+
+export interface UnitGroupAmiLevelUpdate {
+  /**  */
+  amiPercentage?: number
+
+  /**  */
+  monthlyRentDeterminationType?: EnumUnitGroupAmiLevelUpdateMonthlyRentDeterminationType
+
+  /**  */
+  percentageOfIncomeValue?: number
+
+  /**  */
+  flatRentValue?: number
+
+  /**  */
+  id?: string
+
+  /**  */
+  amiChart?: IdDTO
+}
+
+export interface UnitGroupUpdate {
+  /**  */
+  maxOccupancy?: number
+
+  /**  */
+  minOccupancy?: number
+
+  /**  */
+  flatRentValueFrom?: number
+
+  /**  */
+  flatRentValueTo?: number
+
+  /**  */
+  monthlyRent?: number
+
+  /**  */
+  floorMin?: number
+
+  /**  */
+  floorMax?: number
+
+  /**  */
+  totalCount?: number
+
+  /**  */
+  totalAvailable?: number
+
+  /**  */
+  bathroomMin?: number
+
+  /**  */
+  bathroomMax?: number
+
+  /**  */
+  openWaitlist?: boolean
+
+  /**  */
+  sqFeetMin?: number
+
+  /**  */
+  sqFeetMax?: number
+
+  /**  */
+  rentType?: RentTypeEnum
+
+  /**  */
+  id?: string
+
+  /**  */
+  unitAccessibilityPriorityTypes?: IdDTO
+
+  /**  */
+  unitTypes?: IdDTO[]
+
+  /**  */
+  unitGroupAmiLevels?: UnitGroupAmiLevelUpdate[]
+}
+
+export interface PaperApplicationUpdate {
+  /**  */
+  language: LanguagesEnum
+
+  /**  */
+  id?: string
+
+  /**  */
+  assets?: AssetCreate
+}
+
+export interface ApplicationMethodUpdate {
+  /**  */
+  type: ApplicationMethodsTypeEnum
+
+  /**  */
+  label?: string
+
+  /**  */
+  externalReference?: string
+
+  /**  */
+  acceptsPostmarkedApplications?: boolean
+
+  /**  */
+  phoneNumber?: string
+
+  /**  */
+  id?: string
+
+  /**  */
+  paperApplications?: PaperApplicationUpdate[]
+}
+
+export interface AddressUpdate {
+  /**  */
+  placeName?: string
+
+  /**  */
+  city: string
+
+  /**  */
+  county?: string
+
+  /**  */
+  state: string
+
+  /**  */
+  street: string
+
+  /**  */
+  street2?: string
+
+  /**  */
+  zipCode: string
+
+  /**  */
+  latitude?: number
+
+  /**  */
+  longitude?: number
+
+  /**  */
+  id?: string
+}
+
+export interface ListingEventUpdate {
+  /**  */
+  type: ListingEventsTypeEnum
+
+  /**  */
+  startDate?: Date
+
+  /**  */
+  startTime?: Date
+
+  /**  */
+  endTime?: Date
+
+  /**  */
+  url?: string
+
+  /**  */
+  note?: string
+
+  /**  */
+  label?: string
+
+  /**  */
+  assets?: AssetCreate
+
+  /**  */
+  id?: string
+}
+
+export interface ListingFeaturesUpdate {
+  /**  */
+  elevator?: boolean
+
+  /**  */
+  wheelchairRamp?: boolean
+
+  /**  */
+  serviceAnimalsAllowed?: boolean
+
+  /**  */
+  accessibleParking?: boolean
+
+  /**  */
+  parkingOnSite?: boolean
+
+  /**  */
+  inUnitWasherDryer?: boolean
+
+  /**  */
+  laundryInBuilding?: boolean
+
+  /**  */
+  barrierFreeEntrance?: boolean
+
+  /**  */
+  rollInShower?: boolean
+
+  /**  */
+  grabBars?: boolean
+
+  /**  */
+  heatingInUnit?: boolean
+
+  /**  */
+  acInUnit?: boolean
+
+  /**  */
+  hearing?: boolean
+
+  /**  */
+  visual?: boolean
+
+  /**  */
+  mobility?: boolean
+
+  /**  */
+  barrierFreeUnitEntrance?: boolean
+
+  /**  */
+  loweredLightSwitch?: boolean
+
+  /**  */
+  barrierFreeBathroom?: boolean
+
+  /**  */
+  wideDoorways?: boolean
+
+  /**  */
+  loweredCabinets?: boolean
+
+  /**  */
+  id?: string
+}
+
+export interface ListingUtilitiesUpdate {
+  /**  */
+  water?: boolean
+
+  /**  */
+  gas?: boolean
+
+  /**  */
+  trash?: boolean
+
+  /**  */
+  sewer?: boolean
+
+  /**  */
+  electricity?: boolean
+
+  /**  */
+  cable?: boolean
+
+  /**  */
+  phone?: boolean
+
+  /**  */
+  internet?: boolean
+
+  /**  */
+  id?: string
+}
+
+export interface ListingNeighborhoodAmenitiesUpdate {
+  /**  */
+  groceryStores?: string
+
+  /**  */
+  publicTransportation?: string
+
+  /**  */
+  schools?: string
+
+  /**  */
+  parksAndCommunityCenters?: string
+
+  /**  */
+  pharmacies?: string
+
+  /**  */
+  healthCareResources?: string
+
+  /**  */
+  shoppingVenues?: string
+
+  /**  */
+  hospitals?: string
+
+  /**  */
+  seniorCenters?: string
+
+  /**  */
+  recreationalFacilities?: string
+
+  /**  */
+  playgrounds?: string
+
+  /**  */
+  busStops?: string
+
+  /**  */
+  id?: string
 }
 
 export interface ListingUpdate {
@@ -4994,6 +5747,9 @@ export interface ListingUpdate {
 
   /**  */
   developer?: string
+
+  /**  */
+  listingFileNumber?: string
 
   /**  */
   householdSizeMax?: number
@@ -5035,6 +5791,9 @@ export interface ListingUpdate {
   applicationFee?: string
 
   /**  */
+  creditScreeningFee?: string
+
+  /**  */
   applicationOrganization?: string
 
   /**  */
@@ -5054,6 +5813,12 @@ export interface ListingUpdate {
 
   /**  */
   buildingSelectionCriteria?: string
+
+  /**  */
+  marketingFlyer?: string
+
+  /**  */
+  accessibleMarketingFlyer?: string
 
   /**  */
   cocInfo?: string
@@ -5078,12 +5843,6 @@ export interface ListingUpdate {
 
   /**  */
   depositValue?: number
-
-  /**  */
-  depositRangeMin?: number
-
-  /**  */
-  depositRangeMax?: number
 
   /**  */
   depositHelperText?: string
@@ -5134,6 +5893,9 @@ export interface ListingUpdate {
   requiredDocuments?: string
 
   /**  */
+  requiredDocumentsList?: ListingDocuments
+
+  /**  */
   specialNotes?: string
 
   /**  */
@@ -5236,22 +5998,19 @@ export interface ListingUpdate {
   section8Acceptance?: boolean
 
   /**  */
-  listingNeighborhoodAmenities?: ListingNeighborhoodAmenities
-
-  /**  */
   lastUpdatedByUser?: IdDTO
 
   /**  */
   listingMultiselectQuestions?: IdDTO[]
 
   /**  */
-  units?: UnitCreate[]
+  units?: UnitUpdate[]
 
   /**  */
-  unitGroups?: UnitGroupCreate[]
+  unitGroups?: UnitGroupUpdate[]
 
   /**  */
-  applicationMethods?: ApplicationMethodCreate[]
+  applicationMethods?: ApplicationMethodUpdate[]
 
   /**  */
   assets?: AssetCreate[]
@@ -5263,37 +6022,46 @@ export interface ListingUpdate {
   listingImages?: ListingImageCreate[]
 
   /**  */
-  listingsApplicationPickUpAddress?: AddressCreate
+  listingsApplicationPickUpAddress?: AddressUpdate
 
   /**  */
-  listingsApplicationMailingAddress?: AddressCreate
+  listingsApplicationMailingAddress?: AddressUpdate
 
   /**  */
-  listingsApplicationDropOffAddress?: AddressCreate
+  listingsApplicationDropOffAddress?: AddressUpdate
 
   /**  */
-  listingsLeasingAgentAddress?: AddressCreate
+  listingsLeasingAgentAddress?: AddressUpdate
 
   /**  */
-  listingsBuildingAddress?: AddressCreate
+  listingsBuildingAddress?: AddressUpdate
 
   /**  */
   listingsBuildingSelectionCriteriaFile?: AssetCreate
 
   /**  */
+  listingsMarketingFlyerFile?: AssetCreate
+
+  /**  */
+  listingsAccessibleMarketingFlyerFile?: AssetCreate
+
+  /**  */
   listingsResult?: AssetCreate
 
   /**  */
-  listingEvents: ListingEventCreate[]
+  listingEvents: ListingEventUpdate[]
 
   /**  */
-  listingFeatures?: ListingFeatures
+  listingFeatures?: ListingFeaturesUpdate
 
   /**  */
-  listingUtilities?: ListingUtilities
+  listingUtilities?: ListingUtilitiesUpdate
 
   /**  */
   requestedChangesUser?: IdDTO
+
+  /**  */
+  listingNeighborhoodAmenities?: ListingNeighborhoodAmenitiesUpdate
 }
 
 export interface Accessibility {
@@ -5486,7 +6254,7 @@ export interface HouseholdMember {
   householdMemberAddress: Address
 }
 
-export interface ApplicationSelectionOptions {
+export interface ApplicationSelectionOption {
   /**  */
   id: string
 
@@ -5497,7 +6265,7 @@ export interface ApplicationSelectionOptions {
   updatedAt: Date
 
   /**  */
-  addressHolderAddress: IdDTO
+  addressHolderAddress: Address
 
   /**  */
   addressHolderName?: string
@@ -5515,7 +6283,7 @@ export interface ApplicationSelectionOptions {
   multiselectOption: IdDTO
 }
 
-export interface ApplicationSelections {
+export interface ApplicationSelection {
   /**  */
   id: string
 
@@ -5535,7 +6303,7 @@ export interface ApplicationSelections {
   multiselectQuestion: IdDTO
 
   /**  */
-  selections: ApplicationSelectionOptions
+  selections: ApplicationSelectionOption
 }
 
 export interface ApplicationMultiselectQuestionOption {
@@ -5636,6 +6404,15 @@ export interface Application {
   status: ApplicationStatusEnum
 
   /**  */
+  accessibleUnitWaitlistNumber?: number
+
+  /**  */
+  conventionalUnitWaitlistNumber?: number
+
+  /**  */
+  manualLotteryPositionNumber?: number
+
+  /**  */
   language?: LanguagesEnum
 
   /**  */
@@ -5684,7 +6461,7 @@ export interface Application {
   householdMember: HouseholdMember[]
 
   /**  */
-  applicationSelections?: ApplicationSelections[]
+  applicationSelections?: ApplicationSelection[]
 
   /**  */
   preferences?: ApplicationMultiselectQuestion[]
@@ -5926,6 +6703,9 @@ export interface JurisdictionCreate {
   languages: LanguagesEnum[]
 
   /**  */
+  minimumListingPublishImagesRequired?: number
+
+  /**  */
   partnerTerms?: string
 
   /**  */
@@ -5986,6 +6766,9 @@ export interface JurisdictionUpdate {
 
   /**  */
   languages: LanguagesEnum[]
+
+  /**  */
+  minimumListingPublishImagesRequired?: number
 
   /**  */
   partnerTerms?: string
@@ -6082,6 +6865,9 @@ export interface Jurisdiction {
   multiselectQuestions: IdDTO[]
 
   /**  */
+  minimumListingPublishImagesRequired?: number
+
+  /**  */
   partnerTerms?: string
 
   /**  */
@@ -6133,6 +6919,62 @@ export interface Jurisdiction {
   visibleNeighborhoodAmenities: NeighborhoodAmenitiesEnum[]
 }
 
+export interface MultiselectOptionCreate {
+  /**  */
+  collectAddress?: boolean
+
+  /**  */
+  collectName?: boolean
+
+  /**  */
+  collectRelationship?: boolean
+
+  /**  */
+  description?: string
+
+  /**  */
+  exclusive?: boolean
+
+  /**  */
+  isOptOut?: boolean
+
+  /**  */
+  links?: MultiselectLink[]
+
+  /**  */
+  mapLayerId?: string
+
+  /**  */
+  mapPinPosition?: string
+
+  /**  */
+  multiselectQuestion?: IdDTO
+
+  /**  */
+  name?: string
+
+  /**  */
+  ordinal: number
+
+  /**  */
+  radiusSize?: number
+
+  /**  */
+  shouldCollectAddress?: boolean
+
+  /**  */
+  shouldCollectName?: boolean
+
+  /**  */
+  shouldCollectRelationship?: boolean
+
+  /**  */
+  text: string
+
+  /**  */
+  validationMethod?: ValidationMethodEnum
+}
+
 export interface MultiselectQuestionCreate {
   /**  */
   applicationSection: MultiselectQuestionsApplicationSectionEnum
@@ -6156,16 +6998,13 @@ export interface MultiselectQuestionCreate {
   links?: MultiselectLink[]
 
   /**  */
-  multiselectOptions?: MultiselectOption[]
-
-  /**  */
   name?: string
 
   /**  */
-  options?: MultiselectOption[]
+  optOutText?: string
 
   /**  */
-  optOutText?: string
+  status: MultiselectQuestionsStatusEnum
 
   /**  */
   subText?: string
@@ -6175,6 +7014,71 @@ export interface MultiselectQuestionCreate {
 
   /**  */
   untranslatedOptOutText?: string
+
+  /**  */
+  multiselectOptions?: MultiselectOptionCreate[]
+
+  /**  */
+  options?: MultiselectOptionCreate[]
+}
+
+export interface MultiselectOptionUpdate {
+  /**  */
+  collectAddress?: boolean
+
+  /**  */
+  collectName?: boolean
+
+  /**  */
+  collectRelationship?: boolean
+
+  /**  */
+  description?: string
+
+  /**  */
+  exclusive?: boolean
+
+  /**  */
+  isOptOut?: boolean
+
+  /**  */
+  links?: MultiselectLink[]
+
+  /**  */
+  mapLayerId?: string
+
+  /**  */
+  mapPinPosition?: string
+
+  /**  */
+  multiselectQuestion?: IdDTO
+
+  /**  */
+  name?: string
+
+  /**  */
+  ordinal: number
+
+  /**  */
+  radiusSize?: number
+
+  /**  */
+  shouldCollectAddress?: boolean
+
+  /**  */
+  shouldCollectName?: boolean
+
+  /**  */
+  shouldCollectRelationship?: boolean
+
+  /**  */
+  text: string
+
+  /**  */
+  validationMethod?: ValidationMethodEnum
+
+  /**  */
+  id?: string
 }
 
 export interface MultiselectQuestionUpdate {
@@ -6203,16 +7107,13 @@ export interface MultiselectQuestionUpdate {
   links?: MultiselectLink[]
 
   /**  */
-  multiselectOptions?: MultiselectOption[]
-
-  /**  */
   name?: string
 
   /**  */
-  options?: MultiselectOption[]
+  optOutText?: string
 
   /**  */
-  optOutText?: string
+  status: MultiselectQuestionsStatusEnum
 
   /**  */
   subText?: string
@@ -6222,6 +7123,12 @@ export interface MultiselectQuestionUpdate {
 
   /**  */
   untranslatedOptOutText?: string
+
+  /**  */
+  multiselectOptions?: MultiselectOptionUpdate[]
+
+  /**  */
+  options?: MultiselectOptionUpdate[]
 }
 
 export interface MultiselectQuestionQueryParams {
@@ -6337,6 +7244,15 @@ export interface PublicAppsFiltered {
   status: ApplicationStatusEnum
 
   /**  */
+  accessibleUnitWaitlistNumber?: number
+
+  /**  */
+  conventionalUnitWaitlistNumber?: number
+
+  /**  */
+  manualLotteryPositionNumber?: number
+
+  /**  */
   language?: LanguagesEnum
 
   /**  */
@@ -6385,7 +7301,7 @@ export interface PublicAppsFiltered {
   householdMember: HouseholdMember[]
 
   /**  */
-  applicationSelections?: ApplicationSelections[]
+  applicationSelections?: ApplicationSelection[]
 
   /**  */
   preferences?: ApplicationMultiselectQuestion[]
@@ -6423,6 +7339,46 @@ export interface PublicAppsViewResponse {
 
   /**  */
   applicationsCount: PublicAppsCount
+}
+
+export interface AccessibilityUpdate {
+  /**  */
+  mobility?: boolean
+
+  /**  */
+  vision?: boolean
+
+  /**  */
+  hearing?: boolean
+
+  /**  */
+  other?: boolean
+}
+
+export interface AlternateContactUpdate {
+  /**  */
+  type?: AlternateContactRelationship
+
+  /**  */
+  otherType?: string
+
+  /**  */
+  firstName?: string
+
+  /**  */
+  lastName?: string
+
+  /**  */
+  agency?: string
+
+  /**  */
+  phoneNumber?: string
+
+  /**  */
+  emailAddress?: string
+
+  /**  */
+  address: AddressCreate
 }
 
 export interface ApplicantUpdate {
@@ -6470,46 +7426,6 @@ export interface ApplicantUpdate {
 
   /**  */
   applicantWorkAddress: AddressCreate
-}
-
-export interface AlternateContactUpdate {
-  /**  */
-  type?: AlternateContactRelationship
-
-  /**  */
-  otherType?: string
-
-  /**  */
-  firstName?: string
-
-  /**  */
-  lastName?: string
-
-  /**  */
-  agency?: string
-
-  /**  */
-  phoneNumber?: string
-
-  /**  */
-  emailAddress?: string
-
-  /**  */
-  address: AddressCreate
-}
-
-export interface AccessibilityUpdate {
-  /**  */
-  mobility?: boolean
-
-  /**  */
-  vision?: boolean
-
-  /**  */
-  hearing?: boolean
-
-  /**  */
-  other?: boolean
 }
 
 export interface DemographicUpdate {
@@ -6573,6 +7489,69 @@ export interface HouseholdMemberUpdate {
   householdMemberWorkAddress?: AddressCreate
 }
 
+export interface AddressUpdate {
+  /**  */
+  placeName?: string
+
+  /**  */
+  city: string
+
+  /**  */
+  county?: string
+
+  /**  */
+  state: string
+
+  /**  */
+  street: string
+
+  /**  */
+  street2?: string
+
+  /**  */
+  zipCode: string
+
+  /**  */
+  latitude?: number
+
+  /**  */
+  longitude?: number
+
+  /**  */
+  id?: string
+}
+
+export interface ApplicationSelectionOptionCreate {
+  /**  */
+  addressHolderName?: string
+
+  /**  */
+  addressHolderRelationship?: string
+
+  /**  */
+  isGeocodingVerified?: boolean
+
+  /**  */
+  multiselectOption: IdDTO
+
+  /**  */
+  addressHolderAddress?: AddressUpdate
+
+  /**  */
+  applicationSelection?: IdDTO
+}
+
+export interface ApplicationSelectionCreate {
+  /**  */
+  hasOptedOut?: boolean
+
+  /**  */
+  multiselectQuestion: IdDTO
+
+  /**  */
+  selections: ApplicationSelectionOptionCreate[]
+}
+
 export interface ApplicationCreate {
   /**  */
   appUrl?: string
@@ -6617,6 +7596,15 @@ export interface ApplicationCreate {
   status: ApplicationStatusEnum
 
   /**  */
+  accessibleUnitWaitlistNumber?: number
+
+  /**  */
+  conventionalUnitWaitlistNumber?: number
+
+  /**  */
+  manualLotteryPositionNumber?: number
+
+  /**  */
   language?: LanguagesEnum
 
   /**  */
@@ -6632,9 +7620,6 @@ export interface ApplicationCreate {
   reviewStatus?: ApplicationReviewStatusEnum
 
   /**  */
-  applicationSelections?: ApplicationSelections[]
-
-  /**  */
   preferences?: ApplicationMultiselectQuestion[]
 
   /**  */
@@ -6647,6 +7632,12 @@ export interface ApplicationCreate {
   isNewest?: boolean
 
   /**  */
+  accessibility: AccessibilityUpdate
+
+  /**  */
+  alternateContact: AlternateContactUpdate
+
+  /**  */
   applicant: ApplicantUpdate
 
   /**  */
@@ -6656,12 +7647,6 @@ export interface ApplicationCreate {
   applicationsAlternateAddress: AddressCreate
 
   /**  */
-  alternateContact: AlternateContactUpdate
-
-  /**  */
-  accessibility: AccessibilityUpdate
-
-  /**  */
   demographics: DemographicUpdate
 
   /**  */
@@ -6669,6 +7654,49 @@ export interface ApplicationCreate {
 
   /**  */
   preferredUnitTypes: IdDTO[]
+
+  /**  */
+  applicationSelections?: ApplicationSelectionCreate[]
+}
+
+export interface ApplicationSelectionOptionUpdate {
+  /**  */
+  addressHolderName?: string
+
+  /**  */
+  addressHolderRelationship?: string
+
+  /**  */
+  isGeocodingVerified?: boolean
+
+  /**  */
+  multiselectOption: IdDTO
+
+  /**  */
+  id?: string
+
+  /**  */
+  addressHolderAddress?: AddressUpdate
+
+  /**  */
+  applicationSelection?: IdDTO
+}
+
+export interface ApplicationSelectionUpdate {
+  /**  */
+  application: IdDTO
+
+  /**  */
+  hasOptedOut?: boolean
+
+  /**  */
+  multiselectQuestion: IdDTO
+
+  /**  */
+  id?: string
+
+  /**  */
+  selections: ApplicationSelectionOptionUpdate[]
 }
 
 export interface ApplicationUpdate {
@@ -6718,6 +7746,15 @@ export interface ApplicationUpdate {
   status: ApplicationStatusEnum
 
   /**  */
+  accessibleUnitWaitlistNumber?: number
+
+  /**  */
+  conventionalUnitWaitlistNumber?: number
+
+  /**  */
+  manualLotteryPositionNumber?: number
+
+  /**  */
   language?: LanguagesEnum
 
   /**  */
@@ -6733,9 +7770,6 @@ export interface ApplicationUpdate {
   reviewStatus?: ApplicationReviewStatusEnum
 
   /**  */
-  applicationSelections?: ApplicationSelections[]
-
-  /**  */
   preferences?: ApplicationMultiselectQuestion[]
 
   /**  */
@@ -6748,19 +7782,22 @@ export interface ApplicationUpdate {
   isNewest?: boolean
 
   /**  */
+  accessibility: AccessibilityUpdate
+
+  /**  */
+  alternateContact: AlternateContactUpdate
+
+  /**  */
   applicant: ApplicantUpdate
+
+  /**  */
+  applicationSelections?: ApplicationSelectionUpdate[]
 
   /**  */
   applicationsMailingAddress: AddressCreate
 
   /**  */
   applicationsAlternateAddress: AddressCreate
-
-  /**  */
-  alternateContact: AlternateContactUpdate
-
-  /**  */
-  accessibility: AccessibilityUpdate
 
   /**  */
   demographics: DemographicUpdate
@@ -6948,6 +7985,14 @@ export interface UserCreate {
 
   /**  */
   jurisdictions?: IdDTO[]
+}
+
+export interface UserDeleteDTO {
+  /**  */
+  id: string
+
+  /**  */
+  shouldRemoveApplication?: boolean
 }
 
 export interface UserInvite {
@@ -7293,6 +8338,11 @@ export enum ListingsStatusEnum {
   "pendingReview" = "pendingReview",
   "changesRequested" = "changesRequested",
 }
+
+export enum ListingTypeEnum {
+  "regulated" = "regulated",
+  "nonRegulated" = "nonRegulated",
+}
 export enum EnumListingFilterParamsComparison {
   "=" = "=",
   "<>" = "<>",
@@ -7323,6 +8373,7 @@ export enum ListingOrderByKeys {
   "marketingType" = "marketingType",
   "marketingYear" = "marketingYear",
   "marketingSeason" = "marketingSeason",
+  "listingType" = "listingType",
 }
 
 export enum OrderByEnum {
@@ -7353,6 +8404,7 @@ export enum ListingFilterKeys {
   "section8Acceptance" = "section8Acceptance",
   "status" = "status",
   "zipCode" = "zipCode",
+  "listingType" = "listingType",
 }
 
 export enum ApplicationAddressTypeEnum {
@@ -7434,6 +8486,11 @@ export enum UnitRentTypeEnum {
   "fixed" = "fixed",
   "percentageOfIncome" = "percentageOfIncome",
 }
+
+export enum RentTypeEnum {
+  "fixedRent" = "fixedRent",
+  "rentRange" = "rentRange",
+}
 export enum EnumUnitGroupAmiLevelMonthlyRentDeterminationType {
   "flatRent" = "flatRent",
   "percentageOfIncome" = "percentageOfIncome",
@@ -7484,6 +8541,10 @@ export enum EnumListingCreateListingType {
   "regulated" = "regulated",
   "nonRegulated" = "nonRegulated",
 }
+export enum EnumUnitGroupAmiLevelUpdateMonthlyRentDeterminationType {
+  "flatRent" = "flatRent",
+  "percentageOfIncome" = "percentageOfIncome",
+}
 export enum EnumListingUpdateDepositType {
   "fixedDeposit" = "fixedDeposit",
   "depositRange" = "depositRange",
@@ -7517,9 +8578,11 @@ export enum IncomePeriodEnum {
 }
 
 export enum ApplicationStatusEnum {
-  "draft" = "draft",
   "submitted" = "submitted",
-  "removed" = "removed",
+  "declined" = "declined",
+  "receivedUnit" = "receivedUnit",
+  "waitlist" = "waitlist",
+  "waitlistDeclined" = "waitlistDeclined",
 }
 
 export enum ApplicationSubmissionTypeEnum {
@@ -7581,9 +8644,16 @@ export enum NeighborhoodAmenitiesEnum {
   "parksAndCommunityCenters" = "parksAndCommunityCenters",
   "pharmacies" = "pharmacies",
   "healthCareResources" = "healthCareResources",
+  "shoppingVenues" = "shoppingVenues",
+  "hospitals" = "hospitals",
+  "seniorCenters" = "seniorCenters",
+  "recreationalFacilities" = "recreationalFacilities",
+  "playgrounds" = "playgrounds",
+  "busStops" = "busStops",
 }
 
 export enum FeatureFlagEnum {
+  "disableBuildingSelectionCriteria" = "disableBuildingSelectionCriteria",
   "disableCommonApplication" = "disableCommonApplication",
   "disableJurisdictionalAdmin" = "disableJurisdictionalAdmin",
   "disableListingPreferences" = "disableListingPreferences",
@@ -7591,7 +8661,9 @@ export enum FeatureFlagEnum {
   "enableAccessibilityFeatures" = "enableAccessibilityFeatures",
   "enableAdaOtherOption" = "enableAdaOtherOption",
   "enableAdditionalResources" = "enableAdditionalResources",
+  "enableApplicationStatus" = "enableApplicationStatus",
   "enableCompanyWebsite" = "enableCompanyWebsite",
+  "enableCreditScreeningFee" = "enableCreditScreeningFee",
   "enableFullTimeStudentQuestion" = "enableFullTimeStudentQuestion",
   "enableGeocodingPreferences" = "enableGeocodingPreferences",
   "enableGeocodingRadiusMethod" = "enableGeocodingRadiusMethod",
@@ -7600,10 +8672,13 @@ export enum FeatureFlagEnum {
   "enableIsVerified" = "enableIsVerified",
   "enableLimitedHowDidYouHear" = "enableLimitedHowDidYouHear",
   "enableListingFavoriting" = "enableListingFavoriting",
+  "enableListingFileNumber" = "enableListingFileNumber",
   "enableListingFiltering" = "enableListingFiltering",
+  "enableListingImageAltText" = "enableListingImageAltText",
   "enableListingOpportunity" = "enableListingOpportunity",
   "enableListingPagination" = "enableListingPagination",
   "enableListingUpdatedAt" = "enableListingUpdatedAt",
+  "enableMarketingFlyer" = "enableMarketingFlyer",
   "enableMarketingStatus" = "enableMarketingStatus",
   "enableMarketingStatusMonths" = "enableMarketingStatusMonths",
   "enableNeighborhoodAmenities" = "enableNeighborhoodAmenities",
@@ -7611,9 +8686,12 @@ export enum FeatureFlagEnum {
   "enableNonRegulatedListings" = "enableNonRegulatedListings",
   "enablePartnerDemographics" = "enablePartnerDemographics",
   "enablePartnerSettings" = "enablePartnerSettings",
+  "enableProperties" = "enableProperties",
+  "enableReferralQuestionUnits" = "enableReferralQuestionUnits",
   "enableRegions" = "enableRegions",
   "enableSection8Question" = "enableSection8Question",
   "enableSingleUseCode" = "enableSingleUseCode",
+  "enableSmokingPolicyRadio" = "enableSmokingPolicyRadio",
   "enableSupportAdmin" = "enableSupportAdmin",
   "enableUnderConstructionHome" = "enableUnderConstructionHome",
   "enableUnitGroups" = "enableUnitGroups",

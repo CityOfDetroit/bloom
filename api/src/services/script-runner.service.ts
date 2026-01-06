@@ -573,20 +573,24 @@ export class ScriptRunnerService {
         jurisInfo?.length ? jurisInfo[0].name : '',
         translations,
       );
-      await this.multiselectQuestionService.create({
-        text: pref.title,
-        subText: pref.subtitle,
-        description: pref.description,
-        links: pref.links ?? null,
-        hideFromListing: this.resolveHideFromListings(pref),
-        optOutText: optOutText ?? null,
-        options: options,
-        applicationSection:
-          MultiselectQuestionsApplicationSectionEnum.preferences,
-        jurisdictions: jurisInfo.map((juris) => {
-          return { id: juris.id };
-        }),
-      });
+      await this.multiselectQuestionService.create(
+        {
+          text: pref.title,
+          subText: pref.subtitle,
+          description: pref.description,
+          links: pref.links ?? null,
+          hideFromListing: this.resolveHideFromListings(pref),
+          optOutText: optOutText ?? null,
+          options: options,
+          applicationSection:
+            MultiselectQuestionsApplicationSectionEnum.preferences,
+          jurisdictions: jurisInfo.map((juris) => {
+            return { id: juris.id };
+          }),
+          status: 'draft',
+        },
+        requestingUser,
+      );
     }
 
     // begin migration from programs
@@ -629,31 +633,24 @@ export class ScriptRunnerService {
       const description = updatedProgInfo[prog.title] || prog.description;
 
       const res: MultiselectQuestion =
-        await this.multiselectQuestionService.create({
-          text: prog.title,
-          subText: prog.subtitle,
-          description: description,
-          links: null,
-          hideFromListing: this.resolveHideFromListings(prog),
-          optOutText: null,
-          options: [
-            {
-              text: 'I am a part of this community',
-              ordinal: 1,
-              exclusive: true,
-            },
-            {
-              text: 'I am not a part of this community',
-              ordinal: 2,
-              exclusive: true,
-            },
-          ],
-          applicationSection:
-            MultiselectQuestionsApplicationSectionEnum.programs,
-          jurisdictions: jurisInfo.map((juris) => {
-            return { id: juris.id };
-          }),
-        });
+        await this.multiselectQuestionService.create(
+          {
+            text: prog.title,
+            subText: prog.subtitle,
+            description: prog.description,
+            links: null,
+            hideFromListing: this.resolveHideFromListings(prog),
+            optOutText: null,
+            options: null,
+            applicationSection:
+              MultiselectQuestionsApplicationSectionEnum.programs,
+            jurisdictions: jurisInfo.map((juris) => {
+              return { id: juris.id };
+            }),
+            status: 'draft',
+          },
+          requestingUser,
+        );
 
       const listingsInfo: { ordinal; listing_id }[] = await this.prisma
         .$queryRawUnsafe(`
