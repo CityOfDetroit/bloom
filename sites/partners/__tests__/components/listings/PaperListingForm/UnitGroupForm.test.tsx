@@ -319,7 +319,7 @@ describe("<UnitGroupForm>", () => {
     expect(screen.getByRole("checkbox", { name: /1 bedroom/i })).toBeInTheDocument()
     expect(screen.getByRole("checkbox", { name: /2 bedroom/i })).toBeInTheDocument()
     expect(screen.getByRole("checkbox", { name: /3 bedroom/i })).toBeInTheDocument()
-    expect(screen.getByRole("checkbox", { name: /4 bedroom/i })).toBeInTheDocument()
+    expect(screen.getByRole("checkbox", { name: "4+ bedroom" })).toBeInTheDocument()
 
     // Details Section
     expect(screen.getByRole("spinbutton", { name: /Unit Group Quantity/i })).toBeInTheDocument()

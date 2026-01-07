@@ -67,7 +67,7 @@ const translations = (
           lottery:
             'Once the application period closes, applicants will be placed in order based on lottery rank order.',
           waitlist:
-            'Eligible applicants will be placed on the waitlist on a first come first serve basis until waitlist spots are filled.',
+            'Applicants will be placed on the waitlist on a first come first serve basis until waitlist spots are filled.',
           waitlistLottery:
             'Eligible applicants will be placed on the waitlist based on lottery rank order.',
           fcfsPreference:

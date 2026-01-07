@@ -522,7 +522,7 @@ export const fetchFavoriteListingIds = async (userId: string, userService: UserS
 }
 
 // RenderIf component to render content based on language (used in markdown components)
-export const RenderIf = (props: { language: string; children: JSX.Element }) => {
+export const RenderIf = (props: { language: string; children: React.JSX.Element }) => {
   const router = useRouter()
 
   if (

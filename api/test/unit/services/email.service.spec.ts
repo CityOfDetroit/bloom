@@ -362,9 +362,10 @@ describe('Testing email service', () => {
       expect(sendMock.mock.calls[0][0].html).toContain(
         'Eligible applicants will be placed on the waitlist based on lottery rank order.',
       );
-      expect(sendMock.mock.calls[0][0].html).toContain(
-        'Housing preferences, if applicable, will affect waitlist order.',
-      );
+      // removed reference to preferences in Detroit
+      // expect(sendMock.mock.calls[0][0].html).toContain(
+      //   'Housing preferences, if applicable, will affect waitlist order.',
+      // );
       expect(sendMock.mock.calls[0][0].html).toContain(
         'If you are contacted for an interview, you will be asked to fill out a more detailed application and provide supporting documents',
       );
