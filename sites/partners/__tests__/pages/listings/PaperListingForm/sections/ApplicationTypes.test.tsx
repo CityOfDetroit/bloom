@@ -7,8 +7,14 @@ import { LanguagesEnum } from "@bloom-housing/shared-helpers/src/types/backend-s
 import ApplicationTypes, {
   phoneMask,
 } from "../../../../../src/components/listings/PaperListingForm/sections/ApplicationTypes"
-import { mockNextRouter, render, screen, within, waitFor } from "../../../../testUtils"
-import { FormProviderWrapper } from "../../../../components/applications/sections/helpers"
+import {
+  mockNextRouter,
+  render,
+  screen,
+  within,
+  waitFor,
+  FormProviderWrapper,
+} from "../../../../testUtils"
 import * as helpers from "../../../../../src/lib/helpers"
 
 jest.mock("../../../../../src/lib/helpers", () => ({
@@ -43,7 +49,12 @@ describe("ApplicationTypes", () => {
   it("should render application types section", () => {
     render(
       <FormProviderWrapper>
-        <ApplicationTypes listing={listing} requiredFields={[]} />
+        <ApplicationTypes
+          listing={listing}
+          requiredFields={[]}
+          jurisdiction={"jurisdictionA"}
+          disableCommonApplication={false}
+        />
       </FormProviderWrapper>
     )
 
@@ -75,7 +86,12 @@ describe("ApplicationTypes", () => {
   it("should render referral opportunity section", async () => {
     render(
       <FormProviderWrapper>
-        <ApplicationTypes listing={listing} requiredFields={[]} />
+        <ApplicationTypes
+          listing={listing}
+          requiredFields={[]}
+          jurisdiction={"jurisdictionA"}
+          disableCommonApplication={false}
+        />
       </FormProviderWrapper>
     )
 
@@ -111,7 +127,12 @@ describe("ApplicationTypes", () => {
     it("should open and close the paper application drawer", async () => {
       render(
         <FormProviderWrapper>
-          <ApplicationTypes listing={listing} requiredFields={[]} />
+          <ApplicationTypes
+            listing={listing}
+            requiredFields={[]}
+            jurisdiction={"jurisdictionA"}
+            disableCommonApplication={false}
+          />
         </FormProviderWrapper>
       )
 
@@ -136,7 +157,12 @@ describe("ApplicationTypes", () => {
     it("should disable save button and hide dropzone when no language is selected", async () => {
       render(
         <FormProviderWrapper>
-          <ApplicationTypes listing={listing} requiredFields={[]} />
+          <ApplicationTypes
+            listing={listing}
+            requiredFields={[]}
+            jurisdiction={"jurisdictionA"}
+            disableCommonApplication={false}
+          />
         </FormProviderWrapper>
       )
 
@@ -158,7 +184,12 @@ describe("ApplicationTypes", () => {
       render(
         <AuthContext.Provider value={mockAuthContext}>
           <FormProviderWithJurisdiction>
-            <ApplicationTypes listing={listingWithJurisdiction} requiredFields={[]} />
+            <ApplicationTypes
+              listing={listingWithJurisdiction}
+              requiredFields={[]}
+              jurisdiction={"jurisdictionA"}
+              disableCommonApplication={false}
+            />
           </FormProviderWithJurisdiction>
         </AuthContext.Provider>
       )
@@ -192,7 +223,12 @@ describe("ApplicationTypes", () => {
       render(
         <AuthContext.Provider value={mockAuthContext}>
           <FormProviderWithJurisdiction>
-            <ApplicationTypes listing={listingWithJurisdiction} requiredFields={[]} />
+            <ApplicationTypes
+              listing={listingWithJurisdiction}
+              requiredFields={[]}
+              jurisdiction={"jurisdictionA"}
+              disableCommonApplication={false}
+            />
           </FormProviderWithJurisdiction>
         </AuthContext.Provider>
       )

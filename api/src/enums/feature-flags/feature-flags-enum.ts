@@ -2,6 +2,7 @@
 // Note, these are just used to keep backend and frontend in sync. We store feature flags as strings so this list might not include every flag.
 // Keep alphabetized for readability.
 export enum FeatureFlagEnum {
+  disableBuildingSelectionCriteria = 'disableBuildingSelectionCriteria',
   disableCommonApplication = 'disableCommonApplication',
   disableJurisdictionalAdmin = 'disableJurisdictionalAdmin',
   disableListingPreferences = 'disableListingPreferences',
@@ -9,7 +10,9 @@ export enum FeatureFlagEnum {
   enableAccessibilityFeatures = 'enableAccessibilityFeatures',
   enableAdaOtherOption = 'enableAdaOtherOption',
   enableAdditionalResources = 'enableAdditionalResources',
+  enableApplicationStatus = 'enableApplicationStatus',
   enableCompanyWebsite = 'enableCompanyWebsite',
+  enableCreditScreeningFee = 'enableCreditScreeningFee',
   enableFullTimeStudentQuestion = 'enableFullTimeStudentQuestion',
   enableGeocodingPreferences = 'enableGeocodingPreferences',
   enableGeocodingRadiusMethod = 'enableGeocodingRadiusMethod',
@@ -18,20 +21,28 @@ export enum FeatureFlagEnum {
   enableIsVerified = 'enableIsVerified',
   enableLimitedHowDidYouHear = 'enableLimitedHowDidYouHear',
   enableListingFavoriting = 'enableListingFavoriting',
+  enableListingFileNumber = 'enableListingFileNumber',
   enableListingFiltering = 'enableListingFiltering',
+  enableLeasingAgentAltText = 'enableLeasingAgentAltText',
+  enableListingImageAltText = 'enableListingImageAltText',
   enableListingOpportunity = 'enableListingOpportunity',
   enableListingPagination = 'enableListingPagination',
   enableListingUpdatedAt = 'enableListingUpdatedAt',
+  enableMarketingFlyer = 'enableMarketingFlyer',
   enableMarketingStatus = 'enableMarketingStatus',
   enableMarketingStatusMonths = 'enableMarketingStatusMonths',
   enableNeighborhoodAmenities = 'enableNeighborhoodAmenities',
   enableNeighborhoodAmenitiesDropdown = 'enableNeighborhoodAmenitiesDropdown',
   enableNonRegulatedListings = 'enableNonRegulatedListings',
+  enableParkingFee = 'enableParkingFee',
   enablePartnerDemographics = 'enablePartnerDemographics',
   enablePartnerSettings = 'enablePartnerSettings',
+  enableProperties = 'enableProperties',
+  enableReferralQuestionUnits = 'enableReferralQuestionUnits',
   enableRegions = 'enableRegions',
   enableSection8Question = 'enableSection8Question',
   enableSingleUseCode = 'enableSingleUseCode',
+  enableSmokingPolicyRadio = 'enableSmokingPolicyRadio',
   enableSupportAdmin = 'enableSupportAdmin',
   enableUnderConstructionHome = 'enableUnderConstructionHome',
   enableUnitGroups = 'enableUnitGroups',
@@ -52,6 +63,11 @@ export const featureFlagMap: {
   name: string;
   description: string;
 }[] = [
+  {
+    name: FeatureFlagEnum.disableBuildingSelectionCriteria,
+    description:
+      'When true, building selection criteria is not displayed in the listing',
+  },
   {
     name: FeatureFlagEnum.disableCommonApplication,
     description:
@@ -87,9 +103,18 @@ export const featureFlagMap: {
       "When true, the 'learn more' section is displayed on the home page",
   },
   {
+    name: FeatureFlagEnum.enableApplicationStatus,
+    description:
+      'When true, the application status and notifications feature is enabled on public and partners',
+  },
+  {
     name: FeatureFlagEnum.enableCompanyWebsite,
     description:
       'When true, allows partners to add company website information',
+  },
+  {
+    name: FeatureFlagEnum.enableCreditScreeningFee,
+    description: 'When true, credit screening fee is enabled for listings',
   },
   {
     name: FeatureFlagEnum.enableFullTimeStudentQuestion,
@@ -131,9 +156,22 @@ export const featureFlagMap: {
       'When true, a Favorite button is shown for public listings and users can view their favorited listings',
   },
   {
+    name: FeatureFlagEnum.enableListingFileNumber,
+    description:
+      'When true, partners can enter and export a listing file number',
+  },
+  {
     name: FeatureFlagEnum.enableListingFiltering,
     description:
       'When true, a filter button is shown on listings browse and users can filter with the options in the drawer',
+  },
+  {
+    name: FeatureFlagEnum.enableLeasingAgentAltText,
+    description: 'When true, shows alternative text for LA users',
+  },
+  {
+    name: FeatureFlagEnum.enableListingImageAltText,
+    description: 'When true, allows partners to add alt text to listing images',
   },
   {
     name: FeatureFlagEnum.enableListingOpportunity,
@@ -148,6 +186,11 @@ export const featureFlagMap: {
   {
     name: FeatureFlagEnum.enableListingUpdatedAt,
     description: 'When true, listings detail will display an updated at date',
+  },
+  {
+    name: FeatureFlagEnum.enableMarketingFlyer,
+    description:
+      "When true, the 'marketing flyer' sub-section is displayed in listing creation/edit and the public listing view",
   },
   {
     name: FeatureFlagEnum.enableMarketingStatus,
@@ -175,6 +218,10 @@ export const featureFlagMap: {
       'When true, non-regulated listings are displayed in listing creation/edit and public listing view',
   },
   {
+    name: FeatureFlagEnum.enableParkingFee,
+    description: 'When true, the parking fee field should be visible',
+  },
+  {
     name: FeatureFlagEnum.enablePartnerDemographics,
     description:
       'When true, demographics data is included in application or lottery exports for partners',
@@ -182,6 +229,14 @@ export const featureFlagMap: {
   {
     name: FeatureFlagEnum.enablePartnerSettings,
     description: "When true, the 'settings' tab in the partner site is visible",
+  },
+  {
+    name: FeatureFlagEnum.enableProperties,
+    description: 'When true, the properties feature is enabled',
+  },
+  {
+    name: FeatureFlagEnum.enableReferralQuestionUnits,
+    description: 'when true, updates the the referral details question labels',
   },
   {
     name: FeatureFlagEnum.enableRegions,
@@ -196,6 +251,11 @@ export const featureFlagMap: {
     name: FeatureFlagEnum.enableSingleUseCode,
     description:
       'When true, the backend allows for logging into this jurisdiction using the single use code flow',
+  },
+  {
+    name: FeatureFlagEnum.enableSmokingPolicyRadio,
+    description:
+      "When true, the listing 'Smoking policy' field is a radio group",
   },
   {
     name: FeatureFlagEnum.enableSupportAdmin,

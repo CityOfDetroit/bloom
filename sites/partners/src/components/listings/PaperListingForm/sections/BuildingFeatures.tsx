@@ -1,28 +1,26 @@
-import React, { useMemo, useContext, useEffect } from "react"
+import React, { useMemo, useEffect } from "react"
 import { useFormContext } from "react-hook-form"
-import { t, Textarea, FieldGroup } from "@bloom-housing/ui-components"
+import { t, Textarea, FieldGroup, Field } from "@bloom-housing/ui-components"
 import { Grid } from "@bloom-housing/ui-seeds"
-import { listingFeatures, AuthContext } from "@bloom-housing/shared-helpers"
-import {
-  FeatureFlagEnum,
-  ListingFeatures,
-} from "@bloom-housing/shared-helpers/src/types/backend-swagger"
+import { listingFeatures } from "@bloom-housing/shared-helpers"
+import { ListingFeaturesCreate } from "@bloom-housing/shared-helpers/src/types/backend-swagger"
 import SectionWithGrid from "../../../shared/SectionWithGrid"
-import { defaultFieldProps } from "../../../../lib/helpers"
+import { defaultFieldProps, getLabel } from "../../../../lib/helpers"
 import styles from "../ListingForm.module.scss"
 
 type BuildingFeaturesProps = {
-  existingFeatures: ListingFeatures
+  enableAccessibilityFeatures?: boolean
+  enableParkingFee?: boolean
+  enableSmokingPolicyRadio?: boolean
+  existingFeatures: ListingFeaturesCreate
   requiredFields: string[]
 }
 
 const BuildingFeatures = (props: BuildingFeaturesProps) => {
   const formMethods = useFormContext()
-  const { doJurisdictionsHaveFeatureFlagOn } = useContext(AuthContext)
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, watch, setValue, errors, clearErrors } = formMethods
-  const jurisdiction = watch("jurisdictions.id")
+  const { register, setValue, errors, clearErrors } = formMethods
 
   const featureOptions = useMemo(() => {
     return listingFeatures.map((item) => ({
@@ -33,17 +31,12 @@ const BuildingFeatures = (props: BuildingFeaturesProps) => {
     }))
   }, [register, props.existingFeatures])
 
-  const enableAccessibilityFeatures = doJurisdictionsHaveFeatureFlagOn(
-    FeatureFlagEnum.enableAccessibilityFeatures,
-    jurisdiction
-  )
-
   useEffect(() => {
     // clear the utilities values if the new jurisdiction doesn't have utilities included functionality
-    if (!enableAccessibilityFeatures) {
+    if (!props.enableAccessibilityFeatures) {
       setValue("accessibilityFeatures", undefined)
     }
-  }, [enableAccessibilityFeatures, setValue])
+  }, [props.enableAccessibilityFeatures, setValue])
 
   return (
     <>
@@ -107,8 +100,8 @@ const BuildingFeatures = (props: BuildingFeaturesProps) => {
               register={register}
               maxLength={600}
               {...defaultFieldProps(
-                "smokingPolicy",
-                t("t.smokingPolicy"),
+                "petPolicy",
+                t("t.petsPolicy"),
                 props.requiredFields,
                 errors,
                 clearErrors
@@ -124,21 +117,6 @@ const BuildingFeatures = (props: BuildingFeaturesProps) => {
               register={register}
               maxLength={600}
               {...defaultFieldProps(
-                "petPolicy",
-                t("t.petsPolicy"),
-                props.requiredFields,
-                errors,
-                clearErrors
-              )}
-            />
-          </Grid.Cell>
-          <Grid.Cell>
-            <Textarea
-              fullWidth={true}
-              placeholder={""}
-              register={register}
-              maxLength={600}
-              {...defaultFieldProps(
                 "servicesOffered",
                 t("t.servicesOffered"),
                 props.requiredFields,
@@ -147,8 +125,74 @@ const BuildingFeatures = (props: BuildingFeaturesProps) => {
               )}
             />
           </Grid.Cell>
+          <Grid.Cell>
+            {props.enableSmokingPolicyRadio ? (
+              <FieldGroup
+                type="radio"
+                name="smokingPolicy"
+                groupLabel={getLabel("smokingPolicy", props.requiredFields, t("t.smokingPolicy"))}
+                register={register}
+                fields={[
+                  {
+                    id: "smokingPolicyNoSmokingAllowed",
+                    dataTestId: "smokingPolicy.noSmokingAllowed",
+                    label: t("listings.smokingPolicyOptions.noSmokingAllowed"),
+                    value: "No smoking allowed",
+                  },
+                  {
+                    id: "smokingPolicySmokingAllowed",
+                    dataTestId: "smokingPolicy.smokingAllowed",
+                    label: t("listings.smokingPolicyOptions.smokingAllowed"),
+                    value: "Smoking allowed",
+                  },
+                  {
+                    id: "smokingPolicyUnknown",
+                    dataTestId: "smokingPolicy.unknown",
+                    label: t("listings.smokingPolicyOptions.unknown"),
+                    value: "",
+                    inputProps: {
+                      //without it empty value is overwritten by id
+                      defaultValue: "",
+                    },
+                  },
+                ]}
+              />
+            ) : (
+              <Textarea
+                fullWidth={true}
+                placeholder={""}
+                register={register}
+                maxLength={600}
+                {...defaultFieldProps(
+                  "smokingPolicy",
+                  t("t.smokingPolicy"),
+                  props.requiredFields,
+                  errors,
+                  clearErrors
+                )}
+              />
+            )}
+          </Grid.Cell>
         </Grid.Row>
-        {!enableAccessibilityFeatures ? null : (
+        {props.enableParkingFee && (
+          <Grid.Row columns={3}>
+            <Grid.Cell>
+              <Field
+                register={register}
+                type={"currency"}
+                prepend={"$"}
+                {...defaultFieldProps(
+                  "parkingFee",
+                  t("t.parkingFee"),
+                  props.requiredFields,
+                  errors,
+                  clearErrors
+                )}
+              />
+            </Grid.Cell>
+          </Grid.Row>
+        )}
+        {!props.enableAccessibilityFeatures ? null : (
           <Grid.Row>
             <FieldGroup
               type="checkbox"

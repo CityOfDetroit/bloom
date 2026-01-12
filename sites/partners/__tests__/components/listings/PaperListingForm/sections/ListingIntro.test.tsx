@@ -1,24 +1,10 @@
 import React from "react"
-import { rest } from "msw"
+import "@testing-library/jest-dom"
 import { setupServer } from "msw/node"
-import userEvent from "@testing-library/user-event"
 import { screen } from "@testing-library/react"
-import { FormProvider, useForm } from "react-hook-form"
-import {
-  FeatureFlagEnum,
-  Jurisdiction,
-} from "@bloom-housing/shared-helpers/src/types/backend-swagger"
-import { mockNextRouter, render } from "../../../../testUtils"
-import { formDefaults, FormListing } from "../../../../../src/lib/listings/formTypes"
+import { FormProviderWrapper, mockNextRouter, render } from "../../../../testUtils"
 import ListingIntro from "../../../../../src/components/listings/PaperListingForm/sections/ListingIntro"
-
-const FormComponent = ({ children, values }: { values?: FormListing; children }) => {
-  const formMethods = useForm<FormListing>({
-    defaultValues: { ...formDefaults, ...values },
-    shouldUnregister: false,
-  })
-  return <FormProvider {...formMethods}>{children}</FormProvider>
-}
+import { EnumListingListingType } from "@bloom-housing/shared-helpers/src/types/backend-swagger"
 
 const server = setupServer()
 
@@ -35,119 +21,162 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 describe("ListingIntro", () => {
-  const adminUserWithJurisdictions = {
-    jurisdictions: [
-      {
-        id: "jurisdiction1",
-        name: "jurisdictionWithJurisdictionAdmin",
-        featureFlags: [],
-      },
-    ],
-  }
-
-  it("should render the ListingIntro section with one jurisdiction", async () => {
-    document.cookie = "access-token-available=True"
-    server.use(
-      rest.get("http://localhost/api/adapter/user", (_req, res, ctx) => {
-        return res(ctx.json(adminUserWithJurisdictions))
-      })
-    )
-
+  it("should render the ListingIntro section with one jurisdiction", () => {
     render(
-      <FormComponent>
+      <FormProviderWrapper>
         <ListingIntro
+          enableHousingDeveloperOwner={false}
+          enableNonRegulatedListings={false}
+          enableListingFileNumber={false}
           requiredFields={[]}
-          jurisdictions={[
-            {
-              id: "JurisdictionA",
-              name: "JurisdictionA",
-            } as unknown as Jurisdiction,
-          ]}
+          jurisdictionName={"JurisdictionA"}
+          listingId={"1234"}
         />
-      </FormComponent>
+      </FormProviderWrapper>
     )
 
-    await screen.findByRole("heading", { level: 2, name: "Listing intro" })
     expect(
       screen.getByText("Let's get started with some basic information about your listing.")
     ).toBeInTheDocument()
     expect(screen.getByRole("textbox", { name: "Listing name *" })).toBeInTheDocument()
-    expect(screen.queryByRole("combobox", { name: "Jurisdiction *" })).not.toBeInTheDocument()
     expect(screen.getByRole("textbox", { name: "Housing developer" })).toBeInTheDocument()
+    expect(screen.queryByRole("textbox", { name: "Listing file number" })).not.toBeInTheDocument()
   })
 
-  it("should render the ListingIntro section with multiple jurisdictions and required developer", async () => {
-    document.cookie = "access-token-available=True"
-    server.use(
-      rest.get("http://localhost/api/adapter/user", (_req, res, ctx) => {
-        return res(ctx.json(adminUserWithJurisdictions))
-      })
-    )
-
+  it("should render the ListingIntro section with multiple jurisdictions and required developer", () => {
     render(
-      <FormComponent>
+      <FormProviderWrapper>
         <ListingIntro
+          enableHousingDeveloperOwner={false}
+          enableNonRegulatedListings={false}
+          enableListingFileNumber={false}
           requiredFields={["developer"]}
-          jurisdictions={[
-            {
-              id: "JurisdictionA",
-              name: "JurisdictionA",
-            } as unknown as Jurisdiction,
-            {
-              id: "JurisdictionB",
-              name: "JurisdictionB",
-            } as unknown as Jurisdiction,
-          ]}
+          jurisdictionName={"JurisdictionA"}
+          listingId={"1234"}
         />
-      </FormComponent>
+      </FormProviderWrapper>
     )
 
     expect(screen.getByRole("textbox", { name: "Listing name *" })).toBeInTheDocument()
-    expect(screen.getByRole("combobox", { name: "Jurisdiction *" })).toBeInTheDocument()
     expect(screen.getByRole("textbox", { name: "Housing developer *" })).toBeInTheDocument()
 
-    await userEvent.selectOptions(
-      screen.getByRole("combobox", { name: "Jurisdiction *" }),
-      screen.getByRole("option", { name: "JurisdictionA" })
-    )
-
     expect(screen.getByRole("textbox", { name: "Housing developer *" })).toBeInTheDocument()
+    expect(screen.queryByRole("textbox", { name: "Listing file number" })).not.toBeInTheDocument()
   })
 
-  it("should render appropriate text when housing developer owner feature flag is on", async () => {
-    document.cookie = "access-token-available=True"
-    server.use(
-      rest.get("http://localhost/api/adapter/user", (_req, res, ctx) => {
-        return res(
-          ctx.json({
-            jurisdictions: [
-              {
-                id: "JurisdictionA",
-                name: "jurisdictionWithJurisdictionAdmin",
-                featureFlags: [{ name: FeatureFlagEnum.enableHousingDeveloperOwner, active: true }],
-              },
-            ],
-          })
-        )
-      })
-    )
-
+  it("should render appropriate text when housing developer owner feature flag is on", () => {
     render(
-      <FormComponent>
+      <FormProviderWrapper>
         <ListingIntro
+          enableHousingDeveloperOwner={true}
+          enableNonRegulatedListings={false}
+          enableListingFileNumber={false}
           requiredFields={[]}
-          jurisdictions={[
-            {
-              id: "JurisdictionA",
-              name: "JurisdictionA",
-              featureFlags: [{ name: FeatureFlagEnum.enableHousingDeveloperOwner, active: true }],
-            } as unknown as Jurisdiction,
-          ]}
+          jurisdictionName={"JurisdictionA"}
+          listingId={"1234"}
         />
-      </FormComponent>
+      </FormProviderWrapper>
     )
-    await screen.findByRole("textbox", { name: "Housing developer / owner" })
     expect(screen.getByRole("textbox", { name: "Housing developer / owner" })).toBeInTheDocument()
     expect(screen.queryByRole("textbox", { name: "Housing developer" })).not.toBeInTheDocument()
+  })
+
+  it("should render listing file number field when feature flag is on", () => {
+    render(
+      <FormProviderWrapper>
+        <ListingIntro
+          enableHousingDeveloperOwner={false}
+          enableNonRegulatedListings={false}
+          enableListingFileNumber={true}
+          requiredFields={[]}
+          jurisdictionName={"JurisdictionA"}
+          listingId={"1234"}
+        />
+      </FormProviderWrapper>
+    )
+
+    expect(screen.getByRole("textbox", { name: "Listing file number" })).toBeInTheDocument()
+  })
+
+  it("should render the ListingIntro section with regulated fields when feature flag is off", () => {
+    render(
+      <FormProviderWrapper>
+        <ListingIntro
+          requiredFields={[]}
+          enableNonRegulatedListings={false}
+          enableHousingDeveloperOwner={false}
+          enableListingFileNumber={false}
+          jurisdictionName={"JurisdictionA"}
+          listingId={"1234"}
+        />
+      </FormProviderWrapper>
+    )
+
+    expect(screen.queryAllByText("What kind of listing is this?")).toHaveLength(0)
+    expect(screen.getByRole("textbox", { name: /^housing developer$/i })).toBeInTheDocument()
+    expect(
+      screen.queryByRole("textbox", { name: /^property management account$/i })
+    ).not.toBeInTheDocument()
+  })
+
+  it("should render the ListingIntro section with regulated fields when feature flag is on and listing is not non-regulated", () => {
+    render(
+      <FormProviderWrapper>
+        <ListingIntro
+          requiredFields={[]}
+          enableNonRegulatedListings={true}
+          enableHousingDeveloperOwner={false}
+          enableListingFileNumber={false}
+          jurisdictionName={"JurisdictionA"}
+          listingId={"1234"}
+        />
+      </FormProviderWrapper>
+    )
+
+    expect(screen.getByRole("heading", { level: 2, name: "Listing intro" })).toBeInTheDocument()
+
+    expect(screen.getByText("What kind of listing is this?")).toBeInTheDocument()
+    expect(screen.getByText("Regulated")).toBeInTheDocument()
+
+    expect(screen.getByRole("textbox", { name: /^housing developer$/i })).toBeInTheDocument()
+    expect(
+      screen.queryByRole("textbox", { name: /^property management account$/i })
+    ).not.toBeInTheDocument()
+
+    expect(
+      screen.queryAllByRole("group", {
+        name: "Has this property received HUD EBLL clearance?",
+      })
+    ).toHaveLength(0)
+  })
+
+  it("should render the ListingIntro section with non-regulated fields when feature flag is on and listing is non-regulated", () => {
+    render(
+      <FormProviderWrapper values={{ listingType: EnumListingListingType.nonRegulated }}>
+        <ListingIntro
+          requiredFields={[]}
+          enableNonRegulatedListings={true}
+          enableHousingDeveloperOwner={false}
+          enableListingFileNumber={false}
+          jurisdictionName={"JurisdictionA"}
+          listingId={"1234"}
+        />
+      </FormProviderWrapper>
+    )
+
+    expect(screen.getByRole("heading", { level: 2, name: "Listing intro" })).toBeInTheDocument()
+
+    expect(screen.getByText("What kind of listing is this?")).toBeInTheDocument()
+    expect(screen.getByText("Non-regulated")).toBeInTheDocument()
+
+    expect(
+      screen.getByRole("textbox", { name: /^property management account$/i })
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole("group", {
+        name: "Has this property received HUD EBLL clearance?",
+      })
+    ).toBeInTheDocument()
   })
 })

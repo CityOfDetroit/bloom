@@ -1,7 +1,6 @@
 import { Expose, Transform, TransformFnParams, Type } from 'class-transformer';
 import {
   ArrayMaxSize,
-  ArrayMinSize,
   IsArray,
   IsBoolean,
   IsDate,
@@ -62,6 +61,8 @@ import {
   ValidateOnlyUnitsOrUnitGroups,
 } from '../../decorators/validate-units-required.decorator';
 import { ValidateListingDeposit } from '../../decorators/validate-listing-deposit.decorator';
+import { ListingDocuments } from './listing-documents.dto';
+import { ValidateListingImages } from '../../decorators/validate-listing-images.decorator';
 
 class Listing extends AbstractDTO {
   @Expose()
@@ -133,6 +134,14 @@ class Listing extends AbstractDTO {
   @MaxLength(256, { groups: [ValidationsGroupsEnum.default] })
   @ApiPropertyOptional()
   developer?: string;
+
+  @Expose()
+  @ValidateListingPublish('listingFileNumber', {
+    groups: [ValidationsGroupsEnum.default],
+  })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @ApiPropertyOptional()
+  listingFileNumber?: string;
 
   @Expose()
   @IsNumber({}, { groups: [ValidationsGroupsEnum.default] })
@@ -248,6 +257,14 @@ class Listing extends AbstractDTO {
   applicationFee?: string;
 
   @Expose()
+  @ValidateListingPublish('creditScreeningFee', {
+    groups: [ValidationsGroupsEnum.default],
+  })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @ApiPropertyOptional()
+  creditScreeningFee?: string;
+
+  @Expose()
   @ValidateListingPublish('applicationOrganization', {
     groups: [ValidationsGroupsEnum.default],
   })
@@ -323,6 +340,30 @@ class Listing extends AbstractDTO {
   buildingSelectionCriteria?: string;
 
   @Expose()
+  @ValidateListingPublish('marketingFlyer', {
+    groups: [ValidationsGroupsEnum.default],
+  })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @ApiPropertyOptional()
+  @IsUrl(
+    { require_protocol: true },
+    { groups: [ValidationsGroupsEnum.default] },
+  )
+  marketingFlyer?: string;
+
+  @Expose()
+  @ValidateListingPublish('accessibleMarketingFlyer', {
+    groups: [ValidationsGroupsEnum.default],
+  })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @ApiPropertyOptional()
+  @IsUrl(
+    { require_protocol: true },
+    { groups: [ValidationsGroupsEnum.default] },
+  )
+  accessibleMarketingFlyer?: string;
+
+  @Expose()
   @ValidateListingPublish('cocInfo7', {
     groups: [ValidationsGroupsEnum.default],
   })
@@ -389,22 +430,6 @@ class Listing extends AbstractDTO {
   @IsNumber()
   @ApiPropertyOptional()
   depositValue?: number;
-
-  @Expose()
-  @ValidateListingPublish('depositRangeMin', {
-    groups: [ValidationsGroupsEnum.default],
-  })
-  @IsNumber()
-  @ApiPropertyOptional()
-  depositRangeMin?: number;
-
-  @Expose()
-  @ValidateListingPublish('depositRangeMax', {
-    groups: [ValidationsGroupsEnum.default],
-  })
-  @IsNumber()
-  @ApiPropertyOptional()
-  depositRangeMax?: number;
 
   @Expose()
   @ValidateListingPublish('depositHelperText', {
@@ -505,6 +530,14 @@ class Listing extends AbstractDTO {
   name: string;
 
   @Expose()
+  @ValidateListingPublish('parkingFee', {
+    groups: [ValidationsGroupsEnum.default],
+  })
+  @IsString({ groups: [ValidationsGroupsEnum.default] })
+  @ApiPropertyOptional()
+  parkingFee?: string;
+
+  @Expose()
   @ValidateListingPublish('postmarkedApplicationsReceivedByDate', {
     groups: [ValidationsGroupsEnum.default],
   })
@@ -545,6 +578,15 @@ class Listing extends AbstractDTO {
   @IsString({ groups: [ValidationsGroupsEnum.default] })
   @ApiPropertyOptional()
   requiredDocuments?: string;
+
+  @Expose()
+  @ValidateListingPublish('requiredDocumentsList', {
+    groups: [ValidationsGroupsEnum.default],
+  })
+  @Type(() => ListingDocuments)
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
+  @ApiPropertyOptional({ type: ListingDocuments })
+  requiredDocumentsList?: ListingDocuments;
 
   @Expose()
   @ValidateListingPublish('specialNotes', {
@@ -843,6 +885,24 @@ class Listing extends AbstractDTO {
   listingsBuildingSelectionCriteriaFile?: Asset;
 
   @Expose()
+  @ValidateListingPublish('listingsMarketingFlyerFile', {
+    groups: [ValidationsGroupsEnum.default],
+  })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
+  @Type(() => Asset)
+  @ApiPropertyOptional({ type: Asset })
+  listingsMarketingFlyerFile?: Asset;
+
+  @Expose()
+  @ValidateListingPublish('listingsAccessibleMarketingFlyerFile', {
+    groups: [ValidationsGroupsEnum.default],
+  })
+  @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
+  @Type(() => Asset)
+  @ApiPropertyOptional({ type: Asset })
+  listingsAccessibleMarketingFlyerFile?: Asset;
+
+  @Expose()
   @IsDefined({ groups: [ValidationsGroupsEnum.default] })
   @ValidateNested({ groups: [ValidationsGroupsEnum.default] })
   @Type(() => IdDTO)
@@ -870,7 +930,7 @@ class Listing extends AbstractDTO {
   })
   @ValidateNested({ groups: [ValidationsGroupsEnum.default], each: true })
   @Type(() => ListingImage)
-  @ArrayMinSize(1, { groups: [ValidationsGroupsEnum.default] })
+  @ValidateListingImages({ groups: [ValidationsGroupsEnum.default] })
   @ApiPropertyOptional({ type: ListingImage, isArray: true })
   listingImages?: ListingImage[];
 
@@ -1096,6 +1156,9 @@ class Listing extends AbstractDTO {
 
   @Expose()
   requiredFields?: string[];
+
+  @Expose()
+  minimumImagesRequired?: number;
 
   @Expose()
   @ApiPropertyOptional()

@@ -315,8 +315,15 @@ export class EmailService {
     );
   }
 
-  public async sendSingleUseCode(user: User, singleUseCode: string) {
-    const jurisdiction = await this.getJurisdiction(user.jurisdictions);
+  public async sendSingleUseCode(
+    user: User,
+    singleUseCode: string,
+    jurisdictionName?: string,
+  ) {
+    const jurisdiction = await this.getJurisdiction(
+      user.jurisdictions,
+      jurisdictionName,
+    );
     void (await this.loadTranslations(jurisdiction, user.language));
     const emailFromAddress = await this.getEmailToSendFrom(
       user.jurisdictions,
@@ -340,7 +347,7 @@ export class EmailService {
 
   public async applicationConfirmation(
     listing: Listing,
-    application: ApplicationCreate,
+    application: Application,
     appUrl: string,
   ) {
     const jurisdiction = await this.getJurisdiction([listing.jurisdictions]);
@@ -376,7 +383,13 @@ export class EmailService {
           'confirmation.eligible.fcfsPreference',
         );
       } else if (hasUnitGroups) {
-        eligibleText = this.polyglot.t('confirmation.eligible.waitlist');
+        if (listing.reviewOrderType === ReviewOrderTypeEnum.waitlistLottery) {
+          eligibleText = this.polyglot.t(
+            'confirmation.eligible.waitlistLottery',
+          );
+        } else {
+          eligibleText = this.polyglot.t('confirmation.eligible.waitlist');
+        }
         contactText = this.polyglot.t('confirmation.eligible.waitlistContact');
         preferenceText = this.polyglot.t(
           'confirmation.eligible.waitlistPreference',
@@ -397,6 +410,13 @@ export class EmailService {
       }
       if (listing.reviewOrderType === ReviewOrderTypeEnum.waitlist) {
         eligibleText = this.polyglot.t('confirmation.eligible.waitlist');
+        contactText = this.polyglot.t('confirmation.eligible.waitlistContact');
+        preferenceText = this.polyglot.t(
+          'confirmation.eligible.waitlistPreference',
+        );
+      }
+      if (listing.reviewOrderType === ReviewOrderTypeEnum.waitlistLottery) {
+        eligibleText = this.polyglot.t('confirmation.eligible.waitlistLottery');
         contactText = this.polyglot.t('confirmation.eligible.waitlistContact');
         preferenceText = this.polyglot.t(
           'confirmation.eligible.waitlistPreference',
@@ -665,7 +685,10 @@ export class EmailService {
       ]);
 
       for (const language in emails) {
-        void (await this.loadTranslations(null, language as LanguagesEnum));
+        void (await this.loadTranslations(
+          jurisdiction,
+          language as LanguagesEnum,
+        ));
         this.logger.log(
           `Sending lottery published ${language} email for listing ${listingInfo.name} to ${emails[language]?.length} emails`,
         );
@@ -691,6 +714,25 @@ export class EmailService {
       console.log('lottery published applicant email failed', err);
       throw new HttpException('email failed', 500);
     }
+  }
+
+  public async warnOfAccountRemoval(user: User) {
+    const jurisdiction = await this.getJurisdiction(user.jurisdictions);
+    void (await this.loadTranslations(jurisdiction, user.language));
+    const emailFromAddress = await this.getEmailToSendFrom(
+      user.jurisdictions,
+      jurisdiction,
+    );
+    const signInUrl = jurisdiction ? `${jurisdiction.publicUrl}/sign-in` : '';
+    await this.send(
+      user.email,
+      emailFromAddress,
+      this.polyglot.t('accountRemoval.subject'),
+      this.template('warn-removal')({
+        user: user,
+        signInUrl: signInUrl,
+      }),
+    );
   }
 
   formatLocalDate(rawDate: string | Date, format: string): string {
