@@ -1,9 +1,10 @@
 import { FormProvider, useForm } from "react-hook-form"
 import { useRouter } from "next/router"
-import { useCallback, useMemo, useState } from "react"
-import { BloomCard, CustomIconMap, listingFeatures } from "@bloom-housing/shared-helpers"
+import { useCallback, useMemo, useRef, useState } from "react"
+import { BloomCard, CustomIconMap } from "@bloom-housing/shared-helpers"
 import {
   FeatureFlagEnum,
+  ListingFeaturesConfiguration,
   ListingFilterKeys,
   MultiselectQuestion,
   RegionEnum,
@@ -19,6 +20,7 @@ import {
   buildDefaultFilterFields,
   encodeFilterDataToQuery,
   FilterData,
+  getAccessibilityFeatureKeys,
   ReservedCommunityTypes,
   unitTypeMapping,
   unitTypesSorted,
@@ -39,15 +41,26 @@ type FinderSection = {
 
 export type RentalsFinderProps = {
   activeFeatureFlags: FeatureFlagEnum[]
+  listingFeaturesConfiguration?: ListingFeaturesConfiguration
   multiselectData: MultiselectQuestion[]
 }
 
-export default function RentalsFinder({ activeFeatureFlags, multiselectData }: RentalsFinderProps) {
+const setFocusToTitle = () => {
+  document.getElementById("finder-card-title")?.focus()
+  return
+}
+
+export default function RentalsFinder({
+  activeFeatureFlags,
+  listingFeaturesConfiguration,
+  multiselectData,
+}: RentalsFinderProps) {
   const router = useRouter()
   const [stepIndex, setStepIndex] = useState<number>(0)
   const [sectionIndex, setSectionIndex] = useState<number>(0)
   const [formData, setFormData] = useState<FilterData>({})
   const formMethods = useForm<FilterData>()
+  const stepHeaderRef = useRef<HTMLDivElement>(null)
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { reset, handleSubmit, getValues, errors } = formMethods
@@ -105,7 +118,8 @@ export default function RentalsFinder({ activeFeatureFlags, multiselectData }: R
           },
         ],
       },
-      ...(activeFeatureFlags.some((flag) => flag == FeatureFlagEnum.enableAccessibilityFeatures)
+      ...(activeFeatureFlags.some((flag) => flag == FeatureFlagEnum.enableAccessibilityFeatures) &&
+      listingFeaturesConfiguration
         ? [
             {
               sectionTitle: t("t.accessibility"),
@@ -120,7 +134,7 @@ export default function RentalsFinder({ activeFeatureFlags, multiselectData }: R
                       options={buildDefaultFilterFields(
                         ListingFilterKeys.listingFeatures,
                         "eligibility.accessibility",
-                        listingFeatures,
+                        getAccessibilityFeatureKeys(listingFeaturesConfiguration),
                         {}
                       )}
                     />
@@ -195,8 +209,10 @@ export default function RentalsFinder({ activeFeatureFlags, multiselectData }: R
     if (isLastStep) {
       setSectionIndex((prev) => prev + 1)
       setStepIndex(0)
+      stepHeaderRef.current?.focus()
     } else {
       setStepIndex((prev) => prev + 1)
+      document.getElementById("finder-card-title")?.focus()
     }
     window.scrollTo({ top: 0 })
   }, [errors, isLastStep, getValues])
@@ -215,8 +231,10 @@ export default function RentalsFinder({ activeFeatureFlags, multiselectData }: R
       const numberOfSteps = rentalFinderSections[prevSectionIndex]?.sectionSteps.length
       setStepIndex(numberOfSteps - 1)
       setSectionIndex(prevSectionIndex)
+      stepHeaderRef.current?.focus()
     } else {
       setStepIndex((prev) => prev - 1)
+      setFocusToTitle()
     }
   }, [formData, stepIndex, sectionIndex, getValues, rentalFinderSections, reset])
 
@@ -246,13 +264,15 @@ export default function RentalsFinder({ activeFeatureFlags, multiselectData }: R
             mounted={true}
           />
           {sectionIndex <= sectionLabels.length - 1 && (
-            <StepHeader
-              currentStep={sectionIndex + 1}
-              totalSteps={sectionLabels.length}
-              stepPreposition={t("finder.progress.stepPreposition")}
-              stepLabeling={sectionLabels}
-              priority={2}
-            />
+            <div tabIndex={-1} ref={stepHeaderRef}>
+              <StepHeader
+                currentStep={sectionIndex + 1}
+                totalSteps={sectionLabels.length}
+                stepPreposition={t("finder.progress.stepPreposition")}
+                stepLabeling={sectionLabels}
+                priority={2}
+              />
+            </div>
           )}
         </div>
         <BloomCard
@@ -272,6 +292,8 @@ export default function RentalsFinder({ activeFeatureFlags, multiselectData }: R
             </>
           }
           title={activeQuestion.question}
+          titleTabIndex={-1}
+          titleId="finder-card-title"
           subtitle={activeQuestion.subtitle}
           headingPriority={2}
         >

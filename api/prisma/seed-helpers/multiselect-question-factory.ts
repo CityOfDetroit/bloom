@@ -56,7 +56,7 @@ export const multiselectQuestionFactory = (
     },
     name: name,
     subText: `sub text for ${name}`,
-    status: MultiselectQuestionsStatusEnum.draft,
+    status: MultiselectQuestionsStatusEnum.visible,
     // TODO: Can be removed after MSQ refactor
     text: name,
   };
@@ -91,5 +91,6 @@ const multiselectOptionFactoryV2 = (numberToMake: number) => {
   return [...new Array(numberToMake)].map((_, index) => ({
     name: randomNoun(),
     ordinal: index,
+    shouldCollectAddress: index % 2 === 0,
   }));
 };

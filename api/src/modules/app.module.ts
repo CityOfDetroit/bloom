@@ -24,6 +24,8 @@ import { ScriptRunnerModule } from './script-runner.module';
 import { LotteryModule } from './lottery.module';
 import { FeatureFlagModule } from './feature-flag.module';
 import { CronJobModule } from './cron-job.module';
+import { PropertyModule } from './property.module';
+import { AgencyModule } from './agency.module';
 
 @Module({
   imports: [
@@ -46,6 +48,8 @@ import { CronJobModule } from './cron-job.module';
     LotteryModule,
     FeatureFlagModule,
     CronJobModule,
+    PropertyModule,
+    AgencyModule,
     ThrottlerModule.forRoot([
       {
         ttl: Number(process.env.THROTTLE_TTL),
@@ -64,6 +68,8 @@ import { CronJobModule } from './cron-job.module';
     },
   ],
   exports: [
+    PropertyModule,
+    AgencyModule,
     ListingModule,
     AmiChartModule,
     ReservedCommunityTypeModule,

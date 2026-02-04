@@ -15,6 +15,7 @@ import {
   ListingEventsTypeEnum,
   ListingsStatusEnum,
   MarketingTypeEnum,
+  MultiselectQuestionsStatusEnum,
   Prisma,
   ReviewOrderTypeEnum,
   UserRoleEnum,
@@ -22,7 +23,9 @@ import {
 import dayjs from 'dayjs';
 import { firstValueFrom } from 'rxjs';
 import { ApplicationFlaggedSetService } from './application-flagged-set.service';
+import { CronJobService } from './cron-job.service';
 import { EmailService } from './email.service';
+import { MultiselectQuestionService } from './multiselect-question.service';
 import { PermissionService } from './permission.service';
 import { PrismaService } from './prisma.service';
 import { TranslationService } from './translation.service';
@@ -60,7 +63,7 @@ import {
 import { fillModelStringFields } from '../utilities/model-fields';
 import { doJurisdictionHaveFeatureFlagSet } from '../utilities/feature-flag-utilities';
 import { addUnitGroupsSummarized } from '../utilities/unit-groups-transformations';
-import { CronJobService } from './cron-job.service';
+import { ListingMultiselectQuestion } from '../dtos/listings/listing-multiselect-question.dto';
 
 export type getListingsArgs = {
   skip: number;
@@ -198,16 +201,17 @@ const LISTING_CRON_JOB_NAME = 'LISTING_CRON_JOB';
 @Injectable()
 export class ListingService implements OnModuleInit {
   constructor(
-    private prisma: PrismaService,
-    private translationService: TranslationService,
-    private httpService: HttpService,
     private afsService: ApplicationFlaggedSetService,
-    private emailService: EmailService,
     private configService: ConfigService,
+    private cronJobService: CronJobService,
+    private emailService: EmailService,
+    private httpService: HttpService,
     @Inject(Logger)
     private logger = new Logger(ListingService.name),
+    private multiselectQuestionService: MultiselectQuestionService,
     private permissionService: PermissionService,
-    private cronJobService: CronJobService,
+    private prisma: PrismaService,
+    private translationService: TranslationService,
   ) {}
 
   onModuleInit() {
@@ -348,6 +352,8 @@ export class ListingService implements OnModuleInit {
     const nonApprovingRoles: UserRoleEnum[] = [UserRoleEnum.partner];
     if (!params.approvingRoles.includes(UserRoleEnum.jurisdictionAdmin))
       nonApprovingRoles.push(UserRoleEnum.jurisdictionAdmin);
+    if (!params.approvingRoles.includes(UserRoleEnum.limitedJurisdictionAdmin))
+      nonApprovingRoles.push(UserRoleEnum.limitedJurisdictionAdmin);
 
     if (
       params.status === ListingsStatusEnum.pendingReview &&
@@ -405,7 +411,7 @@ export class ListingService implements OnModuleInit {
           params.listingInfo.id,
           params.jurisId,
         );
-        const jurisdiction = await this.prisma.jurisdictions.findFirst({
+        const jurisdiction = await this.prisma.jurisdictions.findUnique({
           select: {
             publicUrl: true,
           },
@@ -415,7 +421,7 @@ export class ListingService implements OnModuleInit {
           { id: params.jurisId },
           { id: params.listingInfo.id, name: params.listingInfo.name },
           userInfo.emails,
-          jurisdiction?.publicUrl || '',
+          jurisdiction.publicUrl || '',
         );
       }
     }
@@ -987,6 +993,20 @@ export class ListingService implements OnModuleInit {
             })),
           });
         }
+        if (filter[ListingFilterKeys.configurableRegions]) {
+          const builtFilter = buildFilter({
+            $comparison: filter.$comparison,
+            $include_nulls: false,
+            value: filter[ListingFilterKeys.configurableRegions],
+            key: ListingFilterKeys.configurableRegions,
+            caseSensitive: true,
+          });
+          filters.push({
+            OR: builtFilter.map((filt) => ({
+              configurableRegion: filt,
+            })),
+          });
+        }
         if (filter[ListingFilterKeys.reservedCommunityTypes]) {
           const builtFilter = buildFilter({
             $comparison: filter.$comparison,
@@ -1242,7 +1262,7 @@ export class ListingService implements OnModuleInit {
       }
     }
     // add additional jurisdiction fields for external purpose
-    const jurisdiction = await this.prisma.jurisdictions.findFirst({
+    const jurisdiction = await this.prisma.jurisdictions.findUnique({
       where: { id: listing.jurisdictions.id },
     });
     return JSON.stringify({ ...listing, jurisdiction: jurisdiction });
@@ -1264,18 +1284,26 @@ export class ListingService implements OnModuleInit {
         jurisdictionId: dto.jurisdictions.id,
       },
     );
-    const rawJurisdiction = await this.prisma.jurisdictions.findFirst({
+
+    const rawJurisdiction = await this.prisma.jurisdictions.findUnique({
+      select: {
+        id: true,
+        featureFlags: true,
+        listingApprovalPermissions: true,
+      },
       where: {
         id: dto.jurisdictions.id,
-      },
-      include: {
-        featureFlags: true,
       },
     });
 
     const enableUnitGroups = doJurisdictionHaveFeatureFlagSet(
-      rawJurisdiction as Jurisdiction,
+      rawJurisdiction as unknown as Jurisdiction,
       FeatureFlagEnum.enableUnitGroups,
+    );
+
+    const enableV2MSQ = doJurisdictionHaveFeatureFlagSet(
+      rawJurisdiction as unknown as Jurisdiction,
+      FeatureFlagEnum.enableV2MSQ,
     );
 
     if (
@@ -1290,6 +1318,13 @@ export class ListingService implements OnModuleInit {
       });
     }
 
+    if (enableV2MSQ) {
+      const multiselectQuestionIds = dto.listingMultiselectQuestions.map(
+        (multiselectQuestion) => multiselectQuestion.id,
+      );
+      await this.validateMultiselectQuestions(multiselectQuestionIds);
+    }
+
     dto.unitsAvailable = this.calculateUnitsAvailable(
       dto.reviewOrderType,
       dto.units,
@@ -1297,8 +1332,15 @@ export class ListingService implements OnModuleInit {
     );
 
     // Remove requiredFields and minimumImagesRequired properties before saving to database
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { requiredFields, minimumImagesRequired, ...listingData } = dto;
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      requiredFields,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      minimumImagesRequired,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      listingFeaturesConfiguration,
+      ...listingData
+    } = dto;
 
     const rawListing = await this.prisma.listings.create({
       include: includeViews.full,
@@ -1632,24 +1674,38 @@ export class ListingService implements OnModuleInit {
             }
           : undefined,
         isVerified: !!dto.isVerified,
+        property: dto.property
+          ? {
+              connect: {
+                id: dto.property.id,
+              },
+            }
+          : undefined,
       },
     });
-    if (rawListing.status === ListingsStatusEnum.pendingReview) {
-      const jurisdiction = await this.prisma.jurisdictions.findFirst({
-        where: {
-          id: rawListing.jurisdictions?.id,
-        },
-      });
+    const mappedListing = mapTo(Listing, rawListing);
+
+    if (mappedListing.status === ListingsStatusEnum.pendingReview) {
       await this.listingApprovalNotify({
         user: requestingUser,
-        listingInfo: { id: rawListing.id, name: rawListing.name },
-        status: rawListing.status,
-        approvingRoles: jurisdiction?.listingApprovalPermissions,
-        jurisId: rawListing.jurisdictions.id,
+        listingInfo: { id: mappedListing.id, name: mappedListing.name },
+        status: mappedListing.status,
+        approvingRoles: rawJurisdiction.listingApprovalPermissions,
+        jurisId: rawJurisdiction.id,
       });
+    } else if (
+      enableV2MSQ &&
+      mappedListing.status === ListingsStatusEnum.active
+    ) {
+      const multiselectQuestions =
+        mappedListing.listingMultiselectQuestions.map(
+          (listingMultiselectQuestion) =>
+            listingMultiselectQuestion.multiselectQuestions,
+        );
+      void this.multiselectQuestionService.activateMany(multiselectQuestions);
     }
-    await this.cachePurge(undefined, dto.status, rawListing.id);
-    return mapTo(Listing, rawListing);
+    await this.cachePurge(undefined, dto.status, mappedListing.id);
+    return mappedListing;
   }
 
   async duplicate(
@@ -1718,6 +1774,20 @@ export class ListingService implements OnModuleInit {
       throw new ForbiddenException();
     }
 
+    const rawJurisdiction = await this.prisma.jurisdictions.findUnique({
+      where: {
+        id: storedListing.jurisdictions.id,
+      },
+      include: {
+        featureFlags: true,
+      },
+    });
+
+    const enableV2MSQ = doJurisdictionHaveFeatureFlagSet(
+      rawJurisdiction as unknown as Jurisdiction,
+      FeatureFlagEnum.enableV2MSQ,
+    );
+
     const mappedListing = mapTo(ListingCreate, storedListing);
 
     const listingEvents = mappedListing.listingEvents?.filter(
@@ -1748,9 +1818,36 @@ export class ListingService implements OnModuleInit {
       }),
     );
 
+    const listingsMarketingFlyerFile = {
+      fileId: mappedListing.listingsMarketingFlyerFile?.fileId,
+      label: mappedListing.listingsMarketingFlyerFile?.label,
+    };
+
+    const listingsAccessibleMarketingFlyerFile = {
+      fileId: mappedListing.listingsAccessibleMarketingFlyerFile?.fileId,
+      label: mappedListing.listingsAccessibleMarketingFlyerFile?.label,
+    };
+
     if (!dto.includeUnits) {
       delete mappedListing['units'];
       delete mappedListing['unitGroups'];
+    }
+
+    let copyOfMSQs = storedListing.listingMultiselectQuestions;
+    if (enableV2MSQ) {
+      // Remove any toRetire or retired MSQs before copying
+      copyOfMSQs = storedListing.listingMultiselectQuestions?.filter(
+        (question) => {
+          const mappedQuestion = mapTo(
+            ListingMultiselectQuestion,
+            question,
+          ).multiselectQuestions;
+          return (
+            mappedQuestion.status !== MultiselectQuestionsStatusEnum.toRetire &&
+            mappedQuestion.status !== MultiselectQuestionsStatusEnum.retired
+          );
+        },
+      );
     }
 
     const newListingData: ListingCreate = {
@@ -1767,11 +1864,17 @@ export class ListingService implements OnModuleInit {
           : undefined,
       listingEvents: listingEvents,
       listingImages: listingImages,
-      listingMultiselectQuestions:
-        storedListing.listingMultiselectQuestions?.map((question) => ({
-          id: question.multiselectQuestionId,
-          ordinal: question.ordinal,
-        })),
+      listingMultiselectQuestions: copyOfMSQs?.map((question) => ({
+        id: question.multiselectQuestionId,
+        ordinal: question.ordinal,
+      })),
+      listingsMarketingFlyerFile: mappedListing.listingsMarketingFlyerFile
+        ? listingsMarketingFlyerFile
+        : undefined,
+      listingsAccessibleMarketingFlyerFile:
+        mappedListing.listingsAccessibleMarketingFlyerFile
+          ? listingsAccessibleMarketingFlyerFile
+          : undefined,
       lotteryLastRunAt: undefined,
       lotteryLastPublishedAt: undefined,
       lotteryStatus: undefined,
@@ -1972,8 +2075,15 @@ export class ListingService implements OnModuleInit {
   */
   async update(dto: ListingUpdate, requestingUser: User): Promise<Listing> {
     // Remove requiredFields and minimumImagesRequired properties before saving to database
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { requiredFields, minimumImagesRequired, ...incomingDto } = dto;
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      requiredFields,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      minimumImagesRequired,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      listingFeaturesConfiguration,
+      ...incomingDto
+    } = dto;
     const storedListing = await this.findOrThrow(
       incomingDto.id,
       ListingViews.full,
@@ -1989,18 +2099,24 @@ export class ListingService implements OnModuleInit {
       },
     );
 
-    const rawJurisdiction = await this.prisma.jurisdictions.findFirst({
+    const rawJurisdiction = await this.prisma.jurisdictions.findUnique({
+      select: {
+        featureFlags: true,
+        listingApprovalPermissions: true,
+        id: true,
+      },
       where: {
         id: incomingDto.jurisdictions.id,
       },
-      include: {
-        featureFlags: true,
-      },
     });
-
     const enableUnitGroups = doJurisdictionHaveFeatureFlagSet(
       rawJurisdiction as Jurisdiction,
       FeatureFlagEnum.enableUnitGroups,
+    );
+
+    const enableV2MSQ = doJurisdictionHaveFeatureFlagSet(
+      rawJurisdiction as Jurisdiction,
+      FeatureFlagEnum.enableV2MSQ,
     );
 
     if (
@@ -2013,6 +2129,21 @@ export class ListingService implements OnModuleInit {
         } with enableUnitGroups flag set to ${enableUnitGroups}`,
         status: 400,
       });
+    }
+
+    if (enableV2MSQ) {
+      const multiselectQuestionIds = dto.listingMultiselectQuestions.map(
+        (multiselectQuestion) => multiselectQuestion.id,
+      );
+      const previousMultiselectQuestionIds =
+        storedListing.listingMultiselectQuestions.map(
+          (multiselectQuestion) => multiselectQuestion.multiselectQuestionId,
+        );
+
+      await this.validateMultiselectQuestions(
+        multiselectQuestionIds,
+        previousMultiselectQuestionIds,
+      );
     }
 
     incomingDto.unitsAvailable = this.calculateUnitsAvailable(
@@ -2562,6 +2693,13 @@ export class ListingService implements OnModuleInit {
               },
             },
           },
+          property: incomingDto?.property
+            ? {
+                connect: {
+                  id: incomingDto.property.id,
+                },
+              }
+            : undefined,
         },
         include: includeViews.full,
         where: {
@@ -2577,6 +2715,7 @@ export class ListingService implements OnModuleInit {
     if (!rawListing) {
       throw new HttpException('listing failed to save', 500);
     }
+    const mappedListing = mapTo(Listing, rawListing);
 
     // Incoming update removes the requiredDocumentsList. Need to disconnect before deleting
     if (
@@ -2600,25 +2739,29 @@ export class ListingService implements OnModuleInit {
       });
     }
 
-    const listingApprovalPermissions = (
-      await this.prisma.jurisdictions.findFirst({
-        where: { id: incomingDto.jurisdictions.id },
-      })
-    )?.listingApprovalPermissions;
+    const listingApprovalPermissions =
+      rawJurisdiction.listingApprovalPermissions;
 
     if (listingApprovalPermissions?.length > 0)
       await this.listingApprovalNotify({
         user: requestingUser,
-        listingInfo: { id: incomingDto.id, name: incomingDto.name },
+        listingInfo: { id: mappedListing.id, name: mappedListing.name },
         approvingRoles: listingApprovalPermissions,
         status: incomingDto.status,
         previousStatus: storedListing.status,
-        jurisId: incomingDto.jurisdictions.id,
+        jurisId: rawJurisdiction.id,
       });
 
-    if (
+    if (enableV2MSQ && mappedListing.status === ListingsStatusEnum.active) {
+      const multiselectQuestions =
+        mappedListing.listingMultiselectQuestions.map(
+          (listingMultiselectQuestion) =>
+            listingMultiselectQuestion.multiselectQuestions,
+        );
+      void this.multiselectQuestionService.activateMany(multiselectQuestions);
+    } else if (
       storedListing.status === ListingsStatusEnum.active &&
-      incomingDto.status === ListingsStatusEnum.closed
+      mappedListing.status === ListingsStatusEnum.closed
     ) {
       // if listing is closed for the first time the application flag set job needs to run
       if (
@@ -2626,22 +2769,26 @@ export class ListingService implements OnModuleInit {
         dayjs(process.env.DUPLICATES_CLOSE_DATE, 'YYYY-MM-DD HH:mm Z') <
           dayjs(new Date())
       ) {
-        await this.afsService.processDuplicates(incomingDto.id);
+        await this.afsService.processDuplicates(mappedListing.id);
       } else {
-        await this.afsService.process(incomingDto.id);
+        await this.afsService.process(mappedListing.id);
       }
 
       // if the listing is closed for the first time the expire_after value should be set on all applications
-      void this.setExpireAfterValueOnApplications(rawListing.id);
+      void this.setExpireAfterValueOnApplications(mappedListing.id);
+
+      if (enableV2MSQ) {
+        void this.multiselectQuestionService.retireMultiselectQuestions();
+      }
     }
 
     await this.cachePurge(
       storedListing.status,
       incomingDto.status,
-      rawListing.id,
+      mappedListing.id,
     );
 
-    return mapTo(Listing, rawListing);
+    return mappedListing;
   }
 
   /**
@@ -2689,10 +2836,11 @@ export class ListingService implements OnModuleInit {
   */
   addUnitsSummarized = async (listing: Listing) => {
     if (Array.isArray(listing.units) && listing.units.length > 0) {
+      const unitsWithCharts = listing.units.filter((unit) => unit.amiChart?.id);
       const amiChartsRaw = await this.prisma.amiChart.findMany({
         where: {
           id: {
-            in: listing.units.map((unit) => unit.amiChart?.id),
+            in: unitsWithCharts.map((unit) => unit.amiChart?.id),
           },
         },
       });
@@ -2744,6 +2892,32 @@ export class ListingService implements OnModuleInit {
     return mapTo(Listing, listingsRaw);
   };
 
+  /**
+   * Retrieves all listings associated with a specific property.
+   * @param {string} propertyId - The unique identifier of the property for which to find listings
+   * @returns {Promise<Listing[]>} A promise that resolves to an array of Listing objects containing id and name
+   * @throws {BadRequestException} Throws an exception if propertyId is not provided or is empty
+   */
+  findListingsWithProperty = async (propertyId: string) => {
+    if (!propertyId) {
+      throw new BadRequestException({
+        message: 'A property ID must be provided',
+      });
+    }
+
+    const listingsRaw = await this.prisma.listings.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+      where: {
+        propertyId: propertyId,
+      },
+    });
+
+    return mapTo(Listing, listingsRaw);
+  };
+
   setExpireAfterValueOnApplications = async (listingId: string) => {
     if (
       process.env.APPLICATION_DAYS_TILL_EXPIRY &&
@@ -2763,6 +2937,48 @@ export class ListingService implements OnModuleInit {
       );
     }
   };
+
+  /**
+   * validates that the requested multiselectQuestions to be associated with the listing are in a valid state
+   * @param multiselectQuestionIds ids of the multiselectQuestions to be associated
+   * @param previousMultiselectQuestionIds optional param, previous ids if any from earlier edits
+   */
+  async validateMultiselectQuestions(
+    multiselectQuestionIds: string[],
+    previousMultiselectQuestionIds: string[] = [],
+  ) {
+    const multiselectQuestions =
+      await this.prisma.multiselectQuestions.findMany({
+        select: { id: true, name: true, status: true },
+        where: { id: { in: multiselectQuestionIds } },
+      });
+
+    const allowedStatuses: MultiselectQuestionsStatusEnum[] = [
+      MultiselectQuestionsStatusEnum.active,
+      MultiselectQuestionsStatusEnum.visible,
+    ];
+
+    const invalid = [];
+    for (const msq of multiselectQuestions) {
+      if (
+        msq.status === MultiselectQuestionsStatusEnum.toRetire &&
+        previousMultiselectQuestionIds.length
+      ) {
+        if (!previousMultiselectQuestionIds.includes(msq.id)) {
+          invalid.push(msq.name);
+        }
+      } else if (!allowedStatuses.includes(msq.status)) {
+        invalid.push(msq.name);
+      }
+    }
+    if (invalid.length) {
+      throw new BadRequestException({
+        message: `The following multiselectQuestions provided are not in a valid state to be associated to this listing: ${invalid.join(
+          ', ',
+        )}`,
+      });
+    }
+  }
 
   /**
     runs the job to auto close listings that are passed their due date
@@ -2826,6 +3042,7 @@ export class ListingService implements OnModuleInit {
       for (const listing of listingIds) {
         await this.setExpireAfterValueOnApplications(listing);
       }
+      void this.multiselectQuestionService.retireMultiselectQuestions();
     }
 
     return {
