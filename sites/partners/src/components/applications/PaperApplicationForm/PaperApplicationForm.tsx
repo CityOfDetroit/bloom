@@ -314,6 +314,7 @@ const ApplicationForm = ({ listingId, editMode, application }: ApplicationFormPr
                     <FormHouseholdDetails
                       listingUnits={units}
                       listingUnitGroups={listingDto?.unitGroups}
+                      listingType={listingDto.listingType}
                       applicationUnitTypes={application?.preferredUnitTypes}
                       applicationAccessibilityFeatures={application?.accessibility}
                       enableOtherAdaOption={enableAdaOtherOption}
