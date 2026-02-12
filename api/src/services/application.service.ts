@@ -427,7 +427,11 @@ export class ApplicationService {
         id: true,
         userId: true,
         confirmationCode: true,
+        accessibleUnitWaitlistNumber: true,
+        conventionalUnitWaitlistNumber: true,
         updatedAt: true,
+        status: true,
+        markedAsDuplicate: true,
         listings: {
           select: {
             id: true,
@@ -659,7 +663,9 @@ export class ApplicationService {
         // address is needed for geocoding
         listingsBuildingAddress: true,
         listingMultiselectQuestions: {
-          include: { multiselectQuestions: true },
+          include: {
+            multiselectQuestions: { include: { multiselectOptions: true } },
+          },
         },
         // support unit group availability logic in email
         unitGroups: true,
@@ -893,9 +899,10 @@ export class ApplicationService {
     rawApplication.applicationSelections = rawSelections;
 
     const mappedApplication = mapTo(Application, rawApplication);
+    const mappedListing = mapTo(Listing, listing);
     if (dto.applicant.emailAddress && forPublic) {
       this.emailService.applicationConfirmation(
-        mapTo(Listing, listing),
+        mappedListing,
         mappedApplication,
         listing.jurisdictions?.publicUrl,
       );
@@ -904,13 +911,26 @@ export class ApplicationService {
     await this.updateListingApplicationEditTimestamp(listing.id);
 
     // Calculate geocoding preferences after save and email sent
-    if (!enableV2MSQ && listing.jurisdictions?.enableGeocodingPreferences) {
+    if (listing.jurisdictions?.enableGeocodingPreferences) {
       try {
-        // TODO: Rewrite for V2MSQ
-        void this.geocodingService.validateGeocodingPreferences(
-          mappedApplication,
-          mapTo(Listing, listing),
-        );
+        if (enableV2MSQ) {
+          const multiselectOptions =
+            mappedListing.listingMultiselectQuestions.flatMap(
+              (multiselectQuestion) =>
+                multiselectQuestion.multiselectQuestions.multiselectOptions,
+            );
+
+          void this.geocodingService.validateGeocodingPreferencesV2(
+            mappedApplication.applicationSelections,
+            mappedListing.listingsBuildingAddress,
+            multiselectOptions,
+          );
+        } else {
+          void this.geocodingService.validateGeocodingPreferences(
+            mappedApplication,
+            mappedListing,
+          );
+        }
       } catch (e) {
         // If the geocoding fails it should not prevent the request from completing so
         // catching all errors here
@@ -947,7 +967,9 @@ export class ApplicationService {
       include: {
         jurisdictions: { include: { featureFlags: true } },
         listingMultiselectQuestions: {
-          include: { multiselectQuestions: true },
+          include: {
+            multiselectQuestions: { include: { multiselectOptions: true } },
+          },
         },
       },
     });
