@@ -36,12 +36,16 @@ export default function Finder(props: FinderProps) {
 export async function getStaticProps(context: { req: any; query: any }) {
   const jurisdiction = await fetchJurisdictionByName()
 
-  const multiselectData = isFeatureFlagOn(
+  const multiselectDataResponse = isFeatureFlagOn(
     jurisdiction,
     FeatureFlagEnum.swapCommunityTypeWithPrograms
   )
     ? await fetchMultiselectProgramData(context.req, jurisdiction?.id)
     : null
+
+  const multiselectData = Array.isArray(multiselectDataResponse)
+    ? multiselectDataResponse
+    : multiselectDataResponse?.items || []
 
   return {
     props: {
